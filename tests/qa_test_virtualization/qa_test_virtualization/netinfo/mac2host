@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export LANG=C
+
+if [ $# -ne 1 ] ; then
+	echo "Usage $0 <mac>" >&2
+	exit 1
+fi
+
+ip2host `mac2ip $1`
+

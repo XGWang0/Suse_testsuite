@@ -1,0 +1,41 @@
+#!/bin/bash
+
+BACKUP=/var/tmp/bind_backup.tar.gz
+TESTCONFBASE=/usr/share/qa/qa_test_bind/data
+BINDCTRL=/etc/init.d/named
+PID_FILE=/var/run/named/named.pid
+DATADIR=/var/lib/named
+OSVERSION=`cat /etc/SuSE-brand | grep VERSION | cut -d" " -f3`
+
+if [ ! -d "$DATADIR" ]; then DATADIR="/var/named"; fi
+if [ ! -d "$DATADIR" ]; then exit 2; fi
+
+backup_config(){
+   if [ $OSVERSION -eq '10' ]; then
+      tar -czf $BACKUP --one-file-system -C / /etc/named.conf /etc/named.conf.include /etc/named.d /etc/sysconfig/named $DATADIR 2> /dev/null || exit 2
+   else
+      tar -czf $BACKUP --one-file-system -C / /etc/named.conf /etc/named.d /etc/sysconfig/named $DATADIR 2> /dev/null || exit 2
+   fi
+}
+
+install_config(){
+   test -z "$1" && exit 2
+
+   TESTCONFDIR="$TESTCONFBASE/$1"
+   test -d "$TESTCONFDIR" || exit 2
+
+   sed "s#__DATADIR__#$DATADIR#" $TESTCONFDIR/named.conf > /etc/named.conf
+   cp $TESTCONFDIR/sysconfig /etc/sysconfig/named
+   tar -xzf $TESTCONFDIR/data.tar.gz -C $DATADIR
+}
+
+restore_config(){
+   tar -xzf $BACKUP -C / 2> /dev/null || exit 2
+
+   rm $BACKUP
+}
+
+restart_bind() {
+   $BINDCTRL restart > /dev/null 2>&1
+}
+

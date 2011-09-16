@@ -1,0 +1,206 @@
+#!/bin/sh
+#
+# Copyright (c) 1996, 1997, 1998 S.u.S.E. GmbH
+# Copyright (c) 1998, 1999, 2000, 2001 SuSE GmbH
+# Copyright (c) 2002 SuSE Linux AG
+#
+# Authors: Rolf Haberrecker <rolf@suse.de>, 2001
+#          Peter Poeml <poeml@suse.de>, 2002
+#
+#
+# /etc/init.d/apache
+#
+### BEGIN INIT INFO
+# Provides:       apache httpd
+# Required-Start: $network $named $remote_fs $syslog $netdaemons sendmail mysql ypclient dhcp radiusd
+# Required-Stop:  $local_fs $network $named $remote_fs $syslog $netdaemons 
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    Start the Apache httpd daemon
+### END INIT INFO
+
+#
+# load the configuration
+#
+test -s /etc/rc.status && \
+    . /etc/rc.status
+test -s /etc/sysconfig/apache && \
+    . /etc/sysconfig/apache
+
+HTTPD_BIN=/usr/sbin/httpd
+test -x $HTTPD_BIN || exit 5
+rc_reset
+
+#
+# set DBROOT for ADABAS D
+#
+DBROOT=/dev/null
+
+#
+# set values for Oracle (need to recompile mod_php with Oracle support)
+#
+ORACLE_HOME=$ORA_HOME
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
+
+#
+# export variables for database drivers in PHP
+#
+export DBROOT ORACLE_HOME LD_LIBRARY_PATH
+
+#
+# The echo return value for success (defined in /etc/rc.status).
+#
+return=$rc_done
+
+
+#
+# Check for IPv6 support in Apache
+#
+INET6=""
+/usr/sbin/httpd -help 2>&1 | fgrep IPv6 2>&1 > /dev/null
+if [ $? -eq 0 ]; then
+    INET6="-4"
+    test "$START_INET6" = yes && INET6="-6"
+fi
+
+#
+# check wich modules have been installed
+#
+check_modules ()        # Usage: check_modules 
+{
+    MODULES="`cat /etc/httpd/suse_define.conf`"
+    echo -n "`cat /etc/httpd/suse_text.conf | tr -s \" \"`"
+
+    #
+    # check wether status information should be displayed
+    #
+    if test "$HTTPD_SEC_ACCESS_SERVERINFO" == "yes" ; then
+	MODULES="-D STATUS $MODULES";
+	echo -n "status "
+    fi
+}
+
+#
+# check whether include statements are valid (hint: packages can be deinstalled...)
+#
+validate_includes ()	# usage: validate_includes
+{
+    for check_file in /etc/httpd/suse_include.conf; do
+
+	(	IFS=\ 
+		while read statement file; do 
+			case $statement in 
+			Include) 
+				if ! test -r /"$file"; then
+					echo \]
+					echo File \"/$file\", included from $check_file\, can\'t be found... 
+					echo You likely need to run \"SuSEconfig --module apache\". >&2 
+					exit 1
+				fi
+				;; 
+			esac 
+		done < $check_file 
+	) || { rc_failed 1; rc_status -v3; rc_exit; }
+    done
+}
+
+#
+# main part 
+#
+case "$1" in
+    start)
+	echo -n "Starting httpd ["
+	validate_includes
+	check_modules yes ;
+	echo -n "]"
+	if $HTTPD_BIN $INET6 -t -f /etc/httpd/httpd.conf $MODULES > /var/log/httpd/rcapache.log 2>&1 ; then
+		startproc -t $HTTPD_START_TIMEOUT $HTTPD_BIN $INET6 -f /etc/httpd/httpd.conf $MODULES 
+		ret=$?
+
+		if stty -a | grep -q -- -echo\ ; then 
+			# this means that apache was still waiting for a passphrase to be entered 
+			stty echo
+			echo;echo 
+			echo An SSL passphrase has not been entered within ${HTTPD_START_TIMEOUT:-<not set>} seconds.
+			echo To increase this timeout, adjust HTTPD_START_TIMEOUT in /etc/sysconfig/apache .
+			# this surely means that apache won't start, despite it looked good to startproc
+			rc_failed 1
+			rc_status -v1
+			rc_exit
+		else
+			rc_failed $ret
+			rc_status -v
+		fi
+	else
+		if [ $link = $base ] ; then
+			echo -e -n "\n\n"
+			cat /var/log/httpd/rcapache.log
+		else
+			echo -e -n "\nsee /var/log/httpd/rcapache.log for details\n";
+		fi
+		rc_failed 1
+		rc_status -v1
+        fi
+
+	if test -e /var/log/ssl_scache.dir ; then
+	    chown wwwrun /var/log/ssl_scache.dir ;
+	fi
+	if test -e /var/log/ssl_scache.pag ; then
+	    chown wwwrun /var/log/ssl_scache.pag
+	fi
+    ;;
+    stop)
+	echo -n "Shutting down httpd"
+	killproc -G -TERM $HTTPD_BIN 
+	rc_status -v
+    ;;
+    try-restart)
+        ## Stop the service and if this succeeds (i.e. the 
+        ## service was running before), start it again.
+	$0 status >/dev/null && $0 restart
+
+        # Remember status and be quiet
+        rc_status
+        ;;
+    restart)
+	$0 stop  && sleep 3 
+	$0 start
+	# Remember status and be quiet
+        rc_status
+    ;;
+    reload|force-reload)
+	check_modules yes
+	echo -n "Reload httpd"
+	if $HTTPD_BIN $INET6 -t -f /etc/httpd/httpd.conf $MODULES > /var/log/httpd/rcapache.log 2>&1 ; then
+		killproc -USR1 $HTTPD_BIN || return=$rc_failed
+		rc_status -v
+	else
+		if [ $link = $base ] ; then
+			echo -e -n "\n\n"
+			cat /var/log/httpd/rcapache.log
+		else
+			echo -e -n "\nsee /var/log/httpd/rcapache.log for details\n";
+		fi
+		rc_failed 6
+		rc_status -v1
+        fi
+    ;;
+    status)
+        echo -n "Checking for httpd: "
+	checkproc $HTTPD_BIN
+	rc_status -v
+    ;;
+    probe)
+        ## Optional: Probe for the necessity of a reload,
+        ## give out the argument which is required for a reload.
+
+        test /etc/httpd/httpd.conf -nt /var/run/httpd.pid && echo reload
+        ;;
+    *)
+    echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+    exit 1
+esac
+
+
+# Inform the caller not only verbosely and set an exit status.
+rc_exit

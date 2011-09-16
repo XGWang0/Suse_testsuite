@@ -1,0 +1,22 @@
+#!/bin/bash
+
+PACKAGE=net-snmp
+ver=${1:?give $PACKAGE version string}
+#ver=4.4.0
+
+
+set -x
+
+rm -rf qa_test_$PACKAGE-$ver
+tar xf /work/SRC/all/$PACKAGE/$PACKAGE-$ver.tar.bz2 || exit 1
+
+rm -rf $PACKAGE
+mkdir qa_test_$PACKAGE
+cd $PACKAGE-$ver
+
+cp -R testing "../qa_test_$PACKAGE"
+cd ..
+
+tar cjf qa_test_$PACKAGE-$ver.tar.bz2 qa_test_$PACKAGE
+#rm -rf qa_$PACKAGE
+#rm -rf $PACKAGE-$ver

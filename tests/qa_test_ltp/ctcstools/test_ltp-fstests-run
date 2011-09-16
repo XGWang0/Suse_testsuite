@@ -1,0 +1,68 @@
+#!/bin/sh
+
+export ctcsdir="/usr/lib/ctcs2"
+export tcfdir="/usr/share/qa/qa_test_ltp"
+
+# I assume that following directory with the correspoding fs exists:
+# /test/growfiles/msdos
+mkdir -p /test/growfiles/msdos
+# /test/growfiles/reiser
+mkdir -p /test/growfiles/reiser
+# /test/growfiles/ext2
+mkdir -p /test/growfiles/ext2
+# /test/growfiles/nfs
+mkdir -p /test/growfiles/nfs
+# /test/growfiles/ramdisk
+mkdir -p /test/growfiles/ramdisk
+# /test/growfiles/minix
+mkdir -p /test/growfiles/vfat
+# /test/growfiles/ext3
+mkdir -p /test/growfiles/ext3
+# /test/growfiles/jfs
+mkdir -p /test/growfiles/jfs
+# /test/growfiles/xfs
+mkdir -p/test/growfiles/xfs
+
+# create the images, in /test, at least 1 GB
+
+# ext2, comlains thats no block device
+dd if=/dev/zero of=./fs-ext2.img bs=1024 count=1000000
+echo "y" | mkfs.ext2 fs-ext2.img
+mount fs-ext2.img /test/growfiles/ext2 -t ext2 -o loop
+
+# ext3, comlains thats no block device
+echo "y" | mkfs.ext3 fs-ext3.img
+mount fs-ext3.img /test/growfiles/ext3 -t ext3 -o loop
+
+# JFS, wants to have a ACK of formatting
+echo "Y" | mkfs.jfs fs-jfs.img
+mount fs-jfs.img /test/growfiles/jfs -t jfs -o loop
+
+# msdos
+mkfs.msdos fs-msdos.img
+mount fs-msdos.img /test/growfiles/msdos -t msdos -o loop
+
+# vfat
+mkfs.vfat fs-vfat.img
+mount fs-vfat.img /test/growfiles/vfat -t vfat -o loop
+
+# reiserfs, wants a force and a ACK
+echo "y" | mkfs.reiserfs fs-reiser.img -f
+mount fs-reiser.img /test/growfiles/reiser -t reiserfs -o loop
+
+# XFS, needs force
+mkfs.xfs fs-xfs.img -f
+mount fs-xfs.img /test/growfiles/xfs -t xfs -o loop
+
+for i in fs.tcf fsx.tcf
+do
+        $ctcsdir/tools/run $tcfdir/tcf/$i
+done
+
+FAULT=`dmesg | grep -Ei 'oops|bug|unable to handle|assert|panic|\[<' | grep -v 'swap header version' | grep -v 'ilesystem panic'`
+if [ x"$FAULT" != "x" ] ; then
+          echo "++ Something found while fs..."
+        echo "$FAULT !"
+          exit -1
+fi
+

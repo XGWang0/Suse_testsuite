@@ -1,0 +1,94 @@
+#!/bin/sh
+
+set +x
+
+SPECWEBDIR="/usr/share/qa/qa_test_specweb/qa_test_specweb"
+RCFILE="/usr/share/qa/qa_test_specweb/rc"
+
+HTDOCS="/srv/www/htdocs"
+CGIBIN="/srv/www/cgi-bin"
+PERLINTERPRETER="/usr/bin/perl"
+BINARIES="/usr/bin"
+
+HTTPRAN=2 # 2 = dont known, 1 = yes, 0 = no
+
+PASSED=0
+FAILED=1
+
+if [ -z "$1" ]; then
+   echo "Usage: $0 <MAXCON>"
+   echo "MAXCON - maximum number of simultaneous connections. It depends on used rc file ($RCFILE), on SIMULTANEOUS_CONNECTIONS parametr."
+   exit $FAILED
+else
+   MAXCON=$1 # Expected maximum number of simultaneous connections
+fi
+
+function cleanup() {
+    echo "Cleanup..."
+
+    killall -s KILL "$BINARIES/specweb-client"
+
+    if [ $HTTPRAN -eq 1 ]; then
+        echo "Keep HTTP daemon running..."
+    elif [ $HTTPRAN -eq 0 ]; then
+        echo "Stop HTTP daemon..."
+        /etc/init.d/apache2 stop
+    fi
+
+    rm -rf "$HTDOCS"
+    mv "$HTDOCS-backup" "$HTDOCS"
+    rm -rf "$CGIBIN"
+    mv "$CGIBIN-backup" "$CGIBIN"
+}
+
+trap "cleanup; exit $FAILED" INT QUIT TERM
+
+echo "Backup the server document root and cgi-bin..."
+mv "$HTDOCS" "$HTDOCS-backup"
+mkdir "$HTDOCS"
+chmod 777 "$HTDOCS" # Dynamic scripts need write access for proper run.
+mv "$CGIBIN" "$CGIBIN-backup"
+mkdir "$CGIBIN"
+
+echo "Link cadgen99 and upfgen99 to $HTDOCS..."
+ln -s "$BINARIES/cadgen99" "$HTDOCS"
+ln -s "$BINARIES/upfgen99" "$HTDOCS"
+
+echo "Use the wafgen99 utility to create the workload file_set..."
+"$BINARIES/wafgen99" $MAXCON -C "$HTDOCS"
+if [ $? -ne 0 ]; then
+    echo "Unable to create the workload file_set, maybe not enough disk space? You should try less simultaneous connections."
+    kill $$
+fi
+
+echo "Copy specweb99-cgi.pl into cgi-bin..."
+cp "$SPECWEBDIR/server-docs/specweb99-cgi.pl" "$CGIBIN/specweb99-cgi.pl"
+
+if [ -n "`/etc/init.d/apache2 status | grep running`" ]; then
+    HTTPRAN=1
+    echo "HTTP daemon is already running..."
+else
+    HTTPRAN=0
+    echo "Start the HTTP daemon..."
+    /etc/init.d/apache2 start
+fi
+
+echo "Start specweb client on localhost..."
+killall -s KILL "$BINARIES/specweb-client" # This brutality looks like the best solution..
+# Param '-d' (run as daemon) should do this better, but it makes some unexpected errors..
+"$BINARIES/specweb-client" > /dev/null &
+
+sleep 2
+
+echo "Start benchmark..."
+cd "$SPECWEBDIR"
+source shrc
+"$PERLINTERPRETER" "manager" "$RCFILE"
+if [ $? -ne 0 ]; then
+    echo "Benchmark manager failed."
+    kill $$
+fi
+
+cleanup
+
+exit $PASSED

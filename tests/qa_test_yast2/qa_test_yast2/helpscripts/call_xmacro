@@ -1,0 +1,3 @@
+#!/bin/bash
+
+(sleep $1 ; /usr/share/qa/qa_test_yast2/xmacro/xmacroplay :0 < $2 ) &

@@ -1,0 +1,33 @@
+#! /bin/sh
+#
+# /etc/init.d/splash_late
+#
+# Copyright (c) 2000, 2001 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+### BEGIN INIT INFO
+# Provides: splash_late
+# Required-Start: $network $syslog apache inetd cron nscd
+# Required-Stop: $network $syslog apache inetd cron nscd
+# Default-Start: 2 3 5
+# Default-Stop: 0 1 4 6
+# Description: starts animation before shutdown
+### END INIT INFO
+
+# Source SuSE config
+. /etc/rc.config
+
+. /etc/rc.status
+
+# First reset status of this service
+rc_reset
+
+case "$1" in
+	stop)
+		test ${RUNLEVEL} -eq 0 -o ${RUNLEVEL} -eq 6 && rc_splash "shutdown"
+		;;
+	start|status|restart|reload)
+		# rc_status -v3
+		;;
+                 
+esac
+rc_exit
+		

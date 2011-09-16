@@ -1,0 +1,53 @@
+diff -pur siege-2.67.orig//doc/siegerc.in siege-2.67//doc/siegerc.in
+--- siege-2.67.orig//doc/siegerc.in	2010-02-03 13:28:32.000000000 +0800
++++ siege-2.67//doc/siegerc.in	2010-02-03 13:33:55.000000000 +0800
+@@ -19,7 +19,7 @@
+ # Signify verbose mode, true turns on verbose output
+ # ex: verbose = true|false
+ #
+-verbose = true
++verbose = false 
+ 
+ #
+ # CSV Verbose format: with this option, you can choose 
+@@ -121,7 +121,7 @@ connection = close
+ # Default number of simulated  concurrent users
+ # ex: concurrent = 25
+ #
+-concurrent = 15
++concurrent = 100
+ 
+ #
+ # Default duration of the siege.  The right hand argument has
+@@ -154,6 +154,7 @@ concurrent = 15
+ #     file = $URLSFILE
+ #
+ # file =
++file = /usr/share/qa/qa_test_siege/siege/etc/urls.txt
+ 
+ #
+ # Default URL, this is a single URL that you want to test. This
+@@ -179,6 +180,7 @@ delay = 1
+ # ex: timeout = 30
+ #
+ # timeout = 
++timeout = 45
+ 
+ #
+ # Session expiration: This directive allows you to delete all
+@@ -200,6 +202,7 @@ delay = 1
+ # ex: failures = 50
+ #
+ # failures = 
++failures = 10
+ 
+ #
+ # Internet simulation. If true, siege clients will hit
+@@ -229,6 +232,7 @@ benchmark = false
+ # ex: user-agent = Limey The Bulldog
+ # 
+ # user-agent =
++user-agent = RD-QA Siege Testenvironment
+ 
+ #
+ # Accept-encoding. This option allows you to specify 

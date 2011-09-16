@@ -1,0 +1,63 @@
+qa_test_clamav
+=========
+
+Author:  Andrej Semen <asemen@suse.de>
+Summary: (rd-)qa internal package for testing clamav
+
+Test coverage:
+- start/stop/restart clamd daemon and check the result
+- scans files using clamd = the clamav daemon
+- scans files using clamscan = command line scanning
+- start/stop/restart freshlam daemon and check the result
+- update clamav data base 
+
+## RUN qa_clamav test suite ### 
+
+# /usr/share/qa/tools/clamav-run
+
+you should get an output like this:
+
+# /usr/share/qa/tools/clamav-run
+Initializing test run for control file qa_clamav.tcf...
+Current time: Fr Nov 14 10:52:33 CET 2008
+**** Test in progress ****
+**** Test run complete ****
+Current time: Fr Nov 14 10:52:47 CET 2008
+Exiting test run..
+Displaying report...
+Total test time: 14s
+Tests passed:
+qa_clamd_restart.sh qa_0012_freshclam_stop.sh qa_0011_freshclam_start.sh qa_freshclam_update.sh qa_clamav_file_scan_clamscan.sh qa_0002_clamd_stop.sh qa_clamav_file_scan_clamd.sh qa_0001_clamd_start.sh qa_freshclam_restart.sh
+**** Test run completed successfully ****
+
+## RESULST ##
+The results are store as all ctcs2 based qa testsuite in:
+/var/log/ctcs2/
+
+e.g.
+ll -d /var/log/ctcs2/qa_clamav-*
+drwxr-xr-x 2 root root 4096 2008-11-14 10:52 /var/log/ctcs2/qa_clamav-2008-11-14-10-52-33
+
+## REPORT FILE index.html ##
+for ctcs2 version:
+ctcs2-0.1.6-19.7
+
+cd /var/log/ctcs2/qa_clamav_testsuite-*
+
+# /usr/lib/ctcs2/tools/report.py . > index.html
+
+
+clamav virus definition files 
+#############################
+The virus definition files are stored in
+ll /var/lib/clamav/*c?d
+-rw-r--r--  1 vscan vscan   945463 Dec 12 16:49 /var/lib/clamav/daily.cvd
+-rw-r--r--  1 vscan vscan 18462921 Dec 12 16:49 /var/lib/clamav/main.cvd
+or
+ll /var/lib/clamav/*c?d
+-rw-r--r--  1 vscan vscan  2227200 Dec 12 08:35 /var/lib/clamav/daily.cld
+-rw-r--r--  1 vscan vscan 18462921 Dec 12 07:49 /var/lib/clamav/main.cvd
+
+cvd are the downloaded virus definition files (complete file)
+cld are changed virus definition files by incremental updates.
+

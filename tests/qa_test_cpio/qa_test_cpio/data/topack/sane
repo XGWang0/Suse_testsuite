@@ -1,0 +1,202 @@
+#! /bin/sh
+# Copyright (c) 1995-2000 SuSE GmbH Nuernberg, Germany.
+# Copyright (c)  2002 SuSE Linux AG
+#
+# Author: Klaas Freitag <freitag@suse.de>
+#
+# System startup script for setting SCSI scanner permissions
+#
+### BEGIN INIT INFO
+# Provides: sane 
+# Required-Start: $remote_fs $syslog
+# Required-Stop:  $remote_fs $syslog
+# Default-Start:  3 5
+# Default-Stop:   0 1 2 6
+# Description:    Adjusts permissions on a SCSI scanner device.
+### END INIT INFO
+
+# Source SuSE config
+. /etc/rc.config
+
+# Shell functions sourced from /etc/rc.status:
+#      rc_check         check and set local and overall rc status
+#      rc_status        check and set local and overall rc status
+#      rc_status -v     ditto but be verbose in local rc status
+#      rc_status -v -r  ditto and clear the local rc status
+#      rc_failed        set local and overall rc status to failed
+#      rc_failed <num>  set local and overall rc status to <num><num>
+#      rc_reset         clear local rc status (overall remains)
+#      rc_exit          exit appropriate to overall rc status
+. /etc/rc.status
+
+# First reset status of this service
+rc_reset
+
+# Return values acc. to LSB for all commands but status:
+# 0 - success
+# 1 - generic or unspecified error
+# 2 - invalid or excess argument(s)
+# 3 - unimplemented feature (e.g. "reload")
+# 4 - insufficient privilege
+# 5 - program is not installed
+# 6 - program is not configured
+# 7 - program is not running
+# 
+# Note that starting an already running service, stopping
+# or restarting a not-running service as well as the restart
+# with force-reload (in case signalling is not supported) are
+# considered a success.
+
+store_dir=/var/lib/sane
+
+if [ ${1:-"status"} != "status" ]; then
+	if [ $UID != 0 ]; then
+	    echo " only allowed for root"
+	    rc_failed 4
+	    rc_exit
+	fi
+fi
+
+case "$1" in
+    start)
+	# Check if storage file exists.
+	if [ ! -d $store_dir ]; then
+	    mkdir $store_dir
+	fi
+
+	if [ -e $store_dir/devices ]; then
+	    echo "Device list exists!"
+	    mv $store_dir/devices $store_dir/devices.old
+	fi
+
+	echo "" > $store_dir/devices
+	
+	 devices=`/usr/X11R6/bin/scanimage -f "%d"`
+
+	# echo $devices
+	ALT_IFS="$IFS"
+	perms=666
+	result=""
+	prefix="Setting permission on"
+
+	for devfile in ${devices}
+	do
+	# echo "Setting device $devfile"
+	   if !(echo "$devfile" | grep "usb" -q); then 
+	      IFS=":"
+	       set $devfile
+	       if [ $1 != "net" ]; then
+		  echo -n $prefix $2
+                  prefix=","
+		  if [ -c $2 ]; then
+		     # Is a block device
+		     chmod $perms $2
+
+		     # write to storage file
+		     result="$2 $result"
+		  else
+		     echo -n "$2 is not a block device"
+		  fi
+	       fi
+	   fi
+	done
+        echo $result > $store_dir/devices
+	IFS="$ALT_IFS"
+
+	## Start daemon with startproc(8). If this fails
+	## the echo return value is set appropriate.
+
+	# NOTE: startproc return 0, even if service is 
+	# already running to match LSB spec.
+	
+	# Remember status and be verbose
+	rc_status -v
+	;;
+    stop)
+        if [ -e $store_dir/devices ]; then
+	    result=""
+	    for dev in `cat $store_dir/devices`; do 
+		if [ -z "$dev" ]; then
+		    echo -n "nothing to reset"
+		else
+		    if [ -c $dev ]; then
+			chmod 640 $dev
+			result="$result $dev"
+		    fi
+		fi
+	    done
+	    echo -n "Resetting permissions on scan device(s)$result"
+	    rm -f $store_dir/devices
+	else
+	    rc_failed 2
+	fi
+	## Stop daemon with killproc(8) and if this fails
+	## set echo the echo return value.
+
+	# Remember status and be verbose
+	rc_status -v
+	;;
+    try-restart)
+	## Stop the service and if this succeeds (i.e. the 
+	## service was running before), start it again.
+	## Note: try-restart is not (yet) part of LSB (as of 0.7.5)
+	$0 status >/dev/null &&  $0 restart
+
+	# Remember status and be quiet
+	rc_status
+	;;
+    restart)
+	## Stop the service and regardless of whether it was
+	## running or not, start it again.
+	$0 stop
+	$0 start
+
+	# Remember status and be quiet
+	rc_status
+	;;
+    force-reload)
+	## Signal the daemon to reload its config. Most daemons
+	## do this on signal 1 (SIGHUP).
+	## If it does not support it, restart.
+	rc_failed 3 
+	rc_status -v
+	;;
+    reload)
+	## Like force-reload, but if daemon does not support
+	## signalling, do nothing (!)
+
+	# If it supports signalling:
+	rc_failed 3
+	;;
+    status)
+	echo -n "Checking for SCSI scanner devices permissions: "
+	## Check status with checkproc(8), if process is running
+	## checkproc will return with exit status 0.
+
+	# Status has a slightly different for the status command:
+	# 0 - service running
+	# 1 - service dead, but /var/run/  pid  file exists
+	# 2 - service dead, but /var/lock/ lock file exists
+	# 3 - service not running
+
+	# NOTE: checkproc returns LSB compliant status values.
+	if [ -e $store_dir/devices ]; then
+            devices=`cat $store_dir/devices`
+	    if [ -z $devices ]; then
+		echo "no scan devices configured"
+	    else
+		echo ""
+		for dev in $devices
+		do
+		    ls -al $dev
+		done
+	    fi
+	fi
+	rc_status -v
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload}"
+	exit 1
+	;;
+esac
+rc_exit

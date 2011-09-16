@@ -1,0 +1,22 @@
+qa_test_samba
+========
+
+Author:  Lukas Lipavsky <llipavsky@suse.cz>
+Summary: (rd-)qa internal package for testing samba
+
+PDB test cases for samba packages (implemented so far):
+- start daemon and check that it started
+- stop daemon and check that it stopped
+- verify pidfile handling
+- create user
+- delete user
+- test smbcontrol
+- show shares 
+- file access (partly)
+- acl (partly)
+
+Testlink tescases covered by this testsuite:
+- 2720: basic functionality tests
+
+
+Test configuration is stored in /usr/share/qa/qa_test_samba/config.

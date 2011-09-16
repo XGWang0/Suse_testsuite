@@ -1,0 +1,19 @@
+timer 300
+fg 1 nm_remove-wireless-network /usr/share/qa/qa_test_banshee/banshee_help_plan3130_case1014797.py
+wait
+
+timer 300
+fg 1 nm_remove-wireless-network /usr/share/qa/qa_test_banshee/banshee_music-open-location_plan3130_case1014801.py
+wait
+
+timer 300
+fg 1 nm_remove-wireless-network /usr/share/qa/qa_test_banshee/banshee_music-new-playlist_plan3130_case1014800.py
+wait
+
+timer 300
+fg 1 nm_remove-wireless-network /usr/share/qa/qa_test_banshee/banshee_OSD_plan3130_case1014802.py
+wait
+
+timer 300
+fg 1 nm_remove-wireless-network /usr/share/qa/qa_test_banshee/banshee_playback_plan3130_case1014803.py
+wait

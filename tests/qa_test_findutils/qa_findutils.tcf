@@ -1,0 +1,15 @@
+timer 300
+fg 1 findutils_find /usr/share/qa/qa_test_findutils/findutils_find.sh
+wait
+
+timer 300
+fg 1 findutils_xarg /usr/share/qa/qa_test_findutils/findutils_xarg.sh
+wait
+
+timer 300
+fg 1 find_orig /usr/share/qa/qa_test_findutils/find_orig.sh
+wait
+
+timer 300
+fg 1 xargs_orig /usr/share/qa/qa_test_findutils/xargs_orig.sh
+wait

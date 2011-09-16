@@ -1,0 +1,13 @@
+Index: ltp-full-20100228/pan/Makefile
+===================================================================
+--- ltp-full-20100228.orig/pan/Makefile
++++ ltp-full-20100228/pan/Makefile
+@@ -31,7 +31,7 @@ LDLIBS			+= -lm $(LEXLIB)
+ 
+ LFLAGS			+= -l
+ 
+-INSTALL_DIR		:= bin
++INSTALL_DIR		:= /usr/bin
+ 
+ MAKE_TARGETS		:= ltp-bump ltp-pan
+ 

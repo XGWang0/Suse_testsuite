@@ -1,0 +1,341 @@
+diff -ru reaim-7.0.1.13.old/src/Makefile.am reaim-7.0.1.13/src/Makefile.am
+--- reaim-7.0.1.13.old/src/Makefile.am	Tue Apr 12 12:44:40 2005
++++ reaim-7.0.1.13/src/Makefile.am	Tue Apr 12 13:19:21 2005
+@@ -8,7 +8,7 @@
+ LIBADD_READLINE =
+ # endif
+ 
+-reaim_LDADD = $(top_builddir)/lib/libltp.a $(LIBADD_READLINE) -laio
++reaim_LDADD = $(top_builddir)/lib/libltp.a $(LIBADD_READLINE)
+ reaim_SOURCES = driver.c suite.h files.h ram.c aimlist.h \
+ 	rand.c times_ms.c testerr.h add.c creat_clo.c drv_funcs.c \
+ 	div.c disk_funcs.c pipe_test.c mul.c num_fcns.c int_fcns.c \
+diff -ru reaim-7.0.1.13.old/src/disk1.c reaim-7.0.1.13/src/disk1.c
+--- reaim-7.0.1.13.old/src/disk1.c	Tue Apr 12 12:45:32 2005
++++ reaim-7.0.1.13/src/disk1.c	Tue Apr 12 16:25:44 2005
+@@ -48,8 +48,10 @@
+ disk_brr(), disk_brw(), disk_brd(), disk_bwrt(), disk_bcp(),
+ disk_dio_rr(), disk_dio_rw(), disk_dio_rd(), disk_dio_wrt(), disk_dio_cp();
+ 
++/* 
+ static int disk_aio_rr(), disk_aio_rw();
+ static int disk_aiodio_rr(), disk_aiodio_rw();
++*/
+ 
+ void aim_mktemp();
+ 
+@@ -115,6 +117,7 @@
+ 	register_test("disk_bcp", 1, "DISKS", disk_bcp,
+ 		      WAITING_FOR_DISK_COUNT, "Bufcache Disk Copies (K)");
+ 
++#if 0
+ 	register_test("disk_aio_rr", 1, "DISKS", disk_aio_rr,
+ 		      WAITING_FOR_DISK_COUNT,
+ 		      "Random ASYNC I/O Disk Reads (K)");
+@@ -127,6 +130,7 @@
+ 	register_test("disk_aiodio_rw", 1, "DISKS", disk_aiodio_rw,
+ 		      WAITING_FOR_DISK_COUNT,
+ 		      "Random ASYNC DIRECT I/O Disk Writes (K)");
++#endif
+ 	return &s;
+ }
+ 
+@@ -1034,10 +1038,10 @@
+ static int disk_dio_rd(int argc, char **argv, struct Result *res)
+ {
+ 	int i, fd, n;
+-	n = disk_iteration_count;
+ 	void *align_buf;	/* aligned buffer */
+ 	struct stat s;
+ 	int do_unlink = 1;
++	n = disk_iteration_count;
+ 
+ 	if (argc != 1) {
+ 		fprintf(stderr, "bad args\n");
+@@ -1554,286 +1558,3 @@
+ 	res->d = disk_iteration_count;
+ 	return (0);
+ }
+-
+-/*
+- * adding AIO support - these variable and functions are used
+- *	by all the aio tests.
+- */
+-#include <libaio.h>
+-
+-static int aio_blksize;
+-static int aio_maxio;		/* max num of aio's in flight */
+-
+-struct iocb **iocb_free;	/* array of pointers to iocb */
+-int iocb_free_count;		/* current free count */
+-int aio_alignment = 512; 	/* buffer alignment */
+-int aio_inflight;
+-io_context_t myctx;
+-
+-int init_aio_bufs(int n, int iosize)
+-{
+-	void *buf;
+-	int i;
+-
+-	if (iocb_free)		/* already init'ed */
+-		return 0;
+-	aio_blksize = iosize;	/* set the max block size */
+-	aio_maxio = n;		/* set the max number of i/o */
+-	if ((iocb_free = malloc(n * sizeof(struct iocb *))) == 0) {
+-		return -1;
+-	}
+-
+-	for (i = 0; i < n; i++) {
+-		if (!(iocb_free[i] = (struct iocb *) malloc(sizeof(struct iocb))))
+-			return -1;
+-		if (posix_memalign(&buf, aio_alignment, iosize))
+-			return -1;
+-		io_prep_pread(iocb_free[i], -1, buf, iosize, 0);
+-	}
+-	iocb_free_count = i;
+-	return 0;
+-}
+-
+-struct iocb *alloc_iocb(int size)
+-{
+-	if (size > aio_blksize) {
+-		fprintf(stderr,
+-			"Attempting to allocate a buffer too large %d > %d\n",
+-			size, aio_blksize);
+-	}
+-	if (!iocb_free_count)
+-		return 0;
+-	return iocb_free[--iocb_free_count];
+-}
+-
+-void free_iocb(struct iocb *io)
+-{
+-	iocb_free[iocb_free_count++] = io;
+-}
+-
+-/*
+- * aio_wait_for_ios() - wait for an io_event and free it.
+- * returns the number of aio that completed
+- * return -1 if an io error occurred.
+- */
+-
+-int aio_wait_for_ios(io_context_t ctx, struct timespec *to, char *string)
+-{
+-	struct io_event events[aio_maxio];
+-	struct io_event *ep;
+-	int ret, n;
+-
+-	/*
+-	 * get up to aio_maxio events at a time.
+-	 */
+-	ret = n = io_getevents(ctx, aio_maxio, events, to);
+-
+-	/*
+-	 * Check if we got any io errors and transferred the data.
+-	 */
+-	for (ep = events; n-- > 0; ep++) {
+-		struct iocb *iocb = ep->obj;
+-
+-		if (ep->res2 != 0) {
+-			fprintf(stderr, "%s: aio error on\n", string);
+-			ret = -1;
+-		}
+-
+-		if (ep->res != iocb->aio_nbytes) {
+-			fprintf(stderr, "%s: aio short transfer on\n", string);
+-			ret = -1;
+-		}
+-
+-		aio_inflight--;
+-		free_iocb(iocb);
+-	}
+-	return ret;
+-}
+-
+-
+-#define AIO_NUM_IO	32
+-#define AIO_MAX_BLKSIZE	8192
+-/*
+- * "Semi"-Random async disk i/o					 
+- */
+-static int disk_aio_read_write(int argc, char **argv, struct Result *res,
+-	int open_flag, char *name)
+-{
+-	int i, fd, n;
+-	long sk;
+-	char myfn2[STRLEN];
+-	struct stat s;
+-	int do_unlink = 1;
+-	int io_size;
+-
+-	sk = 0l;
+-	n = disk_iteration_count;	/* user specified size */
+-	if (argc != 1) {
+-		fprintf(stderr, "bad args\n");
+-	}
+-	if (**argv && stat(*argv, &s) == 0 && 
+-	    (S_ISCHR(s.st_mode)  || S_ISBLK(s.st_mode))) {
+-		/*
+-		 * Block or Char device.
+-		 */
+-		do_unlink = 0;	/* to skip unlink at end of test */
+-		sprintf(fn2, "%s", *argv);
+-		fd = open(fn2, O_WRONLY);
+-	} else {
+-		/*
+-		 * Old way -- use temporary file.
+-		 */
+-		if (**argv)
+-			sprintf(myfn2, "%s/%s", *argv, TMPFILE2);
+-		else
+-			sprintf(myfn2, "%s", TMPFILE2);
+-		aim_mktemp(myfn2);	/* generate new file name */
+-
+-		if ((fd = creat(myfn2, (S_IRWXU | S_IRWXG | S_IRWXO))) < 0) {
+-			fprintf(stderr, "%s : cannot create %s\n", name, myfn2);
+-			perror(__FILE__);
+-			return (-1);
+-		}
+-		/*
+-		 * We do this to "encourage" the system to read from disk
+-		 * instead of the buffer cache.
+-		 * 12/12/89 TVL
+-		 */
+-		while (n--) {
+-			if (write(fd, nbuf, sizeof nbuf) != sizeof nbuf) {
+-				fprintf(stderr, "%s : cannot write %s\n",
+-					name, myfn2);
+-				perror("");
+-				close(fd);
+-				unlink(myfn2);
+-				return (-1);
+-			}
+-		}
+-		close(fd);
+-	}
+-	system("sync");
+-	if ((fd = open(myfn2, open_flag)) < 0) {
+-		fprintf(stderr, "%s : cannot open %s\n", name, myfn2);
+-		perror(__FILE__);
+-		return (-1);
+-	}
+-
+-	/* initialize AIO */
+-        memset(&myctx, 0, sizeof(myctx));
+-        io_queue_init(AIO_NUM_IO, &myctx);
+-
+-	/*
+-	 * Init the aio buffer we want to use.
+-	 */
+-	if (init_aio_bufs(AIO_NUM_IO, AIO_MAX_BLKSIZE) < 0) {
+-                fprintf(stderr, "%s: Error allocating the aio buffers\n", name);
+-		io_queue_release(myctx);
+-		return(-1);
+-	}
+-
+-  /********** pseudo random read *************/
+-	io_size = sizeof nbuf;
+-	for (i = 0; i < disk_iteration_count; i++) {
+-		struct iocb *iocb;
+-		/*
+-		 * get random block to read, making sure not to read past end of file 
+-		 */
+-		sk = aim_rand() %
+-		    ((disk_iteration_count *
+-		      (long)io_size) >> SHIFT);
+-		/* rand() % (filesize/blocksize) */
+-		/*
+-		 * sk specifies a specific block, multiply by blocksize to get offset in bytes 
+-		 */
+-		sk <<= SHIFT;
+-
+-		/*
+-		 * Check if we need to wait for aio, before more can be issued
+-		 */
+-		if (aio_inflight >= AIO_NUM_IO) {
+-			/*
+-			 * wait for at least 1 io
+-			 * aio_wait_for_ios() - decrements aio_inflight.
+-			 */
+-			if (aio_wait_for_ios(myctx, 0, name) < 0) {
+-				while (aio_inflight > 0) {
+-					(void)aio_wait_for_ios(myctx, 0,
+-								name);
+-				}
+-				io_queue_release(myctx);
+-				close(fd);
+-				return (-1);
+-			}
+-		}
+-
+-		
+-		/*
+-		 * get a AIO iocb and initialize it.
+-		 */
+-		iocb = alloc_iocb(io_size);
+-		/*
+-		 * If we opened the file for write only, do writes
+-		 */
+-		if ((open_flag & O_ACCMODE) == O_WRONLY) {
+-			io_prep_pwrite(iocb, fd, iocb->aio_buf, io_size, sk);
+-		} else {
+-			io_prep_pread(iocb, fd, iocb->aio_buf, io_size, sk);
+-		}
+-
+-		if ((n = io_submit(myctx, 1, &iocb)) < 0) {
+-			fprintf(stderr,
+-				"%s : io_submit() failed on i/o to %s : %s\n",
+-				name, myfn2, strerror(-n));
+-			io_queue_release(myctx);
+-			close(fd);
+-			return (-1);
+-		}
+-		aio_inflight++;
+-	}
+-	/*
+-	 * wait for outstanding i/o to complete.
+-	 */
+-	while (aio_inflight > 0) {
+-		(void)aio_wait_for_ios(myctx, 0, name);
+-	}
+-	io_queue_release(myctx);
+-	close(fd);
+-	if (do_unlink)
+-		unlink(myfn2);
+-	system("sync");
+-	res->d = n;
+-	return (0);
+-}
+-
+-/*
+- * "Semi"-Random async disk read
+- */
+-static int disk_aio_rr(int argc, char **argv, struct Result *res)
+-{
+-	return disk_aio_read_write(argc, argv, res, O_RDONLY, "disk_aio_rr");
+-}
+-
+-/*
+- * "Semi"-Random async disk write
+- */
+-static int disk_aio_rw(int argc, char **argv, struct Result *res)
+-{
+-	return disk_aio_read_write(argc, argv, res, O_WRONLY, "disk_aio_rw");
+-}
+-
+-/*
+- * "Semi"-Random async direct disk read
+- */
+-static int disk_aiodio_rr(int argc, char **argv, struct Result *res)
+-{
+-	return disk_aio_read_write(argc, argv, res, O_RDONLY|O_DIRECT, "disk_aiodio_rr");
+-}
+-
+-/*
+- * "Semi"-Random async direct disk write
+- */
+-static int disk_aiodio_rw(int argc, char **argv, struct Result *res)
+-{
+-	return disk_aio_read_write(argc, argv, res, O_WRONLY|O_DIRECT, "disk_aiodio_rw");
+-}
+-

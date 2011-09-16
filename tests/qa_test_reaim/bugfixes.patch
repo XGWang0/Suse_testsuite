@@ -1,0 +1,23 @@
+diff -ruwN osdl-aim-7.0.1.12/lib/Makefile.am osdl-aim-7.0.1.12-new/lib/Makefile.am
+--- osdl-aim-7.0.1.12/lib/Makefile.am	2004-03-04 18:38:33.000000000 +0100
++++ osdl-aim-7.0.1.12-new/lib/Makefile.am	2004-05-26 12:49:32.659655358 +0200
+@@ -3,4 +3,4 @@
+ libltp_a_SOURCES = dataascii.c forker.c pattern.c string_to_tokens.c tst_sig.c databin.c get_high_address.c random_range.c str_to_bytes.c tst_tmpdir.c datapid.c open_flags.c rmobj.c tlibio.c write_log.c file_lock.c parse_opts.c search_path.c tst_res.c
+ 
+ libltp_a_LIBADD = 
+-CFLAGS = -Wall -I../include -O2
++AM_CFLAGS = -Wall -I../include -O2
+diff -ruwN osdl-aim-7.0.1.12/lib/tst_sig.c osdl-aim-7.0.1.12-new/lib/tst_sig.c
+--- osdl-aim-7.0.1.12/lib/tst_sig.c	2004-03-04 18:38:33.000000000 +0100
++++ osdl-aim-7.0.1.12-new/lib/tst_sig.c	2004-05-26 12:53:52.352921422 +0200
+@@ -170,6 +170,10 @@
+ 	            if ( fork_flag == FORK || STD_COPIES > 1)
+ 		        continue;
+ 
++		case SIGUNUSED:
++		    sig = SIGRTMIN - 1; /* possible gap after this sig */
++		    break;
++
+ 	        default:
+ 		    if (tst_setup_signal(sig, handler) == SIG_ERR) {
+ 		        (void) sprintf(mesg,

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/qa_test_dbench"
+
+/etc/init.d/cron stop
+
+$ctcsdir/tools/run $basedir/tcf/dbench-default.tcf
+sleep 120
+$ctcsdir/tools/run $basedir/tcf/dbench-syncIO.tcf
+

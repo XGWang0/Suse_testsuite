@@ -1,0 +1,15 @@
+diff -ruN kernbench-0.41.old/kernbench kernbench-0.41/kernbench
+--- kernbench-0.41.old/kernbench	2006-04-07 07:20:42.000000000 +0200
++++ kernbench-0.41/kernbench	2009-03-17 11:45:35.000000000 +0100
+@@ -227,7 +227,7 @@
+ runname="Optimal load -j $optijobs"
+ do_runs
+ 
+-temp_runs=$max_runs
+-tempjobs=""
+-runname="Maximal load -j"
+-do_runs
++#temp_runs=$max_runs
++#tempjobs=""
++#runname="Maximal load -j"
++#do_runs

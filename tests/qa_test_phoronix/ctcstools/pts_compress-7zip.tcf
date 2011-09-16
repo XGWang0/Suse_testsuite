@@ -1,0 +1,4 @@
+fg 1 init /usr/bin/phoronix-test-suite batch-setup
+fg 1 compress-7zip /usr/bin/phoronix-test-suite batch-benchmark compress-7zip
+wait
+exit

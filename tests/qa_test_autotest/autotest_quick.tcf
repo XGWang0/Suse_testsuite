@@ -1,0 +1,111 @@
+timer 86400
+fg 1 autotest-aio_dio_bugs /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/aio_dio_bugs/control 
+wait
+timer 86400
+fg 1 autotest-aiostress /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/aiostress/control
+wait
+timer 3600
+fg 1 autotest-bash_shared_mapping /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/bash_shared_mapping/control  
+wait
+timer 86400
+fg 1 autotest-bonnie /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/bonnie/control  
+wait
+timer 86400
+fg 1 autotest-cyclictest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cyclictest/control  
+wait
+timer 86400
+fg 1 autotest-dbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/dbench/control
+wait
+timer 86400
+fg 1 autotest-dbt2 /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/dbt2/control
+wait
+timer 86400
+fg 1 autotest-disktest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/disktest/control
+wait
+timer 3600
+fg 1 autotest-fio /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fio/control
+wait
+timer 86400
+fg 1 autotest-interbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/interbench/control
+wait
+timer 86400
+fg 1 autotest-iozone /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/iozone/control
+wait
+timer 86400
+fg 1 autotest-isic /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/isic/control
+wait
+timer 86400
+fg 1 autotest-kernbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kernbench/control
+wait
+timer 86400
+fg 1 autotest-kernelbuild /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kernelbuild/control
+wait
+timer 86400
+fg 1 autotest-libhugefs /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/libhugetlbfs/control
+wait
+timer 86400
+fg 1 autotest-linux_stress /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/linus_stress/control
+wait
+timer 86400
+fg 1 autotest-lmbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/lmbench/control  
+wait
+timer 86400
+fg 1 autotest-pi_tests /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/pi_tests/control
+wait
+timer 86400
+fg 1 autotest-pktgen /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/pktgen/control
+wait
+timer 86400
+fg 1 autotest-rmaptest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/rmaptest/control
+wait
+timer 86400
+fg 1 autotest-scrashme /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/scrashme/control
+wait
+timer 3600
+fg 1 autotest-signaltest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/signaltest/control
+wait
+timer 86400
+fg 1 autotest-sleeptest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/sleeptest/control
+wait
+timer 86400
+fg 1 autotest-sparse /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/sparse/control
+wait
+timer 86400
+fg 1 autotest-spew /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/spew/control
+wait
+timer 86400
+fg 1 autotest-stress /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/stress/control
+wait
+timer 86400
+fg 1 autotest-tbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/tbench/control
+wait
+timer 86400
+fg 1 autotest-tiobench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/tiobench/control
+wait
+timer 86400
+fg 1 autotest-tsc /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/tsc/control
+wait
+timer 86400
+fg 1 autotest-unixbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/unixbench/control
+wait
+timer 86400
+fg 1 autotest-xmtest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/xmtest/control  
+wait
+timer 86400
+fg 1 autotest-sysbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/sysbench/control  
+wait
+timer 86400
+fg 1 autotest-barriertest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/barriertest/control  
+wait
+timer 86400
+fg 1 autotest-btreplay /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/btreplay/control  
+wait
+timer 86400
+fg 1 autotest-dacapo /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/dacapo/control  
+wait
+timer 86400
+fg 1 autotest-kvmtest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kvmtest/control  
+wait
+timer 600
+fg 1 autotest-cpu_hotplug /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cpu_hotplug/control
+wait

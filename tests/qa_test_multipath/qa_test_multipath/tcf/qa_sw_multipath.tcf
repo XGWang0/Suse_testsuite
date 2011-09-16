@@ -1,0 +1,19 @@
+timer 600
+fg 1 sw_start_stop_restart /usr/share/qa/qa_test_multipath/sw_start_stop_status.sh
+wait
+
+timer 600
+fg 1 path_checker_tur /usr/share/qa/qa_test_multipath/path_checker_tur.sh
+wait
+
+timer 600
+fg 1 path_checker_directio /usr/share/qa/qa_test_multipath/path_checker_directio.sh 
+wait
+
+timer 1200
+fg 1 active_active /usr/share/qa/qa_test_multipath/active_active.sh
+wait
+
+timer 1200
+fg 1 active_passive /usr/share/qa/qa_test_multipath/active_passive.sh
+wait

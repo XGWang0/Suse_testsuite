@@ -1,0 +1,32 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 11:15:28 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_sharutils -> qa_test_sharutils
+
+-------------------------------------------------------------------
+Tue Dec 15 05:41:50 CET 2009 - ldai@novell.com
+
+- change install method for sharutils-run and upstream_wrapper.sh 
+
+-------------------------------------------------------------------
+Tue Jul 25 16:08:50 CEST 2006 - mmrazik@suse.cz
+
+- added tests from the upstram source-code package
+- fixed the package to conform QA Packaging Guidelines
+- minor fix of the custom test included previously
+
+-------------------------------------------------------------------
+Wed Jan 25 21:47:34 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Thu Sep  1 15:50:25 CEST 2005 - kmachalkova@suse.cz
+
+- Package created, version 1.1 
+

@@ -1,0 +1,178 @@
+#!/bin/bash
+#
+# Copyright (c) 2001-2002 SuSE Linux AG, Nuernberg, Germany.
+# All rights reserved.
+#
+# Author:  Werner Fink <werner@suse.de>, 2001
+#
+# /etc/init.d/boot.crypto
+#
+### BEGIN INIT INFO
+# Provides:          boot.crypto
+# Required-Start:    boot.md boot.lvm boot.localfs
+# Required-Stop:
+# Default-Start:     B
+# Default-Stop:
+# Description:       Enable crypto file systems before leaving boot phase
+### END INIT INFO
+
+. /etc/rc.status
+. /etc/rc.config
+
+trap "echo" SIGINT SIGSEGV
+set +e
+
+# Redirect to real device (e.g. in case of boot logging)
+: ${CRYPTOTAB:=/etc/cryptotab}
+: ${REDIRECT:=/dev/tty}
+: ${TIMEOUT:=120}
+test -s $CRYPTOTAB || exit 0
+type -p losetup &> /dev/null || exit 0
+
+otty=$(stty -g)
+stty $otty < $REDIRECT
+stty -nl -ixon ignbrk -brkint < $REDIRECT
+if test -x /etc/init.d/kbd -a -n "$RUNLEVEL" ; then
+    /etc/init.d/kbd start < $REDIRECT > $REDIRECT 2>&1
+fi
+
+rc_reset
+main_status=0
+case "$1" in
+    start|b)
+	echo "Activating crypto devices using $CRYPTOTAB ... "
+	while read loopdev physdev access filesys crypto mopt rest ; do
+	    case "$loopdev" in
+		\#*|"") continue ;;
+	    esac
+	    #
+	    # Each loop is a new try
+	    #
+	    rc_status
+	    main_status=$?
+	    rc_reset
+	    #
+	    # Seeking for crypto modules
+	    #
+	    case "$crypto" in
+		twofish)  modprobe loop_fish2 ;;
+	    esac
+	    rc_status
+	    test $? -ne 0 && continue
+	    #
+	    #
+	    #
+	    while true; do
+		#
+		# Restore virgin state
+		#
+		losetup -d $loopdev &> /dev/null || true
+
+		#
+		# Setting up loop device
+		#
+		echo -n "${extd}Please enter passphrase for $physdev. ${norm}"
+		losetup -t $TIMEOUT -e $crypto $loopdev $physdev < $REDIRECT > $REDIRECT 2>&1
+		rc_status
+		test $? -ne 0 && continue 2
+
+		#
+		# Check if we've success
+		#
+		if   mount -t $filesys -n -o ro $loopdev $access &> /dev/null ; then
+		    umount -n $access &> /dev/null || true
+		    break
+		else
+		    umount -n $access &> /dev/null || true
+		    echo    "${warn}An error occured.  Maybe the wrong passphrase was"
+		    echo    "entered or the file system on $physdev is corrupted.${norm}"
+		    while true ; do
+			echo -n "${extd}Do you want to retry entering the passphrase ...?${norm}"
+			read -p " ([${extd}yes${norm}]/${extd}no${norm}) " prolo < $REDIRECT
+			case "$prolo" in
+			    [yY][eE][sS]|"")	continue 2 ;;
+			    [nN][oO])		break    2 ;;
+			esac
+		    done
+		fi
+		break
+	    done
+	    #
+	    # Check for valid super blocks
+	    #
+	    case "$filesys" in
+		ext2)	  tune2fs -l $loopdev	 &> /dev/null ;;
+		reiserfs) debugreiserfs $loopdev &> /dev/null ;;
+		*)	  true ;;
+	    esac
+	    rc_status
+	    if test $? -gt 0 ; then
+		losetup -d $loopdev &> /dev/null
+		continue
+	    fi
+
+	    #
+	    # Checking the structure on the loop device
+	    #
+	    fsck -a -t $filesys $loopdev
+	    FSCK_RETURN=$?
+	    test $FSCK_RETURN -lt 2
+	    rc_status
+	    if test $FSCK_RETURN -gt 1; then
+		echo "fsck of $loopdev failed.  Please repair manually."
+		echo "${warn}Warning: do never try to repair if you have entered the wrong passphrase.${norm}"
+		PS1="(repair filesystem) # "
+		/sbin/sulogin $REDIRECT < $REDIRECT > $REDIRECT 2>&1
+		sync
+	    fi
+	    #
+	    # Mounting loop device to mount point
+	    #
+	    case "$mopt" in
+		default|"") mopt=""	    ;;
+		*)	    mopt="-o $mopt" ;;
+	    esac
+	    mount -t $filesys $mopt $loopdev $access
+	    rc_status
+	    test $? -gt 0 && losetup -d $loopdev &> /dev/null
+	done < $CRYPTOTAB
+	test $main_status -gt 0 && rc_failed 1 || true
+	rc_status -v1
+	;;
+    stop)
+	echo "Turning off crypto devices using $CRYPTOTAB ... "
+	while read loopdev physdev access filesys crypto mopt rest ; do
+	    case "$loopdev" in
+		\#*|"") continue ;;
+	    esac
+	    #
+	    # Each loop is a new try
+	    #
+	    rc_status
+	    main_status=$?
+	    rc_reset
+	    #
+	    # Umount loop device
+	    #
+	    umount $access
+	    rc_status
+	    #
+	    # Remove loop device
+	    #
+	    losetup -d $loopdev
+	    rc_status
+	done < $CRYPTOTAB
+	test $main_status -gt 0 && rc_failed 1 || true
+	rc_status -v1
+	;;
+    status)
+	rc_failed 4
+	rc_status -v
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status}"
+	exit 1
+	;;
+esac
+stty $otty < $REDIRECT
+rc_exit

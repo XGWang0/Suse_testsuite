@@ -1,0 +1,5 @@
+timer 3600
+fg 1 sched_stress /usr/share/qa/qa_test_sched_stress/do_sched_stress 
+wait
+
+

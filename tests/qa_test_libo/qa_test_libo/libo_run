@@ -1,0 +1,96 @@
+#!/bin/bash
+# $1: build number - if $1 = 0, the build is not given
+# $2: test script names - if $2 = 0, the script list is not given
+
+. libo_conf
+. libo_logging
+
+# Get test script to be run
+if test "$2" != "0"; then
+    declare -a scripts=($2)
+fi
+
+# Preparing run testtol
+if test "$1" = "0"; then
+
+    log "Existed libreoffice on your SUT (SuSE Desktop) will be tested."
+
+else
+
+    # clean
+    ./libo_clean
+
+    # download
+    ./libo_download "$1"
+
+    # install
+    ./libo_install
+
+    # reconfigure after environment change
+    . libo_conf
+
+fi
+
+# Handling hid.lst
+if test -f "$LOCAL_REPO_DIR/hid.lst"; then
+    sudo ln -sf "$LOCAL_REPO_DIR/hid.lst" $SCRIPTDIR/global/hid/hid.lst
+fi
+
+if test $(readlink -e $SCRIPTDIR/global/hid/hid.lst); then
+    log "Using hid.lst `readlink -f $SCRIPTDIR/global/hid/hid.lst`"
+else
+    logwarning "hid.lst link broken, using qa_libo package provided one."
+    sudo ln -sf $SCRIPTDIR/global/hid/hid.lst.m9 $SCRIPTDIR/global/hid/hid.lst
+fi    
+
+## Check environment and update related configuration
+# Check libreoffice
+rpm -qa | grep libreoffice > /dev/null 2>&1
+if test $? -ne 0; then
+    log "Libreoffice is not installed in the SUT."
+    exit 1
+fi
+# check libreoffice-testtool
+rpm -qa | grep -e libreoffice -e libobasis | grep testtool > /dev/null 2>&1
+if test $? -ne 0; then
+    logwarning "Testtool is not installed in SUT."
+    logwarning "Old Testtool `readlink -f ./testtool/testtool.bin` will be used."        
+    TESTTOOL="testtool/testtool.bin"
+fi
+
+log "Removing old $LOGDIR"
+sudo rm -fr $LOGDIR; sudo mkdir -p $LOGDIR; sudo chown -R $user $LOGDIR
+
+log "Confguring $HOME/.testtoolrc"
+echo "$TESTTOOLRC"  > $HOME/.testtoolrc    
+
+# run testtool
+if test "$scripts" = ""; then
+    find -L $SCRIPTDIR -type f -name *bas | grep -v global | while read fn; do
+        log "Test running - $fn "
+        DISPLAY=':0' $TESTTOOL -run $fn
+    done
+else
+    for t in "${scripts[@]}"; do
+        n=`find -L $SCRIPTDIR -type f -name "$t" | wc -l`
+        if test $n -eq 1; then
+            log "Test running - $t "
+            DISPLAY=':0' $TESTTOOL -run `find -L $SCRIPTDIR -type f -name "$t"`
+        else
+            logwarning "Script $t could not be run. Either the script is not existed, or script has a duplicated name with others in $SCRIPTDIR"
+        fi            
+    done
+fi
+# log tiny up delivering to parser ooo.pm
+
+dir=$LOGDIR/'libo'-`date +%Y-%m-%d-%H-%M-%S`
+sudo mkdir $dir
+
+find $LOGDIR -type f -name "*.res" | while read fn; do
+    sudo mv $fn $dir
+done
+
+sudo $REMOTE_QADB_REPORT -c "`rpm -q libreoffice` $distro$patchlevel$arch"
+#echo "$REMOTE_QADB_REPORT -c `rpm -qa | grep "libreoffice[0-9]*-[0-9]"` $distro$patchlevel$arch"
+
+log "Process $$ $(basename $0) - Testing Done"

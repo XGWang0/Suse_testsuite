@@ -1,0 +1,169 @@
+#!/bin/bash
+
+LSB_VERSION="4.0"
+
+#############################################################################
+# Initial tests (find essential tools, and prevent mysterious errors later)
+#############################################################################
+
+if [ "$UID" -ne "0" ] ; then
+	echo
+	echo "Error: This script must be run as the root user."
+	exit 1
+fi
+
+echo -n "Checking architecture... "
+ARCH=`uname -m`
+if [ "$?" -ne "0" ] ; then
+	echo
+	echo "Error: 'uname -r' failed, cannot determine architecture."
+	exit 1
+fi
+echo "$ARCH"
+
+which "lsb_release" >/dev/null 2>&1
+if [ "$?" -ne "0" ] ; then
+	echo
+	echo "Error: Could not find the 'lsb_release' utility;"
+	echo "check that the 'lsb' package is installed."
+	exit 1
+fi
+
+lsb_release | grep "$LSB_VERSION" >/dev/null 2>&1
+if [ "$?" -ne "0" ] ; then
+	echo
+	echo "Error: 'lsb_release' does not report LSB $LSB_VERSION compatibility."
+	echo "LSB tests won't work without it; please check why is it so."
+ 	exit 1
+fi
+
+WGET=`which wget`
+if [ -z "$WGET" ] ; then
+	echo
+	echo "Error: wget utility not found"
+	exit 1
+fi
+
+RPM=`which rpm`
+if [ -z "$RPM" ] ; then
+	echo
+	echo "Error: rpm utility not found (is this a RPM-based distro?)"
+	exit 1
+fi
+
+RPMEXT="$ARCH.rpm"
+if [ "$ARCH" == "x86" ] || [ "$ARCH" == "i686" ] ; then
+	RPMEXT="i486.rpm"
+fi
+
+#############################################################################
+# Downloading and installing a few essential packages
+#############################################################################
+
+echo "Downloading extra packages (if not already here):"
+
+LOCAL_PKG_DIR="/var/tmp/lsbtest-rpms"
+PKG_DIR="ftp://ftp.linux-foundation.org/pub/lsb/snapshots"
+
+function download_package() {
+	echo -n "Looking for $2... "
+	ls -1 $LOCAL_PKG_DIR/$2 >/dev/null 2>&1
+	if [ "$?" -eq "0" ] ; then
+		echo "already present"
+	else
+		echo "downloading"
+		$WGET -N -q "$PKG_DIR/$1$2" -P "$LOCAL_PKG_DIR"
+		if [ "$?" -ne "0" ] ; then
+			echo
+			echo "Error: Download failed (maybe the file locations"
+			echo "on the server changed?)"
+			exit 1
+		fi
+	fi
+}
+
+download_package "lsb-setup/" "lsb-setup-*.noarch.rpm"
+download_package "distribution-checker/" "lsb-dist-checker-*.$RPMEXT"
+download_package "lsb-xvfb/" "lsb-xvfb-*.$RPMEXT"
+
+echo "Installing extra packages (if not already installed):"
+
+function install_package() {
+	echo -n "Looking for $1... "
+	CURVERSION=`$RPM -q "$1"`
+	if [ "$?" -eq "0" ] ; then
+		echo "installed, will update if needed"
+		$RPM -F "$LOCAL_PKG_DIR/$1$2" >/dev/null
+		if [ "$?" -ne "0" ] ; then
+			echo
+			echo "Error: could not update the existing package."
+			exit 1
+		fi
+	else
+		echo "installing"
+		$RPM -i "$LOCAL_PKG_DIR/$1$2" >/dev/null
+		if [ "$?" -ne "0" ] ; then
+			echo
+			echo "Error: package installation failed."
+			exit 1
+		fi
+	fi
+}
+
+install_package "lsb-setup" "*.noarch.rpm"
+install_package "lsb-xvfb" "*.$RPMEXT"
+install_package "lsb-dist-checker" "*.$RPMEXT"
+
+mkdir -p /var/log/qa/lsb >/dev/null 2>&1
+
+#############################################################################
+# Here we really run the test suite
+#############################################################################
+
+echo "Starting the test suite (this may need multiple hours)."
+
+TESTRUN_DIR="qa_lsb-`date +%Y-%m-%d-%Hh-%Mm-%Ss`"
+
+# Use an explicit TEST_LIST to select only specific tests, e.g.
+#
+#TEST_LIST='cmdchk libchk libstdcpp cpp-t2c core'
+#
+# Use "/opt/lsb/test/manager/utils/dist-checker.pl --list" to get a list
+# of all possible tests. "all" runs all tests.
+#
+TEST_LIST="cmdchk libchk libstdcpp cpp-t2c tcl expect python perl core xts5 desktop desktop-t2c xts5 qt3-azov qt4-azov olver"
+
+TERM=linux /opt/lsb/test/manager/utils/dist-checker.pl --testrun-id $TESTRUN_DIR -D -s "LSB $LSB_VERSION" $TEST_LIST
+
+echo "Test suite finished (exit code $?)."
+
+#############################################################################
+# Copy the results to the log directory
+#############################################################################
+
+echo "Collecting results (will be in /var/log/qa/lsb)."
+
+cp -R "/var/opt/lsb/test/manager/results/$TESTRUN_DIR" /var/log/qa/lsb
+if [ "$?" -ne "0" ] ; then
+	echo
+	echo "Error: Could not copy the results to /var/log/qa/lsb."
+	echo "Please check!"
+	exit 1
+fi
+
+echo "Cleaning up."
+
+# Clean up the results directory produced by the LSB run:
+# - the .tar.gz archive of the whole directory is redundant,
+#   we archive it separately
+# - logs that are not directly used are gzipped
+# 
+rm /var/log/qa/lsb/$TESTRUN_DIR/*.tgz
+gzip /var/log/qa/lsb/$TESTRUN_DIR/report.htm
+gzip /var/log/qa/lsb/$TESTRUN_DIR/log
+gzip /var/log/qa/lsb/$TESTRUN_DIR/verbose_log
+gzip /var/log/qa/lsb/$TESTRUN_DIR/results/*.part1
+gzip /var/log/qa/lsb/$TESTRUN_DIR/results/*.part2
+
+echo "Completed."
+

@@ -1,0 +1,89 @@
+Test Run By jdluhos on Tue Aug  8 11:27:38 2006
+Native configuration is i686-suse-linux
+
+		===  tests ===
+
+Schedule of variations:
+    unix
+
+Running target unix
+Using /usr/share/dejagnu/baseboards/unix.exp as board description file for target.
+Using /usr/share/dejagnu/config/unix.exp as generic interface file for target.
+Using ./config/unix.exp as tool-and-target-specific interface file.
+Running ./locate.gnu/exists1.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb -e fred < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+FAIL: exists1, /nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+testcase ./locate.gnu/exists1.exp completed in 0 seconds
+Running ./locate.gnu/exists2.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb -e fred < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+FAIL: exists2, /nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+testcase ./locate.gnu/exists2.exp completed in 1 seconds
+Running ./locate.gnu/exists3.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb -e fred < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+FAIL: exists3, /nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+testcase ./locate.gnu/exists3.exp completed in 0 seconds
+Running ./locate.gnu/ignore_case1.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb -i FRed < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+FAIL: ignore_case1, /nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+testcase ./locate.gnu/ignore_case1.exp completed in 0 seconds
+Running ./locate.gnu/ignore_case2.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb FRed < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+PASS: ignore_case2
+testcase ./locate.gnu/ignore_case2.exp completed in 0 seconds
+Running ./locate.gnu/ignore_case3.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb fred < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+FAIL: ignore_case3, /nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+testcase ./locate.gnu/ignore_case3.exp completed in 1 seconds
+Running ./locate.gnu/notexists1.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb -E fred < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+PASS: notexists1
+testcase ./locate.gnu/notexists1.exp completed in 0 seconds
+Running ./locate.gnu/notexists2.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb -E fred < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+FAIL: notexists2, /nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+testcase ./locate.gnu/notexists2.exp completed in 0 seconds
+Running ./locate.gnu/notexists3.exp ...
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../updatedb  --changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/ < /dev/null
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate  --database=tmp/locatedb -E fred < /dev/null > locate.out
+/nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+FAIL: notexists3, /nethome/jdluhos/work/qa_test_findutils/qa_test_findutils/BUILD/qa_findutils-0.1/orig_tests/locate/testsuite/../locate: tmp/locatedb: No such file or directory
+testcase ./locate.gnu/notexists3.exp completed in 0 seconds
+Running ./locate.gnu/regex1.exp ...
+ERROR: tcl error sourcing ./locate.gnu/regex1.exp.
+ERROR: frcode, program does not exist
+    while executing
+"error "$FRCODE, program does not exist""
+    (procedure "locate_textonly" line 11)
+    invoked from within
+"locate_textonly p  0 "/\n" "?" "/\n""
+    (file "./locate.gnu/regex1.exp" line 2)
+    invoked from within
+"source ./locate.gnu/regex1.exp"
+    ("uplevel" body line 1)
+    invoked from within
+"uplevel #0 source ./locate.gnu/regex1.exp"
+    invoked from within
+"catch "uplevel #0 source $test_file_name""
+testcase ./locate.gnu/regex1.exp completed in 1 seconds
+
+		===  Summary ===
+
+# of expected passes		2
+# of unexpected failures	7
+runtest completed at Tue Aug  8 11:27:41 2006

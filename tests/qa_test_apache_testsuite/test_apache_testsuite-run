@@ -1,0 +1,30 @@
+#!/bin/bash
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+
+cd /usr/share/qa/qa_test_apache_testsuite/httpd-test
+perl Makefile.PL -apxs /usr/sbin/apxs2 -startuptimeout 120 > /dev/null 2>&1
+cd ../mod_perl-tests
+perl Makefile.PL MP_APXS=/usr/sbin/apxs2 MP_APR_CONFIG=/usr/bin/apr-1-config -startuptimeout 120 > /dev/null 2>&1
+cd ..
+
+blist="mod_perl-tests/t/api/add_config.t mod_perl-tests/t/hooks/authen_basic.t mod_perl-tests/t/hooks/authz.t mod_perl-tests/t/modules/cgiupload.t mod_perl-tests/Apache-Test/t/more/01testpm.t mod_perl-tests/Apache-Test/t/more/02testmore.t mod_perl-tests/Apache-Test/t/more/03testpm.t mod_perl-tests/Apache-Test/t/more/04testmore.t mod_perl-tests/Apache-Test/t/alltest/01bang.t mod_perl-tests/Apache-Test/t/alltest2/01bang.t"
+for suite in $blist;do
+  mv $suite $suite.bad
+done
+
+#Ignore httpd-test/t httpd-test/Apache-Test/t httpd-test/Apache-Test/Apache-TestItSelf/t, which are broken
+wlist="mod_perl-tests/t mod_perl-tests/Apache-Test/t mod_perl-tests/ModPerl-Registry/t"
+for dir in $wlist;do
+  cd $dir > /dev/null
+  for test in `find . -name "*.t"`;do
+    echo "timer 100"
+    echo "fg 1 `echo $test | sed -e 's,/,,g' -e 's,\.,,g'` $PWD/TEST $test"
+    echo "wait"
+    echo
+  done
+  cd - > /dev/null
+done > /usr/share/qa/qa_test_apache_testsuite/tcf/qa_apache_testsuite.tcf
+
+$CTCS2_DIR/tools/run $TCF_DIR/qa_apache_testsuite.tcf

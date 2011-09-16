@@ -1,0 +1,67 @@
+#!/bin/bash 
+PATH='/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin'
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/tcf"
+
+DE_netperf_server_1=
+DE_netperf_server_2=10.11.136.9
+CZ_netperf_server=
+CN_netperf_server=
+
+DE_1='10.10'
+DE_2='10.11'
+CZ='10.20'
+CN='147.2'
+
+ipinfo=`ifconfig |sed -n '/inet addr:/{s/ [BM].*//;s/.*://;p}'`
+
+if [ -z "$ipinfo" ];then
+	echo "Can't get ip address"
+	exit 1
+fi
+
+#find out the server
+for i in $ipinfo
+do
+
+	flag=`echo $i|sed 's/\.[0-9]\+\.[0-9]\+$//'`
+	if [ "$flag" == "$DE_1" ];then
+		ip=$DE_netperf_server_1
+		break
+	elif [ "$flag" == "$DE_2" ];then
+		ip=$DE_netperf_server_2
+		break
+	elif [ "$flag" == "$CZ" ];then
+		ip=$CZ_netperf_server
+		break
+	elif [ "$flag" == "$CN" ];then
+		ip=$CZ_netperf_server
+                break
+	else
+		echo No server matched from $i
+	fi
+		
+done
+
+if [ -z "$ip" ];then
+	echo "Server was not definded"
+	exit 1
+fi
+
+port=12865
+
+#check the server's port
+telnet -c -ex $ip $port  <<aquit
+x
+quit
+aquit
+if [ $? -gt 0  ];then
+	echo "The server[ $ip ] does not start the service"
+	exit 1
+fi
+#modify the tcf file
+sed -i "s/[0-9\.]\+$/$ip/" $basedir/netperf.tcf
+
+$ctcsdir/tools/run $basedir/netperf.tcf
+

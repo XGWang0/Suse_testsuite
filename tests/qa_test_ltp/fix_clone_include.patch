@@ -1,0 +1,176 @@
+Index: ltp-full-20110606/testcases/kernel/syscalls/clone/clone02.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/syscalls/clone/clone02.c
++++ ltp-full-20110606/testcases/kernel/syscalls/clone/clone02.c
+@@ -96,13 +96,14 @@
+ #define __THROW
+ #endif
+ 
++#define _GNU_SOURCE
++
+ #include <errno.h>
+-#include <sched.h>
+ #include <fcntl.h>
+ #include <sys/wait.h>
+ #include <sys/types.h>
+ #include <sys/syscall.h>
+-#include <linux/unistd.h>
++#include <sched.h>
+ #include "test.h"
+ #include "usctest.h"
+ 
+@@ -551,4 +552,4 @@ void sig_child_defined_handler(int pid)
+ /* sig_default_handler() - Default handler for parent */
+ void sig_default_handler()
+ {
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/syscalls/clone/clone05.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/syscalls/clone/clone05.c
++++ ltp-full-20110606/testcases/kernel/syscalls/clone/clone05.c
+@@ -70,6 +70,8 @@
+ #define __THROW
+ #endif
+ 
++#define _GNU_SOURCE
++
+ #include <errno.h>
+ #include <sched.h>
+ #include <sys/wait.h>
+@@ -171,4 +173,4 @@ int child_fn()
+ 	sleep(1);
+ 	parent_variable = 1;
+ 	exit(1);
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/syscalls/unshare/unshare01.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/syscalls/unshare/unshare01.c
++++ ltp-full-20110606/testcases/kernel/syscalls/unshare/unshare01.c
+@@ -74,6 +74,8 @@
+ /*	      Manas Kumar Nayak maknayak@in.ibm.com>				*/
+ /********************************************************************************/
+ 
++#define _GNU_SOURCE
++
+ #include <stdio.h>
+ #include <sys/wait.h>
+ #include <sys/types.h>
+Index: ltp-full-20110606/testcases/kernel/containers/netns/common.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/containers/netns/common.c
++++ ltp-full-20110606/testcases/kernel/containers/netns/common.c
+@@ -24,6 +24,8 @@
+ * Author:	  Veerendra <veeren@linux.vnet.ibm.com>
+ =========================================================================*/
+ 
++#define _GNU_SOURCE
++
+ #include <sys/utsname.h>
+ #include <sched.h>
+ #include <stdio.h>
+Index: ltp-full-20110606/testcases/kernel/containers/netns/par_chld_ipv6.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/containers/netns/par_chld_ipv6.c
++++ ltp-full-20110606/testcases/kernel/containers/netns/par_chld_ipv6.c
+@@ -25,6 +25,8 @@
+ *                      31/07/2008
+ =========================================================================*/
+ 
++#define _GNU_SOURCE
++
+ #include <sys/utsname.h>
+ #include <sched.h>
+ #include <stdio.h>
+@@ -114,4 +116,4 @@ parent & child NS\n");
+     }
+     return status;
+     }
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/containers/netns/two_children_ns.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/containers/netns/two_children_ns.c
++++ ltp-full-20110606/testcases/kernel/containers/netns/two_children_ns.c
+@@ -28,6 +28,8 @@
+ *                      31/07/2008
+ *******************************************************************************/
+ 
++#define _GNU_SOURCE
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <sched.h>
+@@ -131,4 +133,4 @@ int main()
+         }
+     }
+     exit(0);
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/controllers/cgroup/test_6_2.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/controllers/cgroup/test_6_2.c
++++ ltp-full-20110606/testcases/kernel/controllers/cgroup/test_6_2.c
+@@ -20,6 +20,8 @@
+ /*                                                                            */
+ /******************************************************************************/
+ 
++#define _GNU_SOURCE
++
+ #include <sched.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+@@ -47,4 +49,4 @@ int main(int argc, char **argv)
+ 	}
+ 
+ 	tst_exit();
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/fs/fs_bind/bin/nsclone.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/fs/fs_bind/bin/nsclone.c
++++ ltp-full-20110606/testcases/kernel/fs/fs_bind/bin/nsclone.c
+@@ -16,6 +16,9 @@
+  * License along with this library; if not, write to the Free Software
+  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  */
++
++#define _GNU_SOURCE
++
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <string.h>
+@@ -63,4 +66,4 @@ int main(int argc, char *argv[])
+ 		exit(1);
+ 	}
+ 	exit(0);
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/security/tomoyo/newns.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/security/tomoyo/newns.c
++++ ltp-full-20110606/testcases/kernel/security/tomoyo/newns.c
+@@ -17,6 +17,9 @@
+ /* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA    */
+ /*                                                                            */
+ /******************************************************************************/
++
++#define _GNU_SOURCE
++
+ #include <stdio.h>
+ #include <sys/types.h>
+ #include <sys/wait.h>
+@@ -43,4 +46,4 @@ int main(int argc, char *argv[])
+ 	while (waitpid(pid, NULL, __WALL) == EOF && errno == EINTR)
+ 		c++; /* Dummy. */
+ 	return 0;
+-}
+\ No newline at end of file
++}

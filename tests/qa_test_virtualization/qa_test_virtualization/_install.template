@@ -1,0 +1,59 @@
+#!/bin/bash
+
+export LANG=C
+
+source /usr/share/qa/qa_internalapi/sh/libqainternal.lib.sh
+
+TEST_TYPE="$1"
+
+# the 2nd param is the optional path to the root directory of tests
+if [ "$2x" == "x" ]; then
+	TEST_ROOT="/usr/share/qa/qa_test_virtualization"
+else
+	TEST_ROOT="$2"
+fi
+
+# @DEFINITION@ $os-$rel-$sp-$arch-$vtype-$scenario-$method
+# these values must be known before source shared/$TEST_TYPE
+OPERATING_SYSTEM="`echo "@DEFINITION@" | awk -F- '{ print $1; }'`"
+RELEASE="`echo "@DEFINITION@" | awk -F- '{ print $2; }'`"
+SERVICE_PACK="`echo "@DEFINITION@" | awk -F- '{ print $3; }'`"
+ARCHITECTURE="`echo "@DEFINITION@" | awk -F- '{ print $4; }'`"
+VIRT_TYPE="`echo "@DEFINITION@" | awk -F- '{ print $5; }'`"
+SCENARIO="`echo "@DEFINITION@" | awk -F- '{ print $6; }'`"
+INSTALL_METHOD="`echo "@DEFINITION@" | awk -F- '{ print $7; }'`"
+
+
+if [ ! -r "$TEST_ROOT/shared/$TEST_TYPE" ] ; then
+	echo "Not a test type '$TEST_TYPE'."
+	exit $ERROR
+fi
+source "$TEST_ROOT/shared/$TEST_TYPE"
+
+
+# test_init not overloaded
+# test_cleanup not overloaded
+
+function test_action
+{
+	SETTINGS=""
+	if [ "$TEST_TYPE" != "network" ] ; then
+		# standalone
+		SETTINGS="-P $TEST_ROOT/loc/settings.$TEST_TYPE"
+		echo "Using settings file $TEST_ROOT/loc/settings.$TEST_TYPE..."
+	else
+		echo "Using default configuration for virtautolib for settings file" >&2
+	fi
+
+	SPECIAL_ARGS=""
+	if [ "$OPERATING_SYSTEM" == "sled" ] ; then
+		# SLED needs more space than the default disk size.
+		# This might break if some other argumetns are specified (so if added new features, this should be checked)
+		SPECIAL_ARGS="$SPECIAL_ARGS -d 8192"
+	fi
+
+
+	/usr/share/qa/virtautolib/lib/vm-install.sh -y $IP -b $BR $SETTINGS -C $SPECIAL_ARGS @VMINST_ARGS@
+}
+
+run_test

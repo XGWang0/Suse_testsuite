@@ -1,0 +1,43 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 10:03:03 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_findutils -> qa_test_findutils
+
+-------------------------------------------------------------------
+Tue Aug 08 15:09:23 CET 2006 - jdluhos@suse.cz
+
+- Added three tests from the original test suite; one of them
+  (locate) does not work yet as it needs a special utility
+
+-------------------------------------------------------------------
+Wed Jan 25 21:47:32 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Thu Jan 19 18:56:23 CET 2006 - kmachalkova@suse.cz
+
+- fixed relative/absolute path issue in run-script 
+
+-------------------------------------------------------------------
+Wed Jan 18 13:14:17 CET 2006 - mmrazik@suse.cz
+
+- fixed tcf location (updated Packaging Guidelines)
+- fixed run-script location (updated Packaging Guidelines)
+
+-------------------------------------------------------------------
+Tue Jan 17 16:27:45 CET 2006 - kmachalkova@suse.cz
+
+- added support for ctcs2 (tcf file,...)
+- additional tests for some other 'find' and 'xargs' switches 
+
+-------------------------------------------------------------------
+Thu Aug 18 14:43:28 CEST 2005 - kmachalkova@suse.cz
+
+- package created, version 1.1 
+

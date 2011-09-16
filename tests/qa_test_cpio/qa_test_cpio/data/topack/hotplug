@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# hotplug This scripts starts hotpluggable subsystems.
+#
+### BEGIN INIT INFO
+# Provides:       hotplug
+# Required-Start: network syslog
+# Required-Stop:
+# Default-Start:  1 2 3 5
+# Default-Stop:
+# Description:   enables automatic configuration of hotplugged devices 
+### END INIT INFO
+ 
+. /etc/rc.status
+ 
+case "$1" in
+	start)
+		echo -n "Starting hotplugging services ["
+		touch /var/lock/subsys/hotplug
+		for RC in /etc/hotplug/*.rc
+		do
+			$RC start
+			rc_status
+		done
+		echo -n " ]"
+		rc_status -v || rm -f /var/lock/subsys/hotplug
+		;;
+	stop)
+		echo -n "Stopping hotplugging services "
+		for RC in /etc/hotplug/*.rc
+		do
+			$RC stop
+			rc_status
+		done
+		rm -f /var/lock/subsys/hotplug
+		rc_status -v
+		;;
+	try-restart)
+		$0 status >/dev/null &&  $0 restart
+		rc_status
+		;;
+	restart|force-reload)
+		$0 stop
+		$0 start
+		rc_status
+		;;
+	reload)
+		;;
+	status)
+		echo -n "Checking for hotplugging services "
+		if [ -f /var/lock/subsys/hotplug ]; then
+			echo -n "["
+			for RC in /etc/hotplug/*.rc; do
+				$RC status
+				rc_status 
+			done
+			echo -n " ]"
+		else
+			rc_failed 3
+		fi
+		rc_status -v
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|[try-]restart|[force-]reload|status}"
+		rc_failed
+		;;
+esac
+rc_exit

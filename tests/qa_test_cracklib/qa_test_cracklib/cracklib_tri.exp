@@ -1,0 +1,90 @@
+#!/usr/bin/expect -f
+
+source /usr/share/qa/qa_test_cracklib/cracklib_tests.conf
+
+set timeout 	$default_timeout
+
+log_user 1
+set FAILED 0
+
+catch { exec useradd -m -d /tmp/testhome $cracklib_user }
+
+system sync
+
+spawn passwd $cracklib_user
+sleep 1
+expect {
+	$cracklib_expectnew {
+		sleep 1
+		send $cracklib_pass
+	}
+	timeout {
+        puts "FAILED: cracklib - trivial passwd - did not get cracklib_expectnew"
+        set FAILED 1
+		close
+	}
+}
+
+expect {
+	$cracklib_expectretype {
+		sleep 1
+		send $cracklib_pass 
+	}
+	timeout {
+        puts "FAILED: cracklib - trivial passwd - did not get cracklib_expectretype"
+		close
+        set FAILED 1
+	}
+}
+sleep 1
+close
+
+system sync
+
+spawn $default_shell
+send "su $cracklib_user -c passwd\r"
+expect {
+	$cracklib_expectcurrent {
+		sleep 1
+		send $cracklib_pass
+	}
+	timeout {
+        puts "FAILED: cracklib - trivial passwd - did not get cracklib_expectcurrent"
+        set FAILED 1
+        close
+	}
+}
+
+expect {
+	$cracklib_expectnew {
+		sleep 1
+		send $cracklib_passsimple
+	}
+	timeout {
+        puts "FAILED: cracklib - trivial passwd - did not get cracklib_expectnew"
+        set FAILED 1
+        close
+	}
+}
+
+expect {
+	$cracklib_expectedsimple {
+		puts "PASSED: cracklib - trivial passwd"
+		close
+		catch { exec userdel $cracklib_user }
+	}
+
+	timeout {
+		puts "FAILED: cracklib - trivial passwd"
+		close
+		catch { exec userdel -r $cracklib_user }
+        set FAILED 1
+	}
+}
+
+catch { exec rm -rf /home/$cracklib_user }
+
+system sync
+
+exit $FAILED
+

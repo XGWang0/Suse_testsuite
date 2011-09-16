@@ -1,0 +1,2 @@
+${THIS_SH} ./histexp.tests > /tmp/xx 2>&1
+diff /tmp/xx histexp.right && rm -f /tmp/xx

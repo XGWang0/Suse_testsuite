@@ -1,0 +1,15 @@
+timer 300
+fg 1 qa_sample_testone /usr/share/qa/qa_test_sample/qa_sample_testone.sh
+wait
+
+timer 300
+fg 1 qa_sample_testtwo /usr/share/qa/qa_test_sample/qa_sample_testtwo.pl
+wait
+
+timer 300
+fg 1 qa_sample_testthree /usr/share/qa/qa_test_sample/qa_sample_testthree.py
+wait
+
+timer 300
+fg 1 qa_sample_testfour /usr/share/qa/qa_test_sample/qa_sample_testfour.sh
+

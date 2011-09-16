@@ -1,0 +1,13 @@
+--- reaim-7.0.1.13/src/suite.h	2004-10-21 01:31:33.000000000 +0200
++++ reaim-7.0.1.13.new/src/suite.h	2004-10-29 16:40:31.872855730 +0200
+@@ -52,8 +52,8 @@
+ 
+ #define WORKLD		100
+ #define MAX_WORK	1024
+-#define WORKFILE	"/usr/local/share/reaim/workfile.short"
+-#define CONFIGFILE	"/usr/local/share/reaim/reaim.config"
++#define WORKFILE	"/usr/lib/reaim/workfile"
++#define CONFIGFILE	"/usr/lib/reaim/reaim.config"
+ #define LOGFILEPREFIX	"reaim"
+ #define STROKES		50	/* baud rate per user typing */
+ #define MAXITR		10	/* max number of iteration */

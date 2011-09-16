@@ -1,0 +1,17 @@
+# This file contains some Variables useful if you work for a long time on a package
+##
+# Path where the original package is from
+SOURCEDIR=/work/SRC/all/qa_test_suse-cert
+##
+# Date, when the package is checked out
+CREATED=20080624141639
+##
+# is the package locked?
+LOCKED=false
+##
+# the original name of the package
+PACKAGENAME=qa_test_suse-cert
+##
+# send mail to suse-dist@suse.de when the package is submitted?
+SEND_DISTMAIL=true
+

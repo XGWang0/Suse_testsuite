@@ -1,0 +1,897 @@
+#!/bin/bash
+#
+# Copyright (c) 2000 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+#
+# Author: Klaus G Wagner <kgw@suse.de> 2000
+#
+#       cert_tests.lib  --  Collection of commom shell functions
+#                           for the certification test scripts
+#
+#
+
+
+# Test host layout
+#
+# Where to look for logfile templates on the test host:
+TEMPLATES_LOCALDIR=/usr/share/cert/templates
+CONFIGS_LOCALDIR=/usr/share/cert/configs
+WORKDIR=/abuild
+DEFAULT_LOGDIR=/var/opt/novell/NovellTestKits
+CONFIG_FILE=/etc/certify_sys.conf
+
+
+#  Locations of basic commands which should be present anyway
+#
+AWK=/usr/bin/awk
+BADBLOCKS=/sbin/badblocks
+BC=/usr/bin/bc
+CAT=/bin/cat
+CHMOD=/bin/chmod
+CMP=/usr/bin/cmp
+CP=/bin/cp
+DATE=/bin/date
+DD=/bin/dd
+DF=/bin/df
+DMESG=/bin/dmesg
+DU=/usr/bin/du
+EJECT=/bin/eject
+FDISK=/sbin/fdisk
+FDFORMAT=/usr/bin/fdformat
+FREE=/usr/bin/free
+GREP=/usr/bin/grep
+GZIP=/bin/gzip
+HDPARM=/sbin/hdparm
+#  Need to take care of namespace collision...
+HOSTNAME_bin=/bin/hostname
+ID=/usr/bin/id
+IFCONFIG=/sbin/ifconfig
+KILL=/bin/kill
+LN=/bin/ln
+LS=/bin/ls
+LSPCI=/sbin/lspci
+MAIL=/usr/bin/mail
+MAKE=/usr/bin/make
+MKTEMP=/bin/mktemp
+MOUNT=/bin/mount
+MKDIR=/bin/mkdir
+MV=/bin/mv
+PS=/bin/ps
+PSTREE=/usr/bin/pstree
+RM=/bin/rm
+RMDIR=/bin/rmdir
+SED=/usr/bin/sed
+SLEEP=/bin/sleep
+SORT=/usr/bin/sort
+SU=/bin/su
+SYNC=/bin/sync
+TAR=/bin/tar
+TEE=/usr/bin/tee
+TOUCH=/usr/bin/touch
+TUNE2FS=/sbin/tune2fs
+UMOUNT=/bin/umount
+UNIQ=/usr/bin/uniq
+UNAME=/bin/uname
+WC=/usr/bin/wc
+WGET=/usr/bin/wget
+
+#  Hmm, this seems to not get used anyway...
+#
+BASIC_CMDS="$AWK $BC $CAT $CHMOD $CP $DATE $DF $FDISK $GREP $KILL $LS $MAIL 
+            $MKDIR $RM $SED $SLEEP $SYNC $TAR $TEE $TOUCH $UNAME $WGET"
+
+
+#  Abort with error message (interactive [ADDED: except if "$@" string
+#  starts with "-q "])
+#
+function abort () {
+    local message="$@"
+    [ "$message" == "${message#-q }" ] && >&1 echo -e "\a$0: $message\n"
+    { [ -z "$exitcode" ] || [ "$exitcode" -eq 0 ] ; } && exitcode=1
+    # kill myself  -- last chance for signal handler to tidy up...
+    # The handler also is free to use $exitcode
+    "$KILL" -TERM $$
+}
+
+#  Warn and present the choice: abort/continue (interactive only)
+#
+function warn () {
+    local message="$@"
+    local junk
+    >&2 echo -e "\a$0: $message\n"
+    >&2 echo -e "Press <Enter> to continue, Ctrl-C to abort"
+    read junk
+    unset junk
+}
+
+function timed_log() {
+    local message="$@"
+    echo -e "\n----------  $0: $message at:"\
+            "\n----------      $(${DATE}) \n"
+}
+
+function logmsg() {
+    local message="$@"
+    >> "$LOG"    echo -en "$message"
+    [ "$verbose" == yes ] && echo -en "$message"
+}
+
+function mail_tester {
+# 1: logfile
+# 2: exitstatus
+	local sep="---------------------"
+	local timestamp=`date +%c`
+	local greet="remember to have fun"
+	local log="Logs can be found in:"
+	local bname=`basename $0`
+
+	exitstatus="passed"
+	(( $2 == 1 )) && exitstatus="failed"
+	
+	# shortcut
+	if [ "$tester" == "" ] ; then
+		 return
+	fi	
+
+	echo -e "Hi,\n\n\t$bname $exitstatus on $HOSTNAME at \n\t$timestamp.\n\n\t$log\n\t$sep\n \t$1\n\n$greet"  | mail -s "`basename $0` $exitstatus on $HOSTNAME" "$tester" 
+		
+}
+
+#  Call: errormsg {continue|warn|abort} message
+#
+#  Writes a message to the error log (global variable $LOGERR).
+#  If verbosely (global variable $verbose), gives it to stderr too.
+#  Then takes action according to first argument (if not verbosely,
+#  action "warn" is treated as "abort", since "warn" is interactive --
+#  this is an error in the function caller)
+#
+#  Global variables used:  $LOGERR  $verbose
+#
+function errormsg() {
+    local action="$1"
+    [ "$action" != continue ] && [ "$action" != warn ] && action=abort
+    [ "$verbose" != yes -a "$action" == warn ]         && action=abort
+    shift
+    local message="$@"
+    >> "$LOGERR" echo -e "$0: $message"
+    case "$action" in
+         continue )   [ "$verbose" == yes ] && >&2 echo -e "$0: $message"
+                      return ;;
+         abort    )   [ "$verbose" == yes ] \
+                          && abort "$message" || abort -q "$message" ;;
+         warn     )   echo "" ; warn "$message" ;;
+    esac
+}
+
+#  Test a list of given file names for "executable"
+#  Returns 0 (success) if all file tests are successful, 1 if not.
+#
+function check_for_needed_cmds () {
+local cmd missing_cmds=""
+for cmd in "$@" ; do
+    if [ -z "$cmd" ]
+    then
+        >&2 echo -e "\a$0: Warning: Got an empty argument. This should not" \
+                    "happen. Full argument list:\n$@"
+    else
+        [ -x "$cmd" ] || missing_cmds="$missing_cmds $cmd"
+    fi
+done
+if [ -n "$missing_cmds" ] ; then
+     >&2 echo -e "\a$0:  Not found: needed command(s) $missing_cmds ."
+     return 1
+else
+     return 0
+fi
+}
+
+#  Establishes a usable working directory at the location path
+#  found in the GLOBAL variable $workdir. If the path is relative,
+#  it is made absolute before.
+#
+#  Any failure to establish the working directory is considered
+#  FATAL and leads to aborting the entire script. 
+#
+#  Call: prepare_workdir  (no arguments)
+#
+function prepare_workdir () {
+
+check_for_needed_cmds "$MKDIR" "$RM" || \
+         abort "prepare_workdir: Aborting..."
+
+# Make the path absolute
+[ "$workdir" = "${workdir#/}" ] && workdir="${PWD}"/"$workdir"
+
+if  [ -e "$workdir" ] 
+then
+    [ -d "$workdir" ]      || \
+         abort "prepare_workdir: ${workdir} is not a directory. Aborting..."
+else
+    "$MKDIR" -p "$workdir" || \
+         abort "prepare_workdir: Could not create working directory $workdir. Aborting..."
+fi
+
+[ -r "$workdir" -a -w "$workdir" -a -x "$workdir" ]  || \
+     abort "prepare_workdir: Working directory $workdir:" \
+           "\nNeeded access rights rwx not all set. Aborting..."
+
+local testfile="${workdir}/prepare_workdir.$$.$$"
+echo "$testfile" > "$testfile" ; "$RM" "$testfile" || \
+     abort "prepare_workdir: Working directory $workdir:" \
+           "\nCannot create or remove files there (maybe filesystem full or read-only?)" \
+           "\nAborting..."
+}
+
+#  Standard substitutions to form a logfile header
+#  from a given template
+#
+#  Call: prepare_logheader template destination-file [verbose]
+#
+#  If the third arg is the string "verbose", nonfatal errors will
+#  lead to warning dialogues. 
+#
+#  Return value is 0 on success, 1 on errors.
+#
+#  Some global shell variables are used to fill in the header.
+#  They should be set accordingly before calling prepare_logheader :
+#
+#  $cmdline, $tester, $manufac_type, $kernel_descr, $workdir
+#
+#
+function prepare_logheader() {
+local template="$1"
+local destfile="$2"
+local verbose="$3"
+
+if ! check_for_needed_cmds "$AWK" "$BC" "$DATE" "$GREP" "$IFCONFIG" "$LS" \
+                           "$MKTEMP" "$RM" "$SED" "$TOUCH" "$TUNE2FS" "$UNAME" 
+then
+    [ "$verbose" == verbose ] && \
+        warn "prepare_logheader: Log header will be empty. Proceed anyway?"
+    > "$destfile" echo -e \
+    "\n=======  WARNING: EMPTY LOGFILE HEADER  =======\n"
+    return 1
+fi
+
+# Check access to given files
+#
+if ! "$TOUCH" "$destfile" && [ -f "$destfile" -a -w "$destfile" ]
+then
+    [ "$verbose" == verbose ] && \
+       warn "prepare_logheader: ${destfile}: Not a writable file" \
+    return 1
+fi
+if ! [ -f "$template" -a -r "$template" ] 
+then
+    [ "$verbose" == verbose ] && \
+        warn "prepare_logheader: $template: Not a readable template file." \
+             "\nLog header will be empty.  Proceed anyway?"
+    > "$destfile" echo -e \
+    "\n===  WARNING: EMPTY LOGFILE HEADER -- no template available  ===\n"
+    return 1 
+fi
+
+#  Host info
+#
+fqdn=$("$HOSTNAME_bin" )
+[ -z "$netif" ] && netif=eth0
+ipaddr=$("$IFCONFIG" $netif 2>/dev/null | \
+         "$SED" -n -e "/^  *inet addr:/s,^  *inet addr:\([^ ]*\) .*$,\1,p")
+
+[ -z "$suseversion" ] && \
+    if [ -f /etc/SuSE-release ]
+    then
+            suseversion=$( "$SED" 1q /etc/SuSE-release )
+    else
+        [ "$verbose" == verbose ] && \
+            warn "Not found: /etc/SuSE-release. Cannot insert SuSE version" \
+                 " into log. Continue anyway?"
+    fi
+
+logdate=$( $DATE +"%m/%d/%Y (%d.%m.%Y) %H:%M")  # US and german date format 
+kernel_version="$( $UNAME --release )"     # 2.2.13 or so
+kernel_uname_a="$( $UNAME -a )"            # everything
+
+
+#  CPU info
+#
+# Detect cpu_numberof at runtime (it is safer that way),
+# trust /etc/certify.conf for cpu_type and cpu_freq
+#
+# if [ -z "$cpu_numberof" -o -z "$cpu_type" -o  -z "$cpu_freq" ]
+# then
+    cpu_numberof="UNKNOWN Number"    # First: Fallbacks as defaults
+    [ -z "$cpu_type" ] && cpu_type="UNKNOWN CPU Type"
+    [ -z "$cpu_freq" ] && cpu_freq="UNKNOWN CPU Frequency"
+    
+    if [ -f /proc/cpuinfo ]
+    then
+            cpu_numberof=$( "${GREP}" -c "^processor" /proc/cpuinfo )
+            phys_cpus="$( </proc/cpuinfo "${GREP}" "^physical id" | \
+                                 "${UNIQ}" | "${WC}" -l )"
+            phys_cpus="$( echo $phys_cpus )" # no leading whitesp.
+            if [ $phys_cpus -gt 0 -a $cpu_numberof -ne $phys_cpus ]
+            then
+                cpu_numberof="${phys_cpus}x (${cpu_numberof}x log.)"
+            else
+                cpu_numberof="${cpu_numberof}x"
+            fi
+            [ "$cpu_type" == "UNKNOWN CPU Type" ] && \
+            cpu_type=$( ${SED} -n '/^model name	: / {
+                                   s,,,p
+                                   q
+                                   }'      /proc/cpuinfo )
+            [ "$cpu_freq" == "UNKNOWN CPU Frequency" ] && \
+            cpu_freq=$( ${SED} -n '/^cpu MHz		: / {
+                                   s,,,p
+                                   q
+                                   }'      /proc/cpuinfo )
+    
+    else
+        [ "$verbose" == verbose ] && \
+            warn "Not found: /proc/cpuinfo." \
+                 "\nCannot include CPU information into Log. Continue anyway?"
+    fi      #  Done: Getting CPU info
+# fi
+
+#  RAM Size (unconditionally detected at runtime for safety)
+#  A "mem=xxx" boot parameter is detected and logged.
+#
+local ram_mbytes_cconf=0
+# assume /etc/certify.conf stored the physical amount of RAM into 
+# $ram_mbytes -- save it
+[ -n "$ram_mbytes" ] && ram_mbytes_cconf="$ram_mbytes"
+ram_mbytes="UNKNOWN RAM size"   #  Fallback
+ 
+if [ -f /proc/meminfo ]
+then
+    # since the /proc/meminfo values are always a few MByte below
+    # the true amount of active RAM, we routinely round up to the
+    # next multiple of 32 MB -- which, hopefully, will hit the mark
+    # on all today's machines
+    ram_mbytes_c="$( {  echo -n "((" ;\
+    "$AWK" 'BEGIN { ORS = " " } ; /^MemTotal: / { print $2 ; exit }' \
+    /proc/meminfo ; echo -e " - 1)/32768 + 1) * 32\nquit" ; } | "$BC" )"
+    if [ -n "$ram_mbytes_c" ]
+    then
+        ram_mbytes="$ram_mbytes_c MByte"
+        if [ -f /proc/cmdline ]
+        then
+        local memparam="$( "$SED" -n -e '/mem=/s,^.*\(mem=[^ ]*\).*$,\1,p' /proc/cmdline )"
+        fi
+        if [ -n "$memparam" ] 
+        then
+            ram_mbytes="$ram_mbytes_c MByte (phys. ${ram_mbytes_cconf} MByte; boot param. ${memparam})"
+        fi
+    else
+        [ "$verbose" == verbose ] && \
+        warn "Unable to calculate RAM size from /proc/meminfo." \
+             "\nCannot include RAM size information into Log. Continue anyway?"
+    fi
+else  
+    [ "$verbose" == verbose ] && \
+        warn "Not found: /proc/meminfo." \
+             "\nCannot include RAM size information into Log. Continue anyway?"
+fi      #  Done: Getting RAM size info
+
+#  Partitioning and info about the filesystem workdir resides on
+#
+if [ -n "$workdir" ]
+then
+    [ -z "$df_workdir" ] && df_workdir="$("$DF" -P "$workdir")"
+    workdevice=$(echo "$df_workdir" | "$SED" -n -e 's,^\([^ ][^ ]*\)[0-9 ]*%.*$,\1,p')
+    work_mntpt=$(echo "$df_workdir" | "$SED" -n  -e 's,^[^ ]* [0-9 ]*% \(/.*\)$,\1,p')
+    workdev_fs=$( "$MOUNT" | \
+                  "$SED" -n -e "s,^$workdevice on $work_mntpt type "'\([^ ]*\) .*$,\1,p' )
+    if [ "$workdev_fs" == ext2 ]
+    then
+        ext2fs_bsize=$("$TUNE2FS" -l "$workdevice" 2>/dev/null | \
+               "$SED" -n -e "/^Block size:/s%^[^0-9]*\([0-9].*\)$%\1%p")
+    else
+        ext2fs_bsize="(undefined)"
+    fi
+fi
+
+local files_to_cleanup=""
+
+#  Template wants PCI info about USB controllers?
+#
+if "$GREP" -q "^--@lspciusb@--" "$template"
+then
+    local usbhosts
+    if ! usbhosts="$( "$MKTEMP" -q /tmp/usbhosts.XXXXXX )"
+    then
+        [ "$verbose" == verbose ] && \
+            warn "\
+prepare_logheader: Unable to retrieve USB controller info.  Proceed anyway?"
+        usbhosts=/dev/null
+    else
+        files_to_cleanup="$files_to_cleanup $usbhosts"
+        get_usbhosts "$usbhosts" "$verbose"
+    fi
+fi
+
+#  Template wants USB boot and pegasus driver messages?
+#
+if "$GREP" -q "^--@usbbootmessages@--" "$template"
+then
+    local usbboot
+    if ! usbboot="$( "$MKTEMP" -q /tmp/usbboot.XXXXXX )"
+    then
+        [ "$verbose" == verbose ] && \
+            warn "\
+prepare_logheader: Unable to retrieve USB boot messages. Proceed anyway?"
+        usbboot=/dev/null
+    else 
+        files_to_cleanup="$files_to_cleanup $usbboot"
+        get_usbmsgs "$usbboot" "" "$verbose"
+        local pegasusversion="$( "$SED" -n -e \
+           '/pegasus\.c/ {
+           s,^.*pegasus\.c: \(v.*):\).*$,\1,p
+           q
+        }' "$usbboot" )"
+    fi
+fi
+
+#  Template wants HDD boot messages?
+#
+if "$GREP" -q "^--@hddbootmessages@--" "$template"
+then
+    local hddboot
+    if ! hddboot="$( "$MKTEMP" -q /tmp/hddboot.XXXXXX )"
+    then
+        [ "$verbose" == verbose ] && \
+            warn "\
+prepare_logheader: Unable to retrieve hdd boot messages. Proceed anyway?"
+        hddboot=/dev/null
+    else 
+        files_to_cleanup="$files_to_cleanup $hddboot"
+        get_hddbootmsg "$hddboot" "$verbose"
+    fi
+fi
+
+#  Template wants /proc info about SCSI and RAID hosts?
+#
+if "$GREP" -q "^--@procscsiraidhosts@--" "$template"
+then
+    local prochosts
+    if ! prochosts="$( "$MKTEMP" -q /tmp/prochosts.XXXXXX )"
+    then
+        [ "$verbose" == verbose ] && \
+            warn "\
+prepare_logheader: Unable to retrieve SCSI/RAID host info from /proc.
+                   Proceed anyway?"
+        prochosts=/dev/null
+    else
+        files_to_cleanup="$files_to_cleanup $prochosts"
+        get_proc_scsi_raid "$prochosts" "$verbose"
+    fi
+fi
+
+## Debugging
+## >&2 echo "\
+## DEBUGGING:  Values found:
+## DEBUGGING:  cpu_numberof:        $cpu_numberof
+## DEBUGGING:  cpu_type:            $cpu_type
+## DEBUGGING:  cpu_freq:            $cpu_freq
+## DEBUGGING:  ram_mbytes:          $ram_mbytes"
+## DEBUGGING:  workdevice:          $workdevice"
+## DEBUGGING:  workdev_fs:          $workdev_fs"
+## DEBUGGING:  ext2fs_bsize:        $ext2fs_bsize"
+
+# Now do the header
+#
+> "$destfile"  <"$template" "$SED"  "\
+s%--@date@--%${logdate}%
+t
+s%--@tester@--%${tester}%
+t
+s%--@fqdn@--%${fqdn}%
+s%--@netif@--%${netif}%
+s%--@ipaddr@--%${ipaddr}%
+t
+s%--@manufac_type@--%${manufac_type}%
+t
+s%--@cpu_numberof@--%${cpu_numberof}%
+s%--@cpu_type@--%${cpu_type}%
+s%--@cpu_freq@--%${cpu_freq}%
+t
+s%--@ram_mbytes@-- *MByte%${ram_mbytes}%
+t
+s%--@ram_mbytes@--%${ram_mbytes}%
+t
+s%--@kernel_version@--%${kernel_version}%
+s%--@kernel_uname-a@--%${kernel_uname_a}%
+s%--@suseversion@--%${suseversion}%
+s%--@kernel_descr@--%${kernel_descr}%
+t
+/^--@proccmdline@--/{
+                       r /proc/cmdline
+                       d
+}
+/^--@lspciusb@--/   {
+                       r ${usbhosts}
+                       d
+}
+s%--@pegasusversion@--%${pegasusversion}%
+t
+/^--@usbbootmessages@--/ {
+                       r ${usbboot}
+                       d
+}
+/--@procbususbdevices@--/ {
+                       r /proc/bus/usb/devices
+                       d
+}
+/^--@hddbootmessages@--/ {
+                       r ${hddboot}
+                       d
+}
+/^--@procscsiraidhosts@--/ {
+                       r ${prochosts}
+                       d
+}
+/^--@procscsiscsi@--/ {
+                       r /proc/scsi/scsi
+                       d
+}
+s%--@workdevice@--%${workdevice}%
+t
+s%--@filesystem@--.*$%${workdev_fs}%
+t
+s%--@workdir@--%${workdir}%
+t
+s%--@ext2fs_bsize@--%${ext2fs_bsize}%
+t
+s%--@cmdline@--%${cmdline}%"
+
+# not needed anymore...
+unset -f get_hddbootmsg get_proc_scsi_raid
+[ -n "$files_to_cleanup" ] && "$RM" -f $files_to_cleanup
+
+}  #  End function prepare_logheader
+
+
+#  Call lspci to get the PCI info about present USB controllers
+#  into a given destfile
+#
+#  Call: get_usbhosts destination-file [verbose]
+#
+#  If the second arg is the string "verbose", nonfatal errors will
+#  lead to warning dialogues. 
+#
+#  Return value is 0 on success, 1 on errors.
+#
+#
+function get_usbhosts() {
+local destfile="$1"
+local verbose="$2"
+
+if ! check_for_needed_cmds "$GREP" "$LSPCI" "$TOUCH"
+then
+    [ "$verbose" == verbose ] && \
+        warn "get_usbhosts: Unable to retrieve anything. Proceed anyway?"
+    > "$destfile" 2>/dev/null echo -e \
+    "\n=======  WARNING: NO PCI USB Controller INFO  =======\n"
+    return 1
+fi
+
+if ! { "$TOUCH" "$destfile" && [ -f "$destfile" -a -w "$destfile" ] ; }
+then
+    [ "$verbose" == verbose ] && \
+       warn "get_usbhosts: ${destfile}: Not a writable file" \
+    return 1
+fi   
+
+"$LSPCI" -v |  > "$destfile" "$SED" -n -e \
+   '/USB/s,^..:.* USB Controller: ,                              ,p'
+
+return $!
+
+}  # End function  get_usbhosts
+
+
+#  Get the SCSI and RAID-controller info available from /proc
+#  into a given destfile
+#
+#  Call: get_proc_scsi_raid destination-file [verbose]
+#
+#  If the second arg is the string "verbose", nonfatal errors will
+#  lead to warning dialogues. 
+#
+#  Return value is 0 on success, 1 on errors.
+#
+#
+function get_proc_scsi_raid() {
+local destfile="$1"
+local verbose="$2"
+
+if ! { "$TOUCH" "$destfile" && [ -f "$destfile" -a -w "$destfile" ] ; }
+then
+    [ "$verbose" == verbose ] && \
+       warn "get_proc_scsi_raid: ${destfile}: Not a writable file" \
+    return 1
+fi   
+
+if ! check_for_needed_cmds "$CAT" "$TOUCH"
+then
+    [ "$verbose" == verbose ] && \
+        warn "get_proc_scsi_raid: Unable to retrieve anything. Proceed anyway?"
+    > "$destfile" echo -e \
+    "\n=======  WARNING: NO /proc SCSI or RAID INFO  =======\n"
+    return 1
+fi
+
+#  scsi:          SCSI controllers and SCSI RAID controllers
+#                 (uninteresting: /proc/scsi/ide-scsi/*)
+#  rd  :          Mylex DAC960 family RAID controllers
+#  array, cciss:  Compaq old/new SMART RAID controllers
+#
+local sfile procfilelist=""
+for sfile in  /proc/scsi/*/*  \
+              /proc/rd/*/current_status \
+              /proc/{driver/,}{{cpq,}array,cciss}/*
+do
+    [ -f "$sfile" -a "$sfile" == "${sfile%ide-scsi/*}" ] && \
+         procfilelist="$procfilelist $sfile"
+done
+
+ >"$destfile" echo -n
+
+for sfile in $procfilelist
+do
+    >>"$destfile" echo "\
+--------8<-----   START   $sfile  ----------8<---------"
+    >>"$destfile" "$CAT" "$sfile"
+    >>"$destfile" echo "\
+
+[ ... ]
+--------8<-----    END    $sfile  ----------8<---------
+
+"
+done
+
+return 0
+}  # End function  get_proc_scsi_raid
+
+
+#  Put the hard disk-related part from /var/log/boot.msg
+#  into a given destfile
+#
+#  Call: get_hddbootmsg destination-file [verbose]
+#
+#  If the second arg is the string "verbose", nonfatal errors will
+#  lead to warning dialogues. 
+#
+#  Return value is 0 on success, 1 on errors.
+#
+#
+function get_hddbootmsg() {
+local destfile="$1"
+local verbose="$2"
+local srcfile=/var/log/boot.msg
+
+if ! "$TOUCH" "$destfile" && [ -f "$destfile" -a -w "$destfile" ] 
+then
+    [ "$verbose" == verbose ] && \
+       warn "get_hddbootmsg: ${destfile}: Not a writable file" \
+    return 1
+fi 
+
+if ! [ -f "$srcfile" -a -r "$srcfile" ]
+then    [ "$verbose" == verbose ] && \
+       warn "get_hddbootmsg: ${srcfile}: Not a readable file" \
+    return 1
+fi 
+
+if ! check_for_needed_cmds "$SED" "$TOUCH"
+then
+    [ "$verbose" == verbose ] && \
+       warn "get_hddbootmsg: Unable to retrieve hdd boot messages. Proceed anyway?"
+
+    > "$destfile" echo -e \
+    "\n=======  WARNING: NO HDD BOOT MESSAGES RETRIEVED  =======\n"
+    return 1
+fi
+
+<"$srcfile" >>"$destfile" "$SED" -n \
+-e "/E-IDE driver/,/^<[0-9]>ide-floppy driver/ {
+    s,^<[0-9]>ide-floppy driver.*$,   ,
+    s,^...,,p
+    }"  \
+-e "/^<[0-9]>VFS: Mounted root (ext2 filesystem)\.$/,/^<[0-9]>VFS: Mounted root.*readonly/ {
+    /^<[0-9]>FAT: bogus logical sector size/q
+    /^<[0-9]>reiserfs: /q
+    /^<[0-9]>VFS: Mounted root/d
+    s,^...,,p
+   }"
+
+return $?
+
+}   # End function  get_hddbootmsg
+
+
+#  Get the USB-related messages since the last system startup from /var/log/messages
+#  and put them into a given destination file
+#
+#  Call: get_usbmsgs destination-file srcfile [verbose]
+#
+#  If the second arg is an empty string, the default 
+#  "/var/log/messages" is used.
+#  If the third arg is the string "verbose", nonfatal errors will
+#  lead to warning dialogues. 
+#
+#  Return value is 0 on success, 1 on errors.
+#
+#
+function get_usbmsgs() {
+
+local destfile="$1"
+local srcfile="$2"
+[ -z "$srcfile" ] && srcfile="/var/log/messages"
+local verbose="$3"
+
+if ! "$TOUCH" "$destfile" && [ -f "$destfile" -a -w "$destfile" ] 
+then
+    [ "$verbose" == verbose ] && \
+       warn "get_hddbootmsg: ${destfile}: Not a writable file" \
+    return 1
+fi 
+
+if ! [ -f "$srcfile" -a -r "$srcfile" ]
+then    [ "$verbose" == verbose ] && \
+       warn "get_hddbootmsg: ${srcfile}: Not a readable file" \
+    return 1
+fi 
+
+if ! check_for_needed_cmds "$SED" "$TOUCH"
+then
+    [ "$verbose" == verbose ] && \
+       warn "get_usbmsgs: Unable to retrieve USB messages. Proceed anyway?"
+
+    > "$destfile" echo -e \
+    "\n=======  WARNING: NO USB MESSAGES RETRIEVED  =======\n"
+    return 1
+fi
+
+<"$srcfile" >"$destfile" "$SED" -n \
+-e '/exiting on signal 15/ {
+        n
+        /syslogd [1-9]\.[-0-9.]*: restart./ {
+              h
+           :klogdmsgloop
+              n
+              H
+              /Loaded [0-9][0-9]* symbols/! b klogdmsgloop
+              H
+           :garbage1
+              /\(usb\)\|\(hub\.c\)/! {
+                    n
+                    b garbage1
+              }
+           :usbbootloop
+              /\(usb\)\|\(hub\.c\)/ {
+                    H
+                    n
+                    b usbbootloop
+              }
+           :garbage2
+              /pegasus\.c/! {
+                    n
+                    b garbage2
+              }
+              /pegasus\.c/ {
+                    H
+                    $ b lastline
+                    n
+                    H
+                    $ b lastline
+                    n
+                    H
+                    $ b lastline
+                    n
+                    H
+                    $ b lastline
+                    n
+                    H
+                    $ b lastline
+                    n
+                    H
+                    $ b lastline
+                    n
+                    H
+                    $ b lastline
+                    n
+                    H
+                    $ b lastline
+                    n
+                    H
+                    d
+              }
+       }
+}
+:lastline
+$ {
+  g
+   s,^... .. ..:..:.. Zert,Zert,
+  s,\n... .. ..:..:.. Zert,\
+Zert,g
+  p
+}'
+
+if ! [ -s "$destfile" ]
+then
+    > "$destfile" echo -e \
+    "\n=======  WARNING: NO USB MESSAGES RETRIEVED  =======\n"
+    return 1
+fi
+
+return $?
+
+}   # End function  get_usbmsgs
+
+
+#  Notify tester per mail upon termination of a test
+#  and forward the essential logfiles to the
+#  appropriate working directory of the "certify" account
+#
+#  Used global variables:
+#
+#    $PWD                is assumed to be the working dir of the just-finished
+#                        test where the original logfiles can be found.
+#
+#    $tester             e-mail of tester (available in all certification 
+#                        test scripts from cmdline or /etc/certify.conf)
+#
+#
+#    $architecture_dir
+#    $manufacturer_dir
+#    $type_dir           the components of the path to the log collection
+#                        of the test component (should be available from 
+#                        /etc/certify.conf): the full path used is
+#
+#  "$CERTIFY_HOME/$architecture_dir/$manufacturer_dir/$type_dir/tests-n-logs"
+#
+#    The destination directory for the logs to forward _relative to 
+#    this path_ must be provided as first argument:  
+#
+#
+#   Call: mail_tester_forward_logs fwd_dest logfile [logfile ... ]
+#
+
+
+function mail_tester_forward_logs () {
+#disabled for use in tc
+	return 0
+
+}  # End function mail_tester_forward_logs
+
+#  evaluate_dirlist()
+#
+#  Takes a colon-separated list of potential directories
+#  and returns the first actually-existing directory
+#  on stdout. Return value: 0 on success, 1 if no directory is found.
+#
+#  BUG: Obviously, directories containing colons in dirlist
+#       will cause trouble
+#
+function evaluate_dirlist() {
+local dir
+local dirlist="$1"
+local returncode=1
+
+while [ -n "$dirlist" ]
+do
+    dir="${dirlist%%:*}"
+    dirlist="${dirlist#${dir}}"
+    dirlist="${dirlist#:}"
+#    >&2 echo "DEBUG: evaluate_dirlist: dir=$dir , dirlist=$dirlist"
+    if [ -d "$dir" ]
+    then
+        returncode=0
+        break
+    fi
+done
+echo -n "$dir"
+return "$returncode"
+}   #  evaluate_dirlist()
+

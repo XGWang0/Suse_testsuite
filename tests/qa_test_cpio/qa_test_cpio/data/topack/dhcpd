@@ -1,0 +1,266 @@
+#! /bin/sh
+# Copyright (c) 1996, 1997, 1998 S.u.S.E. GmbH
+# Copyright (c) 1998, 1999, 2000, 2001 SuSE GmbH
+# Copyright (c) 2002 SuSE Linux AG
+#
+# Author: Rolf Haberrecker <rolf@suse.de>, 1997, 1998, 1999
+#         Peter Poeml <poeml@suse.de>, 2000, 2001, 2002
+#
+# /etc/init.d/dhcpd
+#   and its symbolic link
+# /usr/sbin/rcdhcpd
+#
+### BEGIN INIT INFO
+# Provides:            dhcpd
+# Required-Start:      $network $named $syslog xntpd
+# Required-Stop:      $network $named $syslog
+# Default-Start:       3 5
+# Default-Stop:        0 1 2 6
+# Description:         DHCP server
+### END INIT INFO
+
+
+test -s /etc/sysconfig/dhcpd && \
+      . /etc/sysconfig/dhcpd
+
+test "$DHCPD_RUN_CHROOTED" = "yes" && CHROOT_PREFIX=/var/lib/dhcp/
+DAEMON="DHCP server"
+DAEMON_BIN=/usr/sbin/dhcpd
+# DAEMON_BIN=/usr/sbin/dhcpd-2
+DAEMON_CONF=/etc/dhcpd.conf
+DAEMON_PIDFILE=/var/run/dhcpd.pid
+STARTPROC_LOGFILE=/var/tmp/rc.dhcpd.log
+SUPPORTS_HUP="no"
+
+test -x $DAEMON_BIN || exit 5
+
+# Shell functions sourced from /etc/rc.status:
+#      rc_check         check and set local and overall rc status
+#      rc_status        check and set local and overall rc status
+#      rc_status -v     ditto but be verbose in local rc status
+#      rc_status -v -r  ditto and clear the local rc status
+#      rc_failed        set local and overall rc status to failed
+#      rc_failed <num>  set local and overall rc status to <num><num>
+#      rc_reset         clear local rc status (overall remains)
+#      rc_exit          exit appropriate to overall rc status
+. /etc/rc.status
+
+# First reset status of this service
+rc_reset
+
+# Return values acc. to LSB for all commands but status:
+# 0 - success
+# 1 - generic or unspecified error
+# 2 - invalid or excess argument(s)
+# 3 - unimplemented feature (e.g. "reload")
+# 4 - insufficient privilege
+# 5 - program is not installed
+# 6 - program is not configured
+# 7 - program is not running
+# 
+# Note that starting an already running service, stopping
+# or restarting a not-running service as well as the restart
+# with force-reload (in case signalling is not supported) are
+# considered a success.
+
+# remove empty pid files to avoid disturbing warnings by checkproc/killproc
+# (these can occur if dhcpd does not start correctly)
+test -e $DAEMON_PIDFILE && ! test -s $DAEMON_PIDFILE && rm $DAEMON_PIDFILE
+test -e $CHROOT_PREFIX/$DAEMON_PIDFILE && ! test -s $CHROOT_PREFIX/$DAEMON_PIDFILE && rm $CHROOT_PREFIX/$DAEMON_PIDFILE
+
+case "$1" in
+    start)
+	echo -n "Starting $DAEMON "
+
+        ## If there is no conf file, skip starting of dhcpd
+        ## and return with "program not configured"
+	if ! [ -f $DAEMON_CONF ]; then
+		echo -e -n "... no configuration file found";
+		# Tell the user this has skipped
+		rc_status -s
+		# service is not configured
+		exit 6;
+	fi
+
+        ## If the interfaces are not set, skip starting of dhcpd
+        ## and return with "program not configured"
+	if [ -z "$DHCPD_INTERFACE" ]; then
+		echo -e -n "... no interface has been specified";
+		# Tell the user this has skipped
+		rc_status -s
+		# service is not configured
+		exit 6;
+	fi
+
+	## If $DHCPD_RUN_CHROOTED:
+	## copy the conf file to the chroot jail (dhcpd has to be restarted anyway, 
+	## when it has changed) and change path to leases file
+	if test "$DHCPD_RUN_CHROOTED" = "yes" ; then 
+		for i in $DAEMON_CONF $DHCPD_CONF_INCLUDE_FILES /etc/{resolv.conf,host.conf,hosts,localtime}; do
+			cp -p $i $CHROOT_PREFIX/etc/ &>/dev/null \
+				|| { echo "...$0:$LINENO: could not copy $i to chroot jail"; rc_failed; rc_status -v1; exit 6; }
+		done
+		libdir=/$(basename $(echo /var/lib/dhcp/lib*))
+		for i in /$libdir/{libresolv.so.2,libnss_dns{,6}.so.2}; do 
+			cp -p $i /var/lib/dhcp/$libdir/ \
+				|| { echo "...$0:$LINENO: could not copy $i to chroot jail"; rc_failed; rc_status -v1; exit 6; }
+		done
+		DHCPD_ARGS="-chroot $CHROOT_PREFIX -lf /dhcpd.leases"
+	fi
+
+	test "$DHCPD_RUN_AS" = "nobody" && DHCPD_ARGS="$DHCPD_ARGS -user nobody -group nogroup"
+
+	## check syntax with -t (output to log file) and start only when the syntax is okay
+	rm -f $STARTPROC_LOGFILE # start log
+	error=0
+	if ! $DAEMON_BIN -t -cf $CHROOT_PREFIX/$DAEMON_CONF > $STARTPROC_LOGFILE 2>&1 ; then
+		error=1
+	else
+		## Start daemon with startproc(8). If this fails
+		## the echo return value is set appropriate.
+		# startproc should return 0, even if service is 
+		# already running to match LSB spec.
+
+		test "$2" = "-v" && echo -en \
+			"\nexecuting '$DAEMON_BIN $DHCPD_ARGS $DHCPD_OTHER_ARGS $DHCPD_INTERFACE'"
+		startproc -l $STARTPROC_LOGFILE \
+		$DAEMON_BIN 			\
+		$DHCPD_ARGS	 		\
+		$DHCPD_OTHER_ARGS	 	\
+		$DHCPD_INTERFACE		\
+			|| error=1 
+	fi	
+	
+	if [ $error -eq 1 ]; then 
+		if [ $link = $base ] ; then 
+			cat $STARTPROC_LOGFILE 
+		else
+			echo -e -n "  please see $STARTPROC_LOGFILE for details ";
+		fi
+		## set status to failed
+		rc_failed
+	else
+		[ "$DHCPD_RUN_CHROOTED" = "yes" ] && echo -n "[chroot]" || :
+	fi
+
+	# Remember status and be verbose
+	rc_status -v
+	;;
+    stop)
+	echo -n "Shutting down $DAEMON "
+
+	## Stop daemon with killproc(8) and if this fails
+	## set echo the echo return value.
+
+	killproc -p $CHROOT_PREFIX/$DAEMON_PIDFILE -TERM $DAEMON_BIN
+
+	# Remember status and be verbose
+	rc_status -v
+	;;
+    try-restart)
+	## Stop the service and if this succeeds (i.e. the 
+	## service was running before), start it again.
+	$0 stop  &&  sleep 3  &&  $0 start
+
+	# Remember status and be quiet
+	rc_status
+	;;
+    restart)
+	## Stop the service and regardless of whether it was
+	## running or not, start it again.
+	$0 stop
+	sleep 3
+	$0 start
+
+	# Remember status and be quiet
+	rc_status
+	;;
+    force-reload)
+	## Signal the daemon to reload its config. Most daemons
+	## do this on signal 1 (SIGHUP).
+	## If it does not support it, restart.
+
+	echo -n "Reload service $DAEMON"
+
+	if [ "$SUPPORTS_HUP" = "yes" ]; then 
+		killproc -p $DAEMON_PIDFILE -HUP $DAEMON_BIN
+		#touch $DAEMON_PIDFILE
+		rc_status -v
+	else
+		$0 stop  &&  sleep 3  &&  $0 start
+		rc_status 
+	fi
+	;;
+    reload)
+	## Like force-reload, but if daemon does not support
+	## signalling, do nothing (!)
+
+	if [ "$SUPPORTS_HUP" = "yes" ]; then
+		# If it supports signalling:
+		echo -n "Reload service $DAEMON"
+		killproc -p $DAEMON_PIDFILE -HUP $DAEMON_BIN
+		#touch $DAEMON_PIDFILE
+		rc_status -v
+	else
+		## Otherwise if it does not support reload:
+		rc_failed 3
+		rc_status -v
+	fi
+	;;
+    status)
+	echo -n "Checking for $DAEMON: "
+	## Check status with checkproc(8), if process is running
+	## checkproc will return with exit status 0.
+
+	# Status has a slightly different for the status command:
+	# 0 - service running
+	# 1 - service dead, but /var/run/  pid  file exists
+	# 2 - service dead, but /var/lock/ lock file exists
+	# 3 - service not running
+
+	# NOTE: checkproc returns LSB compliant status values.
+	checkproc -p $CHROOT_PREFIX/$DAEMON_PIDFILE $DAEMON_BIN
+	rc_status -v
+	;;
+    probe)
+	## Optional: Probe for the necessity of a reload,
+	## give out the argument which is required for a reload.
+
+	rc=0
+	for i in /etc/sysconfig/dhcpd $DAEMON_CONF $DHCPD_CONF_INCLUDE_FILES; do
+		test $i -nt $CHROOT_PREFIX/$DAEMON_PIDFILE && rc=1
+	done
+	test $rc = 1 && echo restart
+	;;
+    check-syntax|syntax-check)
+	echo "Checking syntax of $DAEMON_CONF: "
+
+	## this nice bit is from Edwin Groothuis:
+	## check syntax (quiet)
+	$DAEMON_BIN -q -t -cf $DAEMON_CONF
+	if ! [ $? -eq 0 ]; then 
+		## check syntax (verbose)
+		$DAEMON_BIN -t -cf $DAEMON_CONF
+		echo -e '\nConfig is NOT okay\n'
+	else
+		echo 'Config is okay. Hope you also specified existent network devices ;) '
+
+		## in v3, lease file checking is also implemented
+		if [ $DAEMON_BIN != "/usr/sbin/dhcpd-2" ]; then
+			## check leases file (quiet)
+			$DAEMON_BIN -q -T -cf $DAEMON_CONF -lf /var/lib/dhcp/dhcpd.leases
+			if ! [ $? -eq 0 ]; then
+				## check leases file (verbose)
+				$DAEMON_BIN -T -cf $DAEMON_CONF -lf /var/lib/dhcp/dhcpd.leases
+				echo -e '\nLease file is NOT okay'
+			else
+				echo 'Lease file is okay'
+			fi
+		fi
+	fi
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe|check-syntax} [-v]"
+	exit 1
+esac
+rc_exit

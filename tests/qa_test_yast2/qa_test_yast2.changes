@@ -1,0 +1,41 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:53 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 08:12:57 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_yast2 -> qa_test_yast2
+
+-------------------------------------------------------------------
+Mon Dec  3 14:23:02 CET 2007 - llipavsky@suse.cz
+
+- fixed to work with gcc 4.3
+
+-------------------------------------------------------------------
+Mon Jul 17 11:43:44 CEST 2006 - llipavsky@suse.cz
+
+- fixed to comply with QA Packaging Guidelines
+
+-------------------------------------------------------------------
+Wed Jan 25 21:40:57 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Thu Jan 19 14:59:41 CET 2006 - kmachalkova@suse.cz
+
+- fixed tcf location (updated Packaging Guidelines)
+- fixed run-script location (updated Packaging Guidelines) 
+
+-------------------------------------------------------------------
+Thu Jan  5 15:13:51 CET 2006 - kmachalkova@suse.cz
+
+- added support for ctcs2
+
+-------------------------------------------------------------------
+Wed Sep  7 18:44:28 CEST 2005 - fseidel@suse.de
+
+- initial release
+

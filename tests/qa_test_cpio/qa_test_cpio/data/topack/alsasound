@@ -1,0 +1,222 @@
+#!/bin/bash
+#
+# alsasound     This shell script takes care of starting and stopping
+#               the ALSA sound driver.
+#
+# This script requires /usr/sbin/alsactl program from alsa-utils package.
+#
+# Copyright (c) by Jaroslav Kysela <perex@suse.cz> 
+#
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+# For RedHat 5.0+:
+# chkconfig: 2345 87 14
+# description: ALSA driver
+#
+# modified to visually fit into SuSE 6.0+ by Philipp Thomas <pthomas@suse.de>
+# further improvements by Bernd Kaindl, Olaf Hering and Takashi Iwai.
+# 
+### BEGIN INIT INFO
+# Provides:       alsasound
+# Required-Start: $remote_fs
+# Required-Stop: $remote_fs
+# Default-Start:  2 3 5
+# Default-Stop:
+# Description:    Loading ALSA drivers and store/restore the current setting
+### END INIT INFO
+
+. /etc/rc.status
+. /etc/sysconfig/sound
+
+test -z $LOAD_ALSA_SEQ && LOAD_ALSA_SEQ=yes
+
+# Shell functions sourced from /etc/rc.status:
+#      rc_check         check and set local and overall rc status
+#      rc_status        check and set local and overall rc status
+#      rc_status -v     ditto but be verbose in local rc status
+#      rc_status -v -r  ditto and clear the local rc status
+#      rc_failed        set local and overall rc status to failed
+#      rc_reset         clear local rc status (overall remains)
+#      rc_exit          exit appropriate to overall rc status
+
+# First reset status of this service
+rc_reset
+
+alsactl=/usr/sbin/alsactl
+asoundcfg=/etc/asound.state
+aconnect=/usr/bin/aconnect
+alsascrdir=/etc/alsa.d
+
+# modprobe returns 255 when failed..
+function probe_module () {
+   /sbin/modprobe $*
+   test $? = 0 && return 0
+   return 1
+}
+
+function start() {
+  #
+  # insert all sound modules
+  #
+  module_loaded=0
+  c=""
+  drivers=`/sbin/modprobe -c | \
+    grep -E "^[[:space:]]*alias[[:space:]]+snd-card-[[:digit:]]" | sort |\
+    awk '{print $3}'`
+  for i in $drivers; do
+    if [ $i != off ]; then
+      if [ x$c = x ]; then
+        echo -n ": "
+	c=1
+      fi
+      echo -n " ${i##snd-}"
+      probe_module $i && module_loaded=1
+    fi
+  done
+  rc_status -v -r
+  test $module_loaded -eq 0 && return
+  #
+  # insert sequencer modules
+  #
+  if [ x"$LOAD_SEQUENCER" = xyes -a -r /proc/asound/seq/drivers ]; then
+    cut -d , -f 1 /proc/asound/seq/drivers | \
+    while read t ; do
+      test -z $t || /sbin/modprobe $t
+    done
+  fi
+  # check ALSA driver version 0.9
+  if head -1 /proc/asound/version | grep -q '0\.9'; then
+    :
+  else
+    echo -n "The running ALSA driver looks obsolete.  Stop ALSA now."
+    stop
+    rc_failed 1
+    rc_status -v
+    return
+  fi
+  #
+  # restore driver settings
+  #
+  if [ -d /proc/asound ]; then
+    if [ ! -r $asoundcfg ]; then
+      if [ -x /usr/bin/set_default_volume ]; then
+        echo "No mixer config is found - adjusting default volumes"
+        /usr/bin/set_default_volume
+      else
+        echo "No mixer config in $asoundcfg, you have to unmute your card!"
+      fi
+    else
+      echo -n "Restoring the previous sound setting"
+      $alsactl -f $asoundcfg restore >/dev/null 2>&1
+      rc_status -v
+    fi
+  fi
+  #
+  # run card-dependent scripts
+  for i in $drivers; do
+    t=${i##snd-}
+    if [ -x $alsascrdir/$t ]; then
+      $alsascrdir/$t
+    fi
+  done
+}
+
+function terminate() {
+  #
+  # Kill processes holding open sound devices
+  #
+  # DEVS=`find /dev/ -follow -type c -maxdepth 1 -print 2>/dev/null | xargs ls -dils | grep "1*1[46]," | cut -d: -f2 | cut -d" " -f2; echo /proc/asound/dev/*`
+  ossdevs="/dev/admmidi? /dev/adsp? /dev/amidi? /dev/audio* /dev/dmfm* \
+     /dev/dmmidi? /dev/dsp* /dev/dspW* /dev/midi0? /dev/mixer? /dev/music \
+     /dev/patmgr? /dev/sequencer* /dev/sndstat"
+  alsadevs="/proc/asound/dev/*"
+  fuser -k $ossdevs $alsadevs 2> /dev/null 1>/dev/null
+  #
+  # remove all sequencer connections if any
+  #
+  if [ -f /proc/asound/seq/clients -a -x $aconnect ]; then
+    $aconnect --removeall
+  fi
+}
+
+function stop() {
+  #
+  # store driver settings
+  #
+  $alsactl -f $asoundcfg store
+  #
+  # remove all sound modules
+  #
+  /sbin/lsmod | grep -E "^(snd|soundcore|gameport)" | grep -v "snd-rme9652-mem" | while read line; do \
+     /sbin/rmmod `echo $line | cut -d ' ' -f 1`; \
+  done
+}
+
+# See how we were called.
+case "$1" in
+  start)
+        # Start driver if it isn't already up.
+	echo -n "Starting sound driver"
+	if [ ! -d /proc/asound ]; then
+	  start
+          rc_status
+	else
+	  echo -n ":  already running"
+          rc_status -v
+	fi
+        ;;
+  stop)
+        # Stop daemons.
+        echo -n "Shutting down sound driver"
+	if [ -d /proc/asound ]; then
+	  terminate
+	  stop
+	fi
+	rc_status -v
+        ;;
+  try-restart)
+        $0 status >/dev/null && $0 restart
+	rc_status
+	;;
+  restart)
+	$0 stop
+	$0 start
+        rc_status
+	;;
+  force-reload)
+	$0 stop && $0 start
+	rc_status
+	;;
+  reload)
+        rc_failed 3
+	rc_status -v
+	;;
+  status)
+        if [ -d /proc/asound ]; then
+          echo -n "ALSA sound driver loaded."
+          rc_status -v
+        else
+          echo -n "ALSA sound driver not loaded."
+	  rc_status -u
+        fi
+        ;;
+  *)
+	echo "Usage: $0 {start|stop|try-restart|restart|force-reload|reload|status}"
+        exit 1
+esac
+
+rc_exit

@@ -1,0 +1,41 @@
+diff -Nur build-imagemagick//downloads.xml phoronix-test-suite/pts/test-resources/build-imagemagick//downloads.xml
+--- build-imagemagick//downloads.xml	2011-02-21 16:17:21.801494032 +0800
++++ phoronix-test-suite/pts/test-resources/build-imagemagick//downloads.xml	2011-02-21 16:17:57.050556553 +0800
+@@ -1,9 +1,9 @@
+ <PhoronixTestSuite>
+ 	<Downloads>
+ 		<Package>
+-			<URL>http://ftp.sunet.se/pub/multimedia/graphics/ImageMagick/ImageMagick-6.5.5-3.tar.bz2, http://se.aminet.net/pub/multimedia/graphics/ImageMagick/ImageMagick-6.5.5-3.tar.bz2</URL>
+-			<MD5>2435951dac6e658e927a8f076d64b1d7</MD5>
+-			<FileSize>8823928</FileSize>
++			<URL>ftp://ftp.sunet.se/pub/multimedia/graphics/ImageMagick/ImageMagick-6.6.7-8.tar.bz2</URL>
++			<MD5>a64a9660e26e852a0de9662bb30bb136</MD5>
++			<FileSize>10126476</FileSize>
+ 		</Package>
+ 	</Downloads>
+ </PhoronixTestSuite>
+diff -Nur build-imagemagick//install.sh phoronix-test-suite/pts/test-resources/build-imagemagick//install.sh
+--- build-imagemagick//install.sh	2011-02-21 16:17:21.801494032 +0800
++++ phoronix-test-suite/pts/test-resources/build-imagemagick//install.sh	2011-02-21 16:17:57.050556553 +0800
+@@ -1,9 +1,9 @@
+ #!/bin/sh
+ 
+ echo "#!/bin/sh
+-rm -rf ImageMagick-6.5.5-3/
+-tar -xjf ImageMagick-6.5.5-3.tar.bz2
+-cd ImageMagick-6.5.5-3/
++rm -rf ImageMagick-6.6.7-8/
++tar -xjf ImageMagick-6.6.7-8.tar.bz2
++cd ImageMagick-6.6.7-8/
+ ./configure > /dev/null
+ sleep 3
+ \$TIMER_START
+diff -Nur build-imagemagick//post.sh phoronix-test-suite/pts/test-resources/build-imagemagick//post.sh
+--- build-imagemagick//post.sh	2011-02-21 16:17:21.801494032 +0800
++++ phoronix-test-suite/pts/test-resources/build-imagemagick//post.sh	2011-02-21 16:17:57.050556553 +0800
+@@ -1,4 +1,4 @@
+ #!/bin/sh
+ 
+-rm -rf ImageMagick-6.5.0-6/
++rm -rf ImageMagick-6.6.7-8/
+ 

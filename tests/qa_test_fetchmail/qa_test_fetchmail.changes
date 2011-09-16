@@ -1,0 +1,31 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 09:58:42 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_fetchmail -> qa_test_fetchmail
+
+-------------------------------------------------------------------
+Wed Nov 19 11:58:11 CET 2008 - mmrazik@suse.cz
+
+- make fetchmail-run executable
+
+-------------------------------------------------------------------
+Thu Oct 23 15:46:21 CEST 2008 - puzel@suse.cz
+
+- update to 0.2
+  - use cyrus-imapd
+  - use libqainternal for some tasks
+
+-------------------------------------------------------------------
+Thu Jan 10 14:12:05 CET 2008 - mmrazik@suse.cz
+
+- enable required xinetd services (imap, pop3) automatically
+
+-------------------------------------------------------------------
+Fri Jun 23 11:15:18 CEST 2006 - mmrazik@suse.cz
+
+- initial release

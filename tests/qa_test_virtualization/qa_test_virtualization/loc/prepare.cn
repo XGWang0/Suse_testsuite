@@ -1,0 +1,15 @@
+#!/bin/bash
+
+MOUNT_DIR1="/MOUNT-VIRT"
+MOUNT_DIR2="/VIRT-ISO"
+
+for dir in $MOUNT_DIR1 $MOUNT_DIR2
+do
+	if [ -e $dir -a "`ls $dir 2>/dev/null | wc -l`" -gt 0 ] ; then
+		echo "Error: Directory $dir already exist and is nonempty. Terminating..."
+		exit 11
+	fi
+done
+
+mkdir -p $MOUNT_DIR1 && mount -t nfs 147.2.207.208:/srv/ftp/dist/install $MOUNT_DIR1
+mkdir -p $MOUNT_DIR2 && mount -t nfs 147.2.207.242:/mirror_a/VIRT-ISO $MOUNT_DIR2

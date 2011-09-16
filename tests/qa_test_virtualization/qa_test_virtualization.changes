@@ -1,0 +1,87 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:53 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Fri Aug 12 10:12:17 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_virtualization -> qa_test_virtualization
+
+-------------------------------------------------------------------
+Wed Jun  8 15:46:51 CEST 2011 - llipavsky@suse.cz
+
+- Sources and settings for various locations are now defined in
+  virtuatolib
+
+-------------------------------------------------------------------
+Fri Apr  1 10:56:29 CEST 2011 - llipavsky@suse.cz
+
+- Add cleanup as reaction to SIGINT (however, the machine that is
+  being installed might still be running!)
+
+-------------------------------------------------------------------
+Tue Mar  8 17:38:54 CET 2011 - llipavsky@suse.cz
+
+- add sles11sp1 supported testruns
+
+-------------------------------------------------------------------
+Mon Dec 20 11:15:53 CET 2010 - llipavsky@suse.cz
+
+- make sure dhcp leases is readable in standalone mode
+
+-------------------------------------------------------------------
+Tue Nov 16 13:23:22 CET 2010 - llipavsky@suse.cz
+
+- add sles10sp4 supported testruns
+
+-------------------------------------------------------------------
+Mon Oct 18 14:23:49 CEST 2010 - llipavsky@suse.cz
+
+- use net instead of http & ftp -> different locations have 
+  different sources
+
+-------------------------------------------------------------------
+Fri Oct  8 11:14:35 CEST 2010 - llipavsky@suse.cz
+
+- sisabled fns installation sources, since they were problematic
+
+-------------------------------------------------------------------
+Tue Jul 20 16:43:29 CEST 2010 - llipavsky@suse.cz
+
+- Moved to support new structure of virtautolib (netinfo server)
+
+-------------------------------------------------------------------
+Tue Jul 13 14:21:16 CEST 2010 - llipavsky@suse.cz
+
+- Network support
+
+-------------------------------------------------------------------
+Fri May 28 15:17:20 CEST 2010 - llipavsky@suse.cz
+
+- added downloading of kernel/initrd from installation sources
+  to the standalone pxe server -> allow full virtualized linux
+  network installations
+
+-------------------------------------------------------------------
+Thu May 27 11:19:58 CEST 2010 - llipavsky@suse.cz
+
+- added 11.3 install sources (but not set them yet) - not enabled 
+  yet
+- split configuration to the settings & sources part
+
+-------------------------------------------------------------------
+Thu May 20 14:11:07 CEST 2010 - llipavsky@suse.cz
+
+- Generation of testcases
+
+-------------------------------------------------------------------
+Tue May  4 15:18:19 CEST 2010 - llipavsky@suse.cz
+
+- Location support 
+
+-------------------------------------------------------------------
+Wed Apr 28 09:05:09 CEST 2010 - llipavsky@suse.cz
+
+- Initial release 
+

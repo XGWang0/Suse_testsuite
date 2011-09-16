@@ -1,0 +1,205 @@
+-------------------------------------------------------------------
+Mon Aug 15 14:47:31 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: fio -> qa_test_fio
+
+-------------------------------------------------------------------
+Thu Nov  5 09:23:24 UTC 2009 - pascal.bleser@opensuse.org
+
+- update to 1.35:
+  * fixes some parser bugs
+  * fixes the shared memory allocator
+  * reserved keywords are now supported in job files
+  * a few fixes were made for verifying workloads
+  * fixed a hang when resolving component devices of md/dm arrays
+  * IO log replay fixes and additions were made
+  * fixed a hang due to an incorrect mutex clock source
+  * added support for wider than 32-bit pattern verifies
+  * fixed a few races when using async verifier threads
+  * fixed a hang with the async engine and IO depth batch settings
+
+-------------------------------------------------------------------
+Fri Jul 10 00:00:00 CEST 2009 - pascal.bleser@opensuse.org
+
+- update to 1.31:
+  * fixes completion latency numbers (they would read 0)
+  * fixes an alignment bug
+  * improves the speed of the mmap engine on 64-bit architectures
+  * adds support for asynchronous "verify" offload threads to speed "verify" workloads
+
+- changes from 1.29:
+  * fixes and improvements for the IO limiting rate option
+  * fix for submission latency numbers in some cases
+  * fix for a bug in the job parser that would sometimes truncate the postfix value when multiple values were given
+  * a continue_on_error option was added to allow a job to keep running if it sees non-fatal errors
+  * a bug in the mmap engine with large files and 32-bit machines was fixed
+  * support for fdatasync() was added with the fdatasync option
+  * an iomem_align option was added for fine-grained control over IO buffer memory alignment
+  * the pre_read option was fixed and no longer attempts to pre-read on IO engines that cannot seek
+
+-------------------------------------------------------------------
+Wed Jun  3 00:00:00 CEST 2009 - pascal.bleser@opensuse.org
+
+- update to 1.27:
+  * corruption of submission/completion latency logs for shared files was fixed
+  * blocksizes are included in latency logs
+  * a "pre_read" option was added to pre-read files into memory before starting the job
+  * exec_prerun/postrun now invokes a shell
+  * accuracy of disk util stats was improved
+  * large files are supported with an mmap engine on 32-bit architectures
+  * ETA stats were improved with better throughput reporting, and IOPS reporting was added there too
+  * the man page was fixed based on lintian
+
+-------------------------------------------------------------------
+Wed Apr 22 00:00:00 CEST 2009 - pascal.bleser@opensuse.org
+
+- update to 1.26:
+  * a crash with multiple files for a job was fixed
+  * reporting of throughput was corrected, as it was sometimes off by about
+    2.4%
+  * IO logging is allowed for diskless engines
+  * support was added for different weights for reads and writes with the
+    bssplit= option
+  * a crash with engines not supporting get_file_size() was fixed
+  * a sample SSD performance analysis job was added
+  * a problem was fixed with IO offsets sometimes being too large, causing
+    early exit of failed IO verification
+
+-------------------------------------------------------------------
+Tue Feb 10 00:00:00 CET 2009 - guru@unixtech.be
+
+- update to 1.24:
+  * UDP support to the network IO engine
+  * gettimeofday() optimizations
+  * fixes a bug related to crashing the parser
+  * fixes various bugs in the shared memory allocator
+  * fixes /tmp file leaks
+  * fixes CPU mask options on large systems
+
+-------------------------------------------------------------------
+Fri Oct 10 00:00:00 CEST 2008 - guru@unixtech.be
+
+- update to 1.22:
+  * adds support for hardware accelerated CRC-32 calculation for verification
+    (on supported Intel platforms w/SSE4.2)
+  * adds option priorities to get rid of manual option ordering
+  * increase the range of the smalloc allocator
+  * adds a ramp time option to allow job warm up before doing any measurements
+  * adds support for detailing RAID/LVM component utilization
+  * many little bugfixes
+
+-------------------------------------------------------------------
+Sat Jun  7 00:00:00 CEST 2008 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Wed Apr 30 00:00:00 CEST 2008 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Mon Feb 18 00:00:00 CET 2008 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Tue Feb  5 00:00:00 CET 2008 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Fri Feb  1 00:00:00 CET 2008 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Sun Dec 30 00:00:00 CET 2007 - guru@unixtech.be
+
+- moved to benchmark
+
+-------------------------------------------------------------------
+Tue Oct 30 00:00:00 CET 2007 - guru@unixtech.be
+
+- moved to openSUSE Build Service
+- new upstream version
+
+-------------------------------------------------------------------
+Wed Aug 15 00:00:00 CEST 2007 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Tue Jun 19 00:00:00 CEST 2007 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Wed Apr 25 00:00:00 CEST 2007 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Wed Mar 28 00:00:00 CEST 2007 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Wed Mar 14 00:00:00 CET 2007 - guru@unixtech.be
+
+- new upstream version
+- CHANGES: group reporting was added for better handling of large jobs
+- CHANGES: error handling and reporting were improved
+- CHANGES: IOPS reporting was added
+- CHANGES: handling an arbitrary number of files is supported
+- CHANGES: the 'opendir' option was added for opening a full tree
+- CHANGES: lots of bugfixes, improvements, and cleanups were done
+
+-------------------------------------------------------------------
+Sat Mar  3 00:00:00 CET 2007 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Fri Dec 22 00:00:00 CET 2006 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Fri Nov 10 00:00:00 CET 2006 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Mon Oct 23 00:00:00 CEST 2006 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Thu Aug 31 00:00:00 CEST 2006 - guru@unixtech.be
+
+- dropped stonewall patch, was merged upstream
+- new upstream version
+
+-------------------------------------------------------------------
+Wed Jun 14 00:00:00 CEST 2006 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Mon Jun  5 00:00:00 CEST 2006 - guru@unixtech.be
+
+- new upstream version
+
+-------------------------------------------------------------------
+Fri May  5 00:00:00 CEST 2006 - guru@unixtech.be
+
+- added binary stripping on SUSE < 9.3
+- removed Packager and Distribution, injected by rpmmacros
+- new upstream version
+
+-------------------------------------------------------------------
+Wed Dec  7 00:00:00 CET 2005 - guru@unixtech.be
+
+- new package
+

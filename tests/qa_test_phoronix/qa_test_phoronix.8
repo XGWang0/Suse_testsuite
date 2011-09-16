@@ -1,0 +1,47 @@
+." Manpage for phoronix.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "phoronix man page"
+.SH NAME
+qa_test_phoronix
+.SH SYNOPSIS
+/usr/bin/phoronix-test-suite [options]
+.SH TYPE
+An open-source benchmarking framework (see http://www.phoronix-test-suite.com).
+.SH DESCRIPTION
+This test suite is designed to effectively carry out both qualitative and quantitative benchmarks in a clean, reproducible, and easy-to-use manner.
+.br
+Phoronix test suite, developed by PHP, consists of a lightweight processing core (pts-core), some XML files as benchmark test profiles, and related resource scripts. The process from installing, to actual benchmark testing, to the parsing of important hardware as well as  software components, is highly automated and completely repeatable. Users only need to give a confirmation of test actions.
+.br
+This suite used to be called PTS.
+.br
+qa_test_phoronix includes various benchmark automated tests including: memory, cpu, compilation, disk, kernel, cryptography, and more...
+.SH README
+None.
+.SH OPTIONS
+batch-stup setup for non-interactive
+.br
+batch-benchmark [test suite] specify the test suite and run it.
+.SH WHAT IT DOES
+Different test suites will be implemented in command line mode. Some test cases, like: aio, require a large (>8GB) disk space for temporary downloading usage.
+.br
+Log files will be generated once tests are completed.
+.SH COMMON PROBLEMS
+Implementing this suite will share network bandwidth for downloading.
+.br
+Implementing this suite will occupy more than 8 GB of extra space.
+.SH WARNINGS
+Implement this test suite through hamsta.
+.SH SEE ALSO
+http://www.phoronix-test-suite.com
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+External, 4 patches.
+.SH LICENSE
+License: GPL v3 or later.
+.SH UPSTREAM
+None.
+.SH AUTHOR
+Michael Larabel <phoronix@phoronix.com>
+.SH MAINTAINER
+Jerry Tang <jtang@novell.com>

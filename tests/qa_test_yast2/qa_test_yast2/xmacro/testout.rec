@@ -1,0 +1,42 @@
+MotionNotify 30 53
+KeyStrPress Alt_L
+KeyStrPress F2
+KeyStrRelease F2
+KeyStrRelease Alt_L
+KeyStrPress k
+KeyStrRelease k
+KeyStrPress c
+KeyStrRelease c
+KeyStrPress a
+KeyStrRelease a
+KeyStrPress l
+KeyStrRelease l
+KeyStrPress c
+KeyStrRelease c
+KeyStrPress Return
+KeyStrRelease Return
+Delay 5
+MotionNotify 380 128
+KeyStrPress 3
+KeyStrRelease 3
+KeyStrPress plus
+KeyStrRelease plus
+KeyStrPress 2
+KeyStrRelease 2
+KeyStrPress Shift_R
+KeyStrPress plus
+KeyStrRelease Shift_R
+KeyStrRelease plus
+KeyStrPress 3
+KeyStrRelease 3
+KeyStrPress Return
+KeyStrRelease Return
+Delay 3
+ButtonPress 1
+ButtonRelease 1
+MotionNotify 20 34
+ButtonPress 1
+ButtonRelease 1
+MotionNotify 53 60
+ButtonPress 1
+ButtonRelease 1

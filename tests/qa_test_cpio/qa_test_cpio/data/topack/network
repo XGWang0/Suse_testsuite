@@ -1,0 +1,222 @@
+#!/bin/bash
+#
+# Network interface configuration
+#
+# Copyright (c) 2001-2002 SuSE Linux AG, Nuernberg, Germany.
+# Author: Michal Svec <msvec@suse.cz>
+#         Christian Zoz <zoz@suse.de>
+#
+# $Id: network,v 1.1.1.1 2002/12/02 12:08:00 chuller Exp $
+#
+# /etc/init.d/network
+#
+### BEGIN INIT INFO
+# Provides:       network
+# Required-Start: $local_fs
+# Required-Stop:
+# Default-Start:  2 3 5
+# Default-Stop:
+# Description:    Configure the network interfaces and set up routing
+### END INIT INFO
+
+
+cd /etc/sysconfig/network
+[ -f scripts/functions ] && . scripts/functions
+[ -f config ] && . config
+
+# Only use ifup option 'onboot' if called by a runlevel directory.
+# Therefore determine the base, follow a runlevel link name ...
+base=${0##*/}
+link=${base#*[SK][0-9][0-9]}
+# ... and compare them
+if [ $link != $base ] ; then
+	MODE=onboot
+	rm -f ${RUN_FILES_BASE}*
+	rm -f /var/run/sysconfig/route-stack-* 2>/dev/null
+fi
+
+######################################################################
+# Commandline parsing
+#
+SCRIPTNAME=`basename $0`
+debug $*
+ACTION=$1
+shift
+if [ "$1" != "-o" ] ; then CONFIG=$1;    shift; fi
+if [ "$1" != "-o" ] ; then INTERFACE=$1; shift; fi
+test "$1" = "-o" && shift
+OPTIONS=$@
+while [ $# -gt 0 ]; do
+	case $1 in
+		boot|onboot) MODE=onboot ;;
+		hotplug)     MODE=hotplug ;;
+		check)       CHECK=check ;;
+		quiet)       BE_QUIET=yes ;;
+		debug)       BE_QUIET=no
+		             DEBUG=yes ;;
+		type*)       TYPE=${1#type=} ;;
+		fake)        FAKE=echo ;;
+		*)           echo "Unknown option $1"
+		             echo "options: {[on]boot,hotplug,check,quiet,debug,type=<typelist>,fake}"
+			     exit 1 ;;
+	esac
+	shift
+done
+
+
+if [ -z "$CONFIG" ] ; then
+	INTERFACE=""
+	# find all interface configuration files. These files start with ifcfg- and do
+	# not contain a '.' or '~'. If they contain a ':' it's a configuration of an
+	# alias.
+	for a in ifcfg-*; do 
+		# drop the YaST2/PCMCIA compatibility links, but only when booting. Don't
+		# drop them when called manually, restarting of hotplug configurations will
+		# fail in some cases.
+		test -L "$a" -a "$MODE" = onboot && continue
+		case $a in 
+			*~*|*.*) 
+				# drop backup files, rpm{save,new,orig}
+				;; 
+			*:*|ifcfg-lo)
+				# 1) drop aliases if stopping; this is not neccesary, because master
+				#    interface ist stopped anyway
+				# 2) loopback device should never be stopped.
+				if [ "$ACTION" != stop ] ; then
+					case $a in 
+					ifcfg-lo) CONFFILES="$a $CONFFILES";; # so lo is set up first
+					*)	  CONFFILES="$CONFFILES $a";;
+					esac
+				fi
+				;;
+			*)
+				if [ "$ACTION" != stop ] ; then
+					CONFFILES="$CONFFILES $a"
+				else
+					CONFFILES="$a $CONFFILES"
+				fi
+				;;
+		esac
+	done
+	# If option type was used we choose only these configs which start with
+	# one of the strings in $TYPE (after removal of 'ifcfg-')
+	if [ -n "$TYPE" ] ; then
+		set -- $CONFFILES
+		CONFFILES=""
+		for CF in ${@#ifcfg-}; do
+			for T in `IFS="$IFS,"; echo $TYPE`; do
+				test "${CF#$T}" = "${CF}" && continue
+				CONFFILES="$CONFFILES $CF"
+			done
+		done
+	fi
+fi
+
+debug "CONFFILES  = $CONFFILES"
+debug "CONFIG     = $CONFIG"
+debug "INTERFACE  = $INTERFACE"
+
+# rc.status needs to know what we are doing to write the right messages, but
+# we already shifted original $1 away. Set it again for rc.status
+set ${ACTION:-somethingelse}
+. /etc/rc.status
+rc_reset
+
+case "$ACTION" in
+
+	start)
+		echo Setting up network interfaces:
+		set -- $CONFFILES ifcfg-$CONFIG
+		for CONF in ${@#ifcfg-}; do
+			printf "    %-9s " $CONF 
+			$FAKE ifup $CONF $INTERFACE -o $MODE quiet rc
+			RET=$?
+			debug && echo -n "  (returned $RET)"
+			rc_failed $RET
+			rc_status -v
+			rc_reset
+			case "$RET" in $R_NOTCONFIGURED|$R_INACTIVE) EXTRA_MSG=yes;; esac
+		done
+		test -z "$CONFIG" && $FAKE ifup-route noiface -o $MODE quiet rc
+		;;
+
+	stop)
+		echo Shutting down network interfaces:
+		test -z "$CONFIG" && $FAKE ifdown-route noiface -o $MODE quiet rc
+		set -- $CONFFILES ifcfg-$CONFIG
+		for CONF in ${@#ifcfg-}; do
+			printf "    %-9s " $CONF 
+			$FAKE ifdown $CONF $INTERFACE -o $MODE quiet rc
+			RET=$?
+			debug && echo -n "  (returned $RET)"
+			rc_failed $RET
+			rc_status -v
+			rc_reset
+			case "$RET" in $R_NOTCONFIGURED|$R_INACTIVE) EXTRA_MSG=yes;; esac
+		done
+		# If there are still active interfaces stop them
+		if [ -z "$CONFIG" -a -z "$TYPE" ] ; then
+			for CONF in `get_active_ifaces`; do
+				test "$CONF" = "lo" && continue
+				$FAKE ifdown $CONF -o quiet rc
+			done
+			# At last stop any remaining dhcp client
+			$FAKE ifdown-dhcp all -o quiet rc
+		fi
+		;;
+
+	try-restart)
+		$0 status >/dev/null &&  $0 restart
+		rc_status
+		;;
+
+	restart|force-reload)
+		$0 stop ${2+"$2"}
+		$0 start ${2+"$2"}
+		rc_status
+		;;
+
+	reload)
+		;;
+
+	status)
+		declare -i FAILED=3
+		echo Checking network interfaces:
+		set -- $CONFFILES ifcfg-$CONFIG
+		for CONF in ${@#ifcfg-}; do
+			$FAKE ifstatus $CONF $INTERFACE -o $MODE quiet rc $CHECK
+			RET=$?
+			debug && CONF="$CONF  (returned $RET)"
+			printf "    %-9s " $CONF 
+			case $RET in
+				$R_SUCCESS|$R_BUSY)
+					rc_failed 0
+					FAILED=0
+					;;
+				$R_INACTIVE|$R_NOTCONFIGURED)
+					rc_failed 3
+					;;
+				*)
+					rc_failed 1
+					;;
+			esac
+			rc_status -v
+			rc_reset 
+		done
+		test -z "$CONFIG" && $FAKE ifstatus-route noiface -o $MODE quiet rc
+		_rc_status_all=$FAILED
+		;;
+
+	*)
+		echo "Usage: $0 <action> [<config>] [<interface>] [-o <options>]"
+		echo "actions: {start|stop|status|reload|force-reload|try-restart|restart}"
+		echo "options: {[on]boot,hotplug,check,quiet,debug,type=<typelist>,fake}"
+		echo "typelist: comma seperated list of interface types"
+		exit 1
+
+esac
+if [ "$EXTRA_MSG" = yes ] ; then
+  echo -e "INFO:	Dont worry about ${attn}skipped${norm} interfaces; they will"\
+	        "be set up\n	dynamically by service pcmcia, hotplug or when dialing."
+fi
+rc_exit

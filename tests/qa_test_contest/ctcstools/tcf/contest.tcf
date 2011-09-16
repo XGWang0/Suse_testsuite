@@ -1,0 +1,2 @@
+fg 1 contest /usr/share/qa/qa_test_contest/do_contest
+wait

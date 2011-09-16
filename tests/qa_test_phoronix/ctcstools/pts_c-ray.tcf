@@ -1,0 +1,4 @@
+fg 1 init /usr/bin/phoronix-test-suite batch-setup
+fg 1 c-ray /usr/bin/phoronix-test-suite batch-benchmark c-ray
+wait
+exit

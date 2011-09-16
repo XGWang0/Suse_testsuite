@@ -1,0 +1,16 @@
+#!/bin/bash
+
+myname="$(basename "$0")"
+PKG=gnutls
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+
+TCF="$TCF_DIR"/qa_"$PKG".tcf
+if ! [ -f "$TCF" ] ; then
+	echo "$myname: NEEDED $TCF: No such file. Giving up..." >&2
+	exit 1
+fi
+
+cd $CTCS2_DIR || exit 1
+tools/run "$TCF"

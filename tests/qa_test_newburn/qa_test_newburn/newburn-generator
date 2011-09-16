@@ -1,0 +1,746 @@
+#!/usr/bin/perl -w
+# remove -w for release
+
+#
+# This program is part of the VA Cerberus Test Control System.
+# Unless otherwise noted, Copyright (c) 1999 VA Linux Systems, 
+# All Rights Reserved.
+# You may distribute this program under the terms of the GNU General
+# Public License, Version 2, or, at your option, any later version.
+#
+
+#
+# newburn-generator:  VA's test control file generator for manufacturing
+# run-in testing.
+#
+
+
+use lib 'lib/perl';
+use lib '/usr/lib/ctcs2/lib/perl';
+use color;
+#use fpdisk;
+#use hashstore;
+#use va_detect;
+use strict;
+use timecalc;
+use Getopt::Std;
+use va_detect;
+#use testgen;
+
+#
+# globals
+#
+
+my $binprefix = 'qa_test_newburn';
+my $ctcs2dir = '/usr/lib/ctcs2/';
+
+# command line options
+my %opts;
+
+# temporary variables
+my $i;
+my %seen;
+my $drive;
+my $partition;
+
+
+# other lines besides tcflines
+my $otherlines = 0;
+# extra reserve points in the balancing system
+my $extrareserve = 0;
+
+# string to be printed in verbose mode, otherwise it is discarded.
+my $outstr;
+
+# list of all drives
+my @drives;
+
+# list of drives to test
+my @testdrives;
+
+# list of hard drives
+my @harddrives;
+
+# list of cdroms ("hda") etc
+my @cdroms;
+
+# Anything made by Iomega on the SCSI chain.
+my @jazzip;
+
+# IDE floppy devices.
+my @miscflop;
+
+# list of drive partitions to test
+my @partitions;
+
+# make -j parameter for kernel test
+my $makej;
+
+# kb of RAM, determine RAM test parallelization
+my $kbram;
+
+# Maximum size of a single file, in megabytes.
+# Override with -2.
+my $maxfilesize = 2048 * 2047;
+
+#
+# subs
+#
+sub version {
+	my $version = `cat VERSION 2>>/dev/null`;
+	chop($version);
+	return $version;
+}
+
+sub usage {
+	# print usage/version information.
+	print("
+VA Manufacturing Burn Test Generator
+CVS info:
+" . '$Id: newburn-generator,v 1.3 2004/04/21 12:49:05 gpayer Exp $' . "
+" . '$Name:  $' . "
+usage: $ARGV[0] [opts] [time]
+
+[opts] can be any combination of the following options.
+Test Enable Options: (by default, these tests are skipped)
+-a Run the S.M.A.R.T. drive polling test
+-b [bytedir]
+   Run the BYTE benchmarking suite as part of the test.
+   You must install the BYTE suite seperately, and give the
+   directory for it.
+-C Run the crashme test.
+-c Run disk tests on the CD-ROM drive.
+-f Run disk tests on the PC Floppy drive.
+-g [ltpdir]
+   Run the SGI Linux Test Project tests in a loop.
+   This requires the seperate installation of the Linux Test Project
+        tests.
+-i Run disk tests on all IDE/SCSI/USB Floppy drives.
+-j Run disk tests on all JAZ drives.
+-K Run the fast kernel (one copy) compile test with
+   (2*CPUs) parallelization.  This option automatically skips
+   the standard kernel compile test.
+-l Run the lm_sensors monitor (requires lm_sensors installed and
+   configured)
+-M [n] Run the maxalloc probe with a certain value as the ceiling.
+   This will prevent the maxalloc probe from exercising a certain
+   Linux VM strangeness, and will speed up initialization of the
+   test.  Default value is 4000.
+-N [device1],[device2],[device3],... 
+	Run data R/W test on devices [device1], etc
+        [devicen] may be a NFS hostname:/share
+	style specifier to test NFS.
+-p n Add data R/W test to all R/W partitions
+     on drives configured for disk test with minimum
+     parallelization n.
+-r Run RR's memory tester at 64K. (cache exerciser)
+-R Run RR's memory tester at 16 MB. (main memory exerciser)
+-S Run the system log duplicator.
+-t Run RR's burnP6/burnK6.
+
+Test Disable Options: (by default, these tests are run)
+-k    Skip the kernel compile test with 2xCPUs parallelization.
+-m    Skip Larry's memory tester (memtst).
+-n    Skip all disks on disk tests (disabling all disk tests).
+-s    Skip the system log monitors.
+-p    Skip data R/W tests.
+-x    Skip crash detection (not a test)
+
+Other:
+-h This help screen.
+-2 Use a 2 GB Maximum File Size limit for the -p/-N test.  Default is 
+   ~2TB limit.
+-v Verbose mode, print test successes as well as failures.
+-V Enable old-style VM thrashing as part of the VM test (restores pre 
+1.3.0 default behavior)
+-A [timeframe] 
+	Enable Automonkey support:  exit test on completion (-z) when
+	the current time is in the range specified.
+	Time frame format is:
+		SMTWUFA-0000-2359
+	Sunday Monday Tuesday Wednesday thUrsday Friday sAturday
+	from 0000h to 2359h in 24 hour time.  No, you can't straddle
+	midnight with a time range at present.
+-B [path]
+	Set kernel compiles to occur in this directory instead
+	of /home/tmplinux.  Directory contents are forfeit!
+-G God mode.  Ignore fatal errors.
+-d Open the CD-ROM tray on errors or on printing \"test complete\" with -z.
+-D Open the CD-ROM tray on errors only.
+-I For I Want A Broken Backplane.  Use this to ignore < 10 DAC960 resets.
+-z [time]
+	Print \"test complete\" after [time].  This doesn't affect the test
+	otherwise.
+
+
+[time] is a time specifier:
+AdBhCmDs = A days, B hours, C minutes, D seconds.  You can omit parts, e.g.
+15s for 15 seconds.  The test will terminate after the timeout.  By default
+it will run forever.
+");
+}
+
+# Generate a badblocks test.
+# parameters:  (parallel (int) ,sleep (bool), destruct (bool), @drives)
+# If parallel = 0, run one badblock in the foreground.
+sub badblocks {
+	my $parallel = shift;
+	my $sleep = shift;
+	my $destruct = shift;
+	my @drives = @_;
+	my @tcflines;
+	my $drive;
+	my $i;
+	my $testcommand;
+	my $tcfcommand;
+
+	if ($parallel) {
+		$tcfcommand = "bg 0";
+	} else {
+		$tcfcommand = "fg 1";
+	}
+
+	if ($destruct) {
+		$testcommand = "destructiveblocktst";
+	} else {
+		$testcommand = "blockrdtst";
+	}
+
+	if ($sleep) {
+		$testcommand = "s" . $testcommand;
+	}
+
+	foreach $drive (@drives) {
+		# slashes in key names are bad (think RAID)
+		my $key = $drive;
+		$key =~ s/\///g;
+		for($i=0;$i < $parallel; $i++) {
+			my $cmd = $ctcs2dir . "bin/$binprefix/$testcommand-info /dev/$drive";
+			push @tcflines,"$tcfcommand BB".$key."$i $binprefix/$testcommand ".`$cmd`;
+		}
+	}
+	return @tcflines;
+}
+
+
+# Create data read/write test. 
+# If parallel = 0, run however many data tests needed according to
+#  partfrac and maxfilesize.  If maxfilesize = 0, run however many data
+#  tests needed according to partfrac and parallel.  If both = 0, run
+#  one data test according to partfrac.
+# 0 < partfrac < 1 , fraction of free space to test.  Too high
+# and you might run out of disk space. 
+sub datarw {
+	my @tcflines;
+	my $parallel = shift;
+	my $sleep = shift;
+	my $partfrac = shift;
+	my $maxfilesize = (shift) * 1024;
+	my @partitions = @_;
+	my $partition;
+	my $i;
+	my $testcommand = "data";
+
+	if ($sleep) {
+		$testcommand = "s".$testcommand;
+	}
+
+	if (!$partfrac) {
+		return;
+	}
+
+	if (!$maxfilesize and !$parallel) {
+		$parallel = 1;
+	}
+
+	foreach $partition (@partitions) {
+		my $key = $partition;
+		my $msize = 0;
+		my $size = 0;
+		my $p=0;
+		$key =~ s(/)()g;
+		# The runin directory shouldn't be hardcoded like this.
+		my @partinfo = split /\s/, `cd runin && ./data-info /dev/$partition`;
+		$partinfo[3] = $partinfo[3] * $partfrac;
+
+		if (!$maxfilesize) {
+			$msize = $partinfo[3] / $parallel;
+		} else {
+			$msize = $maxfilesize;
+		}
+		if ($parallel < $partinfo[3]/$msize) {
+			$p = int($partinfo[3] / $msize) + 1;
+		} else {
+			$p = $parallel;
+		}
+		
+		$size = int($partinfo[3] / $p);
+		if ($size > $msize) {
+			$size = $msize;
+		}
+#debug code
+#		print "$partition outof $partinfo[3] parallel  $p max $msize size $size\n";
+		for($i=0;$i<$p;$i++) {
+			if ($size <= $partinfo[3]) {
+				$partinfo[3] -= $size;
+			} else {
+				$size = $partinfo[3];
+				$partinfo[3] = 0;
+			}
+			push @tcflines, "bg 0 DT".$key."N$i $testcommand /dev/$partition $size";
+		}
+	}
+	return @tcflines;
+}
+
+#
+#
+# START
+#
+#
+
+print STDERR "**** Starting run-in test generator " . version . " ****\n";
+
+# initialize tables
+@drives = get_drives;
+# get_cdrom_drives gets CD-RW, also... :)
+@cdroms = get_cdrom_drives;
+@jazzip = get_jaz_drives;
+@miscflop = get_misc_floppies;
+
+# hard drives are drives that are not cdroms or jaz/zip drives.
+@seen{@cdroms,@jazzip,@miscflop} = ();
+foreach (@drives) {
+	push(@harddrives, $_) unless exists $seen{$_};
+}
+
+#
+# Handle command line options/debug messages
+#
+getopts('2VIDA:M:aB:lN:sGg:SkKb:ChRtrmvnp:icjfxz:d',\%opts);
+
+if ($opts{"h"}) {
+	usage;
+	exit(2);
+}
+
+if ($opts{"2"}) {
+	$outstr .= "**** Setting 2GB maximum file size ****\n";
+	$maxfilesize = 2047;
+}
+
+if ($opts{"l"}) {
+	$outstr .= "**** Enabling hardware monitors ****\n";
+}
+if (!$opts{"x"}) {
+	$outstr .= "**** Enabling crash heartbeat ****\n";
+}
+if ($opts{"s"}) {
+	$outstr .= "**** Disabling system log monitors ****\n";
+}
+if ($opts{"S"}) {
+	$outstr .= "**** Using system log duplicator ****\n";
+}
+if ($opts{"k"}) {
+	$outstr .= "**** Disabling standard mode kernel compile test ****\n";
+}
+if ($opts{"K"}) {
+	$outstr .= "**** Enabling fast kernel compile test ****\n";
+}
+if ($opts{"b"}) {
+	$outstr .= "**** Using the BYTE benchmarking suite ****\n";
+}
+if ($opts{"g"}) {
+	$outstr .= "**** Using the SGI Linux Test Project tests ****\n";
+}
+
+
+if ($opts{"C"}) {
+	$outstr .= "**** Running crashme stability test ****\n";
+}
+
+# -n option: no hard drive test
+if ($opts{"n"}) {
+	$outstr .= "**** Avoiding detected Hard Drives: " . join (' ',@harddrives) . " ****\n";
+} else {
+	$outstr .= "**** Testing detected Hard Drives: " . join (' ',@harddrives) . " ****\n";
+	push (@testdrives,@harddrives);
+}
+
+if ($opts{"a"}) {
+	$outstr .= "**** Enabling S.M.A.R.T. drive information polling ****\n";
+} else {
+	$outstr .= "**** Disabling S.M.A.R.T. drive information polling ****\n";
+}
+
+# -m option: no memory test
+if ($opts{"m"}) {
+	$outstr .= "**** Avoiding standard memory test ****";
+}
+
+# -r option: RR's cache thrasher
+if ($opts{"r"}) {
+	$outstr .= "**** Using RR's cache thrasher burnBX at 64K ****";
+}
+# -r option: RR's cache thrasher
+if ($opts{"R"}) {
+	$outstr .= "**** Using RR's cache thrasher burnBX at 16MB ****";
+}
+
+# -c option: test cdroms
+if ($opts{"c"} and $#cdroms > -1) {
+	$outstr .= "**** Testing detected CDROMS: ";
+	push (@testdrives,@cdroms);
+} else {
+	$outstr .= "**** Avoiding detected CDROMS: " ;
+}
+$outstr .= join (' ',@cdroms) . " ****\n";
+
+# -j option: test JAZ/ZIP drives
+if ($opts{"j"} and $#jazzip > -1) {
+	$outstr .= "**** Testing detected SCSI JAZ/ZIP drives: ";
+	push (@testdrives,@jazzip);
+} else {
+	$outstr .= "**** Avoiding detected SCSI JAZ/ZIP drives: ";
+}
+$outstr .= join (' ',@jazzip) . " ****\n";
+
+if ($opts{"i"} and $#miscflop > -1) {
+	$outstr .= "**** Testing detected IDE/SCSI/USB floppy drives: ";
+	push (@testdrives,@miscflop);
+} else {
+	$outstr .= "**** Avoiding detected IDE/SCSI/USB floppy drives: ";
+}
+$outstr .= join (' ',@miscflop) . " ****\n";
+
+@partitions = get_linux_partitions(@testdrives);
+
+# -f option: test the floppy drive
+if ($opts{"f"}) {
+	# you must be insane, the floppy drive??!?
+	# well, OK...
+	$outstr .= "**** Testing floppy drive ****\n";
+	push @partitions, "fd0";
+	push @testdrives, "fd0";
+}
+
+# -p option: enable pathological mode
+if ($opts{"p"}) {
+	# Pathological mode enabled.  We Warned You!
+	$outstr .= "**** Disk test R/W mode enabled  ****\n";
+}
+
+# -t option: Thermal Mode
+if ($opts{"t"}) {
+	$outstr .= "**** Using RR's CPU thrasher ****\n";	
+}
+
+if ($opts{"v"}) {
+	print STDERR $outstr;
+}
+
+#
+# Generate test
+#
+
+if ($opts{"v"}) {
+	print "set verbose 1\n";
+}
+
+if ($opts{"z"}) {
+	print "notify ", $opts{"z"} ," TEST_COMPLETE\n";
+}
+
+if ($opts{"d"} && $#cdroms > -1) {
+	print "on event eject /dev/",$cdroms[0],"\n";
+}
+
+if ($opts{"D"} && $#cdroms > -1) {
+	print "on error eject /dev/",$cdroms[0],"\n";
+}
+
+if ($opts{"A"} && $opts{"z"}) {
+	print "set autoexit 1\n";
+	print "set autoexit_timeframe ",$opts{"A"},"\n";
+}
+
+if (defined $ARGV[0]) {
+	print "timer $ARGV[0]\n";
+} else {
+#	No timeout unless specified.
+#	print "timer 24h\n";
+}
+
+# first, lets start our kernel error message watcher.  Remember,
+# it won't exit unless it finds something.  We keep it in a loop
+# anyway though to keep track of multiple errors.
+if (!$opts{"s"}) {
+	print "# System Information first\n";
+	print "fg 1 INFO $binprefix/info_linux\n";
+	print "# and the tests...\n";
+	print "bg 0 SYSLOG $binprefix/messages\n";
+	print "bg 0 DMESG $binprefix/dmesg\n";
+	print "bg 0 VMSTAT $binprefix/vmstat-wrapper\n";
+	my $controller=0;
+	my $broken_backplane;
+	#if ($opts{"I"}) {
+	#	$broken_backplane = "BROKEN_BACKPLANE";
+	#}
+	#while ( -d "/proc/rd/c$controller" ) {
+	#	print "bg 0 DAC960C$controller dac960 /proc/rd/c$controller/current_status $controller $broken_backplane\n";
+	#	++$controller;
+	#	++$otherlines;
+	#}
+	
+	$otherlines += 2;
+}
+
+if (!$opts{"x"}) {
+	print "bg 0 HEARTBEAT $binprefix/timestamp\n";
+	++$otherlines;
+}
+
+#if ($opts{"S"}) {
+#	print "bg 0 SYSLOGV allmessages\n";
+#	++$otherlines;
+#}
+
+#if ($opts{"l"}) {
+#	print "bg 0 SENSORS sensors\n";
+#	++$otherlines;
+#}
+
+#if ($opts{"N"}) {
+#	my @devices = split ',', $opts{"N"};
+#	my $k = 0;
+#	my $j;
+#	foreach $j (@devices) {
+#		++$k;
+#		for($i=1;$i <= 8; ++$i) {
+#			print "bg 0 RWDATA$k-$i sdata " . $j . " " . $i * 
+#				10240 . "\n";
+#			++$otherlines;
+#		}
+#	}
+#}
+
+# lets create a drive test that launches 4 badblocks per drive, spaced at
+# random intervals.  This should cause some major thrashing :)
+# 4 per drive, sleep on, destruct off.
+my @tcflines;
+if ($opts{"p"}) {
+	my $x;
+	# pathological.
+	# Data rw test, 4x minimum parallelization per partition.
+	# parameter determines parallelization, sleep on, 67% fill,
+	# maximum file size from variable
+	@tcflines = badblocks (4,1,0,@testdrives);
+	$x = $#tcflines;
+	push @tcflines, datarw($opts{"p"},1,.67,$maxfilesize,@partitions);
+	# count these guys 4x as much as a normal test (physical)
+	$extrareserve += ($#tcflines + 1 - $x) * 3;
+} else {
+	# more badblocks tests to compensate
+	@tcflines = badblocks (8,1,0,@testdrives);
+}
+
+# smart disk test
+#if ($opts{"a"}) {
+#	system("cd runin && ./smart-info " . join (' ',@harddrives) . " >>/dev/null 2>&1");
+#	if ($? == 0 ) {
+#		print "bg 0 SMART smart " . join (' ',@harddrives) . "\n";
+#		++$otherlines;
+#	}
+#}
+
+my $kerneldir = "/home/tmplinux";
+# output lines collected from above tests.
+foreach $i (@tcflines) {
+	print "$i\n";
+}
+
+if ($opts{"B"}) {	
+	$kerneldir = $opts{"B"};
+}
+
+# nbench...
+if ($opts{"b"}) {
+	print "bg 0 NBENCH $binprefix/nbench " . $opts{"b"} . "\n";
+	++$otherlines
+}
+
+# crashme...
+if ($opts{"C"}) {
+	print "bg 0 CRASHME $binprefix/crashme\n";
+	++$otherlines;
+}
+
+
+# RR's tester
+if ($opts{"r"}) {
+	print "bg 0 CACHE $binprefix/burnBX 4\n";
+	++$otherlines;
+}
+# RR's tester in big size mode
+if ($opts{"R"}) {
+	print "bg 0 CACHE $binprefix/burnBX 7\n";
+	++$otherlines;
+}
+
+# Also lets launch a kernel build / CPU fryer
+$makej = get_numcpus * 2;
+
+if ($opts{"t"}) {
+	# thermal mode
+	# (remember makej was originally 2x#ofcpus)
+#	$makej = $makej / 2;
+	for ($i=0 ; $i < ($makej/2) ; ++$i) {
+		print "bg 0 CPU$i $binprefix/burnCPU\n";
+		print "bg 0 MMX$i $binprefix/burnMMX\n";
+		$otherlines += 2;
+	}
+}
+
+#kernel tests count double.
+if ($opts{"K"}) {
+	print "bg 0 FKCOMPILE $binprefix/fastkernel $makej " . $kerneldir  . "\n";
+	$otherlines += $makej;
+	$extrareserve += $makej;
+} elsif (!$opts{"k"}) {
+	print "bg 0 KCOMPILE $binprefix/kernel $makej " . $kerneldir . "\n";
+	$otherlines += $makej;
+	$extrareserve += $makej;
+}
+
+#if ($opts{"g"}) {
+#	print "bg 0 LTP ltp " . $opts{"g"} . "\n";
+#	$otherlines++;
+#}
+
+my $maxalloc_size=4000;
+if ($opts{"M"}) {
+	$maxalloc_size=$opts{"M"};
+}
+
+
+# Memory tester
+
+# What a disgusting load of crap...
+
+# Most of this block is part of a complex heuristic designed to prevent
+# excessive swapping during the memory test.  It's tuned currently for
+# i386 systems with < 2 GB of RAM.  The heuristic will probably not
+# produce the intended results with 64 bit or RISC architectures, but 
+# hopefully the difference is minor.
+if (!$opts{"m"}) {
+	my $reserve;
+	my $swapram;
+	my $memtst_reduct;
+	# per process limit.
+#	my $perprocess=1024;
+	my $cmd = $ctcs2dir . "bin/$binprefix/maxalloc $maxalloc_size";
+	my $perprocess=`$cmd` * .9;
+	my $origram=0;
+	if ($? != 0) {
+		print STDERR "WARNING: missing maxalloc\n";
+		$perprocess  = 1024;
+	}
+	$kbram = get_ram;
+	$origram = $kbram;
+	$swapram = get_swap;
+	$swapram = int ($swapram / 1024);
+
+	# Basic VM reservation
+	# reserve 64 + 2 MB VM / test
+	$reserve = 64 + int(($#tcflines + $otherlines) * 2);
+
+	my $reduction_points=$#tcflines + $extrareserve + $otherlines;
+
+	# Add reservation for the memory test.
+	$reduction_points+=8 * ($kbram / $perprocess) / 1024;
+
+	# get borrow percentage from buffermem, convert it into KB reserved
+	# my $borrow=(split /\t/, `cat /proc/sys/vm/buffermem`)[1] / 100 * $kbram;
+
+	# get borrow percentage from pagecache
+	# my $borrow_pc=(split /\t/, `cat /proc/sys/vm/pagecache`)[1] / 100 * $kbram;
+
+	# if we're using old skoo -V option, reduce all that to a 10% 
+	# deduction.
+	#if ($opts{"V"}) {
+	#	$borrow = .1 * $kbram;
+	#	$borrow_pc = 0;
+	#}
+
+	# get high free pages
+	# Convert into KB reserved.
+	# my $high_free=(split /\t/, `cat /proc/sys/vm/freepages`)[2] * &PAGE_SIZE   / 1024 ;
+
+	# Reserve 192K per process point
+	my $process_free = $reduction_points * 192;
+	
+	# Finally, compute total reduction.
+	$memtst_reduct= int(.5 + ($process_free) / 1024);
+
+#	$memtst_reduct = int (13 + 1 + ($#tcflines + $extrareserve +  $otherlines + ( 8 * ($kbram / ($perprocess * 1024)))) * .25);
+	print STDERR "***** Computing Memory Test configuration *****\n";
+	print STDERR "***** Limiting to $perprocess MB of RAM per malloc *****\n";
+	print STDERR "***** " . int ($kbram / 1024) . " MB Phys RAM / $reserve MB VM Reserved / $memtst_reduct MB Phys Reserved *****\n";
+	if ($reserve < 64) {
+		$reserve = 64;
+	}
+	# we need to leave a few MB free in main memory.
+	$kbram = $kbram - ($memtst_reduct * 1024);
+	if ( $kbram < 2048 ) {
+		print STDERR colorstr("bold","fred");
+		print STDERR "ERROR\n";
+		print STDERR "You do not have enough memory to run the memory test.\n";
+		print STDERR "There is too much physical memory that has to be reserved\n";
+		print STDERR "for other tests.  Please reduce the number of other tests\n";
+		print STDERR "or deactivate the memory test.\n";
+		print STDERR colorstr("reset");
+		if (!$opts{"G"}) {
+			exit (1);
+		}
+	}
+	if ($reserve > ($kbram/1024 + $swapram)) {
+		print STDERR colorstr("bold","fred");
+		print STDERR "ERROR\n";
+		print STDERR "This test configuration needs more virtual memory than exists\n";
+		print STDERR "in your system.\n";
+		print STDERR colorstr("reset");
+		if (!$opts{"G"}) {
+			exit (1);
+		}
+		$reserve = $swapram;
+	} elsif ($reserve > $swapram) {
+		my $peffective = int(($reserve - $swapram) / ($kbram / 1024) * 100);
+		print STDERR colorstr("bold","fbrown");
+		print STDERR "WARNING\n";
+		print STDERR "This test configuration needs to reserve more memory than you have swap.\n";
+		print STDERR "The memory test will still run, but will be up to $peffective% less effective.\n";
+		print STDERR "Recommend $reserve MB swap.  You have $swapram MB swap.\n";
+		print STDERR colorstr("reset");
+		$kbram = $kbram - (($reserve - $swapram) * 1024);
+	} else {
+		$reserve = $swapram;
+	}
+	print STDERR "***** Approximately " . int($kbram / $origram * 100) . "% Per-Pass Memory Coverage *****\n";
+	my $j = $kbram / ($perprocess*1024); 
+	my $memory = int($kbram / 1024 /(int($j)+1));
+
+	print "bg 0 MEMORY $binprefix/memtst -1 -c $memory -f $reserve -v -n " . int($j + 1) . "\n";
+#not working anymore according to cvs
+#	for ($i = 0 ; $i <= $j ; $i++) {
+#		my $memory= int($kbram/1024/(int($j)+1));
+#		$memory = int($memory * .95);
+#		# Run Larry's memory test until the sky falls in (or 24 hours)
+#		print "bg 0 MEMORY$i $binprefix/memtst $reserve ". $memory . "\n";
+#	}
+}
+
+print "wait\n";
+print "exit\n";
+print "\n";
+
+print STDERR "**** Exiting run-in test generator " . version . " ****\n";

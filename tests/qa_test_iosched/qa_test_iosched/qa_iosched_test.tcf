@@ -1,0 +1,11 @@
+timer 2h
+fg 1 iosched_test_1 /usr/share/qa/qa_test_iosched/iosched_testing.sh
+wait
+
+timer 2h
+fg 1 iosched_test_2 /usr/share/qa/qa_test_iosched/iosched_testing.sh
+wait
+
+timer 2h
+fg 1 iosched_test_3 /usr/share/qa/qa_test_iosched/iosched_testing.sh
+wait

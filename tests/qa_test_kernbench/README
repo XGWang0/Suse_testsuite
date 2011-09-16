@@ -1,0 +1,11 @@
+Interbench in ctcs testing framework readme.
+
+Packages: contest, contest-ctcs-glue
+
+This is a cpu throughput benchmark originally devised and used by Martin J. Bligh. It is designed to compare kernels on the same machine, or to compare hardware. To compare hardware you need to be running the same architecture machines (eg i386), the same userspace binaries and run kernbench on the same kernel source tree.
+
+/usr/share/qa/tools/kernbench-run - runs the benchmark
+
+Methodics - see README: /usr/share/qa/qa_test_kernbench/readme or http://ck.kolivas.org/qa_test_kernbench/kernbench-0.41/README.
+
+This test runs kernbench with no atributes and lets it runs all simulated interactive tasks over all background loads.

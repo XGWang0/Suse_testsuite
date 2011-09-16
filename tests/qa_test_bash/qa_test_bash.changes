@@ -1,0 +1,35 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Wed Aug 10 13:40:42 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_bash -> qa_test_bash
+
+-------------------------------------------------------------------
+Tue May 13 10:27:20 CEST 2008 - mmrazik@suse.cz
+
+- removed x86_64 binaries from the packages (recho et al)
+
+-------------------------------------------------------------------
+Mon Feb 18 11:02:14 CET 2008 - cihlarov@suse.cz
+
+- added binaries for test, removed from noarch 
+
+-------------------------------------------------------------------
+Tue Jan 29 11:19:05 CET 2008 - cihlarov@suse.cz
+
+- clean build 
+
+-------------------------------------------------------------------
+Thu Jan 17 16:12:44 CET 2008 - cihlarov@suse.cz
+
+- path fixes 
+
+-------------------------------------------------------------------
+Thu Jan 17 16:11:14 CET 2008 - cihlarov@suse.cz
+
+- initial submit 
+

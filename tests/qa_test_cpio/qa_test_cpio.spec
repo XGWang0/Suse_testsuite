@@ -1,0 +1,69 @@
+#
+# spec file for package qa_cpio (Version 0.1)
+#
+# Copyright (c) 2006 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+# Please submit bugfixes or comments via http://bugs.opensuse.org
+#
+
+# norootforbuild
+
+Name:         qa_test_cpio
+BuildRequires: ctcs2
+License:      GPL
+Group:        SuSE internal
+Summary:      Simple cpio test for ctcs framework
+Provides:	qa_cpio
+Obsoletes:	qa_cpio
+Requires:     cpio coreutils perl ctcs2
+Version:      0.1
+Release:      4
+Source0:      %name-%version.tar.bz2
+Source1:      qa_cpio.tcf
+Source2:      test_cpio-run
+Source3:	qa_test_cpio.8
+BuildRoot:    %{_tmppath}/%{name}-%{version}-build
+BuildArchitectures: noarch
+
+%description
+Test case for cpio package. Tests all available archive formats
+
+%prep
+%setup -q -n %{name}
+
+%build
+
+%install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
+ln -s ../%name/tcf/qa_cpio.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
+find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-, root, root)
+/usr/share/man/man8/qa_test_cpio.8.gz
+/usr/share/qa
+/usr/share/qa/%name
+/usr/share/qa/tcf
+/usr/share/qa/tools
+
+%changelog -n qa_test_cpio
+* Mon Jan 30 2006 - kmachalkova@suse.cz
+- added qa_dummy to BuildRequired
+* Thu Jan 26 2006 - kmachalkova@suse.cz
+- added ctcs2 support (tcf file, run script)
+- removed binaries from testing archive (package fails to build otherwise)
+* Fri Jan 20 2006 - kmachalkova@suse.cz
+- package created, version 0.1

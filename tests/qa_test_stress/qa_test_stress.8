@@ -1,0 +1,88 @@
+." Manpage for qa_test_stress.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_stress man page"
+.SH NAME
+qa_test_stress
+.SH SYNOPSIS
+.B stress
+[\fIOPTION \fR[\fIARG\fR]] ...
+.SH TYPE
+Stress test of CPU/MEM/DISK
+.SH DESCRIPTION
+`stress' imposes certain types of compute stress on your system
+.TP
+\-?, \fB\-\-help\fR
+show this help statement
+.TP
+\fB\-\-version\fR
+show version statement
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+be verbose
+.TP
+\fB\-q\fR, \fB\-\-quiet\fR
+be quiet
+.TP
+\fB\-n\fR, \fB\-\-dry\-run\fR
+show what would have been done
+.TP
+\fB\-t\fR, \fB\-\-timeout\fR N
+timeout after N seconds
+.TP
+\fB\-\-backoff\fR N
+wait factor of N microseconds before work starts
+.TP
+\fB\-c\fR, \fB\-\-cpu\fR N
+spawn N workers spinning on sqrt()
+.TP
+\fB\-i\fR, \fB\-\-io\fR N
+spawn N workers spinning on sync()
+.TP
+\fB\-m\fR, \fB\-\-vm\fR N
+spawn N workers spinning on malloc()/free()
+.TP
+\fB\-\-vm\-bytes\fR B
+malloc B bytes per vm worker (default is 256MB)
+.TP
+\fB\-\-vm\-stride\fR B
+touch a byte every B bytes (default is 4096)
+.TP
+\fB\-\-vm\-hang\fR N
+sleep N secs before free (default none, 0 is inf)
+.TP
+\fB\-\-vm\-keep\fR
+redirty memory instead of freeing and reallocating
+.TP
+\fB\-d\fR, \fB\-\-hdd\fR N
+spawn N workers spinning on write()/unlink()
+.TP
+\fB\-\-hdd\-bytes\fR B
+write B bytes per hdd worker (default is 1GB)
+.PP
+Example: stress \fB\-\-cpu\fR 8 \fB\-\-io\fR 4 \fB\-\-vm\fR 2 \fB\-\-vm\-bytes\fR 128M \fB\-\-timeout\fR 10s
+.PP
+Note: Numbers may be suffixed with s,m,h,d,y (time) or B,K,M,G (size).
+.SH README
+None. 
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+Certain types of compute stresses will be added on SUT.
+.SH COMMON PROBLEMS
+Except that implementing test cause SUT slowly to response, this package nearly no harms.
+.SH WARNINGS
+Till now, none.
+.SH SEE ALSO
+None.
+.SH BUGS
+None.
+.SH DISTRIBUTION
+External, no patches.
+.SH LICENSE
+License: GPL v2 or v3 or later. Spec file license: GPL v2.
+.SH UPSTREAM
+http://weather.ou.edu/~apw/projects/stress/
+.SH AUTHOR
+Amos Waterland <apw@rossby.metr.ou.edu>
+.SH MAINTAINER
+Arthur Guo <aguo@novell.com>

@@ -1,0 +1,137 @@
+Subject: Disable MINIX, enable VFAT for lvm runtests control files 
+CC: Patrick Kirsch <pkirsch@suse.de>
+Date: Tue Jan 15 18:03:08 CET 2008
+
+
+Disabled MINIX fs testing for runtest/lvm.part*
+Enabled VFAT testing for runtest/lvm.part*
+
+Author: Patrick Kirsch <pkirsch@suse.de>
+
+Merged diff-hunk about internal ctcstools modification into ctcstool tarball
+Date: Fri Oct 31 00:09:18 CET 2008
+
+Sigend-off-by: Daniel Gollub <dgollub@suse.de>
+
+---
+
+--- runtest/lvm.part1
++++ runtest/lvm.part1
+@@ -179,39 +179,39 @@
+ rwtest03 export LTPROOT; rwtest -N rwtest03 -c -q -i 60s -n 2  -f buffered -s mmread,mmwrite -m random -Dv 10%25000:mm-buff-$$ 500b:/test/growfiles/ramdisk/rwtest23%f
+ rwtest04 export LTPROOT; rwtest -N rwtest04 -c -q -i 60s -n 2  -f sync -s mmread,mmwrite -m random -Dv 10%25000:mm-sync-$$ 500b:/test/growfiles/ramdisk/rwtest24%f
+ rwtest05 export LTPROOT; rwtest -N rwtest05 -c -q -i 50 -T 64b 500b:/test/growfiles/ramdisk/rwtest25%f
+-# Check the MINIX filesystem
+-gf602 growfiles -W gf602 -d /test/growfiles/minix -b -e 1 -L 10 -i 100 -I p -S 2 -u -f gf03_
+-gf603 growfiles -W gf603 -d /test/growfiles/minix -b -e 1 -g 1 -i 1 -S 150 -u -f gf05_
+-gf604 growfiles -W gf604 -d /test/growfiles/minix -b -e 1 -g 4090 -i 500 -t 39000 -u -f gf06_
+-gf605 growfiles -W gf605 -d /test/growfiles/minix -b -e 1 -g 5000 -i 500 -t 49900 -T10 -c9 -I p -u -f gf07_
+-gf616 growfiles -W gf616 -d /test/growfiles/minix -b -e 1 -i 0 -L 120 -u -g 4090 -T 100 -t 408990 -l -C 10 -c 1000 -S 10 -f Lgf02_
+-gf617 growfiles -W gf617 -d /test/growfiles/minix -b -e 1 -i 0 -L 120 -u -g 5000 -T 100 -t 499990 -l -C 10 -c 1000 -S 10 -f Lgf03_
+-gf618 growfiles -W gf618 -d /test/growfiles/minix -b -e 1 -i 0 -L 120 -w -u -r 10-5000 -I r -T 10 -l -S 2 -f Lgf04_
+-gf619 growfiles -W gf619 -d /test/growfiles/minix -b -e 1 -g 5000 -i 500 -t 49900 -T10 -c9 -I p -o O_RDWR,O_CREAT,O_TRUNC -u -f gf08i_
+-gf612 mkfifo /test/growfiles/minix/gffifo17; growfiles -W gf612 -b -e 1 -u -i 0 -L 30 /test/growfiles/minix/gffifo17
+-gf613 mkfifo /test/growfiles/minix/gffifo18; growfiles -W gf613 -b -e 1 -u -i 0 -L 30 -I r -r 1-4096 /test/growfiles/minix/gffifo18
+-gf601 growfiles -W gf601 -b -e 1 -u -i 0 -L 20 -w -C 1 -l -I r -T 10 /test/growfiles/minix/glseek20 /test/growfiles/minix/glseek20.2
+-gf606 growfiles -W gf606 -b -e 1 -u -r 1-5000 -R 0--1 -i 0 -L 30 -C 1 /test/growfiles/minix/g_rand10 /test/growfiles/minix/g_rand10.2
+-gf607 growfiles -W gf607 -b -e 1 -u -r 1-5000 -R 0--2 -i 0 -L 30 -C 1 -I p /test/growfiles/minix/g_rand13 /test/growfiles/minix/g_rand13.2
+-gf608 growfiles -W gf608 -b -e 1 -u -r 1-5000 -R 0--2 -i 0 -L 30 -C 1 /test/growfiles/minix/g_rand11 /test/growfiles/minix/g_rand11.2
+-gf609 growfiles -W gf609 -b -e 1 -u -r 1-5000 -R 0--1 -i 0 -L 30 -C 1 -I p /test/growfiles/minix/g_rand12 /test/growfiles/minix/g_rand12.2
+-gf610 growfiles -W gf610 -b -e 1 -u -r 1-5000 -i 0 -L 30 -C 1 -I l /test/growfiles/minix/g_lio14 /test/growfiles/minix/g_lio14.2
+-gf611 growfiles -W gf611 -b -e 1 -u -r 1-5000 -i 0 -L 30 -C 1 -I L /test/growfiles/minix/g_lio15 /test/growfiles/minix/g_lio15.2
+-gf614 growfiles -W gf614 -b -e 1 -u -i 0 -L 20 -w -l -C 1 -T 10 /test/growfiles/minix/glseek19 /test/growfiles/minix/glseek19.2
+-gf615 growfiles -W gf615 -b -e 1 -u -r 1-49600 -I r -u -i 0 -L 120 /test/growfiles/minix/Lgfile1
+-gf620 growfiles -W gf620 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 1-256000:512 -R 512-256000 -T 4 /test/growfiles/minix/gfbigio-$$
+-gf621 growfiles -W gf621 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 -T 10 -t 20480 /test/growfiles/minix/gf-bld-$$
+-gf622 growfiles -W gf622 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 -T 10 -t 20480 /test/growfiles/minix/gf-bldf-$$
+-gf623 growfiles -W gf623 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 512-64000:1024 -R 1-384000 -T 4 /test/growfiles/minix/gf-inf-$$
+-gf624 growfiles -W gf624 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 /test/growfiles/minix/gf-jbld-$$
+-gf625 growfiles -W gf625 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 1024000-2048000:2048 -R 4095-2048000 -T 1 /test/growfiles/minix/gf-large-gs-$$
+-gf626 growfiles -W gf626 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 128-32768:128 -R 512-64000 -T 4 /test/growfiles/minix/gfsmallio-$$
+-gf627 growfiles -W gf627 -b -D 0 -w -g 8b -C 1 -b -i 1000 -u /test/growfiles/minix/gfsparse-1-$$
+-gf628 growfiles -W gf628 -b -D 0 -w -g 16b -C 1 -b -i 1000 -u /test/growfiles/minix/gfsparse-2-$$
+-gf629 growfiles -W gf629 -b -D 0 -r 1-4096 -R 0-33554432 -i 0 -L 60 -C 1 -u /test/growfiles/minix/gfsparse-3-$$
+-gf630 growfiles -W gf630 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -o O_RDWR,O_CREAT,O_SYNC -g 20480 -T 10 -t 20480 /test/growfiles/minix/gf-sync-$$
+-rwtest01 export LTPROOT; rwtest -N rwtest01 -c -q -i 60s  -f sync 10%25000:rw-sync-$$ 500b:/test/growfiles/minix/rwtest26%f
+-rwtest02 export LTPROOT; rwtest -N rwtest02 -c -q -i 60s  -f buffered 10%25000:rw-buffered-$$ 500b:/test/growfiles/minix/rwtest27%f
+-rwtest03 export LTPROOT; rwtest -N rwtest03 -c -q -i 60s -n 2  -f buffered -s mmread,mmwrite -m random -Dv 10%25000:mm-buff-$$ 500b:/test/growfiles/minix/rwtest28%f
+-rwtest04 export LTPROOT; rwtest -N rwtest04 -c -q -i 60s -n 2  -f sync -s mmread,mmwrite -m random -Dv 10%25000:mm-sync-$$ 500b:/test/growfiles/minix/rwtest29%f
+-rwtest05 export LTPROOT; rwtest -N rwtest05 -c -q -i 50 -T 64b 500b:/test/growfiles/minix/rwtest30%f
++# Check the vfat filesystem
++gf602 growfiles -W gf602 -d /test/growfiles/vfat -b -e 1 -L 10 -i 100 -I p -S 2 -u -f gf03_
++gf603 growfiles -W gf603 -d /test/growfiles/vfat -b -e 1 -g 1 -i 1 -S 150 -u -f gf05_
++gf604 growfiles -W gf604 -d /test/growfiles/vfat -b -e 1 -g 4090 -i 500 -t 39000 -u -f gf06_
++gf605 growfiles -W gf605 -d /test/growfiles/vfat -b -e 1 -g 5000 -i 500 -t 49900 -T10 -c9 -I p -u -f gf07_
++gf616 growfiles -W gf616 -d /test/growfiles/vfat -b -e 1 -i 0 -L 120 -u -g 4090 -T 100 -t 408990 -l -C 10 -c 1000 -S 10 -f Lgf02_
++gf617 growfiles -W gf617 -d /test/growfiles/vfat -b -e 1 -i 0 -L 120 -u -g 5000 -T 100 -t 499990 -l -C 10 -c 1000 -S 10 -f Lgf03_
++gf618 growfiles -W gf618 -d /test/growfiles/vfat -b -e 1 -i 0 -L 120 -w -u -r 10-5000 -I r -T 10 -l -S 2 -f Lgf04_
++gf619 growfiles -W gf619 -d /test/growfiles/vfat -b -e 1 -g 5000 -i 500 -t 49900 -T10 -c9 -I p -o O_RDWR,O_CREAT,O_TRUNC -u -f gf08i_
++gf612 mkfifo /test/growfiles/vfat/gffifo17; growfiles -W gf612 -b -e 1 -u -i 0 -L 30 /test/growfiles/vfat/gffifo17
++gf613 mkfifo /test/growfiles/vfat/gffifo18; growfiles -W gf613 -b -e 1 -u -i 0 -L 30 -I r -r 1-4096 /test/growfiles/vfat/gffifo18
++gf601 growfiles -W gf601 -b -e 1 -u -i 0 -L 20 -w -C 1 -l -I r -T 10 /test/growfiles/vfat/glseek20 /test/growfiles/vfat/glseek20.2
++gf606 growfiles -W gf606 -b -e 1 -u -r 1-5000 -R 0--1 -i 0 -L 30 -C 1 /test/growfiles/vfat/g_rand10 /test/growfiles/vfat/g_rand10.2
++gf607 growfiles -W gf607 -b -e 1 -u -r 1-5000 -R 0--2 -i 0 -L 30 -C 1 -I p /test/growfiles/vfat/g_rand13 /test/growfiles/vfat/g_rand13.2
++gf608 growfiles -W gf608 -b -e 1 -u -r 1-5000 -R 0--2 -i 0 -L 30 -C 1 /test/growfiles/vfat/g_rand11 /test/growfiles/vfat/g_rand11.2
++gf609 growfiles -W gf609 -b -e 1 -u -r 1-5000 -R 0--1 -i 0 -L 30 -C 1 -I p /test/growfiles/vfat/g_rand12 /test/growfiles/vfat/g_rand12.2
++gf610 growfiles -W gf610 -b -e 1 -u -r 1-5000 -i 0 -L 30 -C 1 -I l /test/growfiles/vfat/g_lio14 /test/growfiles/vfat/g_lio14.2
++gf611 growfiles -W gf611 -b -e 1 -u -r 1-5000 -i 0 -L 30 -C 1 -I L /test/growfiles/vfat/g_lio15 /test/growfiles/vfat/g_lio15.2
++gf614 growfiles -W gf614 -b -e 1 -u -i 0 -L 20 -w -l -C 1 -T 10 /test/growfiles/vfat/glseek19 /test/growfiles/vfat/glseek19.2
++gf615 growfiles -W gf615 -b -e 1 -u -r 1-49600 -I r -u -i 0 -L 120 /test/growfiles/vfat/Lgfile1
++gf620 growfiles -W gf620 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 1-256000:512 -R 512-256000 -T 4 /test/growfiles/vfat/gfbigio-$$
++gf621 growfiles -W gf621 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 -T 10 -t 20480 /test/growfiles/vfat/gf-bld-$$
++gf622 growfiles -W gf622 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 -T 10 -t 20480 /test/growfiles/vfat/gf-bldf-$$
++gf623 growfiles -W gf623 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 512-64000:1024 -R 1-384000 -T 4 /test/growfiles/vfat/gf-inf-$$
++gf624 growfiles -W gf624 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 /test/growfiles/vfat/gf-jbld-$$
++gf625 growfiles -W gf625 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 1024000-2048000:2048 -R 4095-2048000 -T 1 /test/growfiles/vfat/gf-large-gs-$$
++gf626 growfiles -W gf626 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 128-32768:128 -R 512-64000 -T 4 /test/growfiles/vfat/gfsmallio-$$
++gf627 growfiles -W gf627 -b -D 0 -w -g 8b -C 1 -b -i 1000 -u /test/growfiles/vfat/gfsparse-1-$$
++gf628 growfiles -W gf628 -b -D 0 -w -g 16b -C 1 -b -i 1000 -u /test/growfiles/vfat/gfsparse-2-$$
++gf629 growfiles -W gf629 -b -D 0 -r 1-4096 -R 0-33554432 -i 0 -L 60 -C 1 -u /test/growfiles/vfat/gfsparse-3-$$
++gf630 growfiles -W gf630 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -o O_RDWR,O_CREAT,O_SYNC -g 20480 -T 10 -t 20480 /test/growfiles/vfat/gf-sync-$$
++rwtest01 export LTPROOT; rwtest -N rwtest01 -c -q -i 60s  -f sync 10%25000:rw-sync-$$ 500b:/test/growfiles/vfat/rwtest26%f
++rwtest02 export LTPROOT; rwtest -N rwtest02 -c -q -i 60s  -f buffered 10%25000:rw-buffered-$$ 500b:/test/growfiles/vfat/rwtest27%f
++rwtest03 export LTPROOT; rwtest -N rwtest03 -c -q -i 60s -n 2  -f buffered -s mmread,mmwrite -m random -Dv 10%25000:mm-buff-$$ 500b:/test/growfiles/vfat/rwtest28%f
++rwtest04 export LTPROOT; rwtest -N rwtest04 -c -q -i 60s -n 2  -f sync -s mmread,mmwrite -m random -Dv 10%25000:mm-sync-$$ 500b:/test/growfiles/vfat/rwtest29%f
++rwtest05 export LTPROOT; rwtest -N rwtest05 -c -q -i 50 -T 64b 500b:/test/growfiles/vfat/rwtest30%f
+--- runtest/lvm.part2
++++ runtest/lvm.part2
+@@ -70,3 +70,39 @@
+ rwtest13 export LTPROOT; rwtest -N rwtest13 -c -q -i 60s -n 2  -f buffered -s mmread,mmwrite -m random -Dv 10%25000:mm-buff-$$ 500b:/test/growfiles/jfs/rwtest13%f
+ rwtest14 export LTPROOT; rwtest -N rwtest14 -c -q -i 60s -n 2  -f sync -s mmread,mmwrite -m random -Dv 10%25000:mm-sync-$$ 500b:/test/growfiles/jfs/rwtest14%f
+ rwtest15 export LTPROOT; rwtest -N rwtest15 -c -q -i 50 -T 64b 500b:/test/growfiles/jfs/rwtest15%f
++# Check the XFS filesystem
++gf802 growfiles -W gf831 -d /test/growfiles/xfs -b -e 1 -L 10 -i 100 -I p -S 2 -u -f gf03_
++gf803 growfiles -W gf832 -d /test/growfiles/xfs -b -e 1 -g 1 -i 1 -S 150 -u -f gf05_
++gf804 growfiles -W gf833 -d /test/growfiles/xfs -b -e 1 -g 4090 -i 500 -t 39000 -u -f gf06_
++gf805 growfiles -W gf834 -d /test/growfiles/xfs -b -e 1 -g 5000 -i 500 -t 49900 -T10 -c9 -I p -u -f gf07_
++gf816 growfiles -W gf835 -d /test/growfiles/xfs -b -e 1 -i 0 -L 120 -u -g 4090 -T 100 -t 408990 -l -C 10 -c 1000 -S 10 -f Lgf02_
++gf817 growfiles -W gf836 -d /test/growfiles/xfs -b -e 1 -i 0 -L 120 -u -g 5000 -T 100 -t 499990 -l -C 10 -c 1000 -S 10 -f Lgf03_
++gf818 growfiles -W gf837 -d /test/growfiles/xfs -b -e 1 -i 0 -L 120 -w -u -r 10-5000 -I r -T 10 -l -S 2 -f Lgf04_
++gf819 growfiles -W gf838 -d /test/growfiles/xfs -b -e 1 -g 5000 -i 500 -t 49900 -T10 -c9 -I p -o O_RDWR,O_CREAT,O_TRUNC -u -f gf08i_
++gf812 mkfifo /test/growfiles/xfs/gffifo17; growfiles -W gf839 -b -e 1 -u -i 0 -L 30 /test/growfiles/xfs/gffifo17
++gf813 mkfifo /test/growfiles/xfs/gffifo18; growfiles -W gf840 -b -e 1 -u -i 0 -L 30 -I r -r 1-4096 /test/growfiles/xfs/gffifo18
++gf801 growfiles -W gf841 -b -e 1 -u -i 0 -L 20 -w -C 1 -l -I r -T 10 /test/growfiles/xfs/glseek20 /test/growfiles/xfs/glseek20.2
++gf806 growfiles -W gf842 -b -e 1 -u -r 1-5000 -R 0--1 -i 0 -L 30 -C 1 /test/growfiles/xfs/g_rand10 /test/growfiles/xfs/g_rand10.2
++gf807 growfiles -W gf843 -b -e 1 -u -r 1-5000 -R 0--2 -i 0 -L 30 -C 1 -I p /test/growfiles/xfs/g_rand13 /test/growfiles/xfs/g_rand13.2
++gf808 growfiles -W gf844 -b -e 1 -u -r 1-5000 -R 0--2 -i 0 -L 30 -C 1 /test/growfiles/xfs/g_rand11 /test/growfiles/xfs/g_rand11.2
++gf809 growfiles -W gf845 -b -e 1 -u -r 1-5000 -R 0--1 -i 0 -L 30 -C 1 -I p /test/growfiles/xfs/g_rand12 /test/growfiles/xfs/g_rand12.2
++gf810 growfiles -W gf856 -b -e 1 -u -r 1-5000 -i 0 -L 30 -C 1 -I l /test/growfiles/xfs/g_lio14 /test/growfiles/xfs/g_lio14.2
++gf811 growfiles -W gf847 -b -e 1 -u -r 1-5000 -i 0 -L 30 -C 1 -I L /test/growfiles/xfs/g_lio15 /test/growfiles/xfs/g_lio15.2
++gf814 growfiles -W gf848 -b -e 1 -u -i 0 -L 20 -w -l -C 1 -T 10 /test/growfiles/xfs/glseek19 /test/growfiles/xfs/glseek19.2
++gf815 growfiles -W gf849 -b -e 1 -u -r 1-49600 -I r -u -i 0 -L 120 /test/growfiles/xfs/Lgfile1
++gf820 growfiles -W gf850 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 1-256000:512 -R 512-256000 -T 4 /test/growfiles/xfs/gfbigio-$$
++gf821 growfiles -W gf851 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 -T 10 -t 20480 /test/growfiles/xfs/gf-bld-$$
++gf822 growfiles -W gf852 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 -T 10 -t 20480 /test/growfiles/xfs/gf-bldf-$$
++gf823 growfiles -W gf853 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 512-64000:1024 -R 1-384000 -T 4 /test/growfiles/xfs/gf-inf-$$
++gf824 growfiles -W gf854 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -g 20480 /test/growfiles/xfs/gf-jbld-$$
++gf825 growfiles -W gf855 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 1024000-2048000:2048 -R 4095-2048000 -T 1 /test/growfiles/xfs/gf-large-gs-$$
++gf826 growfiles -W gf856 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -r 128-32768:128 -R 512-64000 -T 4 /test/growfiles/xfs/gfsmallio-$$
++gf827 growfiles -W gf857 -b -D 0 -w -g 8b -C 1 -b -i 1000 -u /test/growfiles/xfs/gfsparse-1-$$
++gf828 growfiles -W gf858 -b -D 0 -w -g 16b -C 1 -b -i 1000 -u /test/growfiles/xfs/gfsparse-2-$$
++gf829 growfiles -W gf859 -b -D 0 -r 1-4096 -R 0-33554432 -i 0 -L 60 -C 1 -u /test/growfiles/xfs/gfsparse-3-$$
++gf830 growfiles -W gf860 -D 0 -b -i 0 -L 60 -u -B 1000b -e 1 -o O_RDWR,O_CREAT,O_SYNC -g 20480 -T 10 -t 20480 /test/growfiles/xfs/gf-sync-$$
++rwtest11 export LTPROOT; rwtest -N rwtest16 -c -q -i 60s  -f sync 10%25000:rw-sync-$$ 500b:/test/growfiles/xfs/rwtest11%f
++rwtest12 export LTPROOT; rwtest -N rwtest17 -c -q -i 60s  -f buffered 10%25000:rw-buffered-$$ 500b:/test/growfiles/xfs/rwtest12%f
++rwtest13 export LTPROOT; rwtest -N rwtest18 -c -q -i 60s -n 2  -f buffered -s mmread,mmwrite -m random -Dv 10%25000:mm-buff-$$ 500b:/test/growfiles/xfs/rwtest13%f
++rwtest14 export LTPROOT; rwtest -N rwtest19 -c -q -i 60s -n 2  -f sync -s mmread,mmwrite -m random -Dv 10%25000:mm-sync-$$ 500b:/test/growfiles/xfs/rwtest14%f
++rwtest15 export LTPROOT; rwtest -N rwtest20 -c -q -i 50 -T 64b 500b:/test/growfiles/xfs/rwtest15%f

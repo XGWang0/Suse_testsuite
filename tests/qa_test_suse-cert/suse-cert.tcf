@@ -1,0 +1,3 @@
+timer 300
+fg 1 ftpload /usr/share/qa/qa_test_suse-cert/ftpload.sh
+wait

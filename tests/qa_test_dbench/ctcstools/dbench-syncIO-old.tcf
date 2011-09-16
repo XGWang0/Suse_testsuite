@@ -1,0 +1,6 @@
+# run dbench with synchronous IO for 1 hour with 500 clients, including 
+#     pre-check of feasibility of workdir and
+#     final tidy-up
+#
+fg 1 dbench_syncIO /usr/share/qa/qa_test_dbench/do_dbench -o "-s" -n 500 -t 3600 -D /abuild/dbench_syncIO            
+wait

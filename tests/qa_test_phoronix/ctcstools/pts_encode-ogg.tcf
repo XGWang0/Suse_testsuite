@@ -1,0 +1,4 @@
+fg 1 init /usr/bin/phoronix-test-suite batch-setup
+fg 1 encode-ogg /usr/bin/phoronix-test-suite batch-benchmark encode-ogg
+wait
+exit

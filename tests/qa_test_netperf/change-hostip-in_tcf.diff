@@ -1,0 +1,14 @@
+diff --git a/ctcstools/netperf.tcf b/ctcstools/netperf.tcf
+index f929151..71fddb4 100644
+--- a/ctcstools/netperf.tcf
++++ b/ctcstools/netperf.tcf
+@@ -1,7 +1,7 @@
+ timer 3h
+-fg 1 netperf-udp /usr/lib/qa_test_netperf/bin/udp_stream_script  10.10.27.36
++fg 1 netperf-udp /usr/lib/qa_test_netperf/bin/udp_stream_script  10.11.136.9
+ wait
+ 
+ timer 3h
+-fg 1 netperf-tcp /usr/lib/qa_test_netperf/bin/tcp_range_script  10.10.27.36
++fg 1 netperf-tcp /usr/lib/qa_test_netperf/bin/tcp_range_script  10.11.136.9
+ wait

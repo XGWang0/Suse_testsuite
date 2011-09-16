@@ -1,0 +1,45 @@
+." Manpage for qa_test_indent.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_indent man page"
+.SH NAME
+qa_test_indent
+.SH SYNOPSIS
+/usr/share/qa/tools/test_indent-run
+.br
+indent [options] [single-input-file] [-o output-file]
+.SH TYPE
+Function test
+.SH DESCRIPTION
+Tests on indent package. Tests different indentations of C source codes.
+.br
+The indent program makes codes easier to read. It can also convert from one style of writing C to another. Indent understands a substantial amount about the syntax of C, but it also attempts to cope with incomplete and misformed syntax.
+.SH README
+None. 
+.SH OPTIONS
+-bad option causes indent to force a blank line after every block of declarations. The '-nbad' option causes indent not to force such blank lines.
+.br
+-bap option forces a blank line after every procedure body. The '-nbap' option forces no such blank line.
+.br
+-bbb option forces a blank line before every boxed comment (See section Comments.) The '-nbbb' option does not force such blank lines.
+.br
+-sob option causes indent to swallow optional blank lines (that is, any optional blank lines present in the input will be removed from the output). If the '-nsob' is specified, any blank lines present in the input file will be copied to the output file.
+.SH WHAT IT DOES
+setup the enviroment for clients and start the test automatically.
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+Implement this test suite through hamsta.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Internal (partially), 1 patch. No licence provided in the sources. Internal development. Meant to be GPL.
+.SH LICENSE
+License: n/a. Spec file license: GPL. Internal, but zipped-up like it's external.
+.SH UPSTREAM
+None.
+.SH AUTHOR
+Katarina Machalkova  <KMachalkova@novell.com>
+.SH MAINTAINER
+Jerry Tang <jtang@novell.com>

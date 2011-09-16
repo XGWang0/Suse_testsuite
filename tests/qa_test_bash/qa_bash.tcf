@@ -1,0 +1,240 @@
+timer 300
+fg 1 run-alias.sh /usr/share/qa/qa_test_bash/qa_run-alias.sh
+wait
+
+timer 300
+fg 1 run-appendop.sh /usr/share/qa/qa_test_bash/qa_run-appendop.sh
+wait
+
+timer 300
+fg 1 run-arith-for.sh /usr/share/qa/qa_test_bash/qa_run-arith-for.sh
+wait
+
+timer 300
+fg 1 run-arith.sh /usr/share/qa/qa_test_bash/qa_run-arith.sh
+wait
+
+timer 300
+fg 1 run-array.sh /usr/share/qa/qa_test_bash/qa_run-array.sh
+wait
+
+timer 300
+fg 1 run-array2.sh /usr/share/qa/qa_test_bash/qa_run-array2.sh
+wait
+
+timer 300
+fg 1 run-braces.sh /usr/share/qa/qa_test_bash/qa_run-braces.sh
+wait
+
+timer 300
+fg 1 run-builtins.sh /usr/share/qa/qa_test_bash/qa_run-builtins.sh
+wait
+
+timer 300
+fg 1 run-cond.sh /usr/share/qa/qa_test_bash/qa_run-cond.sh
+wait
+
+timer 300
+fg 1 run-cprint.sh /usr/share/qa/qa_test_bash/qa_run-cprint.sh
+wait
+
+timer 300
+fg 1 run-dbg-support.sh /usr/share/qa/qa_test_bash/qa_run-dbg-support.sh
+wait
+
+timer 300
+fg 1 run-dbg-support2.sh /usr/share/qa/qa_test_bash/qa_run-dbg-support2.sh
+wait
+
+timer 300
+fg 1 run-dirstack.sh /usr/share/qa/qa_test_bash/qa_run-dirstack.sh
+wait
+
+timer 300
+fg 1 run-dollars.sh /usr/share/qa/qa_test_bash/qa_run-dollars.sh
+wait
+
+timer 300
+fg 1 run-errors.sh /usr/share/qa/qa_test_bash/qa_run-errors.sh
+wait
+
+timer 300
+fg 1 run-execscript.sh /usr/share/qa/qa_test_bash/qa_run-execscript.sh
+wait
+
+timer 300
+fg 1 run-exp-tests.sh /usr/share/qa/qa_test_bash/qa_run-exp-tests.sh
+wait
+
+timer 300
+fg 1 run-extglob.sh /usr/share/qa/qa_test_bash/qa_run-extglob.sh
+wait
+
+timer 300
+fg 1 run-extglob2.sh /usr/share/qa/qa_test_bash/qa_run-extglob2.sh
+wait
+
+timer 300
+fg 1 run-extglob3.sh /usr/share/qa/qa_test_bash/qa_run-extglob3.sh
+wait
+
+timer 300
+fg 1 run-func.sh /usr/share/qa/qa_test_bash/qa_run-func.sh
+wait
+
+timer 300
+fg 1 run-getopts.sh /usr/share/qa/qa_test_bash/qa_run-getopts.sh
+wait
+
+timer 300
+fg 1 run-glob-test.sh /usr/share/qa/qa_test_bash/qa_run-glob-test.sh
+wait
+
+timer 300
+fg 1 run-heredoc.sh /usr/share/qa/qa_test_bash/qa_run-heredoc.sh
+wait
+
+timer 300
+fg 1 run-herestr.sh /usr/share/qa/qa_test_bash/qa_run-herestr.sh
+wait
+
+timer 300
+fg 1 run-histexpand.sh /usr/share/qa/qa_test_bash/qa_run-histexpand.sh
+wait
+
+timer 300
+fg 1 run-history.sh /usr/share/qa/qa_test_bash/qa_run-history.sh
+wait
+
+timer 300
+fg 1 run-ifs-posix.sh /usr/share/qa/qa_test_bash/qa_run-ifs-posix.sh
+wait
+
+timer 300
+fg 1 run-ifs.sh /usr/share/qa/qa_test_bash/qa_run-ifs.sh
+wait
+
+timer 300
+fg 1 run-input-test.sh /usr/share/qa/qa_test_bash/qa_run-input-test.sh
+wait
+
+timer 300
+fg 1 run-intl.sh /usr/share/qa/qa_test_bash/qa_run-intl.sh
+wait
+
+timer 300
+fg 1 run-invert.sh /usr/share/qa/qa_test_bash/qa_run-invert.sh
+wait
+
+timer 300
+fg 1 run-iquote.sh /usr/share/qa/qa_test_bash/qa_run-iquote.sh
+wait
+
+timer 300
+fg 1 run-jobs.sh /usr/share/qa/qa_test_bash/qa_run-jobs.sh
+wait
+
+timer 300
+fg 1 run-more-exp.sh /usr/share/qa/qa_test_bash/qa_run-more-exp.sh
+wait
+
+timer 300
+fg 1 run-new-exp.sh /usr/share/qa/qa_test_bash/qa_run-new-exp.sh
+wait
+
+timer 300
+fg 1 run-nquote.sh /usr/share/qa/qa_test_bash/qa_run-nquote.sh
+wait
+
+timer 300
+fg 1 run-nquote1.sh /usr/share/qa/qa_test_bash/qa_run-nquote1.sh
+wait
+
+timer 300
+fg 1 run-nquote2.sh /usr/share/qa/qa_test_bash/qa_run-nquote2.sh
+wait
+
+timer 300
+fg 1 run-nquote3.sh /usr/share/qa/qa_test_bash/qa_run-nquote3.sh
+wait
+
+timer 300
+fg 1 run-nquote4.sh /usr/share/qa/qa_test_bash/qa_run-nquote4.sh
+wait
+
+timer 300
+fg 1 run-posixpat.sh /usr/share/qa/qa_test_bash/qa_run-posixpat.sh
+wait
+
+timer 300
+fg 1 run-posix2.sh /usr/share/qa/qa_test_bash/qa_run-posix2.sh
+wait
+
+timer 300
+fg 1 run-precedence.sh /usr/share/qa/qa_test_bash/qa_run-precedence.sh
+wait
+
+timer 300
+fg 1 run-printf.sh /usr/share/qa/qa_test_bash/qa_run-printf.sh
+wait
+
+timer 300
+fg 1 run-quote.sh /usr/share/qa/qa_test_bash/qa_run-quote.sh
+wait
+
+timer 300
+fg 1 run-read.sh /usr/share/qa/qa_test_bash/qa_run-read.sh
+wait
+
+timer 300
+fg 1 run-redir.sh /usr/share/qa/qa_test_bash/qa_run-redir.sh
+wait
+
+timer 300
+fg 1 run-rhs-exp.sh /usr/share/qa/qa_test_bash/qa_run-rhs-exp.sh
+wait
+
+timer 300
+fg 1 run-rsh.sh /usr/share/qa/qa_test_bash/qa_run-rsh.sh
+wait
+
+timer 300
+fg 1 run-set-e.sh /usr/share/qa/qa_test_bash/qa_run-set-e.sh
+wait
+
+timer 300
+fg 1 run-set-x.sh /usr/share/qa/qa_test_bash/qa_run-set-x.sh
+wait
+
+timer 300
+fg 1 run-shopt.sh /usr/share/qa/qa_test_bash/qa_run-shopt.sh
+wait
+
+timer 300
+fg 1 run-strip.sh /usr/share/qa/qa_test_bash/qa_run-strip.sh
+wait
+
+timer 300
+fg 1 run-test.sh /usr/share/qa/qa_test_bash/qa_run-test.sh
+wait
+
+timer 300
+fg 1 run-tilde.sh /usr/share/qa/qa_test_bash/qa_run-tilde.sh
+wait
+
+timer 300
+fg 1 run-tilde2.sh /usr/share/qa/qa_test_bash/qa_run-tilde2.sh
+wait
+
+timer 300
+fg 1 run-trap.sh /usr/share/qa/qa_test_bash/qa_run-trap.sh
+wait
+
+timer 300
+fg 1 run-type.sh /usr/share/qa/qa_test_bash/qa_run-type.sh
+wait
+
+timer 300
+fg 1 run-varenv.sh /usr/share/qa/qa_test_bash/qa_run-varenv.sh
+wait
+

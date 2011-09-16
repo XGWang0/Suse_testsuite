@@ -1,0 +1,10 @@
+#!/bin/bash
+
+MOUNT_DIR1="/MOUNT-VIRT"
+MOUNT_DIR2="/VIRT-ISO"
+# Temporal disable - can break the connection
+#echo "Killing processes that still access $MOUNT_DIR (if any)..." >&2
+#fuser -km $MOUNT_DIR
+
+umount $MOUNT_DIR1 
+umount $MOUNT_DIR2

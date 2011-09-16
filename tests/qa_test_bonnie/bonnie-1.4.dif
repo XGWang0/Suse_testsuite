@@ -1,0 +1,60 @@
+diff -Naur /tmp/bonnie/bonnie/Bonnie.c bonnie/Bonnie.c
+--- /tmp/bonnie/bonnie/Bonnie.c	2002-04-04 14:59:46.000000000 +0200
++++ bonnie/Bonnie.c	2008-09-23 15:08:22.000000000 +0200
+@@ -79,7 +79,8 @@
+ 
+ #ifdef __linux__
+ /* for o_direct */
+-#include <asm/page.h>
++//#include <asm/page.h>
++#include <time.h>
+ #endif
+ 
+ #ifdef unix
+@@ -170,6 +171,13 @@
+ #define o_direct 0
+ #endif
+ 
++#ifndef PAGE_SIZE
++#define PAGE_SIZE              getpagesize()
++#endif
++#ifndef PAGE_MASK
++#define PAGE_MASK              (~(PAGE_SIZE - 1))
++#endif
++
+ int main(
+   int    argc,
+   char * argv[])
+@@ -263,7 +271,7 @@
+   memsz *= sysconf (_SC_PAGESIZE);
+   if (1024*1024*size <= memsz)
+   {
+-	fprintf (stderr, "Bonnie: Warning: You have %iMB RAM, but you test with only %iMB datasize!\n",
++	fprintf (stderr, "Bonnie: Warning: You have %iMB RAM, but you test with only %liMB datasize!\n",
+ 		memsz/(1024*1024), size);
+ 	fprintf (stderr, "Bonnie:          This might yield unrealistically good results,\n");
+ 	fprintf (stderr, "Bonnie:          for reading and seeking%s.\n",
+@@ -622,7 +630,7 @@
+ }
+ 
+ #define FLTBUFS 8
+-char fltidx = 0;
++int fltidx = 0;
+ char fltbuf[8][FLTBUFS];
+ char * cpupc (const int idx)
+ {
+diff -Naur /tmp/bonnie/bonnie/Makefile bonnie/Makefile
+--- /tmp/bonnie/bonnie/Makefile	2002-02-20 19:22:55.000000000 +0100
++++ bonnie/Makefile	2008-09-23 15:08:53.000000000 +0200
+@@ -23,9 +23,9 @@
+ # Added 99/07/20, <garloff@suse.de>
+ install: Bonnie
+ 	install -d $(DESTDIR)$(PREFIX)/bin
+-	install -s -m 0755 -o root -g root Bonnie $(DESTDIR)$(PREFIX)/bin/bonnie
++	install -m 0755 Bonnie $(DESTDIR)$(PREFIX)/bin/bonnie
+ 	install -d $(DESTDIR)$(MANDIR)/man1
+-	install -m 0644 -o man -g root bonnie.1 $(DESTDIR)$(MANDIR)/man1/bonnie.1
++	install -m 0644 bonnie.1 $(DESTDIR)$(MANDIR)/man1/bonnie.1
+ 	gzip -9f $(DESTDIR)$(MANDIR)/man1/bonnie.1
+ 	
+ clean: 

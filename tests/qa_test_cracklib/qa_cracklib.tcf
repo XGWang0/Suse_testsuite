@@ -1,0 +1,8 @@
+timer 300
+fg 1 qa_cracklib_similar_password /usr/share/qa/qa_test_cracklib/cracklib_sim.exp
+wait
+
+timer 300
+fg 1 qa_cracklib_trivial_password /usr/share/qa/qa_test_cracklib/cracklib_tri.exp
+wait 
+

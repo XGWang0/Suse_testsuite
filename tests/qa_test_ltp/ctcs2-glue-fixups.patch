@@ -1,0 +1,28 @@
+Index: ltp-full-git/ctcstools/ltp_wrapper.sh
+===================================================================
+--- ltp-full-git.orig/ctcstools/ltp_wrapper.sh
++++ ltp-full-git/ctcstools/ltp_wrapper.sh
+@@ -67,19 +67,19 @@ if [ $rc -eq 0 ]; then
+ # LTP_MODE map unsuitable/unsupported tests to PASS. Check if _only_ TCONF is set!
+ elif [ $LTP_MODE -eq 1 ] && [[ "$rc" -eq 4 ]]; then
+   echo "INFO: ltp-pan reported this test is unsuitable/unsupported (LTP_MODE)"
+-  VALUE=0
++  VALUE=22
+ # LTP_MODE uses bit fields - TFAIL is 0x1
+ elif [ $LTP_MODE -eq 1 ]  && [ "$(( $rc & 1 ))" -eq 0 ] ; then
+   echo "INFO: ltp-pan reported this test had INTERNAL ERRORS (LTP_MODE)"
+-  VALUE=2
++  VALUE=11
+ # OPENPOSIX_MODE map internal errors
+ elif [ $OPENPOSIX_MODE -eq 1 ] && [[ "$rc" -eq 5 || "$rc" -eq "2" ]]; then
+   echo "INFO: ltp-pan reported this test had INTERNAL ERRORS (OPENPOSIX_MODE)"
+-  VALUE=2
++  VALUE=11
+ # OPENPOSIX_MODE map unsuitable/unsupported tests to PASS
+ elif [ $OPENPOSIX_MODE -eq 1 ] && [[ "$rc" -eq 4 ]]; then
+   echo "INFO: ltp-pan reported this test is unsuitable/unsupported (OPENPOSIX_MODE)"
+-  VALUE=0
++  VALUE=22
+ else
+   echo "INFO: ltp-pan reported some tests FAIL"
+   VALUE=1

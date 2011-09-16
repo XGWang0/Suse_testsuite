@@ -1,0 +1,45 @@
+#! /bin/sh
+# Copyright (c) 1999 SuSE GmbH Nuremberg, Germany.  All rights reserved.
+#
+# Author: Daniel Bischof <daniel@suse.de>, 1999
+#
+# /etc/init.d/junkbuster
+#
+### BEGIN INIT INFO
+# Provides:       junkbuster ijb
+# Required-Start: $network syslog
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    Starts the Internet Junkbuster
+### END INIT INFO
+
+. /etc/rc.status
+. /etc/rc.config
+
+rc_reset
+case "$1" in
+    start)
+        echo -n "Starting The Internet Junkbuster"
+        startproc -u nobody /usr/sbin/junkbuster /etc/ijb/junkbstr.ini
+        rc_status -v
+        ;;
+    stop)
+        echo -n "Shutting down The Internet Junkbuster"
+        killproc -TERM /usr/sbin/junkbuster
+	rc_status -v
+        ;;
+    restart|reload)
+        $0 stop && $0 start
+	rc_status
+        ;;
+    status)
+        echo -n "Checking for junkbuster: "
+	checkproc /usr/sbin/junkbuster
+	rc_status -v
+        ;;
+    *)
+        echo "Usage: $0 {start|restart|status|stop}"
+        exit 1
+esac
+rc_exit

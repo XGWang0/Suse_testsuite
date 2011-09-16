@@ -1,0 +1,52 @@
+timer 300
+fg 1 addextension_test /usr/share/qa/qa_test_logrotate/addextension_test.py
+wait
+
+timer 300
+fg 1 compression_test /usr/share/qa/qa_test_logrotate/compression_test.py
+wait
+
+timer 300
+fg 1 copy_log_test /usr/share/qa/qa_test_logrotate/copy_log_test.py
+wait
+
+timer 300
+fg 1 dateformat_test /usr/share/qa/qa_test_logrotate/dateformat_test.py
+wait
+
+timer 300
+fg 1 force_rotate_test /usr/share/qa/qa_test_logrotate/force_rotate_test.py
+wait
+
+timer 300
+fg 1 ifempty_test /usr/share/qa/qa_test_logrotate/ifempty_test.py
+wait
+
+timer 300
+fg 1 log_order_test /usr/share/qa/qa_test_logrotate/log_order_test.py
+wait
+
+timer 300
+fg 1 log_size_test /usr/share/qa/qa_test_logrotate/log_size_test.py
+wait
+
+timer 300
+fg 1 missingok_test /usr/share/qa/qa_test_logrotate/missingok_test.py
+wait
+
+timer 300
+fg 1 no_force_rotate_test /usr/share/qa/qa_test_logrotate/no_force_rotate_test.py
+wait
+
+timer 300
+fg 1 nomissingok_test /usr/share/qa/qa_test_logrotate/nomissingok_test.py
+wait
+
+timer 300
+fg 1 notifempty_test /usr/share/qa/qa_test_logrotate/notifempty_test.py
+wait
+
+timer 300
+fg 1 remove_old_logs_test /usr/share/qa/qa_test_logrotate/remove_old_logs_test.py
+wait
+

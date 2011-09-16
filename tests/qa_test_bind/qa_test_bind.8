@@ -1,0 +1,39 @@
+." Manpage for qa_test_bind.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_bind man page"
+.SH NAME
+qa_test_bind
+.SH SYNOPSIS
+/usr/share/qa/tools/test_bind-run
+.SH TYPE
+test suite
+.SH DESCRIPTION
+Test bind services and DNS resolutions.
+.SH README
+None. 
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+Test bind service start, stop, and restart.
+.br
+Test DNS forward query; Resolve primary and second level DNS records.
+.br
+DNS files will be backed up before test run and restored after tests are done.
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+It is suggested that users backup DNS files if they really want to use a DNS server as an SUT.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Internal, Our code.
+.SH LICENSE
+License: n/a. Spec file license: GPL v2 or later.
+.SH UPSTREAM
+http://www.novell.com/products/apparmor/
+.SH AUTHOR
+QA team <qa@suse.de>
+.SH MAINTAINER
+Arthur Guo <aguo@novell.com>

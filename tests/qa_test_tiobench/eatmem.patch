@@ -1,0 +1,105 @@
+Index: eatmem.c
+===================================================================
+--- eatmem.c	(revision 7)
++++ eatmem.c	(working copy)
+@@ -1,15 +1,20 @@
+ #include <sys/mman.h>
++#include <sys/types.h>
++#include <sys/wait.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <unistd.h>
+ #include <string.h>
+ #include <errno.h>
+ 
++#define PSIZE 1048576
++
+ int main(int argc, char** argv){
+ 
+ 	int retcode=0;
+ 	int ret=0;
+ 	int len, totalmem, remaining;
++	int partlen, pid;
+ 	void *ptr=NULL;
+ 
+ 	if(argc != 3){
+@@ -26,37 +31,57 @@
+ 	}
+ 	
+ 	len = totalmem - remaining; // len has unit KB
+-	ptr = calloc(len,1024);
++	
++	partlen = ( len>PSIZE ? PSIZE : len );
++	ptr = calloc(partlen,1024);
++	/* fprintf(stderr,"malloc %i kb = %p\n",partlen,ptr); */
+ 
+ 	if(ptr == NULL) {
+-		fprintf(stderr,"could not allocate memory - not enough memory?\n");
++		fprintf(stderr,"could not allocate memory(2) - not enough memory?\n");
+ 		return 1;
+ 	}
+-	else {	
+-		ret = mlock(ptr, len*1024);
+-		if( ret == -1 ){	
+-			switch(errno){
+-				case ENOMEM:
+-					fprintf(stderr,"not enough memory available\n");
+-					return 1;
+-				break;
+-				case EPERM:
+-					fprintf(stderr,"you must be root to lock pages\n");
+-					return 1;
+-				break;
+-			}		
++	ret = mlock(ptr, partlen*1024);
++	/* fprintf( stderr,"mlock %i kb = %i\n", partlen, ret); */
++	if( ret == -1 ){	
++		switch(errno){
++			case ENOMEM:
++				fprintf(stderr,"not enough memory available\n");
++			break;
++			case EPERM:
++				fprintf(stderr,"you must be root to lock pages\n");
++			break;
++		}
++		return 1;
++	}
+ 
++	if( len>partlen )
++	{
++		char buf[64];
++		argv[1]=buf;
++		sprintf(argv[1],"%i", totalmem - partlen );
++		/* fprintf(stderr,"Remaining: %s\n",argv[1]); */
++		pid = fork();
++		if( pid==0 )	{
++			ret = execvp( argv[0], argv );
++			fprintf(stderr, "exec %s returns %d\n", argv[0], ret );
++			return 1;
+ 		}
++		else
++		{
++			if( waitpid(pid,&ret,0) > 0 )
++				return WEXITSTATUS(ret);
++			return 1;
++		}
++	}
++	else
++	{
+ 		// loop inf
+-		else {
+-			//printf("allocated and locked %d MB\n", len);
+-			while(1)
+-				// ugly
+-				sleep(120);
+-		}	
++		while(1)
++			// ugly
++			sleep(120);
+ 	}
+ 
+-	munlock(ptr, len*1024);
++	munlock(ptr, partlen*1024);
+ 	free(ptr);
+ 	return retcode;	
+ }

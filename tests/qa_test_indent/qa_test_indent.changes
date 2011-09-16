@@ -1,0 +1,30 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 11:48:40 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_indent -> qa_test_indent
+
+-------------------------------------------------------------------
+Tue Jul 25 16:46:03 CEST 2006 - mmrazik@suse.cz
+
+- testsuite from upstream added
+
+-------------------------------------------------------------------
+Fri Jan 27 16:08:45 CET 2006 - kmachalkova@suse.cz
+
+- added ctcs2 support (tcf file, run script)
+
+-------------------------------------------------------------------
+Wed Jan 25 21:47:32 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Fri Jan 20 14:44:05 CET 2006 - kmachalkova@suse.cz
+
+- package created, version 0.1 
+

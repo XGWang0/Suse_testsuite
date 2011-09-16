@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# block read testing
+# give it a device and it will go after it
+export LANG="C"
+SLEEPDELAY=60
+
+if [ -z "$1" ] ; then
+    echo device required, maxblocks optional
+    exit 1
+fi
+device=$1
+if [ ! -z "$2" ] ; then 
+    maxblocks=$2
+else
+    maxblocks=0
+fi
+
+size=2880
+bsize=512
+
+if [ "$device" = "/dev/fd0" ] ; then
+    # hack for floppy disks (no size information... grr)
+    size=2880
+    bsize=512
+else
+    if [ -x qa_test_newburn/print_disk_info ] 
+	then
+    		scratch=`qa_test_newburn/print_disk_info $device`
+	elif [ -x bin/qa_test_newburn/print_disk_info ] 
+		then
+			scratch=`bin/qa_test_newburn/print_disk_info $device`
+		else
+			echo unable to find print_disk_info
+			exit 2
+	fi
+    
+    bsize=`echo $scratch | awk '{print $2;}'`
+    size=`echo $scratch | awk '{print $1;}'`
+    if [ -z "$size" -o -z "$bsize" ] ; then {
+	if [ `uname -i` = "ia64" ]; then
+                # default values
+                size=5368709120 # 5 GB
+                bsize=512
+        else
+                echo Unable to configure test.  $device not present or not readable.
+                exit 2
+        fi 
+    } ; fi
+fi
+
+if [ "$size" -lt 100 ] ; then {
+    echo error in size calculation... aborting
+    exit 2
+} ; fi
+
+if [ "$size" -gt "$maxblocks" -a "$maxblocks" != "0" ] ; then {
+    size=$maxblocks
+} ; fi
+
+if [ `basename $0` = "sblockrdtst-info" ] ; then {
+	sleep $[$RANDOM % $SLEEPDELAY]
+} ; fi
+
+echo $device $bsize $size
+exit 0

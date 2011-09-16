@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# 1. clean testcases
+cd qa_test_virtualization
+echo yes | ./_clean_install.sh
+cd - >/dev/null
+
+# 2. clean tcfs
+rm qa_virtualization-standalone.tcf
+rm qa_virtualization-network.tcf
+rm qa_virtualization-sles10sp4supported-standalone.tcf
+rm qa_virtualization-sles10sp4supported-network.tcf
+rm qa_virtualization-sles11sp1supported-standalone.tcf
+rm qa_virtualization-sles11sp1supported-network.tcf
+
+# 3. clean pack
+version=`grep ^Version: qa_test_virtualization.spec | awk {'print $2'}`
+rm qa_test_virtualization-$version.tar.bz2
+

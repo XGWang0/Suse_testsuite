@@ -1,0 +1,94 @@
+#!/usr/bin/env python
+
+##############################################################################
+# Written by: Calen Chen <cachen@novell.com>
+# Date:        10/15/2010
+# Description: Firefox Save Page Test
+##############################################################################
+
+# The docstring below  is used in the generated log file
+doc = """
+
+==Firefox test==
+===Save Page test===
+Step1: Open browser to http://www.mozilla.org/mozorg.html
+Step2: From the toplevel menu, select File | Save Page As
+Step3: In the resulting file picker, make sure "Web Page, complete" is selected.
+Step4: Choose a target directory (e.g., your desktop or home directory).
+Step5: Click the Save button.
+Step6: Make sure mozorg.html is saved to /home
+"""
+
+# imports
+from strongwind import *
+from firefox_frame import *
+
+# Make sure MozillaFirefox version is expected for the test
+checkVersion()
+
+# Launch browser
+try:
+  app = launchApp('/usr/bin/firefox', "Firefox")
+except IOError, msg:
+  print "ERROR:  %s" % msg
+  exit(2)
+# just an alias to make things shorter
+fFrame = app.firefoxFrame
+
+print doc
+
+# clean existed mozorg.html
+m_html = '/home/mozorg.html'
+if os.path.exists(m_html):
+    os.system('rm %s' % m_html)
+else:
+    pass
+
+# Step1: Open browser to http://www.mozilla.org/mozorg.html
+openURL(fFrame, "http://www.mozilla.org/mozorg.html")
+
+procedurelogger.expectedResult("make sure mozilla.org is opened")
+assert fFrame.name == "mozilla.org at a glance - Mozilla Firefox", \
+                                       "Mozilla.org frame doesn't appears"
+
+# Step2: From the top level menu, select File | Save Page As
+menubar = fFrame.findMenuBar(None)
+fFrame.findMenu("File").mouseClick()
+sleep(config.SHORT_DELAY)
+
+# Unidentified encode key of "..." in the name, use click to instead select
+#menubar.select(['File', 'Save Page As...'])
+sa_menuitem = fFrame.findMenuItem(re.compile('^Save Page As'))
+sa_menuitem.mouseClick()
+sleep(config.SHORT_DELAY)
+
+# Step3: In the resulting file picker, make sure "Web Page, complete" is selected
+save_dialog = app.findDialog("Save As")
+comboboxs = save_dialog.findAllComboBoxs(None, checkShowing=False)
+if comboboxs[-1].showing is False:
+    save_dialog.findToggleButton(re.compile('Browse for other folders$')).activate()
+
+procedurelogger.expectedResult("make sure \"Web Page, complete\" is selected")
+assert comboboxs[-1].name == "Web Page, complete", \
+                                     "\"Web Page, complete\" isn't selected"
+
+# Step4: Choose a target directory (e.g., your desktop or home directory)
+procedurelogger.action("choose /home as target directory")
+save_dialog.findText(None, labelledBy='Name:').text = m_html
+sleep(config.SHORT_DELAY)
+
+# Step5: Click the Save button
+save_dialog.findPushButton("Save").mouseClick()
+sleep(config.LONG_DELAY)
+
+# Step6: Make sure mozorg.html is saved to Desktop
+import os
+procedurelogger.expectedResult("make sure mozorg.html is saved to home")
+assert os.path.exists(m_html) == True, \
+                               "mozorg.html doesn't saved to home"
+
+# Close application
+menubar = fFrame.findMenuBar(None)
+menubar.select(['File', 'Quit'])
+sleep(config.SHORT_DELAY)
+fFrame.assertClosed()

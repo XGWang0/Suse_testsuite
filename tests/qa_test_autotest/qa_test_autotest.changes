@@ -1,0 +1,93 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Mon Aug 15 14:22:39 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: autotest -> qa_test_autotest
+
+-------------------------------------------------------------------
+Mon Feb  9 17:05:49 CET 2009 - yxu@suse.de
+
+- turned off cpu_hotplug test, bnc#386714 
+
+-------------------------------------------------------------------
+Mon Jan 19 15:00:35 CET 2009 - yxu@suse.de
+
+- truncate autotest_quick.tcf
+- fix typo in autotest.tcf 
+
+-------------------------------------------------------------------
+Thu Oct  9 15:47:58 CEST 2008 - yxu@suse.de
+
+- fix for bnc #430680 
+- included "setup_modules.py" in the list of files to be installed
+
+-------------------------------------------------------------------
+Tue Jun 17 14:06:06 CEST 2008 - pkirsch@suse.de
+
+- changed every python2.4 call to generic python, to be
+ more universal and bypass build constraints
+
+-------------------------------------------------------------------
+Tue Jun 17 10:36:32 CEST 2008 - pkirsch@suse.de
+
+- switched to mainline svn version 1686
+- edited nearly all patches, due to changed API
+- some test suites still does not work out of the box 
+
+-------------------------------------------------------------------
+Tue May  6 11:14:51 CEST 2008 - yxu@suse.de
+
+- added autotest-cpu_hotplug tcf file
+- renamed the old autotest-cpu_hotplug tcf file to autotest-cyclictest 
+  according to its content (autotest-cyclictest test)
+
+-------------------------------------------------------------------
+Wed Mar 12 17:34:19 CET 2008 - yxu@suse.de
+
+- build the package for some more distros: e.g. sles9, sles10
+
+-------------------------------------------------------------------
+Fri Feb 15 08:45:36 CET 2008 - pkirsch@suse.de
+
+- added common_lib in spec_file, due to autotest mainline changes 
+
+-------------------------------------------------------------------
+Mon Jan 28 18:26:35 CET 2008 - pkirsch@suse.de
+
+- updated to svn 1208 from mainline
+- added get_blktrace.patch 
+
+-------------------------------------------------------------------
+Fri Oct 12 13:53:35 CEST 2007 - pkirsch@suse.de
+
+- corrected disktest.py to use diskfree for used diskspace 
+
+-------------------------------------------------------------------
+Fri Sep 14 16:24:57 CEST 2007 - pkirsch@suse.de
+
+- enabled posgresql testsuite 
+
+-------------------------------------------------------------------
+Tue Sep 11 16:55:57 CEST 2007 - pkirsch@suse.de
+
+- corrected kernelbuild and sparse testcases to run with
+  SUSE
+
+-------------------------------------------------------------------
+Tue Sep 11 09:25:40 CEST 2007 - pkirsch@suse.de
+
+- set all working directorys to /abuild
+
+-------------------------------------------------------------------
+Mon Aug 27 15:19:50 CEST 2007 - pkirsch@suse.de
+
+- correct max run time of tests to 1d 
+
+-------------------------------------------------------------------
+Fri Jul 13 11:16:23 CET 2007 - pkirsch@suse.de
+- initial package
+

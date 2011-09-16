@@ -1,0 +1,27 @@
+qa_package: suse-cert
+
+=====================================
+
+[introduction]
+A network testing tools, for downloading testing.
+
+[require packages]
+wget
+pure-ftpd
+ctcs2
+qa_dummy
+
+[what the test does]
+With default setting, this test suite downloads a file from specify ftp site for certain times.
+
+[what happens ]
+Create a directory named "/abuild" if it doesn't exist.
+Check disk space automatically, quit once no enough space.
+A file named "400MB" with size of exactly 400MB will be downloaded 20 times to /abuild.
+After downloading process finished, "400MB" file will be deleted automatically.
+
+[common problems]
+Depends on network bandwidth downloading process could be slow or even broken.
+
+[things to take care of]
+Make sure there are enough disk space in SUT.

@@ -1,0 +1,27 @@
+diff -Naur /tmp/qa_test_interbench/interbench.c qa_test_interbench/interbench.c
+--- /tmp/qa_test_interbench/interbench.c	2006-03-04 02:33:54.000000000 +0100
++++ qa_test_interbench/interbench.c	2008-09-23 14:27:49.000000000 +0200
+@@ -765,11 +765,11 @@
+ 	unsigned long i, threads[3];
+ 
+ 	for (i = 0 ; i < THREADS ; i++) {
+-		if (threadlist[i].label == "Burn")
++		if (!strcmp(threadlist[i].label, "Burn"))
+ 			threads[0] = i;
+-		if (threadlist[i].label == "Write")
++		if (!strcmp(threadlist[i].label, "Write"))
+ 			threads[1] = i;
+-		if (threadlist[i].label == "Read")
++		if (!strcmp(threadlist[i].label, "Read"))
+ 			threads[2] = i;
+ 	}
+ 	for (i = 0 ; i < 3 ; i++) {
+@@ -1154,7 +1154,7 @@
+ 		fprintf(stderr, "\nCould not get memory or swap size. ");
+ 		fprintf(stderr, "Will not perform mem_load\n");
+ 		for (i = 0 ; i < THREADS ; i++) {
+-			if (threadlist[i].label == "Memload") {
++			if (!strcmp(threadlist[i].label, "Memload")) {
+ 				threadlist[i].load = 0;
+ 				threadlist[i].rtload = 0;
+ 			}

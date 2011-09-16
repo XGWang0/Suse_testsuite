@@ -1,0 +1,12 @@
+#!/bin/bash
+. libo_conf
+. libo_logging
+
+log "Removing old libreoffice"
+sudo rpm -e `rpm -qa | grep -e libreoffice -e libobasis -e OpenOffice_org` > /dev/null 2>&1
+if test $? == 0; then
+    sudo rm -fr /usr/share/libreoffice/ /usr/lib/libreoffice/ /usr/lib64/libreoffice/ /home/$user/.libreoffice /home/$user/.oootesttool
+    log 'Removing old libreoffice complete'
+else
+    logwarning "Problem when removing old libreoffice (probably it was not installed.)"
+fi

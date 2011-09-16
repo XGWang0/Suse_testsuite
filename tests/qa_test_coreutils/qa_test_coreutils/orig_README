@@ -1,0 +1,14 @@
+The orig_test_suite directory contains the original test suite
+which is shipped with the coreutils package (in the 'test' directory).
+
+Scripts starting with 'orig_' run the various tests from this directory.
+The original test suite is not modified in any way.
+
+Following tests are not included:
+
+* stty/basic-1
+
+    This test must have a controlling input `terminal',
+    so it may not be run via `batch', `at', or `rsh'.
+    On some systems, it may not even be run in the background.
+

@@ -1,0 +1,29 @@
+
+timer 480
+fg 1 testopia_233364 /usr/share/qa/qa_test_gnutls/testopia_233364.sh
+wait
+
+timer 60
+fg 1 testopia_233365+6_gnutls-cli /usr/share/qa/qa_test_gnutls/testopia_233365+6_gnutls-cli.sh
+wait
+
+timer 30
+fg 1 testopia_233367_gnutls-serv /usr/share/qa/qa_test_gnutls/testopia_233367_gnutls-serv.sh
+wait
+
+timer 360
+fg 1 testopia_233368_certtool /usr/share/qa/qa_test_gnutls/testopia_233368_certtool.sh
+wait
+
+timer 120
+fg 1 testopia_233369_srptool /usr/share/qa/qa_test_gnutls/testopia_233369_srptool.sh
+wait
+
+timer 60
+fg 1 bnc441856 /usr/share/qa/qa_test_gnutls/bnc441856-fixvalidator.sh
+wait
+
+timer 60
+fg 1 bnc457938 /usr/share/qa/qa_test_gnutls/bnc457938-fixvalidator.sh
+wait
+

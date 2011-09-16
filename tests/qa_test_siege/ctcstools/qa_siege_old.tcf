@@ -1,0 +1,4 @@
+timer 4200
+fg 1 qa_siege_defaultrun.sh /usr/share/qa/qa_test_siege/qa_siege_defaultrun.sh
+wait
+

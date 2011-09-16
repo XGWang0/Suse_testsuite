@@ -1,0 +1,47 @@
+." Manpage for qa_test_ltp.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_ltp man page"
+.SH NAME
+qa_test_ltp
+.SH SYNOPSIS
+/usr/lib/ctcs2/tools/test_ltp-run
+.SH TYPE
+test
+.SH DESCRIPTION
+A collection of test suites to validate the reliability, robustness and
+stability of Linux. It provides tools for testing the kernel and related
+features. While these are open-source tests, we have an in-house LTP expert who
+does a lot of work improving it for our use, while contributing as many patches
+as possible back to the community (basically every upstream applicable patch
+gets to the upstream repository). Lately we also started to help manage the the
+upstream project.
+.SH README
+LTP includes various automated test suites including: power management, kernel,
+kdump, disk, process, scheduler, network memory, MCE, POSIX, AIO, gzip,
+logrotate, mail, su, tar, unzip, cpio, cron ...and more.
+
+Note that we aren't running all of them in our default setup now as some of
+these, for example needs to crash (MCE for example) the machine which is really
+hard to automate.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+None.
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+None.
+.SH SEE ALSO
+None.
+.SH BUGS
+Some of the testcases are known to be broken, some fail randomly, we are working on that ;).
+.SH DISTRIBUTION
+External, Some internal patches mainly interface to CTCS2.
+.SH LICENSE
+License: GPL v2 or later. Spec file license: GPL v2 or later.
+.SH UPSTREAM
+http://ltp.sf.net
+.SH AUTHOR
+LTP authors.
+.SH MAINTAINER
+Cyril Hrubis <CHrubis@novell.com>

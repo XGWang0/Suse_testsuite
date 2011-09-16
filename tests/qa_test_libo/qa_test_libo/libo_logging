@@ -1,0 +1,9 @@
+#!/bin/bash
+
+function log() {
+         echo "qa_libo Logging: $1"
+}
+
+function logwarning() {
+         echo "qa_libo Warning: $1"
+}         

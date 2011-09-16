@@ -1,0 +1,113 @@
+#!/bin/bash
+
+#DEBUG
+#ROLE_1_IP=localhost
+
+trap "finish 1 \"user abort\"" INT TERM EXIT
+
+
+function finish {
+	# save first parameter (ret code)
+	val=$1
+	# trim it
+	shift
+	# echo the remaining message
+	echo $*
+	# bail out 
+	rm $tokenfile >/dev/null 2>&1
+	exit $val 
+}
+
+function notify {
+	# cheap dnotify replacement
+	if [ -f "$1" ]; then
+		# print epoch seconds for last modification
+		stat -c %X "$1"
+	else
+		# or 0 in case file doesn't exist
+		echo 0
+	fi
+}
+
+# to be read by the SUT (via reboot_token on the server)
+tokenfile="/var/tmp/reboot_token"
+
+# in seconds: minutes * 60
+timeout=60
+# when did we last see the SUT do something
+lastseen=0
+
+# in seconds - frequency of progress checks, needs to be a fraction of $timeout
+frequency=5 
+
+# lazy unique ID... it is at least unique in the context 
+# of the current session
+token=$$
+
+# iterations left - will be overwritten with value from SUT
+iterations=0
+
+# that's where the SUT will write to
+remote_log=/tmp/${token}.log
+# and this is where we track progress
+remote_progress=/tmp/${token}.prg
+
+if [ -f "$tokenfile" ]; then
+	rm $tokenfile
+fi
+
+echo $token > $tokenfile
+
+# now go ahead and install the boot script in the init process
+# on the SUT
+# DEBUG ssh root@$ROLE_1_IP "insserv boot.reboot_test" || finish 1 "could not install boot script on SUT"
+# start the test
+# DEBUG ssh root@$ROLE_1_IP "/etc/init.d/boot.reboot_test start" || finish 1 "could not start test on SUT"
+/etc/init.d/boot.reboot_test start || finish 1 "could not start test on SUT"
+
+# now let's monitor the progress and see what the SUT will be doing
+# while with the progress we can only track successful execution (x iterations
+# of reboots were done) we need to establish an exit criteria to determine the
+# fail case.
+# timeout will be used to determine how long we are waiting for the SUT to
+# respond after a reboot and once exceeded we will assume the test failed
+
+while true; do
+
+	modification_date=$(notify) $remote_progress
+
+	# let's see if we are patiently waiting or aborting the test
+	if (( ( last_seen+timeout ) > modification_date) )); then
+		finish 1 "timed out"
+	else
+		remaining=$(( modification_date - ( last_seen+timeout ) ))
+		echo "$remaining seconds until test aborts"
+	fi
+	
+	# any new updates?
+	if (( modification_date > last_seen )); then
+		# yes, so let's see how many iterations are left
+		. $remote_progress
+		last_seen=$modification_date
+		echo "$iterations iterations left"
+	elif (( modifcation_date < last_seen )); then
+		# must not happen...
+		exit 22 "something went wrong"
+	else
+		# let's wait one more iteration of this loop, we accidentally
+		# have hit the modtime == last_seen case
+		;;
+	fi
+
+	if (( iterations <1 )); then
+		# yay, we are done
+		#ssh root@$ROLE_1_IP "/etc/init.d/boot.reboot stop"
+		#ssh root@$ROLE_1_IP "insserv -d boot.reboot"
+		exit 0 "Done, all reboots have succeeded"
+	fi
+	
+	sleep $frequency	
+
+done
+
+

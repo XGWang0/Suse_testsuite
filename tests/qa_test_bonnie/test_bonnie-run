@@ -1,0 +1,8 @@
+#!/bin/sh
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/qa_test_bonnie"
+
+/etc/init.d/cron stop
+
+$ctcsdir/tools/run $basedir/tcf/bonnie-default.tcf

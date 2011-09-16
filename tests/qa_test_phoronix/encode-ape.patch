@@ -1,0 +1,38 @@
+diff -Nur ape.back//downloads.xml phoronix-test-suite/pts/test-resources/encode-ape//downloads.xml
+--- ape.back//downloads.xml	2008-11-08 10:02:29.000000000 +0800
++++ phoronix-test-suite/pts/test-resources/encode-ape//downloads.xml	2011-02-28 13:30:49.185790532 +0800
+@@ -1,9 +1,9 @@
+ <PhoronixTestSuite>
+ 	<Downloads>
+ 		<Package>
+-			<URL>http://etree.org/shnutils/shntool/support/formats/ape/unix/3.99-u4-b5/s4/mac-3.99-u4-b5-s4.tar.gz</URL>
+-			<MD5>5de801a6f4d4b356b4675f5a1f586737</MD5>
+-			<FileSize>427978</FileSize>
++			<URL>http://www.etree.org/shnutils/shntool/support/formats/ape/unix/3.99-u4-b5-s7/mac-3.99-u4-b5-s7.tar.gz</URL>
++			<MD5>74df3c96476636387ddd12255b03bebe</MD5>
++			<FileSize>450981</FileSize>
+ 		</Package>
+ 	</Downloads>
+ </PhoronixTestSuite>
+diff -Nur ape.back//install.sh phoronix-test-suite/pts/test-resources/encode-ape//install.sh
+--- ape.back//install.sh	2009-05-31 08:38:46.000000000 +0800
++++ phoronix-test-suite/pts/test-resources/encode-ape//install.sh	2011-02-28 13:30:49.185790532 +0800
+@@ -2,14 +2,14 @@
+ 
+ mkdir $HOME/ape_
+ 
+-tar -xvf mac-3.99-u4-b5-s4.tar.gz
+-cd mac-3.99-u4-b5-s4/
++tar -xvf mac-3.99-u4-b5-s7.tar.gz
++cd mac-3.99-u4-b5-s7/
+ CXXFLAGS="-DSHNTOOL" ./configure --prefix=$HOME/ape_
+ make -j $NUM_CPU_JOBS
+-echo $? > ~/install-exit-status
++echo $? > ~/install-exittatus
+ make install
+ cd ..
+-rm -rf mac-3.99-u4-b5-s4/
++rm -rf mac-3.99-u4-b5-s7/
+ 
+ echo "#!/bin/sh
+ \$TIMER_START

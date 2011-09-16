@@ -1,0 +1,104 @@
+diff -Nur phoronix-test-suite.bak/pts-core/library/pts-functions_config.php phoronix-test-suite/pts-core/library/pts-functions_config.php
+--- phoronix-test-suite.bak/pts-core/library/pts-functions_config.php	2009-11-23 11:17:50.000000000 +0100
++++ phoronix-test-suite/pts-core/library/pts-functions_config.php	2009-11-30 07:39:49.000000000 +0100
+@@ -48,7 +48,8 @@
+ 	$config->addXmlObjectFromReader(P_OPTION_CACHE_SEARCHMEDIA, 3, $read_config, "TRUE");
+ 	$config->addXmlObjectFromReader(P_OPTION_CACHE_SYMLINK, 3, $read_config, "FALSE");
+ 	$config->addXmlObjectFromReader(P_OPTION_PROMPT_DOWNLOADLOC, 3, $read_config, "FALSE");
+-	$config->addXmlObjectFromReader(P_OPTION_TEST_ENVIRONMENT, 3, $read_config, "~/.phoronix-test-suite/installed-tests/");
++#	$config->addXmlObjectFromReader(P_OPTION_TEST_ENVIRONMENT, 3, $read_config, "~/.phoronix-test-suite/installed-tests/");
++	$config->addXmlObjectFromReader(P_OPTION_TEST_ENVIRONMENT, 3, $read_config, "/usr/share/pts_download/");//ake change downlaod dir
+ 	$config->addXmlObjectFromReader(P_OPTION_CACHE_DIRECTORY, 3, $read_config, "~/.phoronix-test-suite/download-cache/");
+ 
+ 	$config->addXmlObjectFromReader(P_OPTION_TEST_SLEEPTIME, 4, $read_config, "10");
+diff -Nur phoronix-test-suite.bak/pts-core/library/pts-includes-run_setup.php phoronix-test-suite/pts-core/library/pts-includes-run_setup.php
+--- phoronix-test-suite.bak/pts-core/library/pts-includes-run_setup.php	2009-11-23 11:17:50.000000000 +0100
++++ phoronix-test-suite/pts-core/library/pts-includes-run_setup.php	2009-11-30 07:39:49.000000000 +0100
+@@ -133,8 +133,11 @@
+ 				$is_reserved_word = false;
+ 			}
+ 
+-			echo "Enter a name to save these results: ";
+-			$proposed_name = trim(fgets(STDIN));
++#			echo "Enter a name to save these results: "; //ake autoset resultname
++#			$proposed_name = trim(fgets(STDIN)); //ake autoset resultname
++			$proposed_name = $test_run_manager->get_test_to_run(0); //ake autoset 
++                     	preg_match("\w+\-\w+\-\w+\-:",$proposed_name,$proposed_name);//ake
++                        $proposed_name = $proposed_name.'-'.date("Y-m-d-Hi"); //ake autoset
+ 			$custom_title = $proposed_name;
+ 			$proposed_name = pts_input_string_to_identifier($proposed_name);
+ 		}
+diff -Nur phoronix-test-suite.bak/pts-core/library/pts-init.php phoronix-test-suite/pts-core/library/pts-init.php
+--- phoronix-test-suite.bak/pts-core/library/pts-init.php	2009-11-23 11:17:50.000000000 +0100
++++ phoronix-test-suite/pts-core/library/pts-init.php	2009-12-01 04:22:58.000000000 +0100
+@@ -34,8 +34,9 @@
+ 
+ 	pts_core_storage_init();
+ 	pts_config_init();
+-	define("TEST_ENV_DIR", pts_find_home(pts_read_user_config(P_OPTION_TEST_ENVIRONMENT, "~/.phoronix-test-suite/installed-tests/")));
+-	define("SAVE_RESULTS_DIR", pts_find_home(pts_read_user_config(P_OPTION_RESULTS_DIRECTORY, "~/.phoronix-test-suite/test-results/")));
++#	define("TEST_ENV_DIR", pts_find_home(pts_read_user_config(P_OPTION_TEST_ENVIRONMENT, "~/.phoronix-test-suite/installed-tests/")));
++	define("TEST_ENV_DIR", pts_find_home(pts_read_user_config(P_OPTION_TEST_ENVIRONMENT, "/usr/share/pts_download/")));//ake pts can get testcase's tarball from here.so it does not need to down it.
++        define("SAVE_RESULTS_DIR", pts_find_home(pts_read_user_config(P_OPTION_RESULTS_DIRECTORY, "~/.phoronix-test-suite/test-results/")));
+ 	pts_extended_init();
+ }
+ function pts_basic_init()
+@@ -185,8 +186,10 @@
+ 		{
+ 			echo pts_string_header("Phoronix Test Suite - Welcome");
+ 			echo wordwrap($user_agreement, 65);
+-			$agree = pts_bool_question("Do you agree to these terms and wish to proceed (Y/n)?", true);
+-			$usage_reporting = pts_bool_question("Do you wish to enable anonymous usage / statistics reporting (Y/n)?", true);
++		#	$agree = pts_bool_question("Do you agree to these terms and wish to proceed (Y/n)?", true);
++                        $agree = true; //ake automaticly run PTS
++		#	$usage_reporting = pts_bool_question("Do you wish to enable anonymous usage / statistics reporting (Y/n)?", true);
++                        $usage_reporting = true; //ake automaticly run PTS
+ 		}
+ 
+ 		if(!is_bool($usage_reporting) && pts_read_user_config(P_OPTION_USAGE_REPORTING, null) == null)
+diff -Nur phoronix-test-suite.bak/pts-core/options/batch_setup.php phoronix-test-suite/pts-core/options/batch_setup.php
+--- phoronix-test-suite.bak/pts-core/options/batch_setup.php	2009-11-23 11:17:50.000000000 +0100
++++ phoronix-test-suite/pts-core/options/batch_setup.php	2009-11-30 07:39:49.000000000 +0100
+@@ -26,26 +26,28 @@
+ 	{
+ 		echo "\nThese are the default configuration options for when running the Phoronix Test Suite in a batch mode (i.e. running phoronix-test-suite batch-benchmark universe). Running in a batch mode is designed to be as autonomous as possible, except for where you'd like any end-user interaction.\n\n";
+ 		$batch_options = array();
+-		$batch_options[P_OPTION_BATCH_SAVERESULTS] = pts_config_bool_to_string(pts_bool_question("Save test results when in batch mode (Y/n)?", true));
++#		$batch_options[P_OPTION_BATCH_SAVERESULTS] = pts_config_bool_to_string(pts_bool_question("Save test results when in batch mode (Y/n)?", true));
++                $batch_options[P_OPTION_BATCH_SAVERESULTS] = "TRUE";
+ 
+-		if($batch_options[P_OPTION_BATCH_SAVERESULTS] == "TRUE")
+-		{
+-			$batch_options[P_OPTION_BATCH_LAUNCHBROWSER] = pts_config_bool_to_string(pts_bool_question("Open the web browser automatically when in batch mode (y/N)?", false));
+-			$batch_options[P_OPTION_BATCH_UPLOADRESULTS] = pts_config_bool_to_string(pts_bool_question("Auto upload the results to Phoronix Global (Y/n)?", true));
+-			$batch_options[P_OPTION_BATCH_PROMPTIDENTIFIER] = pts_config_bool_to_string(pts_bool_question("Prompt for test identifier (Y/n)?", true));
+-			$batch_options[P_OPTION_BATCH_PROMPTDESCRIPTION] = pts_config_bool_to_string(pts_bool_question("Prompt for test description (Y/n)?", true));
+-			$batch_options[P_OPTION_BATCH_PROMPTSAVENAME] = pts_config_bool_to_string(pts_bool_question("Prompt for saved results file-name (Y/n)?", true));
+-		}
+-		else
+-		{
++#		if($batch_options[P_OPTION_BATCH_SAVERESULTS] == "TRUE") //ake autoset batch
++#		{
++#			$batch_options[P_OPTION_BATCH_LAUNCHBROWSER] = pts_config_bool_to_string(pts_bool_question("Open the web browser automatically when in batch mode (y/N)?", false));
++#			$batch_options[P_OPTION_BATCH_UPLOADRESULTS] = pts_config_bool_to_string(pts_bool_question("Auto upload the results to Phoronix Global (Y/n)?", true));
++#			$batch_options[P_OPTION_BATCH_PROMPTIDENTIFIER] = pts_config_bool_to_string(pts_bool_question("Prompt for test identifier (Y/n)?", true));
++#			$batch_options[P_OPTION_BATCH_PROMPTDESCRIPTION] = pts_config_bool_to_string(pts_bool_question("Prompt for test description (Y/n)?", true));
++#  		$batch_options[P_OPTION_BATCH_PROMPTSAVENAME] = pts_config_bool_to_string(pts_bool_question("Prompt for saved results file-name (Y/n)?", true));
++#		}
++#		else
++#		{
+ 			$batch_options[P_OPTION_BATCH_LAUNCHBROWSER] = "FALSE";
+ 			$batch_options[P_OPTION_BATCH_UPLOADRESULTS] = "FALSE";
+ 			$batch_options[P_OPTION_BATCH_PROMPTIDENTIFIER] = "FALSE";
+ 			$batch_options[P_OPTION_BATCH_PROMPTDESCRIPTION] = "FALSE";
+-			$batch_options[P_OPTION_BATCH_PROMPTSAVENAME] = "FALSE";
+-		}
++			$batch_options[P_OPTION_BATCH_PROMPTSAVENAME] = "TRUE";
++#		}
+ 
+-		$batch_options[P_OPTION_BATCH_TESTALLOPTIONS] = pts_config_bool_to_string(pts_bool_question("Run all test options (Y/n)?", true));
++#		$batch_options[P_OPTION_BATCH_TESTALLOPTIONS] = pts_config_bool_to_string(pts_bool_question("Run all test options (Y/n)?", true));
++		$batch_options[P_OPTION_BATCH_TESTALLOPTIONS] = "TRUE";
+ 		$batch_options[P_OPTION_BATCH_CONFIGURED] = "TRUE";
+ 
+ 		pts_user_config_init($batch_options);

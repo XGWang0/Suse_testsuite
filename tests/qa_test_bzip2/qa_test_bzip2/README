@@ -1,0 +1,23 @@
+o Intro
+
+These testscripts do some basich checks on bzip2 (and even some
+other parts coming with the packages).
+
+For detailed information you got to look inside those scripts.
+
+o How to run
+
+  1. As part of ctcs2 you can run it e.g. by
+     > cd /usr/lib/ctcs2   ..or.. > cd /usr/lib64/ctcs2
+     > ./tools/run tcf/qa_bzip2.tcf
+     ... as usual... and get report then by
+     > ./tools/report.py qa_bzip2.tcf > qa_bzip2.html
+
+  2. call the bash-script (only works from within ctcs2-maindir)
+     tools/bzip2-run (in /usr/lib/ctcs2 or /usr/lib64/ctcs2)
+
+  3. call the standalone-script /usr/lib[64]/ctcs2/tools/bzip2-run.alone
+
+  4. call the single scripts under /usr/share/qa/qa_test_bzip2/*.sh
+
+

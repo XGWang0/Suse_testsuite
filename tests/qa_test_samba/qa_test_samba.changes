@@ -1,0 +1,109 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Wed Aug 10 09:35:02 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_samba -> qa_test_samba
+
+Mon Jun 21 15:08:09 CEST 2010 - llipavsky@suse.cz
+
+- version 0.2.4
+- Fixed bnc#590180 - qa_samba_show-shares-noguest fails on
+                     sles10-sp3 (again)
+
+-------------------------------------------------------------------
+Fri Jun  4 10:55:04 CEST 2010 - llipavsky@suse.cz
+
+- version 0.2.3
+- Fixed bnc#609798 - qa_samba fails on first start
+
+-------------------------------------------------------------------
+Wed Apr  7 17:52:42 CEST 2010 - llipavsky@suse.cz
+
+- version 0.2.2
+- Fixed bnc#590180 - qa_samba_show-shares-noguest fails on 
+                     sles10-sp3
+
+-------------------------------------------------------------------
+Thu Oct 22 15:36:39 CEST 2009 - llipavsky@suse.cz
+
+- fixed to build
+
+-------------------------------------------------------------------
+Thu Oct 22 15:33:43 CEST 2009 - llipavsky@suse.cz
+
+- version 0.2.1
+- Fixed bnc#549069 - qa_samba qa_samba_show-shares-noguest fails on
+                     sles10-sp3
+
+-------------------------------------------------------------------
+Fri Oct  9 15:53:46 CEST 2009 - llipavsky@suse.cz
+
+- Fixed typo in specfile
+
+-------------------------------------------------------------------
+Fri Jul 17 16:14:01 CEST 2009 - llipavsky@suse.cz
+
+- Fixed bugs:
+  - bnc#379976 - fix and review qa_samba code handling the smb 
+                 daemons
+  - bnc#520973 - qa_samba test suite "FAILED tests"
+
+- Disabled file-acces[-acl] tests - broken
+- Moved to libqainternal
+- Version 0.2.0 
+
+-------------------------------------------------------------------
+Fri Jul 10 14:27:31 CEST 2009 - llipavsky@suse.cz
+
+- fix bnc#520970 - qa_samba test suite "workgroup name is to long"
+
+-------------------------------------------------------------------
+Tue Jan 22 14:20:08 CET 2008 - llipavsky@suse.cz
+
+- Unify versions for sles9-all, sles10-all and stable-all
+
+-------------------------------------------------------------------
+Tue Jul 24 15:21:14 CEST 2007 - llipavsky@suse.cz
+
+- changed to alder format suitable for sles9
+
+-------------------------------------------------------------------
+Wed Jan 17 13:45:31 CET 2007 - llipavsky@suse.cz
+
+- fixed some minor bugs (ADMIN$ share, group handling, etc)
+
+-------------------------------------------------------------------
+Mon Nov  6 13:52:22 CET 2006 - llipavsky@suse.cz
+
+- Increased timeout for long test, fixed test interruption before
+  they are completed
+
+-------------------------------------------------------------------
+Fri Nov  3 10:53:10 CET 2006 - lukas@suse.cz
+
+- fixed permissions problem that prevented successful build
+
+-------------------------------------------------------------------
+Wed Nov  1 14:39:24 CET 2006 - llipavsky@suse.cz
+
+- fixed building problem which caused file-access tests to fail
+
+-------------------------------------------------------------------
+Mon Aug 21 13:59:56 CEST 2006 - llipavsky@suse.cz
+
+- added file access (with and without acl) tests
+
+-------------------------------------------------------------------
+Wed Jul 12 16:16:55 CEST 2006 - llipavsky@suse.cz
+
+- fixed to comply QA Packaging Guidelines
+
+-------------------------------------------------------------------
+Mon Jul 10 11:45:08 CEST 2006 - llipavsky@suse.cz
+
+- initial release
+

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+
+INITSCRIPT=/etc/init.d/apache2
+if [ ! -f $INITSCRIPT ]
+then
+    INITSCRIPT=/etc/init.d/apache
+fi
+
+if [ ! -f $INITSCRIPT ]
+then
+    echo "Cannot find Apache initscript"
+    exit 1
+fi
+
+if $INITSCRIPT status > /dev/null
+then
+    $INITSCRIPT stop
+fi
+
+$INITSCRIPT start -D SSL -D SSL_DEFAULT_VHOST
+
+/etc/init.d/cron stop
+
+if [ $HOSTTYPE = i386 ]; then
+    ulimit -s 128
+fi
+
+
+if [ ! -f ~/.siegerc ]
+then
+	cp /usr/share/qa/qa_test_siege/.siegerc ~/
+fi
+
+if echo $0 | grep https > /dev/null
+then
+    $CTCS2_DIR/tools/run $TCF_DIR/qa_siege_https.tcf
+else
+    $CTCS2_DIR/tools/run $TCF_DIR/qa_siege_http.tcf
+fi

@@ -1,0 +1,6 @@
+timer 3600
+bg 0 VMSTAT  vmstat 5
+fg 1 process /usr/share/qa/tools/do_process_stress 
+wait
+
+

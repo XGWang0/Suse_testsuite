@@ -1,0 +1,31 @@
+# the tests will work only if the following packages are installed:
+#    - fetchmail
+#    - imap/pop3 servers (+ they must be configured)
+#    - postfix
+
+# host for delivering the e-mails
+HOST="localhost"
+
+# am I testing in local mode? e.i. I will create TESTUSER 
+# mailbox for RECEIVING_USER users and will try to configure 
+# imap/pop3 server
+#
+# some test may also try to delete the mail of the testing user 
+LOCAL_MODE="yes"
+
+#fetchmail location
+FETCHMAIL="/usr/bin/fetchmail"
+
+# user who will be sending the e-mail (and try to fetch them from the
+# receiver)
+TESTUSER="fetchmail-test"
+
+# the user who will receive all the test e-mails. TESTUSER will try to
+# fetch them using fetchmail
+RECEIVING_USER="receiver"
+
+#password of the receiving user on the pop/imap/etc (remote) host
+RECEIVER_PASSWORD="receiver"
+
+# how long we will wait till the MTA will deliver the test e-mails
+SLEEPTIME=1

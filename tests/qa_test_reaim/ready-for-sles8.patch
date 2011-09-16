@@ -1,0 +1,32 @@
+--- reaim-7.0.1.13/src/disk1.c	2004-10-21 01:31:33.000000000 +0200
++++ reaim-sles8/src/disk1.c	2004-11-24 13:38:00.377238728 +0100
+@@ -1626,7 +1626,7 @@
+ 	/*
+ 	 * get up to aio_maxio events at a time.
+ 	 */
+-	ret = n = io_getevents(ctx, 1, aio_maxio, events, to);
++	ret = n = io_getevents(ctx, aio_maxio, events, to);
+ 
+ 	/*
+ 	 * Check if we got any io errors and transferred the data.
+@@ -1639,7 +1639,7 @@
+ 			ret = -1;
+ 		}
+ 
+-		if (ep->res != iocb->u.c.nbytes) {
++		if (ep->res != iocb->aio_nbytes) {
+ 			fprintf(stderr, "%s: aio short transfer on\n", string);
+ 			ret = -1;
+ 		}
+@@ -1775,9 +1775,9 @@
+ 		 * If we opened the file for write only, do writes
+ 		 */
+ 		if ((open_flag & O_ACCMODE) == O_WRONLY) {
+-			io_prep_pwrite(iocb, fd, iocb->u.c.buf, io_size, sk);
++			io_prep_pwrite(iocb, fd, iocb->aio_buf, io_size, sk);
+ 		} else {
+-			io_prep_pread(iocb, fd, iocb->u.c.buf, io_size, sk);
++			io_prep_pread(iocb, fd, iocb->aio_buf, io_size, sk);
+ 		}
+ 
+ 		if ((n = io_submit(myctx, 1, &iocb)) < 0) {

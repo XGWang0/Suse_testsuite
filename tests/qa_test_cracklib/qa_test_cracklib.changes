@@ -1,0 +1,67 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 08:33:43 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_cracklib -> qa_test_cracklib
+
+-------------------------------------------------------------------
+Thu Jul 30 10:15:25 CEST 2009 - llipavsky@suse.cz
+
+- make testsuite work with non-english locale (found as sideeffect
+  of bnc#520125)
+
+-------------------------------------------------------------------
+Thu Jul 16 15:26:41 CEST 2009 - llipavsky@suse.cz
+
+- added sync calls to tests -> to fix bnc#520125 - qa_test_cracklib
+  failed in SLES10-SP3 Beta3 on x86 platform -> version 1.1.1
+
+-------------------------------------------------------------------
+Tue Feb  6 00:11:43 CET 2007 - ro@suse.de
+
+- added qa_dummy as buildreq 
+
+-------------------------------------------------------------------
+Mon Feb  5 12:30:35 CET 2007 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Mon Feb  5 10:13:26 CET 2007 - llipavsky@suse.cz
+
+- fixed build requirenments
+
+-------------------------------------------------------------------
+Thu Feb  1 16:19:04 CET 2007 - llipavsky@suse.cz
+
+- fixed incorrect path in one sorce 
+
+-------------------------------------------------------------------
+Tue Jan 23 13:20:30 CET 2007 - llipavsky@suse.cz
+
+- submit for more dists.
+
+-------------------------------------------------------------------
+Thu Jul 13 09:55:31 CEST 2006 - llipavsky@suse.cz
+
+- added correct BuildRequires tag
+
+-------------------------------------------------------------------
+Wed Jul 12 15:23:44 CEST 2006 - llipavsky@suse.cz
+
+- fixed to comply QA Packaging Guidelines 
+
+-------------------------------------------------------------------
+Wed Jan 25 21:47:31 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Fri Aug 19 13:33:52 CEST 2005 - kmachalkova@suse.cz
+
+- package created, version 1.1 
+

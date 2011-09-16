@@ -1,0 +1,25 @@
+#!/bin/sh
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_aio-stress.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_apache.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_blogbench.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_bork.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_build-apache.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_build-imagemagick.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_build-linux-kernel.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_build-mplayer.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_byte.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_cachebench.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_compliance-acpi.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_compliance-sensors.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_compress-7zip.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_compress-lzma.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_compress-pbzip2.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_crafty.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_c-ray.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_dcraw.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_encode-ape.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_encode-flac.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_encode-mp3.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_encode-ogg.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_encode-wavpack.tcf
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/pts_iozone.tcf

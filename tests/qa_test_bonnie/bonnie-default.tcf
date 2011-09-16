@@ -1,0 +1,27 @@
+# run the bonnie dbench
+#
+#timer 750
+fg 1 bonnie-default /usr/share/qa/qa_test_bonnie/do_bonnie -s 100 -v 1
+wait
+
+fg 1 bonnie-default /usr/share/qa/qa_test_bonnie/do_bonnie -s 256 -v 1
+wait
+
+fg 1 bonnie-default /usr/share/qa/qa_test_bonnie/do_bonnie -s 512 -v 1
+wait
+
+fg 1 bonnie-default /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 1
+wait
+
+fg 1 bonnie-default /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 2
+wait
+
+fg 1 bonnie-default /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 4
+wait
+
+fg 1 bonnie-default /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 8
+wait
+
+fg 1 bonnie-default /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 16
+wait
+

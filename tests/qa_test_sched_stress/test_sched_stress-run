@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/sched_stress.tcf

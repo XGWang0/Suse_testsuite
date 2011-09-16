@@ -1,0 +1,80 @@
+#! /bin/sh
+#
+# Copyright (c) 1996-2001 SuSE GmbH Nuernberg, Germany.
+#
+# Author: Florian La Roche <florian@suse.de>, 1996
+#	  Werner Fink <werner@suse.de>, 1998-2001
+#
+# /etc/init.d/syslog
+#
+### BEGIN INIT INFO
+# Provides: syslog
+# Required-Start: network
+# Required-Stop:  network
+# Default-Start:  2 3 5
+# Default-Stop:
+# Description:    Start the system logging daemons
+### END INIT INFO
+
+. /etc/sysconfig/syslog
+
+BINDIR=/sbin
+
+test -x ${BINDIR}/syslogd || exit 0
+test -x ${BINDIR}/klogd   || exit 0
+test "$START_SYSLOG_NG" = "yes" -a "$SYSLOG_NG_REPLACE" = "yes" && exit 0
+
+. /etc/rc.status
+rc_reset
+case "$1" in
+    start)
+        test -s /var/run/klogd.pid   && killproc ${BINDIR}/klogd
+	test -s /var/run/syslogd.pid && {
+	    killproc ${BINDIR}/syslogd
+	    echo -n "Re-"
+	}
+	echo -n "Starting syslog services"
+	test -z "$KERNEL_LOGLEVEL" && KERNEL_LOGLEVEL=1
+	startproc ${BINDIR}/syslogd  $SYSLOGD_PARAMS
+	rc_status
+	if test $? -eq 0 ; then
+	    startproc ${BINDIR}/klogd -c $KERNEL_LOGLEVEL
+	    rc_status
+	fi
+	rc_status -v
+	;;
+    stop)
+	echo -n "Shutting down syslog services"
+	killproc -TERM ${BINDIR}/klogd   ; rc_status
+	killproc -TERM ${BINDIR}/syslogd ; rc_status -v
+	;;
+    try-restart)
+	$0 stop && $0 start
+	rc_status
+	;;
+    restart)
+	$0 stop
+	$0 start
+	rc_status
+	;;
+    reload|force-reload)
+	echo -n "Reload syslog service"
+	killproc -TSTP ${BINDIR}/klogd   ; rc_status
+	killproc -HUP  ${BINDIR}/syslogd ; rc_status
+	killproc -CONT ${BINDIR}/klogd   ; rc_status
+	killproc -USR2 ${BINDIR}/klogd   ; rc_status -v
+	;;
+    status)
+	echo -n "Checking for service syslog:"
+	checkproc ${BINDIR}/klogd   ; rc_status
+	checkproc ${BINDIR}/syslogd ; rc_status -v
+	;;
+    probe)
+	test /etc/syslog.conf -nt /var/run/syslogd.pid && echo reload
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+		exit 1
+	;;
+esac
+rc_exit

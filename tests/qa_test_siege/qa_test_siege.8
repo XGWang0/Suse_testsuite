@@ -1,0 +1,41 @@
+." Manpage for qa_test_siege.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_siege man page"
+.SH NAME
+qa_test_siege
+.SH SYNOPSIS
+siege [options] URL
+.SH TYPE
+Stress/performance test
+.SH DESCRIPTION
+Siege is an http load testing and benchmarking utility. Siege supports basic authentication, cookies, HTTP and HTTPS protocols. It lets its user hit a web server with a configurable number of simulated web browsers. Those browsers place the server "under siege."
+.SH README
+None. 
+.SH OPTIONS
+-b BENCHMARK, signifies no delay for time testing.
+.br
+-c CONCURRENT users, default is 10.
+.br
+-t TIME based testing.ex: -t 20M, 20 minutes tests.
+.SH WHAT IT DOES
+A file named ".siegerc" will be copied to ~/.
+.br
+Seige simulates concurrent access to a certain URL and continuesadd concurrent number.
+.SH COMMON PROBLEMS
+No serious problems found.
+.SH WARNINGS
+Backup your ~/.siegerc before implement siege test if it exists.
+.SH SEE ALSO
+Apache2
+.SH BUGS
+No open bugs.
+.SH DISTRIBUTION
+External, 3 patches.
+.SH LICENSE
+License: GPL v2 or later. Spec file license: GPL v2 or later.
+.SH UPSTREAM
+None.
+.SH AUTHOR
+Mihnea Istinie <mistinie@suse.de>, Micha
+.SH MAINTAINER
+Arthur Guo <aguo@novell.com>

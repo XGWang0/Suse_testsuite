@@ -1,0 +1,66 @@
+Subject: Introduce parameter -L to pass the original return value from the last testcase
+
+This patch is intended to use "pan" as testdriver for single testcases
+and return the original return value. The original value get returned and
+mapped to CTCS2-reserved return values by the LTP and OpenPosix wrappers.
+
+Signed-off-by: Daniel Gollub <dgollub@suse.de>
+
+---
+ pan/ltp-pan.c |   15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+Index: ltp-full-20100831/pan/ltp-pan.c
+===================================================================
+--- ltp-full-20100831.orig/pan/ltp-pan.c
++++ ltp-full-20100831/pan/ltp-pan.c
+@@ -132,6 +132,11 @@ static char *reporttype = NULL;
+ int rec_signal; 	/* received signal */
+ int send_signal;	/* signal to send */
+ 
++/* CTCS2-related temporary modification */
++static int last_returnval = 0;
++static int return_last_returnvalue = 0;
++/* End of CTCS2-related temporary modification */
++
+ /* Debug Bits */
+ int Debug = 0;
+ #define Dbuffile	0x000400	/* buffer file use */
+@@ -179,7 +184,7 @@ main(int argc, char **argv)
+     pid_t cpid;
+     struct sigaction sa;
+ 
+-    while ((c = getopt(argc, argv, "AO:Sa:C:d:ef:hl:n:o:pqr:s:t:x:y")) != -1) {
++    while ((c = getopt(argc, argv, "AO:Sa:C:d:ef:hl:Ln:o:pqr:s:t:x:y")) != -1) {
+ 	switch (c) {
+ 	case 'A':	/* all-stop flag */
+ 	    has_brakes = 1;
+@@ -217,6 +222,9 @@ main(int argc, char **argv)
+ 	case 'l':	/* log file */
+ 	    logfilename = strdup(optarg);
+ 	    break;
++	case 'L':       /* return return-value from _LAST_ testcase ! */
++	    return_last_returnvalue = 1;
++	    break;
+ 	case 'n':	/* tag given to pan */
+ 	    panname = strdup(optarg);
+ 	    break;
+@@ -606,6 +614,10 @@ main(int argc, char **argv)
+     if (logfile && (logfile != stdout))
+ 	fclose(logfile);
+ 
++
++    if (return_last_returnvalue) /* CTCS2-related modification */
++	    exit(last_returnval);
++
+     exit(exit_stat);
+ }
+ 
+@@ -797,6 +809,7 @@ check_pids(struct tag_pgrp *running, int
+ 	    }
+ 	}
+     }
++    last_returnval = w; /* CTCS2-related modification */
+     return ret;
+ }
+ 

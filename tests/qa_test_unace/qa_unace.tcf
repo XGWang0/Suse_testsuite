@@ -1,0 +1,8 @@
+timer 300
+fg 1 qa_unace-flat /usr/share/qa/qa_test_unace/qa_unace-flat.sh
+wait
+
+timer 300
+fg 1 qa_unace-structured /usr/share/qa/qa_test_unace/qa_unace-structured.sh
+wait 
+

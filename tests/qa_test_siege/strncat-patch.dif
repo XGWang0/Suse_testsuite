@@ -1,0 +1,12 @@
+diff -Naur siege-2.67/src/cookie.c siege-2.67.new/src/cookie.c
+--- siege-2.67/src/cookie.c	2007-03-21 16:11:14.000000000 +0100
++++ siege-2.67.new/src/cookie.c	2009-01-07 15:25:08.000000000 +0100
+@@ -310,7 +310,7 @@
+   }
+   if(strlen(oreo) > 0){
+     strncpy(newton, "Cookie: ", 8);
+-    strncat(newton, oreo,       MAX_COOKIE_SIZE);
++    strncat(newton, oreo,       sizeof(newton) - 10 - strlen(newton));
+     strncat(newton, "\015\012", 2);
+   }
+   pthread_mutex_unlock(&(cookie->mutex));

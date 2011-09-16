@@ -1,0 +1,4 @@
+timer 300
+fg 1 qa_cabextract-single /usr/share/qa/qa_test_cabextract/qa_cabextract-single.sh
+wait
+

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for i in quickhit.tcf syscalls.tcf fs.tcf fsx.tcf dio.tcf mm.tcf ipc.tcf sched.tcf math.tcf pty.tcf
+do
+	tools/run tcf/$i
+done
+

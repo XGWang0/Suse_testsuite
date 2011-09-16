@@ -1,0 +1,118 @@
+#! /bin/sh
+# Copyright (c) 1995-2000 SuSE GmbH Nuernberg, Germany.
+# Copyright (c) 2002 SuSE Linux AG Nuernberg, Germany.
+#
+# Author: Roman Drahtmueller <draht@suse.de>
+#
+# /etc/init.d/personal-firewall
+#
+#   and the symbolic link
+#
+# /usr/sbin/rcpersonal-firewall
+#
+### BEGIN INIT INFO
+# Provides:       personal-firewall_initial
+# Required-Start:
+# Required-Stop: $network
+# Default-Start:  2 3 5
+# Default-Stop:
+# Description:    mini firewall to reject all incoming connections
+### END INIT INFO
+
+. /etc/rc.status
+. /etc/rc.config
+. /etc/sysconfig/personal-firewall
+
+if [ "$TERM" = "raw" ]; then
+    red=""
+    blue=""
+    norm=""
+else
+    red="$esc[1;31m"
+    blue="$esc[1;34m"
+    viol="$esc[1;35m"
+    norm="$esc[m"
+fi
+
+
+# Determine the base and follow a runlevel link name.
+base=${0##*/}
+link=${base#*[SK][0-9][0-9]}
+
+# Shell functions sourced from /etc/rc.status:
+#      rc_check         check and set local and overall rc status
+#      rc_status        check and set local and overall rc status
+#      rc_status -v     ditto but be verbose in local rc status
+#      rc_status -v -r  ditto and clear the local rc status
+#      rc_failed        set local and overall rc status to failed
+#      rc_reset         clear local rc status (overall remains)
+#      rc_exit          exit appropriate to overall rc status
+
+# First reset status of this service
+rc_reset
+case "$1" in
+    start)
+        echo -n "Starting personal-firewall (initial)"
+        /bin/bash /sbin/SuSEpersonal-firewall
+        case "$REJECT_ALL_INCOMING_CONNECTIONS" in
+            no|NO|"")
+                echo -n "$blue [not active]$norm"
+                rc_status -u
+                ;;
+            *)
+                echo -n "$viol [active]$norm"
+                rc_status -v
+                ;;
+        esac
+        ;;
+    stop)
+        # this is the initial rc-script. it runs as a stopper after
+        # the the network interfaces have been downed.
+        # we're allowed to nuke the fw rules, as opposed to the
+        # personal-firewall.final script (which runs early during
+        # shutdown and late during startup).
+        echo -n "Shutting down personal-firewall"
+        /bin/bash /sbin/SuSEpersonal-firewall stop
+        case "$REJECT_ALL_INCOMING_CONNECTIONS" in
+            no|NO|"")
+                echo -n "$blue [not active]$norm"
+                rc_status -u
+                ;;
+            *)
+                echo -n "$viol [active]$norm"
+                rc_status -v
+                ;;
+        esac
+        ;;
+    restart)
+        echo -n "Restarting personal-firewall"
+        /bin/bash /sbin/SuSEpersonal-firewall
+        case "$REJECT_ALL_INCOMING_CONNECTIONS" in
+            no|NO|"")
+                echo -n "$blue [not active]$norm"
+                rc_status -u
+                ;;
+            *)
+                echo -n "$viol [active]$norm"
+                rc_status -v
+                ;;
+        esac
+        ;;
+    status)
+        echo -n "Checking for SuSE personal firewall: "
+	# find out the mode:
+	if /sbin/ipchains -L -n > /dev/null 2>&1 ; then
+            /sbin/ipchains -L devchain -n > /dev/null 2>&1 && { echo OK ; exit 0; } \
+                || { echo Not started. ; exit 1 ;}
+	else if /usr/sbin/iptables -L -n > /dev/null 2>&1 ; then
+	    /usr/sbin/iptables -L devchain -n > /dev/null 2>&1 && { echo OK; exit 0; } \
+		|| { echo Not started. ; exit 1; }
+	fi
+	fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+rc_exit

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Run test in a non-ctcs2 mode
+
+mkdir -p /var/log/qa/mozmill/
+mozmill -t /usr/share/qa/qa_test_mozmill/mozmillcases/firefox/ > /var/log/qa/mozmill/MozMill-Result-`date +%F_%T | sed 's/\:/-/g'`

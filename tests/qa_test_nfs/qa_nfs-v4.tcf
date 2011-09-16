@@ -1,0 +1,31 @@
+timer 300
+fg 1 start_stop_v4 /usr/share/qa/qa_test_nfs/run-wrapper.sh nfs_start_stop.sh nfs4
+wait
+
+timer 300
+fg 1 mount_umount_v4 /usr/share/qa/qa_test_nfs/run-wrapper.sh nfs_mount_umount.sh nfs4
+wait
+
+timer 300
+fg 1 read_v4 /usr/share/qa/qa_test_nfs/run-wrapper.sh nfs_read.sh nfs4
+wait
+
+timer 300
+fg 1 write_v4 /usr/share/qa/qa_test_nfs/run-wrapper.sh nfs_write.sh nfs4
+wait
+
+timer 300
+fg 1 dontwrite_v4 /usr/share/qa/qa_test_nfs/run-wrapper.sh nfs_dontwrite.sh nfs4
+wait
+
+timer 300
+fg 1 usermapping_rootsquash_v4 /usr/share/qa/qa_test_nfs/run-wrapper.sh nfs_usermapping_rootsquash.sh nfs4
+wait
+
+timer 300
+fg 1 usermapping_norootsquash_v4 /usr/share/qa/qa_test_nfs/run-wrapper.sh nfs_usermapping_norootsquash.sh nfs4
+wait
+
+timer 300
+fg 1 usermapping_allsquash_v4 /usr/share/qa/qa_test_nfs/run-wrapper.sh nfs_usermapping_allsquash.sh nfs4
+wait

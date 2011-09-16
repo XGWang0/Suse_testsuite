@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# just a stupid wrapper to work around stupidities in ctcs
+#
+# Author:  Gernot Payer <gpayer@suse.de>
+
+/usr/bin/vmstat 30

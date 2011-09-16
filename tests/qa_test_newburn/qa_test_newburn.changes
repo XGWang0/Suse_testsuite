@@ -1,0 +1,85 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Mon Aug 15 09:24:52 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: newburn -> qa_test_newburn
+
+Mon Nov 22 15:32:46 CST 2010 llwang@novell.com
+
+- Fix BB* logs removed error, in order to make report.py work
+
+-------------------------------------------------------------------
+Fri Nov 5 17:20:06 UTC 2010 aguo@novell.com
+
+- fix bnc#651257 - newburn cannot generate tcf file
+- fix some cannot find file errors
+
+-------------------------------------------------------------------
+Mon Sep  6 14:54:01 UTC 2010 - yxu@novell.com
+
+- add newburn-memtst subpackage 
+- retrieved changes file
+
+-------------------------------------------------------------------
+Thu Jul 29 00:00:00 CEST 2010 llipavsky@suse.cz
+- moved fix bnc#626573 - newburn test doesn't start to ctcs2
+
+-------------------------------------------------------------------
+Thu Jul 29 00:00:00 CEST 2010 llipavsky@suse.cz
+- fix bnc#626573 - newburn test doesn't start
+
+-------------------------------------------------------------------
+Thu Jun 17 00:00:00 CEST 2010 llwang@novell.com
+- fix BZ612507, change this package into internal source model
+
+-------------------------------------------------------------------
+Fri Nov 21 00:00:00 CEST 2008 yxu@suse.de
+- bnc445112-memtst-fix.patch applied
+
+-------------------------------------------------------------------
+Wed Oct 15 13:49:35 CEST 2008 - dgollub@suse.de
+
+- added bnc398429-newburn-asm_page_h.diff:
+  asm/page.h is obsolate in 2.6.27(-rcX) (bnc#398429) 
+
+-------------------------------------------------------------------
+Sat Apr 26 10:04:19 CEST 2008 - coolo@suse.de
+
+- fix build
+
+-------------------------------------------------------------------
+Wed Jan 16 10:27:47 CET 2008 - pkirsch@suse.de
+
+- patch for compressing logfiles (BB*) after run 
+
+-------------------------------------------------------------------
+Thu Aug  9 23:41:14 CEST 2007 - olh@suse.de
+
+- remove PAGE_SIZE usage
+
+-------------------------------------------------------------------
+Tue Mar  6 16:54:57 CET 2007 - pkirsch@suse.de
+
+- added default values for ia64, because there is no fdisk
+  available and few testcases do not run, see bug #250541
+
+-------------------------------------------------------------------
+Wed Jan 25 21:38:41 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Tue Jan 17 14:18:45 CET 2006 - fseidel@suse.de
+
+- fixed blockrdtst-info
+
+-------------------------------------------------------------------
+Thu Oct 13 16:21:34 CEST 2005 - ories@suse.de
+
+- initial submission
+- newburn-run will look for absolute paths   
+

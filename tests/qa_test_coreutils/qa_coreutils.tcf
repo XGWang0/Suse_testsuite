@@ -1,0 +1,983 @@
+timer 1200
+fg 1 preparation /usr/share/qa/qa_test_coreutils/000prepare.sh
+wait
+
+timer 1200
+fg 1 basename_lsb /usr/share/qa/qa_test_coreutils/basename_lsb.sh
+wait
+
+timer 1200
+fg 1 bool /usr/share/qa/qa_test_coreutils/bool.sh
+wait
+
+timer 1200
+fg 1 cat_lsb /usr/share/qa/qa_test_coreutils/cat_lsb.sh
+wait
+
+timer 1200
+fg 1 comm_lsb  /usr/share/qa/qa_test_coreutils/comm_lsb.sh
+wait
+
+timer 1200
+fg 1 csplit_lsb  /usr/share/qa/qa_test_coreutils/csplit_lsb.sh
+wait
+
+timer 1200
+fg 1 cut_lsb  /usr/share/qa/qa_test_coreutils/cut_lsb.sh
+wait
+
+timer 1200
+fg 1 dirname_basic  /usr/share/qa/qa_test_coreutils/dirname_basic.sh
+wait
+
+timer 1200
+fg 1 expand_lsb  /usr/share/qa/qa_test_coreutils/expand_lsb.sh
+wait
+
+timer 1200
+fg 1 expr_lsb  /usr/share/qa/qa_test_coreutils/expr_lsb.sh
+wait
+
+timer 1200
+fg 1 md5sum_lsb  /usr/share/qa/qa_test_coreutils/md5sum_lsb.sh
+wait
+
+timer 1200
+fg 1 sort_lsb  /usr/share/qa/qa_test_coreutils/sort_lsb.sh
+wait
+
+timer 1200
+fg 1 tty_lsb  /usr/share/qa/qa_test_coreutils/tty_lsb.sh
+wait
+
+timer 1200
+fg 1 uniq_lsb  /usr/share/qa/qa_test_coreutils/uniq_lsb.sh
+wait
+
+timer 1200
+fg 1 wc_lsb  /usr/share/qa/qa_test_coreutils/wc_lsb.sh
+wait
+
+timer 1200
+fg 1 leap_year  /usr/share/qa/qa_test_coreutils/leap_year.sh
+wait
+
+timer 1200
+fg 1 orig_basename_basic /tmp/qa_test_coreutils/run_orig_test.sh basename basic
+wait
+
+timer 1200
+fg 1 orig_chgrp_basic /tmp/qa_test_coreutils/run_orig_test.sh chgrp basic
+wait
+
+timer 1200
+fg 1 orig_chgrp_deref /tmp/qa_test_coreutils/run_orig_test.sh chgrp deref
+wait
+
+timer 1200
+fg 1 orig_chgrp_no-x /tmp/qa_test_coreutils/run_orig_test.sh chgrp no-x
+wait
+
+timer 1200
+fg 1 orig_chgrp_posix-H /tmp/qa_test_coreutils/run_orig_test.sh chgrp posix-H
+wait
+
+timer 1200
+fg 1 orig_chgrp_recurse /tmp/qa_test_coreutils/run_orig_test.sh chgrp recurse
+wait
+
+timer 1200
+fg 1 orig_chmod_c-option /tmp/qa_test_coreutils/run_orig_test.sh chmod c-option
+wait
+
+timer 1200
+fg 1 orig_chmod_equals /tmp/qa_test_coreutils/run_orig_test.sh chmod equals
+wait
+
+timer 1200
+fg 1 orig_chmod_equal-x /tmp/qa_test_coreutils/run_orig_test.sh chmod equal-x
+wait
+
+timer 1200
+fg 1 orig_chmod_no-x /tmp/qa_test_coreutils/run_orig_test.sh chmod no-x
+wait
+
+timer 1200
+fg 1 orig_chmod_octal /tmp/qa_test_coreutils/run_orig_test.sh chmod octal
+wait
+
+timer 1200
+fg 1 orig_chmod_setgid /tmp/qa_test_coreutils/run_orig_test.sh chmod setgid
+wait
+
+timer 1200
+fg 1 orig_chown_basic /tmp/qa_test_coreutils/run_orig_test.sh chown basic chown root
+wait
+
+timer 1200
+fg 1 orig_chown_deref /tmp/qa_test_coreutils/run_orig_test.sh chown deref
+wait
+
+timer 1200
+fg 1 orig_chown_separator /tmp/qa_test_coreutils/run_orig_test.sh chown separator
+wait
+
+timer 1200
+fg 1 orig_cp_backup-1 /tmp/qa_test_coreutils/run_orig_test.sh cp backup-1
+wait
+
+timer 1200
+fg 1 orig_cp_backup-is-src /tmp/qa_test_coreutils/run_orig_test.sh cp backup-is-src
+wait
+
+timer 1200
+fg 1 orig_cp_cp-deref /tmp/qa_test_coreutils/run_orig_test.sh cp cp-deref
+wait
+
+timer 1200
+fg 1 orig_cp_cp-HL /tmp/qa_test_coreutils/run_orig_test.sh cp cp-HL
+wait
+
+timer 1200
+fg 1 orig_cp_cp-mv-backup /tmp/qa_test_coreutils/run_orig_test.sh cp cp-mv-backup
+wait
+
+timer 1200
+fg 1 orig_cp_cp-parents /tmp/qa_test_coreutils/run_orig_test.sh cp cp-parents
+wait
+
+timer 1200
+fg 1 orig_cp_deref-slink /tmp/qa_test_coreutils/run_orig_test.sh cp deref-slink
+wait
+
+timer 1200
+fg 1 orig_cp_dir-rm-dest /tmp/qa_test_coreutils/run_orig_test.sh cp dir-rm-dest
+wait
+
+timer 1200
+fg 1 orig_cp_dir-slash /tmp/qa_test_coreutils/run_orig_test.sh cp dir-slash
+wait
+
+timer 1200
+fg 1 orig_cp_dir-vs-file /tmp/qa_test_coreutils/run_orig_test.sh cp dir-vs-file
+wait
+
+timer 1200
+fg 1 orig_cp_fail-perm /tmp/qa_test_coreutils/run_orig_test.sh cp fail-perm
+wait
+
+timer 1200
+fg 1 orig_cp_into-self /tmp/qa_test_coreutils/run_orig_test.sh cp into-self
+wait
+
+timer 1200
+fg 1 orig_cp_link-preserve /tmp/qa_test_coreutils/run_orig_test.sh cp link-preserve
+wait
+
+timer 1200
+fg 1 orig_cp_link /tmp/qa_test_coreutils/run_orig_test.sh cp link
+wait
+
+timer 1200
+fg 1 orig_cp_no-deref-link1 /tmp/qa_test_coreutils/run_orig_test.sh cp no-deref-link1
+wait
+
+timer 1200
+fg 1 orig_cp_no-deref-link2 /tmp/qa_test_coreutils/run_orig_test.sh cp no-deref-link2
+wait
+
+timer 1200
+fg 1 orig_cp_no-deref-link3 /tmp/qa_test_coreutils/run_orig_test.sh cp no-deref-link3
+wait
+
+timer 1200
+fg 1 orig_cp_perm /tmp/qa_test_coreutils/run_orig_test.sh cp perm
+wait
+
+timer 1200
+fg 1 orig_cp_preserve-2 /tmp/qa_test_coreutils/run_orig_test.sh cp preserve-2
+wait
+
+timer 1200
+fg 1 orig_cp_r-vs-symlink /tmp/qa_test_coreutils/run_orig_test.sh cp r-vs-symlink
+wait
+
+timer 1200
+fg 1 orig_cp_same-file /tmp/qa_test_coreutils/run_orig_test.sh cp same-file
+wait
+
+timer 1200
+fg 1 orig_cp_slink-2-slink /tmp/qa_test_coreutils/run_orig_test.sh cp slink-2-slink
+wait
+
+timer 1200
+fg 1 orig_cp_special-bits /tmp/qa_test_coreutils/run_orig_test.sh cp special-bits cp root
+wait
+
+timer 1200
+fg 1 orig_cp_symlink-slash /tmp/qa_test_coreutils/run_orig_test.sh cp symlink-slash
+wait
+
+timer 1200
+fg 1 orig_cut_cut-tests /tmp/qa_test_coreutils/run_orig_test.sh cut cut-tests
+wait
+
+timer 1200
+fg 1 orig_dd_misc /tmp/qa_test_coreutils/run_orig_test.sh dd misc
+wait
+
+timer 1200
+fg 1 orig_dd_not-rewound /tmp/qa_test_coreutils/run_orig_test.sh dd not-rewound
+wait
+
+timer 1200
+fg 1 orig_dd_skip-seek2 /tmp/qa_test_coreutils/run_orig_test.sh dd skip-seek2
+wait
+
+timer 1200
+fg 1 orig_dd_skip-seek /tmp/qa_test_coreutils/run_orig_test.sh dd skip-seek
+wait
+
+timer 1200
+fg 1 orig_dd_unblock-sync /tmp/qa_test_coreutils/run_orig_test.sh dd unblock-sync
+wait
+
+timer 1200
+fg 1 orig_dircolors_simple /tmp/qa_test_coreutils/run_orig_test.sh dircolors simple
+wait
+
+timer 1200
+fg 1 orig_du_8gb /tmp/qa_test_coreutils/run_orig_test.sh du 8gb
+wait
+
+timer 1200
+fg 1 orig_du_basic /tmp/qa_test_coreutils/run_orig_test.sh du basic
+wait
+
+timer 1200
+fg 1 orig_du_deref-args /tmp/qa_test_coreutils/run_orig_test.sh du deref-args
+wait
+
+timer 1200
+fg 1 orig_du_deref /tmp/qa_test_coreutils/run_orig_test.sh du deref
+wait
+
+timer 1200
+fg 1 orig_du_exclude /tmp/qa_test_coreutils/run_orig_test.sh du exclude
+wait
+
+timer 1200
+fg 1 orig_du_fd-leak /tmp/qa_test_coreutils/run_orig_test.sh du fd-leak
+wait
+
+timer 1200
+fg 1 orig_du_files0-from /tmp/qa_test_coreutils/run_orig_test.sh du files0-from
+wait
+
+timer 1200
+fg 1 orig_du_hard-link /tmp/qa_test_coreutils/run_orig_test.sh du hard-link
+wait
+
+timer 1200
+fg 1 orig_du_inaccessible-cwd /tmp/qa_test_coreutils/run_orig_test.sh du inaccessible-cwd
+wait
+
+timer 1200
+fg 1 orig_du_no-deref /tmp/qa_test_coreutils/run_orig_test.sh du no-deref
+wait
+
+timer 1200
+fg 1 orig_du_no-x /tmp/qa_test_coreutils/run_orig_test.sh du no-x
+wait
+
+timer 1200
+fg 1 orig_du_restore-wd /tmp/qa_test_coreutils/run_orig_test.sh du restore-wd
+wait
+
+timer 1200
+fg 1 orig_du_slash /tmp/qa_test_coreutils/run_orig_test.sh du slash
+wait
+
+timer 1200
+fg 1 orig_du_slink /tmp/qa_test_coreutils/run_orig_test.sh du slink
+wait
+
+timer 1200
+fg 1 orig_du_trailing-slash /tmp/qa_test_coreutils/run_orig_test.sh du trailing-slash
+wait
+
+timer 1200
+fg 1 orig_du_two-args /tmp/qa_test_coreutils/run_orig_test.sh du two-args
+wait
+
+timer 1200
+fg 1 orig_expr_basic /tmp/qa_test_coreutils/run_orig_test.sh expr basic
+wait
+
+timer 1200
+fg 1 orig_factor_basic /tmp/qa_test_coreutils/run_orig_test.sh factor basic
+wait
+
+timer 1200
+fg 1 orig_fmt_basic /tmp/qa_test_coreutils/run_orig_test.sh fmt basic
+wait
+
+timer 1200
+fg 1 orig_fmt_long-line /tmp/qa_test_coreutils/run_orig_test.sh fmt long-line
+wait
+
+timer 1200
+fg 1 orig_head_head-tests /tmp/qa_test_coreutils/run_orig_test.sh head head-tests
+wait
+
+timer 1200
+fg 1 orig_install_basic-1 /tmp/qa_test_coreutils/run_orig_test.sh install basic-1
+wait
+
+timer 1200
+fg 1 orig_install_create-leading /tmp/qa_test_coreutils/run_orig_test.sh install create-leading
+wait
+
+timer 1200
+fg 1 orig_install_d-slashdot /tmp/qa_test_coreutils/run_orig_test.sh install d-slashdot
+wait
+
+timer 1200
+fg 1 orig_install_trap /tmp/qa_test_coreutils/run_orig_test.sh install trap
+wait
+
+timer 1200
+fg 1 orig_join_join-tests /tmp/qa_test_coreutils/run_orig_test.sh join join-tests
+wait
+
+timer 1200
+fg 1 orig_ln_backup-1 /tmp/qa_test_coreutils/run_orig_test.sh ln backup-1
+wait
+
+timer 1200
+fg 1 orig_ln_misc /tmp/qa_test_coreutils/run_orig_test.sh ln misc
+wait
+
+timer 1200
+fg 1 orig_ln_sf-1 /tmp/qa_test_coreutils/run_orig_test.sh ln sf-1
+wait
+
+timer 1200
+fg 1 orig_ln_target-1 /tmp/qa_test_coreutils/run_orig_test.sh ln target-1
+wait
+
+timer 1200
+fg 1 orig_ls-2 /tmp/qa_test_coreutils/run_orig_test.sh ls-2 tests ls
+wait
+
+timer 1200
+fg 1 orig_ls_dangle /tmp/qa_test_coreutils/run_orig_test.sh ls dangle
+wait
+
+timer 1200
+fg 1 orig_ls_dired /tmp/qa_test_coreutils/run_orig_test.sh ls dired
+wait
+
+timer 1200
+fg 1 orig_ls_file-type /tmp/qa_test_coreutils/run_orig_test.sh ls file-type
+wait
+
+timer 1200
+fg 1 orig_ls_follow-slink /tmp/qa_test_coreutils/run_orig_test.sh ls follow-slink
+wait
+
+timer 1200
+fg 1 orig_ls_infloop /tmp/qa_test_coreutils/run_orig_test.sh ls infloop
+wait
+
+timer 1200
+fg 1 orig_ls_inode /tmp/qa_test_coreutils/run_orig_test.sh ls inode
+wait
+
+timer 1200
+fg 1 orig_ls_m-option /tmp/qa_test_coreutils/run_orig_test.sh ls m-option
+wait
+
+timer 1200
+fg 1 orig_ls_no-arg /tmp/qa_test_coreutils/run_orig_test.sh ls no-arg
+wait
+
+timer 1200
+fg 1 orig_ls_recursive /tmp/qa_test_coreutils/run_orig_test.sh ls recursive
+wait
+
+timer 1200
+fg 1 orig_ls_rt-1 /tmp/qa_test_coreutils/run_orig_test.sh ls rt-1
+wait
+
+timer 1200
+fg 1 orig_ls_symlink-slash /tmp/qa_test_coreutils/run_orig_test.sh ls symlink-slash
+wait
+
+timer 1200
+fg 1 orig_ls_time-1 /tmp/qa_test_coreutils/run_orig_test.sh ls time-1
+wait
+
+timer 1200
+fg 1 orig_md5sum_basic-1 /tmp/qa_test_coreutils/run_orig_test.sh md5sum basic-1
+wait
+
+timer 1200
+fg 1 orig_md5sum_newline-1 /tmp/qa_test_coreutils/run_orig_test.sh md5sum newline-1
+wait
+
+timer 1200
+fg 1 orig_misc_cat-proc /tmp/qa_test_coreutils/run_orig_test.sh misc cat-proc cat
+wait
+
+timer 1200
+fg 1 orig_misc_close-stdout /tmp/qa_test_coreutils/run_orig_test.sh misc close-stdout
+wait
+
+timer 1200
+fg 1 orig_misc_csplit /tmp/qa_test_coreutils/run_orig_test.sh misc csplit csplit
+wait
+
+timer 1200
+fg 1 orig_misc_date-sec /tmp/qa_test_coreutils/run_orig_test.sh misc date-sec date
+wait
+
+timer 1200
+fg 1 orig_misc_date /tmp/qa_test_coreutils/run_orig_test.sh misc date date
+wait
+
+timer 1200
+fg 1 orig_misc_expand /tmp/qa_test_coreutils/run_orig_test.sh misc expand expand
+wait
+
+timer 1200
+fg 1 orig_misc_false-status /tmp/qa_test_coreutils/run_orig_test.sh misc false-status false
+wait
+
+timer 1200
+fg 1 orig_misc_fold /tmp/qa_test_coreutils/run_orig_test.sh misc fold fold
+wait
+
+timer 1200
+fg 1 orig_misc_head-c /tmp/qa_test_coreutils/run_orig_test.sh misc head-c head
+wait
+
+timer 1200
+fg 1 orig_misc_head-elide-tail /tmp/qa_test_coreutils/run_orig_test.sh misc head-elide-tail head
+wait
+
+timer 1200
+fg 1 orig_misc_head-pos /tmp/qa_test_coreutils/run_orig_test.sh misc head-pos head
+wait
+
+timer 1200
+fg 1 orig_misc_nice nice -n 0 /tmp/qa_test_coreutils/run_orig_test.sh misc nice nice
+wait
+
+timer 1200
+fg 1 orig_misc_nl /tmp/qa_test_coreutils/run_orig_test.sh misc nl nl
+wait
+
+timer 1200
+fg 1 orig_misc_nohup /tmp/qa_test_coreutils/run_orig_test.sh misc nohup nohup
+wait
+
+timer 1200
+fg 1 orig_misc_paste-no-nl /tmp/qa_test_coreutils/run_orig_test.sh misc paste-no-nl
+wait
+
+timer 1200
+fg 1 orig_misc_pathchk1 /tmp/qa_test_coreutils/run_orig_test.sh misc pathchk1
+wait
+
+timer 1200
+fg 1 orig_misc_printf /tmp/qa_test_coreutils/run_orig_test.sh misc printf
+wait
+
+timer 1200
+fg 1 orig_misc_printf-hex /tmp/qa_test_coreutils/run_orig_test.sh misc printf-hex
+wait
+
+timer 1200
+fg 1 orig_misc_pwd-long /tmp/qa_test_coreutils/run_orig_test.sh misc pwd-long
+wait
+
+timer 1200
+fg 1 orig_misc_sort-merge /tmp/qa_test_coreutils/run_orig_test.sh misc sort-merge
+wait
+
+timer 1200
+fg 1 orig_misc_split-a /tmp/qa_test_coreutils/run_orig_test.sh misc split-a split
+wait
+
+timer 1200
+fg 1 orig_misc_split-fail /tmp/qa_test_coreutils/run_orig_test.sh misc split-fail split
+wait
+
+timer 1200
+fg 1 orig_misc_split-l /tmp/qa_test_coreutils/run_orig_test.sh misc split-l split
+wait
+
+timer 1200
+fg 1 orig_misc_stat-fmt /tmp/qa_test_coreutils/run_orig_test.sh misc stat-fmt stat
+wait
+
+timer 1200
+fg 1 orig_misc_stat-printf /tmp/qa_test_coreutils/run_orig_test.sh misc stat-printf stat
+wait
+
+timer 1200
+fg 1 orig_misc_tac-continue /tmp/qa_test_coreutils/run_orig_test.sh misc tac-continue tac
+wait
+
+timer 1200
+fg 1 orig_misc_tty-eof /tmp/qa_test_coreutils/run_orig_test.sh misc tty-eof tty
+wait
+
+timer 1200
+fg 1 orig_mkdir_p-1 /tmp/qa_test_coreutils/run_orig_test.sh mkdir p-1
+wait
+
+timer 1200
+fg 1 orig_mkdir_p-2 /tmp/qa_test_coreutils/run_orig_test.sh mkdir p-2
+wait
+
+timer 1200
+fg 1 orig_mkdir_p-3 /tmp/qa_test_coreutils/run_orig_test.sh mkdir p-3
+wait
+
+timer 1200
+fg 1 orig_mkdir_parents /tmp/qa_test_coreutils/run_orig_test.sh mkdir parents
+wait
+
+timer 1200
+fg 1 orig_mkdir_perm /tmp/qa_test_coreutils/run_orig_test.sh mkdir perm
+wait
+
+timer 1200
+fg 1 orig_mkdir_p-slashdot /tmp/qa_test_coreutils/run_orig_test.sh mkdir p-slashdot
+wait
+
+timer 1200
+fg 1 orig_mkdir_special-1 /tmp/qa_test_coreutils/run_orig_test.sh mkdir special-1
+wait
+
+timer 1200
+fg 1 orig_mkdir_t-slash /tmp/qa_test_coreutils/run_orig_test.sh mkdir t-slash
+wait
+
+timer 1200
+fg 1 orig_mv_backup-is-src /tmp/qa_test_coreutils/run_orig_test.sh mv backup-is-src
+wait
+
+timer 1200
+fg 1 orig_mv_childproof /tmp/qa_test_coreutils/run_orig_test.sh mv childproof
+wait
+
+timer 1200
+fg 1 orig_mv_diag /tmp/qa_test_coreutils/run_orig_test.sh mv diag
+wait
+
+timer 1200
+fg 1 orig_mv_dir-file /tmp/qa_test_coreutils/run_orig_test.sh mv dir-file
+wait
+
+timer 1200
+fg 1 orig_mv_dup-source /tmp/qa_test_coreutils/run_orig_test.sh mv dup-source
+wait
+
+timer 1200
+fg 1 orig_mv_force /tmp/qa_test_coreutils/run_orig_test.sh mv force
+wait
+
+timer 1200
+fg 1 orig_mv_hard-2 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-2
+wait
+
+timer 1200
+fg 1 orig_mv_hard-3 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-3
+wait
+
+timer 1200
+fg 1 orig_mv_hard-4 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-4
+wait
+
+timer 1200
+fg 1 orig_mv_hard-link-1 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-link-1
+wait
+
+timer 1200
+fg 1 orig_mv_i-1 /tmp/qa_test_coreutils/run_orig_test.sh mv i-1
+wait
+
+timer 1200
+fg 1 orig_mv_i-2 /tmp/qa_test_coreutils/run_orig_test.sh mv i-2
+wait
+
+timer 1200
+fg 1 orig_mv_i-4 /tmp/qa_test_coreutils/run_orig_test.sh mv i-4
+wait
+
+timer 1200
+fg 1 orig_mv_i-link-no /tmp/qa_test_coreutils/run_orig_test.sh mv i-link-no
+wait
+
+timer 1200
+fg 1 orig_mv_into-self-2 /tmp/qa_test_coreutils/run_orig_test.sh mv into-self-2
+wait
+
+timer 1200
+fg 1 orig_mv_into-self-3 /tmp/qa_test_coreutils/run_orig_test.sh mv into-self-3
+wait
+
+timer 1200
+fg 1 orig_mv_into-self-4 /tmp/qa_test_coreutils/run_orig_test.sh mv into-self-4
+wait
+
+timer 1200
+fg 1 orig_mv_into-self /tmp/qa_test_coreutils/run_orig_test.sh mv into-self
+wait
+
+timer 1200
+fg 1 orig_mv_leak-fd /tmp/qa_test_coreutils/run_orig_test.sh mv leak-fd
+wait
+
+timer 1200
+fg 1 orig_mv_mv-special-1 /tmp/qa_test_coreutils/run_orig_test.sh mv mv-special-1
+wait
+
+timer 1200
+fg 1 orig_mv_no-target-dir /tmp/qa_test_coreutils/run_orig_test.sh mv no-target-dir
+wait
+
+timer 1200
+fg 1 orig_mv_part-fail /tmp/qa_test_coreutils/run_orig_test.sh mv part-fail
+wait
+
+timer 1200
+fg 1 orig_mv_part-hardlink /tmp/qa_test_coreutils/run_orig_test.sh mv part-hardlink
+wait
+
+timer 1200
+fg 1 orig_mv_partition-perm /tmp/qa_test_coreutils/run_orig_test.sh mv partition-perm
+wait
+
+timer 1200
+fg 1 orig_mv_part-rename /tmp/qa_test_coreutils/run_orig_test.sh mv part-rename
+wait
+
+timer 1200
+fg 1 orig_mv_part-symlink /tmp/qa_test_coreutils/run_orig_test.sh mv part-symlink
+wait
+
+timer 1200
+fg 1 orig_mv_perm-1 /tmp/qa_test_coreutils/run_orig_test.sh mv perm-1
+wait
+
+timer 1200
+fg 1 orig_mv_reply-no /tmp/qa_test_coreutils/run_orig_test.sh mv reply-no
+wait
+
+timer 1200
+fg 1 orig_mv_setup /tmp/qa_test_coreutils/run_orig_test.sh mv setup
+wait
+
+timer 1200
+fg 1 orig_mv_to-symlink /tmp/qa_test_coreutils/run_orig_test.sh mv to-symlink
+wait
+
+timer 1200
+fg 1 orig_mv_trailing-slash /tmp/qa_test_coreutils/run_orig_test.sh mv trailing-slash
+wait
+
+timer 1200
+fg 1 orig_mv_update /tmp/qa_test_coreutils/run_orig_test.sh mv update
+wait
+
+timer 1200
+fg 1 orig_od_od-N /tmp/qa_test_coreutils/run_orig_test.sh od od-N
+wait
+
+timer 1200
+fg 1 orig_od_x8 /tmp/qa_test_coreutils/run_orig_test.sh od x8
+wait
+
+timer 1200
+fg 1 orig_pr_pr-tests /tmp/qa_test_coreutils/run_orig_test.sh pr pr-tests
+wait
+
+timer 1200
+fg 1 orig_readlink_can-e /tmp/qa_test_coreutils/run_orig_test.sh readlink can-e
+wait
+
+timer 1200
+fg 1 orig_readlink_can-f /tmp/qa_test_coreutils/run_orig_test.sh readlink can-f
+wait
+
+timer 1200
+fg 1 orig_readlink_can-m /tmp/qa_test_coreutils/run_orig_test.sh readlink can-m
+wait
+
+timer 1200
+fg 1 orig_readlink_rl-1 /tmp/qa_test_coreutils/run_orig_test.sh readlink rl-1
+wait
+
+timer 1200
+fg 1 orig_rm_cycle /tmp/qa_test_coreutils/run_orig_test.sh rm cycle
+wait
+
+timer 1200
+fg 1 orig_rm_dangling-symlink /tmp/qa_test_coreutils/run_orig_test.sh rm dangling-symlink
+wait
+
+timer 1200
+fg 1 orig_rm_deep-1 /tmp/qa_test_coreutils/run_orig_test.sh rm deep-1
+wait
+
+timer 1200
+fg 1 orig_rmdir_fail-perm /tmp/qa_test_coreutils/run_orig_test.sh rmdir fail-perm
+wait
+
+timer 1200
+fg 1 orig_rmdir_ignore /tmp/qa_test_coreutils/run_orig_test.sh rmdir ignore
+wait
+
+timer 1200
+fg 1 orig_rm_dir-no-w /tmp/qa_test_coreutils/run_orig_test.sh rm dir-no-w
+wait
+
+timer 1200
+fg 1 orig_rmdir_t-slash /tmp/qa_test_coreutils/run_orig_test.sh rmdir t-slash
+wait
+
+timer 1200
+fg 1 orig_rm_dot-rel /tmp/qa_test_coreutils/run_orig_test.sh rm dot-rel
+wait
+
+timer 1200
+fg 1 orig_rm_f-1 /tmp/qa_test_coreutils/run_orig_test.sh rm f-1
+wait
+
+timer 1200
+fg 1 orig_rm_fail-2eperm /tmp/qa_test_coreutils/run_orig_test.sh rm fail-2eperm rm root
+wait
+
+timer 1200
+fg 1 orig_rm_fail-eperm /tmp/qa_test_coreutils/run_orig_test.sh rm fail-eperm
+wait
+
+timer 1200
+fg 1 orig_rm_hash /tmp/qa_test_coreutils/run_orig_test.sh rm hash
+wait
+
+timer 1200
+fg 1 orig_rm_i-1 /tmp/qa_test_coreutils/run_orig_test.sh rm i-1
+wait
+
+timer 1200
+fg 1 orig_rm_inaccessible /tmp/qa_test_coreutils/run_orig_test.sh rm inaccessible
+wait
+
+timer 1200
+fg 1 orig_rm_i-no-r /tmp/qa_test_coreutils/run_orig_test.sh rm i-no-r
+wait
+
+timer 1200
+fg 1 orig_rm_ir-1 /tmp/qa_test_coreutils/run_orig_test.sh rm ir-1
+wait
+
+timer 1200
+fg 1 orig_rm_isatty /tmp/qa_test_coreutils/run_orig_test.sh rm isatty
+wait
+
+timer 1200
+fg 1 orig_rm_no-give-up /tmp/qa_test_coreutils/run_orig_test.sh rm no-give-up rm root
+wait
+
+timer 1200
+fg 1 orig_rm_r-1 /tmp/qa_test_coreutils/run_orig_test.sh rm r-1
+wait
+
+timer 1200
+fg 1 orig_rm_r-2 /tmp/qa_test_coreutils/run_orig_test.sh rm r-2
+wait
+
+timer 1200
+fg 1 orig_rm_r-3 /tmp/qa_test_coreutils/run_orig_test.sh rm r-3
+wait
+
+timer 1200
+fg 1 orig_rm_rm1 /tmp/qa_test_coreutils/run_orig_test.sh rm rm1
+wait
+
+timer 1200
+fg 1 orig_rm_rm2 /tmp/qa_test_coreutils/run_orig_test.sh rm rm2
+wait
+
+timer 1200
+fg 1 orig_rm_rm3 /tmp/qa_test_coreutils/run_orig_test.sh rm rm3
+wait
+
+timer 1200
+fg 1 orig_rm_rm4 /tmp/qa_test_coreutils/run_orig_test.sh rm rm4
+wait
+
+timer 1200
+fg 1 orig_rm_rm5 /tmp/qa_test_coreutils/run_orig_test.sh rm rm5
+wait
+
+timer 1200
+fg 1 orig_rm_sunos-1 /tmp/qa_test_coreutils/run_orig_test.sh rm sunos-1
+wait
+
+timer 1200
+fg 1 orig_rm_unread2 /tmp/qa_test_coreutils/run_orig_test.sh rm unread2
+wait
+
+timer 1200
+fg 1 orig_rm_unread3 /tmp/qa_test_coreutils/run_orig_test.sh rm unread3
+wait
+
+timer 1200
+fg 1 orig_seq_basic /tmp/qa_test_coreutils/run_orig_test.sh seq basic
+wait
+
+timer 1200
+fg 1 orig_sha1sum_basic-1 /tmp/qa_test_coreutils/run_orig_test.sh sha1sum basic-1
+wait
+
+timer 1200
+fg 1 orig_sha1sum_sample-vec /tmp/qa_test_coreutils/run_orig_test.sh sha1sum sample-vec
+wait
+
+timer 1200
+fg 1 orig_shred_exact /tmp/qa_test_coreutils/run_orig_test.sh shred exact
+wait
+
+timer 1200
+fg 1 orig_shred_remove /tmp/qa_test_coreutils/run_orig_test.sh shred remove
+wait
+
+timer 1200
+fg 1 orig_sort_sort-tests /tmp/qa_test_coreutils/run_orig_test.sh sort sort-tests
+wait
+
+timer 1200
+fg 1 orig_sum_basic-1 /tmp/qa_test_coreutils/run_orig_test.sh sum basic-1
+wait
+
+timer 1200
+fg 1 orig_sum_sysv /tmp/qa_test_coreutils/run_orig_test.sh sum sysv
+wait
+
+timer 1200
+fg 1 orig_tac_tac-tests /tmp/qa_test_coreutils/run_orig_test.sh tac tac-tests
+wait
+
+timer 1200
+fg 1 orig_tail-2_assert-2 /tmp/qa_test_coreutils/run_orig_test.sh tail-2 assert-2
+wait
+
+timer 1200
+fg 1 orig_tail-2_assert /tmp/qa_test_coreutils/run_orig_test.sh tail-2 assert
+wait
+
+timer 1200
+fg 1 orig_tail-2_big-4gb /tmp/qa_test_coreutils/run_orig_test.sh tail-2 big-4gb
+wait
+
+timer 1200
+fg 1 orig_tail-2_proc-ksyms /tmp/qa_test_coreutils/run_orig_test.sh tail-2 proc-ksyms
+wait
+
+timer 1200
+fg 1 orig_tail-2_start-middle /tmp/qa_test_coreutils/run_orig_test.sh tail-2 start-middle
+wait
+
+timer 1200
+fg 1 orig_tail-2_tail-n0f /tmp/qa_test_coreutils/run_orig_test.sh tail-2 tail-n0f
+wait
+
+timer 1200
+fg 1 orig_tail_tail-tests /tmp/qa_test_coreutils/run_orig_test.sh tail tail-tests
+wait
+
+timer 1200
+fg 1 orig_tee_basic /tmp/qa_test_coreutils/run_orig_test.sh tee basic
+wait
+
+timer 1200
+fg 1 orig_tee_dash /tmp/qa_test_coreutils/run_orig_test.sh tee dash
+wait
+
+timer 1200
+fg 1 orig_test_test-tests /tmp/qa_test_coreutils/run_orig_test.sh test test-tests
+wait
+
+timer 1200
+fg 1 orig_touch_dangling-symlink /tmp/qa_test_coreutils/run_orig_test.sh touch dangling-symlink
+wait
+
+timer 1200
+fg 1 orig_touch_dir-1 /tmp/qa_test_coreutils/run_orig_test.sh touch dir-1
+wait
+
+timer 1200
+fg 1 orig_touch_empty-file /tmp/qa_test_coreutils/run_orig_test.sh touch empty-file
+wait
+
+timer 1200
+fg 1 orig_touch_fail-diag /tmp/qa_test_coreutils/run_orig_test.sh touch fail-diag
+wait
+
+timer 1200
+fg 1 orig_touch_fifo /tmp/qa_test_coreutils/run_orig_test.sh touch fifo
+wait
+
+timer 1200
+fg 1 orig_touch_no-create-missing /tmp/qa_test_coreutils/run_orig_test.sh touch no-create-missing
+wait
+
+timer 1200
+fg 1 orig_touch_no-rights /tmp/qa_test_coreutils/run_orig_test.sh touch no-rights
+wait
+
+timer 1200
+fg 1 orig_touch_not-owner /tmp/qa_test_coreutils/run_orig_test.sh touch not-owner
+wait
+
+timer 1200
+fg 1 orig_touch_obsolescent /tmp/qa_test_coreutils/run_orig_test.sh touch obsolescent
+wait
+
+timer 1200
+fg 1 orig_touch_read-only /tmp/qa_test_coreutils/run_orig_test.sh touch read-only
+wait
+
+timer 1200
+fg 1 orig_touch_relative /tmp/qa_test_coreutils/run_orig_test.sh touch relative
+wait
+
+timer 1200
+fg 1 orig_tr_tr-tests /tmp/qa_test_coreutils/run_orig_test.sh tr tr-tests
+wait
+
+timer 1200
+fg 1 orig_tsort_basic-1 /tmp/qa_test_coreutils/run_orig_test.sh tsort basic-1
+wait
+
+timer 1200
+fg 1 orig_unexpand_basic-1 /tmp/qa_test_coreutils/run_orig_test.sh unexpand basic-1
+wait
+
+timer 1200
+fg 1 orig_uniq_uniq-tests /tmp/qa_test_coreutils/run_orig_test.sh uniq uniq-tests
+wait
+
+timer 1200
+fg 1 orig_wc_wc-tests /tmp/qa_test_coreutils/run_orig_test.sh wc wc-tests
+wait
+
+timer 1200
+fg 1 cleanup /usr/share/qa/qa_test_coreutils/999cleanup.sh
+wait

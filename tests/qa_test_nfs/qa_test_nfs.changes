@@ -1,0 +1,20 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 15:45:23 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_nfs -> qa_test_nfs
+
+-------------------------------------------------------------------
+Tue Dec 15 05:39:17 CET 2009 - ldai@novell.com
+
+- change install method for nfs-run and nfs-run-v4 
+
+-------------------------------------------------------------------
+Mon Jun  9 13:03:04 CEST 2008 - michalsrb@gmail.com
+
+- initial release
+

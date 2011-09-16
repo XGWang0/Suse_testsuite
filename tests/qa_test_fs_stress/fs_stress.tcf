@@ -1,0 +1,12 @@
+timer 18000
+fg 1 file_copy_100 /usr/share/qa/tools/file_copy -j 50 -i 5 -s 100
+wait
+
+timer 18000
+fg 1 file_copy_500 /usr/share/qa/tools/file_copy -j 20 -i 5 -s 500
+wait
+
+timer 18000
+fg 1 file_copy_5000 /usr/share/qa/tools/file_copy -j 4 -i 5 -s 5000
+wait
+

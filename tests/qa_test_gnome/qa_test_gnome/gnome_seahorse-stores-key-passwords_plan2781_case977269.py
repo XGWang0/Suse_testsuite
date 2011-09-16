@@ -1,0 +1,283 @@
+#!/usr/bin/env python
+
+##############################################################################
+# Written by: Calen Chen <cachen@novell.com>
+# Date:        06/13/2011
+# Description: Seahorse stores the encryption keys and passwords Test
+##############################################################################
+
+# The docstring below is used in the generated log file
+doc = """
+==Gnome test==
+===Seahorse stores the encryption keys and passwords===
+====Pidgin====
+Step1: Launch pidgin for the first time, create autotest MSN account, select "Remember password"
+Step2: If Windows of "Create Default Keyring" pops up, insert password "novell", click "Create"
+
+====Evolution====
+Step1: Launch evolution for the first time
+Step2: Create novellautotest@gmail.com with POP type and SSL encryption type
+Step3: Send / Receive mail.(save password for account)
+
+====Wireless Network====
+Step1: Launch NetworkManager again
+Step2: From gnome panel click nm-applet, select wireless "SLEDQATEAM-DLINK"
+Step3: Enter password "aaaaaaaaaa" and click "Connect"
+
+====Seahorse Check====
+Step1: Launch seahorse, select "Passwords" page
+Step2: "gaim.local  prpl-msn://novellautotest" table cell appears in seahorse
+Step3: "pop://novellautotest@pop.gmail.com/" table cell appears in seahorse
+Step4: "Network secret" table cell appears in seahorse
+"""
+
+# imports
+from strongwind import *
+from gnome_frame import *
+import os
+
+print doc
+
+def deletePwd():
+    '''
+    Delete "Passwords: ***" table cell in Passowrds page tab from seahorse
+    '''
+    try:
+        shFrame.findTableCell(re.compile('^Passwords:')).grabFocus()
+        sleep(config.SHORT_DELAY)
+    except SearchError:
+        pass
+    else:    
+        shFrame.findMenuBar(None).select(['Edit', 'Delete'])
+        sleep(config.SHORT_DELAY)
+
+        sh_app.findAlert(None).findPushButton("Delete").mouseClick()
+        sleep(config.SHORT_DELAY)
+
+        procedurelogger.expectedResult("Passwords page tab is empty")
+        pwd_cells = shFrame.findPageTab("Passwords").findAllTableCells(None)
+        # BUG697847: Delete password keyring doesn't empty the list 
+        #assert len(pwd_cells) == 0, "%s shouldn't exist, it should be empty" % pwd_cells
+
+    # Close seahorse
+    shFrame.findMenuBar(None).select(['File', 'Quit'])
+    sleep(config.SHORT_DELAY)
+    shFrame.assertClosed()
+
+def keyringPwd(pwd):
+    '''
+    Insert password as keyring when Create Default Keyring window pops up
+    '''
+    procedurelogger.action("Insert %s in Create Default Keyring" % pwd)
+    cache._desktop.typeText(pwd, log=False)
+    sleep(config.SHORT_DELAY)
+    cache._desktop.keyCombo('Tab', grabFocus=False, log=False)
+    sleep(config.SHORT_DELAY)
+    cache._desktop.typeText(pwd, log=False)
+    cache._desktop.keyCombo('Tab', grabFocus=False, log=False)
+    sleep(config.SHORT_DELAY)
+    cache._desktop.keyCombo('Tab', grabFocus=False, log=False)
+    sleep(config.SHORT_DELAY)
+    cache._desktop.keyCombo('Enter', grabFocus=False, log=False)
+    sleep(config.SHORT_DELAY)
+
+# ====Pidgin====
+# Step: Launch "seahorse" 
+sh_app = launchApp("/usr/bin/seahorse", "seahorse")
+
+# just an alias to make things shorter
+shFrame = sh_app.seahorseFrame
+
+# Step: Delete "Passwords: ***" tabel cell from Passwords page
+deletePwd()
+
+# Step1: Launch pidgin for the first time, create autotest MSN account, select "Remember password"
+os.system('killall -9 %s' % "pidgin")
+sleep(config.SHORT_DELAY)
+
+subprocess.Popen("/usr/bin/pidgin")
+sleep(config.MEDIUM_DELAY)
+pg_app = cache._desktop.findApplication("Pidgin", checkShowing=False)
+cache.addApplication(pg_app)
+
+try:
+    a_dialog = pg_app.findDialog("Accounts")
+except SearchError:
+    pg_dialog = pg_app.findDialog(None)
+
+    pg_dialog.findPasswordText(None).insertText("autotest")
+    sleep(config.SHORT_DELAY)
+    pg_dialog.findCheckBox("Save password").mouseClick()
+    sleep(config.SHORT_DELAY)
+    pg_dialog.findPushButton("OK").mouseClick()
+    sleep(config.SHORT_DELAY)
+    pg_dialog.assertClosed()
+else:
+    # Create autotest MSN account
+    #a_dialog = pg_app.findDialog("Accounts")
+    a_dialog.findPushButton(re.compile('^Add')).mouseClick()
+    sleep(config.SHORT_DELAY)
+    add_dialog = pg_app.findDialog("Add Account")
+    add_dialog.findMenuItem("MSN", checkShowing=False).click(log=True)
+    sleep(config.SHORT_DELAY)
+    add_dialog.findText("Username:").insertText("novellautotest@hotmail.com")
+    sleep(config.SHORT_DELAY)
+    add_dialog.findPasswordText("Password:").insertText("autotest")
+    sleep(config.SHORT_DELAY)
+    add_dialog.findCheckBox("Remember password").mouseClick()
+    sleep(config.SHORT_DELAY)
+    add_dialog.findPushButton("Add").mouseClick()
+    sleep(config.SHORT_DELAY)
+    add_dialog.assertClosed()
+
+sleep(config.LONG_DELAY)
+
+# Step2: If Windows of "Create Default Keyring" pops up, insert password "novell", click "Create"
+keyringPwd(pwd="novell")
+
+# Delete novellautotest account from Accounts list
+bl_frame = pg_app.findFrame("Buddy List")
+bl_frame.findMenuBar(None).select(['Accounts', 'Manage Accounts'])
+sleep(config.SHORT_DELAY)
+
+accounts_dialog = pg_app.findDialog("Accounts")
+accounts_dialog.findTableCell(re.compile('^novellautotest@hotmail.com')).mouseClick()
+sleep(config.SHORT_DELAY)
+
+accounts_dialog.findPushButton("Delete").mouseClick()
+sleep(config.SHORT_DELAY)
+pg_app.findDialog('').findPushButton("Delete").mouseClick()
+sleep(config.SHORT_DELAY)
+
+accounts_dialog.findPushButton("Close").mouseClick()
+sleep(config.SHORT_DELAY)
+accounts_dialog.assertClosed()
+
+# Quit Pidgin
+bl_frame.findMenuBar(None).select(['Buddies', 'Quit'])
+pg_app.assertClosed()
+
+# ====Evolution====
+# Step1: Launch evolution for the first time
+el_apps = cache._desktop.findAllApplications("evolution", checkShowing=False)
+if len(el_apps) != 0:
+    for i in el_apps:
+        quitApp(app=i)
+
+el_app = launchApp("/usr/bin/evolution", "evolution")
+
+# just an alias to make things shorter
+elFrame = el_app.evolutionFrame
+
+# Step2: Create novellautotest@gmail.com with POP type and SSL encryption type
+if elFrame.name == 'Evolution Setup Assistant':
+    elFrame.findPushButton("Forward").click(log=True)
+    sleep(config.SHORT_DELAY)
+    elFrame.findPushButton("Forward").click(log=True)
+    sleep(config.SHORT_DELAY)
+
+    elFrame.findText(None, labelledBy="Email Address:").insertText("novellautotest@gmail.com")
+    sleep(config.SHORT_DELAY)
+    elFrame.findPushButton("Forward").click(log=True)
+    sleep(config.SHORT_DELAY)
+
+    elFrame.findMenuItem("POP", checkShowing=False).click(log=True)
+    sleep(config.SHORT_DELAY)
+    elFrame.findText(None, labelledBy="Server:").enterText("pop.gmail.com")
+    sleep(config.SHORT_DELAY)
+    elFrame.findMenuItem("SSL encryption", checkShowing=False).click(log=True)
+    sleep(config.SHORT_DELAY)
+    elFrame.findCheckBox("Remember password").mouseClick()
+    sleep(config.SHORT_DELAY)
+    elFrame.findPushButton("Forward").click(log=True)
+    sleep(config.SHORT_DELAY)
+
+    elFrame.findPushButton("Forward").click(log=True)
+    sleep(config.SHORT_DELAY)
+    elFrame.findPushButton("Forward").click(log=True)
+    sleep(config.SHORT_DELAY)
+    elFrame.findPushButton("Forward").click(log=True)
+    sleep(config.SHORT_DELAY)
+
+    elFrame.findPushButton("Apply").mouseClick()
+    sleep(config.SHORT_DELAY)
+
+# Step3: Send / Receive mail.(save password for account)
+elFrame = el_app.findFrame("Mail - Evolution")
+
+elFrame.findPushButton("Send / Receive").mouseClick()
+sleep(config.SHORT_DELAY)
+
+pwd_dialog = el_app.findDialog("Enter Password for novellautotest@gmail.com")
+pwd_dialog.findPasswordText(None).insertText("autotest")
+sleep(config.SHORT_DELAY)
+pwd_checkbox = pwd_dialog.findCheckBox("Remember this password")
+if pwd_checkbox.checked:
+    pass
+else:
+    pwd_checkbox.mouseClick()
+    sleep(config.SHORT_DELAY)
+pwd_dialog.findPushButton("OK").mouseClick()
+sleep(config.MEDIUM_DELAY)
+
+# Quit evolution
+elFrame.findMenuBar(None).select(['File', 'Quit'])
+sleep(config.SHORT_DELAY)
+el_app.assertClosed()
+
+# ====Wireless Network====
+wireless_name = "SLEDQATEAM-DLINK"
+wireless_pwd = "aaaaaaaaaa"
+
+# Step1: Launch NetworkManager again
+os.system('killall -9 nm-applet')
+subprocess.Popen('/usr/bin/nm-applet')
+
+nm_applet_app = cache._desktop.findApplication("nm-applet", checkShowing=False)
+cache.addApplication(nm_applet_app)
+
+gnome_panel = cache._desktop.findApplication("gnome-panel", checkShowing=False)
+notification_area = pyatspi.findDescendant(gnome_panel, lambda x: x.name == 'Panel Notification Area')
+filler = notification_area.findFiller(None)
+nm_panel = filler.findAllPanels(None)[0]
+
+# Step2: From gnome panel click nm-applet, select wireless "SLEDQATEAM-DLINK"
+nm_panel.mouseClick()
+sleep(config.SHORT_DELAY)
+
+nm_applet_app.findWindow(None).findCheckMenuItem(wireless_name).mouseClick()
+sleep(20)
+
+authen_dialog = nm_applet_app.findDialog("Wireless Network Authentication Required")
+
+# Step3: Enter password "aaaaaaaaaa" and click "Connect"
+authen_dialog.findPasswordText(None).enterText("aaaaaaaaaa")
+sleep(config.SHORT_DELAY)
+
+authen_dialog.findPushButton("Connect").mouseClick()
+sleep(20)
+
+# ====Seahorse Check====
+# Step1: Launch seahorse, select "Passwords" page
+sh_app = launchApp("/usr/bin/seahorse", "seahorse")
+
+# just an alias to make things shorter
+shFrame = sh_app.seahorseFrame
+
+# Step2: "gaim.local  prpl-msn://novellautotest" table cell appears in seahorse
+procedurelogger.action('Make sure if MSN account is stored in seahorse')
+procedurelogger.expectedResult('"gaim.local  prpl-msn://" table cell appears')
+shFrame.findTableCell(re.compile('^gaim.local  prpl-msn://novellautotest'), checkShowing=False)
+
+# Step3: "pop://novellautotest@pop.gmail.com/" table cell appears in seahorse
+procedurelogger.action('Make sure if evolution account is stored in seahorse')
+procedurelogger.expectedResult('"pop://novellautotest@pop.gmail.com/" table cell appears')
+shFrame.findTableCell(re.compile('^pop://novellautotest@pop.gmail.com/'), checkShowing=False)
+
+# Step4: "Network secret" table cell appears in seahorse
+procedurelogger.action('Make sure if password for wireless connection is stored in seahorse')
+procedurelogger.expectedResult('"Network secret" table cell appears')
+shFrame.findTableCell(re.compile('^Network secret'), checkShowing=False)
+
+# Delete keyring and quit
+deletePwd()

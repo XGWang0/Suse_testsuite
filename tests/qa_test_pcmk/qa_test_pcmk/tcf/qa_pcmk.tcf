@@ -1,0 +1,1221 @@
+
+fg 1 simple1 /usr/share/qa/qa_test_pcmk/simple1.sh
+wait
+
+
+fg 1 simple2 /usr/share/qa/qa_test_pcmk/simple2.sh
+wait
+
+
+fg 1 simple3 /usr/share/qa/qa_test_pcmk/simple3.sh
+wait
+
+
+fg 1 simple4 /usr/share/qa/qa_test_pcmk/simple4.sh
+wait
+
+
+fg 1 simple6 /usr/share/qa/qa_test_pcmk/simple6.sh
+wait
+
+
+fg 1 simple7 /usr/share/qa/qa_test_pcmk/simple7.sh
+wait
+
+
+fg 1 simple11 /usr/share/qa/qa_test_pcmk/simple11.sh
+wait
+
+
+fg 1 simple12 /usr/share/qa/qa_test_pcmk/simple12.sh
+wait
+
+
+fg 1 simple8 /usr/share/qa/qa_test_pcmk/simple8.sh
+wait
+
+
+fg 1 group1 /usr/share/qa/qa_test_pcmk/group1.sh
+wait
+
+
+fg 1 group2 /usr/share/qa/qa_test_pcmk/group2.sh
+wait
+
+
+fg 1 group3 /usr/share/qa/qa_test_pcmk/group3.sh
+wait
+
+
+fg 1 group4 /usr/share/qa/qa_test_pcmk/group4.sh
+wait
+
+
+fg 1 group5 /usr/share/qa/qa_test_pcmk/group5.sh
+wait
+
+
+fg 1 group6 /usr/share/qa/qa_test_pcmk/group6.sh
+wait
+
+
+fg 1 group7 /usr/share/qa/qa_test_pcmk/group7.sh
+wait
+
+
+fg 1 group13 /usr/share/qa/qa_test_pcmk/group13.sh
+wait
+
+
+fg 1 group8 /usr/share/qa/qa_test_pcmk/group8.sh
+wait
+
+
+fg 1 group9 /usr/share/qa/qa_test_pcmk/group9.sh
+wait
+
+
+fg 1 group10 /usr/share/qa/qa_test_pcmk/group10.sh
+wait
+
+
+fg 1 group11 /usr/share/qa/qa_test_pcmk/group11.sh
+wait
+
+
+fg 1 group14 /usr/share/qa/qa_test_pcmk/group14.sh
+wait
+
+
+fg 1 group15 /usr/share/qa/qa_test_pcmk/group15.sh
+wait
+
+
+fg 1 bug-1573 /usr/share/qa/qa_test_pcmk/bug-1573.sh
+wait
+
+
+fg 1 bug-1718 /usr/share/qa/qa_test_pcmk/bug-1718.sh
+wait
+
+
+fg 1 rsc_dep1 /usr/share/qa/qa_test_pcmk/rsc_dep1.sh
+wait
+
+
+fg 1 rsc_dep3 /usr/share/qa/qa_test_pcmk/rsc_dep3.sh
+wait
+
+
+fg 1 rsc_dep5 /usr/share/qa/qa_test_pcmk/rsc_dep5.sh
+wait
+
+
+fg 1 rsc_dep7 /usr/share/qa/qa_test_pcmk/rsc_dep7.sh
+wait
+
+
+fg 1 rsc_dep10 /usr/share/qa/qa_test_pcmk/rsc_dep10.sh
+wait
+
+
+fg 1 rsc_dep2 /usr/share/qa/qa_test_pcmk/rsc_dep2.sh
+wait
+
+
+fg 1 rsc_dep8 /usr/share/qa/qa_test_pcmk/rsc_dep8.sh
+wait
+
+
+fg 1 rsc_dep4 /usr/share/qa/qa_test_pcmk/rsc_dep4.sh
+wait
+
+
+fg 1 asymmetric /usr/share/qa/qa_test_pcmk/asymmetric.sh
+wait
+
+
+fg 1 orphan-0 /usr/share/qa/qa_test_pcmk/orphan-0.sh
+wait
+
+
+fg 1 orphan-1 /usr/share/qa/qa_test_pcmk/orphan-1.sh
+wait
+
+
+fg 1 params-0 /usr/share/qa/qa_test_pcmk/params-0.sh
+wait
+
+
+fg 1 params-1 /usr/share/qa/qa_test_pcmk/params-1.sh
+wait
+
+
+fg 1 params-2 /usr/share/qa/qa_test_pcmk/params-2.sh
+wait
+
+
+fg 1 params-4 /usr/share/qa/qa_test_pcmk/params-4.sh
+wait
+
+
+fg 1 novell-251689 /usr/share/qa/qa_test_pcmk/novell-251689.sh
+wait
+
+
+fg 1 bug-lf-2106 /usr/share/qa/qa_test_pcmk/bug-lf-2106.sh
+wait
+
+
+fg 1 target-0 /usr/share/qa/qa_test_pcmk/target-0.sh
+wait
+
+
+fg 1 target-1 /usr/share/qa/qa_test_pcmk/target-1.sh
+wait
+
+
+fg 1 target-2 /usr/share/qa/qa_test_pcmk/target-2.sh
+wait
+
+
+fg 1 domain /usr/share/qa/qa_test_pcmk/domain.sh
+wait
+
+
+fg 1 base-score /usr/share/qa/qa_test_pcmk/base-score.sh
+wait
+
+
+fg 1 date-1 /usr/share/qa/qa_test_pcmk/date-1.sh
+wait
+
+
+fg 1 date-2 /usr/share/qa/qa_test_pcmk/date-2.sh
+wait
+
+
+fg 1 date-3 /usr/share/qa/qa_test_pcmk/date-3.sh
+wait
+
+
+fg 1 probe-0 /usr/share/qa/qa_test_pcmk/probe-0.sh
+wait
+
+
+fg 1 probe-1 /usr/share/qa/qa_test_pcmk/probe-1.sh
+wait
+
+
+fg 1 probe-2 /usr/share/qa/qa_test_pcmk/probe-2.sh
+wait
+
+
+fg 1 probe-3 /usr/share/qa/qa_test_pcmk/probe-3.sh
+wait
+
+
+fg 1 probe-4 /usr/share/qa/qa_test_pcmk/probe-4.sh
+wait
+
+
+fg 1 standby /usr/share/qa/qa_test_pcmk/standby.sh
+wait
+
+
+fg 1 comments /usr/share/qa/qa_test_pcmk/comments.sh
+wait
+
+
+fg 1 order1 /usr/share/qa/qa_test_pcmk/order1.sh
+wait
+
+
+fg 1 order2 /usr/share/qa/qa_test_pcmk/order2.sh
+wait
+
+
+fg 1 order3 /usr/share/qa/qa_test_pcmk/order3.sh
+wait
+
+
+fg 1 order4 /usr/share/qa/qa_test_pcmk/order4.sh
+wait
+
+
+fg 1 order5 /usr/share/qa/qa_test_pcmk/order5.sh
+wait
+
+
+fg 1 order6 /usr/share/qa/qa_test_pcmk/order6.sh
+wait
+
+
+fg 1 order7 /usr/share/qa/qa_test_pcmk/order7.sh
+wait
+
+
+fg 1 order-optional /usr/share/qa/qa_test_pcmk/order-optional.sh
+wait
+
+
+fg 1 order-required /usr/share/qa/qa_test_pcmk/order-required.sh
+wait
+
+
+fg 1 bug-lf-2171 /usr/share/qa/qa_test_pcmk/bug-lf-2171.sh
+wait
+
+
+fg 1 order-clone /usr/share/qa/qa_test_pcmk/order-clone.sh
+wait
+
+
+fg 1 order-sets /usr/share/qa/qa_test_pcmk/order-sets.sh
+wait
+
+
+fg 1 order-serialize /usr/share/qa/qa_test_pcmk/order-serialize.sh
+wait
+
+
+fg 1 order-serialize-set /usr/share/qa/qa_test_pcmk/order-serialize-set.sh
+wait
+
+
+fg 1 clone-order-primitive /usr/share/qa/qa_test_pcmk/clone-order-primitive.sh
+wait
+
+
+fg 1 order-optional-keyword /usr/share/qa/qa_test_pcmk/order-optional-keyword.sh
+wait
+
+
+fg 1 order-mandatory /usr/share/qa/qa_test_pcmk/order-mandatory.sh
+wait
+
+
+fg 1 bug-lf-2493 /usr/share/qa/qa_test_pcmk/bug-lf-2493.sh
+wait
+
+
+fg 1 coloc-loop /usr/share/qa/qa_test_pcmk/coloc-loop.sh
+wait
+
+
+fg 1 coloc-many-one /usr/share/qa/qa_test_pcmk/coloc-many-one.sh
+wait
+
+
+fg 1 coloc-list /usr/share/qa/qa_test_pcmk/coloc-list.sh
+wait
+
+
+fg 1 coloc-group /usr/share/qa/qa_test_pcmk/coloc-group.sh
+wait
+
+
+fg 1 coloc-slave-anti /usr/share/qa/qa_test_pcmk/coloc-slave-anti.sh
+wait
+
+
+fg 1 coloc-attr /usr/share/qa/qa_test_pcmk/coloc-attr.sh
+wait
+
+
+fg 1 coloc-negative-group /usr/share/qa/qa_test_pcmk/coloc-negative-group.sh
+wait
+
+
+fg 1 coloc-intra-set /usr/share/qa/qa_test_pcmk/coloc-intra-set.sh
+wait
+
+
+fg 1 bug-lf-2435 /usr/share/qa/qa_test_pcmk/bug-lf-2435.sh
+wait
+
+
+fg 1 coloc-clone-stays-active /usr/share/qa/qa_test_pcmk/coloc-clone-stays-active.sh
+wait
+
+
+fg 1 rsc-sets-seq-true /usr/share/qa/qa_test_pcmk/rsc-sets-seq-true.sh
+wait
+
+
+fg 1 rsc-sets-seq-false /usr/share/qa/qa_test_pcmk/rsc-sets-seq-false.sh
+wait
+
+
+fg 1 rsc-sets-clone /usr/share/qa/qa_test_pcmk/rsc-sets-clone.sh
+wait
+
+
+fg 1 rsc-sets-master /usr/share/qa/qa_test_pcmk/rsc-sets-master.sh
+wait
+
+
+fg 1 rsc-sets-clone-1 /usr/share/qa/qa_test_pcmk/rsc-sets-clone-1.sh
+wait
+
+
+fg 1 attrs1 /usr/share/qa/qa_test_pcmk/attrs1.sh
+wait
+
+
+fg 1 attrs2 /usr/share/qa/qa_test_pcmk/attrs2.sh
+wait
+
+
+fg 1 attrs3 /usr/share/qa/qa_test_pcmk/attrs3.sh
+wait
+
+
+fg 1 attrs4 /usr/share/qa/qa_test_pcmk/attrs4.sh
+wait
+
+
+fg 1 attrs5 /usr/share/qa/qa_test_pcmk/attrs5.sh
+wait
+
+
+fg 1 attrs6 /usr/share/qa/qa_test_pcmk/attrs6.sh
+wait
+
+
+fg 1 attrs7 /usr/share/qa/qa_test_pcmk/attrs7.sh
+wait
+
+
+fg 1 attrs8 /usr/share/qa/qa_test_pcmk/attrs8.sh
+wait
+
+
+fg 1 mon-rsc-1 /usr/share/qa/qa_test_pcmk/mon-rsc-1.sh
+wait
+
+
+fg 1 mon-rsc-2 /usr/share/qa/qa_test_pcmk/mon-rsc-2.sh
+wait
+
+
+fg 1 mon-rsc-3 /usr/share/qa/qa_test_pcmk/mon-rsc-3.sh
+wait
+
+
+fg 1 mon-rsc-4 /usr/share/qa/qa_test_pcmk/mon-rsc-4.sh
+wait
+
+
+fg 1 rec-rsc-0 /usr/share/qa/qa_test_pcmk/rec-rsc-0.sh
+wait
+
+
+fg 1 rec-rsc-1 /usr/share/qa/qa_test_pcmk/rec-rsc-1.sh
+wait
+
+
+fg 1 rec-rsc-2 /usr/share/qa/qa_test_pcmk/rec-rsc-2.sh
+wait
+
+
+fg 1 rec-rsc-3 /usr/share/qa/qa_test_pcmk/rec-rsc-3.sh
+wait
+
+
+fg 1 rec-rsc-4 /usr/share/qa/qa_test_pcmk/rec-rsc-4.sh
+wait
+
+
+fg 1 rec-rsc-5 /usr/share/qa/qa_test_pcmk/rec-rsc-5.sh
+wait
+
+
+fg 1 rec-rsc-6 /usr/share/qa/qa_test_pcmk/rec-rsc-6.sh
+wait
+
+
+fg 1 rec-rsc-7 /usr/share/qa/qa_test_pcmk/rec-rsc-7.sh
+wait
+
+
+fg 1 rec-rsc-8 /usr/share/qa/qa_test_pcmk/rec-rsc-8.sh
+wait
+
+
+fg 1 rec-rsc-9 /usr/share/qa/qa_test_pcmk/rec-rsc-9.sh
+wait
+
+
+fg 1 quorum-1 /usr/share/qa/qa_test_pcmk/quorum-1.sh
+wait
+
+
+fg 1 quorum-2 /usr/share/qa/qa_test_pcmk/quorum-2.sh
+wait
+
+
+fg 1 quorum-3 /usr/share/qa/qa_test_pcmk/quorum-3.sh
+wait
+
+
+fg 1 quorum-4 /usr/share/qa/qa_test_pcmk/quorum-4.sh
+wait
+
+
+fg 1 quorum-5 /usr/share/qa/qa_test_pcmk/quorum-5.sh
+wait
+
+
+fg 1 quorum-6 /usr/share/qa/qa_test_pcmk/quorum-6.sh
+wait
+
+
+fg 1 rec-node-1 /usr/share/qa/qa_test_pcmk/rec-node-1.sh
+wait
+
+
+fg 1 rec-node-2 /usr/share/qa/qa_test_pcmk/rec-node-2.sh
+wait
+
+
+fg 1 rec-node-3 /usr/share/qa/qa_test_pcmk/rec-node-3.sh
+wait
+
+
+fg 1 rec-node-4 /usr/share/qa/qa_test_pcmk/rec-node-4.sh
+wait
+
+
+fg 1 rec-node-5 /usr/share/qa/qa_test_pcmk/rec-node-5.sh
+wait
+
+
+fg 1 rec-node-6 /usr/share/qa/qa_test_pcmk/rec-node-6.sh
+wait
+
+
+fg 1 rec-node-7 /usr/share/qa/qa_test_pcmk/rec-node-7.sh
+wait
+
+
+fg 1 rec-node-8 /usr/share/qa/qa_test_pcmk/rec-node-8.sh
+wait
+
+
+fg 1 rec-node-9 /usr/share/qa/qa_test_pcmk/rec-node-9.sh
+wait
+
+
+fg 1 rec-node-10 /usr/share/qa/qa_test_pcmk/rec-node-10.sh
+wait
+
+
+fg 1 rec-node-11 /usr/share/qa/qa_test_pcmk/rec-node-11.sh
+wait
+
+
+fg 1 rec-node-12 /usr/share/qa/qa_test_pcmk/rec-node-12.sh
+wait
+
+
+fg 1 rec-node-13 /usr/share/qa/qa_test_pcmk/rec-node-13.sh
+wait
+
+
+fg 1 rec-node-15 /usr/share/qa/qa_test_pcmk/rec-node-15.sh
+wait
+
+
+fg 1 rec-node-14 /usr/share/qa/qa_test_pcmk/rec-node-14.sh
+wait
+
+
+fg 1 multi1 /usr/share/qa/qa_test_pcmk/multi1.sh
+wait
+
+
+fg 1 migrate-begin /usr/share/qa/qa_test_pcmk/migrate-begin.sh
+wait
+
+
+fg 1 migrate-success /usr/share/qa/qa_test_pcmk/migrate-success.sh
+wait
+
+
+fg 1 migrate-partial-1 /usr/share/qa/qa_test_pcmk/migrate-partial-1.sh
+wait
+
+
+fg 1 migrate-partial-2 /usr/share/qa/qa_test_pcmk/migrate-partial-2.sh
+wait
+
+
+fg 1 migrate-partial-3 /usr/share/qa/qa_test_pcmk/migrate-partial-3.sh
+wait
+
+
+fg 1 migrate-fail-2 /usr/share/qa/qa_test_pcmk/migrate-fail-2.sh
+wait
+
+
+fg 1 migrate-fail-3 /usr/share/qa/qa_test_pcmk/migrate-fail-3.sh
+wait
+
+
+fg 1 migrate-fail-4 /usr/share/qa/qa_test_pcmk/migrate-fail-4.sh
+wait
+
+
+fg 1 migrate-fail-5 /usr/share/qa/qa_test_pcmk/migrate-fail-5.sh
+wait
+
+
+fg 1 migrate-fail-6 /usr/share/qa/qa_test_pcmk/migrate-fail-6.sh
+wait
+
+
+fg 1 migrate-fail-7 /usr/share/qa/qa_test_pcmk/migrate-fail-7.sh
+wait
+
+
+fg 1 migrate-fail-8 /usr/share/qa/qa_test_pcmk/migrate-fail-8.sh
+wait
+
+
+fg 1 migrate-fail-9 /usr/share/qa/qa_test_pcmk/migrate-fail-9.sh
+wait
+
+
+fg 1 migrate-stop /usr/share/qa/qa_test_pcmk/migrate-stop.sh
+wait
+
+
+fg 1 migrate-start /usr/share/qa/qa_test_pcmk/migrate-start.sh
+wait
+
+
+fg 1 migrate-stop_start /usr/share/qa/qa_test_pcmk/migrate-stop_start.sh
+wait
+
+
+fg 1 migrate-stop-complex /usr/share/qa/qa_test_pcmk/migrate-stop-complex.sh
+wait
+
+
+fg 1 migrate-start-complex /usr/share/qa/qa_test_pcmk/migrate-start-complex.sh
+wait
+
+
+fg 1 migrate-stop-start-complex /usr/share/qa/qa_test_pcmk/migrate-stop-start-complex.sh
+wait
+
+
+fg 1 migrate-1 /usr/share/qa/qa_test_pcmk/migrate-1.sh
+wait
+
+
+fg 1 migrate-2 /usr/share/qa/qa_test_pcmk/migrate-2.sh
+wait
+
+
+fg 1 migrate-3 /usr/share/qa/qa_test_pcmk/migrate-3.sh
+wait
+
+
+fg 1 migrate-4 /usr/share/qa/qa_test_pcmk/migrate-4.sh
+wait
+
+
+fg 1 novell-252693 /usr/share/qa/qa_test_pcmk/novell-252693.sh
+wait
+
+
+fg 1 novell-252693-2 /usr/share/qa/qa_test_pcmk/novell-252693-2.sh
+wait
+
+
+fg 1 novell-252693-3 /usr/share/qa/qa_test_pcmk/novell-252693-3.sh
+wait
+
+
+fg 1 bug-1820 /usr/share/qa/qa_test_pcmk/bug-1820.sh
+wait
+
+
+fg 1 bug-1820-1 /usr/share/qa/qa_test_pcmk/bug-1820-1.sh
+wait
+
+
+fg 1 migrate-5 /usr/share/qa/qa_test_pcmk/migrate-5.sh
+wait
+
+
+fg 1 migrate-fencing /usr/share/qa/qa_test_pcmk/migrate-fencing.sh
+wait
+
+
+fg 1 bug-lf-2422 /usr/share/qa/qa_test_pcmk/bug-lf-2422.sh
+wait
+
+
+fg 1 clone-anon-probe-1 /usr/share/qa/qa_test_pcmk/clone-anon-probe-1.sh
+wait
+
+
+fg 1 clone-anon-probe-2 /usr/share/qa/qa_test_pcmk/clone-anon-probe-2.sh
+wait
+
+
+fg 1 clone-anon-failcount /usr/share/qa/qa_test_pcmk/clone-anon-failcount.sh
+wait
+
+
+fg 1 inc0 /usr/share/qa/qa_test_pcmk/inc0.sh
+wait
+
+
+fg 1 inc1 /usr/share/qa/qa_test_pcmk/inc1.sh
+wait
+
+
+fg 1 inc2 /usr/share/qa/qa_test_pcmk/inc2.sh
+wait
+
+
+fg 1 inc3 /usr/share/qa/qa_test_pcmk/inc3.sh
+wait
+
+
+fg 1 inc4 /usr/share/qa/qa_test_pcmk/inc4.sh
+wait
+
+
+fg 1 inc5 /usr/share/qa/qa_test_pcmk/inc5.sh
+wait
+
+
+fg 1 inc6 /usr/share/qa/qa_test_pcmk/inc6.sh
+wait
+
+
+fg 1 inc7 /usr/share/qa/qa_test_pcmk/inc7.sh
+wait
+
+
+fg 1 inc8 /usr/share/qa/qa_test_pcmk/inc8.sh
+wait
+
+
+fg 1 inc9 /usr/share/qa/qa_test_pcmk/inc9.sh
+wait
+
+
+fg 1 inc10 /usr/share/qa/qa_test_pcmk/inc10.sh
+wait
+
+
+fg 1 inc11 /usr/share/qa/qa_test_pcmk/inc11.sh
+wait
+
+
+fg 1 inc12 /usr/share/qa/qa_test_pcmk/inc12.sh
+wait
+
+
+fg 1 cloned-group /usr/share/qa/qa_test_pcmk/cloned-group.sh
+wait
+
+
+fg 1 clone-no-shuffle /usr/share/qa/qa_test_pcmk/clone-no-shuffle.sh
+wait
+
+
+fg 1 clone-max-zero /usr/share/qa/qa_test_pcmk/clone-max-zero.sh
+wait
+
+
+fg 1 clone-anon-dup /usr/share/qa/qa_test_pcmk/clone-anon-dup.sh
+wait
+
+
+fg 1 bug-lf-2160 /usr/share/qa/qa_test_pcmk/bug-lf-2160.sh
+wait
+
+
+fg 1 bug-lf-2213 /usr/share/qa/qa_test_pcmk/bug-lf-2213.sh
+wait
+
+
+fg 1 bug-lf-2153 /usr/share/qa/qa_test_pcmk/bug-lf-2153.sh
+wait
+
+
+fg 1 bug-lf-2361 /usr/share/qa/qa_test_pcmk/bug-lf-2361.sh
+wait
+
+
+fg 1 bug-lf-2317 /usr/share/qa/qa_test_pcmk/bug-lf-2317.sh
+wait
+
+
+fg 1 clone-colocate-instance-1 /usr/share/qa/qa_test_pcmk/clone-colocate-instance-1.sh
+wait
+
+
+fg 1 clone-colocate-instance-2 /usr/share/qa/qa_test_pcmk/clone-colocate-instance-2.sh
+wait
+
+
+fg 1 clone-order-instance /usr/share/qa/qa_test_pcmk/clone-order-instance.sh
+wait
+
+
+fg 1 bug-lf-2453 /usr/share/qa/qa_test_pcmk/bug-lf-2453.sh
+wait
+
+
+fg 1 bug-lf-2508 /usr/share/qa/qa_test_pcmk/bug-lf-2508.sh
+wait
+
+
+fg 1 bug-lf-2544 /usr/share/qa/qa_test_pcmk/bug-lf-2544.sh
+wait
+
+
+fg 1 bug-lf-2445 /usr/share/qa/qa_test_pcmk/bug-lf-2445.sh
+wait
+
+
+fg 1 bug-lf-2574 /usr/share/qa/qa_test_pcmk/bug-lf-2574.sh
+wait
+
+
+fg 1 bug-lf-2581 /usr/share/qa/qa_test_pcmk/bug-lf-2581.sh
+wait
+
+
+fg 1 master-0 /usr/share/qa/qa_test_pcmk/master-0.sh
+wait
+
+
+fg 1 master-1 /usr/share/qa/qa_test_pcmk/master-1.sh
+wait
+
+
+fg 1 master-2 /usr/share/qa/qa_test_pcmk/master-2.sh
+wait
+
+
+fg 1 master-3 /usr/share/qa/qa_test_pcmk/master-3.sh
+wait
+
+
+fg 1 master-4 /usr/share/qa/qa_test_pcmk/master-4.sh
+wait
+
+
+fg 1 master-5 /usr/share/qa/qa_test_pcmk/master-5.sh
+wait
+
+
+fg 1 master-6 /usr/share/qa/qa_test_pcmk/master-6.sh
+wait
+
+
+fg 1 master-7 /usr/share/qa/qa_test_pcmk/master-7.sh
+wait
+
+
+fg 1 master-8 /usr/share/qa/qa_test_pcmk/master-8.sh
+wait
+
+
+fg 1 master-9 /usr/share/qa/qa_test_pcmk/master-9.sh
+wait
+
+
+fg 1 master-10 /usr/share/qa/qa_test_pcmk/master-10.sh
+wait
+
+
+fg 1 master-11 /usr/share/qa/qa_test_pcmk/master-11.sh
+wait
+
+
+fg 1 novell-239082 /usr/share/qa/qa_test_pcmk/novell-239082.sh
+wait
+
+
+fg 1 novell-239087 /usr/share/qa/qa_test_pcmk/novell-239087.sh
+wait
+
+
+fg 1 master-12 /usr/share/qa/qa_test_pcmk/master-12.sh
+wait
+
+
+fg 1 master-13 /usr/share/qa/qa_test_pcmk/master-13.sh
+wait
+
+
+fg 1 master-demote /usr/share/qa/qa_test_pcmk/master-demote.sh
+wait
+
+
+fg 1 master-ordering /usr/share/qa/qa_test_pcmk/master-ordering.sh
+wait
+
+
+fg 1 bug-1765 /usr/share/qa/qa_test_pcmk/bug-1765.sh
+wait
+
+
+fg 1 master-group /usr/share/qa/qa_test_pcmk/master-group.sh
+wait
+
+
+fg 1 bug-lf-1852 /usr/share/qa/qa_test_pcmk/bug-lf-1852.sh
+wait
+
+
+fg 1 master-failed-demote /usr/share/qa/qa_test_pcmk/master-failed-demote.sh
+wait
+
+
+fg 1 master-failed-demote-2 /usr/share/qa/qa_test_pcmk/master-failed-demote-2.sh
+wait
+
+
+fg 1 master-depend /usr/share/qa/qa_test_pcmk/master-depend.sh
+wait
+
+
+fg 1 master-reattach /usr/share/qa/qa_test_pcmk/master-reattach.sh
+wait
+
+
+fg 1 master-allow-start /usr/share/qa/qa_test_pcmk/master-allow-start.sh
+wait
+
+
+fg 1 master-colocation /usr/share/qa/qa_test_pcmk/master-colocation.sh
+wait
+
+
+fg 1 master-pseudo /usr/share/qa/qa_test_pcmk/master-pseudo.sh
+wait
+
+
+fg 1 master-role /usr/share/qa/qa_test_pcmk/master-role.sh
+wait
+
+
+fg 1 bug-lf-2358 /usr/share/qa/qa_test_pcmk/bug-lf-2358.sh
+wait
+
+
+fg 1 master-promotion-constraint /usr/share/qa/qa_test_pcmk/master-promotion-constraint.sh
+wait
+
+
+fg 1 managed-0 /usr/share/qa/qa_test_pcmk/managed-0.sh
+wait
+
+
+fg 1 managed-1 /usr/share/qa/qa_test_pcmk/managed-1.sh
+wait
+
+
+fg 1 managed-2 /usr/share/qa/qa_test_pcmk/managed-2.sh
+wait
+
+
+fg 1 interleave-0 /usr/share/qa/qa_test_pcmk/interleave-0.sh
+wait
+
+
+fg 1 interleave-1 /usr/share/qa/qa_test_pcmk/interleave-1.sh
+wait
+
+
+fg 1 interleave-2 /usr/share/qa/qa_test_pcmk/interleave-2.sh
+wait
+
+
+fg 1 interleave-3 /usr/share/qa/qa_test_pcmk/interleave-3.sh
+wait
+
+
+fg 1 interleave-pseudo-stop /usr/share/qa/qa_test_pcmk/interleave-pseudo-stop.sh
+wait
+
+
+fg 1 interleave-stop /usr/share/qa/qa_test_pcmk/interleave-stop.sh
+wait
+
+
+fg 1 interleave-restart /usr/share/qa/qa_test_pcmk/interleave-restart.sh
+wait
+
+
+fg 1 notify-0 /usr/share/qa/qa_test_pcmk/notify-0.sh
+wait
+
+
+fg 1 notify-1 /usr/share/qa/qa_test_pcmk/notify-1.sh
+wait
+
+
+fg 1 notify-2 /usr/share/qa/qa_test_pcmk/notify-2.sh
+wait
+
+
+fg 1 notify-3 /usr/share/qa/qa_test_pcmk/notify-3.sh
+wait
+
+
+fg 1 novell-239079 /usr/share/qa/qa_test_pcmk/novell-239079.sh
+wait
+
+
+fg 1 594 /usr/share/qa/qa_test_pcmk/594.sh
+wait
+
+
+fg 1 662 /usr/share/qa/qa_test_pcmk/662.sh
+wait
+
+
+fg 1 696 /usr/share/qa/qa_test_pcmk/696.sh
+wait
+
+
+fg 1 726 /usr/share/qa/qa_test_pcmk/726.sh
+wait
+
+
+fg 1 735 /usr/share/qa/qa_test_pcmk/735.sh
+wait
+
+
+fg 1 764 /usr/share/qa/qa_test_pcmk/764.sh
+wait
+
+
+fg 1 797 /usr/share/qa/qa_test_pcmk/797.sh
+wait
+
+
+fg 1 829 /usr/share/qa/qa_test_pcmk/829.sh
+wait
+
+
+fg 1 994 /usr/share/qa/qa_test_pcmk/994.sh
+wait
+
+
+fg 1 994-2 /usr/share/qa/qa_test_pcmk/994-2.sh
+wait
+
+
+fg 1 1360 /usr/share/qa/qa_test_pcmk/1360.sh
+wait
+
+
+fg 1 1484 /usr/share/qa/qa_test_pcmk/1484.sh
+wait
+
+
+fg 1 1494 /usr/share/qa/qa_test_pcmk/1494.sh
+wait
+
+
+fg 1 unrunnable-1 /usr/share/qa/qa_test_pcmk/unrunnable-1.sh
+wait
+
+
+fg 1 stonith-0 /usr/share/qa/qa_test_pcmk/stonith-0.sh
+wait
+
+
+fg 1 stonith-1 /usr/share/qa/qa_test_pcmk/stonith-1.sh
+wait
+
+
+fg 1 stonith-2 /usr/share/qa/qa_test_pcmk/stonith-2.sh
+wait
+
+
+fg 1 stonith-3 /usr/share/qa/qa_test_pcmk/stonith-3.sh
+wait
+
+
+fg 1 bug-1572-1 /usr/share/qa/qa_test_pcmk/bug-1572-1.sh
+wait
+
+
+fg 1 bug-1572-2 /usr/share/qa/qa_test_pcmk/bug-1572-2.sh
+wait
+
+
+fg 1 bug-1685 /usr/share/qa/qa_test_pcmk/bug-1685.sh
+wait
+
+
+fg 1 bug-1822 /usr/share/qa/qa_test_pcmk/bug-1822.sh
+wait
+
+
+fg 1 bug-pm-11 /usr/share/qa/qa_test_pcmk/bug-pm-11.sh
+wait
+
+
+fg 1 bug-pm-12 /usr/share/qa/qa_test_pcmk/bug-pm-12.sh
+wait
+
+
+fg 1 bug-n-387749 /usr/share/qa/qa_test_pcmk/bug-n-387749.sh
+wait
+
+
+fg 1 bug-n-385265 /usr/share/qa/qa_test_pcmk/bug-n-385265.sh
+wait
+
+
+fg 1 bug-n-385265-2 /usr/share/qa/qa_test_pcmk/bug-n-385265-2.sh
+wait
+
+
+fg 1 bug-lf-1920 /usr/share/qa/qa_test_pcmk/bug-lf-1920.sh
+wait
+
+
+fg 1 bnc-515172 /usr/share/qa/qa_test_pcmk/bnc-515172.sh
+wait
+
+
+fg 1 colocate-primitive-with-clone /usr/share/qa/qa_test_pcmk/colocate-primitive-with-clone.sh
+wait
+
+
+fg 1 use-after-free-merge /usr/share/qa/qa_test_pcmk/use-after-free-merge.sh
+wait
+
+
+fg 1 bug-lf-2551 /usr/share/qa/qa_test_pcmk/bug-lf-2551.sh
+wait
+
+
+fg 1 systemhealth1 /usr/share/qa/qa_test_pcmk/systemhealth1.sh
+wait
+
+
+fg 1 systemhealth2 /usr/share/qa/qa_test_pcmk/systemhealth2.sh
+wait
+
+
+fg 1 systemhealth3 /usr/share/qa/qa_test_pcmk/systemhealth3.sh
+wait
+
+
+fg 1 systemhealthn1 /usr/share/qa/qa_test_pcmk/systemhealthn1.sh
+wait
+
+
+fg 1 systemhealthn2 /usr/share/qa/qa_test_pcmk/systemhealthn2.sh
+wait
+
+
+fg 1 systemhealthn3 /usr/share/qa/qa_test_pcmk/systemhealthn3.sh
+wait
+
+
+fg 1 systemhealthm1 /usr/share/qa/qa_test_pcmk/systemhealthm1.sh
+wait
+
+
+fg 1 systemhealthm2 /usr/share/qa/qa_test_pcmk/systemhealthm2.sh
+wait
+
+
+fg 1 systemhealthm3 /usr/share/qa/qa_test_pcmk/systemhealthm3.sh
+wait
+
+
+fg 1 systemhealtho1 /usr/share/qa/qa_test_pcmk/systemhealtho1.sh
+wait
+
+
+fg 1 systemhealtho2 /usr/share/qa/qa_test_pcmk/systemhealtho2.sh
+wait
+
+
+fg 1 systemhealtho3 /usr/share/qa/qa_test_pcmk/systemhealtho3.sh
+wait
+
+
+fg 1 systemhealthp1 /usr/share/qa/qa_test_pcmk/systemhealthp1.sh
+wait
+
+
+fg 1 systemhealthp2 /usr/share/qa/qa_test_pcmk/systemhealthp2.sh
+wait
+
+
+fg 1 systemhealthp3 /usr/share/qa/qa_test_pcmk/systemhealthp3.sh
+wait
+
+
+fg 1 utilization /usr/share/qa/qa_test_pcmk/utilization.sh
+wait
+
+
+fg 1 minimal /usr/share/qa/qa_test_pcmk/minimal.sh
+wait
+
+
+fg 1 balanced /usr/share/qa/qa_test_pcmk/balanced.sh
+wait
+
+
+fg 1 placement-stickiness /usr/share/qa/qa_test_pcmk/placement-stickiness.sh
+wait
+
+
+fg 1 placement-priority /usr/share/qa/qa_test_pcmk/placement-priority.sh
+wait
+
+
+fg 1 placement-location /usr/share/qa/qa_test_pcmk/placement-location.sh
+wait
+
+
+fg 1 placement-capacity /usr/share/qa/qa_test_pcmk/placement-capacity.sh
+wait
+
+
+fg 1 utilization-order1 /usr/share/qa/qa_test_pcmk/utilization-order1.sh
+wait
+
+
+fg 1 utilization-order2 /usr/share/qa/qa_test_pcmk/utilization-order2.sh
+wait
+
+
+fg 1 utilization-order3 /usr/share/qa/qa_test_pcmk/utilization-order3.sh
+wait
+
+
+fg 1 utilization-order4 /usr/share/qa/qa_test_pcmk/utilization-order4.sh
+wait
+
+
+fg 1 bug-lf-2474 /usr/share/qa/qa_test_pcmk/bug-lf-2474.sh
+wait
+
+
+fg 1 reprobe-target_rc /usr/share/qa/qa_test_pcmk/reprobe-target_rc.sh
+wait
+
+

@@ -1,0 +1,16 @@
+timer 300
+fg 1 qa_bzip2_validation /usr/share/qa/qa_test_bzip2/qa_bzip2_validation.sh
+wait
+
+timer 300
+fg 1 qa_bzip2_bigfilerun /usr/share/qa/qa_test_bzip2/qa_bzip2_bigfilerun.sh
+wait 
+
+timer 300
+fg 1 qa_bzip2_bznew /usr/share/qa/qa_test_bzip2/qa_bzip2_bznew.sh
+wait 
+
+timer 300
+fg 1 qa_bzip2_compile /usr/share/qa/qa_test_bzip2/qa_bzip2_compile.sh
+wait
+

@@ -1,0 +1,19 @@
+#! /bin/bash
+
+#if [ -d /usr/lib/ltp ] ; then
+#    while ((a=1)) ; do
+#	/usr/lib/ltp/testcases/bin/process -b 5 -d 3
+#	sleep 5
+#    done
+#elif [ -d /usr/lib64/ltp ] ; then
+#    while ((a=1)) ; do
+#	/usr/lib64/ltp/testcases/bin/process -b 5 -d 3
+#	sleep 5
+#    done
+#fi
+
+
+for ((i=0;i<600;i++)) ; do
+	/opt/ltp/testcases/bin/process -b 5 -d 3
+	sleep 5
+done

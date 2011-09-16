@@ -1,0 +1,40 @@
+-------------------------------------------------------------------
+Wed Aug 17 09:08:29 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_slepos -> qa_test_slepos
+
+-------------------------------------------------------------------
+Tue Nov  9 20:01:13 UTC 2010 - tcech@novell.com
+
+- run ctcs2 for each branch server parallel in screen
+- network configuration with CLI yast2 for branch server is now
+  outside of tests (seemed to be affected by ctcs2 & 'ssh -t')
+- branch server configuration read is now in one function (read_branch_server_config)
+- improved examples in local_config.sh
+
+-------------------------------------------------------------------
+Fri Nov  5 08:32:42 UTC 2010 - tcech@suse.cz
+
+- simplifying branch server configuration
+- added find_the_other_interface() - autodetection of internal
+  network interface when there are only two interfaces
+- find_interface_by_mac() modified so can be called remotely
+
+-------------------------------------------------------------------
+Thu Nov  4 17:00:32 UTC 2010 - tcech@suse.cz
+
+- workaround error with symlink creation
+- make 'Recommends:' section only for SLES 10 or above
+
+-------------------------------------------------------------------
+Thu Nov  4 15:06:26 UTC 2010 - tcech@suse.cz
+
+- move files from /root to /usr/share/qa/qa_slepos and create
+  symlinks in post-install script instead
+- added qa_keys to Requires:
+
+-------------------------------------------------------------------
+Wed Oct 27 13:51:12 CEST 2010 - tcech@suse.cz
+
+- initial import
+

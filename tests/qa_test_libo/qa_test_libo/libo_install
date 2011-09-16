@@ -1,0 +1,22 @@
+#!/bin/bash
+
+. libo_conf
+. libo_logging
+
+log "Install libreoffice from $LOCAL_REPO_DIR"
+
+cd $LOCAL_REPO_DIR
+
+# the installation will only install rpm packages listed in text file
+# dir.list if it is existed in the same directory of $LOCAL_REPO_DIR,
+# otherwise all of the rpm packages will be installed.
+if test -f 'dir.list'; then
+    sudo rpm -ivh `cat $LOCAL_REPO_DIR/dir.list | grep rpm$`  2>&1 | tee $LOCAL_REPO_DIR/install.log
+else
+    sudo rpm -ivh *.rpm  2>&1 | tee $LOCAL_REPO_DIR/install.log
+fi
+
+cd $OLDPWD
+
+log "Install libreoffice complete"
+

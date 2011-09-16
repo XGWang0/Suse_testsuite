@@ -1,0 +1,4 @@
+timer 300
+fg 1 online-update_default /usr/share/qa/qa_test_yast2/online-update_default.sh
+wait
+

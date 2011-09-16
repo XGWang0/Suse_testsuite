@@ -1,0 +1,100 @@
+QA_SLEPOS
+=========
+
+Authors
+-------
+
+Tomas Cech <tcech@suse.cz>
+Erik Hamera <ehamera@suse.cz>
+
+Description
+-----------
+
+This package provides some basic SLEPOS tests. You can also used it from bash
+as functional library so SLEPOS testing is not that painful experience. It has
+been also reworked so it can be run by CTCS2 framework.
+
+Preparations
+------------
+
+To use this package you have to have installed NLPOS 9 or SLEPOS 10/11/11SP1.
+It is also expected that you have installed one or more patterns/server roles.
+
+How to use
+----------
+
+First configure this suite in /root/qa_slepos-local_config.sh. You'll not be
+allowed to use slepos_lib without that. Define there which computer is admin
+server and put there list of branch servers.
+
+Further, branch server configuration file is good idea but for special cases
+it can be defined by $branchserver_internal_device (resp.
+$branchserver_internal_mac) and $branchserver_location, where 'branchserver'
+is name of branch server.
+
+branchserver_internal_device - this variable defines network interface used for
+                               internal network (where are terminals
+                               connected).
+
+branchserver_internal_mac - MAC address of internal network device
+
+branchserver_location - this variables specify, which location this
+                        branchserver belongs to
+
+NOTE: If hostname contains dash, define variable with underscore instead.
+
+If there is no internal interface defined, autodetection is tried - if there
+are only two interfaces (not counting lo), the interface without default route
+is selected.
+
+For interactive use just source /root/slepos_lib.sh and function suitable for
+current computer role will be available. Function with same name may have
+different function for each role where it makes sense. do_branch() on branch
+server does it's function directly, but called on admin server it takes branch
+server name as argument and call remotely.
+
+For scripting you can call:
+
+/root/slepos_lib.sh <function_name> [function_parameters] ...
+
+
+Contents
+--------
+
+* slepos_lib.sh
+  - by default in /usr/share/qa/qa_slepos with symlink in /root
+  - contains all the functions
+  - provides different namespace for admin server, branch server and image
+    server patterns when sourced
+  - can be run as script:
+    slepos_lib.sh <function> [parameters]
+
+* qa_slepos-local_config.sh
+  - deployment dependent configuration, with luck the only server you need to
+    edit before running test
+  - symlink to /usr/share/qa/qa_test_slepos/local_config.sh
+  - this should be the only file which needs editation for some basic testing
+
+* /usr/share/qa/qa_test_slepos
+  - contains the LDAP database data, data needed for establishing branch server
+    or building images
+  - LDAP database is structured as tree - to follow this objects sources
+    configuration of its predecessor at the end
+  - image-*.sh are symlinks to template_image.sh since it differs by it's name
+    only, but you still have the option to create your own definition
+
+* slepos-run
+  - this dynamically creates TCF files for branch server and image creation testing
+  - you can ommit some role testing with setting NO_ADMIN, NO_IMAGE or NO_BRANCH
+    variables to non-empty values
+
+* hamsta_local_config
+  - this file (if exists) is sourced after qa_slepos-local_config.sh, this
+    provides easy way to set variables without editing local_config.sh
+  - planned for use with HAMSTA full automation
+
+
+If you didn't find the information you needed, try to look inside slepos_lib or
+configuration files. It should be commented well enough so you can find your
+answer there. If you haven't found what you want and you find it important,
+please, just send e-mail.

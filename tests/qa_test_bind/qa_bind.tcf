@@ -1,0 +1,25 @@
+
+timer 300
+fg 1 bind_start /usr/share/qa/qa_test_bind/bind_start.sh
+wait
+
+timer 300
+fg 1 bind_forwarder /usr/share/qa/qa_test_bind/bind_forwarder.sh
+wait
+
+timer 300
+fg 1 bind_primary /usr/share/qa/qa_test_bind/bind_primary.sh
+wait
+
+timer 300
+fg 1 bind_secondary /usr/share/qa/qa_test_bind/bind_secondary.sh
+wait
+
+timer 300
+fg 1 bind_restart /usr/share/qa/qa_test_bind/bind_restart.sh
+wait
+
+timer 300
+fg 1 bind_stop /usr/share/qa/qa_test_bind/bind_stop.sh
+wait
+

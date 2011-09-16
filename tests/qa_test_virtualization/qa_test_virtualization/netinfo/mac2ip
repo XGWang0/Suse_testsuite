@@ -1,0 +1,75 @@
+#!/bin/bash
+
+export LANG=C
+
+if [ $# -ne 1 ] ; then
+	echo "Usage $0 <mac>" >&2
+	exit 1
+fi
+
+# Local server - dhcp server for the local subnet
+MY_MAC="`/sbin/ifconfig br123 | grep HWaddr | awk '{ print $NF; }' | tr '[:upper:]' '[:lower:]'`"
+MY_IP="192.168.123.1"
+
+if ! /sbin/ifconfig | grep -qi "$MY_MAC" ; then
+	# I'm not running it on the server, but this must be run on the server
+	ssh rd-qa@$MY_IP mac2ip "$1"
+	exit $?
+fi
+
+mac=`echo $1 | tr '[:upper:]' '[:lower:]'`
+
+# This host - static configuration!
+if [ "$mac" == "$MY_MAC" ] ; then
+	echo "$MY_IP"
+	exit 0
+fi
+	
+
+# First, try the static reports in the dhcpd.conf
+ip=`get_mac_ip_pairs_from_dhcp_conf.pl | grep -i "^$mac " | sed "s/^$mac //i"`
+
+if [ "$ip" != "" ] ; then
+	echo $ip
+	exit 0
+fi
+
+# Now, look for dynamic assignment
+cat /var/lib/dhcp/db/dhcpd.leases | tr '[:upper:]' '[:lower:]' | grep '^[[:space:]]*lease \|^[[:space:]]*hardware ethernet\|^[[:space:]]*binding state'  | tac | while read line
+do
+	# always tripples:
+	#   hardware ethernet MAC; (may be missing in stale leases, though)
+	#   binding state active/free;
+	#   lease IP { -- we never get this here! - it's always read in the cycle body!
+	
+	# skip if wrong mac address (or none at all)
+	if echo "$line" | grep -q "^[[:space:]]*hardware ethernet[[:space:]]\+$mac[[:space:]]*;" ; then
+		# Correct mac address
+		read line
+		if echo "$line" | grep -q 'binding state active;' ; then 
+			active=1
+		else
+			active=0
+		fi
+		
+		read line
+		if [ "$active" == "1" ] ; then
+			# Only active lease is valid
+			ip=`echo "$line" | sed 's/^[[:space:]]*lease[[:space:]]\+\([0-9\.]\+\)[[:space:]]*{.*$/\1/'`
+			if [ "$ip" != "" ] ; then
+				echo $ip
+				exit 0
+			else
+				exit 1
+			fi
+		fi
+	else
+		# skip rest of this lease - wrong/no hw addr - so we'll read hw addr again next cycle
+		until echo $line | grep -q '^[[:space:]]*lease ' ; do
+			read line
+		done
+	fi
+done
+
+# Nothing found for MAC $mac in dhcpd.conf either  -- $ip still empty
+exit 1

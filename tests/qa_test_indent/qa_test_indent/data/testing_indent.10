@@ -1,0 +1,8 @@
+main ()
+{
+	  int a;
+	  if (1)
+	    {
+		      int b;
+	    }
+}

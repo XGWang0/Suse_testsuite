@@ -1,0 +1,43 @@
+." Manpage for qa_test_unace.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_unace man page"
+.SH NAME
+qa_test_unace
+.SH SYNOPSIS
+UNACE <command> [-<sw1> ...] <archive> [<base_dir>\] [<files>/@<filelist>]
+.SH TYPE
+Function test
+.SH DESCRIPTION
+Test cases for unace package.
+.SH README
+None. 
+.SH OPTIONS
+e Extract files
+.br
+t Test archive integrity
+.br
+l List archive
+.br
+v List archive (verbose)
+.br
+x Extract files with full path
+.SH WHAT IT DOES
+Test archive uncompress (flat and structured).
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+This test suite is used in SLE10 only, since unace cannot be found in sle11 and later versions of SuSE Linux.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Internal, Our code. No licence provided in the sources. Internal development. Meant to be GPL.
+.SH LICENSE
+License: n/a. Spec file license: GPL. Written and maintained internally since 2006.
+.SH UPSTREAM
+None.
+.SH AUTHOR
+Lukas Lipavsky <jtang@novell.com>
+.SH MAINTAINER
+Jerry Tang <jtang@novell.com>

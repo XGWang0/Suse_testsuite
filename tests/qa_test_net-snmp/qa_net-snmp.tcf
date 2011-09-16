@@ -1,0 +1,236 @@
+timer 600
+fg 1 T001SNMPV1GET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T001snmpv1get
+wait
+
+timer 600
+fg 1 T014SNMPV2CGET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T014snmpv2cget
+wait
+
+timer 600
+fg 1 T015SNMPV2CGETNEXT /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T015snmpv2cgetnext
+wait
+
+timer 600
+fg 1 T0160SNMPV2CBULKGET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T0160snmpv2cbulkget
+wait
+
+timer 600
+fg 1 T016SNMPV2CGETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T016snmpv2cgetfail
+wait
+
+timer 600
+fg 1 T017SNMPV2CTOV1GETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T017snmpv2ctov1getfail
+wait
+
+timer 600
+fg 1 T018SNMPV1TOV2CGETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T018snmpv1tov2cgetfail
+wait
+
+timer 600
+fg 1 T019SNMPV2CNOSUCH /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T019snmpv2cnosuch
+wait
+
+timer 600
+fg 1 T020SNMPV3GET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T020snmpv3get
+wait
+
+timer 600
+fg 1 T021SNMPV3GETNEXT /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T021snmpv3getnext
+wait
+
+timer 600
+fg 1 T0220SNMPV3BULKGET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T0220snmpv3bulkget
+wait
+
+timer 600
+fg 1 T022SNMPV3GETMD5 /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T022snmpv3getMD5
+wait
+
+timer 600
+fg 1 T023SNMPV3GETMD5AES /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T023snmpv3getMD5AES
+wait
+
+timer 600
+fg 1 T023SNMPV3GETMD5DES /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T023snmpv3getMD5DES
+wait
+
+timer 600
+fg 1 T024SNMPV3GETSHA1 /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T024snmpv3getSHA1
+wait
+
+timer 600
+fg 1 T025SNMPV3GETSHADES /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T025snmpv3getSHADES
+wait
+
+timer 600
+fg 1 T026SNMPV3GETSHAAES /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T026snmpv3getSHAAES
+wait
+
+timer 600
+fg 1 T028SNMPV3GETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T028snmpv3getfail
+wait
+
+timer 600
+fg 1 T030SNMPV3USERCREATION /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T030snmpv3usercreation
+wait
+
+timer 600
+fg 1 T035SNMPV3TRAPDUSERMGMT /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T035snmpv3trapdusermgmt
+wait
+
+timer 600
+fg 1 T049SNMPV3INFORM /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T049snmpv3inform
+wait
+
+timer 600
+fg 1 T049SNMPV3INFORMAUTH /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T049snmpv3informauth
+wait
+
+timer 600
+fg 1 T049SNMPV3INFORMPRIV /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T049snmpv3informpriv
+wait
+
+timer 600
+fg 1 T050SNMPV3TRAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T050snmpv3trap
+wait
+
+timer 600
+fg 1 T051SNMPV2CTRAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T051snmpv2ctrap
+wait
+
+timer 600
+fg 1 T052SNMPV2CINFORM /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T052snmpv2cinform
+wait
+
+timer 600
+fg 1 T053AGENTV1TRAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T053agentv1trap
+wait
+
+timer 600
+fg 1 T054AGENTV2CTRAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T054agentv2ctrap
+wait
+
+timer 600
+fg 1 T055AGENTV1MINTRAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T055agentv1mintrap
+wait
+
+timer 600
+fg 1 T056AGENTV2CMINTRAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T056agentv2cmintrap
+wait
+
+timer 600
+fg 1 T057TRAPDAUTHTEST /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T057trapdauthtest
+wait
+
+timer 600
+fg 1 T057TRAPDAUTHTEST2 /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T057trapdauthtest2
+wait
+
+timer 600
+fg 1 T057TRAPDAUTHTEST3 /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T057trapdauthtest3
+wait
+
+timer 600
+fg 1 T058AGENTAUTHTRAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T058agentauthtrap
+wait
+
+timer 600
+fg 1 T059TRAPDTRAPHANDLE /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T059trapdtraphandle
+wait
+
+timer 600
+fg 1 T060TRAPDPERL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T060trapdperl
+wait
+
+timer 600
+fg 1 T061AGENTPERL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T061agentperl
+wait
+
+timer 600
+fg 1 T065AGENTEXTEND /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T065agentextend
+wait
+
+timer 600
+fg 1 T100AGENTHUP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T100agenthup
+wait
+
+timer 600
+fg 1 T110AGENTXGET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T110agentxget
+wait
+
+timer 600
+fg 1 T111AGENTXSET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T111agentxset
+wait
+
+timer 600
+fg 1 T112AGENTXSETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T112agentxsetfail
+wait
+
+timer 600
+fg 1 T113AGENTXTRAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T113agentxtrap
+wait
+
+timer 600
+fg 1 T115agentxperl /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T115agentxperl
+wait
+
+timer 600
+fg 1 T120PROXYGET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T120proxyget
+wait
+
+timer 600
+fg 1 T121PROXYSET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T121proxyset
+wait
+
+timer 600
+fg 1 T122PROXYSETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T122proxysetfail
+wait
+
+timer 600
+fg 1 T130SNMPV1VACMGET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T130snmpv1vacmget
+wait
+
+timer 600
+fg 1 T131SNMPV2CVACMGET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T131snmpv2cvacmget
+wait
+
+timer 600
+fg 1 T132SNMPV3VACMGET /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T132snmpv3vacmget
+wait
+
+timer 600
+fg 1 T140SNMPV1VACMGETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T140snmpv1vacmgetfail
+wait
+
+timer 600
+fg 1 T141SNMPV2CVACMGETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T141snmpv2cvacmgetfail
+wait
+
+timer 600
+fg 1 T142SNMPV3VACMGETFAIL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T142snmpv3vacmgetfail
+wait
+
+timer 600
+fg 1 T150SOLARISHOSTCPU /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T150solarishostcpu
+wait
+
+timer 600
+fg 1 T151SOLARISHOSTDISK /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T151solarishostdisk
+wait
+
+timer 600
+fg 1 T152HOSTUPTIME /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T152hostuptime
+wait
+
+timer 600
+fg 1 T153SOLARISSWAP /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T153solarisswap
+wait
+
+timer 600
+fg 1 T160SNMPNETSTAT /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T160snmpnetstat
+wait
+
+timer 600
+fg 1 T200SNMPV2CWALKALL /usr/share/qa/qa_test_net-snmp/run-test-wrapper.sh T200snmpv2cwalkall
+wait
+

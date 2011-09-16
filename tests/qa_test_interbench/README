@@ -1,0 +1,14 @@
+Interbench in ctcs testing framework readme.
+
+Packages: interbench, interbench-ctcs-glue
+
+It is designed to measure the effect of changes in Linux kernel design or system configuration changes such as cpu, I/O scheduler and filesystem changes and options.
+It emulates the cpu scheduling behaviour of interactive tasks and measures their scheduling latency and jitter.
+
+/usr/share/qa/tools/interbench-run - runs the benchmark
+
+Methodics - see README: /usr/share/qa/qa_test_interbench/readme or http://members.optusnet.com.au/ckolivas/interbench.
+
+This test runs interbench with no atributes and lets it runs all simulated interactive tasks over all background loads.
+
+QADB import: Latency, '% Desired CPU' and '% Deadlines Met' for every combination are parsed to QADB.

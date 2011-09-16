@@ -1,0 +1,119 @@
+#! /bin/sh
+# Copyright (c) 1996, 1997, 1998 S.u.S.E. GmbH
+# Copyright (c) 1998, 1999, 2000, 2001 SuSE GmbH
+# Copyright (c) 2002 SuSE Linux AG
+#
+# Author: Frank Bodammer <feedback@suse.de>
+#
+# init.d/squid
+#
+### BEGIN INIT INFO
+# Provides:       squid
+# Required-Start: $network $remote_fs $syslog $named apache
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    Starts the http-proxyserver (squid)
+### END INIT INFO
+
+. /etc/rc.config
+SQUID_BIN=/usr/sbin/squid
+SQUID_PID=/var/run/squid.pid
+SQUID_CONF=/etc/squid.conf
+
+if [ ! -x $SQUID_BIN ] ; then
+	echo -n "WWW-proxy squid not installed ! "
+	exit 5
+fi
+
+. /etc/rc.status
+RC_OPTIONS='-v'
+rc_reset
+
+ulimit -n 4096
+
+case "$1" in
+    start)
+	echo -n "Starting WWW-proxy squid "
+	checkproc $SQUID_BIN
+	if [ $? -eq 0 ] ; then
+	   echo -n "- Warning: squid already running ! "
+	else
+	   [ -e $SQUID_PID ] && echo -n "- Warning: $SQUID_PID exists ! "
+	   if [ ! -d /var/cache/squid/00 ] ; then
+	      echo -ne "\n -> "
+	      $SQUID_BIN -z
+	      rc_status -v1 -r
+	      RC_OPTIONS='-v2'
+	      sleep 2
+	   fi
+	fi
+	startproc -l /var/log/squid/rcsquid.log $SQUID_BIN -sYD
+	rc_status $RC_OPTIONS
+	;;
+    stop)
+	echo -n "Shutting down WWW-proxy squid "
+	if checkproc $SQUID_BIN ; then
+	   $SQUID_BIN -k shutdown
+	   sleep 2
+	   if [ -e $SQUID_PID ] ; then 
+	      echo -n "- wait a minute "
+	      i=60
+	      while [ -e $SQUID_PID ] && [ $i -gt 0 ] ; do
+	         sleep 2
+	         i=$[$i-1]
+	         echo -n "."
+	         [ $i -eq 41 ] && echo
+	      done
+	   fi
+	   if checkproc $SQUID_BIN ; then
+	      killproc -TERM $SQUID_BIN
+	      echo -n " Warning: squid killed !"
+	   fi
+	else
+	   echo -n "- Warning: squid not running ! "
+	   rc_failed 7
+	fi
+	rc_status -v
+	;;
+    try-restart)
+	$0 stop  &&  $0 start
+	rc_status
+	;;
+    restart)
+	$0 stop
+	$0 start
+	rc_status
+	;;
+    force-reload)
+	$0 reload
+	rc_status
+	;;
+    reload)
+	echo -n "Reloading WWW-proxy squid "
+	if checkproc $SQUID_BIN ; then
+	   $SQUID_BIN -k rotate
+	   sleep 2
+	   $SQUID_BIN -k reconfigure
+	   rc_status
+	else
+	   echo -n "- Warning: squid not running ! "
+	   rc_failed 7
+	fi
+	rc_status -v
+	;;
+    status)
+        echo -n "Checking for WWW-proxy squid "
+        checkproc $SQUID_BIN
+        rc_status -v
+        ;;
+    probe)
+	test $SQUID_CONF -nt $SQUID_PID && echo reload
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+	exit 1
+	;;
+esac
+rc_exit
+

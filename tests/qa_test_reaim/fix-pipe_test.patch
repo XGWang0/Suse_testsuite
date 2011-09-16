@@ -1,0 +1,32 @@
+--- reaim-7.0.1.13/src/pipe_test.c	2004-10-21 01:31:33.000000000 +0200
++++ reaim-7.0.1.13.new/src/pipe_test.c	2005-04-26 14:51:08.219954978 +0200
+@@ -194,7 +194,8 @@
+ 	 */
+ 	memset(&wr_in, 0, sizeof(wr_in));	/* clear it to zeros */
+ 	wr_in.sin_family = AF_INET;	/* set family of socket */
+-	memcpy((void *) &wr_in.sin_addr.s_addr, (void *) hp->h_addr, hp->h_length);	/* ignore addresses */
++	//memcpy((void *) &wr_in.sin_addr.s_addr, (void *) hp->h_addr, hp->h_length);	/* ignore addresses */
++	wr_in.sin_addr.s_addr = INADDR_ANY;
+ 	wr_in.sin_port = 0;	/* set write port (make kernel choose) */
+ 	status = bind(wr, (struct sockaddr *) &wr_in, sizeof(wr_in));	/* do the bind */
+ 	if (status < 0)
+@@ -301,7 +302,8 @@
+ 	 */
+ 	memset(&wr_in, 0, sizeof(wr_in));	/* clear it to zeros */
+ 	wr_in.sin_family = AF_INET;	/* set family of socket */
+-	memcpy((void *) &wr_in.sin_addr.s_addr, (void *) hp->h_addr, hp->h_length);	/* ignore addresses */
++	//memcpy((void *) &wr_in.sin_addr.s_addr, (void *) hp->h_addr, hp->h_length);	/* ignore addresses */
++	wr_in.sin_addr.s_addr = INADDR_ANY;
+ 	wr_in.sin_port = 0;	/* set write port (make kernel choose) */
+ 	status = bind(wr, (struct sockaddr *) &wr_in, sizeof(wr_in));	/* do the bind */
+ 	if (status < 0)
+@@ -324,7 +326,8 @@
+ 	 */
+ 	memset(&rd_in, 0, sizeof(rd_in));	/* clear it to zeros */
+ 	rd_in.sin_family = AF_INET;	/* set family of socket */
+-	memcpy((void *) &rd_in.sin_addr.s_addr, (void *) hp->h_addr, hp->h_length);	/* ignore addresses */
++	//memcpy((void *) &rd_in.sin_addr.s_addr, (void *) hp->h_addr, hp->h_length);	/* ignore addresses */
++	rd_in.sin_addr.s_addr = INADDR_ANY;
+ 	rd_in.sin_port = 0;	/* set write port (make kernel choose) */
+ 	status = bind(rd, (struct sockaddr *) &rd_in, sizeof(rd_in));	/* do the bind */
+ 	if (status < 0)

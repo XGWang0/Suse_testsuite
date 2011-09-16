@@ -1,0 +1,36 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+my $tail = open TAIL, "tail -n 0 -f @ARGV |"
+  or die "Can't run tail: $!\n";
+my @cx;
+while (<TAIL>) {
+    push @cx, $_;
+    shift @cx if @cx > 10;
+    if (/kernel .* (
+	  RPC:
+	  | error.handler
+	  | WARNING:.USB.Mass.Storage.data.integrity.not.assured
+	  | USB.device.not.accepting.new.address
+	)/xi)
+    {
+	;
+    }
+    elsif (/kernel .* (
+	  ECC:.(SBE|MBE) | NMI
+          | 3w-xxxx:.*Bad
+	  | stuck.*on.*IPI.*wait
+          | warning | error | critical
+	  | lost.interrupt
+	  | scsi.:.aborting.command.due.to.timeout
+	  | VM:.*failed
+	 )/xi)
+    {
+	print "Kernel error detected from system logs:\n";
+	print ">> $_" for @cx;
+	kill 15, $tail;
+	exit 1;
+    }
+}
+close TAIL;

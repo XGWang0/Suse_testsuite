@@ -1,0 +1,84 @@
+#!/usr/bin/expect -f
+
+source /usr/share/qa/qa_test_cracklib/cracklib_tests.conf
+
+set timeout	$default_timeout 
+set FAILED 0
+
+log_user 1
+
+catch { exec useradd -m $cracklib_user -d /tmp/testhome}
+
+system sync
+
+spawn passwd $cracklib_user
+
+expect {
+	$cracklib_expectnew {
+		sleep 1
+		send $cracklib_pass
+	}
+	timeout {
+        puts "FAILED: cracklib - similar passwd - did not get cracklib_expectnew"
+        set FAILED 1
+	}
+}
+
+expect {
+	$cracklib_expectretype {
+		sleep 1
+		send $cracklib_pass
+		sleep 1 
+	}
+	timeout {
+		puts "FAILED: cracklib - similar passwd - did not get cracklib_expectretype"	
+        set FAILED 1
+	}
+}
+close
+
+system sync
+
+spawn $default_shell
+send "su $cracklib_user -c passwd\r"
+expect {
+	$cracklib_expectcurrent {
+		sleep 1
+		send $cracklib_pass
+	}
+	timeout {
+        puts "FAILED: cracklib - similar passwd - did not get cracklib_expectcurrent"
+        set FAILED 1
+	}
+}
+
+expect {
+	$cracklib_expectnew {
+		sleep 1
+		send $cracklib_passsimilar
+	}
+	timeout {
+        puts "FAILED: cracklib - similar passwd - did not get cracklib_expectnew"
+        set FAILED 1
+	}
+}
+
+expect {
+	$cracklib_expectedsimilar {
+		puts "PASSED: cracklib - similar passwd"
+		close
+		catch { exec userdel -r $cracklib_user }
+	}
+
+	timeout {
+		puts "FAILED: cracklib - similar passwd  - did not get cracklib_expectedsimilar"
+		close
+		catch { exec userdel $cracklib_user }
+        set FAILED 1
+	}
+}
+
+system sync
+
+exit $FAILED
+

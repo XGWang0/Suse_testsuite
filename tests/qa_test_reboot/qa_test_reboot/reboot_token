@@ -1,0 +1,13 @@
+#!/bin/bash
+
+token="/var/tmp/reboot_token"
+
+# the tcf file cleans $token and resets it with a unique id everytime the test is started
+# this script will be called by the SUT to check the validity of the request
+
+if [ -f $token ]; then
+	cat $token
+else
+	echo -1 
+fi
+

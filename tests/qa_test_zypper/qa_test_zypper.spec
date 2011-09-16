@@ -1,0 +1,56 @@
+Name:           qa_test_zypper
+License:        GPL v2 or later
+Group:          System/Packages
+Summary:        Basic ligth zypper tests for ctcs2 framework
+Provides:	qa_zypper
+Obsoletes:	qa_zypper
+Requires:       zypper >= 1.0 ctcs2
+AutoReqProv:    on
+Version:        1.0
+Release:        1
+Source0:        %name-%version.tar.bz2
+Source1:        qa_zypper.tcf
+Source2:        test_zypper-run	
+Source3:	qa_test_zypper.8
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+BuildArch:      noarch
+%define qa_location /usr/share/qa/%{name}
+
+%description
+Testcases for zypper package. This is a light test suite, which focus on
+options and commands test.
+There is another API level test suite libzypp-testsuite-tools, but this
+one is much bigger, slower and have too many dependences.
+
+%prep
+%setup -n %{name}
+
+%build
+
+%install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
+install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}
+cp -rv * $RPM_BUILD_ROOT/%{qa_location}
+install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/tcf
+install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tools
+cp %{SOURCE1} $RPM_BUILD_ROOT/%{qa_location}/tcf
+ln -s ../%name/tcf/qa_zypper.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
+
+%clean
+rm -rvf $RPM_BUILD_ROOT
+
+%files
+%defattr(-, root, root)
+/usr/share/man/man8/qa_test_zypper.8.gz
+%{qa_location}
+/usr/share/qa
+
+%changelog
+* Wed Aug 10 2011 - llipavsky@suse.cz
+- Package rename: qa_zypper -> qa_test_zypper
+* Thu Apr 7 2011 llwang@novell.com
+- Initial test packages

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DIR="/tmp";
+for D in /abuild/bonnie /abuild
+do
+    if [ -d "$D" -a -w "$D" ]
+    then
+	DIR="$D"
+	break
+    fi
+done
+
+SIZE=100
+NUM=1
+
+while getopts s:v: OPT
+do
+    case "$OPT" in
+	s) SIZE=$OPTARG ;;
+	v) NUM=$OPTARG ;;
+    esac
+done
+
+NEED=$[$SIZE*$NUM]
+FREE="$(df -m "$DIR" | awk '/^\/dev/{ print $4 }')"
+[ -n "$FREE" ] || FREE="$(df "$DIR"|awk '/^\/dev/{ getline ; print $3 }')"
+if [ "$?" -ne 0 -o -z "$FREE" ]
+then
+        echo "Unable to determine free space (needed: $NEED MB) available under '$DIR'. Aborting..."
+	exit -1
+fi
+if [ "$FREE" -lt "$NEED" ]
+then
+        echo "'df' shows less than the needed $NEED MB available under '$DIR'. Aborting."
+        exit -1
+fi
+
+echo "Needing $[$SIZE*$NUM] MB, having $FREE MB";
+
+bonnie -d $DIR -html $@

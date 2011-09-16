@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#MOUNT_DIR="/MOUNT-VIRT"
+#
+#if [ -e $MOUNT_DIR -a "`ls $MOUNT_DIR | wc -l`" -gt 0 ] ; then
+#	echo "Error: Directory $MOUNT_DIR already exist and is nonempty. Terminating..."
+#	exit 11
+#fi
+#
+#mkdir -p $MOUNT_DIR && mount -t nfs -oro fallback.suse.cz:/dist $MOUNT_DIR
+

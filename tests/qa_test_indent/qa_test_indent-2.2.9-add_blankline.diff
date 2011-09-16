@@ -1,0 +1,11 @@
+--- regression-old/standard/wrapped-string.c	2011-07-20 14:47:40.000000000 +0800
++++ regression/standard/wrapped-string.c	2011-07-20 14:41:48.000000000 +0800
+@@ -28,6 +28,7 @@
+ 	1:	movl %0,%%ecx
+ 		fs; rep; movsb");
+ }
++
+ static inline void
+ __generic_memcpy_fromfs (void *to, const void *from, unsigned long n)
+ {
+

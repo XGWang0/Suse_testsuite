@@ -1,0 +1,3 @@
+fg 1 tiobench tiobench.pl --size 2048 --block 4096 --block 32768
+timer 30s
+wait

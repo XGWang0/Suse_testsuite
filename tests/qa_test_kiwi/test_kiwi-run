@@ -1,0 +1,27 @@
+#!/bin/bash
+#this script generate tcf dynamically
+
+templateroot=/root
+tcf_file=/usr/share/qa/qa_test_kiwi/tcf/qa_kiwi.tcf
+touch /tmp/kiwi_dg_$$
+echo "" > $tcf_file
+grep -v '#' /usr/share/qa/qa_test_kiwi/qa_kiwi_dict.conf > /tmp/kiwi_dg_$$
+
+awk '{a=split($3,repo,/,/);s=gensub(/.*\//,"",1,$2);ii=0;for(i in repo){ii++;gsub(/[)(]/," ",repo[i]);print $2,s"/"$1"/"ii,repo[i]} }' /tmp/kiwi_dg_$$|while read  templatel destdir repourl repotype
+do
+sh_file_name=`echo $destdir|sed 's#/#-#g'` 
+#echo $sh_file_name
+mkdir -p $templateroot/$destdir/
+echo "kiwi --build $templatel --destdir $templateroot/$destdir/ --set-repo $repourl --set-repotype $repotype" > /usr/share/qa/qa_test_kiwi/${sh_file_name}.sh
+chmod a+x /usr/share/qa/qa_test_kiwi/${sh_file_name}.sh
+echo 
+echo "timer 3h" >> $tcf_file
+echo "fg 1 ${sh_file_name} /usr/share/qa/qa_test_kiwi/${sh_file_name}.sh" >>$tcf_file
+echo "wait" >> $tcf_file
+echo "" >> $tcf_file
+
+done
+
+rm /tmp/kiwi_dg_$$
+
+/usr/lib/ctcs2/tools/run /usr/share/qa/qa_test_kiwi/tcf/qa_kiwi.tcf

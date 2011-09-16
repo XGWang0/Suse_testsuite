@@ -1,0 +1,178 @@
+#!/usr/bin/env python
+
+##############################################################################
+# Description: Test the Open Location dialogue, try all of the supported 
+#              file types.
+# Written by:  Felicia Mu<fxmu@novell.com>
+##############################################################################
+
+# The docstring below is used in the generated log file
+"""
+Step1: opens the dialogue
+Step2: Open a http location:http://vietnamese.cri.cn/mmsource/audio/2009/02/11/tiankongM.mp3
+Step3: Open a ftp location:ftp://147.2.207.135/ftp_install/beatit.mp3
+Step4: Open a file located on SMB:smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3
+Step5: Verify the browse button
+Step6: Verify the Cancel button
+"""
+# imports
+from strongwind import *
+
+# open the label sample application
+try:
+  app = launchApp("/usr/bin/banshee-1", "Banshee")
+except IOError, msg:
+  print "ERROR:  %s" % msg
+  exit(2)
+# just an alias to make things shorter
+bFrame = app.findFrame("Banshee Media Player")
+
+
+# Step1: Open the dialogue
+helpMenu = bFrame.findMenu("Media")
+helpMenu.mouseClick(log=True)
+sleep(config.SHORT_DELAY)
+procedurelogger.expectedResult("the \"Media\"'s submenu is shown")
+
+# Step2: Open a http location:http://vietnamese.cri.cn/mmsource/audio/2009/02/11/tiankongM.mp3
+webMenu= helpMenu.findMenuItem("Open Location...")
+webMenu.mouseClick(log=True)
+sleep(config.SHORT_DELAY)
+locationDialog = app.findDialog("Open Location")
+
+# Input the address in the text
+procedurelogger.action("input the \"http://vietnamese.cri.cn/mmsource/audio/2009/02/11/tiankongM.mp3\" in the text")
+text = locationDialog.findText("")
+text.text = "http://vietnamese.cri.cn/mmsource/audio/2009/02/11/tiankongM.mp3" 
+sleep(config.SHORT_DELAY)
+procedurelogger.expectedResult("the \"http://vietnamese.cri.cn/mmsource/audio/2009/02/11/tiankongM.mp3\" is in the text")
+
+# Click the "Open" button
+openButton = locationDialog.findPushButton("Open")
+openButton.mouseClick()
+sleep(config.LONG_DELAY)
+procedurelogger.expectedResult("the song is loaded in the banshee")
+
+# Test if the slider's change
+procedurelogger.action("open the http location in banshee")
+slider = bFrame.findSlider("")
+sliderFirst = slider._accessible.queryValue().currentValue
+sleep(config.LONG_DELAY)
+
+sliderSecond = slider._accessible.queryValue().currentValue
+assert (sliderFirst != sliderSecond)
+procedurelogger.expectedResult("the http location is opened by banshee")
+
+# Step3: Open a ftp location:ftp://147.2.207.135/ftp_install/beatit.mp3
+# Launch firefox process
+
+procedurelogger.action("Launch firefox process")
+os.popen("firefox &")
+firefoxapp = cache._desktop.findApplication('Firefox', checkShowing=False)
+fFrames = firefoxapp.findAllFrames(None)
+url_entry = fFrames[0].findEntry("Search Bookmarks and History")
+sleep(config.SHORT_DELAY)
+
+newSessionButton = pyatspi.findDescendant(fFrames[0], lambda x:x.name == "Start New Session")
+#restoreButton = pyatspi.findDescendant(fFrames[0], lambda x:x.name == "Restore" and x.role == pyatspi.ROLE_PUSH_BUTTON)
+if (newSessionButton):
+        newSessionButton.mouseClick(log = False)
+	sleep(config.SHORT_DELAY)
+        procedurelogger.expectedResult("the page of firefox is a new session")
+elif (restoreButton):
+	sleep(config.SHORT_DELAY)
+        procedurelogger.expectedResult("the page of firefox is restored to previous")
+
+# focus to URL location
+fFrames[0].findMenuItem(re.compile('^Open Location'), checkShowing=False).click(log=True)
+sleep(config.SHORT_DELAY)
+
+# Input the url in firefox's entry
+procedurelogger.action("Open browser to a ftp location:ftp://147.2.207.135/ftp_install/beatit.mp3")
+url_entry.mouseClick(log = False)
+url_entry.text = "ftp://147.2.207.135/ftp_install/beatit.mp3"
+sleep(config.SHORT_DELAY)
+assert (url_entry.text == "ftp://147.2.207.135/ftp_install/beatit.mp3")
+sleep(config.SHORT_DELAY)
+procedurelogger.expectedResult("the url is loaded correctly")
+
+# Click "Enter" button
+url_entry.keyCombo("enter")
+sleep(config.LONG_DELAY)
+procedurelogger.expectedResult("the url is activated")
+
+# On the new launched dialog, click "OK" button
+newDialog = firefoxapp.findDialog("Opening beatit.mp3")
+okButton = newDialog.findPushButton("OK")
+okButton.mouseClick()
+sleep(config.SHORT_DELAY)
+newDialog.assertClosed()
+
+# Test if the ftp location can be played in banshee
+procedurelogger.action("play the ftp location in banshee")
+sliderFirst = slider._accessible.queryValue().currentValue
+sleep(config.LONG_DELAY)
+
+sliderSecond = slider._accessible.queryValue().currentValue
+assert (sliderFirst != sliderSecond)
+procedurelogger.expectedResult("the ftp location is opened by banshee")
+
+# Quit firefox application
+procedurelogger.action("kill firefox process")
+os.popen("killall firefox-bin").read()
+sleep(config.SHORT_DELAY)
+
+# Step4: Open a file located on SMB:smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3
+helpMenu.mouseClick(log=True)
+sleep(config.SHORT_DELAY)
+procedurelogger.expectedResult("the \"Media\"'s submenu is shown")
+
+webMenu.mouseClick()
+sleep(config.SHORT_DELAY)
+locationDialog = app.findDialog("Open Location")
+
+# Input the address in the text
+procedurelogger.action("input the \"smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3\" in the text")
+text = locationDialog.findText("")
+text.text = "smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3"
+sleep(config.SHORT_DELAY)
+procedurelogger.expectedResult("the \"smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3\" is in the text")
+
+# Click the "Open" button
+openButton = locationDialog.findPushButton("Open")
+openButton.mouseClick()
+sleep(config.LONG_DELAY)
+procedurelogger.expectedResult("the song is loaded in the banshee")
+
+# Step5: Verify the browse button
+helpMenu.mouseClick(log=True)
+sleep(config.SHORT_DELAY)
+procedurelogger.expectedResult("the \"Media\"'s submenu is shown")
+
+webMenu.mouseClick(log=True)
+sleep(config.SHORT_DELAY)
+locationDialog = app.findDialog("Open Location")
+
+# Click the "browse" button
+browseButton = locationDialog.findPushButton("Browse...")
+browseButton.mouseClick()
+sleep(config.LONG_DELAY)
+procedurelogger.expectedResult("the song is loaded in the banshee")
+
+# assert the button can launch the "Open Location" dialog
+procedurelogger.action("assert the button can launch the \"Open Location\" dialog")
+openDialogs = app.findAllDialogs("Open Location")
+sleep(config.SHORT_DELAY)
+assert(openDialogs[1])
+
+# close the new launched dialog
+cancelButton = openDialogs[1].findPushButton("Cancel")
+cancelButton.mouseClick()
+sleep(config.LONG_DELAY)
+openDialogs[1].assertClosed()
+
+# Step6: Verify the Cancel button
+cancel = locationDialog.findPushButton("Cancel")
+cancel.mouseClick()
+sleep(config.LONG_DELAY)
+locationDialog.assertClosed()

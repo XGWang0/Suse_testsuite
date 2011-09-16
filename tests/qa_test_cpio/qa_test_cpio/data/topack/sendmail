@@ -1,0 +1,80 @@
+#! /bin/sh
+# Copyright (c) 1996-2002 SuSE Gmbh Nuernberg, Germany.
+#
+# Author: Florian La Roche, 1996, 1997
+#	  Werner Fink <feedback@suse.de>, 1996, 1999-2002
+#
+### BEGIN INIT INFO
+# Provides:       sendmail
+# Required-Start: $remote_fs amavis
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    Start the Sendmail MTA
+### END INIT INFO
+
+test -s /etc/sysconfig/mail && \
+      . /etc/sysconfig/mail
+
+test -s /etc/sysconfig/sendmail && \
+      . /etc/sysconfig/sendmail
+
+if test -z "$SENDMAIL_ARGS" ; then
+	SENDMAIL_ARGS="-L sendmail -Am -bd -q30m -om"
+fi
+if test -z "$SENDMAIL_CLIENT_ARGS" ; then
+	SENDMAIL_CLIENT_ARGS="-L sendmail-client -Ac -q30m"
+fi
+if test "$SMTPD_LISTEN_REMOTE" != "yes" ; then
+	SENDMAIL_ARGS="-O DaemonPortOptions=Addr=127.0.0.1 $SENDMAIL_ARGS"
+fi
+msppid=/var/spool/clientmqueue/sm-client.pid
+srvpid=/var/run/sendmail.pid
+
+. /etc/rc.status
+rc_reset
+case "$1" in
+    start)
+	echo -n "Initializing SMTP port (sendmail)"
+	startproc    -p $srvpid /usr/sbin/sendmail $SENDMAIL_ARGS
+	rc_status
+	startproc -f -p $msppid /usr/sbin/sendmail $SENDMAIL_CLIENT_ARGS
+	rc_status -v
+	;;
+    stop)
+	echo -n "Shutting down SMTP port"
+	killproc -p $msppid -TERM /usr/sbin/sendmail
+	rc_status
+	killproc -p $srvpid -TERM /usr/sbin/sendmail
+	rc_status -v
+	;;
+    try-restart)
+	$0 stop && $0 start
+	rc_status
+	;;
+    restart)
+	$0 stop
+	$0 start
+	rc_status
+	;;
+    reload|force-reload)
+	echo -n "Reload service sendmail"
+	killproc -p $srvpid -HUP /usr/sbin/sendmail
+	rc_status -v
+	;;
+    status)
+	echo -n "Checking for service sendmail: "
+	checkproc -p $srvpid /usr/sbin/sendmail
+	rc_status
+	checkproc -p $msppid /usr/sbin/sendmail
+	rc_status -v
+	;;
+    probe)
+	test /etc/sendmail.cf -nt $srvpid -o /etc/mail/submit.cf -nt $msppid \
+	&& echo reload
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+	exit 1
+esac
+rc_exit

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/qa_test_newburn/tcf"
+ctcslogdir="/var/log/qa/ctcs2"
+
+if [ ! -d "$basedir" ]; then
+	mkdir -p $basedir
+fi
+
+$ctcsdir/bin/qa_test_newburn/newburn-generator 24h > $basedir/newburn.tcf
+$ctcsdir/tools/run $basedir/newburn.tcf
+
+# After it finished, it should pack the BBsd* logfiles.
+# Assuming them in /var/log/qa/ctcs2/newburn*
+
+cd $ctcslogdir/`ls -rt $ctcslogdir | grep newburn | tail -n 1`
+#tar --remove-files -cjf BB_logfiles.tar.bz2 BB*
+cd $ctcsdir
+

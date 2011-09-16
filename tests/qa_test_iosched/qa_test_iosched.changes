@@ -1,0 +1,15 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Fri Aug 12 11:08:21 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_iosched_test -> qa_test_iosched
+
+-------------------------------------------------------------------
+Wed Feb 15 11:47:53 CET 2006 - fseidel@suse.de
+
+- initial release
+

@@ -1,0 +1,537 @@
+#!/bin/bash
+#
+# Copyright (c) 1999 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+#
+# Author: Klaus G Wagner <kgw@suse.de> 1999
+#
+#
+#   ftpload -- repeatedly ftp-download with wget
+#              and do some logging...
+#
+
+# Configurable defaults: START
+#
+maxwait_dflt=15         # -w option, value rather large...
+maxwait_max=15          # bigger values aren't permitted
+PEER_dflt=UNKNOWN       # -p option, just for convenience
+#
+# Configurable defaults: END
+
+
+cmdname="${0##*/}"      # basename
+
+function usage() {
+    >&2 echo "
+Usage:   $cmdname [-h] [ -c count] [-d workdir] [-k kerneldescr ] 
+         [-n manufac_type] [-p _peer_] [-r] [-s] 
+         [-t tester] [-u] [-v] [-w maxwait] ftp-URL
+
+         to repeatedly retrieve this URL using wget
+         with random pause intervals in-between.
+         A log will be created in the working directory.
+
+Options:
+         -c   do count (default: 1) wget iterations. To loop forever, use
+              -c 0 (must be terminated manually).
+         -d   use workdir as the working directory for ftpload (default: .)
+         -h   Print this help text and exit successfully
+         -k   Use kerneldescr as kernel description string in the logfile
+         -n   Use manufac_type as machine description in the Log; 
+              should be of the form: \"Manufacturer Type\"
+         -p   insert into the logfile the ftpload peer entry from
+              templates/fpeers/fpeer._peer_ (Default: _peer_ == ${PEER_dflt})
+         -r   use the \"router test\" default log template
+         -s   use the \"serial\" default template and do not use the wget 
+              option --dot-style=mega . Intended for testing on a serial 
+              PPP connection with small downloads. 
+         -t   valid e-mail identifying the tester, e.g. \"name <email@suse.de>\"
+         -u   use the \"USB-Ether\" default log template
+         -v   be verbose (for interactive rather than script use)
+              The final r|s|u option overrides preceding ones.  
+         -w   Sleep for a random time between 1 and maxwait seconds between
+              each download. maxwait must be a number between 1 and ${maxwait_max}
+              (default: maxwait = ${maxwait_dflt}).
+"
+}
+
+
+#   ==============    Used library  =================== #
+#                                                       #
+lib_found=""
+# tilde expansion does not work within the needed quotes :-(
+libdirs="/usr/lib"
+
+for dir in $libdirs ; do
+    if [ -x ${dir}/cert_tests.lib ] ; then
+          . ${dir}/cert_tests.lib
+          lib_found="yes"
+          break  # found ; one time is enough
+    fi
+done
+if [ -z "$lib_found" ] ; then
+    >&2 echo -e "\a$0: Needed cert_tests.lib not found in: $libdirs . Aborting..."
+    exit 1
+fi
+unset lib_found libdirs
+#                                                       #
+#   ============    END:  Used library   ============== #
+
+#   =====  Possible locations of peer descr files ===== #
+#
+peerdirs="${TEMPLATES_LOCALDIR}/fpeers $peerdirs"
+
+
+#   ==========   Commands used      =================== #
+#                                                       #
+#          (see also: cert_tests.lib)                   #
+#          Everything we need available?                #
+#                                                       #
+MD5SUM="/usr/bin/md5sum"
+NEEDED_CMDS="$DATE $GREP $MAIL $MV $RM $SLEEP $SYNC $TEE $UNAME $WGET $MD5SUM"
+check_for_needed_cmds $NEEDED_CMDS || exit 1
+
+# check / create tclogdir
+[ -d "$DEFAULT_LOGDIR/ftpload" ] || mkdir -p "$DEFAULT_LOGDIR/ftpload" 
+
+
+#   =====   Evaluate and check the commandline  ======= #
+#                                                       #
+#   =====   General default values             =========
+#                                                       #
+[ -f $CONFIG_FILE ] && . $CONFIG_FILE
+[ -z "$manufac_type" ]   && manufac_type="UNKNOWN Manufacturer UNKNOWN Type"
+[ -z "$kernel_descr" ]   && kernel_descr="UNKNOWN kernel"
+[ -z "$tester" ]         &&tester="$DEFAULT_TESTER"
+
+#   =====   Script-specific variables, defaults  ====== #
+#                                                       #
+count="1"
+workdir=$WORKDIR
+destdir_logs=ftpload
+TEMPLATE_ETHER=ftpload.header.autolog
+TEMPLATE_ETHER_ROUTED=ftpload.routed.autolog
+TEMPLATE_SERIAL=ftpload.serial.autolog
+TEMPLATE_USB=ftpload.usb.autolog
+PTP_PEER_IP=192.168.100.100
+PEER="${PEER_dflt}"
+peer_is_customized="no"
+template_is_customized="no"
+routed=""
+serial=""
+usb=""
+verbose="no"
+maxwait="$maxwait_dflt"
+exitcode=0               # default for function tidy_up()
+
+while getopts hc:d:k:n:p:rst:uvw: optchar ; do
+
+    case "$optchar" in
+
+      h)      usage
+              exit 0                          ;;
+
+      c)      count="$OPTARG"                 ;;
+      d)      workdir="$OPTARG"               ;;
+      k)      kernel_descr="$OPTARG"          ;;
+      n)      manufac_type="$OPTARG"          ;;
+      p)      peer_is_customized="yes"
+              PEER="$OPTARG"                  ;;
+      r)      routed="yes" 
+              usb="" ; serial=""
+              destdir_logs=ftpload            ;;
+      s)      serial="yes" 
+              routed="" ; usb=""
+              destdir_logs=serial             ;;
+      t)      tester="$OPTARG"                ;;
+      u)      usb="yes"
+              routed="" ; serial=""
+              destdir_logs=usb                ;;
+      v)      verbose="yes"                   ;;
+      w)      maxwait="$OPTARG"               ;;
+       
+      *)      usage
+              exit 1                          ;; 
+    esac
+done
+shift $((OPTIND - 1))
+
+# -c 0 will loop infinitely
+[ "$count" == 0 ] && unset count
+
+# Check for feasibility
+if ! [ "$maxwait" -gt 0 -a "$maxwait" -le "$maxwait_max" ] 2>/dev/null
+then
+    [ "$verbose" == "yes" ] && >&2echo -e "\a\
+${cmdname}: WARNING: Option -w: bad value ${maxwait}.
+Using default of $maxwait_dflt instead"
+    maxwait="$maxwait_dflt"
+fi
+
+# adjust template and scaling of wget output
+#
+[ "$serial" = "yes" ] && scale="" || scale=" --dot-style=mega" 
+
+if [ "$template_is_customized" = "no" ]
+then
+    if [ "$serial" = "yes" ]
+    then
+	TEMPLATE_BASE="$TEMPLATE_SERIAL"
+    elif [ "$usb" = "yes" ]
+    then
+	TEMPLATE_BASE="$TEMPLATE_USB"
+    elif [ "$routed" = "yes" ]
+    then
+	TEMPLATE_BASE="$TEMPLATE_ETHER_ROUTED"
+    else
+	TEMPLATE_BASE="$TEMPLATE_ETHER"
+    fi
+    TEMPLATE="$CERTIFY_HOME"/templates/"$TEMPLATE_BASE"
+    [ -f "$TEMPLATE" ] || \
+         TEMPLATE="$TEMPLATES_LOCALDIR"/"$TEMPLATE_BASE"
+fi
+
+# no longer needed
+unset template_is_customized TEMPLATE_BASE TEMPLATE_SERIAL \
+      TEMPLATE_USB  TEMPLATE_ETHER_ROUTED TEMPLATE_ETHER
+
+
+FTPURL="$1"
+[ -z "$FTPURL" ] && { usage ; abort "No ftp URL given. Aborting..." ; }
+# URL should be a specific regular file. As we later expect 
+# ${FTPURL}.md5sum to exist too, we don't like a terminating /
+[ "$FTPURL" == "${FTPURL%/}" ] || abort "Download URL:
+
+$FTPURL
+
+not permitted: terminates with a / . Aborting..."
+#                                                       #
+#   ====  END: Evaluate and check the commandline  ==== #
+
+
+# ==  Construct some names   ========================== #
+#                                                       #
+umask 022
+timestamp=$(${DATE} "+%y%m%d.%H%M")
+basename=ftpload-${timestamp}
+if [ "$serial" == "yes" ]
+then
+	# check for running pppd 
+	# pretty dumb, only starting it on ttyS0, with 115200 bps
+    LOG=$DEFAULT_LOGDIR/ftpload/${basename}.serial.ttySx
+elif [ "$usb" = "yes" ]
+then
+    LOG=$DEFAULT_LOGDIR/ftpload/${basename}.usb
+else
+    LOG=$DEFAULT_LOGDIR/ftpload/${basename}.log
+fi
+LOGERR=${LOG}err
+# tmpfile1 will soon be obsolete ...
+tmpfile1=$WORKDIR/${basename}.tmp1.$$
+tmpfile2=$WORKDIR/${basename}.tmp2.$$
+tmpfiles="${tmpfile1} ${tmpfile2}"
+WGET_OPTIONS="--proxy=off --tries=1 $scale"
+
+GOTTEN_FILE="${FTPURL##*/}"
+[ -z "$GOTTEN_FILE" ] && GOTTEN_FILE="wget.$$"
+
+# Name for local copy of md5sum file associated with $FTPURL
+MD5SUM_FILE="${GOTTEN_FILE}.md5sum"
+
+# Check for description of peer if customized
+#
+peer_report=""
+if [ "$peer_is_customized" == "yes" ]
+then
+    for dir in $peerdirs ; do
+        peerfile="${dir}/fpeer.${PEER}"
+        if [ -f "${peerfile}" ] ; then
+              peer_report="$( <"${peerfile}" "$SED" 's,$,\\,' )"
+              break  # peer description found ; one time is enough
+        fi
+    done
+    [ -z "$peer_report" ] && \
+    peer_report="\
+  -------   Short description of Peer:  Start ---------\\
+\\
+  +++ WARNING: Peer ${PEER} (given by -p option): Not found: \\
+  +++          description file: fpeer.${PEER}\\
+  +++          in directories:  $peerdirs\\
+  +++\\
+  +++          Please generate description file by means of:\\
+  +++          ~certify/sbin/mk_fpeer\\
+\\
+  -------   Short description of Peer:  End   ---------\\
+"
+fi
+unset peerdirs peerfile
+
+
+# ==  Check for working directory (stored in $workdir) ==
+#                                                       #
+prepare_workdir
+[ "$verbose" == yes ] && echo "cd to $workdir ..."
+cd "$workdir"
+
+# =====    Give some feedback about settings   ======== #
+#                                                       #
+if [ "$verbose" == yes ]
+then
+    echo    "Used values:"
+    echo    "              # iterations:  $count"
+    echo    "              workdir:       $workdir"
+    echo    "              kernel_descr:  $kernel_descr"
+    echo    "              TEMPLATE:      $TEMPLATE"
+    echo    "              manufac_type:  $manufac_type"
+    [ "$peer_is_customized" == "yes" ] && \
+    echo    "              PEER:          $PEER"
+    echo -e "              tester:        $tester\n"
+    warn "Values OK? (use the -h option to get help about how to set these values)"
+fi
+
+
+#   =====   Prepare the logfile header   ============== #
+#                                                       #
+
+
+#  Difficult to get these command outputs directly 
+#  into a sed command :-( -- this will inserted below 
+#  the --@workdir2@-- tag later
+#
+workdir_report="$( \
+{ "$DF" "$workdir" ; \
+echo -e "\n\nPartitions (fdisk -l):" ; \
+"$FDISK" -l ; \
+} | sed 's,$,\\,' )"
+
+#  --- OBSOLETE FILE ---
+echo "No more used: $tmpfile1"               >  "$tmpfile1"
+
+cmdline="${WGET} ${WGET_OPTIONS} --output-document=${GOTTEN_FILE} ${FTPURL}"
+
+
+# Ugly Hack: ftpload cares itself about the correct log description of
+#            the network device used
+#
+if [ -z "${networkad_nr}" ]
+then
+     networkad_nr="_1"
+     echo "${FTPURL}" | "$GREP" -q "$PTP_PEER_IP" && \
+     echo "$ethernet_numberof" | "$GREP" -q "_2"  && \
+     networkad_nr="_2"
+fi
+
+eval net_manuf=\$ethernet${networkad_nr}_manufacturer
+[ -z "${net_manuf}" ] && net_manuf="UNKNOWN manufacturer"
+eval net_type=\$ethernet${networkad_nr}_type
+[ -z "${net_type}" ] && net_type="UNKNOWN netadapter type"
+eval net_speed=\$ethernet${networkad_nr}_speed
+[ -z "${net_speed}" ] && net_speed="UNKNOWN speed (? 100 Mbps ?)"
+eval networkad_driver=\$ethernet${networkad_nr}_driver
+[ -z "${networkad_driver}" ] && networkad_driver="UNKNOWN driver"
+
+networkad_type="$net_manuf $net_type ( $net_speed )"
+unset net_manuf net_type net_speed
+
+#  ToDo: Autodetection of the interface using $FTPURL !
+#
+eval netif=\$ethernet${networkad_nr}_netif
+[ -z "${netif}" ] && netif="UNKNOWN network interface (? eth0 ?)"
+
+if [ "$verbose" == yes ]
+then
+     echo "Preparing logfile $LOG ..."
+     prepare_logheader "$TEMPLATE" "$tmpfile2" verbose
+else
+     prepare_logheader "$TEMPLATE" "$tmpfile2" 
+fi
+
+# Ugly Hack: ftpload cares itself about the correct log description of
+#            the working hard disk controller
+#
+[ -z "${diskcontroller_nr}" ] && diskcontroller_nr="_1"
+
+eval diskcontroller_category=\$diskcontroller${diskcontroller_nr}_category
+[ -z "${diskcontroller_category}" ] &&  \
+        diskcontroller_category="UNKNOWN category"
+eval diskcontroller_manufacturer=\$diskcontroller${diskcontroller_nr}_manufacturer
+[ -z "${diskcontroller_manufacturer}" ] &&  \
+        diskcontroller_manufacturer="UNKNOWN manufacturer"
+eval diskcontroller_type=\$diskcontroller${diskcontroller_nr}_type
+[ -z "${diskcontroller_type}" ] &&  \
+        diskcontroller_type="UNKNOWN type"
+
+
+> "$LOG"  <"$tmpfile2" "$SED"  \
+"/--@networkad_type@--/ {
+                          s%%${networkad_type}%
+                          s%--@netif@--%${netif}%
+                          t
+}
+s%--@networkad_driver@--%${networkad_driver}%   
+t
+s%--@diskcontroller_category@--%${diskcontroller_category}%
+t
+s%--@diskcontroller_manufacturer@--%${diskcontroller_manufacturer}%
+t
+s%--@diskcontroller_type@--%${diskcontroller_type}%
+t
+s%--@diskcontroller_1_bus_1_clock@--%${diskcontroller_1_bus_1_clock}%
+t
+s%--@diskcontroller_1_bus_1_width@--%${diskcontroller_1_bus_1_width}%
+t
+/--@workdir2@--/ {
+                   s%%${workdir}%
+                   a\\
+${workdir_report}
+
+}"
+if [ -n "$peer_report" ] 
+then
+    "${MV}" -f "$LOG"  "$tmpfile2"
+    > "$LOG"  <"$tmpfile2" "$SED"  \
+"/Peer:  Start ---------$/,/Peer:  End   --------$/ {
+    /Peer:  End   --------$/!d
+    c \\
+${peer_report}
+
+}"
+fi  ## -n "$peer_report"
+
+"$RM" -f $tmpfiles
+unset workdir_report peerfile peer_report
+#                                                       #
+#   =====   END:  Prepare the logfile header   ======== #
+
+
+#   =====   Remains for historical reasons...  ======== #
+#                                                       #
+UNAME_A=$("${UNAME}" -a)
+timed_log "Start" >>"${LOG}"
+timed_log "Start" >>"${LOG}".all
+echo -e "--------  Kernel: ${UNAME_A}\n" >>"${LOG}"
+echo -e "--------  Kernel: ${UNAME_A}\n" >>"${LOG}".all
+
+
+#   ====  Final cleanup with appropriate message  ===== #
+#                                                       #
+function tidy_up() {
+      local message="$@"
+      "${RM}" -f "${GOTTEN_FILE}" "${MD5SUM_FILE}"
+      # Retrieve wget transfer rate and MD5 check messages
+      <"${LOG}.all" >>"${LOG}" "$SED" -n -e \
+         '/^..:..:/h
+          /^Data integrity MD5 sum check/ {
+               H
+               g
+               s,^\(.*\)\n\(.*Passed.*\)$,\1   \2,
+               p
+          }' 
+      timed_log "$message"  >>"${LOG}"
+      timed_log "$message"  >>"${LOG}".all
+
+      [ "$verbose" = "yes" ] && >&2 echo "Consider the logs in ${LOG}.all and ${LOG}"
+      local to_forward="\"${LOG}\""
+      # Get peer descriptions, if prepared in working dir
+      for file in *peer* ; do
+          [ -f "$file" ] && to_forward="$to_forward \"$file\""
+      done
+#      eval mail_tester_forward_logs "${destdir_logs}" $to_forward
+	mail_tester "$LOG" "$exitcode"
+      exit "$exitcode"
+}
+
+trap " [ \"$verbose\" = \"yes\" ] && >&2 echo \"Caught Signal, terminating...\"  
+       tidy_up \"terminated by signal\" " 1 2 15
+      
+
+#   ====  check download against given md5sum   ======= #
+#                                                       #
+function check_integrity {
+	local errmsg="Data integrity MD5 sum check: CORRUPTION DETECTED --  Aborting..."
+	local msg="Data integrity MD5 sum check: Passed"
+
+        if "${MD5SUM}" -c "${MD5SUM_FILE}" --status
+        then
+            [ "$verbose" == yes ] \
+                &&  echo "${msg}" | ${TEE} -a "${LOG}.all" \
+                ||  echo "${msg}" >> "${LOG}.all"
+            return
+        else
+            [ "$verbose" == yes ] \
+                &&  echo "${errmsg}" | ${TEE} -a "${LOG}.all" \
+                ||  echo "${errmsg}" >> "${LOG}.all" 
+            errormsg abort "${errmsg}"
+        fi
+}
+
+
+#   =====   This one will do the real work   ========== #
+#                                                       #
+function do_it() {
+      if [ "$verbose" = "yes" ] ; then
+          "${WGET}" ${WGET_OPTIONS} --output-document="${GOTTEN_FILE}" "${FTPURL}" \
+              2>&1 | ${TEE} -a "${LOG}.all"
+          [ ${PIPESTATUS[0]} == 0 ] || errormsg abort "Unable to $WGET $FTPURL -- Aborting..."
+      else
+          "${WGET}" ${WGET_OPTIONS} --output-document="${GOTTEN_FILE}" "${FTPURL}" \
+              >> "${LOG}.all" 2>&1
+          [ ${PIPESTATUS[0]} == 0 ] || errormsg abort "Unable to $WGET $FTPURL -- Aborting..."
+      fi
+      check_integrity	
+
+      ${SYNC}
+      #  Relax -- RANDOM is a random signed integer
+      SLEEPTIME=$(( $RANDOM & $maxwait ))
+      [ "$verbose" = "yes" ] && echo Sleeping for $SLEEPTIME seconds...
+      ${SLEEP} $SLEEPTIME
+      [ "$verbose" = "yes" ] && echo "Removing the retrieved file "${GOTTEN_FILE}" and syncing..."
+      ${RM} -f "${GOTTEN_FILE}" 
+      ${SYNC}
+}
+
+#   ====  fetch md5sum reference file from server  ==== #
+#         Expected URL:  $FTPURL.md5sum                 #
+#                                                       #
+function get_md5sum {
+	# msgs
+	local errmsg="Unable to $WGET $FTPURL.md5sum -- Aborting..." 
+	
+	logmsg "Preparation: retrieving reference for subsequent data" \
+               "integrity checking:\n\n"
+	if [ "$verbose" = "yes" ] 
+	then
+	    "${WGET}" ${WGET_OPTIONS} --output-document="${MD5SUM_FILE}" \
+	             "${FTPURL}.md5sum" 2>&1 | ${TEE} -a "${LOG}" 
+	else
+	    "${WGET}" ${WGET_OPTIONS} --output-document="${MD5SUM_FILE}" \
+	             "${FTPURL}.md5sum" >>"${LOG}"  2>&1
+	fi	
+	[ ${PIPESTATUS[0]} == 0 ] || errormsg abort "${errmsg}"
+}
+
+#   ====  Now  DO IT   ================================ #
+#                                                       #
+if [ "$serial" == "yes" ]; then
+	/sbin/checkproc /usr/sbin/pppd || startproc -l $LOG.pppd /usr/sbin/pppd ttyS0 115200 
+	echo "Waiting 30sec for pppd to appear" | tee -a $LOG.all
+	sleep 30 
+fi
+
+get_md5sum
+
+if [ -n "$count" ] ; then
+    logmsg " Now starting the actual test file downloads:\n" \
+            "Doing $((count)) times: \n${cmdline}\n\n"
+    while [ "$((count))" -gt 0 ] ; do
+        do_it
+        count=$(( count - 1 ))
+    done
+else
+    logmsg " Now starting the actual test file downloads:\n" \
+            "Repeating indefinitely: \n${cmdline}\n\n"
+    while true ; do
+        do_it
+    done       
+fi
+
+tidy_up "normally terminated"

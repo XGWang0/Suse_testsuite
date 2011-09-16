@@ -1,0 +1,156 @@
+Index: ltp-full-20110606/testcases/kernel/security/cap_bound/cap_bounds_r.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/security/cap_bound/cap_bounds_r.c
++++ ltp-full-20110606/testcases/kernel/security/cap_bound/cap_bounds_r.c
+@@ -26,11 +26,12 @@
+ 
+ #include <errno.h>
+ #include "config.h"
++#include <sys/prctl.h>
++#include "test.h"
++#include <stdlib.h>
+ #if HAVE_SYS_CAPABILITY_H
+ #include <sys/capability.h>
+ #endif
+-#include <sys/prctl.h>
+-#include "test.h"
+ 
+ char *TCID = "cap_bounds_r";
+ int TST_TOTAL=1;
+@@ -88,4 +89,4 @@ int main(int argc, char *argv[])
+ 	tst_resm(TCONF, "System doesn't have POSIX capabilities.");
+ #endif
+ 	tst_exit();
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/security/cap_bound/cap_bounds_rw.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/security/cap_bound/cap_bounds_rw.c
++++ ltp-full-20110606/testcases/kernel/security/cap_bound/cap_bounds_rw.c
+@@ -25,11 +25,12 @@
+ 
+ #include <errno.h>
+ #include "config.h"
++#include <sys/prctl.h>
++#include <stdlib.h>
++#include "test.h"
+ #if HAVE_SYS_CAPABILITY_H
+ #include <sys/capability.h>
+ #endif
+-#include <sys/prctl.h>
+-#include "test.h"
+ 
+ char *TCID = "cap_bounds_rw";
+ int TST_TOTAL=1;
+@@ -132,4 +133,4 @@ int main(int argc, char *argv[])
+ 	}
+ 	tst_resm(TPASS, "PR_CAPBSET_DROP tests passed\n");
+ 	tst_exit();
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/security/cap_bound/cap_bset_inh_bounds.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/security/cap_bound/cap_bset_inh_bounds.c
++++ ltp-full-20110606/testcases/kernel/security/cap_bound/cap_bset_inh_bounds.c
+@@ -28,11 +28,12 @@
+ 
+ #include <errno.h>
+ #include "config.h"
++#include <sys/prctl.h>
++#include "test.h"
++#include <stdlib.h>
+ #if HAVE_SYS_CAPABILITY_H
+ #include <sys/capability.h>
+ #endif
+-#include <sys/prctl.h>
+-#include "test.h"
+ 
+ char *TCID = "cap_bounds_r";
+ int TST_TOTAL=2;
+@@ -125,4 +126,4 @@ int main(int argc, char *argv[])
+ 	tst_resm(TCONF, "System doesn't have sys/capability.h.");
+ #endif
+ 	tst_exit();
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/security/cap_bound/check_pe.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/security/cap_bound/check_pe.c
++++ ltp-full-20110606/testcases/kernel/security/cap_bound/check_pe.c
+@@ -29,11 +29,12 @@
+ 
+ #include <errno.h>
+ #include "config.h"
++#include <sys/prctl.h>
++#include "test.h"
++#include <stdlib.h>
+ #if HAVE_SYS_CAPABILITY_H
+ #include <sys/capability.h>
+ #endif
+-#include <sys/prctl.h>
+-#include "test.h"
+ 
+ char *TCID = "check_pe";
+ int TST_TOTAL=1;
+@@ -85,4 +86,4 @@ int main(int argc, char *argv[])
+ 	tst_resm(TCONF, "System doesn't have sys/capability.h");
+ #endif
+ 	tst_exit();
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/security/cap_bound/exec_with_inh.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/security/cap_bound/exec_with_inh.c
++++ ltp-full-20110606/testcases/kernel/security/cap_bound/exec_with_inh.c
+@@ -28,11 +28,12 @@
+ 
+ #include <errno.h>
+ #include "config.h"
++#include <sys/prctl.h>
++#include "test.h"
++#include <stdlib.h>
+ #if HAVE_SYS_CAPABILITY_H
+ #include <sys/capability.h>
+ #endif
+-#include <sys/prctl.h>
+-#include "test.h"
+ 
+ char *TCID = "exec_with_inh";
+ int TST_TOTAL=1;
+@@ -84,4 +85,4 @@ int main(int argc, char *argv[])
+ 	tst_resm(TCONF, "System doesn't have sys/capability.h.");
+ #endif
+ 	tst_exit();
+-}
+\ No newline at end of file
++}
+Index: ltp-full-20110606/testcases/kernel/security/cap_bound/exec_without_inh.c
+===================================================================
+--- ltp-full-20110606.orig/testcases/kernel/security/cap_bound/exec_without_inh.c
++++ ltp-full-20110606/testcases/kernel/security/cap_bound/exec_without_inh.c
+@@ -28,11 +28,12 @@
+ 
+ #include <errno.h>
+ #include "config.h"
++#include <sys/prctl.h>
++#include "test.h"
++#include <stdlib.h>
+ #if HAVE_SYS_CAPABILITY_H
+ #include <sys/capability.h>
+ #endif
+-#include <sys/prctl.h>
+-#include "test.h"
+ 
+ char *TCID = "exec_without_inh";
+ int TST_TOTAL=1;
+@@ -82,4 +83,4 @@ int main(int argc, char *argv[])
+ 	tst_resm(TCONF, "System doesn't have sys/capability.h.");
+ #endif
+ 	tst_exit();
+-}
+\ No newline at end of file
++}

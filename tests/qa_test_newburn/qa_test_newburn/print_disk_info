@@ -1,0 +1,16 @@
+#!/usr/bin/perl -w
+
+#
+# shell utility front end for fpdisk.pm
+#
+
+# this silly utility should only be run with the cwd in runin.
+# i will fix this, someday.
+use lib ('../lib/perl','../../lib/perl','lib/perl');
+use fpdisk;
+
+my $device = shift;
+my @diskinfo = get_disk_info($device);
+print join(' ',@diskinfo), "\n";
+exit;
+

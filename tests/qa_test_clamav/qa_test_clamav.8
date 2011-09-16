@@ -1,0 +1,39 @@
+." Manpage for qa_test_clamav.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_clamav man page"
+.SH NAME
+qa_test_clamav
+.SH SYNOPSIS
+/usr/share/qa/tools/test_clamav-run
+.SH TYPE
+function test
+.SH DESCRIPTION
+Internal test suite for testing Clam AntiVirus and the freshclam update daemon.
+.br
+The test suite uses the ctcs2 framework and is written in bash.
+.SH README
+qa_test_clamav includes 16 automated test cases including: restart, stop, start, various file scans, and more... 
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+The test suite runs stop, start, restart clamvd, scanning some file also EICAR.
+.br
+Tests will update demon freshclam and test stop, start, restart and donwload virus definition files.
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+None.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Internal, Our code.
+.SH LICENSE
+License: GPL. Spec file license: GPL v2 or later.
+.SH UPSTREAM
+None.
+.SH AUTHOR
+Andrej Semen <asemen@suse.de>
+.SH MAINTAINER
+Andrej Semen <asemen@novell.com>

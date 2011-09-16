@@ -1,0 +1,193 @@
+#!/bin/bash
+
+#
+# This program is part of the VA Cerberus Test Control System.
+# Unless otherwise noted, Copyright (c) 1999,2000 VA Linux Systems, 
+# All Rights Reserved.
+# You may distribute this program under the terms of the GNU General
+# Public License, Version 2, or, at your option, any later version.
+#
+
+# ctcs library
+. lib/sh/ctcslib.sh
+
+function destroy_state {
+        d=`ls -d .newburn.tcf*`
+	i=1
+	while [ -d .newburn.old.$i ] ; do i=$[$i + 1] ; done
+        dx=".newburn.old.$i"
+        if [ -d "$d" ] ; then
+                mv $d $dx
+                if [ $? != 0 ] ; then echo Can not save burn state ; return 2 ; fi
+                cp newburn.tcf newburn.params newburn2.tcf newburn2.params $dx >>/dev/null 2>&1
+        fi
+}
+
+function destroy_test {
+	rm -f newburn.tcf
+	rm -f newburn.params
+}
+
+if [ ! -x ./newburn-generator ] ; then
+	echo Burnin generator not found.  Perhaps you are not in
+	echo the correct directory?
+	exit 1
+fi
+
+if [ "$1" = "-h" ] ; then {
+	./newburn-generator -h
+	exit 2
+} ; fi
+
+if [ "$1" != "--force" ] ; then {
+	echo '*** Checking compilation status ***'
+	# simple compilation test check.  Not intelligent at all, but Good Enough (tm)
+	# for most of the users who want this feature anyway.  Most people just
+	# run make.
+	if [ ! -L runin/sdestructiveblocktst-info ] ; then {
+		echo '*** Analyzing system configuration ***'
+		./tools/check-requirements
+		if [ $? != 0 ] ; then {
+			echo Some system requirements are not met for the execution of this program.
+			echo Use '--force to override this warning, however you must compile'
+			echo Cerberus manually first '("make")'
+			exit 2
+		} ; fi
+		echo '*** Checking CTCS code for errors ***'
+		syntaxout=`mktemp /tmp/syntaxcheck.XXXXXX`
+		if [ $? != 0 ] ; then {
+			echo Unable to create tempfile for syntax checking
+			exit 2
+		} ; fi
+		make HostVars.mk >>/dev/null 2>&1
+		make test > $syntaxout
+		if [ $? != 0 ] ; then {
+			tail $syntaxout && rm -f $syntaxout
+			echo There is a syntax error in one or more Cerberus components.
+			echo Please check the files mentioned above.
+			echo Use '--force to override this warning, however you must compile'
+			echo Cerberus manually first '("make")'
+			exit 2
+		} ; fi
+		rm -f $syntaxout
+		echo '*** Compiling VA-CTCS ***'
+		make >> /dev/null 2>&1
+		if [ $? != 0 ] ; then {
+			echo Auto-compile failed.  Compile manually with make
+			echo to figure out the problem.
+			exit 2
+		} ; fi
+	} ; fi
+} ; else {
+	shift
+} ; fi
+
+
+if [ ! -e newburn.tcf ] ; then
+	echo '*** Rescanning SCSI bus for changed devices ***'
+	sh lib/sh/rescan-scsi-bus.sh >>/dev/null 2>&1
+	if [ $? != 0 ] ; then {
+		echo '*** WARNING SCSI bus rescan failed ***'
+	} ; fi
+	./newburn-generator $* > newburn.tcf
+	if [ $? != 0 ] ; then {
+		echo newburn-generator failed.  Test system malfunction, dieing.
+		exit 1
+	} ; fi
+	# if I don't put a space here, a "-n" or other such options
+	# will be interpreted as an option to echo.
+	echo -E " $*" > newburn.params
+else
+	./newburn-generator $* > newburn2.tcf
+	if [ $? != 0 ] ; then {
+		echo newburn-generator failed.  Test system malfunction, dieing.
+		exit 1
+	} ; fi
+	# same as above.
+	echo -E " $*" > newburn2.params
+	dexit=0
+	x=0
+	diff newburn.params newburn2.params >> /dev/null
+	if [ $? != 0 ] ; then
+		oldparams=`cat newburn.params`
+		newparams=`cat newburn2.params`
+		x=`dialog --menu "The options you have chosen have resulted in a different test\nthan the one which is currently configured.\n\nOld parameters: $oldparams\nNew parameters: $newparams\n\nPlease select one of the following options:\n" 17 70 3 1 "Continue 
+
+
+
+the original test" 2 "Restart the original test" 3 "Erase the original test and proceed with the new test" 3>&1 1>&2 2>&3 3>&-`
+		dexit=$?
+		clear
+	fi
+	if [ $dexit != 0 ] ; then
+		echo Cancelled.
+		exit 2
+	fi
+	if [ $x -eq 1 ] ; then
+		echo '*** Continuing old test ***'
+	elif [ $x -eq 2 ] ; then
+		echo '*** Restarting test run ***'
+		destroy_state
+	elif [ $x -eq 3 ] ; then
+		echo '*** Erasing old test ***'
+		destroy_state
+		destroy_test
+		echo '*** Starting test run with new parameters ***'
+		mv newburn2.tcf newburn.tcf
+		mv newburn2.params newburn.params
+	fi
+fi
+
+# Increase filehandles..
+echo 512000 > /proc/sys/fs/file-max
+if [ $? != 0 ] ; then
+	./color fbrown bold
+	echo '*** WARNING: Unable to increase filehandles ***'
+	./color reset
+else
+	echo '*** Increasing available filehandles to 64K ***'
+fi
+
+# Activate Magic System Request
+echo 1 > /proc/sys/kernel/sysrq
+if [ $? != 0 ] ; then
+	./color fbrown bold
+	echo '*** WARNING: Unable to activate Magic SysRq Key ***'
+	./color reset
+else
+	echo '*** Linux Magic SysRq Key Activated ***'
+fi
+
+# These commands should not fail, but you never know I suppose..
+setterm -powersave off >/dev/console 2>&1 </dev/console
+if [ $? != 0 ] ; then
+	./color fbrown bold
+	echo '*** WARNING: Unable to disable VESA powersave ***'
+	./color reset
+else
+	echo '*** VESA powersave disabled ***'
+fi
+
+setterm -blank 0 >/dev/console 2>&1 </dev/console
+if [ $? != 0 ] ; then
+	./color fbrown bold
+	echo '*** WARNING: Unable to disable Linux console screensaver ***'
+	./color reset
+else
+	echo '*** Linux console screensaver disabled ***'
+fi
+
+echo '*** Syncing Filesystems ***'
+#
+# remove stale mountlock from data test
+#
+rmdir runin/mountlock >>/dev/null 2>&1
+
+sync
+echo '*** Initiating Run-in ***'
+./run newburn.tcf
+
+#
+# remove stale mountlock from data test
+#
+rmdir runin/mountlock >>/dev/null 2>&1

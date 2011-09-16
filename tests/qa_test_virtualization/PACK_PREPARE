@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# 1. generate testcases
+cd qa_test_virtualization
+./_generate_install.sh -d "../../../libs/qa_lib_virtauto-data/qa_lib_virtauto-data/autoinstallation"
+#./_generate_install.sh -d "../../virtautolib/virtautolib/data/autoinstallation" -t "tap:aio"
+#./_generate_install.sh -d "../../virtautolib/virtautolib/data/autoinstallation" -t "tap:qcow2"
+cd - > /dev/null
+
+# 2. generate tcfs
+./_generate_tcf.sh standalone > qa_virtualization-standalone.tcf 
+./_generate_tcf.sh network > qa_virtualization-network.tcf 
+
+./_generate_sles10sp4supported_tcf.sh standalone > qa_virtualization-sles10sp4supported-standalone.tcf 
+./_generate_sles10sp4supported_tcf.sh network > qa_virtualization-sles10sp4supported-network.tcf 
+
+./_generate_sles11sp1supported_tcf.sh standalone > qa_virtualization-sles11sp1supported-standalone.tcf 
+./_generate_sles11sp1supported_tcf.sh network > qa_virtualization-sles11sp1supported-network.tcf 
+
+# 3. pack
+version=`grep ^Version: qa_test_virtualization.spec | awk {'print $2'}`
+tar --exclude-vcs --exclude='_*.sh' --exclude='_*.template' -cjf qa_test_virtualization-$version.tar.bz2 qa_test_virtualization
+

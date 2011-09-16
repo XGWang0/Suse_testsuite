@@ -1,0 +1,37 @@
+Index: ltp-full-20100430/ctcstools/ltp_wrapper.sh
+===================================================================
+--- ltp-full-20100430.orig/ctcstools/ltp_wrapper.sh
++++ ltp-full-20100430/ctcstools/ltp_wrapper.sh
+@@ -4,10 +4,8 @@ OPENPOSIX_MODE=0
+ LTP_MODE=0
+ 
+ if [ -z "$LTPROOT" ]; then
+-	if [ -d "/usr/lib64/ltp" ]; then
+-		LTPROOT="/usr/lib64/ltp";
+-	elif [ -d "/usr/lib/ltp" ]; then
+-		LTPROOT="/usr/lib/ltp";
++	if [ -d "/opt/ltp" ]; then
++		LTPROOT="/opt/ltp";
+ 	else
+ 		echo "$0: couldn't find LTP installation!";
+ 		exit 1;
+@@ -22,8 +20,9 @@ if [ -z "$1" ]; then
+ 	exit 1;
+ fi
+ 
+-export TMP=`mktemp -d /tmp/ltp-XXXXXXXXXX`
+-cd $TMP
++export TMPDIR=`mktemp -d /tmp/ltp-XXXXXXXXXX`
++chmod 777 "$TMPDIR"
++cd "$TMPDIR"
+ 
+ # Keep the order! First check for openposix!
+ if [ `basename $0` == "openposix_wrapper.sh" ]; then
+@@ -86,6 +85,6 @@ else
+   VALUE=1
+ fi
+ 
+-rm -rf $TMP
++rm -rf "$TMPDIR"
+ 
+ exit $VALUE

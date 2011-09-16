@@ -1,0 +1,10 @@
+#!/bin/sh
+
+ctcsdir="/usr/lib/ctcs2"
+tcfdir="/usr/share/qa/qa_test_ltp"
+
+for i in quickhit.tcf syscalls.tcf fs.tcf fsx.tcf dio.tcf mm.tcf ipc.tcf sched.tcf math.tcf pty.tcf ltp-aio-stress.part1.tcf ltp-aio-stress.part2.tcf ltp-aiodio.part1.tcf ltp-aiodio.part2.tcf ltp-aiodio.part3.tcf openposix.tcf
+do
+	$ctcsdir/tools/run $tcfdir/tcf/$i
+done
+

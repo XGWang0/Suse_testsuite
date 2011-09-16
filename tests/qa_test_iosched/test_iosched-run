@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd /usr/lib/ctcs2
+
+tools/run /usr/share/qa/qa_test_iosched/tcf/qa_iosched_test.tcf
+
+

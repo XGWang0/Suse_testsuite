@@ -1,0 +1,32 @@
+#!/bin/bash
+
+. libo_conf
+. libo_logging
+
+if test "$1" = "0"; then
+    logwarning "Please specify the build to download on $REPO, e.g 3.3.1.1"
+    exit 1
+fi
+
+if test -f "$LOCAL_REPO_DIR/$1"; then
+    log "Good, build existed in $LOCAL_REPO_DIR."    
+else
+    log "Removing old ... $LOCAL_REPO_DIR"
+    sudo rm -fr $LOCAL_REPO_DIR
+
+    build=$1
+
+    if test "$patchlevel" = "-sp0"; then
+        patchlevel=""
+    fi
+
+    repo=$REPO/$build/$distro$patchlevel$arch/
+
+    log "Downloading from ... $repo"
+    mkdir -p $LOCAL_REPO_DIR; touch $LOCAL_REPO_DIR/wget.log
+    wget -r -o$LOCAL_REPO_DIR/wget.log -nH -nd -np -P$LOCAL_REPO_DIR "$repo"
+    if test $? -eq 0; then
+        touch "$LOCAL_REPO_DIR/$1"
+    fi
+    log "Downloading complete."
+fi

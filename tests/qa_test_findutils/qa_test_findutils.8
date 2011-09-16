@@ -1,0 +1,35 @@
+." Manpage for qa_test_findutils.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_findutils man page"
+.SH NAME
+qa_test_findutils
+.SH SYNOPSIS
+/usr/share/qa/tools/test_findutils-run
+.SH TYPE
+Function test
+.SH DESCRIPTION
+qa_test_findutils is a test suite that verify functions of command "find".
+.SH README
+None.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+Run scripts like: findutils_find.sh, findutils_xarg.sh, xargs_orig.sh, and find_orig.sh, to cover kinds of "find" functions.
+.SH COMMON PROBLEMS
+This suite is for SLES11, and won't be installed if the SUT is SLES10.
+.SH WARNINGS
+Make sure the platform is SLES11.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Partially internal. There is an "orig_tests" folder with some external/open-source code.
+.SH LICENSE
+License: GPL v2 or later. Spec file license: GPL.
+.SH UPSTREAM
+None.
+.SH AUTHOR
+findutils <bug-findutils@gnu.org>, Katarina
+.SH MAINTAINER
+Jerry Tang <jtang@novell.com>

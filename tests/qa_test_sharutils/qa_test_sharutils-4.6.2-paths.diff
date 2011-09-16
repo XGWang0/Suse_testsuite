@@ -1,0 +1,57 @@
+diff -Naur upstream_tests/tests/shar-1 upstream_tests.new/tests/shar-1
+--- upstream_tests/tests/shar-1	2005-11-06 21:26:05.000000000 +0100
++++ upstream_tests.new/tests/shar-1	2006-07-25 15:13:35.000000000 +0200
+@@ -12,9 +12,9 @@
+ 
+ trap "rm -fr shar-1.in ${tmpfile}.*" 1 2 3 15
+ 
+-echo "This is a test" > ${inf}
++echo "This is a test" > $current_dir/${inf}
+ chmod 0644 ${inf} 2> /dev/null >&2
+-SHAR=../src/shar
++SHAR=/usr/bin/shar
+ 
+ ${SHAR} -f $current_dir/${inf} > ${sharf} 2> /dev/null || exit 1
+ 
+@@ -30,11 +30,11 @@
+ ${sharf} > ${outf} 2> /dev/null
+ 
+ : ${DIFF=diff}
+-${DIFF} -c ${tmpfile}.sample ${outf} || exit 1
++${DIFF} -u ${tmpfile}.sample ${outf} || exit 1
+ 
+ # test basic functioning of unshar
+ #
+-: ${UNSHAR=../src/unshar}
++: ${UNSHAR=/usr/bin/unshar}
+ mv -f ${inf} ${outf}
+ 
+ res=`${UNSHAR} ${sharf} 2>&1` || {
+diff -Naur upstream_tests/tests/shar-2 upstream_tests.new/tests/shar-2
+--- upstream_tests/tests/shar-2	2005-11-05 18:21:35.000000000 +0100
++++ upstream_tests.new/tests/shar-2	2006-07-24 22:15:10.000000000 +0200
+@@ -20,8 +20,8 @@
+   exec 3>&-
+ done
+ 
+-: ${SHAR=`cd ../src ; pwd`/shar}
+-: ${UNSHAR=`cd ../src ; pwd`/unshar}
++: ${SHAR=/usr/bin/shar}
++: ${UNSHAR=/usr/bin/unshar}
+ (cd ${tmppfx}.d ; ${SHAR} -m . 2>/dev/null) > ${tmppfx}.shar
+ 
+ : ${DIFF=diff}
+diff -Naur upstream_tests/tests/shar-3 upstream_tests.new/tests/shar-3
+--- upstream_tests/tests/shar-3	2005-11-11 02:04:58.000000000 +0100
++++ upstream_tests.new/tests/shar-3	2006-07-24 22:16:49.000000000 +0200
+@@ -10,8 +10,8 @@
+ opts="-S -o ${testdir}/${testname}-%04d.shar"
+ opts="${opts} -L32 -n ${testname}-test -s ${testname} -z"
+ 
+-shar=`cd ../src ; pwd`/shar
+-unshar=`cd ../src ; pwd`/unshar
++shar=/usr/bin/shar
++unshar=/usr/bin/unshar
+ top_builddir=`cd ${top_builddir} ; pwd`
+ 
+ cd ${top_builddir}

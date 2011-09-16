@@ -1,0 +1,48 @@
+Subject: [SLERT] Bug 307752 - LTP testcase sched_yield_1_1 crashes intel 8-way machine
+CC: slert-devel@suse.de
+
+WRONG_BNC_IN_CHANGELOG
+REPRODUCE_ON_SLERT
+
+
+This patch is manupulating the RT priority to workaround a bug which persists
+in SLERT 10 SP1. The bug was about CPU Affinity for the IRQ threads, which could
+cause hangs (often fail-diganosed as "crash") when sched stress test with RT
+prio  is hoping on certain CPUs and the stress process gets not balanced to
+another free CPU. See: bnc#413263, bnc#367694, bnc#373822, bnc#376793, bnc#365997, bnc#376244
+
+Author: UNKNOWN
+Signed-off-by: Yi Xu <yxu@suse.de>
+
+---
+
+--- ltp-full-20061017.orig/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/2-1.c	2007-08-30 04:34:02.000000000 -0400
++++ ltp-full-20061017/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/2-1.c	2007-10-14 12:04:46.000000000 -0400
+@@ -93,7 +93,7 @@ void child_process(int id){
+ 	struct sched_param param;
+ 
+ 	if(id == nb_child-1){
+-		param.sched_priority = sched_get_priority_min(SCHED_FIFO);
++		param.sched_priority = sched_get_priority_max(SCHED_FIFO) - 2;
+ 		sched_setparam(getpid(), &param);
+ 	}
+ 
+@@ -127,8 +127,7 @@ int main(){
+ 	}
+ 	child_pid = malloc(nb_child);
+ 
+-	param.sched_priority = ( sched_get_priority_min(SCHED_FIFO) +
+-				 sched_get_priority_max(SCHED_FIFO) ) / 2;
++	param.sched_priority = sched_get_priority_max(SCHED_FIFO) - 1;
+ 	
+ 	if(sched_setscheduler(getpid(), SCHED_FIFO, &param) == -1){
+ 		if(errno == EPERM){
+@@ -179,7 +178,7 @@ int main(){
+ 		return PTS_UNRESOLVED;
+ 	}
+ 
+-	param.sched_priority = sched_get_priority_min(SCHED_FIFO);
++	param.sched_priority = sched_get_priority_max(SCHED_FIFO) - 2;
+ 	if(sched_setparam(0, &param) != 0) {
+ 		perror("An error occurs when calling sched_setparam()");
+ 		return PTS_UNRESOLVED;

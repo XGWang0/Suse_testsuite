@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ -d /abuild ]
+then
+    TESTDIR="/abuild/qa_test_sysbench"
+else
+    TESTDIR="/tmp/qa_test_sysbench"
+fi
+
+BASEDIR="/usr/lib/ctcs2/"
+
+mkdir -p $TESTDIR
+cd $TESTDIR
+$BASEDIR/tools/run $BASEDIR/tcf/sysbench-bench.tcf
+rm $TESTDIR/test_file*

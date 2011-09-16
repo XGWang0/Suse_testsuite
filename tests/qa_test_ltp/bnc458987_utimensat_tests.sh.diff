@@ -1,0 +1,124 @@
+--- ltp-full-20081031/testcases/kernel/syscalls/utimensat/utimensat_tests.sh.orig	2008-10-21 14:55:17.000000000 +0800
++++ ltp-full-20081031/testcases/kernel/syscalls/utimensat/utimensat_tests.sh	2008-12-22 17:12:58.000000000 +0800
+@@ -188,17 +188,23 @@ run_test()
+ 
+     # -R says don't do tests with readable file descriptor
+     # -W says don't do tests with writable file descriptor
++	# -U says run the tests as the user(nobody) but not root
+ 
+     OPTIND=1
+ 
+     do_read_fd_test=1
+     do_write_fd_test=1
+-    while getopts "RW" opt; do
++	run_noroot=0
++
++    while getopts "RWU" opt; do
+         case "$opt" in
+         R) do_read_fd_test=0
+            ;;
+         W) do_write_fd_test=0
+            ;;
++		U)
++		   run_noroot=1
++		   ;;
+         *) echo "run_test: bad usage"
+            exit 1
+            ;;
+@@ -208,7 +214,11 @@ run_test()
+ 
+     echo "Pathname test"
+     setup_file $FILE "$1" "$2" "$3"
+-    CMD="$TEST_PROG -q $FILE $4"
++	if test $run_noroot -ne 0; then
++    	CMD="sudo -u nobody $TEST_PROG -q $FILE $4"
++	else
++    	CMD="$TEST_PROG -q $FILE $4"
++	fi
+     echo "$CMD"
+     $CMD > $RESULT_FILE
+     check_result $? $5 $6 $7
+@@ -217,7 +227,11 @@ run_test()
+     if test $do_read_fd_test -ne 0; then
+         echo "Readable file descriptor (futimens(3)) test"
+         setup_file $FILE "$1" "$2" "$3"
+-        CMD="$TEST_PROG -q -d $FILE NULL $4"
++		if test $run_noroot -ne 0; then
++    		CMD="sudo -u nobody $TEST_PROG -q -d $FILE NULL $4"
++		else
++    		CMD="$TEST_PROG -q -d $FILE NULL $4"
++		fi
+         echo "$CMD"
+         $CMD > $RESULT_FILE
+         check_result $? $5 $6 $7
+@@ -230,7 +244,11 @@ run_test()
+     if test $do_write_fd_test -ne 0; then
+         echo "Writable file descriptor (futimens(3)) test"
+         setup_file $FILE "$1" "$2" "$3"
+-        CMD="$TEST_PROG -q -w -d $FILE NULL $4"
++		if test $run_noroot -ne 0; then
++			CMD="sudo -u nobody $TEST_PROG -q -w -d $FILE NULL $4"
++		else
++			CMD="$TEST_PROG -q -w -d $FILE NULL $4"
++		fi
+         echo "$CMD"
+         $CMD > $RESULT_FILE
+         check_result $? $5 $6 $7
+@@ -281,22 +299,22 @@ echo "Testing read-only file, not owned
+ echo 
+ 
+ echo "***** Testing times==NULL case *****"
+-run_test root 400 "" "" EACCES
++run_test -RWU root 400 "" "" EACCES
+ 
+ echo "***** Testing times=={ UTIME_NOW, UTIME_NOW } case *****"
+-run_test root 400 "" "0 n 0 n" EACCES
++run_test -RWU root 400 "" "0 n 0 n" EACCES
+ 
+ echo "***** Testing times=={ UTIME_OMIT, UTIME_OMIT } case *****"
+-run_test root 400 "" "0 o 0 o" SUCCESS n n
++run_test -RWU root 400 "" "0 o 0 o" SUCCESS n n
+ 
+ echo "***** Testing times=={ UTIME_NOW, UTIME_OMIT } case *****"
+-run_test root 400 "" "0 n 0 o" EPERM
++run_test -RWU root 400 "" "0 n 0 o" EPERM
+ 
+ echo "***** Testing times=={ UTIME_OMIT, UTIME_NOW } case *****"
+-run_test root 400 "" "0 o 0 n" EPERM
++run_test -RWU root 400 "" "0 o 0 n" EPERM
+ 
+ echo "***** Testing times=={ x, y } case *****"
+-run_test root 400 "" "1 1 1 1" EPERM
++run_test -RWU root 400 "" "1 1 1 1" EPERM
+ 
+ echo "============================================================"
+ 
+@@ -305,22 +323,22 @@ echo "Testing writable file, not owned b
+ echo 
+ 
+ echo "***** Testing times==NULL case *****"
+-run_test root 666 "" "" SUCCESS y y
++run_test -U root 666 "" "" SUCCESS y y
+ 
+ echo "***** Testing times=={ UTIME_NOW, UTIME_NOW } case *****"
+-run_test root 666 "" "0 n 0 n" SUCCESS y y
++run_test -U root 666 "" "0 n 0 n" SUCCESS y y
+ 
+ echo "***** Testing times=={ UTIME_OMIT, UTIME_OMIT } case *****"
+-run_test root 666 "" "0 o 0 o" SUCCESS n n
++run_test -U root 666 "" "0 o 0 o" SUCCESS n n
+ 
+ echo "***** Testing times=={ UTIME_NOW, UTIME_OMIT } case *****"
+-run_test root 666 "" "0 n 0 o" EPERM
++run_test -U root 666 "" "0 n 0 o" EPERM
+ 
+ echo "***** Testing times=={ UTIME_OMIT, UTIME_NOW } case *****"
+-run_test root 666 "" "0 o 0 n" EPERM
++run_test -U root 666 "" "0 o 0 n" EPERM
+ 
+ echo "***** Testing times=={ x, y } case *****"
+-run_test root 666 "" "1 1 1 1" EPERM
++run_test -U root 666 "" "1 1 1 1" EPERM
+ 
+ echo "============================================================"
+ 

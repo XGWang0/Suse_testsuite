@@ -1,0 +1,15 @@
+#!/bin/bash
+
+MOUNT_DIR="/MOUNT-VIRT"
+MOUNT_DIR2="/MOUNT-VIRT2"
+
+if [ -e $MOUNT_DIR -a "`ls $MOUNT_DIR 2>/dev/null | wc -l`" -gt 0 ] ||  [ -e $MOUNT_DIR2 -a "`ls $MOUNT_DIR2 2>/dev/null | wc -l`" -gt 0 ] ; then
+	echo "Error: Directory $MOUNT_DIR or $MOUNT_DIR2 already exist and is nonempty. Terminating..."
+	exit 11
+fi
+
+mkdir -p $MOUNT_DIR && mount -t nfs -oro schnell.suse.de:/schnell $MOUNT_DIR
+
+#temporal server until we mirror it to de
+mkdir -p $MOUNT_DIR2 && mount -t nfs -oro ix64ph047.qa.suse.de:/storage $MOUNT_DIR2
+

@@ -1,0 +1,113 @@
+#! /bin/sh
+# Copyright (c) 1996-2001 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+#
+# Author: 
+#	Reinhold Sojer, <reinhold@suse.de>
+#	Olaf Hering, <olh@suse.de>
+# 
+### BEGIN INIT INFO
+# Provides:       netatalk
+# Required-Start: $network $named $remote_fs $netdaemons $syslog
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    Appletalk TCP/IP daemons
+### END INIT INFO
+
+. /etc/rc.status
+. /etc/atalk/netatalk.conf
+
+# startup code for everything
+atalk_startup() {
+    if [ x"${ATALKD_RUN}" != x"no" ]; then 
+	echo -n "  Starting atalkd ... "
+	/usr/sbin/atalkd ; my_ec=$?
+
+	if [ -x /usr/bin/nbprgstr -a "$my_ec" = "0" ]; then	
+	    echo -n ".. "
+	    /usr/bin/nbprgstr -p 4 `hostname|sed 's/\..*$//'`:Workstation
+	    echo -n ". "
+	    /usr/bin/nbprgstr -p 4 `hostname|sed 's/\..*$//'`:netatalk
+	fi	
+	if [ "$my_ec" != "0" ] ; then false ; fi
+	rc_status -v
+	
+	rc_reset
+
+	if [ x"${PAPD_RUN}" = x"yes"  -a -x /usr/sbin/papd ]; then
+	    echo -n "  Starting papd"
+	    /usr/sbin/papd
+	    rc_status -v
+	fi
+
+	rc_reset
+
+	if [ x"${TIMELORD_RUN}" = x"yes"  -a -x /usr/sbin/timelord ]; then
+	    echo -n "  Starting timelord"
+	    /usr/sbin/timelord
+	    rc_status -v
+	fi
+
+	rc_reset
+
+    fi
+
+    if [ x"${AFPD_RUN}" = x"yes" -a -x /usr/sbin/afpd ] ; then
+	    echo -n "  Starting afpd ("
+	    echo -n ${AFPD_UAMLIST} -g ${AFPD_GUEST} \
+               -c ${AFPD_MAX_CLIENTS} -n ${ATALK_NAME}${ATALK_ZONE}
+	    echo -n ")"
+	    startproc /usr/sbin/afpd ${AFPD_UAMLIST} -g ${AFPD_GUEST} \
+               -c ${AFPD_MAX_CLIENTS} -n "${ATALK_NAME}${ATALK_ZONE}"
+	    rc_status -v
+    fi
+
+	touch /var/lock/subsys/atalk 
+}
+
+case "$1" in
+    start)
+	if [ x"${ATALK_BGROUND}" = x"yes" ]; then 
+	    echo -n "Starting netatalk in the background ..."
+	    atalk_startup >& /dev/null &
+	    rc_status -v
+	else
+	    echo "Starting netatalk (this may take a while) ..."
+	    atalk_startup
+	fi
+	;;
+    stop)
+	echo -n "Shutting down netatalk"
+	killproc -TERM /usr/sbin/papd
+	if test -x /usr/sbin/timelord ; then
+	  killproc -TERM /usr/sbin/timelord
+	fi
+	killproc -TERM /usr/sbin/atalkd
+	killproc -TERM /usr/sbin/afpd
+
+	rc_status -v
+	;;
+    restart|reload|force-reload)
+	$0 stop
+	$0 start
+	rc_status
+	;;
+    status)
+	echo "Checking for atalk services"
+	checkproc /usr/sbin/papd && echo -n "papd: OK	" || echo -n "papd: No process	"
+	checkproc /usr/sbin/afpd && echo -n " afpd: OK	" || echo -n " afpd: No process	"
+	if test -x /usr/sbin/timelord ; then
+	  checkproc /usr/sbin/timelord && echo -n " timelord: OK	" || echo -n " timelord: No process	"
+	fi
+	checkproc /usr/sbin/atalkd && echo "atalkd: OK" || echo "atalkd: No process"
+	# assume that atalkd is the "main" process ...
+	checkproc /usr/sbin/atalkd
+	rc_status
+	;;
+    *)
+	echo "Usage: $0 {start|stop|restart|status}"
+	exit 1
+	;;
+esac
+
+rc_exit

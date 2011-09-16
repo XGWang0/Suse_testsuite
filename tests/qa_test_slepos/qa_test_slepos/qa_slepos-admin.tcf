@@ -1,0 +1,20 @@
+timer 300
+fg 1 workaround_507842 /root/slepos_lib.sh workaround_507842
+wait
+
+timer 300
+fg 1 admin_firewall_ports /root/slepos_lib.sh firewall_ports admin_server_ports 
+wait
+
+timer 300
+fg 1 run_posInitLdap /root/slepos_lib.sh run_posInitLdap
+wait
+
+timer 300
+fg 1 workaround_506161 /root/slepos_lib.sh workaround_506161
+wait
+
+timer 300
+fg 1 create_database /root/slepos_lib.sh create_database
+wait
+

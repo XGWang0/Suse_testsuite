@@ -1,0 +1,109 @@
+#! /bin/sh
+# Copyright (c) 1995-2001 SuSE GmbH Nuernberg, Germany
+#
+# Author: Frank Bodammer <feedback@suse.de>
+#
+# init.d/nwe
+#
+### BEGIN INIT INFO
+# Provides:       nwe
+# Required-Start: $network $remote_fs $syslog
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop:
+# Description:    Starts the nwe-server (marsnwe)
+### END INIT INFO
+
+. /etc/rc.status
+NWSERV_BIN=/usr/sbin/nwserv
+NWSERV_PID=/var/run/nwserv.pid
+NWSERV_CONF=/etc/nwserv.conf
+
+if [ ! -x $NWSERV_BIN ] ; then
+	echo -n "marsnwe not installed ! "
+	exit 5
+fi
+
+rc_reset
+RC_OPTIONS='-v'
+
+case "$1" in
+    start)
+	echo -n "Starting NetWare Emulation marsnwe "
+	checkproc $NWSERV_BIN
+	if [ $? -eq 0 ] ; then
+	   echo -n "- Warning: already running ! "
+	else
+	   [ -e $NWSERV_PID ] && echo -n "- $NWSERV_PID exists ! "
+	fi
+	if [ ! -f /proc/net/ipx ] ; then
+	   echo -ne "\n -> Loading IPX: "
+	   insmod -k ipx || rc_failed 1
+	   sleep 1
+	   rc_status -v1 -r
+	   RC_OPTIONS='-v2'
+	fi
+	if [ -f /proc/net/ipx ] ; then
+	   startproc -q $NWSERV_BIN
+	else
+	   rc_failed 1
+	fi
+	rc_status $RC_OPTIONS 
+	;;
+    stop)
+	echo -n "Shutting down NetWare Emulation "
+	if checkproc $NWSERV_BIN ; then
+	   $NWSERV_BIN -kq
+	   sleep 2
+	   if [ -e $NWSERV_PID ] ; then 
+	      echo -n "- wait a minute "
+	      i=20
+	      while [ -e $NWSERV_PID ] && [ $i -gt 0 ] ; do
+	         sleep 2
+	         i=$[$i-1]
+	         echo -n "."
+	      done
+	   fi
+	   if checkproc $NWSERV_BIN ; then
+	      killproc -G -TERM $NWSERV_BIN
+	      echo -ne "\n -> !!! Warning: nwserv killed !!! "
+	   fi
+	else
+	   echo -n "- Warning: nwserv not running ! "
+	   rc_failed 7
+	fi
+	rc_status -v
+	;;
+    try-restart)
+	$0 stop  &&  $0 start
+	rc_status
+	;;
+    restart)
+	$0 stop
+	$0 start
+	rc_status
+	;;
+    force-reload)
+	$0 stop && $0 start
+	rc_status
+	;;
+    reload)
+	echo -n "NetWare Emulation marsnwe: Reload not supported ! "
+	rc_failed 3
+	rc_status -v
+	;;
+    status)
+        echo -n "Checking for NetWare Emulation marsnwe "
+        checkproc $NWSERV_BIN
+        rc_status -v
+        ;;
+    probe)
+	test $NWSERV_CONF -nt $NWSERV_PID && echo restart
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+	exit 1
+	;;
+esac
+rc_exit
+

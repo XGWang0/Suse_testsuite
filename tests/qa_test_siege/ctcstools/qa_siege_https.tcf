@@ -1,0 +1,40 @@
+timer 20
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege.config
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 1 -t 20M https://localhost/qa_test_siege/index.html
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 2 -t 20M https://localhost/qa_test_siege/index.html
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 5 -t 20M https://localhost/qa_test_siege/index.html
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 10 -t 20M https://localhost/qa_test_siege/index.html
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 20 -t 20M https://localhost/qa_test_siege/index.html
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 50 -t 20M https://localhost/qa_test_siege/index.html
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 100 -t 20M https://localhost/qa_test_siege/index.html
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 200 -t 20M https://localhost/qa_test_siege/index.html
+wait
+
+timer 1800
+fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 500 -t 20M https://localhost/qa_test_siege/index.html
+wait
+

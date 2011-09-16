@@ -1,0 +1,12 @@
+timer 8h
+fg 1 memtst_1 /usr/lib/ctcs2/bin/qa_test_newburn/memtst -1 
+wait
+
+timer 8h
+fg 1 memtst_2 /usr/lib/ctcs2/bin/qa_test_newburn/memtst -1 
+wait
+
+timer 8h
+fg 1 memtst_3 /usr/lib/ctcs2/bin/qa_test_newburn/memtst -1
+wait
+

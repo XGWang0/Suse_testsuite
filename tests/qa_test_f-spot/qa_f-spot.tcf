@@ -1,0 +1,16 @@
+timer 50
+fg 1 cleanup /usr/share/qa/qa_test_f-spot/cleanup 
+wait
+
+timer 400
+fg 1 import_for_first_time /usr/share/qa/qa_test_f-spot/f-spot-test.py -c case_import_images_first_time 
+wait
+
+
+timer 400
+fg 1 import_image /usr/share/qa/qa_test_f-spot/f-spot-test.py -c case_import_images
+wait
+
+timer 400
+fg 1 import_image /usr/share/qa/qa_test_f-spot/f-spot-test.py -c case_import_images_2
+wait

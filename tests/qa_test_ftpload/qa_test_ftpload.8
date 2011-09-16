@@ -1,0 +1,41 @@
+." Manpage for qa_test_ftpload.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "11 Jul 2011" "1.0" "qa_test_ftpload man page"
+.SH NAME
+qa_test_ftpload
+.SH SYNOPSIS
+qa_test_ftpload [OPTION]... URL...
+.SH TYPE
+Network stress test.
+.SH DESCRIPTION
+qa_test_ftpload is an internal network stress test. With default settings, this test suite will use the ftpdown script to download a file from a specified ftp site at certain times.
+.SH README
+None.
+.SH OPTIONS
+-d use workdir as the working directory for ftpload (default: .)
+.br
+-c do count (default: 1) wget iterations
+.SH WHAT IT DOES
+Create a directory named "/abuild" if it doesn't exist.
+Check disk space automatically, quit once not enough space.
+A file named "400MB" with size of exactly 400MB will be downloaded 20 times to /abuild.
+After downloading process finished, the "400MB" file will be deleted automatically.
+You can find test results in /var/opt/novell/NovellTestKits/ftpload/
+.SH COMMON PROBLEMS
+Depends on network bandwidth downloading process could be slow or even broken.
+.SH WARNINGS
+Make sure there is enough disk space in SUT.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+None.
+.SH LICENSE
+None.
+.SH UPSTREAM
+None.
+.SH AUTHOR
+Arthur Guo <aguo@novell.com>
+.SH MAINTAINER
+Arthur Guo <aguo@novell.com>

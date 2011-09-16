@@ -1,0 +1,57 @@
+#!/bin/bash
+#ls1=`mktemp /tmp/kernelcompareorigXXXXXX`
+#ls2=`mktemp /tmp/kernelcomparenewXXXXXX`
+. ../lib/sh/ctcslib.sh
+
+kconfig="yes ''"
+
+if [ -z "$1" ] ; then
+	makej=""
+else
+	makej="-j $1"
+fi
+
+if [ -z "$2" ] ; then
+	dir=/tmp/linux
+else
+	dir="$2"
+fi
+
+
+function interrupt () {
+	trap interrupt SIGUSR1
+        trap interrupt SIGTERM
+	trap interrupt SIGINT
+#        echo $failed fail $succeed succeed $count count
+	rm -f $ls1 $ls2
+	rm -rf $dir
+        # this just grabs the process id and all children.  and kills them
+	# until they're dead
+	x=1
+	while [ $x -gt 0 ] ; do {
+		kill_children --KILL
+		x=$?
+	} ; done
+	# untrap the exit before we exit :)
+        exit 255
+}
+trap interrupt SIGUSR1
+trap interrupt SIGTERM
+trap interrupt SIGINT
+
+
+cd /usr/src/linux
+if [ $? != 0 ] ; then
+	echo /usr/src/linux does not exist.  Help'!'
+	exit 2
+fi
+
+echo ]] make all
+rm -rf $dir >&2
+mkdir -p $dir >&2
+zcat /proc/config.gz > $dir/.config
+yes '' | make -s -C /usr/src/linux O="$dir" oldconfig >/dev/null
+make -s -C /usr/src/linux O="$dir" $makej all
+rm -rf $dir >&2
+
+exit 0

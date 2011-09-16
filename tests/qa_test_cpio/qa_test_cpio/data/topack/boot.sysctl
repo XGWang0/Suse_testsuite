@@ -1,0 +1,54 @@
+#! /bin/sh
+#
+# Copyright (c) 2001 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+#
+# /etc/init.d/boot.sysctl
+#
+### BEGIN INIT INFO
+# Provides:          boot.sysctl
+# Required-Start:    serial boot.setup boot.isapnp
+# Required-Stop:
+# Default-Start:     B
+# Default-Stop:
+# Description:       run sysctl with a given config file or create it
+### END INIT INFO
+
+. /etc/rc.status
+. /etc/sysconfig/sysctl
+
+rc_reset
+
+case "$1" in
+  start)
+	#
+	# run sysctl if the config file exists
+	# otherwise generate it
+	# the values set here might be overridden by the settings
+	# in /etc/sysconfig/sysctl
+	#
+	if [ -x /sbin/sysctl ] ; then
+	  if [ ! -e /etc/sysctl.conf ]; then
+	    echo -n "Sysctl: no file /etc/sysctl.conf"
+	    rc_failed 5
+	  else
+	    echo "Setting current sysctl status from /etc/sysctl.conf"
+	    sysctl -e -p /etc/sysctl.conf
+	  fi
+	  rc_status -v -r
+	fi
+	;;
+    stop)
+	rc_failed 3
+	rc_status -v
+	;;
+    status)
+	rc_failed 4
+	rc_status -v
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status}"
+	exit 1
+	;;
+esac
+
+rc_exit

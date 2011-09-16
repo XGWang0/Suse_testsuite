@@ -1,0 +1,130 @@
+#! /bin/sh
+# Copyright (c) 2000, 2001 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+#
+# Author: Thorsten Kukuk <kukuk@suse.de>
+#
+# /etc/init.d/portmap
+#
+#   and symbolic its link
+#
+# /sbin/rcportmap
+#
+# System startup script for the RPC program number mapper
+#
+### BEGIN INIT INFO
+# Provides: portmap
+# Required-Start: $network $syslog
+# Required-Stop: $network $syslog
+# Default-Start: 3 5
+# Default-Stop: 0 1 2 4 6
+# Description: DARPA port to RPC program number mapper
+### END INIT INFO
+
+PORTMAP_BIN=/sbin/portmap
+test -x $PORTMAP_BIN || exit 5
+
+# Shell functions sourced from /etc/rc.status:
+#      rc_check         check and set local and overall rc status
+#      rc_status        check and set local and overall rc status
+#      rc_status -v     ditto but be verbose in local rc status
+#      rc_status -v -r  ditto and clear the local rc status
+#      rc_failed        set local and overall rc status to failed
+#      rc_reset         clear local rc status (overall remains)
+#      rc_exit          exit appropriate to overall rc status
+. /etc/rc.status
+
+# First reset status of this service
+rc_reset
+
+# Return values acc. to LSB for all commands but status:
+# 0 - success
+# 1 - misc error
+# 2 - invalid or excess args
+# 3 - unimplemented feature (e.g. reload)
+# 4 - insufficient privilege
+# 5 - program not installed
+# 6 - program not configured
+# 7 - program is not running
+#
+# Note that starting an already running service, stopping
+# or restarting a not-running service as well as the restart
+# with force-reload (in case signalling is not supported) are
+# considered a success.
+
+case "$1" in
+    start)
+	checkproc $PORTMAP_BIN && {
+	    killproc $PORTMAP_BIN 2> /dev/null
+	    echo -n "Re-"
+        }
+	echo -n "Starting RPC portmap daemon"
+	startproc $PORTMAP_BIN
+        rc_status -v
+	;;
+    stop)
+	echo -n "Shutting down RPC portmap daemon"
+	killproc -TERM $PORTMAP_BIN
+	rc_status -v
+	;;
+    restart)
+        ## Stop the service and regardless of whether it was
+        ## running or not, start it again.
+        pmap_dump > /var/run/portmap.state
+        $0 stop
+        $0 start
+	pmap_set < /var/run/portmap.state
+	rm -f /var/run/portmap.state
+
+        # Remember status and be quiet
+        rc_status
+        ;;
+    force-reload)
+        ## Signal the daemon to reload its config. Most daemons
+        ## do this on signal 1 (SIGHUP).
+        ## If it does not support it, restart.
+
+        echo -n "Reload RPC portmap daemon"
+        ## if it supports it:
+        #killproc -HUP $PORTMAP_BIN
+        #rc_status -v
+
+        ## Otherwise:
+        pmap_dump > /var/run/portmap.state
+        $0 stop
+        $0 start
+	pmap_set < /var/run/portmap.state
+	rm -f /var/run/portmap.state
+
+        # Remember status and be quiet
+        rc_status
+        ;;
+    reload)
+        ## Like force-reload, but if daemon does not support
+        ## signalling, do nothing (!)
+
+        # If it supports signalling:
+        echo -n "Reload RPC portmap daemon"
+        killproc -HUP $PORTMAP_BIN
+        rc_status -v
+        ;;
+    status)
+        echo -n "Checking for RPC portmap daemon: "
+        ## Check status with checkproc(8), if process is running
+        ## checkproc will return with exit status 0.
+
+        # Status has a slightly different for the status command:
+        # 0 - service running
+        # 1 - service dead, but /var/run/  pid  file exists
+        # 2 - service dead, but /var/lock/ lock file exists
+        # 3 - service not running
+
+        checkproc $PORTMAP_BIN
+        rc_status -v
+        ;;
+    *)
+	echo "Usage: $0 {start|stop|restart|force-reload|reload|status}"
+	exit 1
+	;;
+esac
+rc_exit
+

@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/lib/ctcs2/tools/run /usr/lib/ctcs2/tcf/fs_stress.tcf

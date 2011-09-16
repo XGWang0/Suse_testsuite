@@ -1,0 +1,9 @@
+diff -pur siege-2.67.orig//doc/urls.txt siege-2.67//doc/urls.txt
+--- siege-2.67.orig//doc/urls.txt	2010-02-03 13:28:32.000000000 +0800
++++ siege-2.67//doc/urls.txt	2010-02-03 13:38:07.000000000 +0800
+@@ -13,4 +13,4 @@
+ # You may also set and reference variables inside this file,
+ # for more information, man urls_txt
+ # -------------------------------------------------------
+-
++http://localhost/

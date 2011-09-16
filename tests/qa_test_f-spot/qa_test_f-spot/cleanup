@@ -1,0 +1,5 @@
+#!/bin/sh 
+
+
+
+rm ~/.gconf/apps/f-spot/ -rf 

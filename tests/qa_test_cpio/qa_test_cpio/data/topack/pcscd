@@ -1,0 +1,63 @@
+#! /bin/sh
+# Copyright (c) 1995-2001 SuSE GmbH Nuernberg, Germany
+#                    2002 SuSE Linux AG, Nuernberg, Germany
+#
+# Author: Matthias Eckermann
+#
+#
+### BEGIN INIT INFO
+# Provides:       pcscd
+# Required-Start:  $remote_fs $syslog serial usbmgr
+# Required-Stop:   $remote_fs $syslog
+# Default-Start:   2 3 5
+# Default-Stop:    0 1 6 
+# Description:    This shell script takes care of starting and stopping the pcscd Daemon/Manager
+### END INIT INFO
+
+
+pcscd_BIN=/usr/sbin/pcscd
+test -x $pcscd_BIN || exit 5
+
+. /etc/rc.status
+rc_reset
+
+case "$1" in
+    start)
+        echo -n "Starting pcscd"
+        startproc $pcscd_BIN 
+        rc_status -v
+	;;
+    stop)
+        echo -n "Shutting down pcscd "
+        killproc -TERM $pcscd_BIN
+	rc_status -v
+        ;;
+    try-restart)
+        $0 status >/dev/null &&  $0 restart
+        rc_status
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        rc_status
+        ;;
+    force-reload)
+        $0 stop  &&  $0 start
+        rc_status
+        ;;
+    reload)
+        echo -n "Reload service pcscd"
+        rc_failed 3
+        rc_status -v
+        ;;
+    status)
+        echo -n "Checking for pcscd: "
+	checkproc $pcscd_BIN 
+	rc_status -v
+	;;
+    *)
+        echo "Usage: $0 {start|stop|try-restart|restart|force-reload|reload|status}"
+        exit 1
+        ;;
+esac
+rc_exit

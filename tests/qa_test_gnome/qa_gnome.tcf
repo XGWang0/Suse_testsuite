@@ -1,0 +1,99 @@
+timer 300
+fg 1 gnome_nautilus-open-FTP /usr/share/qa/qa_test_gnome/gnome_nautilus-open-FTP_plan2781_case976179.py
+wait
+
+timer 300
+fg 1 gnome_nautilus-open-windows-shares /usr/share/qa/qa_test_gnome/gnome_nautilus-open-windows-shares_plan2781_case976178.py
+wait
+
+timer 300
+fg 1 gnome_application-startup /usr/share/qa/qa_test_gnome/gnome_application-startup_plan2781_case976174.py
+wait
+
+timer 300
+fg 1 gnome_screen-savers /usr/share/qa/qa_test_gnome/gnome_screen-savers_plan2781_case976169.py
+wait
+
+timer 300
+fg 1 gnome_gnome-session /usr/share/qa/qa_test_gnome/gnome_gnome-session_plan2781_case976248.py
+wait
+
+timer 300
+fg 1 gnome_bluetooth-configuration /usr/share/qa/qa_test_gnome/gnome_bluetooth-configuration_plan2781_case976186.py
+wait
+
+timer 300
+fg 1 gnome_keyring-unlocked /usr/share/qa/qa_test_gnome/gnome_keyring-unlocked_plan2781_case977296.py
+wait
+
+timer 300
+fg 1 gnome_switch-compiz-metacity /usr/share/qa/qa_test_gnome/gnome_switch-compiz-metacity_plan2781_case977683.py
+wait
+
+timer 300
+fg 1 gnome_power-management /usr/share/qa/qa_test_gnome/gnome_power-management_plan2781_case976181.py
+wait
+
+timer 300
+fg 1 gnome_about-me /usr/share/qa/qa_test_gnome/gnome_about-me_plan2781_case976168.py
+wait
+
+timer 300
+fg 1 gnome_nautilus-displays-icon /usr/share/qa/qa_test_gnome/gnome_nautilus-displays-icon_plan2781_case976177.py
+wait
+
+timer 300
+fg 2 gnome_application-open-files-01 /usr/share/qa/qa_test_gnome/gnome_application-open-files_plan2781_case977525_01.py
+wait
+
+timer 300
+fg 2 gnome_application-open-files-02 /usr/share/qa/qa_test_gnome/gnome_application-open-files_plan2781_case977525_02.py
+wait
+
+timer 300
+fg 2 gnome_application-open-files-03 /usr/share/qa/qa_test_gnome/gnome_application-open-files_plan2781_case977525_03.py
+wait
+
+timer 300
+fg 2 gnome_application-open-files-04 /usr/share/qa/qa_test_gnome/gnome_application-open-files_plan2781_case977525_04.py
+wait
+
+timer 300
+fg 1 gnome_file-groups /usr/share/qa/qa_test_gnome/gnome_file-groups_plan2781_case977685.py
+wait
+
+timer 300
+fg 1 gnome_nautilus-file-permissions /usr/share/qa/qa_test_gnome/gnome_nautilus-file-permissions_plan2781_case976173.py
+wait
+
+timer 300
+fg 1 gnome_nautilus-move-file /usr/share/qa/qa_test_gnome/gnome_nautilus-move-file_plan2781_case976170.py
+wait
+
+timer 300
+fg 1 gnome_nautilus-move-file-trash /usr/share/qa/qa_test_gnome/gnome_nautilus-move-file-trash_plan2781_case976172.py
+wait
+
+timer 300
+fg 1 gnome_nautilus-copy-file /usr/share/qa/qa_test_gnome/gnome_nautilus-copy-file_plan2781_case976171.py
+wait
+
+timer 300
+fg 1 gnome_windows-networks /usr/share/qa/qa_test_gnome/gnome_windows-networks-and-gnome_plan2781_case976184.py
+wait
+
+timer 300
+fg 1 gnome_gnome-keyring /usr/share/qa/qa_test_gnome/gnome_gnome-keyring_plan2781_case976249.py
+wait
+
+timer 300
+fg 1 gnome-keyring-password /usr/share/qa/qa_test_gnome/gnome_gnome-keyring-password_plan2781-case976185.py
+wait
+
+timer 300
+fg 1 gnome_seahorse-and-PGPkey /usr/share/qa/qa_test_gnome/gnome_seahorse-and-PGPkey_plan2781_case977261.py
+wait
+
+timer 300
+fg 1 gnome_seahorse-stores-key-passwords /usr/share/qa/qa_test_gnome/gnome_seahorse-stores-key-passwords_plan2781_case977269.py
+wait

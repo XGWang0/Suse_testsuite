@@ -1,0 +1,10 @@
+#!/bin/bash -x
+
+version=`grep ^Version: *.spec | awk {'print $2'}`
+for i in jsbridge-2.4.2 ManifestDestiny-0.2.3 mozmill-1.5.2 mozrunner-2.5.3; do
+	tar zcvf $i.tar.gz $i
+done
+for i in qa_test_mozmill; do
+	tar --exclude-vcs -cjf $i-$version.tar.bz2 $i
+done
+gzip qa_test_mozmill.8

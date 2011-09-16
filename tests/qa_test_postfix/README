@@ -1,0 +1,17 @@
+qa_test_postfix
+==========
+
+Author:  Martin Mrazik <mmrazik@suse.cz>
+Summary: (rd-)qa internal package for testing postfix
+
+Test coverage:
+- start/stop/restart daemon and check the result
+- send e-mail to a local user and check that it was delivered
+- send e-mail to a non-existent local user and check that it was bounced
+- send e-mail with attachment
+- send e-mail with attachment bigger than message_size_limit
+- send e-mails so the mailbox_size_limit is exceeded
+- check the newaliases command and sending e-mail to an alias
+
+
+

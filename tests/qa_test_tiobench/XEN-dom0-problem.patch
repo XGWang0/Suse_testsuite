@@ -1,0 +1,12 @@
+--- tiobench.pl
++++ tiobench.pl
+@@ -167,6 +167,9 @@
+                   100 * ( $stat_data{$identifier}{$thread}{$size}{$block}{$field}{'utime'} +
+                   $stat_data{$identifier}{$thread}{$size}{$block}{$field}{'stime'} ) / 
+                   $stat_data{$identifier}{$thread}{$size}{$block}{$field}{'time'};
++               if(!$stat_data{$identifier}{$thread}{$size}{$block}{$field}{'cpu'}){
++                  $stat_data{$identifier}{$thread}{$size}{$block}{$field}{'cpu'}=0.0000000001;
++               }#preventing dividion by zero under XEN dom0 kernel, which returns zero consumed time
+                $stat_data{$identifier}{$thread}{$size}{$block}{$field}{'cpueff'} =
+                   ($stat_data{$identifier}{$thread}{$size}{$block}{$field}{'rate'} /
+                   ($stat_data{$identifier}{$thread}{$size}{$block}{$field}{'cpu'}/100));

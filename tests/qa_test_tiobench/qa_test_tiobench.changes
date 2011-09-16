@@ -1,0 +1,48 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:53 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Mon Aug 15 12:36:27 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: tiobench -> qa_test_tiobench
+
+-------------------------------------------------------------------
+Thu Nov  5 10:04:01 CET 2009 - fhe@suse.de
+
+-modify the tiobench.pl script to make the test result stored or output validly when the sequent and random write/read test results are larger than 100 
+
+-------------------------------------------------------------------
+Thu Aug 13 13:01:59 CEST 2009 - mmrazik@suse.cz
+
+- added support for Large files (-DLARGEFILES)
+
+-------------------------------------------------------------------
+Mon Mar 10 01:58:50 CET 2008 - ro@suse.de
+
+- added directories to filelist 
+
+-------------------------------------------------------------------
+Wed May 30 13:42:13 CEST 2007 - ehamera@suse.cz
+
+- fixed/workarounded problem on dom0 XEN kernel, which reports 0 time.
+Code is reporting lines like this: 
+
+Random Reads
+2.6.16.46-0.12-xen            1902  4096    1    6.01 1e-10%     0.649       27.28   0.00000  0.00000 #####
+
+where 1e-10 means zero and ##### means infinity. It is better than 
+fail on 'division by zero' error I mean.
+
+-------------------------------------------------------------------
+Wed Jan 25 21:42:12 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Thu Jan 19 18:02:17 CET 2006 - fseidel@suse.de
+
+- reworked for fit in autobuild an packaging guidlines
+
+

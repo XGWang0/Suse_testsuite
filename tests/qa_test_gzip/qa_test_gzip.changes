@@ -1,0 +1,45 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Tue Aug  9 13:24:36 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_gzip -> qa_test_gzip
+
+-------------------------------------------------------------------
+Tue Jan 23 13:16:42 CET 2007 - llipavsky@suse.cz
+
+- fix in spec file 
+
+-------------------------------------------------------------------
+Tue Jan 23 11:18:16 CET 2007 - llipavsky@suse.cz
+
+- submitting to other products (not only stable)
+
+-------------------------------------------------------------------
+Fri Sep 29 14:30:17 CEST 2006 - llipavsky@suse.cz
+
+- fized Bug 208191 - /usr/share/qa/tools/gzip-run does not work
+
+-------------------------------------------------------------------
+Thu Jul 13 09:56:25 CEST 2006 - llipavsky@suse.cz
+
+- added correct BuildRequires tag 
+
+-------------------------------------------------------------------
+Wed Jul 12 14:40:26 CEST 2006 - llipavsky@suse.cz
+
+- fixed to comply QA Packaging Guidelines
+
+-------------------------------------------------------------------
+Wed Jan 25 21:47:32 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Fri Jan 20 14:32:59 CET 2006 - kmachalkova@suse.cz
+
+- package created, version 0.1 
+

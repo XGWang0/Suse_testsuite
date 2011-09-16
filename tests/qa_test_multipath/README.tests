@@ -1,0 +1,23 @@
+sw_multipath tests description
+------------------------------
+Tests are supports paths number > 2
+
+Tested numbers 2-4
+
+path_checker_tur:
+Checks if path_checker tur are able to detect path failures and recovery
+
+path_checker_directio:
+Checks if path_checker directio are able to detect path failures and recovery
+
+active_active:
+Checks if I/O not stopped during path failures in ACTIVE/ACTIVE configurations.
+During this tests first one path is failed/recovered then onother. All nuber are failed/recovered during this test.
+
+path_checker for this test is tur
+
+active_passive:
+Checks if I/O not stopped during path failures in ACTIVE/PASSIVE configurations.
+During this tests first one path is failed/recovered then onother. All nuber are failed/recovered during this test.
+
+path_checker for this test is tur

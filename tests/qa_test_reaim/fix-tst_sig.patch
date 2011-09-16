@@ -1,0 +1,11 @@
+--- reaim-7.0.1.13/lib/tst_sig.c	2004-10-29 17:00:06.397835562 +0200
++++ reaim-7.0.1.13.new/lib/tst_sig.c	2004-10-29 16:45:14.167768279 +0200
+@@ -116,7 +116,7 @@
+ 	*/
+ 	if ( NSIG > 31 ) { 
+ 		tstsig = 31;
+-		printf ("NSIG is %d\n", NSIG );
++		/* printf ("NSIG is %d\n", NSIG ); */
+ 	} else {
+ 		tstsig = NSIG;
+ 	}

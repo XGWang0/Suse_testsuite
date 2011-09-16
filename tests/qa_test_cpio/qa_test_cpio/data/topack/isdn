@@ -1,0 +1,222 @@
+#!/bin/bash
+# Copyright (c) 2002 SuSE Linux AG Nuernberg, Germany. All rights reserved.
+#
+# /etc/init.d/isdn
+#
+# (c) Karsten Keil, SuSE Linux AG, Nuernberg <kkeil@suse.de>
+#
+# Version: 1.2   07.03.2002 (kkeil)
+# Maintainer: kkeil@suse.de
+#
+# 
+### BEGIN INIT INFO
+# Provides:       isdn
+# Required-Start: 
+# Required-Stop:  $network
+# Default-Start: 2 3 5
+# Default-Stop:  0 1 6
+# Description:    This script is loading the needed ISDN drivers
+### END INIT INFO
+
+usage() {
+    test -n "$1" && echo $1
+    echo "Usage: $0 <ACTION> [INTERFACE] [OPTIONS]"
+    echo "ACTION:={start|stop|status|reload|force-reload|try-restart|restart}"
+    echo "OPTIONS:={-o onboot|hotplug|manual|all}"
+}
+
+# Determine the base and follow a runlevel link name.
+base=${0##*/}
+link=${base#*[SK][0-9][0-9]}
+# Force MODE=onboot if started via init.d link
+# else MODE=manual
+if test "$link" = "$base" ; then
+    MODE=manual
+else
+    MODE=onboot
+fi
+
+. /etc/rc.status
+
+ACTION=$1
+shift
+AFTER_ACTION=$@
+
+CONTR_FILES=""
+test $# -gt 0 -a "$1" != "-o" && CONTR_FILES=cfg-$1
+shift
+test "$1" = "-o" && shift
+OPTIONS=$@
+while [ $# -gt 0 ]; do
+    case $1 in
+	boot|onboot)	MODE=onboot ;;
+	hotplug)	MODE=hotplug ;;
+	manual)		MODE=manual ;;
+	all)		MODE=all ;;
+	*)		usage "unknown option $1" ;;
+    esac
+    shift
+done
+
+SBIN=/usr/sbin
+# test for program is here and executable (will fail if /usr is not mounted)
+# I only check one and not all used
+test -x $SBIN/hisaxctrl || exit 5
+
+cd /etc/sysconfig/isdn
+test -f scripts/functions && . scripts/functions
+test -f config && . config
+
+# find all ISDN controller configuration files. 
+# These files start with contr- and do # not contain a '.' or '~'. 
+
+test -z "$CONTR_FILES" && for c in cfg-contr* ; do 
+  case $c in 
+    *~*|*.*) 
+      # drop backup files, rpm{save,new,orig}
+      ;; 
+    *)
+      CONTR_FILES="$CONTR_FILES $c"
+      ;;
+  esac
+done
+#echo "CONTR_FILES  = $CONTR_FILES"
+
+rc_reset
+
+case "$ACTION" in
+    start)
+	MESSAGE="Setting up ISDN card"
+	set -- $CONTR_FILES
+	for CONTR in "${@#cfg-contr}"; do
+	    ID="contr${CONTR}"
+	    test -f "cfg-${ID}" || continue
+	    STARTMODE=manual
+	    . cfg-${ID}
+	    echo -n "$MESSAGE $ID $NAME"
+	    test_startmode
+	    RET=$?
+	    if [ $RET -eq 0 ]; then
+		test "$MODE" = "hotplug" || test_driver_loaded $DRIVER
+		RET=$?
+		if [ $RET -eq 10 ]; then
+		    echo -n " ${warn}$DRIVER busy${norm}"
+		    RET=1
+		fi
+	    fi
+	    if [ $RET -eq 0 ]; then
+		test_driver_loaded
+		if [ -x scripts/add-$DRIVER ] ; then
+		    . scripts/add-$DRIVER
+		else
+		    LOAD_CONTR="$LOAD_CONTR $CONTR"
+		    RET=0
+		fi
+	    fi
+	    rc_failed $RET
+	    rc_status -v
+	    MESSAGE="                    "
+	done
+	CONTR_CNT=0
+	test -n "$LOAD_CONTR" && for CONTR in $LOAD_CONTR; do
+            MESSAGE="Loading Driver"
+	    ID="contr$CONTR"
+	    echo -n "${MESSAGE} ${ID}"
+	    . cfg-${ID}
+	    RET=0
+	    if [ -x scripts/load-$DRIVER ] ; then
+		. scripts/load-$DRIVER
+	    else
+		/sbin/modprobe $DRIVER $PARAMETER
+		RET=$?
+		if [ -n "$EAZMAP" ]; then
+		    I4L_EAZMAP_$CONTR="${ID} ${EAZMAP}"
+		    I4L_EAZMAP_IDX="$I4L_EAZMAP_IDX $CONTR"
+		fi
+	    fi
+	    if [ $RET -ge 6 ]; then
+		RET=1;
+	    fi
+	    rc_failed $RET
+	    rc_status -v
+	done
+	MESSAGE="Mapping EAZ"
+	test -n "$I4L_EAZMAP_IDX" && for idx in $I4L_EAZMAP_IDX; do
+	    echo -n "${MESSAGE} contr${idx}"
+	    eval I4L_EAZMAP=\$I4L_EAZMAP_$idx
+	    $SBIN/isdnctrl mapping $I4L_EAZMAP >& /dev/null
+	    RET=$?
+	    rc_failed $RET
+	    rc_status -v
+	    MESSAGE="           "
+	done
+	;;
+    stop)
+	set -- $CONTR_FILES
+	unset REMOVE_DRV
+	unset REMOVE_EXTRA
+	MESSAGE="Unloading ISDN driver"
+	RET=0
+	echo -n "${MESSAGE}"
+	for CONTR in "${@#cfg-contr}"; do
+	    ID="contr$CONTR"
+	    test -f cfg-${ID} || continue
+	    unset DISABLE
+	    . cfg-${ID}
+	    unset FOUND
+	    for drv in $REMOVE_DRV ; do
+		test "$drv" = "$DRIVER" && FOUND="yes"
+	    done
+	    test -n "$FOUND" || REMOVE_DRV="$REMOVE_DRV $DRIVER"
+	    kill_isdnlog ${ID}
+	    test -x scripts/stop-$DRIVER  && . scripts/stop-$DRIVER
+	done
+	# if some other monitor processes are running
+	fuser -k /dev/isdninfo
+	echo -n "${REMOVE_DRV}"
+	if [ -n "$REMOVE_DRV" -o -n "$REMOVE_EXTRA" ] ; then
+	    RETSTRING=`/sbin/rmmod -r $REMOVE_DRV $REMOVE_EXTRA 2>&1`
+	    RET=$?
+	    if [ $RET -ne 0 ]; then
+		case "$RETSTRING" in
+		    *"busy"*)
+			RET=1
+			echo -n " ${warn}busy${norm}"
+			;;
+		   *"not loaded"*)
+			RET=0
+			echo -n " (not loaded)"
+			;;
+		   *)
+			RET=1
+			;;
+		esac
+	    fi
+	fi
+	rc_failed $RET
+	rc_status -v
+	;;
+    status)
+	echo -n "Checking for service isdn: "
+	grep -q ttyI /proc/devices || rc_failed 3
+	rc_status -v
+	;;
+    try-restart)
+	$0 status >/dev/null &&  $0 restart
+	rc_status
+	;;
+
+    restart|force-reload)
+	$0 stop $AFTER_ACTION
+	$0 start $AFTER_ACTION
+	rc_status
+	;;
+
+    reload)
+	;;
+
+    *)
+	usage "unknown action $ACTION"
+	exit 1
+esac
+rc_exit

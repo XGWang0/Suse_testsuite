@@ -1,0 +1,7 @@
+timer 300
+fg 1 cleanup /usr/share/qa/qa_test_evolution/cleanup.sh
+wait 
+
+timer 300
+fg 1 evolution_demo /usr/share/qa/qa_test_evolution/evolution01.py
+wait

@@ -1,0 +1,15 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:53 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Mon Aug 15 11:12:48 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: specweb -> qa_test_specweb
+
+-------------------------------------------------------------------
+Fri Jul 11 10:47:08 CET 2008 - michalsrb@gmail.com
+
+- package created, version 0.1 
+

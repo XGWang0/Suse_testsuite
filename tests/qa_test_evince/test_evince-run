@@ -1,0 +1,18 @@
+#!/bin/bash
+username=`who |grep :0 | head -n 1 |awk {'print $1'}`
+comments="
+export LANG=C
+export DISPLAY=:0.0
+xhost +
+killall /usr/lib/at-spi/at-spi-registryd evince
+[ `ps aux | grep at-spi-registry | wc -l` -gt 1 ] || /usr/lib/at-spi/at-spi-registryd&
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_evince.tcf"
+
+if [ "$username" != "$USER" ]; then
+	su - $username -c "$comments"
+	cp -r `getent passwd $username | cut -d: -f 6`/var-log-qa/* /var/log/qa
+	su - $username -c "cd; rm -fr var-log-qa"
+else
+	sh -c "$comments"
+fi
+

@@ -1,0 +1,7 @@
+#!/bin/bash 
+
+shopt -s sourcepath
+export PATH=/usr/share/qa/qa_test_bind:$PATH
+
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_bind.tcf
+

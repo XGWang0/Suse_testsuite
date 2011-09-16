@@ -1,0 +1,2 @@
+fg 1 kernbench /usr/share/qa/qa_test_kernbench/do_kernbench
+wait

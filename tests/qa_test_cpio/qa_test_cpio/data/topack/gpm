@@ -1,0 +1,104 @@
+#! /bin/sh
+# Copyright (c) 1995-2001 SuSE GmbH Nuernberg, Germany.
+#
+# Author: 
+#
+# /etc/init.d/gpm
+#
+#   and symbolic its link
+#
+# /sbin/rcgpm
+#
+### BEGIN INIT INFO
+# Provides:       gpm
+# Required-Start: $remote_fs $syslog
+# Required-Stop:  $remote_fs $syslog
+# Default-Start:  2 3
+# Default-Stop:   0 1 5 6
+# Description:    Start gpm to support mouse on console	
+### END INIT INFO
+
+# Source SuSE config
+. /etc/sysconfig/mouse
+
+test "$MOUSE" -a "$GPM_PROTOCOL" || test "$GPM_PARAM" || exit 5
+
+GPM_BIN=/usr/sbin/gpm
+test -x $GPM_BIN || exit 5
+
+# Shell functions sourced from /etc/rc.status:
+#      rc_check         check and set local and overall rc status
+#      rc_status        check and set local and overall rc status
+#      rc_status -v     ditto but be verbose in local rc status
+#      rc_status -v -r  ditto and clear the local rc status
+#      rc_failed        set local and overall rc status to failed
+#      rc_failed <num>  set local and overall rc status to <num><num>
+#      rc_reset         clear local rc status (overall remains)
+#      rc_exit          exit appropriate to overall rc status
+. /etc/rc.status
+
+# First reset status of this service
+rc_reset
+
+# Return values acc. to LSB for all commands but status:
+# 0 - success
+# 1 - generic or unspecified error
+# 2 - invalid or excess argument(s)
+# 3 - unimplemented feature (e.g. "reload")
+# 4 - insufficient privilege
+# 5 - program is not installed
+# 6 - program is not configured
+# 7 - program is not running
+# 
+# Note that starting an already running service, stopping
+# or restarting a not-running service as well as the restart
+# with force-reload (in case signalling is not supported) are
+# considered a success.
+
+case "$1" in
+    start)
+    	echo -n "Starting console mouse support (gpm)"
+        if test "$GPM_PARAM" ; then 
+	  startproc $GPM_BIN $GPM_PARAM
+	else
+	  startproc $GPM_BIN -t $GPM_PROTOCOL -m $MOUSE
+	fi  
+	rc_status -v
+	;;
+    stop)
+	echo -n "Shutting down console mouse support (gpm)"
+	killproc -TERM $GPM_BIN
+	rc_status -v 
+	;;
+    try-restart)
+	$0 status >/dev/null &&  $0 restart
+	rc_status
+	;;
+    restart)
+	$0 stop
+	$0 start
+	rc_status
+	;;
+    force-reload)
+	echo -n "Reload console mouse support (gpm)"
+	$0 stop  &&  $0 start
+	rc_status
+	;;
+    reload)
+	echo -n "Reload console mouse support (gpm)"
+	rc_failed 3
+	rc_status -v
+	;;
+    status)
+	echo -n "Checking for console mouse support (gpm): "
+	checkproc $GPM_BIN
+	rc_status -v
+	;;
+    probe)
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+	exit 1
+	;;
+esac
+rc_exit

@@ -1,0 +1,39 @@
+timer 300
+fg 1 test_globaloption /usr/share/qa/qa_test_zypper/test_globaloption.sh
+wait
+
+timer 300
+fg 1 test_repositoryoptions /usr/share/qa/qa_test_zypper/test_repositoryoptions.sh
+wait
+
+timer 300
+fg 1 test_argetoption /usr/share/qa/qa_test_zypper/test_targetoption.sh
+wait
+
+timer 300
+fg 1 test_commands /usr/share/qa/qa_test_zypper/test_commands.sh
+wait
+
+timer 300
+fg 1 test_repomanage /usr/share/qa/qa_test_zypper/test_repomanage.sh
+wait
+
+timer 300
+fg 1 test_servicemanage /usr/share/qa/qa_test_zypper/test_servicemanage.sh
+wait
+
+timer 300
+fg 1 test_softwaremanage /usr/share/qa/qa_test_zypper/test_softwaremanage.sh
+wait
+
+timer 300
+fg 1 test_updatemanage /usr/share/qa/qa_test_zypper/test_updatemanage.sh
+wait
+
+timer 300
+fg 1 test_querying /usr/share/qa/qa_test_zypper/test_querying.sh
+wait
+
+timer 300
+fg 1 test_packagelock /usr/share/qa/qa_test_zypper/test_packagelock.sh
+wait

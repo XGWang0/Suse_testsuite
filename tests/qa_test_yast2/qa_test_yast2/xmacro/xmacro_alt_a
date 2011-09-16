@@ -1,0 +1,5 @@
+KeyStrPress Alt_L
+KeyStrPress a
+KeyStrRelease a
+KeyStrRelease Alt_L
+

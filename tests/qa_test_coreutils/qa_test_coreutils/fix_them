@@ -1,0 +1,8 @@
+INPUTS=orig_*.sh
+
+for INPUT in $INPUTS
+do
+    cp $INPUT $INPUT.old
+#    cat $INPUT.old | sed 's/source orig/MYDIR=\`dirname \$0\`\nsource \$MYDIR\/orig/' >$INPUT
+    cat $INPUT.old | sed 's/cd orig/cd \$MYDIR\/orig/' >$INPUT
+done

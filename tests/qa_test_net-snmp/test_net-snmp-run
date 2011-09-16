@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+		
+$CTCS2_DIR/tools/run $TCF_DIR/qa_net-snmp.tcf

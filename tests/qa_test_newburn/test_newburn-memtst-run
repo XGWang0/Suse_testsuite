@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/tcf"
+
+
+$ctcsdir/tools/run $basedir/memtst.tcf
+
+

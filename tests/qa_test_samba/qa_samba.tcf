@@ -1,0 +1,32 @@
+timer 300
+fg 1 qa_samba_start-stop /usr/share/qa/qa_test_samba/qa_samba_start-stop.sh
+wait
+
+timer 300
+fg 1 qa_samba_pidfile-handling.sh /usr/share/qa/qa_test_samba/qa_samba_pidfile-handling.sh
+wait 
+
+timer 300
+fg 1 qa_samba_user-management.sh /usr/share/qa/qa_test_samba/qa_samba_user-management.sh
+wait 
+
+timer 300
+fg 1 qa_samba_smbcontrol.sh /usr/share/qa/qa_test_samba/qa_samba_smbcontrol.sh
+wait
+
+timer 300
+fg 1 qa_samba_show-shares-guest.sh /usr/share/qa/qa_test_samba/qa_samba_show-shares-guest.sh
+wait
+
+timer 300
+fg 1 qa_samba_show-shares-noguest.sh /usr/share/qa/qa_test_samba/qa_samba_show-shares-noguest.sh
+wait
+
+#timer 3000
+#fg 1 qa_samba_file-access.sh /usr/share/qa/qa_test_samba/qa_samba_file-access.sh
+#wait
+#
+#timer 3000
+#fg 1 qa_samba_file-access-acl.sh /usr/share/qa/qa_test_samba/qa_samba_file-access-acl.sh
+#wait
+

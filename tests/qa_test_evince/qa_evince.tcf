@@ -1,0 +1,44 @@
+timer 300
+fg 1 evince_open /usr/share/qa/qa_test_evince/evince_open-pdf_01.py
+wait
+
+timer 300
+fg 1 evince_open-copy /usr/share/qa/qa_test_evince/evince_open-copy_02.py
+wait
+
+timer 300
+fg 1 evince_save-copy /usr/share/qa/qa_test_evince/evince_save-copy_03.py
+wait
+
+timer 300
+fg 1 evince_page-setup /usr/share/qa/qa_test_evince/evince_page-setup_04.py
+wait
+
+timer 300
+fg 1 evince_print-preview /usr/share/qa/qa_test_evince/evince_print-preview_05.py
+wait
+
+timer 300
+fg 1 evince_find /usr/share/qa/qa_test_evince/evince_find_plan3130_case1015562_06.py
+wait
+
+timer 300
+fg 1 evince_fullscreen /usr/share/qa/qa_test_evince/evince_fullscreen_plan3130_case1015564_07.py
+wait
+
+timer 300
+fg 1 evince_presentation /usr/share/qa/qa_test_evince/evince_presentation_plan3130_case1015564_08.py
+wait
+
+timer 300
+fg 1 evince_toolbar /usr/share/qa/qa_test_evince/evince_toolbar_plan3130_case1015566_09.py
+wait
+
+timer 300
+fg 2 evince_rotate /usr/share/qa/qa_test_evince/evince_rotate_plan3130_case1015567_10.py
+wait
+
+timer 300
+fg 2 evince_zoom /usr/share/qa/qa_test_evince/evince_zoom_plan3130_case1015567_11.py
+wait
+

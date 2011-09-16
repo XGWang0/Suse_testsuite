@@ -1,0 +1,8 @@
+timer 300
+fg 1 qa_gzip_compress /usr/share/qa/qa_test_gzip/gzip-create.sh
+wait
+
+timer 300
+fg 1 qa_gzip_uncompress /usr/share/qa/qa_test_gzip/gzip-uncompress.sh
+wait 
+

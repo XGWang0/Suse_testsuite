@@ -1,0 +1,62 @@
+Reaim in ctcs testing framework readme.
+
+Packages: reaim, reaim-ctcs-glue
+
+/usr/lib/ctcs2/tools/reaim-run - runs the benchmark
+
+ReAIM7 - Update and improve the existing Open Source AIM 7 benchmark.
+
+ReAIM7 is a C-language program that forks multiple processes (called tasks in AIM7), each of which concurrently executes a common, randomly-ordered set of subtests called jobs. Each of the jobs exercises a particular facet of system functionality, such as disk-file operations, process creation, user virtual memory operations, pipe I/O, and compute-bound arithmetic loops. ReAIM7 includes disk subtests for sequential reads, sequential writes, random reads, random writes, and random mixed reads and writes.
+
+ReAIM7 runs consists of a series of subruns with the number of tasks, N, being increased after the end of each subrun. Each subrun continues until each task completes the common set of jobs. This test uses 50, 100, 150, ... 500 number of tasks.
+
+Used tasks:
+* add_double, add_float, add_long, add_int, add_short - Double, float, ... precision additions.
+* creat_clo - Repeatedly creates and deletes files.
+* array_rtns - Solves large systems of simultaneous equations using Gausian Elimination. Representative of a large class of numerically intensive applications involving large datasets.
+* brk_test - System memory allocations. Iteratively allocates and deallocates memory from the kernel. Doesn't use the memory that it allocates.
+* dgram_pipe - IPC using UNIX domain datagram pipes.
+* dir_rtns_1 - Repetitive directory searches.
+* div_double, div_float, div_long, div_int, div_short - Perform double, float, ... precision divisions in a tight loop.
+* exec_test - Repeatedly executes.
+* fork_test - Task creation test.
+* jmp_test - Tests non-local transfers of control.
+* link_test - Tests filesystem performance while adding links to files.
+* matrix_rtns - Tests 3D projection operations.
+* mem_rtns_1 - Tests varying sized block memory operations including block comparison, block initialization and block copy.
+* mem_rtns_2 - Tests memory allocation and deallocation of varying sized blocks of memory.
+* misc_rtns_1 - Tests system-related functions involving identifiers and process state.
+* mul_double, mul_float, mul_long, mul_int, mul_short - Perform double, float, ... precision multiplications in a tight loop.
+* new_raph - Uses Newton's method to find the zero of a polynomial. Similar to other common numeric search algorithms.
+* num_rtns_1 - Exercises numeric related library functions (exp(), log(), pow(), etc.) (non-trigonometric).
+* page_test - Similar to brk_test except that this test causes the pages to be modified, generating large numbers of page faults on memory-short machines.
+* pipe_cpy - Uses UNIX Pipes as an IPC mechanism.
+* ram_copy - C language code to copy memory from one location to another. Useful as an example of coded data movement with processing.
+* series_1 - Taylor's Series expansion of a function evaluated for maximal precision. Similar to a class of numeric approximation problems. Evaluates the infinite series for sin(x) around 0. Tests how well the system handles small numbers.
+* shared_memory - IPC using UNIX shared memory and semaphores.
+* signal_test - Exercises POSIX signals.
+* sieve - Integer only, large memory, highly unpredictable code flow algorithm to find prime numbers. Similar load to programs which perform complex code flows involving integer data in fairly large quantities.
+* string_rtns - Character and string manipulation using library routines.
+* sort_rtns_1 - Sorts and searches a table of values using library routines.
+* stream_pipe - IPC using UNIX domain streams.
+* tcp_test - IPC using TCP in a loopback mode via sockets.
+* trig_rtns - Exercises the trig-related (sin(), cos(), etc.) library routines.
+* udp_test - IPC using UDP in a loopback mode via sockets.
+* disk_rr - Random read of a file's contents.
+* disk_rw - Random write of a file's contents.
+* disk_rd - Sequential read of a file's contents.
+* disk_wrt - Sequential write of a file's contents.
+* disk_cp - Copy of a file's contents.
+* disk_brr - Random bufcache read of a file's contents.
+* disk_brw - Random bufcache write of a file's contents.
+* disk_brd - Random bufcache write of a file's contents.
+* disk_bwrt - Sequential bufcache write of a file's contents.
+* disk_bcp - Bufcache copy of a file's contents.
+* sync_disk_rw - Disk file random writes using synchronous writes.
+* sync_disk_wrt - Disk file sequential writes using synchronous writes.
+* sync_disk_cp - Disk file copy using synchronous writes.
+* disk_src - Directory searches.
+
+Reaim can be run with other sets of tasks, but this one is the most complex.
+
+QADB import: Parent Time, Child SysTime, Child UTime, Jobs per minute, Jobs/min/child, Std_dev Time, Std_dev Percent, JTI (job timing index) for every run (every Num Forked).

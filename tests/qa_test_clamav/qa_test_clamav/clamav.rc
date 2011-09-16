@@ -1,0 +1,22 @@
+#!/bin/bash
+
+BACKUPDIR=/var/tmp
+CONFF=freshclam.conf
+CONF=/etc/$CONFF
+
+backup_config(){
+   cp -a $CONF $BACKUPDIR 2> /dev/null || exit 2
+}
+
+install_config(){
+   test -z "$1" && exit 2
+   
+   echo -e "DatabaseMirror db.de.clamav.net" >> $CONF
+}
+
+restore_config(){
+   cp -a $BACKUPDIR/$CONFF /etc
+
+   rm $BACKUPDIR/$CONFF
+}
+

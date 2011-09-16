@@ -1,0 +1,25 @@
+# test blacklisted due to a poor design (the test need to be fixed)
+#timer 600
+#fg 1 shar-1 /usr/share/qa/qa_test_sharutils/upstream_wrapper.sh shar-1
+#wait
+
+timer 600
+fg 1 shar-2 /usr/share/qa/qa_test_sharutils/upstream_wrapper.sh shar-2
+wait
+
+timer 600
+fg 1 shar-3 /usr/share/qa/qa_test_sharutils/upstream_wrapper.sh shar-3
+wait
+
+timer 600
+fg 1 uude-1 /usr/share/qa/qa_test_sharutils/upstream_wrapper.sh uude-1
+wait
+
+timer 600
+fg 1 uutest-1 /usr/share/qa/qa_test_sharutils/upstream_wrapper.sh uutest-1
+wait
+
+timer 600
+fg 1 UUCODE /usr/share/qa/qa_test_sharutils/sharutils_uucode.sh /usr/share/qa/qa_test_sharutils/data
+wait
+

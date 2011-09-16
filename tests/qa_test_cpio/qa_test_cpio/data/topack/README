@@ -1,0 +1,174 @@
+INIT.D(7)             The SuSE boot concept             INIT.D(7)
+
+
+
+NAME
+       INIT.D - The SuSE boot concept
+
+SYNOPSIS
+       /etc/init.d/*
+
+       /etc/rc.config
+
+DESCRIPTION
+       The  scripts  for  controlling  the  system  are placed in
+       /etc/init.d/ (they have  been  moved  accordingly  to  the
+       Linux  Standard  Base (LSB) specification).  These scripts
+       are executed directly or  indirectly  by  /sbin/init,  the
+       father  of  all processes. The configuration of /sbin/init
+       is given by the file /etc/inittab (see inittab(5)).
+
+       At   boot   time,   the   boot   level    master    script
+       /etc/init.d/boot  is called to initialise the system (e.g.
+       file system check, ...).  It also executes  some  hardware
+       init  scripts  linked  into  /etc/init.d/boot.d/.  Then it
+       calls /etc/init.d/boot.local,  which  executes  the  local
+       commands.
+
+       After  system  startup, /sbin/init will normally switch on
+       the default run level given in /etc/inittab.  It calls the
+       run  level  master  script /etc/init.d/rc to start or stop
+       services provided by the other scripts under /etc/init.d/.
+
+       To  control the services of a run level, the corresponding
+       scripts   are   linked   into   run   level    directories
+       /etc/init.d/rc<X>.d/, where <X>=0,1,2,3,4,5,6,S is the run
+       level number.
+
+       There are two kinds of symbolic link: start  links,  which
+       are  called  when  entering  a  run level, and stop links,
+       which are called when leaving a run level.  Note that each
+       service  in  the  run  levels 2, 3, 4, and 5 consists of a
+       start and a stop link.  Within SuSE boot concept a differ­
+       ential link scheme is used to be able to change a runlevel
+       in comparision with the former level.
+
+       To avoid redundant starts when changing  run  levels  only
+       those  services  are  started, which have no start link in
+       the previous run level.  And to avoid redundant stops when
+       changing run levels, only those services are stopped which
+       have no start link in the current level. To  control  this
+       behaviour, the names of the scripts are added on the names
+       of the start and stop links.
+
+       To control the order of  service  starts  and  stops,  the
+       start  and stop links include a number in their link name.
+
+       The system configuration file /etc/rc.config contains most
+       of the variables used to configure the installed services.
+       These variables can easily be changed by YaST or by  using
+       an  editor. After using an editor, the script /sbin/SuSEc­
+       onfig must be called to distribute the settings  into  the
+       system.
+
+   Some details
+       The  script  /etc/init.d/lpd  starts  or  stops  the  line
+       printer daemon for the printing service, according to  the
+       flag used:
+
+              /etc/init.d/lpd start
+       and
+
+              /etc/init.d/lpd stop
+
+       To  do  this  automatically in run level 3, this script is
+       linked into /etc/init.d/rc3.d/  with  these  two  symbolic
+       links
+
+              /etc/init.d/rc3.d/S20lpd -> ../lpd
+       and
+
+              /etc/init.d/rc3.d/K20lpd -> ../lpd
+
+       The  corresponding link with the letter S is used to start
+       a service. For the printing service the number between the
+       letter S and the name should be greater than the number of
+       the start link of the network service.  The  corresponding
+       link with the letter K is used to stop a service. The num­
+       ber of the stop link for the printing  service  should  be
+       less than that of the stop link for the network service so
+       that the printer daemon is stopped  before  shutting  down
+       the network service.
+
+   Run levels and their services
+       0      This level is used for halting the system. The only
+              valid service for this level is  the  script  halt,
+              which   is  linked  into  /etc/init.d/rc0.d/.   The
+              script halt executes /etc/init.d/halt.local.   Spe­
+              cials  system  issues  for halt or reboot should be
+              added there.
+
+       6      This level is used for rebooting  the  system.  The
+              only  valid  service  for  this level is the script
+              reboot, which is  linked  into  /etc/init.d/rc6.d/.
+              The  script reboot executes /etc/init.d/halt.local.
+              Specials system issues for halt or reboot should be
+              added there.
+
+       S      This  mode  is  used to switch from boot phase into
+              single user mode.  The last valid service for  this
+              mode  is  the  script  single, which is linked into
+              /etc/init.d/rcS.d/.  In this mode you have only one
+              console.
+
+       1      Accordingly to the Linux Standard Base (LSB) speci­
+              fication this runlevel is used to switch from  nor­
+              mal  runlevel  into single user mode.  This is dif­
+              ferent from former SuSE Linux versions!
+
+       2      The run level 2 is without network.  Note  that  on
+              some  other systems this is identical with the sin­
+              gle user mode. This run level can  have  more  than
+              one virtual console.
+
+       3      The  run level 3 is with network. This run level is
+              for server stations not automatically running X.
+
+       5      The level 5 is with network and xdm(1).  You should
+              have  a  configured  and perfectly running X Window
+              System for this work station run level.
+
+       4      The run level 4 is not (yet) used.
+
+       /etc/init.d/skeleton
+              This script is a model for writing your  own.   You
+              can  use insserv(8) to include your own script into
+              a run level.
+
+
+FILES
+       /etc/init.d/*
+       /etc/init.d/boot
+       /etc/init.d/boot.local
+       /etc/init.d/halt
+       /etc/init.d/halt.local
+       /etc/init.d/rc
+       /etc/init.d/reboot
+       /etc/init.d/skeleton
+       /etc/init.d/single
+       /etc/init.d/boot.d/S[0-9][0-9]*
+       /etc/init.d/rc0.d/{K,S}[0-9][0-9]*
+       /etc/init.d/rc1.d/{K,S}[0-9][0-9]*
+       /etc/init.d/rc2.d/{K,S}[0-9][0-9]*
+       /etc/init.d/rc3.d/{K,S}[0-9][0-9]*
+       /etc/init.d/rc4.d/{K,S}[0-9][0-9]*
+       /etc/init.d/rc5.d/{K,S}[0-9][0-9]*
+       /etc/init.d/rc6.d/{K,S}[0-9][0-9]*
+       /etc/init.d/rcS.d/{K,S}[0-9][0-9]*
+       /etc/inittab
+       /etc/rc.config
+
+SEE ALSO
+       insserv(8), init(8), inittab(5), and the SuSE Linux  hand­
+       book, chapter The SuSE boot concept.
+
+COPYRIGHT
+       1996-2002 SuSE Linux AG, Nuernberg, Germany.
+
+AUTHORS
+       Florian   La   Roche   <feedback@suse.de>,   Werner   Fink
+       <werner@suse.de>, Burchard Steinbild <feedback@suse.de>.
+
+
+
+Version 0.4                Nov 15, 2000                 INIT.D(7)

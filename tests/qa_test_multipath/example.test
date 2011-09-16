@@ -1,0 +1,60 @@
+#!/bin/bash
+##
+# Test template
+##
+. /usr/share/qa/qa_sw_multipath/functions.sh
+. /usr/lib/ctcs2/lib/sh/functions.sh
+
+#backup previously used config
+backup_conf
+
+#specify multipath config used in test
+CONFIG=$DATA_DIR/path_checker_tur
+
+#specify map name to be used
+#eg alias or serail number of the LUN
+map=""
+
+#reset ctcs error count
+reseterr
+
+#connect iscsi target
+iscsi_connect
+
+#deploy and prepare multipatd daemon
+prepare
+checkerror
+
+#get devices of the path
+get_paths
+PATHS_NUMBER=$[${#PATHS[*]}-1]
+#get each path status of the $map
+paths_status
+
+#do test
+for n in `seq 1 $PATHS_NUMBER`; 
+do
+#fail path for the map
+	fail_path $n
+	sleep 30;
+	paths_status
+	check_failed $n
+	checkerror
+
+#reconnect path
+	recover_path $n
+	sleep 30;
+	paths_status
+	check_active $n
+	checkerror
+done
+#clean multipath daemon / umount fs, flush dev map
+cleanup
+checkerror
+#disconnect iscsi target
+iscsi_diconnect
+checkerror
+#restore previously backedup conf
+restore_conf
+
+createresult

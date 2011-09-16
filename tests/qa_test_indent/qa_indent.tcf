@@ -1,0 +1,11 @@
+timer 300
+fg 1 indent_orig /usr/share/qa/qa_test_indent/indent_orig.sh 
+wait
+
+timer 300
+fg 1 indent_10 /usr/share/qa/qa_test_indent/indent_10.sh 
+wait
+
+timer 300
+fg 1 TESTSUITE /usr/share/qa/qa_test_indent/regression/TEST
+wait

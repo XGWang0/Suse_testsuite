@@ -1,0 +1,3 @@
+timer 300
+fg 1 cpio_differentarchives  /usr/share/qa/qa_test_cpio/cpio_differentarchives.pl
+wait
