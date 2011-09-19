@@ -71,7 +71,7 @@ gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
-(cd memtst.src ; cp memtst maxalloc $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/newburn)
+(cd memtst.src ; cp memtst maxalloc $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn)
 cp blockrdtst blockrdtst-info info_linux messages newburn-generator vmstat-wrapper $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
 cp dmesg kernel newburn timestamp $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
 cp print_disk_info flushb flushb.src/flushb.real $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
