@@ -1,0 +1,45 @@
+#!/bin/bash
+
+this="`which "$0"`"
+cd "`dirname "$this"`"
+source shared.sh
+
+assert_command osc
+
+[ $# -ne 1 ] && echo "Usage: $0 <package>" && exit
+[ ! -d "$1" ] && echo "Error: $1 is not a directory." && exit 1
+
+package="`basename "$1"`"
+
+# initialize dir as BS package (but keep current BS metadata)
+dir=`mktemp -d`
+pushd $dir > /dev/null
+
+if ! osc_init "$project" "$package" ; then
+	echo "Error: Package $package does not exist in the project $project." >&2
+	rm -fr $dir
+	exit 1
+fi
+popd > /dev/null
+
+# prepare and copy files to the ibs projects
+cd "$1"
+package_prepare
+copy_package_sources "$dir"
+package_cleanup
+cd - > /dev/null
+
+# build
+cd $dir
+$iosc help repairwc > /dev/null 2>&1 &&  $iosc repairwc .
+echo
+echo '+-- RUNNING BUILD ----------------------------------------------------------------'
+echo
+$iosc build SUSE_SLE-11-SP1_GA
+res=$?
+echo
+echo '+-- BUILD FINISHED ---------------------------------------------------------------'
+echo
+rm -fr "$dir"
+
+exit $res
