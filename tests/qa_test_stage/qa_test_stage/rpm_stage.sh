@@ -114,8 +114,10 @@ do
  
  
  	# scp the "now" rpm to the SUT (stage machine)
- 	monitor_hostip="$2"
- 	scp -r root@$monitor_hostip$monitor_remote_dir/nowrunning root@$host_ip:$rpm_dir/
+	rm -rf /tmp/nowrunning
+ 	scp -r root@$monitor_hostip:$monitor_remote_dir/nowrunning /tmp/
+       	scp -r /tmp/nowrunning root@$host_ip:$rpm_dir/
+
  	if [ $? != 0 ];then
  		echo "scp file failed"
  		e_clean
