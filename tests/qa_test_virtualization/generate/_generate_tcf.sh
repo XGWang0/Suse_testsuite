@@ -2,7 +2,6 @@
 
 timer=6000
 
-cd qa_test_virtualization/
 type="$1"
 
 [ "$type" == "" ] && type=standalone
