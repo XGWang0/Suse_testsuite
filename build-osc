@@ -35,7 +35,7 @@ $iosc help repairwc > /dev/null 2>&1 &&  $iosc repairwc .
 echo
 echo '+-- RUNNING BUILD ----------------------------------------------------------------'
 echo
-$iosc build SUSE_SLE-11-SP1_GA
+$iosc build --no-verify SUSE_SLE-11-SP1_GA
 res=$?
 echo
 echo '+-- BUILD FINISHED ---------------------------------------------------------------'
