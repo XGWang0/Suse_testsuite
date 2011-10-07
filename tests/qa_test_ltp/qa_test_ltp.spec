@@ -161,7 +161,7 @@ Authors:
 find testcases | gzip --fast > TC_INDEX.gz
 
 make all %{?jobs:-j%jobs}
-make -C testcases/open_posix_testsuite all %{?jobs:-j%jobs}
+make -C testcases/open_posix_testsuite all
 
 %install
 
