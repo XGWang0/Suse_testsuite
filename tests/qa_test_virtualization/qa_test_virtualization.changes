@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Oct  5 15:47:33 CEST 2011 - llipavsky@suse.cz
+
+- fix bug#656046 testcase generator use local files instead of 
+  build rpm
+
+-------------------------------------------------------------------
 Wed Aug 17 10:05:53 GMT 2011 - llipavsky@suse.cz
 
 - Remove qa_dummy dependency
