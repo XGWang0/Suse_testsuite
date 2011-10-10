@@ -17,10 +17,10 @@ Group:          SuSE internal
 Summary:        Unittests for openssl framework using the system openssl
 Provides:	qa_openssl
 Obsoletes:	qa_openssl
-Requires:       make openssl bc ctcs2
-BuildRequires:  make openssl bc ctcs2
+Requires:       make openssl bc ctcs2 libopenssl-devel
+BuildRequires:  make openssl bc ctcs2 libopenssl-devel
 Version:        1.0.0e
-Release:        1
+Release:        2
 Source0:        %name-%version.tar.bz2
 Source1:        qa_openssl.tcf
 Source2:        test_openssl-run

@@ -1,5 +1,10 @@
 -------------------------------------------------------------------
-Mon Oct 10 14:33:00 CET 2011 - kmachalkova@suse.cz
+Mon Oct 10 16:38:00 CET 2011 - tchvatal@suse.cz
 
-- package created, version 0.1, based of 1.0.0e testsutite
+- add missing deps
+
+-------------------------------------------------------------------
+Mon Oct 10 14:33:00 CET 2011 - tchvatal@suse.cz
+
+- package created, version 1.0.0e testsutite
 
