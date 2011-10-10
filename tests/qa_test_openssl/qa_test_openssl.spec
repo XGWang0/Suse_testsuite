@@ -20,7 +20,7 @@ Obsoletes:	qa_openssl
 Requires:       make openssl bc ctcs2 libopenssl-devel
 BuildRequires:  make openssl bc ctcs2 libopenssl-devel
 Version:        1.0.0e
-Release:        2
+Release:        3
 Source0:        %name-%version.tar.bz2
 Source1:        qa_openssl.tcf
 Source2:        test_openssl-run
@@ -57,6 +57,7 @@ install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}/tcf
 install -m 644 %{S:1} $RPM_BUILD_ROOT/%{qa_location}/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/%{qa_location}
+touch %{qa_location}/tcf/qa_openssl.tcf
 
 %post
 cat %{qa_location}/ctcs2_test_list | while read test; do
