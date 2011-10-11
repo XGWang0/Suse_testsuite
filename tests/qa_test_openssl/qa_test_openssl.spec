@@ -19,7 +19,7 @@ Provides:	qa_openssl
 Obsoletes:	qa_openssl
 Requires:       make openssl bc ctcs2 libopenssl-devel
 BuildRequires:  make openssl bc ctcs2 libopenssl-devel
-%if 0%{?sles_version} < 12
+%if 0%{?suse_version} < 1120
 Version:	0.9.8r
 %else
 Version:        1.0.0e
@@ -41,12 +41,13 @@ Test cases for openssl package.
 
 %prep
 %setup -q -n %{name}-%{version}
+echo "SLES: %{?sles_version}"
 cat test/Makefile |grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' > ./ctcs2_test_list
 
 echo -en "#!/bin/bash\ncd %{qa_location}/test\nmake \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
 chmod +x ./ctcs2_run_test.sh
 
-%if 0%{?sles_version} < 12
+%if 0%{?suse_version} < 1120
 %patch1 -p1
 %else
 cd test
@@ -71,7 +72,8 @@ install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}/tcf
 install -m 644 %{S:1} $RPM_BUILD_ROOT/%{qa_location}/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/%{qa_location}
-touch $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_openssl.tcf
+touch $RPM_BUILD_ROOT/%{qa_location}/qa_openssl.tcf
+ln -s $RPM_BUILD_ROOT/%{qa_location}/qa_openssl.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 
 %post
