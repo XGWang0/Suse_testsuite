@@ -6,15 +6,15 @@ source shared.sh
 
 assert_command osc
 
-[ $# -ne 1 ] && echo "Usage: $0 <package> [target]" && exit
+[ $# -lt 1 ] && echo "Usage: $0 <package> [target]" && exit
 [ ! -d "$1" ] && echo "Error: $1 is not a directory." && exit 1
 
 package="`basename "$1"`"
 
-if [ -n $2 ]; then
-	target="$2"
+if [[ -n $2 ]]; then
+	release_target="$2"
 else
-	target="SUSE_SLE-11-SP1_GA"
+	release_target="SUSE_SLE-11-SP1_GA"
 fi
 
 # initialize dir as BS package (but keep current BS metadata)
@@ -41,7 +41,9 @@ $iosc help repairwc > /dev/null 2>&1 &&  $iosc repairwc .
 echo
 echo '+-- RUNNING BUILD ----------------------------------------------------------------'
 echo
-$iosc build --no-verify $target
+echo "cmd: $iosc build --no-verify $release_target"
+echo
+$iosc build --no-verify $release_target
 res=$?
 echo
 echo '+-- BUILD FINISHED ---------------------------------------------------------------'
