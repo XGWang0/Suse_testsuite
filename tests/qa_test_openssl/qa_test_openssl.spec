@@ -24,12 +24,11 @@ Version:	0.9.8r
 %else
 Version:        1.0.0e
 %endif
-Release:        3
+Release:        5
 Source0:        %name-%version.tar.bz2
-Source1:        qa_openssl.tcf
-Source2:        test_openssl-run
-Source3:        qa_test_openssl.8
-Source4:	generate_openssl_tests.sh
+Source1:        test_openssl-run
+Source2:        qa_test_openssl.8
+Source3:	generate_openssl_tests.sh
 Patch0:		qa_test_openssl-Makefile-1.0.0e.patch
 Patch1:		qa_test_openssl-Makefile-0.9.8r.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -63,14 +62,13 @@ make tests
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}
 install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}/tcf
-install -m 644 %{S:1} $RPM_BUILD_ROOT/%{qa_location}/tcf
-install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/%{qa_location}
 touch $RPM_BUILD_ROOT/%{qa_location}/qa_openssl.tcf
 ln -s $RPM_BUILD_ROOT/%{qa_location}/qa_openssl.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
