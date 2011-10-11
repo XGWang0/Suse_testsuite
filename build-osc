@@ -6,10 +6,16 @@ source shared.sh
 
 assert_command osc
 
-[ $# -ne 1 ] && echo "Usage: $0 <package>" && exit
+[ $# -ne 1 ] && echo "Usage: $0 <package> [target]" && exit
 [ ! -d "$1" ] && echo "Error: $1 is not a directory." && exit 1
 
 package="`basename "$1"`"
+
+if [ -n $2 ]; then
+	target="$2"
+else
+	target="SUSE_SLE-11-SP1_GA"
+fi
 
 # initialize dir as BS package (but keep current BS metadata)
 dir=`mktemp -d`
@@ -35,7 +41,7 @@ $iosc help repairwc > /dev/null 2>&1 &&  $iosc repairwc .
 echo
 echo '+-- RUNNING BUILD ----------------------------------------------------------------'
 echo
-$iosc build --no-verify SUSE_SLE-11-SP1_GA
+$iosc build --no-verify $target
 res=$?
 echo
 echo '+-- BUILD FINISHED ---------------------------------------------------------------'
