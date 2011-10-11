@@ -54,12 +54,6 @@ fix_test_symlinks() {
 	popd > /dev/null
 }
 
-fix_test_makefile() {
-	pushd "${PACKAGE}/test" > /dev/null
-	patch -p1 < "${WORKDIR}"/generate_openssl_tests_makefile.patch > /dev/null
-	popd > /dev/null
-}
-
 fix_test_executable() {
 	pushd "${PACKAGE}" > /dev/null
 	mkdir apps/ &> /dev/null
@@ -86,7 +80,6 @@ mkdir -p "${PACKAGE}"
 
 extract_tests
 fix_test_symlinks
-fix_test_makefile
 fix_test_executable
 
 tar cjf "${PACKAGE}".tar.bz2 "${PACKAGE}"
