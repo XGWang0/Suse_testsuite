@@ -1,6 +1,11 @@
 -------------------------------------------------------------------
 Tue Oct 11 14:52:00 CET 2011 - tchvatal@suse.cz
 
+- remove the compilation from build, it is done during the test
+
+-------------------------------------------------------------------
+Tue Oct 11 14:52:00 CET 2011 - tchvatal@suse.cz
+
 - fixup all mentions of the unused file in spec
 
 -------------------------------------------------------------------

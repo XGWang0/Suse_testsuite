@@ -55,10 +55,6 @@ cd test
 
 
 %build
-cd test
-make
-make tests
-
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
