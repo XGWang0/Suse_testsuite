@@ -41,9 +41,9 @@ $iosc help repairwc > /dev/null 2>&1 &&  $iosc repairwc .
 echo
 echo '+-- RUNNING BUILD ----------------------------------------------------------------'
 echo
-echo "cmd: $iosc build --no-verify $release_target"
+echo "cmd: $iosc build --no-verify $release_target --root /var/tmp/build-$release_target"
 echo
-$iosc build --no-verify $release_target
+$iosc build --no-verify $release_target --root /var/tmp/build-$release_target
 res=$?
 echo
 echo '+-- BUILD FINISHED ---------------------------------------------------------------'
