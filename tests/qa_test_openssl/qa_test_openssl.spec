@@ -24,7 +24,7 @@ Version:	0.9.8r
 %else
 Version:        1.0.0e
 %endif
-Release:        5
+Release:        6
 Source0:        %name-%version.tar.bz2
 Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
@@ -67,7 +67,7 @@ install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}/tcf
 install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/%{qa_location}
 touch $RPM_BUILD_ROOT/%{qa_location}/qa_openssl.tcf
-ln -s $RPM_BUILD_ROOT/%{qa_location}/qa_openssl.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s %{qa_location}/qa_openssl.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 
 %post
