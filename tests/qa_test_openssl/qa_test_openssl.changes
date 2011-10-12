@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Oct 12 10:30:00 CET 2011 - tchvatal@suse.cz
+
+- fix tcf file location, also add clean as last target
+
+-------------------------------------------------------------------
 Wed Oct 12 10:00:00 CET 2011 - tchvatal@suse.cz
 
 - fix all warnings about perl and dupes

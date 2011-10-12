@@ -73,13 +73,14 @@ ln -s %{qa_location}/qa_openssl.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 
 %post
-echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > %{qa_location}/tcf/qa_openssl.tcf
+echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > %{qa_location}/qa_openssl.tcf
 cat %{qa_location}/ctcs2_test_list | while read test; do
 	echo "timer 300"
 	echo -en "fg 1 "
 	echo -en "$test %{qa_location}/ctcs2_run_test.sh $test\n"
 	echo -en "wait\n\n"
-done >> %{qa_location}/tcf/qa_openssl.tcf
+done >> %{qa_location}/qa_openssl.tcf
+echo -en "timer 300\nfg 1 clean %{qa_location}/ctcs2_run_test.sh clean\nwait\n\n" >> %{qa_location}/qa_openssl.tcf
 
 
 %clean
