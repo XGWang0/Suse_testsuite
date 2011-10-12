@@ -1,7 +1,12 @@
 -------------------------------------------------------------------
+Wed Oct 12 10:00:00 CET 2011 - tchvatal@suse.cz
+
+- fix all warnings about perl and dupes
+
+-------------------------------------------------------------------
 Wed Oct 12 09:14:00 CET 2011 - tchvatal@suse.cz
 
-- fix symlink creation to not at buildroot
+- fix symlink creation to not point at buildroot
 
 -------------------------------------------------------------------
 Tue Oct 11 14:52:00 CET 2011 - tchvatal@suse.cz

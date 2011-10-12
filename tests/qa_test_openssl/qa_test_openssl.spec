@@ -17,8 +17,8 @@ Group:          SuSE internal
 Summary:        Unittests for openssl framework using the system openssl
 Provides:	qa_openssl
 Obsoletes:	qa_openssl
-Requires:       make openssl bc ctcs2 libopenssl-devel
-BuildRequires:  make openssl bc ctcs2 libopenssl-devel
+Requires:       make openssl bc ctcs2 libopenssl-devel perl
+BuildRequires:  make openssl bc ctcs2 libopenssl-devel perl
 %if 0%{?suse_version} < 1120
 Version:	0.9.8r
 %else
@@ -45,6 +45,8 @@ cat test/Makefile |grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1
 
 echo -en "#!/bin/bash\ncd %{qa_location}/test\nmake \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
 chmod +x ./ctcs2_run_test.sh
+
+sed -i -e 's:/usr/local/bin/perl:/usr/bin/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %if 0%{?suse_version} < 1120
 %patch1 -p1
@@ -86,10 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
-/usr/share/qa
-%{qa_location}
-/usr/share/qa/tcf/qa_openssl.tcf
-/usr/share/qa/tools/test_openssl-run
+/usr/share/qa/
 /usr/share/man/man8/qa_test_openssl.8.gz
 
 
