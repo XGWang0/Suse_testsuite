@@ -24,7 +24,7 @@ Version:	0.9.8r
 %else
 Version:        1.0.0e
 %endif
-Release:        6
+Release:        12
 Source0:        %name-%version.tar.bz2
 Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
@@ -58,9 +58,11 @@ cd test
 
 # SLE 10 does not have this flag, it was added during 0.9.8e release
 # SLE 10 does not have support for IGE
+# SLE 10 does not have CAMELIA and SEED cypher
 %if 0%{?suse_version} < 1100
 cd test
 sed -i -e '/RSA_FLAG_NO_CONSTTIME/ d' rsa_test.c
+sed -i -e 's:#define HEADER_E_OS_H:#define HEADER_E_OS_H\n#define OPENSSL_NO_CAMELLIA\n#define OPENSSL_NO_SEED\n:' ../e_os.h
 %patch2 -p1 
 %endif
 
@@ -68,6 +70,7 @@ sed -i -e '/RSA_FLAG_NO_CONSTTIME/ d' rsa_test.c
 %build
 cd test
 make
+#make tests # some tests fail on sle10 now, cancel them so we still have packages
 make clean
 
 %install
