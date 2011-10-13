@@ -41,9 +41,6 @@ Test cases for openssl package.
 
 %prep
 %setup -q -n %{name}-%{version}
-echo "SLES: %{?sles_version}"
-cat test/Makefile |grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' > ./ctcs2_test_list
-
 echo -en "#!/bin/bash\ncd %{qa_location}/test\nmake \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
 chmod +x ./ctcs2_run_test.sh
 
@@ -65,6 +62,8 @@ sed -i -e '/RSA_FLAG_NO_CONSTTIME/ d' rsa_test.c
 sed -i -e 's:#define HEADER_E_OS_H:#define HEADER_E_OS_H\n#define OPENSSL_NO_CAMELLIA\n#define OPENSSL_NO_SEED\n:' ../e_os.h
 %patch2 -p1 
 %endif
+
+cat test/Makefile |grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' > ./ctcs2_test_list
 
 
 %build
