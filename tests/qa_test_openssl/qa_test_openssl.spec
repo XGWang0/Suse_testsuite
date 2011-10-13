@@ -65,7 +65,7 @@ sed -i -e 's:#define HEADER_E_OS_H:#define HEADER_E_OS_H\n#define OPENSSL_NO_CAM
 popd > /dev/null
 %endif
 
-cat test/Makefile |grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' > ./ctcs2_test_list
+cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list
 
 
 %build
