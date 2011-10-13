@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Oct 13 12:02:00 CET 2011 - tchvatal@suse.cz
+
+- make the build run every time just to make sure it is compilable
+- add patches required to make it pass on sle10, as they do not
+  provide some functions
+
+-------------------------------------------------------------------
 Wed Oct 12 10:30:00 CET 2011 - tchvatal@suse.cz
 
 - fix tcf file location, also add clean as last target

@@ -31,6 +31,7 @@ Source2:        qa_test_openssl.8
 Source3:	generate_openssl_tests.sh
 Patch0:		qa_test_openssl-Makefile-1.0.0e.patch
 Patch1:		qa_test_openssl-Makefile-0.9.8r.patch
+Patch2:		qa_test_openssl-sle10-drop-ige.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -55,8 +56,19 @@ cd test
 %patch0 -p1
 %endif
 
+# SLE 10 does not have this flag, it was added during 0.9.8e release
+# SLE 10 does not have support for IGE
+%if 0%{?suse_version} < 1100
+cd test
+sed -i -e '/RSA_FLAG_NO_CONSTTIME/ d' rsa_test.c
+%patch2 -p1 
+%endif
+
 
 %build
+cd test
+make
+make clean
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8

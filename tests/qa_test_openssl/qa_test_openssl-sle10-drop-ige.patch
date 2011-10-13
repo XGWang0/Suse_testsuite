@@ -1,0 +1,58 @@
+--- a/Makefile	2011-10-13 11:50:45.135965649 +0200
++++ b/Makefile	2011-10-13 11:51:18.739750899 +0200
+@@ -58,7 +58,6 @@
+ RSATEST=	rsa_test
+ ENGINETEST=	enginetest
+ EVPTEST=	evp_test
+-IGETEST=	igetest
+ 
+ TESTS=		alltests
+ 
+@@ -69,7 +68,7 @@
+ 	$(MDC2TEST)$(EXE_EXT) $(RMDTEST)$(EXE_EXT) \
+ 	$(RANDTEST)$(EXE_EXT) $(DHTEST)$(EXE_EXT) $(ENGINETEST)$(EXE_EXT) \
+ 	$(BFTEST)$(EXE_EXT) $(CASTTEST)$(EXE_EXT) $(SSLTEST)$(EXE_EXT) $(EXPTEST)$(EXE_EXT) $(DSATEST)$(EXE_EXT) $(RSATEST)$(EXE_EXT) \
+-	$(EVPTEST)$(EXE_EXT) $(IGETEST)$(EXE_EXT) \
++	$(EVPTEST)$(EXE_EXT) \
+ 	jpaketest$(EXE_EXT)
+ 
+ # $(METHTEST)$(EXE_EXT)
+@@ -82,7 +81,7 @@
+ 	$(MDC2TEST).o $(RMDTEST).o \
+ 	$(RANDTEST).o $(DHTEST).o $(ENGINETEST).o $(CASTTEST).o \
+ 	$(BFTEST).o  $(SSLTEST).o  $(DSATEST).o  $(EXPTEST).o $(RSATEST).o \
+-	$(EVPTEST).o $(IGETEST).o \
++	$(EVPTEST).o \
+ 	jpaketest.o
+ 
+ SRC=	$(BNTEST).c $(ECTEST).c  $(ECDSATEST).c $(ECDHTEST).c $(IDEATEST).c \
+@@ -92,7 +91,7 @@
+ 	$(DESTEST).c $(SHATEST).c $(SHA1TEST).c $(MDC2TEST).c $(RMDTEST).c \
+ 	$(RANDTEST).c $(DHTEST).c $(ENGINETEST).c $(CASTTEST).c \
+ 	$(BFTEST).c  $(SSLTEST).c $(DSATEST).c   $(EXPTEST).c $(RSATEST).c \
+-	$(EVPTEST).c $(IGETEST).c \
++	$(EVPTEST).c \
+ 	jpaketest.c
+ 
+ EXHEADER= 
+@@ -284,10 +283,6 @@
+ #	@echo "test Rijndael"
+ #	../util/shlib_wrap.sh ./$(AESTEST)
+ 
+-test_ige: $(IGETEST)$(EXE_EXT)
+-	@echo "Test IGE mode"
+-	../util/shlib_wrap.sh ./$(IGETEST)
+-
+ test_jpake: jpaketest$(EXE_EXT)
+ 	@echo "Test JPAKE"
+ 	../util/shlib_wrap.sh ./jpaketest
+@@ -407,9 +402,6 @@
+ $(ECDHTEST)$(EXE_EXT): $(ECDHTEST).o $(DLIBCRYPTO)
+ 	@target=$(ECDHTEST); $(BUILD_CMD)
+ 
+-$(IGETEST)$(EXE_EXT): $(IGETEST).o $(DLIBCRYPTO)
+-	@target=$(IGETEST); $(BUILD_CMD)
+-
+ jpaketest$(EXE_EXT): jpaketest.o $(DLIBCRYPTO)
+ 	@target=jpaketest; $(BUILD_CMD)
+ 
