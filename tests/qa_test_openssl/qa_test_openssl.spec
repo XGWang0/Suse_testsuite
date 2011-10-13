@@ -24,7 +24,7 @@ Version:	0.9.8r
 %else
 Version:        1.0.0e
 %endif
-Release:        12
+Release:        13
 Source0:        %name-%version.tar.bz2
 Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
@@ -49,18 +49,20 @@ sed -i -e 's:/usr/local/bin/perl:/usr/bin/perl:g' util/*.{pl,sh} util/pl/*.pl
 %if 0%{?suse_version} < 1120
 %patch1 -p1
 %else
-cd test
+pushd test > /dev/null
 %patch0 -p1
+popd > /dev/null
 %endif
 
 # SLE 10 does not have this flag, it was added during 0.9.8e release
 # SLE 10 does not have support for IGE
 # SLE 10 does not have CAMELIA and SEED cypher
 %if 0%{?suse_version} < 1100
-cd test
+pushd test > /dev/null
 sed -i -e '/RSA_FLAG_NO_CONSTTIME/ d' rsa_test.c
 sed -i -e 's:#define HEADER_E_OS_H:#define HEADER_E_OS_H\n#define OPENSSL_NO_CAMELLIA\n#define OPENSSL_NO_SEED\n:' ../e_os.h
 %patch2 -p1 
+popd > /dev/null
 %endif
 
 cat test/Makefile |grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' > ./ctcs2_test_list
@@ -82,19 +84,15 @@ install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}
 install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}/tcf
 install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/%{qa_location}
-touch $RPM_BUILD_ROOT/%{qa_location}/qa_openssl.tcf
-ln -s %{qa_location}/qa_openssl.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
-
-%post
-echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > %{qa_location}/qa_openssl.tcf
-cat %{qa_location}/ctcs2_test_list | while read test; do
+echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
+cat $RPM_BUILD_ROOT/%{qa_location}/ctcs2_test_list | while read test; do
 	echo "timer 300"
 	echo -en "fg 1 "
 	echo -en "$test %{qa_location}/ctcs2_run_test.sh $test\n"
 	echo -en "wait\n\n"
-done >> %{qa_location}/qa_openssl.tcf
-echo -en "timer 300\nfg 1 clean %{qa_location}/ctcs2_run_test.sh clean\nwait\n\n" >> %{qa_location}/qa_openssl.tcf
+done >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
+echo -en "timer 300\nfg 1 clean %{qa_location}/ctcs2_run_test.sh clean\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
 
 
 %clean
