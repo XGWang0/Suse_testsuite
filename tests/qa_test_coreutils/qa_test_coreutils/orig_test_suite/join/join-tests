@@ -1,4 +1,27 @@
 #! /bin/sh
+# ****************************************************************************
+# Copyright Â© 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+
 # This script was generated automatically by mk-script.
 case $# in
   0) xx='join';;
@@ -684,7 +707,7 @@ else
   esac
 fi
 test -s sp-vs-blank.E || rm -f sp-vs-blank.E
-$xx -t§ $srcdir/8-bit-t.I1 $srcdir/8-bit-t.I2 > 8-bit-t.O 2> 8-bit-t.E
+$xx -tï¿½ $srcdir/8-bit-t.I1 $srcdir/8-bit-t.I2 > 8-bit-t.O 2> 8-bit-t.E
 code=$?
 if test $code != 0; then
   $echo "Test 8-bit-t failed: $xx return code $code differs from expected value 0" 1>&2
@@ -727,3 +750,4 @@ else
 fi
 test $errors = 0 || errors=1
 exit $errors
+
