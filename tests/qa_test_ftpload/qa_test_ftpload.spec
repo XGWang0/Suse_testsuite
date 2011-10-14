@@ -1,9 +1,28 @@
+# ****************************************************************************
+# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+
 #
 # spec file for package ftpload (Version 0.8.1)
-#
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
-# This file and all modifications and additions to the pristine
-# package are under the same license as the package itself.
 #
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
@@ -19,7 +38,7 @@ Provides:	qa_ftpload
 Obsoletes:	qa_ftpload
 Requires:       wget pure-ftpd ctcs2
 Group:          Development/Tools/Other
-License:        GPL v2 or later
+License:		SUSE Proprietary
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source0:        ftpload
 Source1:        test_ftpload-run
@@ -79,3 +98,4 @@ rm -rf $RPM_BUILD_ROOT
 - add man page of qa_test_ftpload
 * Wed Feb 15 2011 - aguo@novell.com
 - create ftpload package.
+
