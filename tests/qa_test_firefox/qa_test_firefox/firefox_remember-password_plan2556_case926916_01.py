@@ -48,7 +48,7 @@ fFrame = app.firefoxFrame
 print doc
 
 web_url = "http://www-archive.mozilla.org/quality/browser/front-end/testcases/wallet/login.html"
-master_pwd = "novell"
+master_pwd = "masterpwd"
 user = "qatest"
 password = "qatest"
 

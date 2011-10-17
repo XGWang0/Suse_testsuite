@@ -12,7 +12,7 @@ doc = """
 ===Autofill test===
 
 Step1: Launch http://live.gnome.org/action/login/Bugzilla?action=login
-Step2: Enter username/password of qatest/novell, then click the Login button
+Step2: Enter username/password of qatest/qapassword, then click the Login button
 Step3: Make sure Confirm alert appears to asking whether you wish to save the 
 username and password
 Step4: Click "Remember" button
@@ -40,9 +40,9 @@ fFrame = app.firefoxFrame
 print doc
 
 web_url = "http://live.gnome.org/action/login/Bugzilla?action=login"
-master_pwd = "novell"
+master_pwd = "masterpwd"
 user = "qatest"
-password = "novell"
+password = "qapassword"
 
 # Step8: Remove the exist password from Edit -> Preference
 menubar = fFrame.findMenuBar(None)
