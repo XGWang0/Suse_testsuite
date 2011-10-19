@@ -11,5 +11,9 @@ do
 	fi
 done
 
-mkdir -p $MOUNT_DIR1 && mount -t nfs 147.2.207.208:/srv/ftp/dist/install $MOUNT_DIR1
-mkdir -p $MOUNT_DIR2 && mount -t nfs 147.2.207.242:/mirror_a/VIRT-ISO $MOUNT_DIR2
+getSettings="../../virtautolib/lib/get-settings.sh"
+MOUNT1=`$getSettings MOUNT1.addr`
+MOUNT2=`$getSettings MOUNT2.addr`
+
+mkdir -p $MOUNT_DIR1 && mount -t nfs $MOUNT1:/srv/ftp/dist/install $MOUNT_DIR1
+mkdir -p $MOUNT_DIR2 && mount -t nfs $MOUNT2:/mirror_a/VIRT-ISO $MOUNT_DIR2
