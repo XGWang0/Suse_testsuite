@@ -19,12 +19,17 @@ Step4: Make sure listing of the location should be displayed
 # imports
 from strongwind import *
 from gnome_frame import *
+from gnome_config import *
 import os
 import subprocess
 
 print doc
 
-location = "147.2.207.135"
+location = ftp_server
+
+if location == "":
+    print "SKIP: Please give ftp_server setting in gnome_config.py and run test again"
+    exit(22)
 
 # Step1: Launch Nautilus
 try:
