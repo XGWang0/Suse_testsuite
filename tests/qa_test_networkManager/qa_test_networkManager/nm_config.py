@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ****************************************************************************
 # Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
@@ -20,8 +21,6 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
-
-# -*- coding: utf-8 -*-
 
 # Machines settings
 sys1_eth0_ip = ""
