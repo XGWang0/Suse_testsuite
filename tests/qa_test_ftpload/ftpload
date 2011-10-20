@@ -65,7 +65,7 @@ Options:
          -s   use the \"serial\" default template and do not use the wget 
               option --dot-style=mega . Intended for testing on a serial 
               PPP connection with small downloads. 
-         -t   valid e-mail identifying the tester, e.g. \"name <email@suse.de>\"
+         -t   valid e-mail identifying the tester, e.g. \"name <email@maildomain>\"
          -u   use the \"USB-Ether\" default log template
          -v   be verbose (for interactive rather than script use)
               The final r|s|u option overrides preceding ones.  
