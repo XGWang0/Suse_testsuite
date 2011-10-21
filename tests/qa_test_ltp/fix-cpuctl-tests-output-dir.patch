@@ -31,11 +31,11 @@ Signed-off-by: Jiri Benc <jbenc@suse.cz>
  testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh        |   45 +++++---
  2 files changed, 55 insertions(+), 41 deletions(-)
 
-Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
+Index: ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
 ===================================================================
---- ltp-full-20100831.orig/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
-+++ ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
-@@ -71,6 +71,13 @@ M=10;			# Default total num of tasks in 
+--- ltp-full-20110915.orig/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
++++ ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
+@@ -71,6 +71,13 @@ M=10;			# Default total num of tasks in
  PWD=`pwd`
  cd $LTPROOT/testcases/bin/
  
@@ -183,13 +183,13 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_t
  	cleanup;
  	cd $PWD
  	exit 0;		#to let PAN reprt success of test
-Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
+Index: ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
 ===================================================================
---- ltp-full-20100831.orig/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
-+++ ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
+--- ltp-full-20110915.orig/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
++++ ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
 @@ -61,6 +61,13 @@ PWD=`pwd`
  cd $LTPROOT/testcases/bin/
- NUM_CPUS=`cat /proc/cpuinfo | grep -w processor | wc -l`
+ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i processor | wc -l`
  
 +# Results directory
 +resdir="${LTPROOT}/results/cpuctl"
@@ -201,7 +201,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  . parameters.sh
  
  ##########################  main   #######################
-@@ -101,16 +108,16 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -101,16 +108,16 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  	"1" | "3" )
  		if [ -f cpuctl_test01 ]
  		then
@@ -223,7 +223,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  			if [ $? -ne 0 ]
  			then
  				echo "Error: Could not run ./cpuctl_task_$i"
-@@ -137,7 +144,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -137,7 +144,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  			exit -1;
  		fi
  		./cpuctl_def_task01 $i /dev/cpuctl/group_def $$ $NUM_CPUS \
@@ -232,7 +232,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  		if [ $? -ne 0 ]
  		then
  			echo "Error: Could not run ./cpuctl_def_task01"
-@@ -150,10 +157,10 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -150,10 +157,10 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  	"4" )
  		if [ -f cpuctl_test02 ]
  		then
@@ -247,7 +247,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  		for i in $(seq 1 $NUM_GROUPS)
  		do
  			MYGROUP=/dev/cpuctl/group_$i
-@@ -172,7 +179,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -172,7 +179,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  
  			GROUP_NUM=$i MYGROUP=$MYGROUP SCRIPT_PID=$SCRIPT_PID NUM_CPUS=$NUM_CPUS \
  			TEST_NUM=$TEST_NUM TASK_NUM=$TASK_NUM nice -n $NICELEVEL ./cpuctl_task_$TASK_NUM \
@@ -256,7 +256,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  			if [ $? -ne 0 ]
  			then
  				echo "Error: Could not run ./cpuctl_task_$TASK_NUM"
-@@ -203,7 +210,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -203,7 +210,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  		MYGROUP=/dev/cpuctl/group_def ;
  		GROUP_NUM=0 MYGROUP=$MYGROUP SCRIPT_PID=$SCRIPT_PID \
  		NUM_CPUS=$NUM_CPUS TEST_NUM=$TEST_NUM TASK_NUM=0 \
@@ -265,7 +265,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  		if [ $? -ne 0 ]
  		then
  			echo "Error: Could not run ./cpuctl_def_task02"
-@@ -216,10 +223,10 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -216,10 +223,10 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  	"5" )
  		if [ -f cpuctl_test02 ]
  		then
@@ -280,7 +280,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  		TASKS_IN_GROUP=3;
  		for i in $(seq 1 $NUM_GROUPS)
  		do
-@@ -232,7 +239,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -232,7 +239,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  
  			GROUP_NUM=$i MYGROUP=$MYGROUP SCRIPT_PID=$SCRIPT_PID NUM_CPUS=$NUM_CPUS \
  			TEST_NUM=$TEST_NUM TASK_NUM=$TASK_NUM ./cpuctl_task_$TASK_NUM \
@@ -289,7 +289,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  			if [ $? -ne 0 ]
  			then
  				echo "Error: Could not run ./cpuctl_task_$TASK_NUM"
-@@ -263,7 +270,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -263,7 +270,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  		MYGROUP=/dev/cpuctl/group_def ;
  		GROUP_NUM=0 MYGROUP=$MYGROUP SCRIPT_PID=$SCRIPT_PID \
  		NUM_CPUS=$NUM_CPUS TEST_NUM=$TEST_NUM TASK_NUM=0 \
@@ -298,7 +298,7 @@ Index: ltp-full-20100831/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
  		if [ $? -ne 0 ]
  		then
  			echo "Error: Could not run ./cpuctl_def_task02"
-@@ -301,7 +308,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w pr
+@@ -301,7 +308,7 @@ NUM_CPUS=`cat /proc/cpuinfo | grep -w -i
  		fi
  	done
  	echo "Cpu controller test executed successfully.Results written to file";
