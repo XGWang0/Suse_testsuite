@@ -29,7 +29,7 @@
 
 
 Name:			qa_test_f-spot
-License :		SUSE Proprietary
+License:		SUSE Proprietary
 Group:			SUSE Internal
 Summary:		a simple testsuite for f-spot
 Provides:	qa_f-spot

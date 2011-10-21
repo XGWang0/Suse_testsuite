@@ -22,7 +22,7 @@ Name:           qa_test_apparmor
 BuildRequires:  apparmor-parser bzip2 gcc libapparmor-devel ltp-ctcs2-glue qa_bind qa_postfix  libapparmor-devel
 Version:        1325
 Release:        3
-License:        Other uncritical OpenSource License
+License:        GPL v2
 Group:          System/Packages
 AutoReqProv:    on
 Source0:        tests-%{version}.tar.bz2

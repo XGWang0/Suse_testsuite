@@ -20,7 +20,7 @@ Source1:	qa_test_fs_stress.8
 
 
 Name:           qa_test_fs_stress
-License:        GPL v2 or later
+License:        SUSE Proprietary
 #BuildRequires:  ctcs2
 Group:          SUSE internal
 Summary:        file system stress test
