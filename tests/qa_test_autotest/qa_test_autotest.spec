@@ -36,6 +36,7 @@ Source2:        test_autotest-run
 Source3:        autotest-%{version}.rpmlintrc
 Source4:        qa_test_autotest.8
 Source5:	pre-kvm.sh
+Source6:	qa_test_autotest-config
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -64,6 +65,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:4} $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 644 %{S:6} $RPM_BUILD_ROOT/usr/lib/ctcs2/config/autotest
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 cp -a client/* $RPM_BUILD_ROOT/usr/lib/autotest
 cp %{S:1} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
