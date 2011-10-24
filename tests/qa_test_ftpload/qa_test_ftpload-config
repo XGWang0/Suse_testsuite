@@ -1,8 +1,7 @@
-#!/bin/bash
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
-# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
 # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
@@ -22,17 +21,9 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-if [ ! -d /abuild/ftpload_test ] ; then
-	mkdir -p /abuild/ftpload_test
-fi 
+#
+# This file contains default configuration for qa_test_ftpload test
+#
 
-FREE_SPACE=`df -m / | grep -e "/$" | awk '{print $4}'`
-if [ $FREE_SPACE -le 400 ]; then
-	echo "no enough space for this test! At least 400MB free space is required!"
-	exit 1
-fi
-
-FTP_SOURCE=`grep ftp_source qa_test_ftpload-config |cut -d= -f2`
-
-ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
-
+# FTP source for ftpload test
+ftp_source=ftp://10.11.136.9/400MB
