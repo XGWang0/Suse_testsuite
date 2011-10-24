@@ -40,26 +40,28 @@ doc = """
 ===SSL Certificate test===
 Step1: Make sure SMTSERVER.site exists
 Step2: Edit-Preference-Advanced-Encryption-View Certificates, import this file in Servers label, then click "Edit" button and make "Trust the authenticity of this certificate"
-Step3: Visit https://147.2.207.207/repo
+Step3: Visit https web page
 """
 # imports
 import os
 from strongwind import *
 from sys import path
 from firefox_frame import *
+from firefox_config import *
 
 source_path = '/usr/share/qa/qa_test_firefox/test_source'
-download_web = "https://bugzilla.novell.com/tr_show_case.cgi?case_id=1014760"
-test_web = "https://147.2.207.207/repo/"
+ca_name = ca_name
+download_web = ssl_ca_download_web
+test_web = https_test_server
 
 # Make sure MozillaFirefox version is expected for the test
 checkVersion()
 
 # Step1: Make sure SMTSERVER.site exists
-procedurelogger.expectedResult('Make sure SMTSERVER.site exists')
-if not os.path.exists("%s/SMTSERVER.site" % source_path):
+procedurelogger.expectedResult('Make sure %s exists' % ca_name)
+if not os.path.exists("%s/%s" % (source_path, ca_name)):
     raise IOError, "Could not find file %s in %s, please download from %s " % \
-                                    ("SMTSERVER.site", source_path, download_web)
+                                    (ca_name, source_path, download_web)
     exit(11)
 
 # Launch Firefox.
@@ -99,13 +101,13 @@ if not toggle.checked:
     toggle.click(log=True)
 
 location_text = select_dialog.findText(None, labelledBy="Location:", \
-                                checkShowing=False).text = "%s/SMTSERVER.site" % source_path
+                                checkShowing=False).text = "%s/%s" % (source_path, ca_name)
 select_dialog.findPushButton("Open").mouseClick()
 sleep(config.SHORT_DELAY)
 select_dialog.assertClosed()
 
-procedurelogger.expectedResult('Make sure SMTSERVER.site is imported')
-pdb_cell = certificate_dialog.findTableCell("SMTSERVER.site")
+procedurelogger.expectedResult('Make sure %s is imported' % ca_name)
+pdb_cell = certificate_dialog.findTableCell(ca_name)
 
 # Click "Edit" button and make "Trust the authenticity of this certificate."
 pdb_cell.mouseClick()
@@ -123,7 +125,7 @@ edit_dialog.assertClosed()
 preferences_frame.findPushButton("Close").press()
 sleep(config.SHORT_DELAY)
 
-# Step3: Visit https://147.2.207.207/repo/
+# Step3: Visit https test web
 openURL(fFrame, test_web)
 
 procedurelogger.expectedResult('%s frame appears' % test_web)

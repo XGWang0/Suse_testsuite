@@ -40,12 +40,9 @@ Step1: Make sure Silverlight Plug-In appears in Plugins list
 Step2: Visit the following URL
 Silverlight3 http://www.belindaperez.com/demo/deepu/SimpleImageScroller.html
 Silverlight3 http://www.innoveware.com/ql3/QuakeLight.html
-Silverlight2 http://147.2.207.213/moonlight_apps/DiggSample/TestPage.html
+Silverlight2 http://net35.ccs.neu.edu/home/cobracar/DiggSample.html
 Step3: Make sure websites be showed correctly. the website should not show 
 "Install Microsoft Sliverlight".
-
-NOTES:
-Some different Steps with the test case926944 in Plan2556
 """
 
 # imports
@@ -116,18 +113,18 @@ except SearchError:
 else:
     assert False, "the website should not show Install Microsoft Sliverlight"
 
-# Add new tab to Launch http://147.2.207.213/moonlight_apps/DiggSample/TestPage.html
+# Add new tab to Launch http://net35.ccs.neu.edu/home/cobracar/DiggSample.html
 # that is Silverlight2
 menubar.select(['File', 'New Tab'])
 sleep(config.SHORT_DELAY)
 
-openURL(fFrame, "http://147.2.207.213/moonlight_apps/DiggSample/TestPage.html")
+openURL(fFrame, "http://net35.ccs.neu.edu/home/cobracar/DiggSample.html")
 
 # Make sure websites be showed correctly. the website should not show 
 # "Install Microsoft Sliverlight".
 procedurelogger.expectedResult('%s document frame appears' % \
                                                   "DiggSearch")
-fFrame.findDocumentFrame("DiggSearch")
+fFrame.findDocumentFrame("Digg Sample (HTML)")
 try:
     fFrame.findLink("Get Microsoft Silverlight")
 except SearchError:
