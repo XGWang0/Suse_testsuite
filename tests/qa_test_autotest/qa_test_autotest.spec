@@ -19,7 +19,7 @@
 
 
 Name:           qa_test_autotest
-License:        MIT; Apache 2.0; GPL v2 only
+License:        MIT; Apache 2.0; GPLv2; LGPLv3
 Group:          Development/Tools/Other
 Provides:	autotest
 Obsoletes:	autotest
