@@ -85,6 +85,8 @@ install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Oct 21 2011 cachen@suse.com
+- add configuration file for iso url setting
 * Tue Jun 01 2010 lidongyang@novell.com
 - upgrade to upstream 0.12.0
 * Mon Feb 09 2009 yxu@suse.de
