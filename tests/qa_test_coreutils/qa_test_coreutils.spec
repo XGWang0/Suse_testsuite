@@ -9,7 +9,7 @@
 
 Name:           qa_test_coreutils
 #BuildRequires:  ctcs2 
-License:		GPL v2 or later
+License:        SUSE Proprietary
 Group:          SUSE internal
 Summary:        Coreutils tests for ctcs framework
 AutoReqProv:    off
