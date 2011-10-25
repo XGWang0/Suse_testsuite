@@ -32,13 +32,17 @@
 """
 Step1: opens the dialogue
 Step2: Open a http location:http://vietnamese.cri.cn/mmsource/audio/2009/02/11/tiankongM.mp3
-Step3: Open a ftp location:ftp://147.2.207.135/ftp_install/beatit.mp3
-Step4: Open a file located on SMB:smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3
+Step3: Open mp3 from ftp server
+Step4: Open mp3 from smb server
 Step5: Verify the browse button
 Step6: Verify the Cancel button
 """
 # imports
 from strongwind import *
+from banshee_config import *
+
+ftp_mp3 = ftp_mp3_source
+smb_mp3 = smb_mp3_source
 
 # open the label sample application
 try:
@@ -85,7 +89,7 @@ sliderSecond = slider._accessible.queryValue().currentValue
 assert (sliderFirst != sliderSecond)
 procedurelogger.expectedResult("the http location is opened by banshee")
 
-# Step3: Open a ftp location:ftp://147.2.207.135/ftp_install/beatit.mp3
+# Step3: Open mp3 from ftp server
 # Launch firefox process
 
 procedurelogger.action("Launch firefox process")
@@ -110,11 +114,11 @@ fFrames[0].findMenuItem(re.compile('^Open Location'), checkShowing=False).click(
 sleep(config.SHORT_DELAY)
 
 # Input the url in firefox's entry
-procedurelogger.action("Open browser to a ftp location:ftp://147.2.207.135/ftp_install/beatit.mp3")
+procedurelogger.action("Open browser to a ftp %s" % ftp_mp3)
 url_entry.mouseClick(log = False)
-url_entry.text = "ftp://147.2.207.135/ftp_install/beatit.mp3"
+url_entry.text = ftp_mp3
 sleep(config.SHORT_DELAY)
-assert (url_entry.text == "ftp://147.2.207.135/ftp_install/beatit.mp3")
+assert (url_entry.text == ftp_mp3)
 sleep(config.SHORT_DELAY)
 procedurelogger.expectedResult("the url is loaded correctly")
 
@@ -124,7 +128,7 @@ sleep(config.LONG_DELAY)
 procedurelogger.expectedResult("the url is activated")
 
 # On the new launched dialog, click "OK" button
-newDialog = firefoxapp.findDialog("Opening beatit.mp3")
+newDialog = firefoxapp.findDialog(re.compile('^Opening'))
 okButton = newDialog.findPushButton("OK")
 okButton.mouseClick()
 sleep(config.SHORT_DELAY)
@@ -144,7 +148,7 @@ procedurelogger.action("kill firefox process")
 os.popen("killall firefox-bin").read()
 sleep(config.SHORT_DELAY)
 
-# Step4: Open a file located on SMB:smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3
+# Step4: Open mp3 from smb server
 helpMenu.mouseClick(log=True)
 sleep(config.SHORT_DELAY)
 procedurelogger.expectedResult("the \"Media\"'s submenu is shown")
@@ -154,11 +158,11 @@ sleep(config.SHORT_DELAY)
 locationDialog = app.findDialog("Open Location")
 
 # Input the address in the text
-procedurelogger.action("input the \"smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3\" in the text")
+procedurelogger.action("input the %s in the text" % smb_mp3)
 text = locationDialog.findText("")
-text.text = "smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3"
+text.text = smb_mp3
 sleep(config.SHORT_DELAY)
-procedurelogger.expectedResult("the \"smb://147.2.207.135/public/Misc/music/mp3/foreverlove.mp3\" is in the text")
+procedurelogger.expectedResult("the %s is in the text" % smb_mp3)
 
 # Click the "Open" button
 openButton = locationDialog.findPushButton("Open")
