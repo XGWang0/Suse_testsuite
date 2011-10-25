@@ -13,7 +13,7 @@
 
 Name:           qa_test_bash
 BuildRequires:  ctcs2 gcc-c++
-License:        GPL v2 or later
+License:        SUSE Proprietary
 Group:          SUSE internal
 AutoReqProv:    on
 Version:        0.1

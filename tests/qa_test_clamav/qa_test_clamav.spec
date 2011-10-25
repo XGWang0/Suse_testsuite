@@ -33,7 +33,7 @@
 
 Name:           qa_test_clamav
 #BuildRequires:  ctcs2 
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SUSE internal
 AutoReqProv:    on
 Version:        0.6

@@ -33,10 +33,10 @@
 
 
 Name:           qa_test_fetchmail
-Url:            http://httpd.apache.org/test/
+Url:            None
 Version:        0.2.1
 Release:        2
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          System/Packages
 AutoReqProv:    on
 Source0:        %{name}-%{version}.tar.bz2
