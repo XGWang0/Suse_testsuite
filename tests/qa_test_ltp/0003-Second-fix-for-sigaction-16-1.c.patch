@@ -1,0 +1,38 @@
+From edeab7e292b11769a3a89e84bc33abc0db203e1c Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Fri, 21 Oct 2011 18:54:06 +0200
+Subject: [PATCH 3/3] Second fix for sigaction/16-1.c
+
+If we failed to set the thread priority in the second thread we should
+rather call exit() than trying to propagate the error value, which would
+lead to several types of side effect (one of them is possibility of
+blocking the original thread in infinite loop).
+
+Also return UNTESTED on EPERM which is sematically better.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ .../conformance/interfaces/sigaction/16-1.c        |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sigaction/16-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sigaction/16-1.c
+index 19f1c6c..1eda711 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sigaction/16-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/sigaction/16-1.c
+@@ -124,8 +124,11 @@ void *threaded(void *arg)
+ 	rc = pthread_setschedparam(pthread_self(), SCHED_FIFO, &sp);
+ 	if (rc) {
+ 		printf("Failed: pthread_setschedparam(SCHED_FIFO), root?\n");
+-		ready = 1;
+-		return (void *) PTS_UNRESOLVED;
++		
++		if (rc == EPERM)
++			exit(PTS_UNTESTED);
++		else
++			exit(PTS_UNRESOLVED);
+ 	}
+ 
+ 	ready = 1;
+-- 
+1.7.3.4
+

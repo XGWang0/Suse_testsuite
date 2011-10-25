@@ -16,7 +16,7 @@ Name:           qa_test_php5
 %define qa_server_location /srv/www/htdocs/php5-tests
 Version:        5.2.14
 Release:        1
-License:        Other uncritical OpenSource License
+License:        PHP
 Group:          System/Packages
 AutoReqProv:    on
 Url:            http://www.php.net

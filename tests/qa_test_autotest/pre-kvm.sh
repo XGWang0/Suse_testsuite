@@ -5,10 +5,10 @@
 
 #testcase seprate by space
 testcase=" stress_boot iofuzz qemu_img timedrift vlan_tag "
-
+config_path="/usr/lib/ctcs2/config/autotest/qa_test_autotest-config"
 
 if [ "x$1"=="x" ];then
-	iso_url="http://147.2.207.240/iso/SLES-11/SLES-11-DVD-i586-GM-DVD1.iso"
+	iso_url=`grep iso_url $config_path |cut -d= -f2`
 else
 	iso_url="$1"
 fi

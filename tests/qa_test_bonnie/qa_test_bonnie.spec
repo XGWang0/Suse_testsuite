@@ -13,7 +13,7 @@
 
 Name:           qa_test_bonnie
 Url:            http://www.garloff.de/kurt/linux/qa_test_bonnie/
-License:        GPL v2 or later
+License:        Artistic
 Group:          System/Benchmark
 AutoReqProv:    on
 Summary:        File System Benchmark

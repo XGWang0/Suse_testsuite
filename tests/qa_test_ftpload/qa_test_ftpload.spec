@@ -46,10 +46,11 @@ Source2:        ftpload.tcf
 Source3:        ftpload.sh
 Source4:	cert_tests.lib
 Source5:	qa_test_ftpload.8
+Source6:	qa_test_ftpload-config
 BuildArchitectures: noarch
 
 %description
-Download ftp://10.11.136.9/400MB for times.
+Download ftp source for times.
 
 Authors:
 --------
@@ -73,6 +74,7 @@ cp %{S:2} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 cp %{S:3} $RPM_BUILD_ROOT/usr/share/qa/%name/
 cp %{S:4} $RPM_BUILD_ROOT/usr/lib/
 cp %{S:5} $RPM_BUILD_ROOT/usr/share/man/man8/
+cp %{S:6} $RPM_BUILD_ROOT/usr/share/qa/%name/
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/qa_test_ftpload.8
 ln -s ../%name/tcf/ftpload.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
@@ -90,6 +92,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/*
 
 %changelog
+* Mon Oct 24 2011 - cachen@suse.com
+- Add configuration file to set ftp source
 * Wed Aug 17 2011 - llipavsky@suse.cz
 - Remove qa_dummy dependency
 * Thu Aug 11 2011 - llipavsky@suse.cz

@@ -21,7 +21,7 @@ Source1:	qa_test_process_stress.8
 
 Name:           qa_test_process_stress
 #BuildRequires:  ctcs2
-License:        GPL v2 or later
+License:        SUSE Proprietary
 Group:          SUSE internal
 Summary:        process stress test from LTP
 Provides:	qa_process_stress

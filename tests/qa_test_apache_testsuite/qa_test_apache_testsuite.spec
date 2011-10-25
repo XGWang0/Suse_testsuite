@@ -11,7 +11,7 @@
 # norootforbuild
 
 Name:           qa_test_apache_testsuite
-License:        Other uncritical OpenSource License
+License:        Apache 2.0
 Group:          SUSE internal
 AutoReqProv:    on
 Version:        894558

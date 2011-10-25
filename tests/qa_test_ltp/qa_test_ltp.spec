@@ -40,7 +40,7 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20110606
+Version:        20110915
 Release:        1
 Source:         ltp-full-%{version}.bz2
 # For subpackage creation
@@ -56,7 +56,6 @@ Patch100:	sles9-workarounds.patch
 Patch101:	workaround-sles11-capability-headers.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
-Patch200:	fix_clone_include.patch
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
 Patch404:       increase-stack-size.diff
@@ -67,6 +66,8 @@ Patch501:	change_ltp_prog_install_dir.patch
 Patch601:       fix-sched_setparam_10_1.patch
 Patch602:       bug-307752_sched_setparam-2-1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+Patch700:	0002-Fix-sigaction-16-1.c.patch
+Patch701:	0003-Second-fix-for-sigaction-16-1.c.patch
 # Patches 8xx CTCS2 related changes
 Patch802:       pan-pass-returnvalue.diff
 Patch803:	ctcs2-glue-fixups.patch
@@ -127,7 +128,6 @@ Authors:
 %endif
 %patch101 -p1
 # Patches 2xx Build Environment Patches
-%patch200 -p1
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes
 #%patch404 -p1
@@ -138,6 +138,8 @@ Authors:
 #%patch601 -p1
 #%patch602 -p1
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+%patch700 -p1
+%patch701 -p1
 # Patches 8xx CTCS2 related changes
 %patch802 -p1
 %patch803 -p1

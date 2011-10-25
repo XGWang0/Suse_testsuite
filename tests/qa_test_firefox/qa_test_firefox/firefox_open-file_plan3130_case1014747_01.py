@@ -109,14 +109,9 @@ open_dialog.assertClosed()
 procedurelogger.expectedResult("make sure %s is opened" % wav_url)
 fFrame.findDocumentFrame(re.compile('^question.wav'))
 
-# Download a rpm file
-rpm_url = os.popen('pwd').read().replace('\n','') + '/' + rpm_name
-
-if not os.path.exists(rpm_url):
-    os.system('wget http://147.2.207.240/repo/sle-11-sp1-sdk-i586-dvd1/suse/i586/CASA-cli-1.7.1592-2.3.53.i586.rpm')
-    sleep(config.MEDIUM_DELAY)
-
 # Step5: Load .rpm format file
+rpm_url = test_source + rpm_name
+
 menubar.findMenu("File").mouseClick()
 sleep(config.SHORT_DELAY)
 menubar.findMenuItem(re.compile('^Open File')).click(log=True)
