@@ -1,4 +1,3 @@
-#!/bin/bash
 # ****************************************************************************
 # Copyright © 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -21,13 +20,10 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
+
+#
+# This file contains default configuration for qa_test_suse-cert test
 #
 
-if [ ! -d /abuild/ftpload_test ] ; then
-	mkdir -p /abuild/ftpload_test
-fi 
-
-FTP_SOURCE=`grep ftp_source qa_test_ftpload-config |cut -d= -f2`
-
-ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
-
+# FTP source for ftpload test
+ftp_source=ftp://10.11.136.9/400MB
