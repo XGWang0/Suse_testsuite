@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_gzip
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple gzip tests for ctcs framework
 Provides:	qa_gzip

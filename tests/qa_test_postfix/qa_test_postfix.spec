@@ -33,7 +33,7 @@
 
 Name:           qa_test_postfix
 #BuildRequires:  libqainternal
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          System/Packages
 Summary:        Basic postfix tests for ctcs framework
 Provides:	qa_postfix

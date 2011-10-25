@@ -12,7 +12,7 @@
 
 Name:           qa_test_findutils
 BuildRequires:  findutils findutils-locate
-License:        GPL
+License:        GPL v2 or later
 Group:          SuSE internal
 Summary:        Findutils tests for ctcs framework
 Provides:	qa_findutils
