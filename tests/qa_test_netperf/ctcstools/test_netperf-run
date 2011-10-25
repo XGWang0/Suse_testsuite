@@ -4,15 +4,8 @@ PATH='/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin'
 ctcsdir="/usr/lib/ctcs2"
 basedir="/usr/share/qa/tcf"
 
-DE_netperf_server_1=
-DE_netperf_server_2=10.11.136.9
-CZ_netperf_server=
-CN_netperf_server=
-
-DE_1='10.10'
-DE_2='10.11'
-CZ='10.20'
-CN='147.2'
+# Source the variable settings
+source /usr/lib/ctcs2/config/netperf/qa_test_netperf-config
 
 ipinfo=`ifconfig |sed -n '/inet addr:/{s/ [BM].*//;s/.*://;p}'`
 
@@ -61,7 +54,7 @@ if [ $? -gt 0  ];then
 	exit 1
 fi
 #modify the tcf file
-sed -i "s/[0-9\.]\+$/$ip/" $basedir/netperf.tcf
+sed -i "/^fg.*$/s//&$ip/g" $basedir/netperf.tcf
 
 $ctcsdir/tools/run $basedir/netperf.tcf
 

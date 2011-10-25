@@ -31,7 +31,6 @@ Source1:        ctcstools-%version.tar.bz2
 Source2:        qa_test_netperf.8
 Patch0:         cpu_setsize.patch
 Patch1:         shebang_arr_script.patch
-Patch2:  		change-hostip-in_tcf.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	netperf netperf-ctcs2-glue
 Obsoletes:	netperf netperf-ctcs2-glue
@@ -66,7 +65,6 @@ Authors:
 %setup -n netperf-%version -a1 
 %patch0
 %patch1 -p1
-%patch2 -p1
 
 %build
 ./configure --enable-burst
@@ -91,8 +89,10 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf
 install -D -m 755 ctcstools/test_netperf-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_netperf-run
 install -D -m 755 ctcstools/netperf.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf.tcf
+install -D -m 644 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf
 
 %files
 %defattr(-, root, root)
@@ -111,6 +111,8 @@ install -D -m 755 ctcstools/netperf.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Oct 25 2011 cachen@suse.com
+- remove change-hostip-in_tcf.diff; add configuration file
 * Fri Oct 17 2008 yxu@suse.de
 - added netperf-ctcs2-glue subpackage for QA automation
 * Thu Apr 10 2008 pkirsch@suse.de
