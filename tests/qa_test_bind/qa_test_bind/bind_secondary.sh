@@ -30,8 +30,8 @@ install_config "secondary"
 $BINDCTRL restart
 sleep 10 # end of transfer
 
-QUERY="felix.suse.cz"
-MATCH="10.20.1.89"
+QUERY=`grep secondary_query qa_test_bind-config |cut -d = -f2`
+MATCH=`grep secondary_match qa_test_bind-config |cut -d = -f2`
 RESULT=$(dig @127.0.0.1 $QUERY | grep -E "(^$QUERY.*$MATCH)")
 
 echo "query for '$QUERY' resulted in '$RESULT'"
