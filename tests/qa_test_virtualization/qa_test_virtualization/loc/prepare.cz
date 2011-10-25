@@ -12,6 +12,6 @@ getSettings="../../virtautolib/lib/get-settings.sh"
 MOUNT1=`$getSettings MOUNT1.addr`
 MOUNT2=`$getSettings MOUNT2.addr`
 
-mkdir -p $MOUNT_DIR && mount -t nfs -oro MOUNT1:/srv/dist $MOUNT_DIR
-mkdir -p $MOUNT_DIR2 && mount -t nfs -oro MOUNT2:/storage $MOUNT_DIR2
+mkdir -p $MOUNT_DIR && mount -t nfs -oro $MOUNT1:/srv/dist $MOUNT_DIR
+mkdir -p $MOUNT_DIR2 && mount -t nfs -oro $MOUNT2:/storage $MOUNT_DIR2
 
