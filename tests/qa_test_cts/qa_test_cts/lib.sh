@@ -35,8 +35,12 @@ iscsi_disk=
 stonith_iscsi_disk=
 ocfs2_iscsi_disk=
 
-repo_sles_11_sp1="http://download.suse.de/ibs/Devel:/HAE:/SLE11SP1/SLE_11_SP1/"
-repo_sles_11_sp2="http://download.suse.de/ibs/Devel:/HAE:/SLE11SP2/SLE_11_SP2/"
+repo_sles_11_sp1=`grep repo_sles_11_sp1 qa_test_cts-config |cut -d= -f2`
+repo_sles_11_sp2=`grep repo_sles_11_sp2 qa_test_cts-config |cut -d= -f2`
+
+update_sles_11_sp1=`grep update_sles_11_sp1 qa_test_cts-config |cut -d= -f2`
+ga_sles_11_sp1=`grep ga_sles_11_sp1 qa_test_cts-config |cut -d= -f2`
+ga_sles_11_sp2=`grep ga_sles_11_sp2 qa_test_cts-config |cut -d= -f2`
 
 ha_mcast=226.94.1.2
 ha_network=`ip addr|awk '/inet /{gsub(/.* inet /,"");gsub(/[0-9]+\/.*/,"");a=\$0"0"}END{print a}'`
@@ -160,12 +164,12 @@ function ha_repo_init {
 	if [ -z "`zypper ls |awk '{if($3=="ha")print "yes"}'|tail -1`" ];then
 		if [ -n "`grep \"Server 11 SP1\" /etc/issue`" ];then
 			zypper sa -t rpm-md $repo_sles_11_sp1 ha
-			zypper sa -t rpm-md "http://dist.suse.de/ibs/SUSE:/SLE-11-SP1:/Update/standard/" sp1-kernel-extra
-			zypper sa -t rpm-md "http://dist.suse.de/ibs/SUSE:/SLE-11-SP1:/GA/standard/" sp1-ctdb
+			zypper sa -t rpm-md $update_sles_11_sp1 sp1-kernel-extra
+			zypper sa -t rpm-md $ga_sles_11_sp1 sp1-ctdb
 			zypper --gpg-auto-import-keys ref
 		elif [ -n "`grep \"Server 11 SP2\" /etc/issue`" ];then
 			zypper sa -t rpm-md $repo_sles_11_sp2 ha
-			zypper sa -t rpm-md "http://dist.suse.de/ibs/SUSE:/SLE-11-SP2:/GA/standard/" sp2-kernel-extra
+			zypper sa -t rpm-md $ga_sles_11_sp2 sp2-kernel-extra
 			zypper --gpg-auto-import-keys ref
 		else
 			echo "HA repo is only for SLES 11"
