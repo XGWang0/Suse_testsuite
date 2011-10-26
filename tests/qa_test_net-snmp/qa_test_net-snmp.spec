@@ -22,7 +22,7 @@ Name:           qa_test_net-snmp
 BuildRequires:  bzip2
 Version:        5.4.3
 Release:        2
-License:        GPL v2 or later ; MIT License (or similar)
+License:        GPL v2 or later; BSD
 Group:          System/Packages
 AutoReqProv:    on
 Source0:        %{name}-%{version}.tar.bz2

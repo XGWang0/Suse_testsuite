@@ -30,7 +30,7 @@
 # norootforbuild
 
 Name:           qa_test_cabextract
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple cabextract tests for ctcs framework
 Provides:	qa_cabextract

@@ -32,7 +32,7 @@
 
 Name:         qa_test_cpio
 BuildRequires: ctcs2
-License:		SUSE Proprietary
+License:      SUSE Proprietary
 Group:        SuSE internal
 Summary:      Simple cpio test for ctcs framework
 Provides:	qa_cpio

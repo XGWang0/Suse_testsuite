@@ -11,7 +11,7 @@
 # norootforbuild
 
 Name:           qa_test_sharutils
-License:        GPL
+License:        GPL v2 or later
 Group:          SuSE internal
 #This is ugly hack, to make build satisfied 
 #It complains about missing libc, since there are some binary data in test directory

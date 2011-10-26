@@ -11,7 +11,7 @@
 # norootforbuild
 
 Name:           qa_test_openssh
-License:        BSD 3-Clause; X11/MIT
+License:        BSD
 Group:          SuSE internal
 Provides:	qa_openssh
 Obsoletes:	qa_openssh

@@ -38,7 +38,7 @@ Provides:	qa_ftpload
 Obsoletes:	qa_ftpload
 Requires:       wget pure-ftpd ctcs2
 Group:          Development/Tools/Other
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source0:        ftpload
 Source1:        test_ftpload-run

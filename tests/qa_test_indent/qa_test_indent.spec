@@ -7,7 +7,7 @@
 # norootforbuild
 
 Name:           qa_test_indent
-License:		GPL
+License:        Copyright mention
 Group:          SuSE internal
 Summary:        Simple indent tests for ctcs framework
 Provides:	qa_indent
