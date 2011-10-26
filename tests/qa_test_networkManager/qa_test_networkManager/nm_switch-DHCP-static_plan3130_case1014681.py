@@ -39,12 +39,12 @@ Step2: On "Wired" tab page, select "System eth0", click Edit
 Step3: Exit the test if Root Authenticate dialog pops up, Enter root password manually and 
 enable "Remember authorization", then rerun the test
 Step4: Click "IPv4 Settings" tab page, select "Manual" method
-Step5: Click the Add button and enter a local IP address, Netmask and Gateway, i.e. 147.2.207.143, 255.255.255.0, and 147.2.207.254, DNS Servers is 147.2.136.75,137.65.1.1 those are setting in nm_config
+Step5: Click the Add button and enter a static IP address, Netmask and Gateway, those are setting in nm_config
 Step6: Click Apply
 Step7: Left click on the NetworkManager icon and select "System eth0" wired network to reload
 Step8: Make sure Network connection is successful to open url i.e. www.google.com
 Step9: Right click on the NetworkManager icon, select Connection Information
-Step10: Make sure IP Address is 147.2.207.143
+Step10: Make sure IP Address is correct
 
 Change Static address to DHCP:
 Step1: Right click on the NetworkManager icon, select "Edit Connections"
@@ -54,7 +54,7 @@ Step4: Click Apply
 Step5: Left click on the NetworkManager icon and select "System eth0" wired network to reload
 Step6: Make sure Network connection is successful to open url i.e. www.google.com
 Step7: Right click on the NetworkManager icon, select Connection Information
-Step8: Make sure IP Address is 147.2.207.143
+Step8: Make sure IP Address is not match static ip
 """
 # imports
 from nm_frame import *
@@ -119,7 +119,7 @@ if ipv4_tab.findComboBox(None).name == "Manual":
 editing_frame.findMenuItem("Manual", checkShowing=False).click(log=True)
 sleep(config.SHORT_DELAY)
 
-# Step5: Click the Add button and enter a local IP address, Netmask and Gateway, i.e. 147.2.207.143, 255.255.255.0, and 147.2.207.254, DNS Servers is 147.2.136.75,137.65.1.1 those are setting in nm_config
+# Step5: Click the Add button and enter a local IP address, Netmask and Gateway, those are setting in nm_config
 editing_frame.findPushButton("Add").mouseClick()
 sleep(config.SHORT_DELAY)
 
@@ -175,7 +175,7 @@ sleep(config.SHORT_DELAY)
 
 info_dialog = nm_applet_app.findDialog("Connection Information")
 
-# Step10: Make sure IP Address is 147.2.207.143
+# Step10: Make sure IP Address is correct
 procedurelogger.expectedResult("Connect with IP: %s" % static_ip)
 info_dialog.findLabel(static_ip)
 
@@ -249,7 +249,7 @@ sleep(config.SHORT_DELAY)
 
 info_dialog = nm_applet_app.findDialog("Connection Information")
 
-# Step8: Make sure IP Address is not 147.2.207.143
+# Step8: Make sure IP Address is not match static ip
 procedurelogger.expectedResult("IP Address is not %s" % static_ip)
 try:
     info_dialog.findLabel(static_ip)
