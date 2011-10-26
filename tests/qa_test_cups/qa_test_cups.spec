@@ -12,7 +12,7 @@
 
 Name:		qa_test_cups
 BuildRequires:	ctcs2
-License:	GPL v2 or later
+License:	GPL v2; LGPL v2
 Group:		SuSE internal
 Summary:	CUPS automated testsuite
 Provides:	qa_cups

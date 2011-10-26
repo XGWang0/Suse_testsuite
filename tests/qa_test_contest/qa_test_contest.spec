@@ -3,8 +3,8 @@
 #
 
 Name:         qa_test_contest
-Url:          http://users.on.net/~ckolivas/qa_test_contest/
-License:      GPL2
+Url:          http://users.on.net/~ckolivas/contest/
+License:      GPL v2 or later
 # Group:        SuSE internal
 Group:        System/Benchmark
 Summary:      contest benchmark

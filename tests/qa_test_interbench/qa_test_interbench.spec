@@ -3,8 +3,8 @@
 #
 
 Name:         qa_test_interbench
-Url:          http://users.on.net/~ckolivas/qa_test_interbench/
-License:      GPL
+Url:          http://users.on.net/~ckolivas/interbench/
+License:      GPL v2 or later
 # Group:        SuSE internal
 Group:        System/Benchmark
 Summary:      Interbench benchmark

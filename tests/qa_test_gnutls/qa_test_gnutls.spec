@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_gnutls
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Tests for the gnutls package, prepared to run under the ctcs framework
 Provides:	qa_gnutls

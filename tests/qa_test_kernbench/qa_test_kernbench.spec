@@ -3,8 +3,8 @@
 #
 
 Name:         qa_test_kernbench
-Url:          http://freshmeat.net/projects/qa_test_kernbench/
-License:      GPL2
+Url:          http://freshmeat.net/projects/kernbench/
+License:      GPL v2
 # Group:        SuSE internal
 Group:        System/Benchmark
 Summary:      kernbench benchmark
