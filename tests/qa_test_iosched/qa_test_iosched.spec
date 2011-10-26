@@ -37,7 +37,7 @@ Autoreqprov:    on
 Version:        0.1
 Release:        1
 Summary:        rd-qa-kernel internal package to test behaviour of available ioschedulers
-Url:            http://w3.suse.de/~fseidel/
+Url:            None
 Source:         %{name}-%{version}.tar.bz2
 Source1:	qa_test_iosched.8
 Source2:	test_iosched-run

@@ -34,7 +34,7 @@ Name:           qa_test_lsb
 #BuildRequires:  bzip2 gcc
 Version:        2.0
 Release:        3
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Autoreqprov:    on
 Source0:        %{name}-%{version}.tar.bz2
@@ -57,7 +57,7 @@ appropriate lsb-* packages, which are produced by the LSB committee.
 
 Authors:
 --------
-    Jiri Dluhos <jdluhos@suse.cz>
+    Jiri Dluhos <jdluhos@suse.com>
 
 %prep
 %setup -n %{name}

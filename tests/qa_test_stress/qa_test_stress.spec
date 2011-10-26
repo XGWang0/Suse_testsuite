@@ -18,7 +18,7 @@
 
 Name:           qa_test_stress
 Url:            http://weather.ou.edu/~apw/projects/stress/
-License:        GPLv2
+License:        GPL v2 or later
 #BuildRequires:  
 Group:          SUSE internal
 Summary:        Simple workload generator for POSIX systems

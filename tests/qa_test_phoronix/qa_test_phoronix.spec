@@ -17,7 +17,7 @@
 
 # norootforbuild
 Name:   qa_test_phoronix
-License: GNU GPLv3 
+License: GPL v3 or later
 Summary: The most comprehensive testing and benchmarking platform for the Linux
 URL: http://www.phoronix-test-suite.com/
 Version: 2.2.0

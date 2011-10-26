@@ -12,7 +12,7 @@
 
 Name:           qa_test_yast2
 BuildRequires:  ctcs2 gcc-c++ xorg-x11-devel
-License:        GPL v2 or later
+License:        SUSE Proprietary
 Group:          SuSE internal
 AutoReqProv:    on
 Version:        0.1
