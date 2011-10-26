@@ -27,5 +27,7 @@ if [ ! -d /abuild/ftpload_test ] ; then
 	mkdir -p /abuild/ftpload_test
 fi 
 
-ftpload -d /abuild/ftpload_test -c 20 ftp://10.11.136.9/400MB
+FTP_SOURCE=`grep ftp_source qa_test_ftpload-config |cut -d= -f2`
+
+ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
 

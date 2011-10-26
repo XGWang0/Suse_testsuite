@@ -31,7 +31,7 @@ $BINDCTRL restart
 
 sleep 10
 
-QUERY="www.web.de"
+QUERY=`grep forwarder_query qa_test_bind-config |cut -d = -f2`
 RESULT=$(dig @127.0.0.1 $QUERY | grep -E "^$QUERY")
 
 echo "query for '$QUERY' resulted in '$RESULT'"

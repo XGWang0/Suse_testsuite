@@ -13,7 +13,7 @@
 
 Name:           qa_test_nfs
 BuildRequires:  libqainternal
-License:        GPL v2 or later
+License:        SUSE Proprietary
 Group:          System/Packages
 Summary:        Basic NFS tests for nfsv3 and nfsv4
 %if 0%{?sles_version} == 10

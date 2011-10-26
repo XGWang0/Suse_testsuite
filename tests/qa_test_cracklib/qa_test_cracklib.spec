@@ -30,7 +30,7 @@
 # norootforbuild
 
 Name:           qa_test_cracklib
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple cracklib tests for ctcs framework
 Provides:	qa_cracklib

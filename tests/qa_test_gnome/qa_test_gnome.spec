@@ -28,7 +28,7 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 
 Name:           qa_test_gnome
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple gnome tests for ctcs framework
 Provides:	qa_gnome

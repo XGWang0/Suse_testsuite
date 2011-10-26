@@ -49,6 +49,7 @@ Source4:		suse-cert.tcf
 Source5:		test_suse-cert-run
 Source6:		ftpload.sh
 Source7:	qa_test_suse-cert.8
+Source8:	qa_test_suse-cert-config
 Patch:          suse-cert-hwinfo.dif
 
 %description
@@ -99,6 +100,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 cp %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 cp %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp %{S:6} $RPM_BUILD_ROOT/usr/share/qa/%name
+cp %{S:8} $RPM_BUILD_ROOT/usr/share/qa/%name
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/suse-cert.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
@@ -125,6 +127,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/qa_test_suse-cert/ftpload.sh
 
 %changelog
+* Tue Oct 25 2011 - cachen@suse.com
+- add configuration file
 * Mon Nov 8 2010 - aguo@novell.com
 - add suse-cert.tcf test_suse-cert-run and ftpload.sh so suse-cert can be implemented by ctcs2
 * Tue Aug 3 2010 - yxu@novell.com  

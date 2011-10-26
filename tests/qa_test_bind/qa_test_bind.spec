@@ -31,7 +31,7 @@
 
 Name:           qa_test_bind
 BuildRequires:  ctcs2
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple bind tests for ctcs framework
 Provides:	qa_bind

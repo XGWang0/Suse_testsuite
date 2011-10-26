@@ -26,4 +26,4 @@
 #
 
 # ISO URL for autotest test
-iso_url=http://147.2.207.240/iso/SLES-11/SLES-11-DVD-i586-GM-DVD1.iso
+iso_url="http://147.2.207.240/iso/SLES-11/SLES-11-DVD-i586-GM-DVD1.iso"
