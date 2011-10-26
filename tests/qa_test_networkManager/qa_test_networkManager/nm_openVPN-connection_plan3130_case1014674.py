@@ -33,12 +33,12 @@
 doc = """
 ==Network Manager test==
 ===openVPN connection===
-Step1: Download certificates and keys from 'http://147.2.207.138/client1.tgz' and uncompress
+Step1: Download certificates and keys and uncompress
 Step2: Left click on the NetworkManager icon, click "VPN Connections", select "Configure VPN..."
 Step3: On "VPN" tab page, click "Add", 
 Step4: Select "OpenVPN" on "Choose a VPN Connection Type" dialog, click "Create..."
 Step5: On "Editing VPN connection 1" dialog setting VPN informations:
-        Gateway: 147.2.207.138
+        Gateway: <ip>
         Gateway Type: Certificates (TLS)
         User Certificate: client1.crt
         CA Certificate: ca.crt
@@ -67,7 +67,7 @@ if openvpn_rpm != 0:
     raise Exception, "ERROR: missing openvpn packages"
     exit(11)
 
-# Step1: Download certificates and keys from 'http://147.2.207.138/client1.tgz' and uncompress
+# Step1: Download certificates and keys and uncompress
 crt_tar = crt_download_url.split('/')[-1]
 
 if not os.path.exists(crt_tar):
@@ -112,7 +112,7 @@ sleep(config.SHORT_DELAY)
 edit_frame = nm_editor_app.findFrame("Editing VPN connection 1")
 
 # Step5: On "Editing VPN connection 1" dialog setting VPN informations:
-#        Gateway: 147.2.207.138
+#        Gateway: <ip>
 #        Gateway Type: Certificates (TLS)
 #        User Certificate: client1.crt
 #        CA Certificate: ca.crt
