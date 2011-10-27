@@ -4,7 +4,7 @@
 
 Name:         qa_test_specweb
 #BuildRequires: ctcs2
-License:      GPL
+License:      Proprietary SPEC
 Group:        SuSE internal
 Summary:      Specweb benchmark for ctcs framework
 Provides:	specweb specweb-ctcs2-glue

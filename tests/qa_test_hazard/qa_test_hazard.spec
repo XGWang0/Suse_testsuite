@@ -12,7 +12,7 @@
 # norootforbuild
 
 Name: 		qa_test_hazard
-License:        GPL v2 or later
+License:        Proprietary HP
 Group:          SuSE internal
 Version: 0.1
 Release:        5

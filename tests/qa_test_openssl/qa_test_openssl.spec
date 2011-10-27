@@ -12,7 +12,7 @@
 %define qa_location /usr/share/qa/qa_test_openssl
 
 Name:           qa_test_openssl
-License:        GNU General Public License (GPL)
+License:        OpenSSL Open Source License; GPL v3 or later
 Group:          SuSE internal
 Summary:        Unittests for openssl framework using the system openssl
 Provides:	qa_openssl
