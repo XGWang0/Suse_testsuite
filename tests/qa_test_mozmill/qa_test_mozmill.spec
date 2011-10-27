@@ -12,7 +12,7 @@
 
 Name:           qa_test_mozmill
 BuildRequires:  python
-License:        GPL v2 or later
+License:        MPL 1.1; GPL v2 or later; LGPL v2.1 or later
 Group:          SuSE internal
 AutoReqProv:	on
 Version:	0.2

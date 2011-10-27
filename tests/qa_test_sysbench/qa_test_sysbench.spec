@@ -19,7 +19,7 @@ Version:        0.4.8
 Release:        64
 License:        GPL v2 or later
 Group:          System/Benchmark
-Url:            http://sourceforge.net/projects/sysbench
+Url:            http://sysbench.sourceforge.net/
 AutoReqProv:    on
 PreReq:         %insserv_prereq %fillup_prereq
 Provides:	sysbench sysbench-ctcs2-glue

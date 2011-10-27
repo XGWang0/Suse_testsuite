@@ -12,7 +12,7 @@
 
 Name:           qa_test_lvm2
 BuildRequires:  ctcs2
-License:        GPL v2 or later
+License:        GPL v2
 Group:          SuSE internal
 Summary:        lvm2 regression tests for ctcs framework
 Provides:	qa_lvm2

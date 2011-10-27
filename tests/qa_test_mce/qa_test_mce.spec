@@ -21,7 +21,7 @@
 Name:           qa_test_mce
 
 Url:            git://git.kernel.org/pub/scm/utils/cpu/mce/mce-test.git
-License:        GPL v2 or later
+License:        GPL v2
 Group:          System/Benchmark
 AutoReqProv:    on
 Provides:	mce-test

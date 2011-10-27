@@ -32,7 +32,7 @@
 
 Name:           qa_test_logrotate
 BuildRequires:  ctcs2
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 AutoReqProv:    on
 Version:        0.11

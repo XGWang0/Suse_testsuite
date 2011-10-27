@@ -23,9 +23,9 @@
 #
 
 Name:           qa_test_zypper
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          System/Packages
-Summary:        Basic ligth zypper tests for ctcs2 framework
+Summary:        Basic light zypper tests for ctcs2 framework
 Provides:	qa_zypper
 Obsoletes:	qa_zypper
 Requires:       zypper >= 1.0 ctcs2

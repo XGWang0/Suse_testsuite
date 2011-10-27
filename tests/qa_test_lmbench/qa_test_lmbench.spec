@@ -6,7 +6,7 @@
 
 
 Name:           qa_test_lmbench
-Url:            http://www.bitmover.com/qa_test_lmbench/
+Url:            http://www.bitmover.com/lmbench/
 License:        GPL v2 or later
 Group:          SUSE internal
 AutoReqProv:    on
