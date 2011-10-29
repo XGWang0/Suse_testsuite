@@ -25,16 +25,10 @@
 
 #===============================================================================
 #
-#                 SUSE/Novell confidential Testscript
-#           Only for internal use, no distribution allowed
-#
-#
-#
 #           FILE: qa_clamdscan_file_scan_MIME-test.sh
 #        VERSION: 0.1
 #         AUTHOR: Andrej Semen <asemen@suse.de>
 #       REVIEWER: 
-#        LICENSE: GPL
 #
 #        CREATED: 2008-11-19
 #        REVISED: 2008-12-12

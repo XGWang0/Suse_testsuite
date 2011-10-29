@@ -33,7 +33,7 @@
 
 Name:           qa_test_sched_stress
 #BuildRequires:  ctcs2
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SUSE internal
 Summary:        sched stress test from LTP
 Provides:	qa_sched_stress

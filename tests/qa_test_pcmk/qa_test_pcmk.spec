@@ -8,7 +8,7 @@
 
 Name:           qa_test_pcmk
 BuildRequires:  ctcs2
-License:		GPL v2.1 or later
+License:	GPL v2.1 or later
 Group:          SuSE internal
 Summary:	Pacemaker internal test suite
 Provides:	qa_pcmk

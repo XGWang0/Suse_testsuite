@@ -30,7 +30,7 @@
 # norootforbuild
 
 Name:           qa_test_unace
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple unace tests for ctcs framework
 Provides:	qa_unace

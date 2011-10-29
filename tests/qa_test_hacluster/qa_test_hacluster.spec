@@ -12,7 +12,7 @@
 
 Name:           qa_test_hacluster
 #BuildRequires:  ctcs2
-License:        GPL v3 or later
+License:        SUSE Proprietary
 Group:          SuSE internal
 AutoReqProv:    on
 Version:        0.4.1

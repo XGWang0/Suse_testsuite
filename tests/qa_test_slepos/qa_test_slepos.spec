@@ -34,7 +34,7 @@ Version:	0.5
 Release:	1
 Summary:	SLEPOS (semi)automation bash scripts
 Group:		System/Benchmark
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Url:		http://qa.suse.de
 BuildArch:      noarch
 Source0:		%{name}-%{version}.tar.bz2

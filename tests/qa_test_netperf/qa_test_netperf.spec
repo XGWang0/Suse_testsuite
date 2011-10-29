@@ -20,10 +20,10 @@
 
 
 Name:           qa_test_netperf
-License:        Any Noncommercial; Any permissive
+License:        HP; Any Noncommercial; Any permissive
 Group:          System/Benchmark
 Summary:        network performance benchmark
-Url:            http://www.netperf.org/qa_test_netperf/
+Url:            http://www.netperf.org/netperf/
 Version:        2.4.4
 Release:        69
 Source0:        netperf-%{version}.tar.bz2

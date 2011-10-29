@@ -20,7 +20,7 @@
 
 Name:           qa_test_memeat
 #BuildRequires:  ctcs2
-License:        No license agreement found in package
+License:        SUSE Proprietary
 Group:          SUSE internal
 AutoReqProv:    on
 Version:        0.1

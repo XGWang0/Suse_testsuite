@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # ****************************************************************************
 # Copyright © 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -21,28 +22,17 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
-#
 
 #===============================================================================
-#
-#                 SUSE/Novell confidential Testscript
-#           Only for internal use, no distribution allowed
-#
-#
-#
 #           FILE: file_copy (to be changed) 
 #        VERSION: 0.1
 #         AUTHOR: ories@suse.de 
 #       REVIEWER: ories@suse.de 
-#        LICENSE: GPL2 
-#
 #        CREATED: 2006-04-24
-#        REVISED: 2006-04-24
 #
 #    DESCRIPTION: "create input file, create md5sum, copy input file in X jobs and do md5sum integrity check"
 #   REQUIREMENTS: ""
 #          USAGE: ./$FILE -h
-#
 #===============================================================================
 
 function usage {

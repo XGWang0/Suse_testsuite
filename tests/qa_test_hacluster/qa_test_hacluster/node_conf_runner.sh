@@ -1,5 +1,7 @@
 #!/bin/bash
 
+devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config |cut -d= -f2`
+
 while getopts :b:di:l:m:p:s:t: arg; do
 	case $arg in
 	b)	bindnetaddr="$OPTARG";;
@@ -34,7 +36,7 @@ if [ "$devel" = "TRUE" ]; then
   zypper lr | grep ha-devel 2>&1 > /dev/null
   ha_devel=$?
   if [ "$ha_devel" != "0" ]; then
-    zypper ar http://dist.suse.de/ibs/Devel:/HAE:/SLE11SP1/SLE_11_SP1/ ha-devel
+    zypper ar $devel_hae_11_sp1 ha-devel
   fi
 
   zypper ref

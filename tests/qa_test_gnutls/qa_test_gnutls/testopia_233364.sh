@@ -42,6 +42,7 @@ RC_FAIL=1
 RC_IntErr=11
 RC_SKIP=22
 
+source qa_test_gnutls-config
 
 export LC_ALL=C
 VERSION="2.5"
@@ -263,19 +264,19 @@ cat << EOF >ca-cert.expect
 spawn certtool --generate-self-signed --load-privkey ca-key.pem --outfile ca-cert.pem
 
 expect {
-	"Country name (2 chars): "						{ send "DE\n"
+	"Country name (2 chars): "						{ send "$country\n"
 		exp_continue
 	}
-	"Organization name: "							{ send "SUSE Linux\n"
+	"Organization name: "							{ send "$ca_organization\n"
 		exp_continue
 	}
-	"Organizational unit name: "						{ send "Products GmbH\n"
+	"Organizational unit name: "						{ send "$organizational_unit\n"
 		exp_continue
 	}
-	"Locality name: "							{ send "Nuremberg\n"
+	"Locality name: "							{ send "$locality\n"
 		exp_continue
 	}
-	"State or province name: "						{ send "Bavaria\n"
+	"State or province name: "						{ send "$province_name\n"
 		exp_continue
 	}
 	"Common name: "								{ send "TEST-CERT\n"
@@ -338,19 +339,19 @@ echo "#
 # DN options
 
 # The organization of the subject.
-organization = \"SUSE Linux\"
+organization = \"$ca_organization\"
 
 # The organizational unit of the subject.
-unit = \"Products GMBH\"
+unit = \"$organizational_unit\"
 
 # The locality of the subject.
-locality = \"Nuremberg\"
+locality = \"$locality\"
 
 # The state of the certificate owner.
-state = \"Bavaria\"
+state = \"$province_name\"
 
 # The country of the subject. Two letter code.
-country = \"DE\"
+country = \"$country\"
 
 # The common name of the certificate owner.
 cn = \"TEST-CERT\"
@@ -459,28 +460,28 @@ cat << EOF >request.expect
 spawn certtool --generate-request --load-privkey request-key.pem --outfile request.pem 
 
 expect {
-	"Country name (2 chars): "						{ send "DE\n"
+	"Country name (2 chars): "						{ send "$country\n"
 		exp_continue
 	}
-	"Organization name: "							{ send "SUSE Linux Products GmbH\n"
+	"Organization name: "							{ send "$request_organization\n"
 		exp_continue
 	}
 	"Organizational unit name: "						{ send "QA\n"
 		exp_continue
 	}
-	"Locality name: "							{ send "Nuremberg\n"
+	"Locality name: "							{ send "$locality\n"
 		exp_continue
 	}
-	"State or province name: "						{ send "Bavaria\n"
+	"State or province name: "						{ send "$province_name\n"
 		exp_continue
 	}
-	"Common name: "								{ send "gemini.suse.de\n"
+	"Common name: "								{ send "$request_common_name\n"
 		exp_continue
 	}
 	"UID: "									{ send "qa_tester\n"
 		exp_continue
 	}
-	"Enter a challenge password: "						{ send "jaurrrrr\n"
+	"Enter a challenge password: "						{ send "$challenge_password\n"
 		exp_continue
 	}
 	"Is the above information ok? (Y/N): "					{ send "Y\n"
@@ -506,28 +507,28 @@ echo "#
 #
 
 # The country of the subject. Two letter code.
-country = \"DE\"
+country = \"$country\"
 
 # The organization of the subject.
-organization = \"SUSE Linux Products GmbH\"
+organization = \"$request_organization\"
 
 # The organizational unit of the subject.
 unit = \"QA\"
 
 # The locality of the subject.
-locality = \"Nuremberg\"
+locality = \"$locality\"
 
 # The state of the certificate owner.
-state = \"Bavaria\"
+state = \"$province_name\"
 
 # The common name of the certificate owner.
-cn = \"gemini.suse.de\"
+cn = \"$request_common_name\"
 
 # A user id of the certificate owner.
 #uid = "qa_tester"
 
 # A challenge password for the request.
-challenge_password = \"jaurrrrr\"" > requesttempl.cfg
+challenge_password = \"$challenge_password\"" > requesttempl.cfg
 
 if [ x$QUIET != xyes ]; then
 echo -e "done.
@@ -576,7 +577,7 @@ expect {
 	"web server certificate? (Y/N): "					{ send "Y\n"
 		exp_continue
 	}
-	"Enter the dnsName of the subject of the certificate: "			{ send "gemini.suse.de\n"
+	"Enter the dnsName of the subject of the certificate: "			{ send "$ca_subject_dnsname\n"
 		exp_continue
 	}
 	"Will the certificate be used for signing (DHE and RSA-EXPORT ciphersuites)? (Y/N): " { send "N\n"
@@ -638,7 +639,7 @@ encryption_key
 
 # Enter the dnsName of the subject of the certificate: gemini.suse.de
 # A dnsname in case of a WWW server.
-dns_name = \"gemini.suse.de\"" >replytempl.cfg
+dns_name = \"$ca_subject_dnsname\"" >replytempl.cfg
 
 if [ x$QUIET != xyes ]; then
 echo -e "done.
@@ -699,13 +700,13 @@ fi
 ## DISABLED ##    || cli_test_die "No certificate found. "
 
 if [ x$QUIET != xyes ]; then
-echo -e "Testcase 233365: Trying gnutls-cli on TLS server you.suse.de\n"
+echo -e "Testcase 233365: Trying gnutls-cli on TLS server $TLS_server\n"
 fi
-where_am_i="gnutls-cli test: step 1: gnutls-cli you.suse.de"
+where_am_i="gnutls-cli test: step 1: gnutls-cli $TLS_server"
 { 
-  echo "gnutls-cli you.suse.de"
+  echo "gnutls-cli $TLS_servere"
   ## FIXME: hopefully these waiting times are enough
-  { sleep 6 ; echo "GET /" ; sleep 6 ; }  | gnutls-cli you.suse.de
+  { sleep 6 ; echo "GET /" ; sleep 6 ; }  | gnutls-cli $TLS_server
 } > gnutls-cli.log2 2>&1
 cat gnutls-cli.log2
 if grep -q "Got a certificate list of 1 certificates." gnutls-cli.log2
@@ -716,7 +717,7 @@ gnutls-cli test successful
 =========================================
 "
 else
-	cli_test_die "gnutls-cli FAILED on you.suse.de. "
+	cli_test_die "gnutls-cli FAILED on $TLS_server. "
 fi
 
 
@@ -727,12 +728,12 @@ echo "
 TESTOPIA testcase 233366: gnutls-cli-debug test in $TEMPDIR
 =========================================================================
 "
-echo -e "Testcase 233366: Trying gnutls-cli-debug on TLS server you.suse.de\n"
+echo -e "Testcase 233366: Trying gnutls-cli-debug on TLS server $TLS_server\n"
 fi
-echo "gnutls-cli-debug you.suse.de"
-where_am_i="gnutls-cli test: step 2: gnutls-cli-debug you.suse.de"
-gnutls-cli-debug you.suse.de \
-    || cli_test_die "gnutls-cli-debug FAILED on you.suse.de. "
+echo "gnutls-cli-debug $TLS_server"
+where_am_i="gnutls-cli test: step 2: gnutls-cli-debug $TLS_server"
+gnutls-cli-debug $TLS_server \
+    || cli_test_die "gnutls-cli-debug FAILED on $TLS_server. "
 echo "
 =========================================
 gnutls-cli-debug test successful

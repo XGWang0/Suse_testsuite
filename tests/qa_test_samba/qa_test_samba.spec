@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_samba
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        (rd-)qa internal package for testing samba
 Provides:	qa_samba

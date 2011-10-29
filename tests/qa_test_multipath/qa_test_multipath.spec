@@ -31,7 +31,7 @@
 
 Name:           qa_test_multipath
 BuildRequires:  ctcs2
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple multipath tests for ctcs framework
 Provides:	qa_multipath

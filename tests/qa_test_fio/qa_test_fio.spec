@@ -9,7 +9,7 @@ Source:			fio-%{version}.tar.bz2
 Source1:		qa_test_fio.8
 URL:			http://freshmeat.net/projects/fio/
 Group:			System/Benchmark
-License:		GNU General Public License (GPL)
+License:		GPL v2 or later
 BuildRoot:		%{_tmppath}/build-%{name}-%{version}
 Provides:	fio
 Obsoletes:	fio

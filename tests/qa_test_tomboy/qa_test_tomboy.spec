@@ -27,7 +27,7 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 
 Name:           qa_test_tomboy
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple tomboy tests for ctcs framework
 Provides:	qa_tomboy

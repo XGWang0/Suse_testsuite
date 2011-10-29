@@ -21,7 +21,7 @@
 Name:           mce-inject
 
 Url:            http://git.kernel.org/pub/scm/utils/cpu/mce/mcelog.git
-License:        GPL v2 or later
+License:        GPL v2
 Group:          System/Benchmark
 AutoReqProv:    on
 Summary:        MCE injection tool

@@ -1,5 +1,5 @@
 #
-# spec file for package qa_gzip (Version 0.1)
+# spec file for package qa_test_openssl (Version 0.1)
 #
 # Copyright (c) 2007 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
@@ -12,7 +12,7 @@
 %define qa_location /usr/share/qa/qa_test_openssl
 
 Name:           qa_test_openssl
-License:        GNU General Public License (GPL)
+License:        OpenSSL Open Source License; GPL v3 or later
 Group:          SuSE internal
 Summary:        Unittests for openssl framework using the system openssl
 Provides:	qa_openssl
@@ -24,7 +24,7 @@ Version:	0.9.8r
 %else
 Version:        1.0.0e
 %endif
-Release:        13
+Release:        14
 Source0:        %name-%version.tar.bz2
 Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
@@ -44,7 +44,9 @@ Test cases for openssl package.
 echo -en "#!/bin/bash\ncd %{qa_location}/test\nmake \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
 chmod +x ./ctcs2_run_test.sh
 
+# fix the perl invocations
 sed -i -e 's:/usr/local/bin/perl:/usr/bin/perl:g' util/*.{pl,sh} util/pl/*.pl
+sed -i -e 's:/bin/env perl:/usr/bin/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %if 0%{?suse_version} < 1120
 %patch1 -p1

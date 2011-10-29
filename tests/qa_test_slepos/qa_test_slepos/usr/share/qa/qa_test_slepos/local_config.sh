@@ -70,7 +70,7 @@ CONFIG_EDITED=no
 # use SSL for LDAP? (y/n)
 ssl=n
 
-#admin_server_IP=10.20.5.64
+#get admin_server_IP
 admin_server_IP="`host "$admin_server_name" | cut -d\  -f4`"
 
 # location, where all not assigned branchserver will belong to

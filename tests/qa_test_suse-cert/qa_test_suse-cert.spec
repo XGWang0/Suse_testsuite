@@ -39,7 +39,7 @@ Provides:	suse-cert
 Obsoletes:	suse-cert
 Requires:       hwinfo-devel coreutils bonnie cdrecord mkisofs wget e2fsprogs util-linux build mgetty pure-ftpd python
 Group:          Development/Tools/Other
-License:		SUSE Proprietary
+License:        SUSE Proprietary
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source:         scripts.tar.bz2
 Source1:        templates.tar.bz2

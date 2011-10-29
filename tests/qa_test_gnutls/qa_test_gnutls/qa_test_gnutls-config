@@ -1,4 +1,3 @@
-#!/bin/bash
 # ****************************************************************************
 # Copyright © 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -21,45 +20,21 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
+
+#
+# This file contains default configuration for qa_test_gnutls test
 #
 
-# source REPO, REPO_NAME, PACKAGE, PACKAGE_DESC variables
-source qa_test_zypper-config
+# Variable ca informations for gnutls test
+country=DE
+ca_organization="SUSE Linux"
+organizational_unit="Products GmbH"
+locality=Nuremberg
+province_name=Bavaria
 
-function failed {
-       echo "$1. Test failed"
-       exit -1
-}
+request_organization="SUSE Linux Products GmbH"
+request_common_name=gemini.suse.de
+challenge_password=jaurrrrr
 
-function assert_root {
-       [ `id -u` == 0 ] || failed "You must be root to run this test. Exiting..."
-       export LANG=C
-}
-
-function assert_output {
-       r1=`zypper $1`
-       r2=`zypper $2`
-       [ "$r1" == "$r2" ] || failed "zypper $1 and zypper $2 have different output"
-}
-
-function assert_result {
-       zypper $1 | grep "$2" > /dev/null
-       if [ $? != 0 ]; then
-               zypper $1 | grep "$3" > /dev/null
-               if [ $? != 0 ]; then
-                       failed "There is no $2 or $3 in the result of command: $1"
-               fi
-       fi
-}
-
-function no_result {
-    zypper $1 | grep "$2" > /dev/null
-    [ $? != 0 ] || failed "Should not exist $2 in the result of command: $1"
-}
-
-function assert_file {
-    zypper $1 > /dev/null
-    [ -e $2 ] || failed "$2 is not exist after execute command: $1"
-}
-
-
+ca_subject_dnsname=gemini.suse.de
+TLS_server=you.suse.de

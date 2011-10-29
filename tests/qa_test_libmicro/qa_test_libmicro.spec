@@ -17,7 +17,7 @@ Group:          System/Benchmark
 BuildRequires:  kernel-source gcc make
 AutoReqProv:    on
 Summary:        kernel test suite, micro benchmark
-Url:            http://www.opensolaris.org/os/project/qa_test_libmicro/
+Url:            http://www.opensolaris.org/os/project/libmicro/
 Version:        0.4.0
 Release:        81
 Source0:        libmicro-%{version}.tar.bz2

@@ -19,9 +19,9 @@
 
 
 Name:           qa_test_memtester
-Url:            http://pyropus.ca/software/qa_test_memtester
+Url:            http://pyropus.ca/software/memtester
 #BuildRequires:  ctcs2
-License:        GPL v2 or later
+License:        GPL v2
 Group:          SUSE internal
 AutoReqProv:    on
 Version:        4.0.5

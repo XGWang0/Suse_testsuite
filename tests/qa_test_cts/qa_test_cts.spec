@@ -37,7 +37,7 @@ AutoReqProv:    on
 Version:        0.1
 Release:        1
 Summary:        qa internal package for HA cts
-Url:            http://www.libreoffice.org/
+Url:            None
 Source0:        %name-%version.tar.bz2
 Source1:        qa_test_cts.8
 Source2:        00-qa_test_cts-sharestorage-server

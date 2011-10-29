@@ -19,13 +19,13 @@
 
 
 Name:           qa_test_unixbench
-License:        GPL v2 only; GPL v2 or later
+License:        GPL v2
 Group:          System/Benchmark
 AutoReqProv:    on
 Version:        4.0.1
 Release:        9
 Summary:        A byte Unix benchmarks
-Url:            http://ftp.tux.org/pub/benchmarks/System/qa_test_unixbench/
+Url:            http://ftp.tux.org/pub/benchmarks/System/unixbench/
 Source0:        unixbench-%{version}.tar.bz2
 Source1:        COPYING
 Source2:        LICENSE
