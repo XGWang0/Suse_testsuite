@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # ****************************************************************************
 # Copyright © 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -22,8 +23,6 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
-
-# -*- coding: utf-8 -*-
 
 ##############################################################################
 # Written by: Calen Chen <cachen@novell.com>
