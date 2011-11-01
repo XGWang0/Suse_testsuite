@@ -24,7 +24,7 @@ Version:	0.9.8r
 %else
 Version:        1.0.0e
 %endif
-Release:        14
+Release:        15
 Source0:        %name-%version.tar.bz2
 Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
@@ -73,8 +73,12 @@ cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $
 %build
 cd test
 make
-#make tests # some tests fail on sle10 now, cancel them so we still have packages
+# some tests fail on sle10 now so don't run them during build
+%if 0%{?suse_version} < 1100
+make tests
+%endif
 make clean
+
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
