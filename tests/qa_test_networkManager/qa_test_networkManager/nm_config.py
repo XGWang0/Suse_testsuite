@@ -38,8 +38,8 @@ wireless2_pwd="sledqateam"
 # VPN settings
 vpn_user_name = ""
 vpn_user_pwd = ""
-vpn_gateway = "vpn.bej.novell.com"
-vpn_group_name = "novell"
+vpn_gateway = ""
+vpn_group_name = ""
 vpn_group_pwd = ""
 
 # Static network settings
@@ -55,7 +55,7 @@ hidden_wireless_dns = "192.168.0.1"
 
 # D-LINK SYSTEM settings
 dlink_url = "http://192.168.0.1"
-admin_pwd = "novell"
+admin_pwd = ""
 
 # Novell secure wifi settings
 wifi_user_name = ""
