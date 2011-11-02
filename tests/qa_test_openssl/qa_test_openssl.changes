@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Nov 02 09:25:00 CET 2011 - tchvatal@suse.cz
+
+- add simple benchmark phase, the parsing will be done on the other
+  side
+
+-------------------------------------------------------------------
 Tue Nov 01 10:45:00 CET 2011 - tchvatal@suse.cz
 
 - run the tests during the package creation too if possible
