@@ -22,6 +22,9 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+WORKPATH="/usr/share/qa/qa_test_bind"
+cd $WORKPATH
+
 . bind.rc
 
 backup_config
