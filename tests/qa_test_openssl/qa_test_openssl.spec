@@ -75,7 +75,7 @@ cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $
 cd test
 make
 # some tests fail on sle10 now so don't run them during build
-%if 0%{?suse_version} < 1100
+%if 0%{?suse_version} >= 1100
 make tests
 %endif
 make clean
