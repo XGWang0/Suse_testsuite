@@ -30,6 +30,7 @@ Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
 Source3:	generate_openssl_tests.sh
 Source4:	qa_test_openssl_benchmark.sh
+Source5:	qa_test_openssl_benchmark_z.sh
 Patch0:		qa_test_openssl-Makefile-1.0.0e.patch
 Patch1:		qa_test_openssl-Makefile-0.9.8r.patch
 Patch2:		qa_test_openssl-sle10-drop-ige.patch
@@ -91,6 +92,7 @@ install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}
 install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}/tcf
 install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT/%{qa_location}
+install -m 755 %{S:5} $RPM_BUILD_ROOT/%{qa_location}
 cp -a * $RPM_BUILD_ROOT/%{qa_location}
 
 echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
