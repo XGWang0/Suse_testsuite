@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -33,7 +33,7 @@ Group:          SuSE internal
 Summary:        Simple evolution tests for ctcs framework
 Provides:	qa_evolution
 Obsoletes:	qa_evolution
-Requires:       strongwind ctcs2
+Requires:       strongwind ctcs2 evolution
 Version:        0.1
 Release:        1
 Source0:        %name-%version.tar.bz2

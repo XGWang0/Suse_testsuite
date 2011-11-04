@@ -1,6 +1,6 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -36,9 +36,9 @@ else
 	fi
 fi
 
-gkd_pid=`ps -ef |grep "gnome-keyring-daemon" |grep -v grep |awk '{print $2}'`
+gkd_pid=`ps -ef |grep "gnome-keyring-daemon" |grep -v grep |grep "\$USER" |awk '{print $2}'`
 if [ "$gkd_pid" ]; then
-	killall gnome-keyring-daemon
+	kill -9 $gkd_pid
 fi
 
 

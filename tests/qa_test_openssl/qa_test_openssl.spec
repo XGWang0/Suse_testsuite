@@ -24,11 +24,12 @@ Version:	0.9.8r
 %else
 Version:        1.0.0e
 %endif
-Release:        15
+Release:        19
 Source0:        %name-%version.tar.bz2
 Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
 Source3:	generate_openssl_tests.sh
+Source4:	qa_test_openssl_benchmark.sh
 Patch0:		qa_test_openssl-Makefile-1.0.0e.patch
 Patch1:		qa_test_openssl-Makefile-0.9.8r.patch
 Patch2:		qa_test_openssl-sle10-drop-ige.patch
@@ -74,7 +75,7 @@ cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $
 cd test
 make
 # some tests fail on sle10 now so don't run them during build
-%if 0%{?suse_version} < 1100
+%if 0%{?suse_version} >= 1100
 make tests
 %endif
 make clean
@@ -89,6 +90,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}
 install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}/tcf
 install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:4} $RPM_BUILD_ROOT/%{qa_location}
 cp -a * $RPM_BUILD_ROOT/%{qa_location}
 
 echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
@@ -99,6 +101,8 @@ cat $RPM_BUILD_ROOT/%{qa_location}/ctcs2_test_list | while read test; do
 	echo -en "wait\n\n"
 done >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
 echo -en "timer 300\nfg 1 clean %{qa_location}/ctcs2_run_test.sh clean\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
+echo -en "timer 3000\nfg 1 openssl_bench %{qa_location}/qa_test_openssl_benchmark.sh\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
+echo -en "timer 3000\nfg 1 openssl_bench_z %{qa_location}/qa_test_openssl_benchmark_z.sh\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
 
 
 %clean
