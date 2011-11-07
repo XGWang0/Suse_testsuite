@@ -74,13 +74,7 @@ print doc
 
 # Step1: load to http://www.adobe.com/software/flash/about/
 flash_web = "http://www.adobe.com/software/flash/about/"
-entry = fFrame.findEntry("Search Bookmarks and History")
-procedurelogger.action('Load to %s' % flash_web)
-entry.text = flash_web
-entry.mouseClick()
-sleep(config.SHORT_DELAY)
-fFrame.keyCombo("enter", grabFocus=False)
-sleep(config.LONG_DELAY)
+openURL(fFrame, flash_web)
 
 procedurelogger.expectedResult('%s frame appears' % \
                                     "Adobe - Flash Player")

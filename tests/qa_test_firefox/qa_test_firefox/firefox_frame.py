@@ -88,13 +88,12 @@ def checkVersion(package_name="MozillaFirefox", expected_version="3.5.11"):
 
 def openURL(test_frame, url):
     procedurelogger.action("Launch %s" % url)
-    test_frame.findMenu("File").mouseClick()
-    sleep(config.SHORT_DELAY)
-    test_frame.findMenuItem(re.compile('^Open Location')).mouseClick()
-    sleep(config.SHORT_DELAY)
 
-    url_entry = test_frame.findEntry("Search Bookmarks and History")
+    autocomplete = test_frame.findAutocomplete(None)
+    url_entry = autocomplete.findEntry(None)
     url_entry.text = url
+    sleep(config.SHORT_DELAY)
+    url_entry.mouseClick()
     sleep(config.SHORT_DELAY)
     url_entry.keyCombo("enter")
     sleep(config.LONG_DELAY)

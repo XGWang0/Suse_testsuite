@@ -59,13 +59,8 @@ fFrame = app.firefoxFrame
 print doc
 
 # Step1: Load http://www.mozilla.org/
-entry = fFrame.findEntry("Search Bookmarks and History")
-procedurelogger.action('Load to http://www.mozilla.org')
-entry.text = "http://www.mozilla.org/"
-entry.mouseClick()
-sleep(config.SHORT_DELAY)
-fFrame.keyCombo("enter", grabFocus=False)
-sleep(config.MEDIUM_DELAY)
+web = "http://www.mozilla.org/"
+openURL(fFrame, web)
 
 procedurelogger.expectedResult('mozilla.org frame appears')
 fFrame.findDocumentFrame("Home of the Mozilla Project")

@@ -132,6 +132,7 @@ save_dialog = app.findDialog(re.compile('^Opening'))
 save_dialog.findRadioButton("Save File").mouseClick()
 sleep(config.SHORT_DELAY)
 save_dialog.findPushButton("OK").mouseClick()
+sleep(config.SHORT_DELAY)
 save_dialog.assertClosed()
 
 # Step7: Make sure rpm is saving
