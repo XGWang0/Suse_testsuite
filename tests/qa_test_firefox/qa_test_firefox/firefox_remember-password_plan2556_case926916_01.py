@@ -81,7 +81,7 @@ password = "qatest"
 menubar = fFrame.findMenuBar(None)
 menubar.select(["Edit", "Preferences"])
 
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
 preferences_frame.findListItem("Security").mouseClick()
 sleep(config.SHORT_DELAY)
@@ -113,7 +113,7 @@ if master_check.checked:
     menubar = fFrame.findMenuBar(None)
     menubar.select(["Edit", "Preferences"])
 
-    preferences_frame = app.findFrame("Firefox Preferences")
+    preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
     preferences_frame.findListItem("Security").mouseClick()
     sleep(config.SHORT_DELAY)
@@ -182,7 +182,7 @@ if app._accessible.childCount == 2:
 # Step8: Select Edit-> Preferences-> Security-> Saved Passwords
 menubar.select(["Edit", "Preferences"])
 
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
 preferences_frame.findPushButton(re.compile('^Saved Passwords')).mouseClick()
 sleep(config.SHORT_DELAY)
@@ -245,7 +245,7 @@ assert doc_frame.findPasswordText(None).text == "******", "error password"
 menubar = fFrame.findMenuBar(None)
 menubar.select(["Edit", "Preferences"])
 
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
 preferences_frame.findCheckBox("Use a master password").mouseClick()
 sleep(config.SHORT_DELAY)

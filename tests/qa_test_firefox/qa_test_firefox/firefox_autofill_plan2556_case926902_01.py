@@ -73,7 +73,7 @@ password = "qapassword"
 menubar = fFrame.findMenuBar(None)
 menubar.select(["Edit", "Preferences"])
 
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
 preferences_frame.findListItem("Security").mouseClick()
 sleep(config.SHORT_DELAY)
@@ -166,7 +166,7 @@ assert doc_frame.findPasswordText(None).text == "******", "error password"
 menubar = fFrame.findMenuBar(None)
 menubar.select(["Edit", "Preferences"])
 
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
 preferences_frame.findListItem("Security").mouseClick()
 sleep(config.SHORT_DELAY)

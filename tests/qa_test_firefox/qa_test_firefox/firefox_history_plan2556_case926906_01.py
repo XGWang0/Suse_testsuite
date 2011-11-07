@@ -97,7 +97,7 @@ assert doc_frames == 2, "expected: 2 %s document frames; actual: %s" % \
 menubar.select(['Edit', 'Preferences'])
 
 # From Privacy Tab, click "clear your recent history"
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
 preferences_frame.findListItem("Privacy").mouseClick()
 sleep(config.SHORT_DELAY)

@@ -71,7 +71,7 @@ web_url = "http://www.mozilla.org/quality/"
 menubar = fFrame.findMenuBar(None)
 menubar.select(["Edit", "Preferences"])
 
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
 # Step2: Come to Main tab,"Startup" section
 preferences_frame.findAllListItems(None)[0].mouseClick()
@@ -124,7 +124,7 @@ fFrame.findDocumentFrame(re.compile('^QMO'))
 
 # Restore to Default
 fFrame.findMenuItem("Preferences", checkShowing=False).click(log=True)
-app.findFrame("Firefox Preferences").findPushButton("Restore to Default").mouseClick()
+pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences").findPushButton("Restore to Default").mouseClick()
 sleep(config.SHORT_DELAY)
 
 # Close application

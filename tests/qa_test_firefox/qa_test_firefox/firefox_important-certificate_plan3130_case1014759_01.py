@@ -70,7 +70,7 @@ menubar = fFrame.findMenuBar(None)
 menubar.select(['Edit', 'Preferences'])
 sleep(config.SHORT_DELAY)
 
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 preferences_frame.findListItem("Advanced").mouseClick()
 sleep(config.SHORT_DELAY)
 preferences_frame.findPageTab("Encryption").mouseClick()
@@ -137,7 +137,7 @@ assert source_frame.showing == True, \
 # Step2: open Edit->Preference->Advanced->Encryption->View Certificates
 menubar.select(['Edit', 'Preferences'])
 sleep(config.SHORT_DELAY)
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 preferences_frame.findListItem("Advanced").mouseClick()
 sleep(config.SHORT_DELAY)
 preferences_frame.findPageTab("Encryption").mouseClick()
