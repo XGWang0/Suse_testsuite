@@ -69,7 +69,7 @@ fFrame = app.firefoxFrame
 print doc
 
 # Step1: Open browser to http://www.python.org/ftp/python/2.7/Python-2.7.tgz
-url_entry = fFrame.findEntry("Search Bookmarks and History")
+url_entry = fFrame.findAutocomplete(None).findEntry(None)
 url_entry.text = "http://www.python.org/ftp/python/2.7/Python-2.7.tgz"
 sleep(config.SHORT_DELAY)
 url_entry.keyCombo("enter")
@@ -107,7 +107,7 @@ sleep(config.SHORT_DELAY)
 download_frame.altF4()
 
 # Step5: Browser to http://www.python.org/ftp/python/2.7/Python-2.7.tgz again
-url_entry = fFrame.findEntry("Search Bookmarks and History")
+url_entry = fFrame.findAutocomplete(None).findEntry(None)
 url_entry.text = "http://www.python.org/ftp/python/2.7/Python-2.7.tgz"
 sleep(config.SHORT_DELAY)
 url_entry.keyCombo("enter")

@@ -86,7 +86,7 @@ else:
 
 # Step2: load to http://gsmworld.com/documents/a5_3_and_gea3_specifications.pdf
 pdf_web = "http://gsmworld.com/documents/a5_3_and_gea3_specifications.pdf"
-entry = fFrame.findEntry("Search Bookmarks and History")
+entry = fFrame.findAutocomplete(None).findEntry(None)
 procedurelogger.action('Load to %s' % pdf_web)
 entry.text = pdf_web
 entry.mouseClick()

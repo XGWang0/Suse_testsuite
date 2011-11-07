@@ -65,7 +65,7 @@ fFrame = app.firefoxFrame
 print doc
 
 # Step1: Launch Browse to http://www.mono-project.com/Accessibility
-url_entry = fFrame.findEntry("Search Bookmarks and History")
+url_entry = fFrame.findAutocomplete(None).findEntry(None)
 url_entry.text = "http://www.mono-project.com/Accessibility"
 sleep(config.SHORT_DELAY)
 url_entry.keyCombo("enter")

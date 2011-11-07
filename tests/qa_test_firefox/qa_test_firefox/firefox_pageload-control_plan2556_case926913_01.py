@@ -79,7 +79,7 @@ sleep(config.SHORT_DELAY)
 # Make sure the page is turn to products
 procedurelogger.expectedResult("Make sure the page is turn to products")
 fFrame.findDocumentFrame("Products - Novell")
-assert fFrame.findEntry("Search Bookmarks and History").text == \
+assert fFrame.findAutocomplete(None).findEntry(None).text == \
                                       "http://www.novell.com/products/", \
                                                   "page shouldn't be products"
 
@@ -93,7 +93,7 @@ sleep(config.MEDIUM_DELAY)
 # Step3: Make sure the page is turn to the first page www.novell.com/home
 procedurelogger.expectedResult("Make sure the page is turn to www.novell.com/home")
 fFrame.findDocumentFrame(re.compile('^NOVELL'))
-assert fFrame.findEntry("Search Bookmarks and History").text == \
+assert fFrame.findAutocomplete(None).findEntry(None).text == \
                                              "http://www.novell.com/home/", \
                                               "page shouldn't be home"
 
@@ -108,7 +108,7 @@ sleep(config.MEDIUM_DELAY)
 # Step5: Make sure The page is turn to www.novell.com/products/
 procedurelogger.expectedResult("Make sure the page is turn to products")
 fFrame.findDocumentFrame(re.compile('^Products'))
-assert fFrame.findEntry("Search Bookmarks and History").text == \
+assert fFrame.findAutocomplete(None).findEntry(None).text == \
                                          "http://www.novell.com/products/", \
                                           "page shouldn't be products"
 
@@ -117,12 +117,7 @@ stop_button = fFrame.findPushButton("Stop")
 
 url = "www.novell.com"
 procedurelogger.action("Launch %s" % url)
-fFrame.findMenu("File").mouseClick()
-sleep(config.SHORT_DELAY)
-fFrame.findMenuItem(re.compile('^Open Location')).mouseClick()
-sleep(config.SHORT_DELAY)
-
-url_entry = fFrame.findEntry("Search Bookmarks and History")
+url_entry = fFrame.findAutocomplete(None).findEntry(None)
 url_entry.text = url
 sleep(config.SHORT_DELAY)
 url_entry.keyCombo("enter")
