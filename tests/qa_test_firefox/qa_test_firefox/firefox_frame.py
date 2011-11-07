@@ -45,11 +45,18 @@ def launchApp(exe, appname):
 	raise NotImplementedError
     # First to kill the exist application.
     # In some cases, if the application has been opend before doing launchApplication, then the second invoked application window would not been found. That will be useful when running a branch of tests in one process
-    if appname in [i.name for i in cache._desktop]:
-        app = i
-        quitFirefox(app.findFrame(None), quit=False)
-        quitMultipleTabs(app, quit=False)
-        app.assertClosed()        
+    #if appname in [i.name for i in cache._desktop]:
+    for i in cache._desktop:
+        if i.name == appname:
+            app = i
+            try:
+                fFrame = app.findFrame(None)
+            except SearchError:
+                pass
+            else:
+                quitFirefox(fFrame, quit=False)
+                quitMultipleTabs(app, quit=False)
+                app.assertClosed()        
 
     args = [exe]
     
@@ -64,13 +71,15 @@ def checkVersion(package_name="MozillaFirefox", expected_version="3.5.11"):
     Check MozillaFirefox's version
     """
     version = os.popen('rpm -q MozillaFirefox').read().strip().split('-')[1]
+    main_actual = version.split('.')[0]
     m_actual = version.split('.')[1]
     s_actual = version.split('.')[2]
 
+    main_expected = expected_version.split('.')[1]
     m_expected = expected_version.split('.')[1]
     s_expected = expected_version.split('.')[2]
 
-    if int(m_actual) < int(m_expected) and int(s_actual) < int(s_expected):
+    if int(main_actual) <= int(main_expected) and int(m_actual) < int(m_expected) and int(s_actual) < int(s_expected):
         print "MozillaFirefox-%s is too old to be automation, please update to MozillaFirefox-%s+" % (version, expected_version)
 
         exit(22)
@@ -116,6 +125,7 @@ def quitFirefox(application, quit=True):
 
     if quit:
         application.assertClosed()
+        sleep(config.SHORT_DELAY)
 
 def press (x, y, button=1, log=True):
     """
