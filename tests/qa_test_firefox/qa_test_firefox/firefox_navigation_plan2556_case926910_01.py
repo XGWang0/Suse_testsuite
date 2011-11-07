@@ -87,7 +87,7 @@ def loadWeb(web_url):
 
 def assertWeb(web_name):
     procedurelogger.expectedResult('Make sure %s is loaded' % web_name)
-    fFrame.findDocumentFrame(re.compile('^%s' % web_name))
+    fFrame.findDocumentFrame(re.compile('.*%s' % web_name))
 
 # Step1: load www.yahoo.com
 loadWeb("www.yahoo.com")
