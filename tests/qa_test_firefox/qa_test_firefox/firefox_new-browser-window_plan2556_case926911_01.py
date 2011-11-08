@@ -69,7 +69,9 @@ frames = app.findAllFrames(None)
 assert len(frames) == 2, "expected 2 frames, actual is %s" % len(frames)
 
 # Close new frame window
-frames[1].altF4()
+frames[1].keyCombo('<Alt>F4')
+sleep(config.SHORT_DELAY)
+assert len(app.findAllFrames(None)) == 1, "new window doesn't closed"
 
 # Step3: File | New Tab to open a new browser tab
 menubar.select(['File', 'New Tab'])
