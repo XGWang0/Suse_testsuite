@@ -86,7 +86,7 @@ sleep(config.SHORT_DELAY)
 
 # Enter name of file to save to... dialog appears but it doesn't accessible in SP2,
 # press key enter to close the dialog
-opening_dialog.keyCombo('enter')
+fFrame.keyCombo('enter')
 sleep(config.SHORT_DELAY)
 
 # Make sure Download Manager appears
@@ -95,16 +95,17 @@ sleep(config.SHORT_DELAY)
 
 ## BUG: Cancel button has wrong position and press action interface implementated in SP2 
 # Step4: Cancel the download and close Download Manager
-#download_frame.findPushButton("Cancel", checkShowing=False).mouseClick(log=True)
-#sleep(config.MEDIUM_DELAY)
-(x, y) = (462, 50)
-pyatspi.Registry.generateMouseEvent(x, y, 'b1dc')
+download_frame.findPushButton("Cancel", checkShowing=False).mouseClick(log=True)
+sleep(config.MEDIUM_DELAY)
+#(x, y) = (462, 50)
+#pyatspi.Registry.generateMouseEvent(x, y, 'b1dc')
+#sleep(config.SHORT_DELAY)
+
+download_frame.findPushButton("Clear List").mouseClick()
 sleep(config.SHORT_DELAY)
 
-download_frame.findPushButton("Clear List").press(log=True)
+download_frame.keyCombo('<Alt>F4')
 sleep(config.SHORT_DELAY)
-
-download_frame.altF4()
 
 # Step5: Browser to http://www.python.org/ftp/python/2.7/Python-2.7.tgz again
 url_entry = fFrame.findAutocomplete(None).findEntry(None)
@@ -121,7 +122,7 @@ sleep(config.SHORT_DELAY)
 opening_dialog.findPushButton("OK").mouseClick()
 sleep(config.SHORT_DELAY)
 
-opening_dialog.keyCombo('enter')
+fFrame.keyCombo('enter')
 sleep(config.MEDIUM_DELAY)
 
 # Make sure Download Manager appears
@@ -129,16 +130,17 @@ download_frame = app.findFrame(re.compile('Downloads$'))
 sleep(config.MEDIUM_DELAY)
 
 # Step7: Cancel and close Download frame
-#download_frame.findPushButton("Cancel", checkShowing=False).mouseClick(log=True)
-#sleep(config.SHORT_DELAY)
-(x, y) = (462, 50)
-pyatspi.Registry.generateMouseEvent(x, y, 'b1dc')
+download_frame.findPushButton("Cancel", checkShowing=False).mouseClick(log=True)
 sleep(config.SHORT_DELAY)
+#(x, y) = (462, 50)
+#pyatspi.Registry.generateMouseEvent(x, y, 'b1dc')
+#sleep(config.SHORT_DELAY)
 
 download_frame.findPushButton("Clear List").press(log=True)
 sleep(config.SHORT_DELAY)
 
-download_frame.altF4()
+download_frame.keyCombo('<Alt>F4')
+sleep(config.SHORT_DELAY)
 
 # Close application
 menubar = fFrame.findMenuBar(None)
