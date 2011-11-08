@@ -143,9 +143,9 @@ install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/tcf
 install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tools
 touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5-5.3.tcf
-touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5-server-5.3.tcf
+touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5-5.3-server.tcf
 ln -s ../qa_test_php5/tcf/qa_php5-5.3.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-ln -s ../qa_test_php5/tcf/qa_php5-server-5.3.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../qa_test_php5/tcf/qa_php5-5.3-server.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 755 %{_sourcedir}/test_php5-5.3-run $RPM_BUILD_ROOT/usr/share/qa/tools
 
 %clean
@@ -169,7 +169,7 @@ cat -n %{qa_location}/ctcs2_test_order | grep -v '[0-9]*[ ]*#' | while read test
     printf PHPSERVER%%0.4d $test_num 
     echo -en " %{_bindir}/php5 -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/server-tests.php -c %{qa_location}/server-tests-config.php -d %{qa_location}/$line \n"
     echo -en "wait\n\n"
-done > %{qa_location}/tcf/qa_php5-server-5.3.tcf
+done > %{qa_location}/tcf/qa_php5-5.3-server.tcf
 
 %files
 %defattr(-, root, root)
@@ -177,16 +177,16 @@ done > %{qa_location}/tcf/qa_php5-server-5.3.tcf
 /usr/share/qa/
 /usr/share/qa/tcf/qa_php5-5.3.tcf
 /usr/share/qa/tools
-%exclude /usr/share/qa/tcf/qa_php5-server-5.3.tcf
-%exclude %{qa_location}/tcf/qa_php5-server-5.3.tcf
+%exclude /usr/share/qa/tcf/qa_php5-5.3-server.tcf
+%exclude %{qa_location}/tcf/qa_php5-5.3-server.tcf
 %exclude %{qa_location}/server-tests-config.php
 %exclude %{qa_location}/server-tests.php
 
 %files server
 %defattr(-, root, root)
 %{qa_server_location}
-/usr/share/qa/tcf/qa_php5-server-5.3.tcf
-%{qa_location}/tcf/qa_php5-server-5.3.tcf
+/usr/share/qa/tcf/qa_php5-5.3-server.tcf
+%{qa_location}/tcf/qa_php5-5.3-server.tcf
 %{qa_location}/server-tests-config.php
 %{qa_location}/server-tests.php
 
