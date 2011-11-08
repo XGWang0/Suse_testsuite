@@ -74,12 +74,12 @@ fFrame = app.firefoxFrame
 print doc
 
 def loadWeb(web_url):
-    # focus to URL location
-    fFrame.findMenuItem(re.compile('^Open Location'), checkShowing=False).click(log=True)
-    sleep(config.SHORT_DELAY)
     # insert web URL
     procedurelogger.action('insert %s' % web_url)
-    fFrame.findEntry("Search Bookmarks and History").text = web_url
+    url_entry = fFrame.findAutocomplete(None).findEntry(None)
+    url_entry.text = web_url
+    sleep(config.SHORT_DELAY)
+    url_entry.mouseClick()
     sleep(config.SHORT_DELAY)
     # press Enter
     fFrame.keyCombo("enter", grabFocus=False)
@@ -87,7 +87,7 @@ def loadWeb(web_url):
 
 def assertWeb(web_name):
     procedurelogger.expectedResult('Make sure %s is loaded' % web_name)
-    fFrame.findDocumentFrame(re.compile('^%s' % web_name))
+    fFrame.findDocumentFrame(re.compile('.*%s' % web_name))
 
 # Step1: load www.yahoo.com
 loadWeb("www.yahoo.com")

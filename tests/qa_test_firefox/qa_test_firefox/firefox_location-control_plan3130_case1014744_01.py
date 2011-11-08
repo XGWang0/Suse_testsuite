@@ -69,7 +69,7 @@ fFrame.findMenuItem(re.compile('^Open Location')).mouseClick()
 sleep(config.SHORT_DELAY)
 
 # Step2: Make sure URL Location text field is focused
-location_entry = fFrame.findEntry("Search Bookmarks and History")
+location_entry = fFrame.findAutocomplete(None).findEntry(None)
 
 procedurelogger.expectedResult("Make sure URL Location text field is focused")
 assert location_entry.focused == True, "URL location text field is not focused"
@@ -85,7 +85,7 @@ procedurelogger.expectedResult('Make sure "Google" is loaded')
 fFrame.findDocumentFrame("Google")
 
 # Step5: Select any URL from text field to visit
-buttons = fFrame.findAutocomplete("Search Bookmarks and History").findAllPushButtons(None)
+buttons = fFrame.findAutocomplete(None).findAllPushButtons(None)
 buttons[-1].mouseClick()
 sleep(config.SHORT_DELAY)
 

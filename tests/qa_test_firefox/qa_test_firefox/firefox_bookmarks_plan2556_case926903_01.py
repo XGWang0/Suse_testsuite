@@ -68,16 +68,10 @@ print doc
 
 # Load http://www.opensuse.org/en/
 web = "http://www.opensuse.org/en/"
-entry = fFrame.findEntry("Search Bookmarks and History")
-procedurelogger.action('Load to %s' % web)
-entry.text = web
-entry.mouseClick()
-sleep(config.SHORT_DELAY)
-fFrame.keyCombo("enter", grabFocus=False)
-sleep(config.MEDIUM_DELAY)
+openURL(fFrame, web)
 
 procedurelogger.expectedResult('%s frame appears' % web)
-fFrame.findDocumentFrame(re.compile('penSUSE.org'))
+fFrame.findDocumentFrame(re.compile('openSUSE.org'))
 
 # Step2: Use Bookmarks | Bookmark This Page to add a bookmark
 fFrame.findMenuItem("New Tab", checkShowing=False).click(log=True)

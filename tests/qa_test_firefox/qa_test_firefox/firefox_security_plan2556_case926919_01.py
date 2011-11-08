@@ -81,7 +81,7 @@ menubar = fFrame.findMenuBar(None)
 menubar.select(['Edit', 'Preferences'])
 sleep(config.SHORT_DELAY)
 
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 preferences_frame.findListItem("Advanced").mouseClick()
 sleep(config.SHORT_DELAY)
 preferences_frame.findPageTab("Encryption").mouseClick()
@@ -125,7 +125,7 @@ assert (name1 not in button_names) or (name2 not in button_names), \
                                      "Lock icon shouldn't appears in statusbar"
 
 # Step2: Go to a secure site, say, https://bugzilla.novell.com
-entry = fFrame.findEntry("Search Bookmarks and History")
+entry = fFrame.findAutocomplete(None).findEntry(None)
 entry.text = "https://bugzilla.novell.com"
 entry.mouseClick()
 sleep(config.SHORT_DELAY)

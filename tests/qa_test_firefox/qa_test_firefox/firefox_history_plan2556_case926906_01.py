@@ -65,7 +65,7 @@ fFrame = app.firefoxFrame
 print doc
 
 # Step1: Launch Browse to http://www.mono-project.com/Accessibility
-url_entry = fFrame.findEntry("Search Bookmarks and History")
+url_entry = fFrame.findAutocomplete(None).findEntry(None)
 url_entry.text = "http://www.mono-project.com/Accessibility"
 sleep(config.SHORT_DELAY)
 url_entry.keyCombo("enter")
@@ -97,7 +97,7 @@ assert doc_frames == 2, "expected: 2 %s document frames; actual: %s" % \
 menubar.select(['Edit', 'Preferences'])
 
 # From Privacy Tab, click "clear your recent history"
-preferences_frame = app.findFrame("Firefox Preferences")
+preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
 preferences_frame.findListItem("Privacy").mouseClick()
 sleep(config.SHORT_DELAY)
