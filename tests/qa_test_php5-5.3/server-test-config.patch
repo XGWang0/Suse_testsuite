@@ -1,5 +1,5 @@
 --- server-tests-config.php	2011-04-19 18:16:27.805000075 +0800
-+++ php-5.2.14/server-tests-config.php	2011-04-19 18:23:05.081000077 +0800
++++ php-5.3.8/server-tests-config.php	2011-04-19 18:23:05.081000077 +0800
 @@ -1,7 +1,7 @@
  <?php
  /* this file may be duplicated to provide testing for
