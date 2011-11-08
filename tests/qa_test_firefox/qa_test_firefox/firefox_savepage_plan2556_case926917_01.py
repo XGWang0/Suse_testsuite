@@ -36,7 +36,7 @@ doc = """
 
 ==Firefox test==
 ===Save Page test===
-Step1: Open browser to http://www.mozilla.org/mozorg.html
+Step1: Open browser to http://www.mozilla.org
 Step2: From the toplevel menu, select File | Save Page As
 Step3: In the resulting file picker, make sure "Web Page, complete" is selected.
 Step4: Choose a target directory (e.g., your desktop or home directory).
@@ -69,11 +69,11 @@ if os.path.exists(m_html):
 else:
     pass
 
-# Step1: Open browser to http://www.mozilla.org/mozorg.html
-openURL(fFrame, "http://www.mozilla.org/mozorg.html")
+# Step1: Open browser to http://www.mozilla.org
+openURL(fFrame, "http://www.mozilla.org")
 
 procedurelogger.expectedResult("make sure mozilla.org is opened")
-assert fFrame.name == "mozilla.org at a glance - Mozilla Firefox", \
+assert fFrame.name == "Home of the Mozilla Project - Mozilla Firefox", \
                                        "Mozilla.org frame doesn't appears"
 
 # Step2: From the top level menu, select File | Save Page As
