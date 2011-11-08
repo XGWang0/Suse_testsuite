@@ -146,7 +146,7 @@ touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5-5.3.tcf
 touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5-server-5.3.tcf
 ln -s ../qa_test_php5/tcf/qa_php5-5.3.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../qa_test_php5/tcf/qa_php5-server-5.3.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-install -m 755 %{_sourcedir}/test_php5-run-5.3 $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{_sourcedir}/test_php5-5.3-run $RPM_BUILD_ROOT/usr/share/qa/tools
 
 %clean
 rm -rvf $RPM_BUILD_ROOT
