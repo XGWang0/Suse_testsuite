@@ -67,14 +67,16 @@ fFrame.findDocumentFrame("Home of the Mozilla Project")
 
 
 # Step2: Click on View -> Sidebar to open each Sidebar
-sidebar_menu = fFrame.findMenu("Sidebar", checkShowing=False)
+fFrame.findMenu("View").mouseClick()
+sleep(config.SHORT_DELAY)
+sidebar_menu = fFrame.findMenu("Sidebar")
+sidebar_menu.mouseClick()
+sleep(config.SHORT_DELAY)
+
 for i in range(sidebar_menu.childCount):
-    fFrame.findMenu("View").mouseClick()
+    sidebar_menu.getChildAtIndex(i).click(log=True)
     sleep(config.SHORT_DELAY)
-    sidebar_menu.mouseClick()
-    sleep(config.SHORT_DELAY)
-    sidebar_menu.getChildAtIndex(i).mouseClick()
-    sleep(config.SHORT_DELAY)
+
     procedurelogger.expectedResult('%s Sidebar appears' % \
                                      sidebar_menu.getChildAtIndex(i).name)
     sidebar = fFrame.findInternalFrame(sidebar_menu.getChildAtIndex(i).name)
@@ -88,9 +90,12 @@ for i in range(sidebar_menu.childCount):
 
 procedurelogger.expectedResult('%s Sidebar disappears' % \
                              sidebar_name)
-if sidebar.showing:
+if sidebar.name:
     raise Exception, "Sidebar shouldn't appears"
     exit(1)
+
+if sidebar.showing:
+    raise Exception, "Closed Sidebar has wrong states: %s, see BUG705315" % sidebar._accessible.getState().getStates()
 
 # Close application
 menubar = fFrame.findMenuBar(None)
