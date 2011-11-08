@@ -25,7 +25,7 @@ Summary:        PHP5 test suite
 Source0:        php-%{version}.tar.bz2
 Source1:        test_php5-5.3-run
 Source2:	qa_test_php5-5.3.8
-Source3:	apache2-php5-5.3-prepare.sh
+Source3:	apache2-php5-prepare.sh
 Patch0:		server-test-config.patch
 BuildArch:      noarch
 Provides:	qa_php5
