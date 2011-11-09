@@ -62,7 +62,12 @@ print doc
 # Step1: Click on View -> Toolbars -> Customize
 tool_toolbar = fFrame.findAllToolBars(None)[1]
 
-fFrame.findMenuItem(re.compile('^Customize'), checkShowing=False).click(log=True)
+fFrame.findMenu("View").mouseClick()
+sleep(config.SHORT_DELAY)
+fFrame.findMenu("Toolbars").mouseClick()
+sleep(config.SHORT_DELAY)
+
+fFrame.findMenuItem(re.compile('^Customize')).mouseClick()
 sleep(config.SHORT_DELAY)
 customize_frame = app.findFrame("Customize Toolbar")
 
@@ -96,8 +101,14 @@ procedurelogger.expectedResult("%s appears in toolbar" % "History")
 fFrame.findAllToolBars(None)[1].findPushButton("History")
 
 # Restore ToolBar to default
-fFrame.findMenuItem(re.compile('^Customize'), checkShowing=False).click(log=True)
+fFrame.findMenu("View").mouseClick()
 sleep(config.SHORT_DELAY)
+fFrame.findMenu("Toolbars").mouseClick()
+sleep(config.SHORT_DELAY)
+
+fFrame.findMenuItem(re.compile('^Customize')).mouseClick()
+sleep(config.SHORT_DELAY)
+
 customize_frame = app.findFrame("Customize Toolbar")
 customize_frame.findPushButton("Restore Default Set").press(log=True)
 sleep(config.SHORT_DELAY)
@@ -112,7 +123,6 @@ except SearchError:
 
 customize_frame.findPushButton("Done").press(log=True)
 sleep(config.SHORT_DELAY)
-customize_frame.assertClosed()
 
 # Close application
 fFrame.altF4()

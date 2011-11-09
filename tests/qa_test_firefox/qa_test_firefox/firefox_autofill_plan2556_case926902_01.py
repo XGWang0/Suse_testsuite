@@ -72,6 +72,7 @@ password = "qapassword"
 # Step8: Remove the exist password from Edit -> Preference
 menubar = fFrame.findMenuBar(None)
 menubar.select(["Edit", "Preferences"])
+sleep(config.MEDIUM_DELAY)
 
 preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
@@ -79,17 +80,18 @@ preferences_frame.findListItem("Security").mouseClick()
 sleep(config.SHORT_DELAY)
 
 preferences_frame.findPushButton(re.compile('^Saved Passwords')).mouseClick()
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
 save_frame = app.findFrame("Saved Passwords")
 
 sleep(config.SHORT_DELAY)
 
-save_frame.findPushButton("Remove All").mouseClick()
-sleep(config.SHORT_DELAY)
+if save_frame.findPushButton("Remove All").sensitive:
+    save_frame.findPushButton("Remove All").mouseClick()
+    sleep(config.SHORT_DELAY)
 
-app.findDialog("Remove all passwords").findPushButton("Yes").mouseClick()
-sleep(config.SHORT_DELAY)
+    app.findDialog("Remove all passwords").findPushButton("Yes").mouseClick()
+    sleep(config.SHORT_DELAY)
 
 # Step1: Launch http://live.gnome.org/action/login/Bugzilla?action=login
 openURL(fFrame, web_url)
@@ -100,12 +102,14 @@ sleep(config.MEDIUM_DELAY)
 doc_frame = fFrame.findDocumentFrame("Login - GNOME Live!")
 
 # Step2: Enter username/password of qatest/qatest, then click the Login button
-doc_frame.findEntry("").insertText(user)
+doc_frame.findAllEntrys("")[1].insertText(user)
 
-doc_frame.findPasswordText(None).insertText(password)
+doc_frame.findPasswordText(None).mouseClick()
+sleep(config.SHORT_DELAY)
+doc_frame.findPasswordText(None).typeText(password)
 
 doc_frame.findPushButton("Login").mouseClick()
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
 # Step3: Make sure Confirm alert appears to asking whether you wish to save the 
 # username and password
@@ -113,14 +117,14 @@ procedurelogger.expectedResult('Make sure confirm alert appears')
 pwd_alert = fFrame.findAlert(None)
 
 # Step4: Click "Remember" button
-pwd_alert.findPushButton("Remember").mouseClick()
+pwd_alert.findPushButton(re.compile('^Remember')).mouseClick()
 sleep(config.SHORT_DELAY)
 
 # Step5: Log out the site and refresh the login page again
 doc_frame = fFrame.findDocumentFrame("Bugzilla - GNOME Live!")
 
 doc_frame.findLink("Logout").mouseClick()
-sleep(config.MEDIUM_DELAY)
+sleep(config.SHORT_DELAY)
 
 fFrame.findLink("Login").mouseClick()
 sleep(config.SHORT_DELAY)
@@ -132,7 +136,7 @@ procedurelogger.expectedResult('The username and password should be filled in')
 name_entry = doc_frame.findAllEntrys(None)[1]
 assert name_entry.text == user, "username shouldn't be %s" % entry.text
 
-assert doc_frame.findPasswordText(None).text == "******", "error password"
+assert doc_frame.findPasswordText(None).text != "qapassword", "error password"
 
 # Step7: Close Firefox 
 menubar = fFrame.findMenuBar(None)
@@ -160,11 +164,12 @@ procedurelogger.expectedResult('The username and password should be filled in')
 name_entry = doc_frame.findAllEntrys(None)[1]
 assert name_entry.text == user, "username shouldn't be %s" % entry.text
 
-assert doc_frame.findPasswordText(None).text == "******", "error password"
+assert doc_frame.findPasswordText(None).text != "qapassword", "error password"
 
 # Step8: Remove the saved password from Edit -> Preference
 menubar = fFrame.findMenuBar(None)
 menubar.select(["Edit", "Preferences"])
+sleep(config.MEDIUM_DELAY)
 
 preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 
@@ -172,7 +177,7 @@ preferences_frame.findListItem("Security").mouseClick()
 sleep(config.SHORT_DELAY)
 
 preferences_frame.findPushButton(re.compile('^Saved Passwords')).mouseClick()
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
 save_frame = app.findFrame("Saved Passwords")
 

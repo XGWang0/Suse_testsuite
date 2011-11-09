@@ -71,34 +71,39 @@ print doc
 openURL(fFrame, "www.novell.com")
 
 fFrame.findLink(re.compile('^About Novell')).mouseClick()
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
 fFrame.findLink("Products").mouseClick()
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
 # Make sure the page is turn to products
 procedurelogger.expectedResult("Make sure the page is turn to products")
 fFrame.findDocumentFrame("Products - Novell")
-assert fFrame.findAutocomplete(None).findEntry(None).text == \
-                                      "http://www.novell.com/products/", \
-                                                  "page shouldn't be products"
-
+assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("products/"), \
+                                                  "page should be products"
 # Step2: Click Back button twice
+if fFrame.findPushButton("Back")._accessible.childCount > 0:
+    fFrame.findPushButton("Back").mouseClick()
+    sleep(config.SHORT_DELAY)
+
 fFrame.findPushButton("Back").mouseClick()
 sleep(config.SHORT_DELAY)
 
 fFrame.findPushButton("Back").mouseClick()
 sleep(config.MEDIUM_DELAY)
 
+
 # Step3: Make sure the page is turn to the first page www.novell.com/home
 procedurelogger.expectedResult("Make sure the page is turn to www.novell.com/home")
 fFrame.findDocumentFrame(re.compile('^NOVELL'))
-assert fFrame.findAutocomplete(None).findEntry(None).text == \
-                                             "http://www.novell.com/home/", \
-                                              "page shouldn't be home"
-
+assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("home/"), \
+                                              "page should be home"
 
 # Step4: Click Forward button twice
+if fFrame.findPushButton("Forward")._accessible.childCount > 0:
+    fFrame.findPushButton("Forward").mouseClick()
+    sleep(config.SHORT_DELAY)
+
 fFrame.findPushButton("Forward").mouseClick()
 sleep(config.SHORT_DELAY)
 
@@ -108,9 +113,8 @@ sleep(config.MEDIUM_DELAY)
 # Step5: Make sure The page is turn to www.novell.com/products/
 procedurelogger.expectedResult("Make sure the page is turn to products")
 fFrame.findDocumentFrame(re.compile('^Products'))
-assert fFrame.findAutocomplete(None).findEntry(None).text == \
-                                         "http://www.novell.com/products/", \
-                                          "page shouldn't be products"
+assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("products/"), \
+                                          "page should be products"
 
 # Step6: Load www.novell.com in the browser again, Click the Stop button
 stop_button = fFrame.findPushButton("Stop")

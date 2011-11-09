@@ -95,6 +95,7 @@ assert doc_frames == 2, "expected: 2 %s document frames; actual: %s" % \
 
 # Step5: Clear recent history from Firefox Preferences
 menubar.select(['Edit', 'Preferences'])
+sleep(config.MEDIUM_DELAY)
 
 # From Privacy Tab, click "clear your recent history"
 preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
@@ -103,17 +104,15 @@ preferences_frame.findListItem("Privacy").mouseClick()
 sleep(config.SHORT_DELAY)
 
 preferences_frame.findLink("clear your recent history").mouseClick()
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
-clear_frame = app.findFrame("Clear Recent History")
-clear_frame.findMenuItem("Everything", checkShowing=False).click(log=True)
-sleep(config.SHORT_DELAY)
+clear_frame = pyatspi.findDescendant(app, lambda x: x.name == "Clear Recent History")
 clear_frame.findPushButton("Clear Now").mouseClick()
 sleep(config.MEDIUM_DELAY)
 
 preferences_frame.findPushButton("Close").press(log=True)
 sleep(config.SHORT_DELAY)
-preferences_frame.assertClosed()
+#preferences_frame.assertClosed()
 
 menubar.findMenu("History").mouseClick()
 sleep(config.SHORT_DELAY)
