@@ -85,11 +85,18 @@ print_dialog = app.findDialog("Print")
 # Step3: Print the page and check the hard copy output
 print_dialog.findTableCell("Print to File").mouseClick()
 sleep(config.SHORT_DELAY)
+print_dialog.findText(None, labelledBy="Name:").insertText("mozilla")
+sleep(config.SHORT_DELAY)
 print_dialog.findMenuItem("Desktop", checkShowing=False).click(log=True)
-
+sleep(config.SHORT_DELAY)
 print_dialog.findPushButton("Print").mouseClick()
 sleep(config.SHORT_DELAY)
 print_dialog.assertClosed()
+sleep(config.MEDIUM_DELAY)
+
+if not os.path.exists('/%s/Desktop/mozilla.ps' % who):
+    raise Exception, "ERROR: page doesn't print to the file"
+    exit(1)
 
 # Close application
 menubar.select(['File', 'Quit'])
