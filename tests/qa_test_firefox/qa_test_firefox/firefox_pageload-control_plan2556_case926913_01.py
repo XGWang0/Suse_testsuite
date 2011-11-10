@@ -69,6 +69,9 @@ print doc
 # Step1: Launch a site:www.novell.com, clink "About Novell"
 # click "Products" in page
 openURL(fFrame, "www.novell.com")
+sleep(config.LONG_DELAY)
+
+expected_count = fFrame.findDocumentFrame(re.compile('^NOVELL')).childCount
 
 fFrame.findLink(re.compile('^About Novell')).mouseClick()
 sleep(config.MEDIUM_DELAY)
@@ -117,7 +120,11 @@ assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("products/"),
                                           "page should be products"
 
 # Step6: Load www.novell.com in the browser again, Click the Stop button
-stop_button = fFrame.findPushButton("Stop")
+try:
+    stop_button = fFrame.findPushButton("Stop")
+except SearchError:
+    autocomplete = fFrame.findAutocomplete(None)
+    stop_button = autocomplete.findAllPushButtons(None)[-1]
 
 url = "www.novell.com"
 procedurelogger.action("Launch %s" % url)
@@ -125,7 +132,7 @@ url_entry = fFrame.findAutocomplete(None).findEntry(None)
 url_entry.text = url
 sleep(config.SHORT_DELAY)
 url_entry.keyCombo("enter")
-sleep(config.SHORT_DELAY)
+sleep(1)
 
 stop_button.mouseClick()
 sleep(config.SHORT_DELAY)
@@ -134,18 +141,24 @@ sleep(config.SHORT_DELAY)
 procedurelogger.expectedResult("Page loading and any indication of loading should cease")
 
 child_count = fFrame.findDocumentFrame(re.compile('^NOVELL')).childCount
-assert child_count == 0 or child_count < 5, \
+
+assert child_count == 0 or child_count < expected_count, \
                                     "Page shouldn't load completely"
 
 # Step8: Click Reload
-fFrame.findPushButton("Reload").mouseClick()
+try:
+    fFrame.findPushButton("Reload").mouseClick()
+except SearchError:
+    autocomplete = fFrame.findAutocomplete(None)
+    autocomplete.findAllPushButtons(None)[-1].mouseClick()
 sleep(config.LONG_DELAY)
 
 # Step9: Ensure that the page loads completely
 sleep(config.MEDIUM_DELAY)
 procedurelogger.expectedResult("Ensure that the page loads completely")
 child_count = fFrame.findDocumentFrame(re.compile('^NOVELL')).childCount
-assert child_count == 5, "Page doesn't load completely"
+
+assert child_count == expected_count, "Page doesn't load completely"
 
 # Close application
 menubar = fFrame.findMenuBar(None)
