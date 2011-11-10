@@ -11,20 +11,20 @@
 # norootforbuild
 %define qa_location /usr/share/qa/qa_test_tiff
 
-Name:           qa_test_openssl
-License:        OpenSSL Open Source License; GPL v3 or later
+Name:           qa_test_tiff
+License:        as-is; GPL v3 or later
 Group:          SuSE internal
-Summary:        Unittests for openssl framework using the system openssl
-Provides:	qa_openssl
-Obsoletes:	qa_openssl
+Summary:        Unittests for tiff
+Provides:	qa_tiff
+Obsoletes:	qa_tiff
 Requires:       bash tiff
 BuildRequires:  bash tiff
 Version:        4.0.0beta7
-Release:        19
+Release:        20
 Source0:        %name-%version.tar.bz2
 Source1:        test_tiff-run
 Source2:        qa_test_tiff.8
-Source3:	generate_tiff_tests.sh
+Source3:	qa_test_tiff-repack.sh
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -34,10 +34,13 @@ Test cases for tiff package.
 
 %prep
 %setup -q -n %{name}-%{version}
-echo -en "#!/bin/bash\ncd %{qa_location}/test\nbash \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
+echo -en "#!/bin/bash\ncd %{qa_location}\nbash \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
 chmod +x ./ctcs2_run_test.sh
 
-find ./ -name \*.sh | sed -e 's:./::' | sort | uniq  > ./ctcs2_test_list
+# tiffcp-logluv.sh: uses args that are not availible on binaries from tiff 3.
+find ./ -name \*.sh | \
+	grep -v tiffcp-logluv.sh | \
+	sed -e 's:./::' | sort | uniq  > ./ctcs2_test_list
 
 
 %build
