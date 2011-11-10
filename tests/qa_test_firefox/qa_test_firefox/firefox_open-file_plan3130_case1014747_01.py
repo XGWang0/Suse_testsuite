@@ -132,8 +132,11 @@ save_dialog = app.findDialog(re.compile('^Opening'))
 save_dialog.findRadioButton("Save File").mouseClick()
 sleep(config.SHORT_DELAY)
 save_dialog.findPushButton("OK").mouseClick()
-sleep(config.SHORT_DELAY)
-save_dialog.assertClosed()
+sleep(config.MEDIUM_DELAY)
+
+if app._accessible.getChildAtIndex(1).name.startswith("Enter name"):
+    app.findDialog(re.compile('^Enter name')).findPushButton("Save").mouseClick()
+    sleep(config.SHORT_DELAY)
 
 # Step7: Make sure rpm is saving
 app.findFrame(re.compile('Downloads$'))
