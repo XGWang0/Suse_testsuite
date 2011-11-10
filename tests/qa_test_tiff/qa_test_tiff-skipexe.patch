@@ -1,0 +1,16 @@
+diff -urN -burN qa_test_tiff-4.0.0beta7/common.sh qa_test_tiff-4.0.0beta7.new/common.sh
+--- qa_test_tiff-4.0.0beta7/common.sh	2011-11-09 11:56:34.000000000 +0100
++++ qa_test_tiff-4.0.0beta7.new/common.sh	2011-11-10 11:31:58.837740863 +0100
+@@ -65,6 +65,12 @@
+   command=$1
+   infile=$2
+   outfile=$3
++
++  # return with skipped if binary not found.
++  if [[ ! -x "${command/ */}" ]]; then
++    exit 22
++  fi
++
+   rm -f $outfile
+   echo "$MEMCHECK $command $infile $outfile"
+   eval $MEMCHECK $command $infile $outfile

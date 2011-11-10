@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Nov 10 13:38:00 CET 2011 - tchvatal@suse.cz
+
+- Fix running tests on sle platforms
+
+-------------------------------------------------------------------
 Wed Nov 09 15:53:00 CET 2011 - tchvatal@suse.cz
 
 - Fix running tests, all pass on opensuse, sle11/sle10 tbd.
