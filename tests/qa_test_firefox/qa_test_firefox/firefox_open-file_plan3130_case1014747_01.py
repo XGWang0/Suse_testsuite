@@ -69,6 +69,13 @@ html_url = 'example1.html'
 wav_url = '/usr/share/sounds/question.wav'
 rpm_name = 'CASA-cli-1.7.1592-2.3.53.i586.rpm'
 
+# clean existed rpm
+who = os.getenv("HOME")
+if os.path.exists("%s/%s" % (who, rpm_name)):
+    os.system('rm %s/%s' % (who, rpm_name))
+else:
+    pass
+
 # Step1: From File | Open File... to load a local .html file
 menubar = fFrame.findMenuBar(None)
 menubar.findMenu("File").mouseClick()
