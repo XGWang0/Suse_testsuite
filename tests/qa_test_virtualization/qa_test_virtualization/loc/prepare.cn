@@ -35,7 +35,7 @@ do
 	fi
 done
 
-getSettings="../../virtautolib/lib/get-settings.sh"
+getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
 MOUNT1=`$getSettings MOUNT1.addr`
 MOUNT2=`$getSettings MOUNT2.addr`
 

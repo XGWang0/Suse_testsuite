@@ -94,7 +94,7 @@ certificate_dialog = app.findDialog("Certificate Manager")
 pdb_cell = certificate_dialog.findPageTab("Servers").switch(log=True)
 sleep(config.SHORT_DELAY)
 certificate_dialog.findPushButton(re.compile('^Import')).mouseClick()
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
 select_dialog = app.findDialog(re.compile('^Select File'))
 toggle = select_dialog.findToggleButton(None)
@@ -105,23 +105,26 @@ location_text = select_dialog.findText(None, labelledBy="Location:", \
                                 checkShowing=False).text = "%s/%s" % (source_path, ca_name)
 select_dialog.findPushButton("Open").mouseClick()
 sleep(config.SHORT_DELAY)
-select_dialog.assertClosed()
 
 procedurelogger.expectedResult('Make sure %s is imported' % ca_name)
 pdb_cell = certificate_dialog.findTableCell(ca_name)
 
+if pdb_cell._accessible.parent.name.startswith(ca_name):
+    pdb_cell = certificate_dialog.findListItem(re.compile('^%s' % ca_name))
+
 # Click "Edit" button and make "Trust the authenticity of this certificate."
-pdb_cell.mouseClick()
+pdb_cell.grabFocus()
+sleep(config.SHORT_DELAY)
+pdb_cell.activate()
 sleep(config.SHORT_DELAY)
 certificate_dialog.findPushButton(re.compile('^Edit')).mouseClick()
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 edit_dialog = app.findDialog(re.compile('^Edit web site'))
 
 edit_dialog.findRadioButton(re.compile('^Trust ')).mouseClick()
 sleep(config.SHORT_DELAY)
 edit_dialog.findPushButton("OK").mouseClick()
 sleep(config.SHORT_DELAY)
-edit_dialog.assertClosed()
 
 preferences_frame.findPushButton("Close").press()
 sleep(config.SHORT_DELAY)
@@ -134,11 +137,10 @@ fFrame.findDocumentFrame(re.compile('^Index of /repo'))
 
 # Clear SMTSERVER.site certificate
 certificate_dialog.findPushButton(re.compile('^Delete')).press(log=True)
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 delete_dialog = app.findDialog("Delete Server Certificate Exceptions")
 delete_dialog.findPushButton("OK").press(log=True)
 sleep(config.SHORT_DELAY)
-delete_dialog.assertClosed()
 
 # Close application
 menubar = fFrame.findMenuBar(None)
