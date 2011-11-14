@@ -47,6 +47,22 @@ import glob
 from strongwind import *
 from firefox_frame import *
 
+def updateCacheEntry(size):
+    try:
+        cache_entry = preferences_frame.findEntry(re.compile('^Use up to'))
+    except SearchError:
+        cache_check = preferences_frame.findCheckBox(re.compile('^Override'))
+        if not cache_check.checked:
+            cache_check.mouseClick()
+            sleep(config.SHORT_DELAY)
+        cache_entry = preferences_frame.findPanel("Offline Storage").findEntry(None)
+
+    cache_entry.mouseClick(log=False)
+    cache_entry.deleteText()
+    procedurelogger.action('set cache_size to %s' % size)
+    cache_entry.text = size
+    sleep(config.SHORT_DELAY)
+
 # Make sure MozillaFirefox version is expected for the test
 checkVersion()
 
@@ -78,35 +94,25 @@ sleep(config.SHORT_DELAY)
 preferences_frame.findPageTab("Network").mouseClick()
 sleep(config.SHORT_DELAY)
 
-cache_entry = preferences_frame.findEntry(re.compile('^Use up to'))
-cache_entry.mouseClick(log=False)
-cache_entry.deleteText()
-procedurelogger.action('set cache_size to 0')
-cache_entry.text = '0'
-sleep(config.SHORT_DELAY)
+updateCacheEntry('0')
 
 preferences_frame.findPushButton("Close").mouseClick()
 sleep(config.SHORT_DELAY)
-preferences_frame.assertClosed()
 
 # Remove exist cache files
-for i in os.listdir(cache_path):
-    os.remove(os.path.join(cache_path,i))
-    sleep(config.SHORT_DELAY)
+os.system('rm -fr %s' % cache_path)
+sleep(config.SHORT_DELAY)
 
 # Step2: Open http://www.google.com
 openURL(fFrame, "http://www.google.com")
 
 # Step3: Make sure no file saved in cache
 procedurelogger.expectedResult("Make sure the writing is disabled, no cache exist")
-
-cache_list = os.listdir('%s/' % cache_path)
-
-assert cache_list == [], "%s shouldn't exist in %s" % (cache_list, cache_path)
+assert not os.path.exists(cache_path), "%s shouldn't exist" % cache_path
 
 # Set cache_size to default 50
 menubar.select(['Edit', 'Preferences'])
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
 preferences_frame = pyatspi.findDescendant(app, lambda x: x.name == "Firefox Preferences")
 preferences_frame.findListItem("Advanced").mouseClick()
@@ -114,15 +120,10 @@ sleep(config.SHORT_DELAY)
 preferences_frame.findPageTab("Network").mouseClick()
 sleep(config.SHORT_DELAY)
 
-procedurelogger.action('set cache_size to 50')
-cache_entry = preferences_frame.findEntry(re.compile('^Use up to'))
-cache_entry.mouseClick(log=False)
-cache_entry.text = '5'
-sleep(config.SHORT_DELAY)
+updateCacheEntry('50')
 
 preferences_frame.findPushButton("Close").mouseClick()
 sleep(config.SHORT_DELAY)
-preferences_frame.assertClosed()
 
 # Open http://www.suse.com
 openURL(fFrame, "http://www.suse.com")
