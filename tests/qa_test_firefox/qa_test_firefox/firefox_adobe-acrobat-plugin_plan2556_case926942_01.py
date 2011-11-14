@@ -67,8 +67,14 @@ print doc
 # Step1: make sure Adobe Acrobat Reader plugin installed
 menubar = fFrame.findMenuBar(None)
 menubar.select(['Tools', 'Add-ons'])
+sleep(config.MEDIUM_DELAY)
 
-addon_frame = app.findFrame("Add-ons")
+try:
+    addon_frame = app.findFrame("Add-ons")
+except SearchError:
+    addon_frame = pyatspi.findAllDescendants(app, lambda x: x.name == "Add-ons Manager")[1]
+sleep(config.SHORT_DELAY)
+
 addon_frame.findListItem("Plugins").mouseClick()
 sleep(config.SHORT_DELAY)
 
@@ -81,7 +87,7 @@ except SearchError:
     raise PluginError, "Adobe Acrobat Reader plugin doesn't installed, Please download and install plugin first from https://addons.mozilla.org/en-US/firefox/browse/type:7"
     sys.exit(22)
 else:
-    addon_frame.altF4()
+    closeAddOns(fFrame, addon_frame)
     sleep(config.SHORT_DELAY)
 
 # Step2: load to http://gsmworld.com/documents/a5_3_and_gea3_specifications.pdf

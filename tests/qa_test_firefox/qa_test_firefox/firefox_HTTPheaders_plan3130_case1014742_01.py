@@ -75,8 +75,14 @@ print doc
 # and install Live HTTP Header from https://addons.mozilla.org/en-US/firefox/addon/3829/
 menubar = fFrame.findMenuBar(None)
 menubar.select(['Tools', 'Add-ons'])
+sleep(config.MEDIUM_DELAY)
 
-addon_frame = app.findFrame("Add-ons")
+try:
+    addon_frame = app.findFrame("Add-ons")
+except SearchError:
+    addon_frame = pyatspi.findAllDescendants(app, lambda x: x.name == "Add-ons Manager")[1]
+sleep(config.SHORT_DELAY)
+
 addon_frame.findListItem("Extensions").mouseClick()
 sleep(config.SHORT_DELAY)
 
@@ -85,17 +91,19 @@ try:
     flash_plugin = addon_frame.findListItem(re.compile('^Live HTTP headers'))
 except SearchError:
     web = "https://addons.mozilla.org/en-US/firefox/addon/3829/"
-    addon_frame.altF4()
-    sleep(config.SHORT_DELAY)
-    menubar.findMenuItem("Quit", checkShowing=False).click()
+    closeAddOns(fFrame, addon_frame)
+    sleep(config.MEDIUM_DELAY)
+
+    menubar.select(['File', 'Quit'])
     raise Exception, "Live HTTP Header plugin doesn't installed, please install it from %s" % web
     exit(22)
 else:
-    addon_frame.altF4()
+    closeAddOns(fFrame, addon_frame)
     sleep(config.SHORT_DELAY)
 
 # Step3: Check the HTTP header from "Live HTTP Headers" Plugin
 menubar.select(['Tools', 'Live HTTP headers'])
+sleep(config.MEDIUM_DELAY)
 
 # load http://www.google.com
 fFrame.findAutocomplete("Search using Google").mouseClick()
