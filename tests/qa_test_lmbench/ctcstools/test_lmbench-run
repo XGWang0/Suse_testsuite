@@ -1,7 +1,0 @@
-#!/bin/sh
-
-ctcsdir="/usr/lib/ctcs2"
-basedir="/usr/share/qa/qa_test_lmbench"
-
-$ctcsdir/tools/run $basedir/lmbench.tcf
-

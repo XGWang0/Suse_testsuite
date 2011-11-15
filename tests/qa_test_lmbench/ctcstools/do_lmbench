@@ -1,7 +1,0 @@
-#!/bin/bash
-cd /usr/share/qa/qa_test_lmbench/results
-if [ -d *linux-gnu ] ; then rm -r *linux-gnu ; fi
-cd /usr/share/qa/qa_test_lmbench/src
-make rerun; make rerun; make rerun;
-cd /usr/share/qa/qa_test_lmbench/results
-make 
