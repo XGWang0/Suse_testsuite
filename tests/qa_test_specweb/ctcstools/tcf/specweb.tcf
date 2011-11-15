@@ -1,2 +1,0 @@
-fg 1 specweb /usr/share/qa/qa_test_specweb/do_specweb 100
-wait
