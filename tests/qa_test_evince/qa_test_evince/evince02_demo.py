@@ -175,6 +175,7 @@ procedurelogger.expectedResult("%s menu item is chosed, %s label appears" %\
 size_combo = page_dialog.findAllComboBoxs(None)[0]
 sleep(config.SHORT_DELAY)
 size_combo.mouseClick(log="Left click Page size combo box")
+sleep(config.SHORT_DELAY)
 size_combo.findAllMenuItems(None)[2].mouseClick(log="Left click A4 menu item")
 sleep(config.SHORT_DELAY)
 procedurelogger.expectedResult("size is changed to A4, \
@@ -208,8 +209,9 @@ print doc
 
 # remove the exist file first
 import os
-if os.path.isfile('/root/Documents/test.svg'):
-    os.remove('/root/Documents/test.svg')
+home = os.getenv("HOME")
+if os.path.isfile('%s/Desktop/test.svg' % home):
+    os.remove('%s/Desktop/test.svg' % home)
 
 # Step1: From <File> menu select <Print...> menu item to invoke Print dialog
 menubar.select(['File', 'Print...'])
@@ -222,9 +224,11 @@ general_tab = print_dialog.findPageTab("General")
 print_to_file_tablecell = general_tab.findTableCell("Print to File")
 print_to_file_tablecell.mouseClick()
 sleep(config.SHORT_DELAY)
-general_tab.findText(None, labelledBy="Name:").insertText("test")
+general_tab.findText(None, labelledBy="Name:").text = "test"
 sleep(config.SHORT_DELAY)
-general_tab.findMenuItem("Documents", checkShowing=False).click()
+general_tab.findMenuItem("Desktop", checkShowing=False).click()
+sleep(config.SHORT_DELAY)
+general_tab.findRadioButton("PDF").mouseClick()
 sleep(config.SHORT_DELAY)
 general_tab.findRadioButton("SVG").mouseClick()
 sleep(config.SHORT_DELAY)
@@ -258,7 +262,7 @@ preview_app.assertClosed()
 menubar.select(['File', 'Open...'])
 sleep(config.SHORT_DELAY)
 open_dialog = app.findDialog("Open Document")
-open_dialog.findTableCell("Documents").mouseClick()
+open_dialog.findTableCell("Desktop").mouseClick()
 sleep(config.SHORT_DELAY)
 procedurelogger.expectedResult("%s should in the file list" % "test.svg")
 assert open_dialog.findTableCell("test.svg").showing == True, \
