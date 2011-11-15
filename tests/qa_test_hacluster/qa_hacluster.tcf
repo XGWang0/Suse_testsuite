@@ -1,3 +1,0 @@
-timer 300
-fg 1 qa_hacluster /usr/share/qa/qa_test_hacluster/node_configuration.sh -b -m -i -s /dev/sda1 -t iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a
-wait
