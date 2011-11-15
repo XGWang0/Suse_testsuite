@@ -1,3 +1,0 @@
-timer 3600
-fg 1 libmicro-bench /usr/lib/libMicro/bin/bench.sh 
-wait

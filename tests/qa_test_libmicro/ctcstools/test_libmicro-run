@@ -1,3 +1,0 @@
-#!/bin/sh
-
-/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/libmicro.tcf
