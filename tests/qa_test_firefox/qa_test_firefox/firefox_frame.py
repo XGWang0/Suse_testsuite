@@ -70,10 +70,13 @@ def checkVersion(package_name="MozillaFirefox", expected_version="3.5.11"):
     """
     Check MozillaFirefox's version
     """
-    version = os.popen('rpm -q MozillaFirefox').read().strip().split('-')[1]
-    main_actual = version.split('.')[0]
-    m_actual = version.split('.')[1]
-    s_actual = version.split('.')[2]
+    version = os.popen('rpm -q MozillaFirefox').read().strip().split('-')[1].split('.')
+    main_actual = version[0]
+    m_actual = version[1]
+    if len(version) > 2:
+        s_actual = version[2]
+    else:
+        s_actual = '0'
 
     main_expected = expected_version.split('.')[1]
     m_expected = expected_version.split('.')[1]
