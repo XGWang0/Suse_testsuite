@@ -1,7 +1,0 @@
-timer 3h
-fg 1 netperf-udp /usr/lib/netperf/bin/udp_stream_script  
-wait
-
-timer 3h
-fg 1 netperf-tcp /usr/lib/netperf/bin/tcp_range_script  
-wait
