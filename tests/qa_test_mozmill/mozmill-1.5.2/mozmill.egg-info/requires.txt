@@ -1,3 +1,0 @@
-jsbridge == 2.4.2
-mozrunner == 2.5.3
-ManifestDestiny == 0.2.2

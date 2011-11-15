@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Run MozMill test in ctcs2 mode
-
-export LANG=C
-killall firefox
-
-ssh -o NoHostAuthenticationForLocalhost=yes root@localhost DISPLAY=$DISPLAY /usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_mozmill.tcf

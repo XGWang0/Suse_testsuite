@@ -1,9 +1,0 @@
-README.txt
-manifestparser.py
-setup.py
-ManifestDestiny.egg-info/PKG-INFO
-ManifestDestiny.egg-info/SOURCES.txt
-ManifestDestiny.egg-info/dependency_links.txt
-ManifestDestiny.egg-info/entry_points.txt
-ManifestDestiny.egg-info/not-zip-safe
-ManifestDestiny.egg-info/top_level.txt
