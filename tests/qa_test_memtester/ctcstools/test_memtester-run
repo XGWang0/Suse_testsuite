@@ -1,8 +1,0 @@
-#!/bin/bash
-
-CTCSDIR="/usr/lib/ctcs2"
-TCFFILE="/usr/share/qa/qa_test_memtester/tcf/memtester.tcf"
-
-cd $CTCSDIR
-tools/run $TCFFILE
-
