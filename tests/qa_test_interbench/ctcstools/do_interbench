@@ -1,7 +1,0 @@
-#!/bin/sh
-
-echo "Using this parameters: $@"
-mkdir -p /usr/share/qa/temp
-cd /usr/share/qa/temp
-interbench $@
-rm -rf /usr/share/qa/temp
