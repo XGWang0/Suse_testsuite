@@ -1,8 +1,0 @@
-timer 18000
-fg 1 sysbench /usr/bin/sysbench-example-all-tests
-wait
-
-timer 18000
-fg 1 sysbench /usr/bin/sysbench-example-test
-wait
-
