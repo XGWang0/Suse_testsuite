@@ -1,4 +1,0 @@
-timer 900
-fg 1 memeat_900 /usr/bin/memeat.sh
-wait
-
