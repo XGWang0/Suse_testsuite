@@ -86,6 +86,8 @@ def checkVersion(package_name="MozillaFirefox", expected_version="3.5.11"):
     else:
         pass
 
+    return version
+
 def openURL(test_frame, url):
     procedurelogger.action("Launch %s" % url)
 
@@ -125,6 +127,17 @@ def quitFirefox(application, quit=True):
     if quit:
         application.assertClosed()
         sleep(config.SHORT_DELAY)
+
+def closeAddOns(fFrame, addon_frame):
+    """
+    Difference way to close Add-ons page in Firefox7
+    """
+    version = checkVersion()
+
+    if version.split('.')[0] > 6:
+        fFrame.findPageTab("Add-ons Manager").findPushButton(None).mouseClick()
+    else:
+        addon_frame.altF4()
 
 def press (x, y, button=1, log=True):
     """
