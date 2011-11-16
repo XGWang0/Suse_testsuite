@@ -137,7 +137,7 @@ def closeAddOns(fFrame, addon_frame):
     """
     version = checkVersion()
 
-    if version.split('.')[0] > 6:
+    if version[0] > 6:
         fFrame.findPageTab("Add-ons Manager").findPushButton(None).mouseClick()
     else:
         addon_frame.altF4()
