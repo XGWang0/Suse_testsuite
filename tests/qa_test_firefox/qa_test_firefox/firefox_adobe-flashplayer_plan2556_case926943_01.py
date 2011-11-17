@@ -84,8 +84,14 @@ assert fFrame.name.startswith("Adobe - Flash Player"), \
 # Step2: make sure Flash plugin installed
 menubar = fFrame.findMenuBar(None)
 menubar.select(['Tools', 'Add-ons'])
+sleep(config.MEDIUM_DELAY)
 
-addon_frame = app.findFrame("Add-ons")
+try:
+    addon_frame = app.findFrame("Add-ons")
+except SearchError:
+    addon_frame = pyatspi.findAllDescendants(app, lambda x: x.name == "Add-ons Manager")[1]
+sleep(config.SHORT_DELAY)
+
 addon_frame.findListItem("Plugins").mouseClick()
 sleep(config.SHORT_DELAY)
 
@@ -99,23 +105,21 @@ except SearchError:
 else:
     # Disable Flash plugin to check Section's number
     procedurelogger.action('Select Shockwave Flash list item')
-    flash_index = flash_plugin.getIndexInParent()
-    addon_frame.findList(None).clearSelection()
-    sleep(config.SHORT_DELAY)
-    addon_frame.findList(None).selectChild(flash_index)
-    sleep(config.SHORT_DELAY)
 
-    addon_frame.findListItem(re.compile('^Shockwave Flash')).findPushButton("Disable").press(log=True)
+    addon_frame.findListItem(re.compile('^Shockwave Flash'), checkShowing=False).findPushButton("Disable").press(log=True)
     sleep(config.MEDIUM_DELAY)
-    section_num_old = len(fFrame.findDocumentFrame("Adobe - Flash Player").findAllSections(None))
+    section_num_old = len(fFrame.findDocumentFrame("Adobe - Flash Player", checkShowing=False).findAllSections(None, checkShowing=False))
 
 # Step3: make sure what version is being used
 # Enable Flash plugin
 addon_frame.findListItem(re.compile('^Shockwave Flash')).findPushButton("Enable").press(log=True)
 sleep(config.SHORT_DELAY)
 
+closeAddOns(fFrame, addon_frame)
+sleep(config.SHORT_DELAY)
+
 # reload the web
-fFrame.findPushButton("Reload").press(log=True)
+openURL(fFrame, flash_web)
 sleep(config.LONG_DELAY)
 
 procedurelogger.expectedResult('Make sure Flash plugin works')
