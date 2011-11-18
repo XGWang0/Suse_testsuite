@@ -68,20 +68,22 @@ mhtml_page = 'example1.html'
 menubar = fFrame.findMenuBar(None)
 menubar.select(['Tools', 'Add-ons'])
 
-addon_frame = app.findFrame("Add-ons")
+try:
+    addon_frame = app.findFrame("Add-ons")
+except SearchError:
+    addon_frame = pyatspi.findAllDescendants(app, lambda x: x.name == "Add-ons Manager")[1]
+sleep(config.SHORT_DELAY)
+
 addon_frame.findListItem("Plugins").mouseClick()
 sleep(config.SHORT_DELAY)
 
 procedurelogger.expectedResult('Make sure Jave Plugin in the list')
 try:
-    java_plugin = addon_frame.findListItem(re.compile('^IcedTea Java Web Browser Plugin'))
+    java_plugin = addon_frame.findListItem(re.compile('.*Java'))
 except SearchError:
-    try:
-        java_plugin = addon_frame.findListItem(re.compile('^Java(IM) Plug-in'))
-    except SearchError:
-        menubar.select(['File', 'Quit'])
-        raise Exception, "Java plugin doesn't installed"
-        exit(22)
+    menubar.select(['File', 'Quit'])
+    raise Exception, "Java plugin doesn't installed"
+    exit(22)
 else:
     # Select Java plugin item to make 'Disable' button appear
     java_plugin._accessible.queryAction().doAction(0)
@@ -91,6 +93,11 @@ else:
     java_plugin.mouseClick(log=False)
     java_plugin.findPushButton("Disable").mouseClick()
     sleep(config.SHORT_DELAY)
+
+pagetabs = fFrame.findAllPageTabs(None)
+
+pagetabs[0].mouseClick()
+sleep(config.SHORT_DELAY)
 
 # Step2: Unable to load the testpage
 fFrame.findEntry("Search using Google").mouseClick()
@@ -107,11 +114,14 @@ else:
     assert False, "Text shouldn't appears when Java plugin disabled"
 
 # Step3: Enable Java(TM) Plug-in
-menubar.select(['Tools', 'Add-ons'])
+pagetabs[1].mouseClick()
+sleep(config.SHORT_DELAY)
+
+#menubar.select(['Tools', 'Add-ons'])
 java_plugin.findPushButton("Enable").mouseClick()
 sleep(config.SHORT_DELAY)
 
-addon_frame.altF4()
+closeAddOns(fFrame, addon_frame)
 
 # Step4: Load the testpage successful
 openURL(fFrame, source_path + mhtml_page)
