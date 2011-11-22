@@ -1,5 +1,5 @@
 #
-# spec file for package qa_php5 (Version 5.2.6)
+# spec file for package qa_php5 (Version 5.3.8)
 #
 # Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
@@ -28,9 +28,9 @@ Source2:	qa_test_php5-5.3.8
 Source3:	apache2-php5-prepare.sh
 Patch0:		server-test-config.patch
 BuildArch:      noarch
-Provides:	qa_php5
-Obsoletes:	qa_php5
-Requires:       php53 php53-wddx php53-ctype php53-mbstring php53-bz2 php53-bcmath php53-ctype php53-exif php53-gd php53-gettext php53-gmp php53-mcrypt php53-shmop php53-sysvshm php53-sysvsem php53-zlib php53-calendar php53-iconv php5-sqlite php53-tokenizer php53-dom php53-soap mysql php53-sysvmsg php53-xsl php53-mysql apache2-mod_php53
+Provides:	qa_test_php5
+Obsoletes:	qa_test_php5
+Requires:       php53 >= 5.3.0 php53-wddx php53-ctype php53-mbstring php53-bz2 php53-bcmath php53-ctype php53-exif php53-gd php53-gettext php53-gmp php53-mcrypt php53-shmop php53-sysvshm php53-sysvsem php53-zlib php53-calendar php53-iconv php5-sqlite php53-tokenizer php53-dom php53-soap mysql php53-sysvmsg php53-xsl php53-mysql 
 Requires:       ctcs2
 %if %suse_version <= 1030
 Requires:       php53-mhash
@@ -63,7 +63,7 @@ Summary:        PHP5 test suite
 Group:          System/Packages
 Provides:	qa_php5-server
 Obsoletes:	qa_php5-server
-Requires:       %{name} = %{version} apache2-mod_php5
+Requires:       %{name} = %{version} apache2-mod_php53
 
 %description server
 This package contains wide range of PHP5 tests. These tests include
