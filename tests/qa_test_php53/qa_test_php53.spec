@@ -11,9 +11,9 @@
 # norootforbuild
 
 
-Name:           qa_test_php5-5.3
-%define qa_location /usr/share/qa/qa_test_php5-5.3
-%define qa_server_location /srv/www/htdocs/php5-tests-5.3
+Name:           qa_test_php53
+%define qa_location /usr/share/qa/qa_test_php53
+%define qa_server_location /srv/www/htdocs/php53-tests
 Version:        5.3.8
 Release:        1
 License:        PHP
@@ -23,8 +23,8 @@ Url:            http://www.php.net
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Summary:        PHP5 test suite
 Source0:        php-%{version}.tar.bz2
-Source1:        test_php5-5.3-run
-Source2:	qa_test_php5-5.3.8
+Source1:        test_php53-run
+Source2:	qa_test_php53.8
 Source3:	apache2-php5-prepare.sh
 Patch0:		server-test-config.patch
 BuildArch:      noarch
@@ -142,11 +142,11 @@ cp -r ext sapi tests Zend $RPM_BUILD_ROOT/%{qa_server_location}
 install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/tcf
 install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tools
-touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5-5.3.tcf
-touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5-server-5.3.tcf
-ln -s ../qa_test_php5-5.3/tcf/qa_php5-5.3.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-ln -s ../qa_test_php5-5.3/tcf/qa_php5-server-5.3.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-install -m 755 %{_sourcedir}/test_php5-5.3-run $RPM_BUILD_ROOT/usr/share/qa/tools
+touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php53.tcf
+touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php53-server.tcf
+ln -s ../qa_test_php53/tcf/qa_php53.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../qa_test_php53/tcf/qa_php53-server.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+install -m 755 %{_sourcedir}/test_php53-run $RPM_BUILD_ROOT/usr/share/qa/tools
 
 %clean
 rm -rvf $RPM_BUILD_ROOT
@@ -160,7 +160,7 @@ cat -n %{qa_location}/ctcs2_test_order | grep -v '[0-9]*[ ]*#' | while read test
     printf PHPTEST%%0.4d $test_num 
     echo -en " env $TEST_ENV %{_bindir}/php -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/run-tests.php %{qa_location}/$line \n"
     echo -en "wait\n\n"
-done > %{qa_location}/tcf/qa_php5-5.3.tcf
+done > %{qa_location}/tcf/qa_php53.tcf
 
 %post server
 cat -n %{qa_location}/ctcs2_test_order | grep -v '[0-9]*[ ]*#' | while read test_num line; do
@@ -169,28 +169,30 @@ cat -n %{qa_location}/ctcs2_test_order | grep -v '[0-9]*[ ]*#' | while read test
     printf PHPSERVER%%0.4d $test_num 
     echo -en " %{_bindir}/php -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/server-tests.php -c %{qa_location}/server-tests-config.php -d %{qa_location}/$line \n"
     echo -en "wait\n\n"
-done > %{qa_location}/tcf/qa_php5-server-5.3.tcf
+done > %{qa_location}/tcf/qa_php53-server.tcf
 
 %files
 %defattr(-, root, root)
-/usr/share/man/man8/qa_test_php5-5.3.8.gz
+/usr/share/man/man8/qa_test_php53.8.gz
 /usr/share/qa/
-/usr/share/qa/tcf/qa_php5-5.3.tcf
+/usr/share/qa/tcf/qa_php53.tcf
 /usr/share/qa/tools
-%exclude /usr/share/qa/tcf/qa_php5-server-5.3.tcf
-%exclude %{qa_location}/tcf/qa_php5-server-5.3.tcf
+%exclude /usr/share/qa/tcf/qa_php53-server.tcf
+%exclude %{qa_location}/tcf/qa_php53-server.tcf
 %exclude %{qa_location}/server-tests-config.php
 %exclude %{qa_location}/server-tests.php
 
 %files server
 %defattr(-, root, root)
 %{qa_server_location}
-/usr/share/qa/tcf/qa_php5-server-5.3.tcf
-%{qa_location}/tcf/qa_php5-server-5.3.tcf
+/usr/share/qa/tcf/qa_php53-server.tcf
+%{qa_location}/tcf/qa_php53-server.tcf
 %{qa_location}/server-tests-config.php
 %{qa_location}/server-tests.php
 
 %changelog
+* Tue Nov 22 2011 - jtang@suse.com
+- Rename 
 * Tue Nov 08 2011 - jtang@suse.com
 - Create new version
 * Wed Aug 17 2011 - llipavsky@suse.cz
