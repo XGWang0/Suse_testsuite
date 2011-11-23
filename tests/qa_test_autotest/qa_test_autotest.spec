@@ -27,16 +27,16 @@ Requires:       kernel-source gcc gcc-c++ make python postgresql automake autoco
 BuildRequires:	ctcs2
 AutoReqProv:    on
 Summary:        Kernel test suite
-Url:            http://test.kernel.org/qa_test_autotest
-Version:        0.13.0
+Url:            https://github.com/autotest
+Version:        0.13.1
 Release:        1
-Source0:        autotest-%{version}.tar.bz2
+Source0:        autotest-autotest-%{version}.tar.gz
 Source1:        autotest_quick.tcf
 Source2:        test_autotest-run
-Source3:        autotest-%{version}.rpmlintrc
+Source3:        autotest-autotest-%{version}.rpmlintrc
 Source4:        qa_test_autotest.8
-Source5:	pre-kvm.sh
-Source6:	qa_test_autotest-config
+Source5:	qa_test_autotest-config
+Source6:	pre-kvm.sh
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -51,7 +51,7 @@ Authors:
 
 %prep
 
-%setup -n autotest-%version
+%setup -n autotest-autotest-2b0da9d
 
 %build
 
@@ -64,9 +64,9 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/autotest
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:4} $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 644 %{S:6} $RPM_BUILD_ROOT/usr/lib/ctcs2/config/autotest
+install -m 644 %{S:5} $RPM_BUILD_ROOT/usr/lib/ctcs2/config/autotest
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
+install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/lib/autotest
 cp -a client/* $RPM_BUILD_ROOT/usr/lib/autotest
 cp %{S:1} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
 install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
@@ -75,9 +75,8 @@ install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 %defattr(0755,root,root)
 /usr/share/man/man8/qa_test_autotest.8.gz
 /usr/lib/autotest
-/usr/lib/ctcs2/tcf/autotest_quick.tcf
+/usr/lib/ctcs2
 /usr/share/qa/
-/usr/share/qa/tools/test_autotest-run
 
 #%doc README
 
@@ -85,6 +84,8 @@ install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Nov 22 2011 jtang@suse.com
+- update the autotest testsuite
 * Mon Oct 21 2011 cachen@suse.com
 - add configuration file for iso url setting
 * Tue Jun 01 2010 lidongyang@novell.com
