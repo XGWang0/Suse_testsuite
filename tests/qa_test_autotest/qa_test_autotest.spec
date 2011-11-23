@@ -51,7 +51,7 @@ Authors:
 
 %prep
 
-%setup -n autotest-%version
+%setup -n autotest-autotest-2b0da9d
 
 %build
 
