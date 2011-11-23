@@ -63,11 +63,14 @@ fFrame = app.firefoxFrame
 print doc
 
 # clean existed mozorg.html
-m_html = '/home/mozorg.html'
-if os.path.exists(m_html):
-    os.system('rm %s' % m_html)
+who = os.popen('whoami').read().replace('\n', '')
+if who == "root":
+    file_path = '/root/Desktop/mozorg.html'
 else:
-    pass
+    file_path = '/home/%s/Desktop/mozorg.html' % who
+
+if os.path.exists(file_path):
+    os.remove(file_path)
 
 # Step1: Open browser to http://www.mozilla.org
 openURL(fFrame, "http://www.mozilla.org")
@@ -98,8 +101,8 @@ assert comboboxs[-1].name == "Web Page, complete", \
                                      "\"Web Page, complete\" isn't selected"
 
 # Step4: Choose a target directory (e.g., your desktop or home directory)
-procedurelogger.action("choose /home as target directory")
-save_dialog.findText(None, labelledBy='Name:').text = m_html
+procedurelogger.action("choose Desktop as target directory")
+save_dialog.findText(None, labelledBy='Name:').text = file_path
 sleep(config.SHORT_DELAY)
 
 # Step5: Click the Save button
@@ -109,7 +112,7 @@ sleep(config.LONG_DELAY)
 # Step6: Make sure mozorg.html is saved to Desktop
 import os
 procedurelogger.expectedResult("make sure mozorg.html is saved to home")
-assert os.path.exists(m_html) == True, \
+assert os.path.exists(file_path) == True, \
                                "mozorg.html doesn't saved to home"
 
 # Close application

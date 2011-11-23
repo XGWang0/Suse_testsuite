@@ -35,7 +35,7 @@ import os
 from pyatspi import Registry
 from strongwind import *
 
-def launchApp(exe, appname):
+def launchApp(exe, appname, wait=config.LONG_DELAY):
     """
     Launch Firefox and return object. Log an error and return None if 
     something goes wrong
@@ -61,7 +61,7 @@ def launchApp(exe, appname):
     args = [exe]
     
     #set wait smaller if your network is good.
-    (app, subproc) = cache.launchApplication(args=args, name=appname, wait=config.LONG_DELAY)
+    (app, subproc) = cache.launchApplication(args=args, name=appname, wait=wait)
     cache.addApplication(app)
     app.findFrame(name=None, logName=appname)
     return app

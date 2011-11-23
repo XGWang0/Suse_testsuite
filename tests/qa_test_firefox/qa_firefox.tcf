@@ -131,10 +131,6 @@ fg 1 firefox_java-plugin /usr/share/qa/qa_test_firefox/firefox_java-plugin_plan3
 wait
 
 timer 300
-fg 1 firefox_novell-moonligh /usr/share/qa/qa_test_firefox/firefox_novell-moonlight_plan2556_case926944_01.py
-wait
-
-timer 300
 fg 1 firefox_navigation /usr/share/qa/qa_test_firefox/firefox_navigation_plan2556_case926910_01.py
 wait
 
@@ -148,4 +144,8 @@ wait
 
 timer 300
 fg 1 firefox_SSLcertificate /usr/share/qa/qa_test_firefox/firefox_SSLcertificate_plan3130_case1014760_01.py
+wait
+
+timer 300
+fg 1 firefox_novell-moonligh /usr/share/qa/qa_test_firefox/firefox_novell-moonlight_plan2556_case926944_01.py
 wait

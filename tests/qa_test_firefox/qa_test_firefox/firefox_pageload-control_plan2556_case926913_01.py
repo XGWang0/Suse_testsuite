@@ -85,10 +85,6 @@ fFrame.findDocumentFrame("Products - Novell")
 assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("products/"), \
                                                   "page should be products"
 # Step2: Click Back button twice
-if fFrame.findPushButton("Back")._accessible.childCount > 0:
-    fFrame.findPushButton("Back").mouseClick()
-    sleep(config.SHORT_DELAY)
-
 fFrame.findPushButton("Back").mouseClick()
 sleep(config.SHORT_DELAY)
 
@@ -103,10 +99,6 @@ assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("home/"), \
                                               "page should be home"
 
 # Step4: Click Forward button twice
-if fFrame.findPushButton("Forward")._accessible.childCount > 0:
-    fFrame.findPushButton("Forward").mouseClick()
-    sleep(config.SHORT_DELAY)
-
 fFrame.findPushButton("Forward").mouseClick()
 sleep(config.SHORT_DELAY)
 
@@ -120,9 +112,9 @@ assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("products/"),
                                           "page should be products"
 
 # Step6: Load www.novell.com in the browser again, Click the Stop button
-try:
-    stop_button = fFrame.findPushButton("Stop")
-except SearchError:
+stop_button = pyatspi.findDescendant(fFrame, lambda x: x.name == "Stop")
+
+if stop_button is None:
     autocomplete = fFrame.findAutocomplete(None)
     stop_button = autocomplete.findAllPushButtons(None)[-1]
 
@@ -132,7 +124,6 @@ url_entry = fFrame.findAutocomplete(None).findEntry(None)
 url_entry.text = url
 sleep(config.SHORT_DELAY)
 url_entry.keyCombo("enter")
-sleep(1)
 
 stop_button.mouseClick()
 sleep(config.SHORT_DELAY)
