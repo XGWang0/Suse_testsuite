@@ -106,6 +106,7 @@ install -D -m 644 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2
 #%files ctcs2-glue
 #%defattr(-, root, root)
 /usr/share/qa
+/usr/lib/ctcs2
 
 %clean
 rm -rf $RPM_BUILD_ROOT
