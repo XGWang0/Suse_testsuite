@@ -1,0 +1,3 @@
+setBadness('files-duplicated-waste', 0)
+setBadness('suse-filelist-forbidden', 0)
+setBadness('spurious-executable-perm', 0)

@@ -118,7 +118,7 @@ cp $php_dir/php.gif $qa_dir
 rm -rf $php_dir/*
 
 find . -name *win32* | xargs rm
-find . -name *.phpt > ./ctcs2_test_order
+find . -name *.phpt |sort > ./ctcs2_test_order
 
 %patch0 -p1
 
