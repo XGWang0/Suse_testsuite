@@ -23,7 +23,7 @@ for d in $CANDIDATE_TMP_DIRS; do
   test x$d_mount_point = x$dot_mount_point && continue
 
   # See if we can create a directory in it.
-  if mkdir "$d/tmp$$" > /dev/null 2>&1; then
+  if mkdir -p "$d/tmp$$" > /dev/null 2>&1; then
     other_partition_tmpdir="$d/tmp$$"
     break
   fi
