@@ -23,7 +23,7 @@ License:        MIT; Apache 2.0; GPLv2; LGPLv3
 Group:          Development/Tools/Other
 Provides:	autotest
 Obsoletes:	autotest
-Requires:       kernel-source gcc gcc-c++ make python postgresql automake autoconf
+Requires:       kernel-source gcc gcc-c++ make python postgresql automake autoconf patch
 BuildRequires:	ctcs2
 AutoReqProv:    on
 Summary:        Kernel test suite
