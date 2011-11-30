@@ -214,7 +214,7 @@ function main() {
         fi
         tmpdir="tmp"
     else
-        tmpdir=$(/bin/mktemp -d --tmpdir=${TMPDIR:-/tmp} check-modified-files.XXXXXX)
+        tmpdir=$(/bin/mktemp -d ${TMPDIR:-/tmp}/check-modified-files.XXXXXXXXXXXX)
         trap "rm -rf ${tmpdir}" EXIT TERM INT
     fi
 
