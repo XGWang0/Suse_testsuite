@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Dec  1 11:54:58 UTC 2011 - mvyskocil@suse.cz
+
+- regenerated to 1.0.1
+  * do not touch files permissions in files section
+
+-------------------------------------------------------------------
 Tue Nov 22 09:50:47 UTC 2011 - mvyskocil@suse.cz
 
 - generated version 1.0 of qa_test_java-1_5_0-ibm package 

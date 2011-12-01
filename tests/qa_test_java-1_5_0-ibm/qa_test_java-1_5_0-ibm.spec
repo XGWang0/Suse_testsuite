@@ -28,7 +28,7 @@
 Name:           qa_test_%{tpname}
 License:	GPL v2 or later
 Group:          SuSE internal
-Version:        1.0
+Version:        1.0.1
 Release:        1
 Summary:        QA test for %{tpname}
 Url:            http://qit.suse.de/ibmjava/ibmjava/blobs/master/qa/
@@ -70,7 +70,7 @@ install -m 755 %{SOURCE2} %{buildroot}%{destdir}/%{name}
 rm -rf %{buildroot}
 
 %files
-%defattr(0644, root, root,0755)
+%defattr(-, root, root,0755)
 %dir %{destdir}/%{name}
 %dir %{ptcfdir}
 %dir %{tcfdir}
