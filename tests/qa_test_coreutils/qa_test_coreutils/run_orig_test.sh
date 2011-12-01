@@ -72,7 +72,7 @@ if ! echo $MYDIR | grep -e '^/.*' ; then
 fi
 
 # Change to the test directory.
-cd "$MYDIR/orig_test_suite/tests/$TESTDIR"
+cd "$MYDIR/orig_test_suite/$TESTDIR"
 
 BUILD_SRC_DIR="`cd $MYDIR/orig_test_suite/src; pwd -P`"
 export BUILD_SRC_DIR

@@ -92,7 +92,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf
 install -D -m 755 ctcstools/test_netperf-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_netperf-run
 install -D -m 755 ctcstools/netperf.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf.tcf
-install -D -m 644 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf
+install -D -m 644 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/qa_test_netperf-config
 
 %files
 %defattr(-, root, root)
@@ -106,6 +106,7 @@ install -D -m 644 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2
 #%files ctcs2-glue
 #%defattr(-, root, root)
 /usr/share/qa
+/usr/lib/ctcs2
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -62,9 +62,13 @@ print doc
 import os
 
 who = os.popen('whoami').read().replace('\n', '')
+if who == "root":
+    file_path = '/root/Desktop/mozilla.ps'
+else:
+    file_path = '/home/%s/Desktop/mozilla.ps' % who
 
-if os.path.isfile('/%s/Desktop/mozilla.ps' % who):
-    os.remove('/%s/Desktop/mozilla.ps' % who)
+if os.path.exists(file_path):
+    os.remove(file_path)
 
 web_url = "http://www.novell.com"
 
@@ -94,7 +98,7 @@ sleep(config.SHORT_DELAY)
 print_dialog.assertClosed()
 sleep(config.MEDIUM_DELAY)
 
-if not os.path.exists('/%s/Desktop/mozilla.ps' % who):
+if not os.path.exists(file_path):
     raise Exception, "ERROR: page doesn't print to the file"
     exit(1)
 

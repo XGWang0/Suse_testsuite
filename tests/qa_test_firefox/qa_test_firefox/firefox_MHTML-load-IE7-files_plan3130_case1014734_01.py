@@ -88,13 +88,14 @@ except SearchError:
     sleep(config.SHORT_DELAY)
 
     openURL(fFrame, plugin_url)
-    sleep(config.MEDIUM_DELAY)
+    sleep(config.LONG_DELAY)
 
     pyatspi.findDescendant(fFrame, lambda x: x.name == "Add to Firefox").mouseClick()
     sleep(config.MEDIUM_DELAY)
 
-    pyatspi.findDescendant(fFrame, lambda x: x.name == "Allow").mouseClick()
-    sleep(config.MEDIUM_DELAY)
+    if pyatspi.findDescendant(fFrame, lambda x: x.name == "Allow") != None:
+        pyatspi.findDescendant(fFrame, lambda x: x.name == "Allow").mouseClick()
+        sleep(config.MEDIUM_DELAY)
 
     app.findDialog("Software Installation").findPushButton("Install Now").mouseClick()
     sleep(config.LONG_DELAY)

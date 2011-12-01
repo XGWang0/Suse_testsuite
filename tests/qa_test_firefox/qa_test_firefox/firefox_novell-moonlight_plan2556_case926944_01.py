@@ -66,9 +66,13 @@ print doc
 # Step1: Make sure Silverlight Plug-In appears in Plugins list
 menubar = fFrame.findMenuBar(None)
 menubar.select(['Tools', 'Add-ons'])
-sleep(config.SHORT_DELAY)
+sleep(config.MEDIUM_DELAY)
 
-addon_frame = app.findFrame("Add-ons")
+try:
+    addon_frame = app.findFrame("Add-ons")
+except SearchError:
+    addon_frame = pyatspi.findAllDescendants(app, lambda x: x.name == "Add-ons Manager")[1]
+sleep(config.SHORT_DELAY)
 
 addon_frame.findListItem("Plugins").mouseClick()
 sleep(config.SHORT_DELAY)
@@ -76,7 +80,7 @@ sleep(config.SHORT_DELAY)
 procedurelogger.expectedResult('Make sure Silverlight Plug-In exists')
 addon_frame.findListItem(re.compile('^Silverlight Plug-In'), checkShowing=False)
 
-addon_frame.altF4()
+closeAddOns(fFrame, addon_frame)
 
 # Step2: Visit the following URL
 # Launch http://www.belindaperez.com/demo/deepu/SimpleImageScroller.html

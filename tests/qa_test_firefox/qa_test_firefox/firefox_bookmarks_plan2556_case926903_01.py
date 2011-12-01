@@ -74,7 +74,9 @@ procedurelogger.expectedResult('%s frame appears' % web)
 fFrame.findDocumentFrame(re.compile('openSUSE.org'))
 
 # Step2: Use Bookmarks | Bookmark This Page to add a bookmark
-fFrame.findMenuItem("New Tab", checkShowing=False).click(log=True)
+fFrame.findMenu("File").mouseClick()
+sleep(config.SHORT_DELAY)
+fFrame.findMenuItem("New Tab").click(log=True)
 sleep(config.SHORT_DELAY)
 fFrame.findMenu("Bookmarks").mouseClick()
 sleep(config.SHORT_DELAY)

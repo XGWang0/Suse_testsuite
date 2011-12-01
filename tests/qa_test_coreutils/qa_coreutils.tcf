@@ -391,7 +391,7 @@ fg 1 orig_ln_target-1 /tmp/qa_test_coreutils/run_orig_test.sh ln target-1
 wait
 
 timer 1200
-fg 1 orig_ls-2 /tmp/qa_test_coreutils/run_orig_test.sh ls-2 tests ls
+fg 1 orig_ls-2 /tmp/qa_test_coreutils/run_orig_test.sh ls-2 tests ls ls
 wait
 
 timer 1200
@@ -527,7 +527,7 @@ fg 1 orig_misc_pwd-long /tmp/qa_test_coreutils/run_orig_test.sh misc pwd-long
 wait
 
 timer 1200
-fg 1 orig_misc_sort-merge /tmp/qa_test_coreutils/run_orig_test.sh misc sort-merge
+fg 1 orig_misc_sort-merge /tmp/qa_test_coreutils/run_orig_test.sh misc sort-merge sort
 wait
 
 timer 1200

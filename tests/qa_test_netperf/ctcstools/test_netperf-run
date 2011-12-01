@@ -29,7 +29,7 @@ do
 		ip=$CZ_netperf_server
 		break
 	elif [ "$flag" == "$CN" ];then
-		ip=$CZ_netperf_server
+		ip=$CN_netperf_server
                 break
 	else
 		echo No server matched from $i
