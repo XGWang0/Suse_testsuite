@@ -58,6 +58,8 @@ Patch101:	workaround-sles11-capability-headers.patch
 # Waiting for upstream approval
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
+Patch401:	fix-aiodio-dir.patch
+Patch402:	fix-aiodio_sparse-exit.patch
 Patch404:       increase-stack-size.diff
 Patch408:       fix-sched_stress.patch
 # Patches 5xx Workarounds
@@ -131,6 +133,8 @@ Authors:
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes
 #%patch404 -p1
+%patch401 -p1
+%patch402 -p1
 %patch408 -p1
 # Patches 5xx Workarounds
 %patch501 -p1

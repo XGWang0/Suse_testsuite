@@ -1,0 +1,11 @@
+Index: ltp-full-20110915/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
+===================================================================
+--- ltp-full-20110915.orig/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
++++ ltp-full-20110915/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
+@@ -534,5 +534,5 @@ static void cleanup(void)
+ 		unlink(filename1);
+ 	if (filename2)
+ 		unlink(filename2);
+-
++	tst_exit();
+ }

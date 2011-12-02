@@ -1,0 +1,35 @@
+Index: ltp-full-20110915/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
+===================================================================
+--- ltp-full-20110915.orig/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
++++ ltp-full-20110915/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
+@@ -406,11 +406,21 @@ int main(int argc, char **argv)
+ 	int c;
+ 	extern char *optarg;
+ 	extern int optind, optopt, opterr;
++	const char *tmp_path;
+ 
+ 	printf("Begin aiodio_sparse tests...\n");
+ 
+-	snprintf(filename, sizeof(filename), "%s/aiodio/file",
+-		getenv("TMP") ? getenv("TMP") : "/tmp");
++	tmp_path = getenv("TMP") ? getenv("TMP") : "/tmp";
++	snprintf(filename, sizeof(filename), "%s/aiodio/", tmp_path);
++
++	if (mkdir(filename, S_IRWXU|S_IRWXG|S_IRWXO)) {
++		if (errno != EEXIST) {
++			perror("failed to create directory");
++			return TBROK;
++		}
++	}
++
++	snprintf(filename, sizeof(filename), "%s/aiodio/file", tmp_path);
+ 
+ 	while ((c = getopt(argc, argv, "dr:w:n:a:s:i:")) != -1) {
+ 		char *endp;
+@@ -525,4 +535,4 @@ static void cleanup(void)
+ 	if (filename2)
+ 		unlink(filename2);
+ 
+-}
+\ No newline at end of file
++}
