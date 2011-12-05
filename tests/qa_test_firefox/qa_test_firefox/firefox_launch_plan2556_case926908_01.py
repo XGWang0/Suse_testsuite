@@ -71,7 +71,7 @@ setValue(profiles, value_old="IsRelative=1", value_new="IsRelative=0")
 
 # open the Firefox application
 try:
-  app = launchApp('/usr/bin/firefox', "Firefox")
+  app = launchApp('/usr/bin/firefox', "Firefox", wait=30)
 except IOError, msg:
   print "ERROR:  %s" % msg
   exit(2)

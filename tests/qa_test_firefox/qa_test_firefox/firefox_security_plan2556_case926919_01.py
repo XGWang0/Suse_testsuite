@@ -106,12 +106,12 @@ else:
     delete_dialog = app.findDialog("Delete Server Certificate Exceptions")
     delete_dialog.findPushButton("OK").mouseClick()
     sleep(config.SHORT_DELAY)
-    delete_dialog.assertClosed()
+    #delete_dialog.assertClosed()
 certificate_dialog.findPushButton("OK").mouseClick()
 sleep(config.SHORT_DELAY)
 preferences_frame.findPushButton("Close").mouseClick()
 sleep(config.SHORT_DELAY)
-preferences_frame.assertClosed()
+#preferences_frame.assertClosed()
 
 # There is no Lock icon at the bottom right side of the browser
 procedurelogger.action('Find Lock icon at the bottom right side')

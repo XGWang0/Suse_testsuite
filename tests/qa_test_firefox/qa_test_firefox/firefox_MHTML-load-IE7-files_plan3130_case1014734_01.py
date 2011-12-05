@@ -66,8 +66,14 @@ plugin_url = 'https://addons.mozilla.org/en-US/firefox/addon/unmht/eula/114681?s
 # Step1: make sure UnMHT extension installed
 menubar = fFrame.findMenuBar(None)
 menubar.select(['Tools', 'Add-ons'])
+sleep(config.MEDIUM_DELAY)
 
-addon_frame = app.findFrame("Add-ons")
+try:
+    addon_frame = app.findFrame("Add-ons")
+except SearchError:
+    addon_frame = pyatspi.findAllDescendants(app, lambda x: x.name == "Add-ons Manager")[1]
+sleep(config.SHORT_DELAY)
+
 addon_frame.findListItem("Extensions").mouseClick()
 sleep(config.SHORT_DELAY)
 
@@ -78,15 +84,26 @@ except SearchError:
     fFrame.findStatusBar(None).mouseClick(log=False)
     sleep(config.SHORT_DELAY)
 
-    openURL(fFrame, plugin_url)
+    closeAddOns(fFrame, addon_frame)
+    sleep(config.SHORT_DELAY)
 
-    fFrame.findLink("Accept and Install", checkShowing=False).jump(log=True)
+    openURL(fFrame, plugin_url)
+    sleep(config.LONG_DELAY)
+
+    pyatspi.findDescendant(fFrame, lambda x: x.name == "Add to Firefox").mouseClick()
     sleep(config.MEDIUM_DELAY)
+
+    if pyatspi.findDescendant(fFrame, lambda x: x.name == "Allow") != None:
+        pyatspi.findDescendant(fFrame, lambda x: x.name == "Allow").mouseClick()
+        sleep(config.MEDIUM_DELAY)
 
     app.findDialog("Software Installation").findPushButton("Install Now").mouseClick()
     sleep(config.LONG_DELAY)
 
-    app.findFrame("Add-ons").findPushButton("Restart Firefox").mouseClick()
+    try:
+        addon_frame.findPushButton("Restart Firefox").mouseClick()
+    except SearchError:
+        pyatspi.findDescendant(fFrame, lambda x: x.name == "Restart Now").mouseClick()
 
     try:
         app.findDialog("Restart Firefox").findPushButton("Restart")
@@ -96,10 +113,9 @@ except SearchError:
 
     app = cache._desktop.findApplication("Firefox", checkShowing=False)
     fFrame = app.findFrame(None)
-    addon_frame = app.findFrame("Add-ons")
-
-addon_frame.altF4()
-sleep(config.SHORT_DELAY)
+else:
+    closeAddOns(fFrame, addon_frame)
+    sleep(config.SHORT_DELAY)
 
 # Step2: Load test page which is MHTML saved in IE7
 if os.path.exists(source_path + mhtml_page):
