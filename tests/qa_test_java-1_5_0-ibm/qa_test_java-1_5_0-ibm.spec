@@ -1,5 +1,5 @@
 #
-# spec file for package qa_test_java-1_5_0-ibm (Version 1.0)
+# spec file for package qa_test_java-1_5_0-ibm (Version 1.0.2)
 #
 # Copyright (c) 2011 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
@@ -28,13 +28,14 @@
 Name:           qa_test_%{tpname}
 License:	GPL v2 or later
 Group:          SuSE internal
-Version:        1.0.1
+Version:        1.0.2
 Release:        1
 Summary:        QA test for %{tpname}
 Url:            http://qit.suse.de/ibmjava/ibmjava/blobs/master/qa/
 Source0:        qa_%{tpname}.tcf
 Source1:        test_%{tpname}-run
 Source2:        check-modified-files.sh
+Source3:        %{name}.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 BuildRequires:  qa_lib_ibmjava
@@ -52,7 +53,7 @@ content. Use the qa_lib_ibmjava script.
 
 %install
 install -m 0755 -d %{buildroot}%{_mandir}/man8
-ln -sf %{_mandir}/man8/qa_lib_ibmjava.8.gz %{buildroot}/%{_mandir}/man8/%{name}.8.gz
+install -m 0644 %{SOURCE3} %{buildroot}%{_mandir}/man8
 
 install -m 755 -d %{buildroot}%{tcfdir}
 install -m 755 -d %{buildroot}%{toolsdir}
