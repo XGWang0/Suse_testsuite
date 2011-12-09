@@ -19,7 +19,7 @@ Release:        1
 Summary:        (rd-)qa internal package for testing apache and apache2
 Url:            http://httpd.apache.org/test/
 Source0:        %{name}-%{version}.tar.bz2
-Source1:        mod_perl-2.0.5.tar.bz2
+Source1:        mod_perl-2.0.4.tar.bz2
 Source2:	test_apache_testsuite-run
 Source3:	qa_test_apache_testsuite.8
 Patch0:         CVE-2004-0959.diff
