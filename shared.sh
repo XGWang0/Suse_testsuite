@@ -5,7 +5,6 @@ export LANG=C
 [ -r PROJECT/config ] && source PROJECT/config
 
 project=QA:Head
-project_devel=QA:Head:Devel
 iosc="osc -A https://api.suse.de"
 
 # this function should be implemented in the script, 
