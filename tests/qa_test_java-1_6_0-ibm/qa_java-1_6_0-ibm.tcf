@@ -1,0 +1,3 @@
+timer 3000
+fg 1 qa_java-1_6_0-ibm-check-modified-files /usr/share/qa/qa_test_java-1_6_0-ibm/check-modified-files.sh
+wait
