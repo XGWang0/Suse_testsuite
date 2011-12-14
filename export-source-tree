@@ -1,0 +1,36 @@
+#!/bin/bash
+
+this="`which "$0"`"
+cd "`dirname "$this"`"
+source shared.sh
+
+[ $# -ne 1 ] && echo "Usage: $0 <export_DIR>" && exit 1
+[ -d "$1" ] && echo "Error: $1 Already exist, delete it and start $0 again." && exit 1
+
+mkdir -p "$1"
+TARGET="`cd $1 ; pwd`"
+
+echo "Starting export of `pwd` to $TARGET."
+echo
+
+for DIR in * ; do
+	[ -d "$DIR" ] || continue
+	[ "$DIR" == "PROJECT" ] && continue
+
+	mkdir "$TARGET/$DIR"
+	pushd "$DIR" > /dev/null 
+	for PKG in * ; do 
+		pushd "$PKG" > /dev/null
+		echo -n "Exporting $DIR/$PKG ... "
+		mkdir "$TARGET/$DIR/$PKG"
+		package_prepare
+		copy_package_sources "$TARGET/$DIR/$PKG"
+		package_cleanup
+		echo "done"
+		popd > /dev/null
+	done
+	popd > /dev/null
+done
+
+echo
+echo "Export of `pwd` to $TARGET completed."
