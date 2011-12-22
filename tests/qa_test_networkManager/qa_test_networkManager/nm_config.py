@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ****************************************************************************
 # Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
@@ -22,8 +23,10 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+import os
+
 # Machines settings
-sys1_eth0_ip = ""
+sys1_eth0_ip = os.popen('ifconfig |grep -F addr: |cut -d : -f 2 |cut -d " " -f 1').read().strip()
 sys1_root_pwd = ""
 
 sys2_eth0_ip = ""
