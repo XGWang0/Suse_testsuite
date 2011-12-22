@@ -17,8 +17,8 @@ Group:          SuSE internal
 Summary:        Unittests for openssl framework using the system openssl
 Provides:	qa_openssl
 Obsoletes:	qa_openssl
-Requires:       make openssl bc ctcs2 libopenssl-devel perl
-BuildRequires:  make openssl bc ctcs2 libopenssl-devel perl
+Requires:       make openssl bc ctcs2 libopenssl-devel perl gcc
+BuildRequires:  make openssl bc ctcs2 libopenssl-devel perl gcc
 %if 0%{?suse_version} < 1120
 Version:	0.9.8r
 %else

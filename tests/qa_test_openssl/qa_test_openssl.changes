@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Dec 22 14:51:00 CET 2011 - tchvatal@suse.cz
+
+- Add gcc to requires as we compile stuff.
+
+-------------------------------------------------------------------
 Wed Nov 02 09:25:00 CET 2011 - tchvatal@suse.cz
 
 - add simple benchmark phase, the parsing will be done on the other
