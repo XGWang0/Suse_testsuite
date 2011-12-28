@@ -83,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_gzip.8.gz
 
 %changelog -n qa_test_gzip
-* Tue Aug  9 13:24:36 GMT 2011 - llipavsky@suse.cz
+* Tue Aug  9 2011 - llipavsky@suse.cz
 - Package rename: qa_gzip -> qa_test_gzip
 * Tue Mar 15 2011 - aguo@novell.com
 - add man page document

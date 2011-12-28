@@ -113,7 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc %{_docdir}/%{name}/README
 
 %changelog
-* Wed Aug 10 09:35:02 GMT 2011 - llipavsky@suse.cz
+* Wed Aug 10 2011 - llipavsky@suse.cz
 - Package rename: qa_samba -> qa_test_samba
 * Tue Jan 22 2008 llipavsky@suse.cz
 - Unify versions for sles9-all, sles10-all and stable-all
