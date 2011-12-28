@@ -23,49 +23,28 @@
 # ****************************************************************************
 #
 
-import os, shutil, gzip, subprocess
-from subprocess import Popen, call
 
-TEST_DIR = '/tmp/qa_test_logwatch'
+import os, subprocess
+from logwatch import *
 
-def setup():
-	if os.path.exists(TEST_DIR):
-		cleanup()
-	os.mkdir(TEST_DIR)
+# Setup for test.
+setup()
 
-def remove_text_from_file(filename, text):
-	file_read = open(filename)
-	file_write = open(filename + '.new', 'w')
-	for line in file_read:
-		if not text in line:
-			file_write.write(line)
-	os.remove(filename)
-	shutil.move(filename + '.new', filename)
+# Create the test files.
+first = TEST_DIR + '/logwatch.service.kernel'
+second = TEST_DIR + '/logwatch.service.none'
+make_report(filename=first, service='Kernel')
+make_report(filename=second)
+remove_text_from_file(first, 'Processing Initiated')
+remove_text_from_file(second, 'Processing Initiated')
 
-def assert_log_report_diff(first, second):
-	diff = call(['diff', first, second], stdout=open('/dev/null', 'w'))
-	if not diff:
-		close(1)
+# Assert that 'logwatch service=Kernel' does not have the same output as 'logwatch'.
+assert_log_report_diff(first, second)
 
-def make_report(filename=None, detail=10, logfile=None, service=None):
-	command = ['/usr/sbin/logwatch']
-	command.append("--detail=" + str(detail))
-	outputfile = None
-	if filename:
-		outputfile = open(filename, "wb")
-	if logfile:
-		command.append("--logfile=" + logfile)
-	if service:
-		command.append("--service=" + service)
-	code = call(command, stdout=outputfile)
-	if code != 0:
-		close(1)
+# Delete temporary files created for the test.
+cleanup()
 
-def cleanup():
-	shutil.rmtree(TEST_DIR)
-
-def close(code):
-	cleanup()
-	exit (code)
+# Exit without errors if none were encountered.
+exit (0)
 
 

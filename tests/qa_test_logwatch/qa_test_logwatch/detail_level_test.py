@@ -35,6 +35,10 @@ first = TEST_DIR + '/logwatch.0'
 second = TEST_DIR + '/logwatch.10'
 make_report(filename=first, detail=0)
 make_report(filename=second, detail=10)
+remove_text_from_file(first, 'Processing Initiated')
+remove_text_from_file(first, 'Detail Level of Output')
+remove_text_from_file(second, 'Processing Initiated')
+remove_text_from_file(second, 'Detail Level of Output')
 
 # Assert differing detail does not create the same report.
 assert_log_report_diff(first, second)
