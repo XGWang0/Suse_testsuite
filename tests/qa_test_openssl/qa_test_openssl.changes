@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Dec 29 16:31:00 CET 2011 - tchvatal@suse.cz
+
+- Update condition in qa_test_openssl_benchmark_z.sh to use wc -l
+  because sometimes subshell values are not parsed by bash.
+
+-------------------------------------------------------------------
 Thu Dec 22 14:51:00 CET 2011 - tchvatal@suse.cz
 
 - Add gcc to requires as we compile stuff.
