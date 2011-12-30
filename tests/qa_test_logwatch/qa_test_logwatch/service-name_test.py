@@ -23,8 +23,6 @@
 # ****************************************************************************
 #
 
-
-import os, subprocess
 from logwatch import *
 
 # Setup for test.

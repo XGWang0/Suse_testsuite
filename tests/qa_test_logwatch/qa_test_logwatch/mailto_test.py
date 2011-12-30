@@ -23,24 +23,28 @@
 # ****************************************************************************
 #
 
+import shutil, subprocess, time
 from logwatch import *
 
 # Setup for test.
 setup()
 
-# Create the test files.
-first = TEST_DIR + '/logwatch.logfile.kernel'
-second = TEST_DIR + '/logwatch.logfile.none'
-make_report(filename=first, logfile='messages')
-make_report(filename=second)
-remove_text_from_file(first, 'Processing Initiated')
-remove_text_from_file(second, 'Processing Initiated')
+# Backup root mail.
+mailfile = '/var/mail/root'
+shutil.move(mailfile, mailfile + '.tmp')
+subprocess.call(['touch', mailfile])
 
-# Assert that 'logwatch logfile=messages' does not have the same output as 'logwatch'.
-assert_log_report_diff(first, second)
+# Create the report.
+make_report(mailto='root')
+
+# Wait 5 secs to insure mail delivery.
+time.sleep(5)
+
+# Assert that the output of logwatch is mailed to root ('/var/mail/root').
+assert_file_contains_report(mailfile)
 
 # Delete temporary files created for the test.
-cleanup()
+cleanup(clean_file=mailfile)
 
 # Exit without errors if none were encountered.
 exit (0)
