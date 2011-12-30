@@ -23,58 +23,24 @@
 # ****************************************************************************
 #
 
-import os, shutil, gzip, subprocess
-from subprocess import Popen, call
 
-TEST_DIR = '/tmp/qa_test_logwatch'
+import os, subprocess
+from logwatch import *
 
-def setup():
-	if os.path.exists(TEST_DIR):
-		cleanup()
-	os.mkdir(TEST_DIR)
+# Setup for test.
+setup()
 
-def remove_text_from_file(filename, text):
-	file_read = open(filename)
-	file_write = open(filename + '.new', 'w')
-	for line in file_read:
-		if not text in line:
-			file_write.write(line)
-	os.remove(filename)
-	shutil.move(filename + '.new', filename)
+# Create the test files.
+first = TEST_DIR + '/logwatch.range'
+make_report(filename=first, range1='today')
 
-def assert_log_report_diff(first, second):
-	diff = call(['diff', first, second], stdout=open('/dev/null', 'w'))
-	if not diff:
-		close(1)
+# Assert that the output of 'logwatch range=today' contains output from today.
+assert_report_contains_text(first, 'Date Range Processed: today')
 
-def assert_report_contains_text(filename, text):
-	file_read = open(filename)
-	for line in file_read:
-		if text in line:
-			return
-	close(1)
+# Delete temporary files created for the test.
+cleanup()
 
-def make_report(filename=None, detail=10, logfile=None, service=None, range1='yesterday'):
-	command = ['/usr/sbin/logwatch']
-	command.append("--detail=" + str(detail))
-	outputfile = None
-	if filename:
-		outputfile = open(filename, "wb")
-	if logfile:
-		command.append("--logfile=" + logfile)
-	if service:
-		command.append("--service=" + service)
-	if range1:
-		command.append("--range=" + range1)
-	code = call(command, stdout=outputfile)
-	if code != 0:
-		close(1)
-
-def cleanup():
-	shutil.rmtree(TEST_DIR)
-
-def close(code):
-	cleanup()
-	exit (code)
+# Exit without errors if none were encountered.
+exit (0)
 
 
