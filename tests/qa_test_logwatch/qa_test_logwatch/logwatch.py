@@ -62,6 +62,10 @@ def assert_file_contains_report(filename):
 			return
 	close(1, clean_file=filename)
 
+def assert_file_exists(filename):
+	if not os.path.exists(filename):
+		close(1)
+
 def make_report(filename=None, detail=10, logfile=None, service=None, range1='yesterday', mailto=None):
 	command = ['/usr/sbin/logwatch']
 	command.append("--detail=" + str(detail))
