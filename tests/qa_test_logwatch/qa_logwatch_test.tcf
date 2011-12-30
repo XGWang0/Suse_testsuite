@@ -23,6 +23,30 @@
 #
 
 timer 300
-fg 1 _test /usr/share/qa/qa_test_logwatch/_test.py
+fg 1 archives _test /usr/share/qa/qa_test_logwatch/archives_test.py
+wait
+
+timer 300
+fg 1 detail_level_test /usr/share/qa/qa_test_logwatch/detail_level_test.py
+wait
+
+timer 300
+fg 1 filename_test /usr/share/qa/qa_test_logwatch/filename_test.py
+wait
+
+timer 300
+fg 1 log-file-group_test /usr/share/qa/qa_test_logwatch/log-file-group_test.py
+wait
+
+timer 300
+fg 1 mailto_test /usr/share/qa/qa_test_logwatch/mailto_test.py
+wait
+
+timer 300
+fg 1 range_test /usr/share/qa/qa_test_logwatch/range_test.py
+wait
+
+timer 300
+fg 1 service-name_test /usr/share/qa/qa_test_logwatch/service-name_test.py
 wait
 
