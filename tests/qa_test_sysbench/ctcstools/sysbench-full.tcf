@@ -1,0 +1,229 @@
+timer 3600
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+bg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+fg 1 sysbench-survive sysbench --max-time=86400 --num-threads=409 --max-requests=1000000 --thread-stack-size=512 --init-rng=on --validate=on   --test=fileio --file-total-size=1024M --file-test-mode=rndwr run
+wait
+
+timer 3600
+fg 1 sysbench-cpu-1 sysbench-example-test -t cpu -T 1
+wait
+
+timer 3600
+fg 1 sysbench-cpu-2 sysbench-example-test -t cpu -T 2
+wait
+
+timer 3600
+fg 1 sysbench-cpu-4 sysbench-example-test -t cpu -T 4
+wait
+
+timer 3600
+fg 1 sysbench-cpu-8 sysbench-example-test -t cpu -T 8
+wait
+
+timer 3600
+fg 1 sysbench-cpu-16 sysbench-example-test -t cpu -T 16
+wait
+
+timer 3600
+fg 1 sysbench-cpu-32 sysbench-example-test -t cpu -T 32
+wait
+
+timer 3600
+fg 1 sysbench-cpu-64 sysbench-example-test -t cpu -T 64
+wait
+
+timer 3600
+fg 1 sysbench-cpu-128 sysbench-example-test -t cpu -T 128
+wait
+
+timer 3600
+fg 1 sysbench-cpu-256 sysbench-example-test -t cpu -T 256
+wait
+
+timer 3600
+fg 1 sysbench-threads-1 sysbench-example-test -t threads -T 1
+wait
+
+timer 3600
+fg 1 sysbench-threads-2 sysbench-example-test -t threads -T 2
+wait
+
+timer 3600
+fg 1 sysbench-threads-4 sysbench-example-test -t threads -T 4
+wait
+
+timer 3600
+fg 1 sysbench-threads-8 sysbench-example-test -t threads -T 8
+wait
+
+timer 3600
+fg 1 sysbench-threads-16 sysbench-example-test -t threads -T 16
+wait
+
+timer 3600
+fg 1 sysbench-threads-32 sysbench-example-test -t threads -T 32
+wait
+
+timer 3600
+fg 1 sysbench-threads-64 sysbench-example-test -t threads -T 64
+wait
+
+timer 3600
+fg 1 sysbench-threads-128 sysbench-example-test -t threads -T 128
+wait
+
+timer 3600
+fg 1 sysbench-threads-256 sysbench-example-test -t threads -T 256
+wait
+
+timer 3600
+fg 1 sysbench-fileio-1 sysbench-example-test -t fileio -T 1 
+wait
+
+timer 3600
+fg 1 sysbench-fileio-2 sysbench-example-test -t fileio -T 2 
+wait
+
+timer 3600
+fg 1 sysbench-fileio-4 sysbench-example-test -t fileio -T 4 
+wait
+
+timer 3600
+fg 1 sysbench-fileio-8 sysbench-example-test -t fileio -T 8 
+wait
+
+timer 3600
+fg 1 sysbench-fileio-16 sysbench-example-test -t fileio -T 16
+wait
+
+timer 3600
+fg 1 sysbench-fileio-32 sysbench-example-test -t fileio -T 32
+wait
+
+timer 3600
+fg 1 sysbench-fileio-64 sysbench-example-test -t fileio -T 64
+wait
+
+timer 3600
+fg 1 sysbench-fileio-128 sysbench-example-test -t fileio -T 128
+wait
+
+timer 3600
+fg 1 sysbench-fileio-256 sysbench-example-test -t fileio -T 256
+wait
+
+timer 3600
+fg 1 sysbench-memory-1 sysbench-example-test -t memory -T 1 
+wait
+
+timer 3600
+fg 1 sysbench-memory-2 sysbench-example-test -t memory -T 2 
+wait
+
+timer 3600
+fg 1 sysbench-memory-4 sysbench-example-test -t memory -T 4 
+wait
+
+timer 3600
+fg 1 sysbench-memory-8 sysbench-example-test -t memory -T 8 
+wait
+
+timer 3600
+fg 1 sysbench-memory-16 sysbench-example-test -t memory -T 16
+wait
+
+timer 3600
+fg 1 sysbench-memory-32 sysbench-example-test -t memory -T 32
+wait
+
+timer 3600
+fg 1 sysbench-memory-64 sysbench-example-test -t memory -T 64
+wait
+
+timer 3600
+fg 1 sysbench-memory-128 sysbench-example-test -t memory -T 128
+wait
+
+timer 3600
+fg 1 sysbench-memory-256 sysbench-example-test -t memory -T 256
+wait
+
+timer 3600
+fg 1 sysbench-mutex-1 sysbench-example-test -t mutex -T 1 
+wait
+
+timer 3600
+fg 1 sysbench-mutex-2 sysbench-example-test -t mutex -T 2 
+wait
+
+timer 3600
+fg 1 sysbench-mutex-4 sysbench-example-test -t mutex -T 4 
+wait
+
+timer 3600
+fg 1 sysbench-mutex-8 sysbench-example-test -t mutex -T 8 
+wait
+
+timer 3600
+fg 1 sysbench-mutex-16 sysbench-example-test -t mutex -T 16
+wait
+
+timer 3600
+fg 1 sysbench-mutex-32 sysbench-example-test -t mutex -T 32
+wait
+
+timer 3600
+fg 1 sysbench-mutex-64 sysbench-example-test -t mutex -T 64
+wait
+
+timer 3600
+fg 1 sysbench-mutex-128 sysbench-example-test -t mutex -T 128
+wait
+
+timer 3600
+fg 1 sysbench-mutex-256 sysbench-example-test -t mutex -T 256
+wait
+
+timer 3600
+fg 1 sysbench-oltp-1 sysbench-example-test -t oltp -T 1 
+wait
+
+timer 3600
+fg 1 sysbench-oltp-2 sysbench-example-test -t oltp -T 2 
+wait
+
+timer 3600
+fg 1 sysbench-oltp-4 sysbench-example-test -t oltp -T 4 
+wait
+
+timer 3600
+fg 1 sysbench-oltp-8 sysbench-example-test -t oltp -T 8 
+wait
+
+timer 3600
+fg 1 sysbench-oltp-16 sysbench-example-test -t oltp -T 16
+wait
+
+timer 3600
+fg 1 sysbench-oltp-32 sysbench-example-test -t oltp -T 32
+wait
+
+timer 3600
+fg 1 sysbench-oltp-64 sysbench-example-test -t oltp -T 64
+wait
+
+timer 3600
+fg 1 sysbench-oltp-128 sysbench-example-test -t oltp -T 128
+wait
+
+timer 3600
+fg 1 sysbench-oltp-256 sysbench-example-test -t oltp -T 256
+wait
+
