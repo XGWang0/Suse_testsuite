@@ -1,0 +1,211 @@
+#!/bin/bash
+# ****************************************************************************
+# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+#
+
+
+export LANG=C
+
+source /usr/share/qa/qa_internalapi/sh/libqainternal.lib.sh
+
+LOCATION="`/usr/share/qa/tools/location.pl | awk '{ print $NF; }'`"
+
+#map on main bridge!
+BR="`route | grep ^default | awk {'print $NF'}`"
+IP="`ifconfig $BR | grep 'inet addr:' | sed 's/^.*inet addr:\([0-9.]*\) .*$/\1/'`"
+
+
+function test_init
+{
+	#this can be overloaded in the test
+	return 0
+}
+
+function test_cleanup
+{
+	#this can be overloaded in the test
+	return 0
+}
+
+
+#
+function _test_init
+{
+
+	#If needed, download kernel/initrd to PXE
+	server=`/usr/share/qa/virtautolib/lib/get-settings.sh pxe.ip`
+	user=`/usr/share/qa/virtautolib/lib/get-settings.sh pxe.user`
+	pass=`/usr/share/qa/virtautolib/lib/get-settings.sh pxe.pass`
+	tftpdir=`/usr/share/qa/virtautolib/lib/get-settings.sh pxe.tftpdir`
+	
+
+	# If we are fully-virtualized, network, we need to download linux/initrd for pxe boot
+	# This must be in same location that vm-install.sh expect it!!!
+	if [ "$VIRT_TYPE" == "fv" ]
+	then
+		if [ "$INSTALL_METHOD" == "ftp" ] || [ "$INSTALL_METHOD" == "http" ] || [ "$INSTALL_METHOD" == "nfs" ] || [ "$INSTALL_METHOD" == "net" ]
+		then
+			pxe_os=OOPS
+			pxe_rl="$RELEASE"
+			pxe_sp="$SERVICE_PACK"
+			if [ "$ARCHITECTURE" == "32" ] || [ "$ARCHITECTURE" == "32p" ] ; then
+				arch="ix86"
+			elif [ "$ARCHITECTURE" == "64" ] ; then
+				arch="x86_64"
+			fi
+			if [ "$OPERATING_SYSTEM" == "sles" ] || [ "$OPERATING_SYSTEM" == "sled" ] ; then
+				pxe_os="$OPERATING_SYSTEM"
+				os_type=suse
+			elif [ "$OPERATING_SYSTEM" == "os" ] ; then
+				pxe_os=opensuse
+				os_type=suse
+			elif [ "$OPERATING_SYSTEM" == "rhel" ]
+			then
+				pxe_os=rhel
+				os_type=rhel
+			fi
+
+			if [ "$pxe_os" == "OOPS" ] ; then
+				tmpError="PXE os --$pxe_os--, PXE RELEASE --$pxe_rl-- or PXE sp --$pxe_sp-- not set correctly"
+				echo "ERROR - $tmpError"
+				echo "ERROR - $tmpError" >&2
+				echo "    ***** INSTALL ERRORED *****"
+				popd > /dev/null; return 11
+			fi
+
+			# get initrd and kernel
+			sr=`/usr/share/qa/virtautolib/lib/get-source.sh source.$INSTALL_METHOD.$OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE`
+			if [ "$INSTALL_METHOD" == "nfs" -o "$INSTALL_METHOD" == "net" ] ; then
+				# nfs not supported (and net is just one of them), trying ftp or http
+				sr=`/usr/share/qa/virtautolib/lib/get-source.sh source.ftp.$OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE`
+				[ "$sr" == "" ] && sr=`/usr/share/qa/virtautolib/lib/get-source.sh source.http.$OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE`
+			fi
+			if [ "$sr" == "" ] ; then
+				tmpError="Unable to get ftp/http installation source for $OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE method: $INSTALL_METHOD."
+                                echo "ERROR - $tmpError"
+                                echo "ERROR - $tmpError" >&2
+                                echo "    ***** INSTALL SKIPPED *****"
+                                popd > /dev/null; return 22
+			fi
+				
+			export SSHPASS="$pass"
+			
+			# TODO check whether it already exist!
+
+			sshpass -e ssh -o StrictHostKeyChecking=no $user@$server mkdir -p $tftpdir/qa-virtauto/$pxe_os/$pxe_rl/$pxe_sp/$arch
+			tmpd=`mktemp -d`
+			cd $tmpd
+			if ! /usr/share/qa/virtautolib/lib/download_pxe_bootfiles.sh -ik -a $arch -s "$sr" -o $os_type ; then
+				tmpError="Unable to download initrd&kernel image from $sr."
+				echo "ERROR - $tmpError"
+				echo "ERROR - $tmpError" >&2
+				echo "    ***** INSTALL ERRORED *****"
+				popd > /dev/null; return 11
+			fi
+
+			sshpass -e scp -o StrictHostKeyChecking=no linux initrd  $user@$server:$tftpdir/qa-virtauto/$pxe_os/$pxe_rl/$pxe_sp/$arch
+			cd - > /dev/null
+			rm -fr $tmpd
+		fi
+	fi
+
+	# location specific
+	if [ -x "$TEST_ROOT/loc/prepare.$LOCATION" ] ; then
+		"$TEST_ROOT/loc/prepare.$LOCATION" || return 11
+	fi
+
+	# testcase-specific
+	test_init
+}
+
+#
+function _test_cleanup
+{
+	# testcase-specific
+	test_cleanup
+	res=$?
+
+	if [ -x "$TEST_ROOT/loc/cleanup.$LOCATION" ] ; then
+		"$TEST_ROOT/loc/cleanup.$LOCATION" || res=$?
+	fi
+
+	return $res
+}
+
+#run test itself
+function run_test
+{
+	# Skip if source not defined
+	if [ "$INSTALL_METHOD" == 'net' ] ; then
+		if ! /usr/share/qa/virtautolib/lib/get-source.sh source.ftp.$OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE > /dev/null2> /dev/null \
+			&& ! /usr/share/qa/virtautolib/lib/get-source.sh source.http.$OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE > /dev/null2> /dev/null ; then
+			printSkipped "Source: source.$INSTALL_METHOD.$OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE not defined in $sf." >&2
+			exit $SKIPPED
+		fi
+	else
+		if ! /usr/share/qa/virtautolib/lib/get-source.sh source.$INSTALL_METHOD.$OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE > /dev/null2> /dev/null ; then
+			printSkipped "Source: source.$INSTALL_METHOD.$OPERATING_SYSTEM-$RELEASE-$SERVICE_PACK-$ARCHITECTURE not defined in $sf." >&2
+			exit $SKIPPED
+		fi
+	fi
+
+	_test_init
+	init_res=$?
+	if [ $init_res -ne 0 ] ; then
+		printError "Initialization failed, running cleanup - some errors might occur due to improper initialization."
+		_test_cleanup
+		[ $init_res -eq 22 ] || init_res=$ERROR
+		exit $init_res
+	fi
+
+	#give services time to successfully load
+	sleep 5
+
+	test_action
+	test_result=$?
+
+	_test_cleanup
+	if [ $? -ne 0 ] ; then
+		printWarning "Cleanup failed - this might (but shouldn't) cause failure of next tests."
+	fi
+
+	[ $test_result -eq $PASSED ] && printPassed "Test passed"
+
+	return $test_result
+}
+
+function interrupt
+{
+
+	trap '' SIGINT
+	_test_cleanup
+
+	printError "Test has been interrupted."
+
+	trap - SIGINT
+	exit $ERROR
+}
+
+trap interrupt SIGINT
+
+

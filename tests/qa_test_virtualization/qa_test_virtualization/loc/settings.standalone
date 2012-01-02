@@ -1,0 +1,59 @@
+# ****************************************************************************
+# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+#
+
+# Local settings (modify these)
+
+xen.user=root
+xen.pass=novell
+vm.user=root
+vm.pass=novell
+
+# Global settings (only modify these if you are running the entire suite of tests)
+
+xen.arch=64
+xen.base=amd
+xen.ip=
+team.key=putkeyhere
+
+# You can leave these as they are (for the Xen lab environment)
+
+netinfo.ip=192.168.123.1
+netinfo.user=virt-test
+netinfo.pass=virt-pass-159
+http.ip=192.168.123.1
+http.user=virt-test
+http.pass=virt-pass-159
+http.autoyast.local=/srv/www/htdocs/install/autoyast
+http.autoyast.web=install/autoyast
+pxe.ip=192.168.123.1
+pxe.user=virt-test
+pxe.pass=virt-pass-159
+pxe.tftpdir=/tftpboot
+dhcp.reserved.pool=192.168.123.101:192.168.123.102:192.168.123.103:192.168.123.104:192.168.123.105:192.168.123.106:192.168.123.107:192.168.123.108:192.168.123.109:192.168.123.110:192.168.123.111:192.168.123.112:192.168.123.113:192.168.123.114:192.168.123.115
+network.mask=255.255.255.0
+network.gateway=192.168.123.1
+network.nameserver=192.168.123.1
+network.network=192.168.123.0
+network.bcast=192.168.123.255
+network.domain=testvirt.net
