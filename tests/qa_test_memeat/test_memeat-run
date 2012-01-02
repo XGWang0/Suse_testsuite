@@ -1,0 +1,7 @@
+#!/bin/bash
+CTCSDIR="/usr/lib/ctcs2"
+TCFPATH="/usr/share/qa/tcf/memeat.tcf"
+
+cd $CTCSDIR
+tools/run $TCFPATH
+

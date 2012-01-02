@@ -1,0 +1,30 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 14:34:51 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: memeat -> qa_test_qa_test_memeat
+
+-------------------------------------------------------------------
+Wed Oct 15 11:08:54 CEST 2008 - mmrazik@suse.cz
+
+- Fallback to MemFree if LowFree is not available (bnc#398434)
+
+-------------------------------------------------------------------
+Mon Mar 10 01:59:45 CET 2008 - ro@suse.de
+
+- added directories to filelist 
+
+-------------------------------------------------------------------
+Thu Apr  5 15:56:08 CEST 2007 - yxu@suse.de
+
+- add a counter to let memeat loop finish 
+
+-------------------------------------------------------------------
+Tue Jan 24 18:42:01 CET 2006 - fseidel@suse.de
+
+- initial release
+
