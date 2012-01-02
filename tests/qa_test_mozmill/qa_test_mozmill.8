@@ -1,0 +1,48 @@
+." Manpage for qa_test_mozmill.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "21 Oct 2011" "1.0" "qa_test_mozmill man page"
+.SH NAME
+qa_test_mozmill
+.SH SYNOPSIS
+mozmill [options] [file|dir]
+.SH TYPE
+Firefox application function test.
+.SH DESCRIPTION
+MozMill is a test tool and framework for writing automated tests for Gecko based applications (Firefox etc).
+.br
+It is built as a command line client tool to help users write, run and debug tests.
+.SH README
+None.
+.SH OPTIONS
+.B \-t
+Implement a certain test case or serial test cases in a directory.
+.SH WHAT IT DOES
+A firefox instance starts, serial test cases are implemented without any manual interactions.
+.br
+After all cases are implemented, the firefox instance will close automatically.
+.br
+Test results is saved in /var/log/qa/mozmill/, named as MozMill-Results-YYYY-MM-DD-HH-MM-SS.
+.SH COMMON PROBLEMS
+Some tests depend on network bandwidth and DNS services.
+.br
+Existing firefox instances might interrupt mozmill tests.
+.br
+Existing bookmarks or cookies in firefox might be deleted or modified.
+.SH WARNINGS
+Implement this test suite in an X-Window environment.
+.br
+Don't interrupt manually, just let tests go.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+None.
+.SH LICENSE
+MPL 1.1; GPL v2 or later; LGPL v2.1 or later
+.SH UPSTREAM
+None.
+.SH AUTHOR
+Some mozilla guys, etc.
+.SH MAINTAINER
+Arthur Guo <aguo@novell.com>
