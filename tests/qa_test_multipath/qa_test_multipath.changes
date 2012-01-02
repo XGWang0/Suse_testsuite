@@ -1,0 +1,153 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 11:33:41 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_multipath -> qa_test_multipath
+
+-------------------------------------------------------------------
+Tue Jan 18 18:20:16 UTC 2011 - dvaleev@novell.com
+
+- handle multiple maps per HW vendor
+- add tests for IBM and EMC 
+
+-------------------------------------------------------------------
+Tue Jan 11 19:14:38 UTC 2011 - dvaleev@novell.com
+
+- don't delete iSCSI Target after finishing tests
+- Hardware tests for HP and NETAPP storege subsysyems 
+
+-------------------------------------------------------------------
+Fri Jun 18 16:16:17 UTC 2010 - dvaleev@novell.com
+
+- iscsi no longer looks for hardcoded iSCSI target
+
+-------------------------------------------------------------------
+Thu Jun 17 22:58:34 UTC 2010 - dvaleev@novell.com
+
+- workaround for bnc#615298
+
+-------------------------------------------------------------------
+Thu Jun 17 14:53:22 UTC 2010 - dvaleev@novell.com
+
+- path_checker_tur typo in function (iscsi_diconnect) 
+- iSCSI target preconfigured.
+-------------------------------------------------------------------
+Tue Jun 15 14:31:28 UTC 2010 - dvaleev@novell.com
+
+- SLE11SP1 fix 
+
+-------------------------------------------------------------------
+Mon Jun  7 01:29:48 CEST 2010 - dvaleev@novell.com
+
+- fixed directories
+- removed unneeded source 
+
+-------------------------------------------------------------------
+Fri Apr  9 15:31:50 CEST 2010 - dvaleev@novell.com
+
+- qa_multipath-1.1-1
+- rename project to since it will cover both hw and sw tests 
+
+-------------------------------------------------------------------
+Mon Apr  5 00:41:00 CEST 2010 - dvaleev@novell.com
+
+- qa_sw_multipath-1.1-0
+- split function for hw tests
+- add example.test as test template
+- intruduce $map for hw tests
+
+-------------------------------------------------------------------
+Fri Apr  2 18:20:18 CEST 2010 - dvaleev@novell.com
+
+- fix SLE10SP3 device setup
+- take backup only if config file exists
+- fix rcmultipathd typo
+-------------------------------------------------------------------
+Tue Mar 30 17:51:21 CEST 2010 - dvaleev@novell.com
+
+- qa_sw_multipath-1.0-3
+- Fix SLE10 test failure 
+
+-------------------------------------------------------------------
+Mon Mar 29 15:13:27 CEST 2010 - dvaleev@novell.com
+
+- qa_sw_multipath-1.0-3
+- README.target and README.tests docu files
+
+-------------------------------------------------------------------
+Thu Mar 25 11:40:41 CET 2010 - dvaleev@novell.com
+
+- qa_sw_multipath-1.0-2
+- fix paths_status function to be crossplatform 
+
+-------------------------------------------------------------------
+Thu Mar 25 00:39:37 CET 2010 - dvaleev@novell.com
+
+- qa_sw_multipath-1.0-2 
+- safer deconstruct test setup
+- fix typos
+
+-------------------------------------------------------------------
+Wed Mar 24 13:00:56 CET 2010 - dvaleev@novell.com
+
+- qa_sw_multipath-1.0-1
+- acitions splitted to functions
+- separate path_checker tests
+- ctcs2 functions
+
+-------------------------------------------------------------------
+Fri Mar 22 00:00:00 CET 2010 - dvaleev@suse.cz
+
+- qa_sw_multipath-0.4-4
+- reset failback to default (manual)
+- increase tcf timer (due s390 needs more time to setup)
+- MAIN_DEV var no longer needed
+
+-------------------------------------------------------------------
+Fri Mar 19 00:00:00 CET 2010 - dvaleev@suse.c
+
+- qa_sw_multipath-0.4-3
+- Require scsi packege below SLE11
+
+-------------------------------------------------------------------
+Thu Mar 18 00:00:00 CET 2010 - dvaleev@suse.c
+
+- qa_sw_multipath-0.4-2
+- Fail devices via /sys/block/sdX/device/state instead failing via multupat itself
+- reset default value for TARGET ip
+- remove only tested iscsi target
+
+-------------------------------------------------------------------
+Wed Mar 17 00:00:00 CET 2010 - dvaleev@suse.c
+
+- qa_sw_multipath-0.4-1
+- Be simplier on multipath. Virtual eth no longer needed
+
+-------------------------------------------------------------------
+Fri Mar 12 00:00:00 CET 2010 - dvaleev@suse.c
+
+- qa_sw_multipath-0.3-2
+- Split tests to multipath_active_active
+- and multipath_active_passive
+
+- qa_sw_multipath-0.3-1
+- Enable -p arg (prepare only).
+- Usefull to prepare multipath env to perform bug reproducing
+
+-------------------------------------------------------------------
+Thu Mar 11 00:00:00 CET 2010 - dvaleev@suse.c
+
+- code cleanup
+- external variables DATA_DIR/vars
+- addinional check for running daemons
+- don't check lsscsi existans instead just depend on it
+
+-------------------------------------------------------------------
+Wed Mar 10 00:00:00 CET 2010 - dvaleev@suse.c
+
+- package created, version 1.1
+
