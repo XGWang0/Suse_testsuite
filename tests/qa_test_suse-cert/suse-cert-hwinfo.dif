@@ -1,0 +1,23 @@
+--- src/mkcertconf.c
++++ src/mkcertconf.c
+@@ -178,10 +178,16 @@
+ 				print_str(buf2,buf);
+ 			}
+ 			if(r->any.type == res_disk_geo) {
+-				if( ! r->disk_geo.logical) {
+-					sprintf(buf,"C/H/S=%u/%u/%u",r->disk_geo.cyls,r->disk_geo.heads,r->disk_geo.sectors);
+-					sprintf(buf2,"disk_%d_geometry",count);
+-					print_str(buf2,buf);
++				switch(r->disk_geo.geotype) {
++					case geo_logical:
++					case geo_bios_edd:
++					case geo_bios_legacy:
++						break;
++					default:
++						sprintf(buf,"C/H/S=%u/%u/%u",r->disk_geo.cyls,r->disk_geo.heads,r->disk_geo.sectors);
++						sprintf(buf2,"disk_%d_geometry",count);
++						print_str(buf2,buf);
++						break;
+ 				}
+ 			}
+ 			r = r->next;
