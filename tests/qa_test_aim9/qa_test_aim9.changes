@@ -1,0 +1,25 @@
+-------------------------------------------------------------------
+Wed Aug 10 13:05:12 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa-aim9 -> qa_test_aim9
+
+-------------------------------------------------------------------
+Wed Jan 25 21:40:56 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Sun Jan 11 10:44:38 CET 2004 - adrian@suse.de
+
+- build as user
+
+-------------------------------------------------------------------
+Wed Jun 18 15:54:05 CEST 2003 - ro@suse.de
+
+- added directories to filelist 
+
+----------------------------------------------------------
+Wed Dec 12 09:26:01 CET 2002 - mistinie@suse.de
+
+- Initial version
+
