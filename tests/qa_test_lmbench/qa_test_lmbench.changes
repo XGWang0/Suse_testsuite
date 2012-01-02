@@ -1,0 +1,133 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Mon Aug 15 08:34:12 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: lmbench -> qa_test_lmbench
+
+-------------------------------------------------------------------
+Mon Jan 03 14:57:22 CEST 2011 - vpelcak@suse.cz
+
+- updated to latest svn version
+
+-------------------------------------------------------------------
+Mon Mar 30 08:50:12 CEST 2009 - vpelcak@suse.cz
+
+- minor fixes in memory management
+
+-------------------------------------------------------------------
+Fri Nov  7 14:44:29 CEST 2008 - vpelcak@suse.cz
+
+- minor bugfixes (stdout device and time)
+
+-------------------------------------------------------------------
+Fri Sep 19 14:30:12 CEST 2008 - vpelcak@suse.cz
+
+- package upgrade
+- changed package infrastructure
+
+-------------------------------------------------------------------
+Tue Nov 27 00:08:06 CET 2007 - dmueller@suse.de
+
+- fix rpmlint suppressions
+
+-------------------------------------------------------------------
+Thu May 31 16:30:19 CEST 2007 - yxu@suse.de
+
+- add rpmlintrc file to exclude failure: 
+- "devel-file-in-non-devel-package" during building 
+
+-------------------------------------------------------------------
+Tue Apr  3 18:06:38 CEST 2007 - yxu@suse.de
+
+- added lmbench-ctcts2-glue package
+- modified config-run file for automated test under ctcs2 
+- updated scripts/gnu-os script
+
+-------------------------------------------------------------------
+Thu Jun 22 18:15:51 CEST 2006 - ro@suse.de
+
+- remove selfprovides 
+
+-------------------------------------------------------------------
+Wed Jan 25 21:37:58 CET 2006 - mls@suse.de
+
+- converted neededforbuild to BuildRequires
+
+-------------------------------------------------------------------
+Wed Mar 24 01:14:28 CET 2004 - ro@suse.de
+
+- removed .orig files from package
+
+-------------------------------------------------------------------
+Sat Jan 10 22:42:14 CET 2004 - adrian@suse.de
+
+- add %defattr
+
+-------------------------------------------------------------------
+Mon Feb 17 17:39:40 CET 2003 - vbobek@suse.cz
+
+- fixed names of patches
+- fixed install section
+
+-------------------------------------------------------------------
+Mon Feb 17 15:21:08 CET 2003 - ro@suse.de
+
+- don't patch SCCS repository 
+
+-------------------------------------------------------------------
+Mon Feb 17 10:34:40 CET 2003 - vbobek@suse.cz
+
+- updated to version 2.0.4
+
+-------------------------------------------------------------------
+Mon Dec  3 16:51:15 CET 2001 - cihlar@suse.cz
+
+- update to version 2.0-patch2
+
+-------------------------------------------------------------------
+Fri Aug 17 14:17:52 CEST 2001 - cihlar@suse.cz
+
+- update to version 2.0-patch1
+
+-------------------------------------------------------------------
+Wed May 23 18:44:35 CEST 2001 - schwab@suse.de
+
+- Fix casts.
+
+-------------------------------------------------------------------
+Thu May 17 09:47:46 CEST 2001 - cihlar@suse.cz
+
+- fixed cast warnings on ia64
+
+-------------------------------------------------------------------
+Wed Mar  7 14:48:17 CET 2001 - cihlar@suse.cz
+
+- update to version 2beta1
+
+-------------------------------------------------------------------
+Fri Feb  9 14:50:46 CET 2001 - cihlar@suse.cz
+
+- fixed to compile
+
+-------------------------------------------------------------------
+Tue Nov 28 08:38:42 CET 2000 - cihlar@suse.cz
+
+- update to version 2alpha12
+- moved to /var/lib
+- added BuildRoot
+- fixed copyright and group
+
+-------------------------------------------------------------------
+Mon Sep 13 17:23:57 CEST 1999 - bs@suse.de
+
+- ran old prepare_spec on spec file to switch to new prepare_spec.
+
+-------------------------------------------------------------------
+Thu Jul 15 18:45:34 CEST 1999 - jnroed@suse.de
+
+- new package
+
