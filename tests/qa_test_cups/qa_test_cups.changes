@@ -1,0 +1,14 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 11:26:07 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_cups -> qa_test_cups
+
+-------------------------------------------------------------------
+Thu Dec 09 00:37:35 CET 2010 - dvaleev@novell.com
+
+- package created, version 1.0
