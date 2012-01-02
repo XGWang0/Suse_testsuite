@@ -1,0 +1,99 @@
+#!/bin/bash
+# ****************************************************************************
+# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+
+. libo_logging
+
+# Get SUT Test environment
+arch="-`grep -oE "\(.*\)" /etc/SuSE-release | tr -d '()'`" # arch: -i586, -x86_64 ...
+distro="sled`grep -E "VERSION" /etc/SuSE-release | cut -d' ' -f3`" # distro: sled10, sled 11 ...
+patchlevel="-sp`grep -E "PATCHLEVEL" /etc/SuSE-release | cut -d' ' -f3`" # patchlevel: -sp1, -sp2, -sp3 ...
+if test "$patchlevel" == "-sp0"; then patchlevel=""; fi
+user=`who | grep ' :0' | awk '{print $1}'`
+
+REPO='http://147.2.207.136/repo'
+LOCAL_REPO_DIR='/tmp/libo_download'
+
+# Check if upstream
+rpm -qa | grep libobasis > /dev/null 2>&1
+if test $? -eq 0; then
+    LIBOBASEDIR='/opt/libreoffice/basis-link'
+elif test "$arch" = "-x86_64"; then     # if it is Novell build, distinguish the arch
+    LIBOBASEDIR='/usr/lib64/libreoffice/basis-link'
+elif test "$arch" = "-i586"; then
+    LIBOBASEDIR='/usr/lib/libreoffice/basis-link'
+else
+    logwarning "Cannot determine Libreoffice directory."
+fi
+
+LIBODIR="$LIBOBASEDIR/../program"
+SCRIPTDIR='/usr/share/qa/qa_test_libo/testautomation'
+LOGDIR='/var/log/qa/ooo'
+TESTTOOL="$LIBOBASEDIR/program/testtool.bin"
+REMOTE_QADB_REPORT="/usr/share/qa/tools/remote_qa_db_report.pl"
+
+# $HOME/.testtoolrc template
+TESTTOOLRC="
+[Bootstrap]
+URE_BOOTSTRAP=\${ORIGIN}/fundamentalbasisrc
+OOO_BASE_DIR=\${ORIGIN}/..
+BRAND_BASE_DIR=\${OOO_BASE_DIR}/none
+UserInstallation=\${SYSUSERCONFIG}/.oootesttool
+
+[Misc]
+CurrentProfile=_profile_Default
+ServerTimeout=4500
+
+[OOoProgramDir]
+Type=Path
+Current=$LIBODIR
+All=$LIBODIR
+
+[Crashreporter]
+UseProxy=false
+ProxyServer=none
+ProxyPort=8080
+AllowContact=false
+ReturnAddress=
+
+[_profile_Default]
+BaseDir=$SCRIPTDIR
+LogBaseDir=$LOGDIR
+HIDDir=$SCRIPTDIR/global/hid
+StopOnSyntaxError=0
+AutoReload=0
+AutoSave=0
+*.bas=/usr/share/qa/qa_ooo/testautomation/framework/optional
+LastFilterName=Source files (*.BAS)
+
+[GUI Platform]
+Current=03
+
+[Communication]
+Host=localhost
+TTPort=12479
+UnoPort=12480
+
+[WinGeom]
+WinParams=4,23,920,630;1;0,0,0,0;"
+
