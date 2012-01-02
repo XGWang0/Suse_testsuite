@@ -1,0 +1,8 @@
+for file in `ls | grep .sh`; do
+	if [ ! $file = t-lvconvert-mirror-basic.sh ];then
+	NAME=$( echo $file | cut -f 1 -d'.')
+	echo "fg 1 $NAME /usr/share/qa/qa_test_lvm2/$file" >> qa_lvm2.tcf
+	echo "wait" >> qa_lvm2.tcf
+	echo -e "\n" >> qa_lvm2.tcf
+	fi
+done
