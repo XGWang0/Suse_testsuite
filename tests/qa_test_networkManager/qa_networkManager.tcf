@@ -1,0 +1,130 @@
+# ****************************************************************************
+# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+
+timer 300
+fg 1 nm_remove-wireless-network /usr/share/qa/qa_test_networkManager/nm_remove-wireless-networks_plan3130_case1014659.py
+wait
+
+timer 300
+fg 1 nm_edit-wireless-networks /usr/share/qa/qa_test_networkManager/nm_edit-wireless-networks_plan3130_case1014657.py
+wait
+
+timer 300
+fg 1 nm_UI-About /usr/share/qa/qa_test_networkManager/nm_UI-About_plan2556_case926928.py 
+wait
+
+timer 300
+fg 1 nm_start-without-wired /usr/share/qa/qa_test_networkManager/nm_start-without-wired_plan3130_case1014661.py
+wait
+
+timer 300
+fg 1 nm_peer-wireless-network-adhoc /usr/share/qa/qa_test_networkManager/nm_peer-wireless-network-adhoc_plan3130_case1014676.py
+wait
+
+timer 300
+fg 1 nm_802.1X-wireless-authentication /usr/share/qa/qa_test_networkManager/nm_wireless-authentication_plan3130_case1014688.py
+wait
+
+timer 300
+fg 1 wireless-to-wired /usr/share/qa/qa_test_networkManager/nm_wireless-to-wired_plan3130_case1014665.py
+wait
+
+timer 300
+fg 1 switch-wireless-networks /usr/share/qa/qa_test_networkManager/nm_switch-wireless-networks_plan3130_case1014675.py
+wait
+
+timer 300
+fg 1 automatic-wireless-connection /usr/share/qa/qa_test_networkManager/nm_automatic-wireless-connection_plan3130_case1014678.py
+wait
+
+timer 300
+fg 1 wireless-failure /usr/share/qa/qa_test_networkManager/nm_wireless-failure_plan3130_case1014664.py
+wait
+
+timer 300
+fg 1 switch-DHCP-static /usr/share/qa/qa_test_networkManager/nm_switch-DHCP-static_plan3130_case1014681.py
+wait
+
+timer 300
+fg 1 connect-to-VPN /usr/share/qa/qa_test_networkManager/nm_connect-to-VPN_plan3130_case1014682.py
+wait
+
+timer 300
+fg 1 connect-to-hidden-wireless /usr/share/qa/qa_test_networkManager/nm_connect-to-hidden-wireless_plan3130_case1014666.py
+wait
+
+timer 300
+fg 1 export-import-VPN-connection /usr/share/qa/qa_test_networkManager/nm_export-import-VPN-connection_plan3130_case1014684.py
+wait
+
+timer 300
+fg 1 supported-wireless-types /usr/share/qa/qa_test_networkManager/nm_supported-wireless-types_plan3130_case1014670.py
+wait
+
+timer 300
+fg 1 connect-to-novell-wifi /usr/share/qa/qa_test_networkManager/nm_connect-to-novell-wifi_plan3130_case1014686.py
+wait
+
+timer 300
+fg 1 UI-connection-information-wired /usr/share/qa/qa_test_networkManager/nm_UI-connection-information-wired_plan3130_case1014672.py
+wait
+
+timer 300
+fg 1 UI-connection-information-wireless /usr/share/qa/qa_test_networkManager/nm_UI-connection-information-wireless_plan3130_case1014672.py
+wait
+
+timer 300
+fg 1 UI-enable-network-wireless /usr/share/qa/qa_test_networkManager/nm_UI-enable-network-wireless_plan3130_case1014673.py
+wait
+
+timer 300
+fg 1 secure-wireless-WEP40bit /usr/share/qa/qa_test_networkManager/nm_secure-wireless-WEP40bit_plan3130_case1014660.py
+wait
+
+timer 300
+fg 1 secure-wireless-WEP128bit /usr/share/qa/qa_test_networkManager/nm_secure-wireless-WEP128bit_plan3130_case1014660.py
+wait
+
+timer 300
+fg 1 secure-wireless-LEAP /usr/share/qa/qa_test_networkManager/nm_secure-wireless-LEAP_plan3130_case1014660.py
+wait
+
+timer 300
+fg 1 secure-wireless-DaynamicWEP /usr/share/qa/qa_test_networkManager/nm_secure-wireless-DaynamicWEP_plan3130_case1014660.py
+wait
+
+timer 300
+fg 1 openVPN-connection /usr/share/qa/qa_test_networkManager/nm_openVPN-connection_plan3130_case1014674.py
+wait
+
+timer 300
+fg 1 create-new-wireless-network /usr/share/qa/qa_test_networkManager/nm_create-new-wireless-network_plan3130_case1014667.py
+wait
+
+timer 300
+fg 1 wired-to-wireless /usr/share/qa/qa_test_networkManager/nm_wired-to-wireless_plan3130_case1014663.py
+wait
+
+timer 300
+fg 1 VPN-connection /usr/share/qa/qa_test_networkManager/nm_VPN-connection_plan3130_case1014662.py
+wait
