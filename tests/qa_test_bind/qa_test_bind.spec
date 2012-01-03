@@ -93,6 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /usr/share/qa/tcf
 /usr/share/qa/tcf/qa_bind.tcf
 /usr/share/man/man8/qa_test_bind.8.gz
+%doc COPYING
 
 %changelog
 * Wed Aug 17 2011 - llipavsky@suse.cz

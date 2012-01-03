@@ -84,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/tcf/qa_gnutls.tcf
 /usr/share/qa/tools/test_gnutls-run
+%doc COPYING
 
 %changelog
 * Wed Aug 17 2011 - llipavsky@suse.cz

@@ -75,6 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa
 /usr/share/qa/tcf
 /usr/share/qa/tools
+%doc COPYING
 
 %changelog
 * Fri Aug 12 2011 - llipavsky@suse.cz

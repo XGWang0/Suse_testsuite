@@ -109,6 +109,7 @@ rm -rvf $RPM_BUILD_ROOT
 %attr(0755, root, root) /usr/share/qa/tools/test_lsb-run
 #/usr/share/qa/tools/lsb-run
 /etc/lsb-release.d/
+%doc COPYING
 
 
 %changelog -n qa_lsb

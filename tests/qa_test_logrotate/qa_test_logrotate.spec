@@ -82,6 +82,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_logrotate_test.tcf
 /usr/share/qa/tools/test_logrotate-run
 /usr/share/man/man8/*
+%doc COPYING
 
 %changelog
 * Tue Aug 02 2011 - dmulder@suse.com

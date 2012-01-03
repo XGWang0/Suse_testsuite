@@ -77,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_process_stress.8.gz
 /usr/share/qa
 /usr/lib/ctcs2
+%doc COPYING
+
 %changelog
 * Tue Mar 01 2011 llwang@novell.com
 - modify loop condition

@@ -85,6 +85,7 @@ rm -rvf $RPM_BUILD_ROOT
 /usr/share/qa
 /usr/share/qa/qa_test_iosched
 /usr/share/qa/tcf/qa_iosched_test.tcf
+%doc COPYING
 
 %changelog -n qa_test_iosched
 * Wed Feb 15 2006 - fseidel@suse.de
