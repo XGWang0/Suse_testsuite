@@ -7,7 +7,7 @@ ctcslogdir="/var/log/qa/ctcs2"
 if [ ! -d "$basedir" ]; then
 	mkdir -p $basedir
 fi
-
+cd $ctcsdir
 $ctcsdir/bin/qa_test_newburn/newburn-generator 24h > $basedir/newburn.tcf
 $ctcsdir/tools/run $basedir/newburn.tcf
 
