@@ -111,6 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /usr/share/qa/%name/config
 %{_docdir}/%{name}
 %doc %{_docdir}/%{name}/README
+%doc COPYING
 
 %changelog
 * Wed Aug 10 2011 - llipavsky@suse.cz

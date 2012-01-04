@@ -71,6 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_libo.8.gz
 /usr/share/qa/%name
+%doc COPYING
 
 %changelog
 * Fri Aug 12 2011 - llipavsky@suse.cz

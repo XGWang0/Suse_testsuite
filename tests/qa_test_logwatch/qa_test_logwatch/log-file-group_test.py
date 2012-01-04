@@ -23,12 +23,7 @@
 # ****************************************************************************
 #
 
-
-import os, subprocess
 from logwatch import *
-
-# This test isn't working.
-exit(22)
 
 # Setup for test.
 setup()

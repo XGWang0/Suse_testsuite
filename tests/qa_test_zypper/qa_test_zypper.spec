@@ -72,6 +72,7 @@ rm -rvf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_zypper.8.gz
 %{qa_location}
 /usr/share/qa
+%doc COPYING
 
 %changelog
 * Wed Aug 10 2011 - llipavsky@suse.cz

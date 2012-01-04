@@ -47,7 +47,26 @@ def assert_log_report_diff(first, second):
 	if not diff:
 		close(1)
 
-def make_report(filename=None, detail=10, logfile=None, service=None):
+def assert_report_contains_text(filename, text):
+	file_read = open(filename)
+	for line in file_read:
+		if text in line:
+			return
+	close(1)
+
+def assert_file_contains_report(filename):
+	first_line = '################### Logwatch'
+	file_read = open(filename)
+	for line in file_read:
+		if first_line in line:
+			return
+	close(1, clean_file=filename)
+
+def assert_file_exists(filename):
+	if not os.path.exists(filename):
+		close(1)
+
+def make_report(filename=None, detail=10, logfile=None, service=None, range1='yesterday', mailto=None):
 	command = ['/usr/sbin/logwatch']
 	command.append("--detail=" + str(detail))
 	outputfile = None
@@ -57,15 +76,22 @@ def make_report(filename=None, detail=10, logfile=None, service=None):
 		command.append("--logfile=" + logfile)
 	if service:
 		command.append("--service=" + service)
+	if range1:
+		command.append("--range=" + range1)
+	if mailto:
+		command.append("--mailto=" + mailto)
 	code = call(command, stdout=outputfile)
 	if code != 0:
 		close(1)
 
-def cleanup():
+def cleanup(clean_file=None):
 	shutil.rmtree(TEST_DIR)
+	if clean_file and os.path.exists(clean_file + '.tmp'):
+		os.remove(clean_file)
+		shutil.move(clean_file + '.tmp', clean_file)
 
-def close(code):
-	cleanup()
+def close(code, clean_file=None):
+	cleanup(clean_file)
 	exit (code)
 
 

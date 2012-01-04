@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # ****************************************************************************
 # Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -22,31 +23,30 @@
 # ****************************************************************************
 #
 
-timer 300
-fg 1 archives _test /usr/share/qa/qa_test_logwatch/archives_test.py
-wait
+import shutil, subprocess, time
+from logwatch import *
 
-timer 300
-fg 1 detail_level_test /usr/share/qa/qa_test_logwatch/detail_level_test.py
-wait
+# Setup for test.
+setup()
 
-timer 300
-fg 1 filename_test /usr/share/qa/qa_test_logwatch/filename_test.py
-wait
+# Backup root mail.
+mailfile = '/var/mail/root'
+shutil.move(mailfile, mailfile + '.tmp')
+subprocess.call(['touch', mailfile])
 
-timer 300
-fg 1 log-file-group_test /usr/share/qa/qa_test_logwatch/log-file-group_test.py
-wait
+# Create the report.
+make_report(mailto='root')
 
-timer 300
-fg 1 mailto_test /usr/share/qa/qa_test_logwatch/mailto_test.py
-wait
+# Wait 5 secs to insure mail delivery.
+time.sleep(5)
 
-timer 300
-fg 1 range_test /usr/share/qa/qa_test_logwatch/range_test.py
-wait
+# Assert that the output of logwatch is mailed to root ('/var/mail/root').
+assert_file_contains_report(mailfile)
 
-timer 300
-fg 1 service-name_test /usr/share/qa/qa_test_logwatch/service-name_test.py
-wait
+# Delete temporary files created for the test.
+cleanup(clean_file=mailfile)
+
+# Exit without errors if none were encountered.
+exit (0)
+
 

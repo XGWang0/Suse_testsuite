@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # ****************************************************************************
 # Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -22,31 +23,24 @@
 # ****************************************************************************
 #
 
-timer 300
-fg 1 archives _test /usr/share/qa/qa_test_logwatch/archives_test.py
-wait
+from logwatch import *
 
-timer 300
-fg 1 detail_level_test /usr/share/qa/qa_test_logwatch/detail_level_test.py
-wait
+# Setup for test.
+setup()
 
-timer 300
-fg 1 filename_test /usr/share/qa/qa_test_logwatch/filename_test.py
-wait
+# Create the test files.
+first = TEST_DIR + '/logwatch.archives.0'
+second = TEST_DIR + '/logwatch.archives.1'
+make_report(filename=first)
+make_report(filename=second, archives=True)
 
-timer 300
-fg 1 log-file-group_test /usr/share/qa/qa_test_logwatch/log-file-group_test.py
-wait
+# Assert that the output of 'logwatch --archives' is different from 'logwatch'.
+assert_log_report_diff(first, second)
 
-timer 300
-fg 1 mailto_test /usr/share/qa/qa_test_logwatch/mailto_test.py
-wait
+# Delete temporary files created for the test.
+cleanup()
 
-timer 300
-fg 1 range_test /usr/share/qa/qa_test_logwatch/range_test.py
-wait
+# Exit without errors if none were encountered.
+exit (0)
 
-timer 300
-fg 1 service-name_test /usr/share/qa/qa_test_logwatch/service-name_test.py
-wait
 

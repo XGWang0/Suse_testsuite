@@ -90,6 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name/README
 /usr/share/qa/tcf/qa_clamav.tcf
 /usr/share/qa/tools/test_clamav-run
+%doc COPYING
 
 %changelog
 * Wed Aug 10 2011 - llipavsky@suse.cz

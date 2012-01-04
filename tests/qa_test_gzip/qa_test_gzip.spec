@@ -81,6 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_gzip.tcf
 /usr/share/qa/tools/test_gzip-run
 /usr/share/man/man8/qa_test_gzip.8.gz
+%doc COPYING
 
 %changelog -n qa_test_gzip
 * Tue Aug  9 2011 - llipavsky@suse.cz

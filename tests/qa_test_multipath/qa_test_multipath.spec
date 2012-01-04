@@ -110,6 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc %{_docdir}/%{name}/README.target
 %doc %{_docdir}/%{name}/README.tests
 %doc %{_docdir}/%{name}/example.test
+%doc COPYING
 
 %changelog
 
