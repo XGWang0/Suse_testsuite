@@ -1,0 +1,32 @@
+Before running the test, please make sure have done the settings:
+
+1) Create first D-Link wireless with WPA & WPA2 Personal security method, input the SSID name and password to wireless1_name and wireless1_pwd in nm_config.py (example: SSID named "SLEDQATEAM-DLINK" with password "aaaaaaaaaa")
+2) Create second D-Link wireless with WPA & WPA2 Personal security method, input the SSID name and password to wireless2_name and wireless2_pwd in nm_config.py (example: SSID named "SLEDQATEAM_LINKSYSWLAN_TEST" with password "sledqateam")
+3) Please make sure NetworkManager icon is shows on 'Panel Notification Area' as index 0, otherwise please do "killall -9 NetworkManager && NetworkManager" to reload it before running the test
+
+===Testing Machine Requires===
+1) Need 2 Machines, support ssh connection without password
+2) Config nm_config.py to give exactly Machines settings
+
+===Hidden Wireless Network Test===
+1) Create a D-Link wireless with Invisible Status for "Hidden wireless network" testing
+2) Config nm_config.py to give exactly Hidden Wireless settings
+
+===Secure Wireless Types Test===
+1) Need a wireless with WEP 40/128-bit Key security method
+2) Need a wireless with WEP 128-bit Passphrase security method
+3) Need a wireless wich LEAP security method
+4) Need a wireless with Daynamic WEP (802.1X) security method
+5) Config nm_config.py to give exactly Wireless security methods settings
+
+===OpenVPN Test===
+1) Create certificates and keys for OpenVPN test
+2) Config nm_config.py to give exactly openVPN connection settings
+
+Notice:
+Would better running NetworkManager tests on local machine because Wired Network will be restarted in some tests.
+
+Again:
+Please make sure you have completed nm_config.py settings before running the test!
+
+GOOD LUCK :)

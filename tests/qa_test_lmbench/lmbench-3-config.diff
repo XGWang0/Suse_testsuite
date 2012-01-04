@@ -1,0 +1,207 @@
+diff -Naur lmbench/scripts/config-test lmbench3/scripts/config-test
+--- lmbench/scripts/config-test	1970-01-01 01:00:00.000000000 +0100
++++ lmbench3/scripts/config-test	2008-09-23 09:29:04.000000000 +0200
+@@ -0,0 +1,161 @@
++#!/bin/sh
++
++# Configure parameters for lmbench.
++# %I% %E% %@%
++
++OS=`../scripts/os`
++
++# Figure out echo.
++if [ `echo -n "foo" | wc -l` -eq 0 ]
++then	ECHON="-n"; ECHOC=
++else	ECHON= ; ECHOC='\c'
++fi
++
++SYNC_MAX=1
++LMBENCH_SCHED=DEFAULT
++export LMBENCH_SCHED
++
++echo "Hang on, we are calculating your timing granularity."
++../bin/$OS/msleep 250
++ENOUGH=`../bin/$OS/enough`
++export ENOUGH 
++echo "OK, it looks like you can time stuff down to $ENOUGH usec resolution."
++echo ""
++echo "Hang on, we are calculating your timing overhead."
++../bin/$OS/msleep 250
++TIMING_O=`../bin/$OS/timing_o`
++export TIMING_O
++echo "OK, it looks like your gettimeofday() costs $TIMING_O usecs."
++echo ""
++echo "Hang on, we are calculating your loop overhead."
++../bin/$OS/msleep 250
++LOOP_O=`../bin/$OS/loop_o`
++export LOOP_O
++echo "OK, it looks like your benchmark loop costs $LOOP_O usecs."
++echo ""
++
++if [ -r /proc/cpuinfo ]
++then
++	PROCESSORS=`grep processor /proc/cpuinfo | wc -l`
++fi
++
++if [ -r /proc/meminfo ]
++then
++	TMP=`grep 'MemTotal:' /proc/meminfo | awk '{print $2}'`
++	if [ "X$TMP" != X ]
++	then	MB=`echo $TMP / 1024 | bc 2>/dev/null`
++		if [ X$MB = X ]
++		then	MB=`expr $TMP / 1024 2>/dev/null`
++		fi
++	fi
++	TMP=`grep 'Mem\(Free\)\?:' /proc/meminfo | awk '{print $2}'`
++	if [ "X$MB" = X -a "X$TMP" != X ]
++	then	MB=`echo $TMP / 1048576 | bc 2>/dev/null`
++		if [ X$MB = X ]
++		then	MB=`expr $TMP / 1048576 2>/dev/null`
++		fi
++	fi
++fi
++if [ X$MB = X ]
++then	$ECHON "Probing system for available memory: $ECHOC"
++	MB=`../bin/$OS/memsize 4096`
++fi
++TOTAL_MEM=$MB
++MB=`echo \( $MB \* 7 \) / 10 | bc 2>/dev/null`
++if [ X$MB = X ]
++then	MB=`expr $TOTAL_MEM \* 7`
++	MB=`expr $MB / 10`
++fi
++
++echo "Checking to see if you have $MB MB; please wait for a moment..."
++MB=`../bin/$OS/memsize $MB`
++MB=`../bin/$OS/memsize $MB`
++MB=`../bin/$OS/memsize $MB`
++if [ `expr $SYNC_MAX \* $MB` -gt `expr $TOTAL_MEM` ]
++then
++	MB=`expr $TOTAL_MEM / $SYNC_MAX`
++	MB=`expr $MB / 2`
++fi
++if [ $MB -lt 8 ]
++then    echo $0 aborted: Not enough memory, only ${MB}MB available. 
++	exit 1
++fi
++if [ $MB -lt 16 ]
++then	echo Warning: you have only ${MB}MB available memory. 
++	echo Some benchmark results will be less meaningful. 
++fi
++
++echo "Hang on, we are calculating your cache line size."
++../bin/$OS/msleep 250
++LINE_SIZE=`../bin/$OS/line -M ${MB}M`
++export LINE_SIZE
++echo "OK, it looks like your cache line is $LINE_SIZE bytes."
++BENCHMARK_HARDWARE=YES
++BENCHMARK_OS=YES
++FASTMEM=NO
++SLOWFS=NO
++echo "Calculating mhz, please wait for a moment..."
++MHZ=`../bin/$OS/mhz`
++cat<<EOF
++I think your CPU mhz is 
++
++	$MHZ
++
++EOF
++
++DEFAULTFSDIR=/usr/tmp
++OUTPUT=/dev/stdout
++MAIL=no
++REUSE=yes
++
++VERSION=`../scripts/version`
++
++C=../bin/$OS/`../scripts/config`
++echo DISKS=\"$DISKS\" > $C
++echo DISK_DESC=\"$DISK_DESC\" >> $C
++echo OUTPUT=$OUTPUT >> $C
++echo ENOUGH=$ENOUGH >> $C
++echo FASTMEM=\"$FASTMEM\" >> $C
++echo FILE=$FILE >> $C
++echo FSDIR=$FSDIR >> $C
++echo INFO=$INFO >> $C
++echo LINE_SIZE=$LINE_SIZE >> $C
++echo LOOP_O=$LOOP_O >> $C
++echo MAIL=$MAIL >> $C
++echo TOTAL_MEM=$TOTAL_MEM >> $C
++echo MB=$MB >> $C
++echo MHZ=\"$MHZ\" >> $C
++echo MOTHERBOARD=\"$MOTHERBOARD\" >> $C
++echo NETWORKS=\"$NETWORKS\" >> $C
++echo OS=\"$OS\" >> $C
++echo PROCESSORS=\"$PROCESSORS\" >> $C
++echo REMOTE=\"$REMOTE\" >> $C
++echo SLOWFS=\"$SLOWFS\" >> $C
++echo SYNC_MAX=\"$SYNC_MAX\" >> $C
++echo LMBENCH_SCHED=\"$LMBENCH_SCHED\" >> $C
++echo TIMING_O=$TIMING_O >> $C
++echo RSH=$RSH >> $C
++echo RCP=$RCP >> $C
++echo VERSION=$VERSION >> $C
++echo BENCHMARK_HARDWARE=$BENCHMARK_HARDWARE >> $C
++echo BENCHMARK_OS=$BENCHMARK_OS >> $C
++echo BENCHMARK_SYSCALL=$BENCHMARK_SYSCALL >> $C
++echo BENCHMARK_SELECT=$BENCHMARK_SELECT >> $C
++echo BENCHMARK_SIG=$BENCHMARK_SIG >> $C
++echo BENCHMARK_PROC=$BENCHMARK_PROC >> $C
++echo BENCHMARK_CTX=$BENCHMARK_CTX >> $C
++echo BENCHMARK_PAGEFAULT=$BENCHMARK_PAGEFAULT >> $C
++echo BENCHMARK_FILE=$BENCHMARK_FILE >> $C
++echo BENCHMARK_MMAP=$BENCHMARK_MMAP >> $C
++echo BENCHMARK_PIPE=$BENCHMARK_PIPE >> $C
++echo BENCHMARK_UNIX=$BENCHMARK_UNIX >> $C
++echo BENCHMARK_UDP=$BENCHMARK_UDP >> $C
++echo BENCHMARK_TCP=$BENCHMARK_TCP >> $C
++echo BENCHMARK_CONNECT=$BENCHMARK_CONNECT >> $C
++echo BENCHMARK_RPC=$BENCHMARK_RPC >> $C
++echo BENCHMARK_HTTP=$BENCHMARK_HTTP >> $C
++echo BENCHMARK_BCOPY=$BENCHMARK_BCOPY >> $C
++echo BENCHMARK_MEM=$BENCHMARK_MEM >> $C
++echo BENCHMARK_OPS=$BENCHMARK_OPS >> $C
++
++exit 0
+diff -Naur lmbench/src/Makefile lmbench3/src/Makefile
+--- lmbench/src/Makefile	2008-08-22 04:37:39.000000000 +0200
++++ lmbench3/src/Makefile	2008-09-23 09:29:04.000000000 +0200
+@@ -50,7 +50,7 @@
+ CONFIG=../bin/$(OS)/`../scripts/config`
+ UTILS=../scripts/target ../scripts/os ../scripts/gnu-os ../scripts/compiler \
+ 	../scripts/info ../scripts/info-template ../scripts/version \
+-	../scripts/config ../scripts/config-run ../scripts/results \
++	../scripts/config ../scripts/config-test ../scripts/results \
+ 	../scripts/lmbench ../scripts/make ../scripts/build
+ INSTALL=cp
+ RESULTS=Results/$(OS)
+@@ -115,24 +115,24 @@
+ 	-@env CFLAGS=-O MAKE="$(MAKE)" MAKEFLAGS="k$(MAKEFLAGS)" CC="$(CC)" OS="$(OS)" ../scripts/build opt
+ 
+ results: lmbench
+-	@env OS="${OS}" ../scripts/config-run
++	@env OS="${OS}" ../scripts/config-test
+ 	@env OS="${OS}" ../scripts/results
+ 
+ rerun: lmbench
+-	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-run; fi
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test; fi
+ 	@env OS="${OS}" ../scripts/results
+ 
+ scaling: lmbench
+-	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-run; \
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test; \
+ 	 else ../scripts/config-scaling $(CONFIG); fi
+ 	@env OS="${OS}" ../scripts/results
+ 
+ hardware: lmbench
+-	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-run; fi
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test; fi
+ 	@env OS="${OS}" BENCHMARK_HARDWARE=YES BENCHMARK_OS=NO  ../scripts/results
+ 
+ os: lmbench
+-	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-run; fi
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test; fi
+ 	@env OS="${OS}" BENCHMARK_HARDWARE=NO  BENCHMARK_OS=YES ../scripts/results
+ 
+ install: lmbench

@@ -1,0 +1,5 @@
+
+          [console_scripts]
+          mozrunner = mozrunner:cli
+          addon_id = mozrunner:print_addon_ids
+        

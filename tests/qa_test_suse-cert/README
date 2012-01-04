@@ -1,0 +1,34 @@
+qa_package: qa_test_suse-cert
+
+=====================================
+
+[introduction]
+A network testing tools, for downloading testing.
+
+[require packages]
+gcc-c++
+hwinfo-devel
+coreutils
+bonnie
+cdrecord
+mkisofs
+wget
+e2fsprogs
+util-linux
+build
+mgetty
+pure-ftpd
+python
+
+[what the test does]
+Default setting of this test suite is to download a 400MB file from specify ftp site for certain times.
+
+[what happens ]
+A file named 400MB with size of exactly 400MB will be downloaded 20 times to /tmp by default.
+
+[common problems]
+Depends on network b
+bandwidth downloading process could be slow or even broken.
+
+[things to take care of]
+Make sure there are enough disk space in SUT.

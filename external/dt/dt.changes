@@ -1,0 +1,15 @@
+-------------------------------------------------------------------
+Tue Sep  6 09:16:22 CEST 2011 - llipavsky@suse.cz
+
+- Package rename: qa_test_dt -> dt (was a mistake)
+
+-------------------------------------------------------------------
+Mon Aug 15 14:48:46 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: dt -> qa_test_dt
+
+-------------------------------------------------------------------
+Tue Oct 13 13:48:06 CEST 2009 - hare@suse.de
+
+- Initial rpm, based on dt version 16.20
+

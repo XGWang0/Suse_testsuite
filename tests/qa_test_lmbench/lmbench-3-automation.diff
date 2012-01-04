@@ -1,0 +1,21 @@
+diff -Naur qa_test_lmbench/scripts/config-run lmbench3/scripts/config-run
+--- qa_test_lmbench/scripts/config-run	2008-08-22 04:37:38.000000000 +0200
++++ lmbench3/scripts/config-run	2008-09-23 09:27:39.000000000 +0200
+@@ -677,13 +677,13 @@
+ 
+ EOF
+ 
+-echo $ECHON "Mail results [default yes]: $ECHOC"
++echo $ECHON "Mail results [default no]: $ECHOC"
+ read MAIL
+ case $MAIL in 
+-    [Nn]*)	MAIL=no
+-		echo OK, no results mailed.
++    [yY]*)	MAIL=yes
+ 		;;
+-    *)		MAIL=yes
++    *)		MAIL=no
++		echo OK, no results mailed.
+ 		;;
+ esac
+ 

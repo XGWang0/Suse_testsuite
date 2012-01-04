@@ -1,0 +1,4 @@
+#!/bin/bash
+
+tar cjf ctcstools.tar.bz2 ctcstools
+

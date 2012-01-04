@@ -1,0 +1,30 @@
+Only in memeat-0.1-new: qa_test_memeat
+diff -pur memeat-0.1/memeat.c memeat-0.1-new/memeat.c
+--- memeat-0.1/memeat.c	2006-01-24 16:28:07.000000000 +0100
++++ memeat-0.1-new/memeat.c	2007-04-05 14:43:35.294520000 +0200
+@@ -9,7 +9,7 @@ int main(void)
+ 
+ 	size_t linelen = 0;
+ 	char *line = NULL;
+-	unsigned long freemem = 0,i,w;
++	unsigned long freemem = 0,i,w,count;
+ 	FILE *f = fopen("/proc/meminfo", "r");
+ 	while (getdelim(&line, &linelen, '\n', f) > 0) { 
+ 		if (sscanf(line, "LowFree: %lu", &freemem) == 1)
+@@ -17,7 +17,6 @@ int main(void)
+ 	} 
+ 
+ 	freemem *= 1024; 
+-
+ 	freemem -= freemem/20;
+ 
+ 	if (freemem < step_size ) {
+@@ -27,7 +26,7 @@ int main(void)
+ 
+ 	char *s = malloc(freemem);
+ 	if (s) {
+-		for (;;) { 
++		for (count = 0; count<100 ; count++) { 
+ 			printf("\nwrite\n");
+ 			for (i = 0; i < freemem; i += step_size) {
+ 				w = freemem - i;

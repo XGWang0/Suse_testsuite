@@ -1,0 +1,15 @@
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 12:24:08 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_sample -> qa_test_sample
+
+-------------------------------------------------------------------
+Wed Aug 25 3:09:00 MDT 2010 - dcollingridge@novell.com
+
+- Added this as a new package for training/templating purposes.
+

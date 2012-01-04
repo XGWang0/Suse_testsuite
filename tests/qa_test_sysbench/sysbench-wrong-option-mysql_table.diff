@@ -1,0 +1,20 @@
+diff --git a/sysbench-example-tests/sysbench-example-test b/sysbench-example-tests/sysbench-example-test
+index 6faffa2..ee8ef63 100755
+--- a/sysbench-example-tests/sysbench-example-test
++++ b/sysbench-example-tests/sysbench-example-test
+@@ -63,7 +63,7 @@ case $TEST in
+ 	    --oltp-dist-type=uniform --oltp-read-only --oltp-order-ranges=0 \
+ 	    --oltp-table-size=1000000 --oltp-range-size=1000 prepare
+ 	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/var/lib/mysql/mysql.sock \
+-	    --mysql-db=test --mysql-port=3306 --mysql-table-type=myisam \
++	    --mysql-db=test --mysql-port=3306 --mysql-table-engine=myisam \
+ 	    --oltp-dist-type=uniform --oltp-read-only --oltp-order-ranges=0 \
+ 	    --oltp-table-size=1000000 --oltp-range-size=1000 --num-threads=$THREADS run
+ 	;;
+@@ -87,4 +87,4 @@ case $TEST in
+ 	echo "Test $TEST does not exit, see -h"
+ 	exit 1
+ 	;;
+-esac
+\ No newline at end of file
++esac

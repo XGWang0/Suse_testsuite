@@ -1,0 +1,37 @@
+--- sysbench/tests/fileio/sb_fileio.c.orig	2007-10-26 12:12:10.000000000 +0200
++++ sysbench/tests/fileio/sb_fileio.c	2007-10-26 09:48:43.000000000 +0200
+@@ -576,6 +576,7 @@
+       return 1;
+     case FILE_OP_TYPE_WRITE:
+ 
++      SB_THREAD_MUTEX_LOCK();
+       /* Store checksum and offset in a buffer when in validation mode */
+       if (sb_globals.validate)
+         file_fill_buffer(buffer, file_req->size, file_req->pos);
+@@ -601,7 +602,7 @@
+         }
+       }
+ 
+-      SB_THREAD_MUTEX_LOCK();
++      //SB_THREAD_MUTEX_LOCK();
+       write_ops++;
+       real_write_ops++;
+       bytes_written += file_req->size;
+@@ -611,6 +612,7 @@
+ 
+       break;
+     case FILE_OP_TYPE_READ:
++      SB_THREAD_MUTEX_LOCK();
+       LOG_EVENT_START(msg, thread_id);
+       if(file_pread(file_req->file_id, buffer, file_req->size, file_req->pos,
+                     thread_id)
+@@ -631,8 +633,7 @@
+                  file_req->file_id, file_req->pos);
+         return 1;
+       }
+-      
+-      SB_THREAD_MUTEX_LOCK();
++  //    SB_THREAD_MUTEX_LOCK();
+       read_ops++;
+       real_read_ops++;
+       bytes_read += file_req->size;

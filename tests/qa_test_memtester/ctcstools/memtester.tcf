@@ -1,0 +1,4 @@
+timer 18h
+fg 1 memtester_singlerun /usr/bin/memtester.sh 1
+wait
+

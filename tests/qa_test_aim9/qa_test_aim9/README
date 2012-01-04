@@ -1,0 +1,46 @@
+                 AIM Independent Resource Benchmark - Suite IX
+
+OVERVIEW
+Although a computer system has many different components, many benchmarks test
+a system as a whole and provide only one performance measurement. 
+
+The AIM Independent Resource Benchmark exercises and times each component of a
+UNIX computer system, independently. The benchmark uses 58 subtests to generate
+absolute processing rates, in operations per second, for subsystems, I/O
+transfers, function calls, and UNIX system calls. 
+
+Test results can be used to compare different machines on a test-by-test basis
+or to measure the success or failure of system tuning and configuration changes
+on a single system. This benchmark yields specific results on a per-test basis.
+
+LICENSE
+This software is distributed under the GNU General Public License - see the
+accompanying COPYING file for more details.
+
+SUPPORTED OPERATING SYSTEMS
+This software was designed to run properly on any POSIX-compliant operating
+system. An ANSI C compiler is required.
+
+DOCUMENTATION
+The original AIM documentation has been restored from a printed copy. The
+original document was scanned, OCR'ed, edited for contents and converted
+manually into HTML format. The base document is "doc/main.html."
+
+INSTALLATION
+Please refer to the INSTALL file.
+
+TRADEMARKS
+"AIM Benchmark" and "Hot Iron Awards" are trademarks of Caldera
+International, Inc. (Caldera) in the USA and other countries. Caldera allows
+use of "AIM" and "AIM Benchmarks" when presenting performance results, but
+places restrictions on this to promote comparability of results and avoid
+confusion. Results presented using the terms "AIM" and "AIM Benchmark" must be
+obtained with an official version of the benchmark, as designated by Caldera,
+using one of the standard distributed workload mixes. No right or license is
+granted hereunder to use the Caldera trademarks for modified benchmark versions
+or for other purposes without the prior written permission of Caldera. Should
+you need to contact Caldera about that topic, please e-mail
+aimbench@sourceforge.net.
+
+"UNIX" is a trademark of the The Open Group.
+

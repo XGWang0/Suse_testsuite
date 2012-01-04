@@ -1,0 +1,55 @@
+#!/bin/bash
+# ****************************************************************************
+# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+
+. libo_conf
+. libo_logging
+
+if test "$1" = "0"; then
+    logwarning "Please specify the build to download on $REPO, e.g 3.3.1.1"
+    exit 1
+fi
+
+if test -f "$LOCAL_REPO_DIR/$1"; then
+    log "Good, build existed in $LOCAL_REPO_DIR."    
+else
+    log "Removing old ... $LOCAL_REPO_DIR"
+    sudo rm -fr $LOCAL_REPO_DIR
+
+    build=$1
+
+    if test "$patchlevel" = "-sp0"; then
+        patchlevel=""
+    fi
+
+    repo=$REPO/$build/$distro$patchlevel$arch/
+
+    log "Downloading from ... $repo"
+    mkdir -p $LOCAL_REPO_DIR; touch $LOCAL_REPO_DIR/wget.log
+    wget -r -o$LOCAL_REPO_DIR/wget.log -nH -nd -np -P$LOCAL_REPO_DIR "$repo"
+    if test $? -eq 0; then
+        touch "$LOCAL_REPO_DIR/$1"
+    fi
+    log "Downloading complete."
+fi
+

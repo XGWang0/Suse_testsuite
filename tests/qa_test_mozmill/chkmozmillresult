@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# MozMill test results parser for non-ctcs2 mode test
+
+if [ $# -l 1 ]
+then
+	echo "Usage: $0 MozMill-Results-file"
+	exit 1
+fi
+
+for i in `egrep "^TEST-" $1 | egrep -v "^TEST-START" | cut -d"|" -f1 | sort | uniq`
+do
+	for j in `egrep "^$i" $1 | cut -d"|" -f2 | egrep "^ /"`
+	do
+		echo $i $j
+	done
+done
