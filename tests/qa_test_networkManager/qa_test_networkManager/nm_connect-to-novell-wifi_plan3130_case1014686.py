@@ -89,7 +89,8 @@ while running:
             exit(22)
         else:
             # Step3: Enter User Name and Password in "Wireless Netowrk Authentication Required",
-            authen_dialog.findAllTexts(None)[0].enterText(wifi_user_name)
+            user_name_text = authen_dialog.findLabel("User Name:").parent.getChildAtIndex(0)
+            user_name_text.enterText(wifi_user_name)
             sleep(config.SHORT_DELAY)
 
             authen_dialog.findPasswordText(None).enterText(wifi_user_pwd)
@@ -101,7 +102,7 @@ while running:
 
             try:
                 nm_applet_app.findAllDialogs(None)[1].findPushButton("Ignore").mouseClick()
-            except SearchError:
+            except:
                 pass
 
             authen_dialog.assertClosed()
