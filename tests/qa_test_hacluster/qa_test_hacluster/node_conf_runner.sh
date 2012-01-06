@@ -22,21 +22,22 @@ while getopts :b:di:l:m:p:s:t: arg; do
 	esac
 done
 
-if [[ $bindnetaddr && $mcastaddr && $iscsi_sbd_host && $sbd_disk && $target ]]; then
+if [[ $bindnetaddr && $mcastaddr && $sbd_disk && $target ]]; then
 
 sntp -P no -r pool.ntp.org
 
 zypper up
 
-if [ ! -e /sbin/iscsiadm ]; then
-  zypper in -y open-iscsi
-fi
+  if [ $iscsi_sbd_host && ! -e /sbin/iscsiadm ]; then
+    zypper in -y open-iscsi
+  fi
 
-if [ "$devel" = "TRUE" ]; then
-  zypper lr | grep ha-devel 2>&1 > /dev/null
-  ha_devel=$?
-  if [ "$ha_devel" != "0" ]; then
-    zypper ar $devel_hae_11_sp1 ha-devel
+  if [ "$devel" = "TRUE" ]; then
+    zypper lr | grep ha-devel 2>&1 > /dev/null
+    ha_devel=$?
+    if [ "$ha_devel" != "0" ]; then
+      zypper ar $devel_hae_11_sp1 ha-devel
+    fi
   fi
 
   zypper ref
@@ -59,13 +60,13 @@ fi
 #InitiatorName=iqn.1996-04.de.suse:01:ha-automation
 #EOF
 
-grep ICSCI-AUTO-SETUP-WAS-HERE /etc/iscsi/iscsid.conf 2>&1 > /dev/null
-rc=$?
-if [ $rc != 0 ]; then
-echo "# ISCSI-AUTO-SETUP-WAS-HERE
-node.session.auth.username = $login
-node.session.auth.password = $password" >> /etc/iscsi/iscsid.conf
-fi
+#grep ICSCI-AUTO-SETUP-WAS-HERE /etc/iscsi/iscsid.conf 2>&1 > /dev/null
+#rc=$?
+#if [ $rc != 0 ]; then
+#echo "# ISCSI-AUTO-SETUP-WAS-HERE
+#node.session.auth.username = $login
+#node.session.auth.password = $password" >> /etc/iscsi/iscsid.conf
+#fi
 
 cat<<EOF  > /etc/corosync/corosync.conf
 echo aisexec {
@@ -189,7 +190,7 @@ amf {
 }
 EOF
 
-
+if [[ $iscsi_sbd_host ]]; then
 cat<<EOF > /etc/init.d/ais
 #! /bin/sh
 
@@ -267,8 +268,9 @@ insserv ais
 
 ln -s /etc/init.d/ais /usr/sbin/rcais
 
-iscsiadm -m discovery -t st -p $iscsi_sbd_host
-iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
+  iscsiadm -m discovery -t st -p $iscsi_sbd_host
+  iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
+fi
 
 cat<<EOF > /etc/sysconfig/sbd
 SBD_DEVICE="$sbd_disk"
@@ -278,7 +280,13 @@ EOF
 sbd -d $sbd_disk create
 sbd -d $sbd_disk allocate $(hostname)
 
-rcais restart
+if [[ $iscsi_sbd_host ]]; then
+  rcais start
+else
+  rcopenais start
+fi
+
+
 
 else
   echo -b $bindnetaddr -d -m $mcastaddr -i $iscsi_sbd_host -l $login -p $password -s $sbd_disk -t $target

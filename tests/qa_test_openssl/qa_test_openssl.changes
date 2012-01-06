@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Thu Jan 05 16:00:00 CET 2012 - tchvatal@suse.cz
+
+- remove split between the hwcrypto and swcrypto test, try to load
+  it by default but keep the swone if it fails (only one result)
+- log if we are on hwcrypto or swcrypto
+- make mutliple runs of the tests and take only best results
+
+-------------------------------------------------------------------
 Thu Dec 29 16:31:00 CET 2011 - tchvatal@suse.cz
 
 - Update condition in qa_test_openssl_benchmark_z.sh to use wc -l

@@ -74,9 +74,6 @@ else:
     exit(11)
 
 # Step2: Left click on the NetworkManager icon and select Connect to Hidden Wireless Network
-nm_panel.mouseClick()
-sleep(config.SHORT_DELAY)
-
 nm_applet_app.findWindow(None).findMenuItem(re.compile('^Connect to Hidden')).click(log=True)
 sleep(config.SHORT_DELAY)
 

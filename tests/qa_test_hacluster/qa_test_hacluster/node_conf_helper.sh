@@ -189,6 +189,7 @@ amf {
 }
 EOF
 
+if [[ $iscsi_sbd_host ]]; then
 
 cat<<EOF > /etc/init.d/ais
 #! /bin/sh
@@ -293,6 +294,8 @@ ln -s /etc/init.d/ais /usr/sbin/rcais
 
 iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
 
+fi
+
 cat<<EOF > /etc/sysconfig/sbd
 SBD_DEVICE="$sbd_disk"
 SBD_OPTS="-W"
@@ -300,7 +303,11 @@ EOF
 
 sbd -d /dev/sda1 allocate $(hostname)
 
-rcais restart
+if [[ $iscsi_sbd_host ]]; then
+  rcais restart
+else
+  rcopenais start
+fi
 
 wait_for_cluster
 
