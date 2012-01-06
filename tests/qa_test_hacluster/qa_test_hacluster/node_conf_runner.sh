@@ -1,28 +1,28 @@
 #!/bin/bash
 
-devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config |cut -d= -f2`
-devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config |cut -d= -f2`
+devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config | cut -d= -f2`
+devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config | cut -d= -f2`
 
 status_long()
 {
-	$BE_QUIET && return
-	echo -n "  $1..."
+  $BE_QUIET && return
+  echo -n "  $1..."
 }
 
 status_done()
 {
-	$BE_QUIET && return
-	echo "done"
+  $BE_QUIET && return
+  echo "done"
 }
 
 wait_for_cluster()
 {
-	status_long "Waiting for cluster"
-	while ! crm_mon -1 | grep -qi online; do
-		$BE_QUIET || echo -n "."
-		sleep 5
-	done
-	status_done
+  status_long "Waiting for cluster"
+  while ! crm_mon -1 | grep -qi online; do
+    $BE_QUIET || echo -n "."
+    sleep 5
+  done
+  status_done
 }
 
 while getopts :b:d:i:l:m:p:s:t: arg; do

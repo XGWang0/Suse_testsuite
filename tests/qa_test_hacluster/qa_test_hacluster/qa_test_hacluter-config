@@ -33,4 +33,3 @@ devel_hae_11_sp2=http://dist.suse.de/ibs/Devel:/HAE:/SLE11SP2/SLE_11_SP2/
 bindnetaddr=10.20.3.0
 mcastaddr=239.50.1.1
 iscsi_sbd_host=10.20.136.150
-
