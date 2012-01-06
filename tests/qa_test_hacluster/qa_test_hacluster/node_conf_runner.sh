@@ -1,7 +1,7 @@
 #!/bin/bash
 
-devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config | cut -d= -f2`
-devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config | cut -d= -f2`
+#devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config | cut -d= -f2`
+#devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config | cut -d= -f2`
 
 status_long()
 {
@@ -25,10 +25,10 @@ wait_for_cluster()
   status_done
 }
 
-while getopts :b:d:i:l:m:p:s:t: arg; do
+while getopts :a:b:i:l:m:p:s:t: arg; do
 	case $arg in
+	a)	addon="$OPTARG";;
 	b)	bindnetaddr="$OPTARG";;
-	d)	devel="$OPTARG";;
 	i)	iscsi_sbd_host="$OPTARG";;
 	l)	login="$OPTARG";;
 	m)	mcastaddr="$OPTARG";;
@@ -51,34 +51,12 @@ if [[ $iscsi_sbd_host && ! -e /sbin/iscsiadm ]]; then
   zypper in -y open-iscsi
 fi
 
-if [[ $bindnetaddr && $mcastaddr && $sbd_disk ]]; then
-
-zypper up
-
-  if [ "$devel" = "TRUE" ]; then
-    zypper lr | grep ha-devel 2>&1 > /dev/null
-    ha_devel=$?
-    if [ "$ha_devel" = "sp1" ]; then
-      zypper ar $devel_hae_11_sp1 ha-devel
-    if [ "$ha_devel" = "sp2" ]; then
-      zypper ar $devel_hae_11_sp2 ha-devel
-    else
-      echo "incorrect parameter"
-    fi
-  fi
-
-  zypper ref
-
-  zypper se pacemaker | grep "i |" 2>&1 > /dev/null
-  pacemaker=$?
-  if [ "$pacemaker" != "0" ]; then
-    zypper in -y pacemaker ocfs2-tools cmirrord lvm2-clvm
-  fi
-
-else
+if [[ $addon && $bindnetaddr && $mcastaddr && $sbd_disk ]]; then
   zypper se -t pattern | grep ha_sles | grep "i |" 2>&1 > /dev/null
   ha_sles=$?
   if [ "$ha_sles" != "0" ]; then
+    zypper ar $addon sle-hae
+    zypper in -l -y -t product sle-hae
     zypper in -y -t pattern ha_sles
   fi
 fi
@@ -319,11 +297,11 @@ wait_for_cluster
 crm configure primitive sbd_stonith stonith:external/sbd
 
 else
-  echo -b $bindnetaddr -d devel -m $mcastaddr -i $iscsi_sbd_host -l $login -p $password -s $sbd_disk -t $target
+  echo -a $adddon -b $bindnetaddr -d devel -m $mcastaddr -i $iscsi_sbd_host -l $login -p $password -s $sbd_disk -t $target
   echo "Wrong or missing arguments"
   echo "Usage: node_conf_runner -b bindnetaddr -d -m mcastaddr -i iscsi_sbd_host -s sbd_disk -t target"
+  echo "       addon - url to add-on directory"
   echo "       bindnetaddr - address used for corosync [10.20.3.0]"
-  echo "       devel - signalls ha devel repo is used, acceptable params sp1 and sp2"
   echo "       mcastaddr - multicast addresss for cluster [239.50.1.1]"
   echo "       iscsi_sbd_host - IP address of your iscsi shared disk provider [10.20.136.150]"
   echo "       login - login for iscsi target"
