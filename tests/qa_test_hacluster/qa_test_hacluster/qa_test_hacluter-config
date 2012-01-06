@@ -27,9 +27,10 @@
 
 # Zypper repository sources
 devel_hae_11_sp1=http://dist.suse.de/ibs/Devel:/HAE:/SLE11SP1/SLE_11_SP1/
+devel_hae_11_sp2=http://dist.suse.de/ibs/Devel:/HAE:/SLE11SP2/SLE_11_SP2/
 
 # Host and IP address settings
 bindnetaddr=10.20.3.0
 mcastaddr=239.50.1.1
-iscsi_sbd_host=10.20.5.173
+iscsi_sbd_host=10.20.136.150
 

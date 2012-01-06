@@ -1,11 +1,34 @@
 #!/bin/bash
 
 devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config |cut -d= -f2`
+devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config |cut -d= -f2`
 
-while getopts :b:di:l:m:p:s:t: arg; do
+status_long()
+{
+	$BE_QUIET && return
+	echo -n "  $1..."
+}
+
+status_done()
+{
+	$BE_QUIET && return
+	echo "done"
+}
+
+wait_for_cluster()
+{
+	status_long "Waiting for cluster"
+	while ! crm_mon -1 | grep -qi online; do
+		$BE_QUIET || echo -n "."
+		sleep 5
+	done
+	status_done
+}
+
+while getopts :b:d:i:l:m:p:s:t: arg; do
 	case $arg in
 	b)	bindnetaddr="$OPTARG";;
-	d)	devel=TRUE;;
+	d)	devel="$OPTARG";;
 	i)	iscsi_sbd_host="$OPTARG";;
 	l)	login="$OPTARG";;
 	m)	mcastaddr="$OPTARG";;
@@ -22,21 +45,25 @@ while getopts :b:di:l:m:p:s:t: arg; do
 	esac
 done
 
-if [[ $bindnetaddr && $mcastaddr && $sbd_disk && $target ]]; then
-
 sntp -P no -r pool.ntp.org
 
-zypper up
+if [[ $iscsi_sbd_host && ! -e /sbin/iscsiadm ]]; then
+  zypper in -y open-iscsi
+fi
 
-  if [ $iscsi_sbd_host && ! -e /sbin/iscsiadm ]; then
-    zypper in -y open-iscsi
-  fi
+if [[ $bindnetaddr && $mcastaddr && $sbd_disk ]]; then
+
+zypper up
 
   if [ "$devel" = "TRUE" ]; then
     zypper lr | grep ha-devel 2>&1 > /dev/null
     ha_devel=$?
-    if [ "$ha_devel" != "0" ]; then
+    if [ "$ha_devel" = "sp1" ]; then
       zypper ar $devel_hae_11_sp1 ha-devel
+    if [ "$ha_devel" = "sp2" ]; then
+      zypper ar $devel_hae_11_sp2 ha-devel
+    else
+      echo "incorrect parameter"
     fi
   fi
 
@@ -56,17 +83,20 @@ else
   fi
 fi
 
-#cat<<EOF > /etc/iscsi/initiatorname.iscsi
-#InitiatorName=iqn.1996-04.de.suse:01:ha-automation
-#EOF
-
-#grep ICSCI-AUTO-SETUP-WAS-HERE /etc/iscsi/iscsid.conf 2>&1 > /dev/null
-#rc=$?
-#if [ $rc != 0 ]; then
-#echo "# ISCSI-AUTO-SETUP-WAS-HERE
-#node.session.auth.username = $login
-#node.session.auth.password = $password" >> /etc/iscsi/iscsid.conf
-#fi
+if [ $iscsi_sbd_host ]; then
+cat<<EOF > /etc/iscsi/initiatorname.iscsi
+InitiatorName=iqn.1996-04.de.suse:01:ha-automation
+EOF
+  if [[ $login && $password ]]; then
+    grep ICSCI-AUTO-SETUP-WAS-HERE /etc/iscsi/iscsid.conf 2>&1 > /dev/null
+    rc=$?
+    if [ "$rc" != "0" ]; then
+      echo "# ISCSI-AUTO-SETUP-WAS-HERE
+      node.session.auth.username = $login
+      node.session.auth.password = $password" >> /etc/iscsi/iscsid.conf
+    fi
+  fi
+fi
 
 cat<<EOF  > /etc/corosync/corosync.conf
 echo aisexec {
@@ -190,7 +220,7 @@ amf {
 }
 EOF
 
-if [[ $iscsi_sbd_host ]]; then
+if [[ $iscsi_sbd_host && $target ]]; then
 cat<<EOF > /etc/init.d/ais
 #! /bin/sh
 
@@ -264,8 +294,6 @@ iscsiadm -m discovery -t st -p $iscsi_sbd_host
 
 chmod +x /etc/init.d/ais
 
-insserv ais
-
 ln -s /etc/init.d/ais /usr/sbin/rcais
 
   iscsiadm -m discovery -t st -p $iscsi_sbd_host
@@ -286,18 +314,20 @@ else
   rcopenais start
 fi
 
+wait_for_cluster
 
+crm configure primitive sbd_stonith stonith:external/sbd
 
 else
-  echo -b $bindnetaddr -d -m $mcastaddr -i $iscsi_sbd_host -l $login -p $password -s $sbd_disk -t $target
+  echo -b $bindnetaddr -d devel -m $mcastaddr -i $iscsi_sbd_host -l $login -p $password -s $sbd_disk -t $target
   echo "Wrong or missing arguments"
-  echo "Usage: main_script -b bindnetaddr -d -m mcastaddr -i iscsi_sbd_host -s sbd_disk -t target"
+  echo "Usage: node_conf_runner -b bindnetaddr -d -m mcastaddr -i iscsi_sbd_host -s sbd_disk -t target"
   echo "       bindnetaddr - address used for corosync [10.20.3.0]"
-  echo "       -d signalls ha devel repo is used"
+  echo "       devel - signalls ha devel repo is used, acceptable params sp1 and sp2"
   echo "       mcastaddr - multicast addresss for cluster [239.50.1.1]"
-  echo "       iscsi_sbd_host - IP address of your iscsi shared disk provider [10.20.5.85]"
+  echo "       iscsi_sbd_host - IP address of your iscsi shared disk provider [10.20.136.150]"
   echo "       login - login for iscsi target"
   echo "       password - password for iscsi target"
-  echo "       target - [iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a]"
   echo "       sbd_disk - disk used for sbd/STONITH [/dev/disk/by-path/ip-10.20.5.173:3260-iscsi-iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a-lun-5-part1]"
+  echo "       target - [iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a]"
 fi
