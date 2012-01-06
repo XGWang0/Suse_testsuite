@@ -3,6 +3,8 @@
 #devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config | cut -d= -f2`
 #devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config | cut -d= -f2`
 
+declare BE_QUIET=false
+
 status_long()
 {
   $BE_QUIET && return
@@ -25,7 +27,7 @@ wait_for_cluster()
   status_done
 }
 
-while getopts :a:b:i:l:m:p:s:t: arg; do
+while getopts :a:b:i:l:m:p:s:t:x arg; do
 	case $arg in
 	a)	addon="$OPTARG";;
 	b)	bindnetaddr="$OPTARG";;
@@ -35,6 +37,7 @@ while getopts :a:b:i:l:m:p:s:t: arg; do
 	p)	password="$OPTARG";;
 	s)	sbd_disk="$OPTARG";;
 	t)	target="$OPTARG";;
+	x)	server=TRUE;;
 	:)
 		echo "$0:Option $OPTARG requires variable".
 	exit 1
@@ -59,21 +62,101 @@ if [[ $addon && $bindnetaddr && $mcastaddr && $sbd_disk ]]; then
     zypper in -l -y -t product sle-hae
     zypper in -y -t pattern ha_sles
   fi
-fi
+  if [ $iscsi_sbd_host ]; then
 
-if [ $iscsi_sbd_host ]; then
 cat<<EOF > /etc/iscsi/initiatorname.iscsi
 InitiatorName=iqn.1996-04.de.suse:01:ha-automation
 EOF
-  if [[ $login && $password ]]; then
-    grep ICSCI-AUTO-SETUP-WAS-HERE /etc/iscsi/iscsid.conf 2>&1 > /dev/null
-    rc=$?
-    if [ "$rc" != "0" ]; then
+
+    if [[ $login && $password ]]; then
+      grep ICSCI-AUTO-SETUP-WAS-HERE /etc/iscsi/iscsid.conf 2>&1 > /dev/null
+      rc=$?
+      if [[ "$rc" != "0" ]]; then
       echo "# ISCSI-AUTO-SETUP-WAS-HERE
       node.session.auth.username = $login
       node.session.auth.password = $password" >> /etc/iscsi/iscsid.conf
+      fi
     fi
   fi
+
+  if [[ $iscsi_sbd_host && $target ]]; then
+cat<<EOF > /etc/init.d/ais
+#! /bin/sh
+
+# init file for configuring iscsi and starting openais
+# For SuSE and cousins
+### BEGIN INIT INFO
+# Provides:                   ais
+# Required-Start:             \$local_fs \$network
+# Required-Stop:              \$local_fs \$network
+# Default-Start:              2 3 5
+# Default-Stop:               2 3 5
+# Short-Description:          Configures network cards for IPv6 testing
+# Description:                IPv6 testing configuration
+# X-UnitedLinux-Default-Enabled: yes
+### END INIT INFO
+
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2, or (at your option) any later
+# version. 
+# You should have received a copy of the GNU General Public License (for
+# example COPYING); if not, write to the Free Software Foundation, Inc., 675
+# Mass Ave, Cambridge, MA 02139, USA.
+
+    case \$1 in
+        start)
+            rcopen-iscsi start
+	    iscsiadm -m discovery -t st -p $iscsi_sbd_host
+            iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
+            sleep 5
+            rcopenais start
+            echo
+            ;;
+        stop)
+            rcopenais stop
+            iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --logout
+            echo
+            ;;
+        reload)
+            \$0 stop
+            \$0 start
+            echo
+            ;;
+        report)
+            rcopen-iscsi report
+            rcopenais report
+            echo
+            ;;
+        restart)
+            \$0 stop
+            \$0 start
+            echo
+            ;;
+        status)
+            rcopen-iscsi status
+            rcopenais status
+            ;;
+        *)
+            echo "Usage: \$0 {start|stop|reload|report|restart|status}"
+            RETVAL=1
+    esac
+
+    exit \$RETVAL
+
+rc_exit
+EOF
+
+rcopen-iscsi start
+
+iscsiadm -m discovery -t st -p $iscsi_sbd_host
+
+chmod +x /etc/init.d/ais
+
+ln -s /etc/init.d/ais /usr/sbin/rcais
+
+  iscsiadm -m discovery -t st -p $iscsi_sbd_host
+  iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
 fi
 
 cat<<EOF  > /etc/corosync/corosync.conf
@@ -192,112 +275,35 @@ logging {
 
 }
 amf {
-        #Enable or disable AMF 
+        #Enable or disable AMF
 
         mode:   disable
 }
 EOF
-
-if [[ $iscsi_sbd_host && $target ]]; then
-cat<<EOF > /etc/init.d/ais
-#! /bin/sh
-
-# init file for configuring iscsi and starting openais
-# For SuSE and cousins
-### BEGIN INIT INFO
-# Provides:                   ais
-# Required-Start:             \$local_fs \$network
-# Required-Stop:              \$local_fs \$network
-# Default-Start:              2 3 5
-# Default-Stop:               2 3 5
-# Short-Description:          Configures network cards for IPv6 testing
-# Description:                IPv6 testing configuration
-# X-UnitedLinux-Default-Enabled: yes
-### END INIT INFO
-
-# This program is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the Free
-# Software Foundation; either version 2, or (at your option) any later
-# version. 
-# You should have received a copy of the GNU General Public License (for
-# example COPYING); if not, write to the Free Software Foundation, Inc., 675
-# Mass Ave, Cambridge, MA 02139, USA.
-
-    case \$1 in
-        start)
-            rcopen-iscsi start
-	    iscsiadm -m discovery -t st -p $iscsi_sbd_host
-            iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
-            sleep 5
-            rcopenais start
-            echo
-            ;;
-        stop)
-            rcopenais stop
-            iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --logout
-            echo
-            ;;
-        reload)
-            \$0 stop
-            \$0 start
-            echo
-            ;;
-        report)
-            rcopen-iscsi report
-            rcopenais report
-            echo
-            ;;
-        restart)
-            \$0 stop
-            \$0 start
-            echo
-            ;;
-        status)
-            rcopen-iscsi status
-            rcopenais status
-            ;;
-        *)
-            echo "Usage: \$0 {start|stop|reload|report|restart|status}"
-            RETVAL=1
-    esac
-
-    exit \$RETVAL
-
-rc_exit
-EOF
-
-rcopen-iscsi start
-
-iscsiadm -m discovery -t st -p $iscsi_sbd_host
-
-chmod +x /etc/init.d/ais
-
-ln -s /etc/init.d/ais /usr/sbin/rcais
-
-  iscsiadm -m discovery -t st -p $iscsi_sbd_host
-  iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
-fi
 
 cat<<EOF > /etc/sysconfig/sbd
 SBD_DEVICE="$sbd_disk"
 SBD_OPTS="-W"
 EOF
 
-sbd -d $sbd_disk create
-sbd -d $sbd_disk allocate $(hostname)
+  if [[ $server ]]; then
+    sbd -d $sbd_disk create
+  fi
 
-if [[ $iscsi_sbd_host ]]; then
-  rcais start
+  sbd -d $sbd_disk allocate $(hostname)
+
+  if [[ $iscsi_sbd_host ]]; then
+    rcais start
+  else
+    rcopenais start
+  fi
+
+  wait_for_cluster
+
+  crm configure primitive sbd_stonith stonith:external/sbd
+
 else
-  rcopenais start
-fi
-
-wait_for_cluster
-
-crm configure primitive sbd_stonith stonith:external/sbd
-
-else
-  echo -a $adddon -b $bindnetaddr -d devel -m $mcastaddr -i $iscsi_sbd_host -l $login -p $password -s $sbd_disk -t $target
+  echo -a $adddon -b $bindnetaddr -d devel -m $mcastaddr -i $iscsi_sbd_host -l $login -p $password -s $sbd_disk -t $target -x
   echo "Wrong or missing arguments"
   echo "Usage: node_conf_runner -b bindnetaddr -d -m mcastaddr -i iscsi_sbd_host -s sbd_disk -t target"
   echo "       addon - url to add-on directory"
@@ -308,4 +314,5 @@ else
   echo "       password - password for iscsi target"
   echo "       sbd_disk - disk used for sbd/STONITH [/dev/disk/by-path/ip-10.20.5.173:3260-iscsi-iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a-lun-5-part1]"
   echo "       target - [iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a]"
+  echo "       -x - specifies that machine creates prepares sbd partition, only one machine in cluster should use this"
 fi
