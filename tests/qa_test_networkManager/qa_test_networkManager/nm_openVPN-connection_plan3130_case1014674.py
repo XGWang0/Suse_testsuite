@@ -71,6 +71,10 @@ if openvpn_rpm != 0:
 crt_tar = crt_download_url.split('/')[-1]
 
 if not os.path.exists(crt_tar):
+    # Check crt download url works
+    loadURL(crt_download_url)
+    sleep(config.SHORT_DELAY)
+
     os.system('wget %s' % crt_download_url)
     sleep(config.SHORT_DELAY)
 
@@ -127,7 +131,7 @@ pwd = os.popen("pwd").read().replace('\n', '') + '/'
 # Select User Certificate
 vpn_buttons[2].mouseClick()
 sleep(config.SHORT_DELAY)
-crt_dialog = nm_editor_app.findDialog("Choose your personal certificate...")
+crt_dialog = nm_editor_app.findDialog(re.compile('^Choose your'))
 
 if not crt_dialog.findLabel("Location:").showing:
     crt_dialog.findToggleButton("Type a file name").mouseClick()
@@ -161,7 +165,7 @@ sleep(config.SHORT_DELAY)
 vpn_buttons[0].mouseClick()
 sleep(config.MEDIUM_DELAY)
 
-crt_dialog = nm_editor_app.findDialog("Choose your private key...")
+crt_dialog = nm_editor_app.findDialog(re.compile('^Choose your'))
 
 crt_dialog.findText(None, labelledBy="Location:").enterText(pwd)
 crt_dialog.keyCombo("Enter", grabFocus=False)
