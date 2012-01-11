@@ -66,7 +66,7 @@ export CFLAGS
 %{__install} -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%{name}
 %{__install} -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
 
-echo -e "#!/bin/sh\n\n/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/stress.tcf" > $RPM_BUILD_ROOT/usr/share/qa/tools/stress-run
+echo -e "#!/bin/sh\n\n/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/stress.tcf" > $RPM_BUILD_ROOT/usr/share/qa/tools/test_stress-run
 echo -e "timer 86400\nfg 1 stress /usr/bin/stress.py\nwait\n" > $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf/stress.tcf
 ln -s ../%{name}/tcf/stress.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
@@ -96,7 +96,7 @@ gzip $RPM_BUILD_ROOT%{_mandir}/man8/%{name}.8
 %attr (0644, root, root) %{_mandir}/man8/%{name}.8.gz
 
 /usr/share/qa
-%attr (0755, root, root) /usr/share/qa/tools/stress-run
+%attr (0755, root, root) /usr/share/qa/tools/test_stress-run
 %attr (0755, root, root) /usr/bin/stress.py
 
 
