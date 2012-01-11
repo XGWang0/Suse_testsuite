@@ -68,6 +68,12 @@ if novellvpn_rpm != 0:
 # Get nm-applet application layer
 nm_applet_app = nmAppletApp()
 
+# Clean exist profile_VPN connection 1 and VPN connection 1 item
+cleanConnection("profile_VPN connection 1", tab="VPN")
+sleep(3)
+cleanConnection("VPN connection 1", tab="VPN")
+sleep(3)
+
 # Step1: Create a Novell VPN named "VPN connection 1"
 nm_panel = nmPanel()
 
@@ -266,8 +272,12 @@ nm_applet_app.findWindow(None).findMenu("VPN Connections").mouseClick()
 sleep(config.SHORT_DELAY)
 
 procedurelogger.expectedResult('"profile_VPN connection 1" is checked')
-assert nm_applet_app.findWindow(None).findCheckMenuItem("profile_VPN connection 1").checked == True, \
+try:
+    assert nm_applet_app.findWindow(None).findCheckMenuItem("profile_VPN connection 1").checked == True, \
                         "profile_VPN connection 1 doesn't connected"
+except AssertionError:
+    nm_panel.mouseClick(log=False)
+    raise AssertionError
 
 nm_panel.mouseClick(log=False)
 sleep(config.SHORT_DELAY)

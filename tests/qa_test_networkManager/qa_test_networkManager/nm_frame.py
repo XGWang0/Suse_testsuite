@@ -145,8 +145,13 @@ def checkInfo(acc_name=[]):
 
     #  Find the connection network name
     for i in acc_name:
-        procedurelogger.expectedResult("Successful Connection to %s" % i) 
-        info_dialog.findPageTab(i)
+        procedurelogger.expectedResult("Successful Connection to %s" % i)
+        try: 
+            info_dialog.findPageTab(i)
+        except:
+            info_dialog.findPushButton("Close").click(log=True)
+            sleep(config.SHORT_DELAY)
+            raise SearchError
         sleep(config.SHORT_DELAY)
 
     info_dialog.findPushButton("Close").mouseClick()
