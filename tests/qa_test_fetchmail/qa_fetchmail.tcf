@@ -26,51 +26,51 @@ fg 1 INIT /usr/share/qa/qa_test_fetchmail/bin/test000.sh /usr/share/qa/qa_test_f
 wait
 
 timer 600
-fg 1 pop3 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p pop3
+fg 1 pop3 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p pop3
 wait
 
 timer 600
-fg 1 pop3s /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p pop3 -s
+fg 1 pop3s /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p pop3 -s
 wait
 
 timer 600
-fg 1 imap /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p imap
+fg 1 imap /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p imap
 wait
 
 timer 600
-fg 1 imaps /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p imap -s
+fg 1 imaps /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p imap -s
 wait
 
 timer 600
-fg 1 pop3s-limit /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p pop3 -s -l 99999
+fg 1 pop3s-limit /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p pop3 -s -l 99999
 wait
 
 timer 600
-fg 1 imaps-limit /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p imap -s -l 99999
+fg 1 imaps-limit /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p imap -s -l 99999
 wait
 
 timer 600
-fg 1 pop3-limit /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p pop3 -l 99999
+fg 1 pop3-limit /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p pop3 -l 99999
 wait
 
 timer 600
-fg 1 imap-limit /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p imap -l 99999
+fg 1 imap-limit /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p imap -l 99999
 wait
 
 timer 600
-fg 1 imaps-limit1 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p imap -s -l 1 -f
+fg 1 imaps-limit1 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p imap -s -l 1 -f
 wait
 
 timer 600
-fg 1 pop3s-limit1 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p pop3 -s -l 1 -f
+fg 1 pop3s-limit1 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p pop3 -s -l 1 -f
 wait
 
 timer 600
-fg 1 imap-limit1 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p imap -l 1 -f
+fg 1 imap-limit1 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p imap -l 1 -f
 wait
 
 timer 600
-fg 1 pop3-limit1 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_fetchmail -p pop3 -l 1 -f
+fg 1 pop3-limit1 /usr/share/qa/qa_test_fetchmail/bin/test001.sh -t /usr/share/qa/qa_test_fetchmail -p pop3 -l 1 -f
 wait
 
 timer 600
