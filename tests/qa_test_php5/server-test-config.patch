@@ -14,7 +14,7 @@
  $conf = array(
  /* path to the php source tree */
 -'TEST_PHP_SRCDIR'      =>    NULL,
-+'TEST_PHP_SRCDIR'      =>    '/usr/share/qa/qa_php5',
++'TEST_PHP_SRCDIR'      =>    '/usr/share/qa/qa_test_php5',
  
  /* executable that will be tested.  Not used for
     web based tests */
