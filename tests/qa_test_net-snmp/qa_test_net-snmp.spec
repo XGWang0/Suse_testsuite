@@ -19,7 +19,7 @@
 
 
 Name:           qa_test_net-snmp
-BuildRequires:  bzip2
+BuildRequires:  bzip2 net-snmp-devel
 Version:        5.4.3
 Release:        2
 License:        GPL v2 or later; BSD
@@ -40,7 +40,7 @@ Summary:        SNMP testsuite
 BuildArch:      noarch
 Provides:	qa_net-snmp
 Obsoletes:	qa_net-snmp
-Requires:       net-snmp net-snmp-devel
+Requires:       net-snmp
 Provides:	qa_net-snmp
 Obsoletes:	qa_net-snmp
 Requires:       ctcs2 perl
