@@ -33,7 +33,7 @@ killall /usr/lib/at-spi/at-spi-registryd evolution
 /usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_evolution.tcf"
 
 # Kill the exist evolution first
-ps -ef |grep evolution |grep -v grep |grep -v "/bin/bash" |awk '{print $2}' |xargs kill 9
+ps -ef |grep evolution |grep -v grep |grep -v "/bin/bash" |awk '{print $2}' |xargs kill -9
 
 # Run test
 if [ "$username" != "$USER" ]; then
