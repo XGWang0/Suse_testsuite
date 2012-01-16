@@ -46,7 +46,7 @@ Step6: On "Editing VPN connection 1" dialog setting VPN informations:
         User name: <innerweb username>
         Group name: novell
         User password: <innerweb password>
-        Group password: letmein
+        Group password: <password>
         DH Group: DH1
 Step7: Click "Apply" to save the settings
 Step8: Left click on the NetworkManager icon, click "VPN Connections", select "VPN connection 1"
@@ -77,6 +77,10 @@ if novellvpn_rpm != 0:
 
 # Get nm-applet application layer
 nm_applet_app = nmAppletApp()
+
+# Delete the exist VNP connection 1
+cleanConnection("VPN connection 1", tab="VPN")
+sleep(10)
 
 # Step1: Stop Wired Network
 os.system('ifconfig eth0 down')
