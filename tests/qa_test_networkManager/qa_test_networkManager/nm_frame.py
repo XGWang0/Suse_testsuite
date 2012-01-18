@@ -113,7 +113,7 @@ def checkConnection(acc_name, status=True):
     nm_panel.mouseClick()
     sleep(config.SHORT_DELAY)
 
-    acc_item = nm_applet_app.findWindow(None).findCheckMenuItem(acc_name)
+    acc_item = nm_applet_app.findWindow(None).findCheckMenuItem(re.compile('.*%s.*' % acc_name))
 
     if status:
         connection = "checked"
@@ -147,7 +147,7 @@ def checkInfo(acc_name=[]):
     for i in acc_name:
         procedurelogger.expectedResult("Successful Connection to %s" % i)
         try: 
-            info_dialog.findPageTab(i)
+            info_dialog.findPageTab(re.compile('.*%s.*' % i))
         except:
             info_dialog.findPushButton("Close").click(log=True)
             sleep(config.SHORT_DELAY)

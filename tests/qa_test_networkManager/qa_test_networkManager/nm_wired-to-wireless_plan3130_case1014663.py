@@ -67,11 +67,11 @@ sleep(20)
 authenWireless(wireless1_pwd)
 
 # Step3: Left click on the NetworkManager icon, make sure "System eth0" and wireless1_name are checked
-checkConnection("System eth0")
+checkConnection("eth0")
 checkConnection(wireless1_name)
 
 # Check Connection Information
-checkInfo(['System eth0 (default)', 'Auto ' + wireless1_name,])
+checkInfo(['eth0', 'Auto ' + wireless1_name,])
 
 # Step4: Doing "ifconfig eth0 down" to remove wired connection
 procedurelogger.action('Doing "ifconfig eth0 down" to remove wired connection')
@@ -82,7 +82,7 @@ sleep(config.MEDIUM_DELAY)
 checkConnection(wireless1_name)
 
 # Check Connection Information
-checkInfo(['Auto ' + wireless1_name + ' (default)',])
+checkInfo(['Auto ' + wireless1_name,])
 
 # Step6: Doning "ifconfig eth0 up" to restart wired connection
 procedurelogger.action('Doing "ifconfig eth0 up" to restart wired connection')
@@ -90,11 +90,11 @@ os.system('ifconfig eth0 up')
 sleep(20)
 
 # Step7: Make sure wireless1_name wireless is still connected
-checkConnection("System eth0")
+checkConnection("eth0")
 checkConnection(wireless1_name)
 
 # Check Connection Information
-checkInfo(["System eth0 (default)", "Auto " + wireless1_name,])
+checkInfo(["eth0", "Auto " + wireless1_name,])
 
 # Remove connection
 cleanConnection(wireless1_name)
