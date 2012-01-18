@@ -68,7 +68,7 @@ function get_current_scheduler ()
 	then
 		for i in $(< /sys/block/$1/queue/scheduler)
 		do
-			if [[ "$i" =~ "^\[" ]]
+			if [ $(echo $i | grep -e "^\[") ]
 			then
 				echo "$(echo $i|tr -d '\[\]')"
 			fi
@@ -96,7 +96,13 @@ function get_tmp_dev ()
 	done
 }
 
-ROOTDEV="$(get_tmp_dev)"
+if [ -z "$(get_tmp_dev)" ]; then
+	#if get_tmp_dev() cannot get a result, check root dev
+	ROOTDEV=`df -l | grep "/$" | cut -d' ' -f1 | sed -e 's/[0-9]//g'`
+else
+	ROOTDEV="$(get_tmp_dev)"
+fi
+
 BLOCK="${ROOTDEV##*/}"
 
 #get blockdevice
@@ -109,13 +115,13 @@ do
 	fi
 done
 
-
 echo "Running test on $ROOTDEV (which is blockdevice $BLOCK):"
 
 #get schedulers available
 for i in $(< /sys/block/$BLOCK/queue/scheduler)
 do
-	if [[ "$i" =~ "^\[" ]]
+	#if [[ "$i" =~ "^\[" ]]
+	if [ `echo $i | grep -e "^\["` ]
 	then
 		CURRENT="$(echo $i|tr -d '\[\]')"
 		SCHEDULERS=(${SCHEDULERS[@]} $CURRENT)
