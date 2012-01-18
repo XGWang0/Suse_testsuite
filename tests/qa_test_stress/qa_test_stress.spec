@@ -101,5 +101,7 @@ gzip $RPM_BUILD_ROOT%{_mandir}/man8/%{name}.8
 
 
 %changelog
+* Wed Jan 11 2012 - aguo@suse.com
+- Rename run file: stress-run -> test_stress-run
 * Fri Aug 12 2011 - llipavsky@suse.cz
 - Package rename: qa_stress -> qa_test_stress
