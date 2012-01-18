@@ -72,7 +72,7 @@ cp -v iosched_testing.sh $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 cp -v qa_iosched_test.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf/
 ln -sf ../%{name}/tcf/qa_iosched_test.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iosched_test.tcf
 ln -sf ../../../share/qa/%{name}/tcf/qa_iosched_test.tcf  $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/qa_iosched_test.tcf
-cp -v %{S:2} $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/
+install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/
 
 %clean
 rm -rvf $RPM_BUILD_ROOT
