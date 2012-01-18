@@ -122,6 +122,6 @@ sleep(30)
 authenWireless(wireless1_pwd)
 
 # Step9: Make sure "System eth0" and last known wireless wireless1_name connected
-checkInfo(['System eth0 (default)', 'Auto ' + wireless1_name,])
+checkInfo(['eth0', 'Auto ' + wireless1_name,])
 
 
