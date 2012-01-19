@@ -42,14 +42,14 @@ from nm_frame import *
 
 print doc
 
-# Get nm-applet application layer
-nm_applet_app = nmAppletApp()
-
 # Step1: Right click on the NetworkManager icon and select "About" item
 nm_panel = nmPanel()
 
 nm_panel.mouseClick(button=3)
 sleep(config.SHORT_DELAY)
+
+# Get nm-applet application layer
+nm_applet_app = nmAppletApp()
 
 nm_applet_app.findWindow(None).findMenuItem("About").click(log=True)
 sleep(config.SHORT_DELAY)
@@ -75,10 +75,11 @@ sleep(config.LONG_DELAY)
 
 procedurelogger.expectedResult("the url is loaded correctly")
 firefox_app = cache._desktop.findApplication('Firefox', checkShowing=False)
-firefox_app.findFrame(re.compile('^NetworkManager'))
+firefox_frame = firefox_app.findFrame(re.compile('^NetworkManager'))
 
 # Quit firefox application
-firefox_app.findMenuItem("Quit", checkShowing=False).click(log=False)
+firefox_frame.findMenu("File").click(log=False)
+firefox_frame.findMenuItem("Quit").click(log=False)
 sleep(config.SHORT_DELAY)
 firefox_app.assertClosed()
 
