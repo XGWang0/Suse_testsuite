@@ -42,11 +42,46 @@ RC_FAIL=1
 RC_IntErr=11
 RC_SKIP=22
 
-source qa_test_gnutls-config
+SCRIPTNAME=`basename $0`
+
+# Figure out where my stuff resides
+QA_GNUTLS_PATH=`dirname "$0"`
+if [ "$QA_GNUTLS_PATH" == "${QA_GNUTLS_PATH#/}" ] ; then
+	QA_GNUTLS_PATH="$PWD/$QA_GNUTLS_PATH"
+	MYSELF="$QA_GNUTLS_PATH/$SCRIPTNAME"
+fi
+## increasingly desperate fallbacks if things go weirdly wrong
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	MY_RPM="$(rpm -q "$0")" 2>/dev/null
+	MYSELF="$(rpm -ql "$MY_RPM" | grep "/$SCRIPTNAME\$")"
+	QA_GNUTLS_PATH=`dirname "$MYSELF"`
+fi
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	MYSELF="$(type -p "$SCRIPTNAME")"
+	QA_GNUTLS_PATH=`dirname "$MYSELF"`
+fi
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	QA_GNUTLS_PATH=/usr/share/qa/qa_test_gnutls
+	MYSELF="$QA_GNUTLS_PATH/$SCRIPTNAME"
+fi
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	QA_GNUTLS_PATH=/usr/share/qa/qa_gnutls
+	MYSELF="$QA_GNUTLS_PATH/$SCRIPTNAME"
+fi
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	echo "$SCRIPTNAME: ERROR: unable to figure out the directory I'm residing in. Giving up..."
+	exit "$RC_IntErr"
+fi
+
+if source "$QA_GNUTLS_PATH"/qa_test_gnutls-config ; then
+	echo "Sourced settings from $QA_GNUTLS_PATH/qa_test_gnutls-config."
+else
+	echo "$SCRIPTNAME: ERROR: unable to source NEEDED file $QA_GNUTLS_PATH/qa_test_gnutls-config. Giving up..."
+	exit "$RC_IntErr"
+fi
 
 export LC_ALL=C
-VERSION="2.5"
-SCRIPTNAME=`basename $0`
+VERSION="2.6"
 USAGE="$SCRIPTNAME $VERSION
 
 Usage: $SCRIPTNAME [OPTIONS]
