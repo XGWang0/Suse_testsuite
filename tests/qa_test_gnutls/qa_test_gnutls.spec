@@ -80,9 +80,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_gnutls.8.gz
+/usr/share/qa
 /usr/share/qa/%name
-/usr/share/qa/tcf/qa_gnutls.tcf
-/usr/share/qa/tools/test_gnutls-run
+/usr/share/qa/tcf
+/usr/share/qa/tools
+# redundant...
+# /usr/share/qa/tcf/qa_gnutls.tcf
+# /usr/share/qa/tools/test_gnutls-run
 %doc COPYING
 
 %changelog
