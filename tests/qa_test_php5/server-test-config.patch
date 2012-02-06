@@ -1,5 +1,5 @@
---- server-tests-config.php	2011-04-19 18:16:27.805000075 +0800
-+++ php-5.2.14/server-tests-config.php	2011-04-19 18:23:05.081000077 +0800
+--- server-tests-config.php	2012-02-06 10:54:53.659833673 +0800
++++ php-5.2.14/server-tests-config.php	2012-02-06 10:55:09.915834247 +0800
 @@ -1,7 +1,7 @@
  <?php
  /* this file may be duplicated to provide testing for
@@ -56,18 +56,19 @@
  
  /* file extension of pages requested via http
     this allows for php to be configured to parse
-@@ -60,7 +60,9 @@
+@@ -60,7 +60,10 @@
  'TEST_CONTEXT_INFO'    =>    false,
  
  /* : or ; seperated list of paths */
 -'TEST_PATHS'           =>    NULL
++'TEST_WEB'             =>    true,
 +'TEST_PATHS'           =>    NULL,
 +
 +'time out'             =>    120,
  /* additional configuration items that may be set
     to provide proxy support for testes:
    timeout
-@@ -71,4 +73,4 @@
+@@ -71,4 +74,4 @@
  */
  );
  
