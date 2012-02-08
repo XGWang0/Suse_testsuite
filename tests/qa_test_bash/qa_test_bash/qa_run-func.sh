@@ -37,15 +37,13 @@ export THIS_SH
 
 ${THIS_SH} --version
 
-
 rm -f /tmp/xx
 
-
 echo run-func 
+echo "warning: if you have exported functions defined in your environment, they may show up as diff output.they may show up as diff output."
+echo "warning: if so, please do not consider this a test failure"
 cd /usr/share/qa/qa_test_bash/data/tests
 sh run-func 2&> /tmp/run-func
- 
-                 
 
   if [ -s /tmp/run-func ]
   then    
