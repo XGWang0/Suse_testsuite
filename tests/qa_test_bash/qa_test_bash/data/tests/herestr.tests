@@ -27,7 +27,7 @@ f1
 f2
 f3 first second third
 
-typeset -f
+typeset -f f1 f2 f3
 
 cat <<< 'echo $(echo hi)'
 
