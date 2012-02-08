@@ -22,65 +22,65 @@
 # ****************************************************************************
 #
 
-timer 300
+timer 3000
 fg 1 qa_freshclam_update_pre.sh /usr/share/qa/qa_test_clamav/qa_freshclam_update_pre.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_clamd_stop.sh /usr/share/qa/qa_test_clamav/qa_clamd_stop.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_clamd_start.sh /usr/share/qa/qa_test_clamav/qa_clamd_start.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_clamd_restart.sh /usr/share/qa/qa_test_clamav/qa_clamd_restart.sh
 wait
 
 
-timer 300
+timer 3000
 fg 1 qa_clamdscan_file_scan_MIME-test.sh /usr/share/qa/qa_test_clamav/qa_clamdscan_file_scan_MIME-test.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_clamdscan_file_scan_bad-zip.sh /usr/share/qa/qa_test_clamav/qa_clamdscan_file_scan_bad-zip.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_clamdscan_file_scan_eicarcom2.zip.sh /usr/share/qa/qa_test_clamav/qa_clamdscan_file_scan_eicarcom2.zip.sh
 wait
 
 
-timer 300
+timer 3000
 fg 1 qa_clamscan_file_scan_MIME-test.sh /usr/share/qa/qa_test_clamav/qa_clamscan_file_scan_MIME-test.sh
 wait
 
-timer 300
+timer 3000
 fg 1  qa_clamscan_file_scan_bad-zip.sh /usr/share/qa/qa_test_clamav/qa_clamscan_file_scan_bad-zip.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_clamscan_file_scan_eicarcom2.zip.sh /usr/share/qa/qa_test_clamav/qa_clamscan_file_scan_eicarcom2.zip.sh
 wait
 
 
-timer 300
+timer 3000
 fg 1 qa_freshclam_stop.sh /usr/share/qa/qa_test_clamav/qa_freshclam_stop.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_freshclam_start.sh /usr/share/qa/qa_test_clamav/qa_freshclam_start.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_freshclam_restart.sh /usr/share/qa/qa_test_clamav/qa_freshclam_restart.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_freshclam_update_no_db_files.sh /usr/share/qa/qa_test_clamav/qa_freshclam_update_no_db_files.sh
 wait
 
-timer 300
+timer 3000
 fg 1 qa_freshclam_update_post.sh /usr/share/qa/qa_test_clamav/qa_freshclam_update_post.sh
 wait
