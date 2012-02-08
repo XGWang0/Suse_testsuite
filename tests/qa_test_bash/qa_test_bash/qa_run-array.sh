@@ -42,6 +42,9 @@ rm -f /tmp/xx
 
 
 echo run-array 
+echo "warning: all of these tests will fail if arrays have not" 
+echo "warning: been compiled into the shell" 
+
 cd /usr/share/qa/qa_test_bash/data/tests
 sh run-array 2&> /tmp/run-array
  
