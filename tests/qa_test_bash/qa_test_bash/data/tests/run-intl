@@ -2,4 +2,4 @@
 ( diff -a ./intl.right ./intl.right >/dev/null 2>&1 ) && AFLAG=-a
 
 ${THIS_SH} ./intl.tests > /tmp/xx
-diff $AFLAG /tmp/xx intl.right #&& rm -f /tmp/xx
+diff $AFLAG /tmp/xx intl.right && rm -f /tmp/xx
