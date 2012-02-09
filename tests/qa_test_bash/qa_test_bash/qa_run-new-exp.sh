@@ -42,6 +42,8 @@ rm -f /tmp/xx
 
 
 echo run-new-exp 
+echo "warning: two of these tests will fail if your OS does not support named pipes or the /dev/fd filesystem.  If the tests of the process substitution mechanism fail, please do not consider this a test failure." >&2
+echo "warning: If you have exported variables beginning with the string _Q, diff output may be generated. If so, please do not consider this a test failure." >&2
 cd /usr/share/qa/qa_test_bash/data/tests
 sh run-new-exp 2&> /tmp/run-new-exp
  
