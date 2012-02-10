@@ -1,7 +1,7 @@
 # make sure that bash really checks the right things when deciding what
 # constitutes an executable file
 
-[ $UID -eq 0 ] && { echo "exec7.sub: the test suite should not be run as root" >&2 ; }
+#[ $UID -eq 0 ] && { echo "exec7.sub: the test suite should not be run as root" >&2 ; }
 
 : ${TMPDIR:=/tmp}
 
