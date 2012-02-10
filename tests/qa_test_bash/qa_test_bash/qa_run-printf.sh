@@ -52,7 +52,7 @@ sh run-printf 2&> /tmp/run-printf
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-printf
+    cat /tmp/run-printf
     rm /tmp/run-printf
     exit 1
   else    

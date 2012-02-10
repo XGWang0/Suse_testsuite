@@ -52,7 +52,7 @@ sh run-herestr 2&> /tmp/run-herestr
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-herestr
+    cat /tmp/run-herestr
     rm /tmp/run-herestr
     exit 1
   else    

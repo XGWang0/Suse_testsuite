@@ -52,7 +52,7 @@ sh run-cprint 2&> /tmp/run-cprint
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-cprint
+    cat /tmp/run-cprint
     rm /tmp/run-cprint
     exit 1
   else    

@@ -54,7 +54,7 @@ sh run-intl 2&> /tmp/run-intl
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-intl
+    cat /tmp/run-intl
     rm /tmp/run-intl
     exit 1
   else    

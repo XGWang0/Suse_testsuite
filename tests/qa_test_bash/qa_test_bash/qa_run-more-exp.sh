@@ -52,7 +52,7 @@ sh run-more-exp 2&> /tmp/run-more-exp
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-more-exp
+    cat /tmp/run-more-exp
     rm /tmp/run-more-exp
     exit 1
   else    

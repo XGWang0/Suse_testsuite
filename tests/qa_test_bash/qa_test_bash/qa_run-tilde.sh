@@ -52,7 +52,7 @@ sh run-tilde 2&> /tmp/run-tilde
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-tilde
+    cat /tmp/run-tilde
     rm /tmp/run-tilde
     exit 1
   else    

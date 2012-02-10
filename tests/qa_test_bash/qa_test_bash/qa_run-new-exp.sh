@@ -54,7 +54,7 @@ sh run-new-exp 2&> /tmp/run-new-exp
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-new-exp
+    cat /tmp/run-new-exp
     rm /tmp/run-new-exp
     exit 1
   else    

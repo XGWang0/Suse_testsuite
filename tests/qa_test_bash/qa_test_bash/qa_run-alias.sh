@@ -52,7 +52,7 @@ sh run-alias 2&> /tmp/run-alias
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-alias
+    cat /tmp/run-alias
     rm /tmp/run-alias
     exit 1
   else    

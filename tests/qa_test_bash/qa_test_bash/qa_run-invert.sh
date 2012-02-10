@@ -52,7 +52,7 @@ sh run-invert 2&> /tmp/run-invert
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-invert
+    cat /tmp/run-invert
     rm /tmp/run-invert
     exit 1
   else    

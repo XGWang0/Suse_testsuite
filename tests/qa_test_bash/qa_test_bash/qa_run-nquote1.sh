@@ -54,7 +54,7 @@ sh run-nquote1 2&> /tmp/run-nquote1
     echo "FAILED: bash test had an error :(" >&2
     echo "warning: several of these tests will fail if arrays have not" >&2
 echo "warning: been compiled into the shell." >&2
-    less /tmp/run-nquote1
+    cat /tmp/run-nquote1
     rm /tmp/run-nquote1
     exit 1
   else    

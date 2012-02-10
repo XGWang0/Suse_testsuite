@@ -51,7 +51,7 @@ sh run-trap 2&> /tmp/run-trap
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-trap
+    cat /tmp/run-trap
     rm /tmp/run-trap
     exit 1
   else    

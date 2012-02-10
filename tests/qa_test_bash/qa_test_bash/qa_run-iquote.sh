@@ -52,7 +52,7 @@ sh run-iquote 2&> /tmp/run-iquote
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-iquote
+    cat /tmp/run-iquote
     rm /tmp/run-iquote
     exit 1
   else    

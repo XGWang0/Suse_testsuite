@@ -52,7 +52,7 @@ sh run-dirstack 2&> /tmp/run-dirstack
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-dirstack
+    cat /tmp/run-dirstack
     rm /tmp/run-dirstack
     exit 1
   else    

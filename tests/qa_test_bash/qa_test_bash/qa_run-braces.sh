@@ -52,7 +52,7 @@ sh run-braces 2&> /tmp/run-braces
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-braces
+    cat /tmp/run-braces
     rm /tmp/run-braces
     exit 1
   else    

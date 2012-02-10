@@ -57,7 +57,7 @@ echo "warning: produce diff output." >&2
 echo "warning: if the text of an error message concerning \`redir1.*' not being" >&2
 echo "warning: found or messages concerning bad file descriptors produce diff" >&2
 echo "warning: output, please do not consider it a test failure" >&2
-    less /tmp/run-redir
+    cat /tmp/run-redir
     rm /tmp/run-redir
     exit 1
   else    

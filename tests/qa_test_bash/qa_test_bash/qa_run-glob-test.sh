@@ -52,7 +52,7 @@ sh run-glob-test 2&> /tmp/run-glob-test
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-glob-test
+    cat /tmp/run-glob-test
     rm /tmp/run-glob-test
     exit 1
   else    

@@ -52,7 +52,7 @@ sh run-execscript 2&> /tmp/run-execscript
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-execscript
+    cat /tmp/run-execscript
     rm /tmp/run-execscript
     exit 1
   else    

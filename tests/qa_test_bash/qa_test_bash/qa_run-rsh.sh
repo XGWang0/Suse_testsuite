@@ -52,7 +52,7 @@ sh run-rsh 2&> /tmp/run-rsh
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-rsh
+    cat /tmp/run-rsh
     rm /tmp/run-rsh
     exit 1
   else    

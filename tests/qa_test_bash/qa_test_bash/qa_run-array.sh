@@ -55,7 +55,7 @@ sh run-array 2&> /tmp/run-array
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-array
+    cat /tmp/run-array
     rm /tmp/run-array
     exit 1
   else    

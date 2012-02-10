@@ -54,7 +54,7 @@ sh run-history 2&> /tmp/run-history
     echo "FAILED: bash test had an error :(" >&2
     echo "warning: all of these tests will fail if history has not been compiled" >&2
 echo "warning: into the shell" >&2
-    less /tmp/run-history
+    cat /tmp/run-history
     rm /tmp/run-history
     exit 1
   else    

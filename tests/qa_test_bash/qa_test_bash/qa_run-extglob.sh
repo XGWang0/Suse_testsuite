@@ -52,7 +52,7 @@ sh run-extglob 2&> /tmp/run-extglob
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-extglob
+    cat /tmp/run-extglob
     rm /tmp/run-extglob
     exit 1
   else    

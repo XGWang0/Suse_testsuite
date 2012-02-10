@@ -52,7 +52,7 @@ sh run-nquote 2&> /tmp/run-nquote
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-nquote
+    cat /tmp/run-nquote
     rm /tmp/run-nquote
     exit 1
   else    
