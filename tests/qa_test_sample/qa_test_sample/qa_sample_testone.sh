@@ -45,6 +45,7 @@ mkdir /$dirName
 if [ -d /$dirName ]
 then
 	echo "Yes! /$dirName was successfully created!"
+	rm -fr /$dirName
 	exit 0
 else
 	echo "Oops! /$dirName could not be created. That is unfortunate. Perhaps either you are not root, or your file system is really messed up. Bye!" >&2
