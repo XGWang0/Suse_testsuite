@@ -95,7 +95,7 @@ function test_action()
 	# Stop all
 	for SERVICE in smb nmb winbind ; do 
 		stopService $SERVICE || return $FAILED
-		sleep 2
+		sleep 10
 		checkService $SERVICE && return $FAILED
 		check_process_exists ${SERVICE}d
 		if [ $? -ne 1 ] ; then
@@ -110,7 +110,7 @@ function test_action()
 		# wait for prev. services to start/stop
 		sleep 2
 		startService $SERVICE || return $FAILED
-		sleep 2
+		sleep 10
 		checkService $SERVICE || return $FAILED
 		check_process_exists ${SERVICE}d
 		if [ $? -ne 0 ] ; then

@@ -147,7 +147,7 @@ function stop_service_and_check_status
 			printFailed "Error while stopping service $i"
 			return 1;
 		fi
-		sleep 2
+		sleep 10
 		if checkService $i ; then
 			printFailed "Error while stopping service $i - service didn't stop"
 			return 1;
@@ -166,7 +166,7 @@ function start_service_and_check_status
 			printFailed "Error while starting service $i"
 			return 1;
 		fi
-		sleep 2
+		sleep 10
 		if ! checkService $i ; then
 			printFailed "Error while starting service $i - service didn't start"
 			return 1;
@@ -185,7 +185,7 @@ function restart_service_and_check_status
 			printFailed "Error while restarting service $i"
 			return 1;
 		fi
-		sleep 2
+		sleep 10
 		if ! checkService $i ; then
 			printFailed "Error while restarting service $i - service didn't start"
 			return 1;
