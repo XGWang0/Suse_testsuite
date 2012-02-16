@@ -70,9 +70,10 @@ timer 1200
 fg 1 sort_lsb  /usr/share/qa/qa_test_coreutils/sort_lsb.sh
 wait
 
-timer 1200
-fg 1 tty_lsb  /usr/share/qa/qa_test_coreutils/tty_lsb.sh
-wait
+#tty_lsb should be tested on tty console. stty console will failed (ssh connecting)
+#timer 1200
+#fg 1 sort_lsb  /usr/share/qa/qa_test_coreutils/sort_lsb.sh
+#wait
 
 timer 1200
 fg 1 uniq_lsb  /usr/share/qa/qa_test_coreutils/uniq_lsb.sh
