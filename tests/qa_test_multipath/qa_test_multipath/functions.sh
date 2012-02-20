@@ -39,10 +39,12 @@ SP=`cat /etc/SuSE-release | awk -F "=" '/PATCHLEVEL/''{ print $2 }'\
         | cut -c 2`
 
 if [ $CODE -eq 11 ]; then
-        PART="_part1"
+	PART="_part1"
+	udevwait="udevadm settle --timeout=30"
 fi
 if [ $CODE -eq 10 ]; then
-        PART="-part1"
+	PART="-part1"
+	udevwait="udevsettle --timeout=30"
 fi
 
 if [ -z $TARGET ];then
@@ -62,7 +64,7 @@ fi
 #get device name
 function get_paths ()
 {
-if [ $CODE -eq 11 -a $SP -eq 1 ];then
+if [ $CODE -eq 11 ];then
 PATHS=( "" `multipathd -k"list map $map topology"|sed -n '/[0-9]:[0-9]/ p'|cut -c 2- | awk -F " " '{print $3}'`)
 else
 PATHS=( "" `multipathd -k"list map $map topology"|sed -n '/[0-9]:[0-9]/ p'| cut -d " " -f 4`)
@@ -75,16 +77,15 @@ function paths_status ()
 PATHS_STATUS=( "" `multipathd -k"list map $map topology"|sed -n '/[0-9]:[0-9]/ p'| sed -r 's/.*(active|failed|enabled).*/\1/'`)
 }
 
-#fail path
-function fail_path ()
+#recover/fail path
+function trigger_path ()
 {
-echo "offline" > /sys/block/${PATHS[$1]}/device/state
-}
-
-#recover path
-function recover_path ()
-{
-echo "running" > /sys/block/${PATHS[$1]}/device/state
+if [ "$2" = "fail" ];then
+	cmd="offline"
+elif [ "$2" = "recover" ];then
+	cmd="running"
+fi
+echo "$cmd" > /sys/block/${PATHS[$1]}/device/state
 }
 
 #I/O
@@ -107,23 +108,15 @@ function check_data () {
 	return 1;
         fi
 }
-function check_active {
+function check_path {
 	echo "path ${PATHS[$1]} is ${PATHS_STATUS[$1]}"
-	if [ ${PATHS_STATUS[$1]} = "active" ];then
+	if [ ${PATHS_STATUS[$1]} = "$2" ];then
 	return 0;
 	else 
 	return 1;
 	fi
 }
 
-function check_failed {
-	echo "path ${PATHS[$1]} is ${PATHS_STATUS[$1]}"
-        if [ ${PATHS_STATUS[$1]} = "failed" ];then
-        return 0;
-        else 
-        return 1;
-        fi
-}
 #clean-up
 function cleanup () 
 {
@@ -131,8 +124,8 @@ function cleanup ()
         cat /proc/mounts | grep $map$PART && umount /dev/mapper/$map$PART
 	rm -rf /mnt/$map
 	parted -s /dev/mapper/$map rm 1
-	udevsettle
-        multipath -f $map
+	$udevwait
+	[ ! "$HW" ] && multipath -f $map
 }
 
 function iscsi_disconnect () 
@@ -152,7 +145,7 @@ function iscsi_connect ()
         iscsiadm -m node -T $TARGET_DISK -u
         iscsiadm -m node -T $TARGET_DISK -o delete
         if [ $? -ne 0 ]; then
-              echo " delete failed"
+              echo "delete failed"
                 exit 1;
         fi
         fi
@@ -170,6 +163,8 @@ function iscsi_connect ()
                 exit 1;
         fi
 	echo "iSCSI connected"
+	#wait until udev finishes his jobs
+	$udevwait
 }
 
 config_prepare ()
@@ -234,15 +229,22 @@ function prepare ()
         fi
 
 	#multipathd -k"reconfigure"
+	echo "probe multipath maps"
 	multipath -v2
-	udevsettle
+	$udevwait
+	if [ -b /dev/mapper/$map ];
+		then
+			echo "$map created"
+		else
+			echo "$map creation failed"
+	fi
         echo "create fs"
         parted -s /dev/mapper/$map mklabel msdos
         parted -s /dev/mapper/$map mkpart primary 0 $PART_SIZE
-	udevsettle
+	$udevwait
         if [ $CODE -eq 10 ];then
-        kpartx -a -p -part /dev/mapper/$map
-	udevsettle
+	kpartx -a -p -part /dev/mapper/$map
+	$udevwait
         fi
         if [ ! -f /mnt/$map ]; then
         mkdir -p /mnt/$map
