@@ -55,7 +55,7 @@ Authors:
 
 %setup -n autotest-autotest-2b0da9d
 
-%patch0 -p0
+%patch0 -p1
 %build
 
 %install
