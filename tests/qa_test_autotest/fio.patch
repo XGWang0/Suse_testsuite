@@ -1,0 +1,21 @@
+--- fio.py	2012-02-20 17:30:59.996406667 +0800
++++ autotest-autotest-2b0da9d/client/tests/fio/fio.py	2012-02-20 17:32:20.284409499 +0800
+@@ -9,8 +9,7 @@
+         self.job.require_gcc()
+ 
+ 
+-    # http://brick.kernel.dk/snaps/fio-1.16.5.tar.bz2
+-    def setup(self, tarball = 'fio-1.16.5.tar.bz2'):
++    def setup(self, tarball = 'fio-2.0.3.tar.gz'):
+         tarball = utils.unmap_url(self.bindir, tarball, self.tmpdir)
+         utils.extract_tarball_to_dir(tarball, self.srcdir)
+ 
+@@ -21,7 +20,7 @@
+         var_cflags  = 'CFLAGS="' + cflags + '"'
+ 
+         os.chdir(self.srcdir)
+-        utils.system('patch -p1 < ../Makefile.patch')
++        #utils.system('patch -p1 < ../Makefile.patch')
+         utils.system('%s %s make' % (var_ldflags, var_cflags))
+ 
+ 

@@ -37,6 +37,8 @@ Source3:        autotest-autotest-%{version}.rpmlintrc
 Source4:        qa_test_autotest.8
 Source5:	qa_test_autotest-config
 Source6:	pre-kvm.sh
+Source7:	fio-2.0.3.tar.gz
+Patch0: 	fio.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -53,6 +55,7 @@ Authors:
 
 %setup -n autotest-autotest-2b0da9d
 
+%patch0 -p0
 %build
 
 %install
@@ -68,6 +71,7 @@ install -m 644 %{S:5} $RPM_BUILD_ROOT/usr/lib/ctcs2/config/autotest
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/lib/autotest
 cp -a client/* $RPM_BUILD_ROOT/usr/lib/autotest
+cp %{S:7} $RPM_BUILD_ROOT/usr/lib/autotest/tests/fio/
 cp %{S:1} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
 install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 
