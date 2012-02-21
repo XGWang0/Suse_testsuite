@@ -82,9 +82,9 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT%{_docdir}/%{name}
-#install -m 644 %{S:3} $RPM_BUILD_ROOT%{_docdir}/%{name}
-#install -m 644 %{S:4} $RPM_BUILD_ROOT%{_docdir}/%{name}
-#install -m 644 %{S:5} $RPM_BUILD_ROOT%{_docdir}/%{name}
+install -m 644 %{S:3} .
+install -m 644 %{S:4} .
+install -m 644 %{S:5} .
 
 ln -s ../%name/tcf/qa_sw_multipath.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%name/tcf/qa_hw_multipath.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
