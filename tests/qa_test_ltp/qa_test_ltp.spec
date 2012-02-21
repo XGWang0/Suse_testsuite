@@ -36,6 +36,7 @@ Provides:	ltp ltp-ctcs2-glue
 Obsoletes:	ltp ltp-ctcs2-glue
 Requires:       bash
 Requires:       perl
+Requires:      	qa_lib_ctcs2 
 Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
