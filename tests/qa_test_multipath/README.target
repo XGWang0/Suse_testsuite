@@ -22,4 +22,3 @@ Also you need to specify:
 PART_SIZE to fit capacity of your disk
 and
 TARGET= (ip or hostname of your iSCSI target)
-
