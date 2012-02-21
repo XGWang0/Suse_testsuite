@@ -1,6 +1,6 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2011-2012 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -23,61 +23,116 @@
 # ****************************************************************************
 #
 
-
-LSB_VERSION="4.0"
-
 #############################################################################
-# Initial tests (find essential tools, and prevent mysterious errors later)
+# Checking for essential utilities
 #############################################################################
-
-if [ "$UID" -ne "0" ] ; then
-	echo
-	echo "Error: This script must be run as the root user."
-	exit 1
-fi
-
-echo -n "Checking architecture... "
-ARCH=`uname -m`
-if [ "$?" -ne "0" ] ; then
-	echo
-	echo "Error: 'uname -r' failed, cannot determine architecture."
-	exit 1
-fi
-echo "$ARCH"
-
-which "lsb_release" >/dev/null 2>&1
-if [ "$?" -ne "0" ] ; then
-	echo
-	echo "Error: Could not find the 'lsb_release' utility;"
-	echo "check that the 'lsb' package is installed."
-	exit 1
-fi
-
-lsb_release | grep "$LSB_VERSION" >/dev/null 2>&1
-if [ "$?" -ne "0" ] ; then
-	echo
-	echo "Error: 'lsb_release' does not report LSB $LSB_VERSION compatibility."
-	echo "LSB tests won't work without it; please check why is it so."
- 	exit 1
-fi
 
 WGET=`which wget`
 if [ -z "$WGET" ] ; then
-	echo
-	echo "Error: wget utility not found"
+	echo "Error: 'wget' utility not found"
 	exit 1
 fi
 
 RPM=`which rpm`
 if [ -z "$RPM" ] ; then
-	echo
-	echo "Error: rpm utility not found (is this a RPM-based distro?)"
+	echo "Error: 'rpm' utility not found (is this a RPM-based distro?)"
 	exit 1
 fi
 
-RPMEXT="$ARCH.rpm"
-if [ "$ARCH" == "x86" ] || [ "$ARCH" == "i686" ] ; then
+which "uname" >/dev/null 2>&1
+if [ "$?" -ne "0" ] ; then
+	echo "Error: 'uname' utility not found"
+	exit 1
+fi
+
+which "lsb_release" >/dev/null 2>&1
+if [ "$?" -ne "0" ] ; then
+	echo "Error: 'lsb_release' utility not found"
+	echo "(you may need to explicitly install the 'lsb' package)"
+	exit 1
+fi
+
+#############################################################################
+# Overridable parameters
+#############################################################################
+
+# Which version of LSB we want to run tests for.
+# Reasonable options are currently 4.0, 4.1.
+if [ -z "$LSB_VERSION" ] ; then
+	LSB_VERSION="4.0"
+fi
+echo "LSB version to test against: $LSB_VERSION"
+
+# Directory for downloaded packages.
+if [ -z "$LOCAL_PKG_DIR" ] ; then
+	LOCAL_PKG_DIR="/var/tmp/lsbtest-rpms"
+fi
+echo "Locally stored packages are in: $LOCAL_PKG_DIR"
+
+# List of tests to run. By default, almost all tests are run.
+#
+# Use "/opt/lsb/test/manager/utils/dist-checker.pl --list" to get a list
+# of all possible tests. "all" runs all tests.
+#
+if [ -z "$TEST_LIST" ] ; then
+	TEST_LIST="cmdchk libchk libstdcpp cpp-t2c tcl expect python perl core xts5 desktop desktop-t2c xts5 qt3-azov qt4-azov olver"
+fi
+echo "Tests to be run: $TEST_LIST"
+
+#############################################################################
+# Detecting platform information
+#############################################################################
+
+echo -n "Checking architecture... "
+ARCH=`uname -m`
+
+# To make things more interesting, LSB repos use different arch names
+# than the official ones, and yet different extensions for RPMs.
+if [ "$ARCH" == "x86" ] || [ "$ARCH" == "i686" ]; then
+	LSB_ARCH="ia32"
 	RPMEXT="i486.rpm"
+elif [ "$ARCH" == "x86_64" ] ; then
+	LSB_ARCH="x86_64"
+	RPMEXT="x86_64.rpm"
+elif [ "$ARCH" == "ppc" ] ; then
+	LSB_ARCH="ppc32"
+	RPMEXT="ppc.rpm"
+elif [ "$ARCH" == "ppc64" ] ; then
+	LSB_ARCH="ppc64"
+	RPMEXT="ppc64.rpm"
+elif [ "$ARCH" == "ia64" ] ; then
+	LSB_ARCH="ia64"
+	RPMEXT="ia64.rpm"
+elif [ "$ARCH" == "s390" ] ; then
+	LSB_ARCH="s390"
+	RPMEXT="s390.rpm"
+elif [ "$ARCH" == "s390x" ] ; then
+	LSB_ARCH="s390x"
+	RPMEXT="s390x.rpm"
+else
+	echo "$ARCH"
+	echo
+	echo "Error: unrecognized architecture '$ARCH'."
+	exit 1
+fi
+
+echo "$ARCH (using '$LSB_ARCH' for repo, '$RPMEXT' for RPMs)"
+
+echo -n "Checking reported LSB version (lsb_release)... "
+REPORTED_LSB_VERSION=`lsb_release -v -s`
+echo $REPORTED_LSB_VERSION
+echo "$REPORTED_LSB_VERSION" | grep "$LSB_VERSION" >/dev/null 2>&1
+if [ "$?" -ne "0" ] ; then
+	echo
+	echo "Warning: 'lsb_release' does not report compliance for $LSB_VERSION."
+	echo "Some tests may fail just due to this fact."
+fi
+
+# From now on, we need root access.
+if [ "$UID" -ne "0" ] ; then
+	echo
+	echo "Error: This script must be run as the root user."
+	exit 1
 fi
 
 #############################################################################
@@ -86,8 +141,10 @@ fi
 
 echo "Downloading extra packages (if not already here):"
 
-LOCAL_PKG_DIR="/var/tmp/lsbtest-rpms"
-PKG_DIR="ftp://ftp.linux-foundation.org/pub/lsb/snapshots"
+# Remote directory to download the packages from.
+REPOSITORY="ftp://ftp.linux-foundation.org/pub/lsb/repositories/yum/lsb-$LSB_VERSION/repo-$ARCH"
+
+echo "Using URL: $REPOSITORY"
 
 function download_package() {
 	echo -n "Looking for $2... "
@@ -96,7 +153,7 @@ function download_package() {
 		echo "already present"
 	else
 		echo "downloading"
-		$WGET -N -q "$PKG_DIR/$1$2" -P "$LOCAL_PKG_DIR"
+		$WGET -N --retr-symlinks "$REPOSITORY/$1$2" -P "$LOCAL_PKG_DIR"
 		if [ "$?" -ne "0" ] ; then
 			echo
 			echo "Error: Download failed (maybe the file locations"
@@ -106,9 +163,9 @@ function download_package() {
 	fi
 }
 
-download_package "lsb-setup/" "lsb-setup-*.noarch.rpm"
-download_package "distribution-checker/" "lsb-dist-checker-*.$RPMEXT"
-download_package "lsb-xvfb/" "lsb-xvfb-*.$RPMEXT"
+download_package "" "lsb-setup-*.noarch.rpm"
+download_package "" "lsb-dist-checker-*.$RPMEXT"
+download_package "" "lsb-xvfb-*.$RPMEXT"
 
 echo "Installing extra packages (if not already installed):"
 
@@ -147,15 +204,6 @@ mkdir -p /var/log/qa/lsb >/dev/null 2>&1
 echo "Starting the test suite (this may need multiple hours)."
 
 TESTRUN_DIR="qa_lsb-`date +%Y-%m-%d-%Hh-%Mm-%Ss`"
-
-# Use an explicit TEST_LIST to select only specific tests, e.g.
-#
-#TEST_LIST='cmdchk libchk libstdcpp cpp-t2c core'
-#
-# Use "/opt/lsb/test/manager/utils/dist-checker.pl --list" to get a list
-# of all possible tests. "all" runs all tests.
-#
-TEST_LIST="cmdchk libchk libstdcpp cpp-t2c tcl expect python perl core xts5 desktop desktop-t2c xts5 qt3-azov qt4-azov olver"
 
 TERM=linux /opt/lsb/test/manager/utils/dist-checker.pl --testrun-id $TESTRUN_DIR -D -s "LSB $LSB_VERSION" $TEST_LIST
 
