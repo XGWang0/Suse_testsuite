@@ -27,7 +27,7 @@ Version:        0.5.2
 Release:        1
 Provides:	newburn
 Obsoletes:	newburn
-Requires:       ctcs2 
+Requires:       ctcs2 kernel-source
 Source0:        %{name}-%{version}.tar.bz2
 Source1:        memtst.tcf
 Source2:	qa_test_newburn.8
