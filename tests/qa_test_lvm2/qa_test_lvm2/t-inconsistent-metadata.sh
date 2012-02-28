@@ -40,14 +40,15 @@ vgscan 2>&1 | tee $TESTDIR/cmd.out
 not grep "Inconsistent metadata found for VG $vg" $TESTDIR/cmd.out
 check
 
-#FIXME: Not implemented
+if test is_sp2;then
 # vgdisplay fixes
-#init
-#vgdisplay 2>&1 | tee $TESTDIR/cmd.out
-#grep "Volume group \"$vg\" inconsistent" $TESTDIR/cmd.out
-#vgdisplay 2>&1 | tee $TESTDIR/cmd.out
-#not grep "Volume group \"$vg\" inconsistent" $TESTDIR/cmd.out
-#check
+init
+vgdisplay 2>&1 | tee $TESTDIR/cmd.out
+grep "Volume group \"$vg\" inconsistent" $TESTDIR/cmd.out
+vgdisplay 2>&1 | tee $TESTDIR/cmd.out
+not grep "Volume group \"$vg\" inconsistent" $TESTDIR/cmd.out
+check
+fi
 
 # lvs fixes up
 init
@@ -57,14 +58,15 @@ vgdisplay 2>&1 | tee $TESTDIR/cmd.out
 not grep "Inconsistent metadata found for VG $vg" $TESTDIR/cmd.out
 check
 
-#FIXME: Not implemented
+if test is_sp2;then
 # vgs fixes up as well
-#init
-#vgs 2>&1 | tee $TESTDIR/cmd.out
-#grep "Inconsistent metadata found for VG $vg" $TESTDIR/cmd.out
-#vgs 2>&1 | tee $TESTDIR/cmd.out
-#not grep "Inconsistent metadata found for VG $vg" $TESTDIR/cmd.out
-#check
+init
+vgs 2>&1 | tee $TESTDIR/cmd.out
+grep "Inconsistent metadata found for VG $vg" $TESTDIR/cmd.out
+vgs 2>&1 | tee $TESTDIR/cmd.out
+not grep "Inconsistent metadata found for VG $vg" $TESTDIR/cmd.out
+check
+fi
 
 echo Check auto-repair of failed vgextend - metadata written to original pv but not new pv
 vgremove -f $vg

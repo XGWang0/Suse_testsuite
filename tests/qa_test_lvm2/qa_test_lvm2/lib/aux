@@ -363,7 +363,7 @@ EOF
         echo >> $TESTDIR/CONFIG
     done
 	cp /etc/lvm/lvm.conf /root/lvm.conf.back
-    mv -f $TESTDIR/CONFIG /etc/lvm/lvm.conf
+	mv -f $TESTDIR/CONFIG /etc/lvm/lvm.conf
 }
 
 apitest() {

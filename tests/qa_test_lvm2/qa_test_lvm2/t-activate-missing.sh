@@ -19,7 +19,6 @@
 
 . /usr/share/qa/qa_test_lvm2/lib/test
 
-#exit 22 
 aux prepare_vg 4
 
 lvcreate -l1 -n linear1 $vg $dev1

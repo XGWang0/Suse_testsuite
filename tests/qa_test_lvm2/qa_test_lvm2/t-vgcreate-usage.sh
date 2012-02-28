@@ -90,55 +90,55 @@ check vg_field $vg max_pv 0
 check vg_field $vg vg_attr "wz--n-"
 vgremove -ff $vg
 
-#FIXME: --force, --yes, --zero not implemented
+if test is_sp2;then
 # Implicit pvcreate tests, test pvcreate options on vgcreate
 # --metadata{size|copies|type}, --zero
 # --dataalignment[offset]
-#pvremove $dev1 $dev2
-#vgcreate -c n $vg $dev1 $dev2
-#vgremove -f $vg
-#pvremove -f $dev1
-#
-#FIXME: label sector not implemented
-#for i in 0 1 2 3
-#do
-## vgcreate (lvm2) succeeds writing LVM label at sector $i
-#    vgcreate -c n --labelsector $i $vg $dev1
-#    dd if=$dev1 bs=512 skip=$i count=1 2>/dev/null | strings | grep LABELONE >/dev/null
-#    vgremove -f $vg
-#    pvremove -f $dev1
-#done
+pvremove $dev1 $dev2
+vgcreate -c n $vg $dev1 $dev2
+vgremove -f $vg
+pvremove -f $dev1
+
+for i in 0 1 2 3
+do
+# vgcreate (lvm2) succeeds writing LVM label at sector $i
+    vgcreate -c n --labelsector $i $vg $dev1
+    dd if=$dev1 bs=512 skip=$i count=1 2>/dev/null | strings | grep LABELONE >/dev/null
+    vgremove -f $vg
+    pvremove -f $dev1
+done
 
 # pvmetadatacopies
-#for i in 1 2
-#do
-#    vgcreate -c n --pvmetadatacopies $i $vg $dev1
-#    check pv_field $dev1 pv_mda_count $i
-#    vgremove -f $vg
-#    pvremove -f $dev1
-#done
-#not vgcreate -c n --pvmetadatacopies 0 $vg $dev1
-#pvcreate --metadatacopies 1 $dev2
-#vgcreate -c n --pvmetadatacopies 0 $vg $dev1 $dev2
-#check pv_field $dev1 pv_mda_count 0
-#check pv_field $dev2 pv_mda_count 1
-#vgremove -f $vg
-#pvremove -f $dev1
+for i in 1 2
+do
+    vgcreate -c n --pvmetadatacopies $i $vg $dev1
+    check pv_field $dev1 pv_mda_count $i
+    vgremove -f $vg
+    pvremove -f $dev1
+done
+not vgcreate -c n --pvmetadatacopies 0 $vg $dev1
+pvcreate --metadatacopies 1 $dev2
+vgcreate -c n --pvmetadatacopies 0 $vg $dev1 $dev2
+check pv_field $dev1 pv_mda_count 0
+check pv_field $dev2 pv_mda_count 1
+vgremove -f $vg
+pvremove -f $dev1
 
 # metadatasize, dataalignment, dataalignmentoffset
 #COMM 'pvcreate sets data offset next to mda area'
-#vgcreate -c n --metadatasize 100k --dataalignment 100k $vg $dev1
-#check pv_field $dev1 pe_start 200.00k
-#vgremove -f $vg
-#pvremove -f $dev1
+vgcreate -c n --metadatasize 100k --dataalignment 100k $vg $dev1
+check pv_field $dev1 pe_start 200.00k
+vgremove -f $vg
+pvremove -f $dev1
 
 # data area is aligned to 1M by default,
 # data area start is shifted by the specified alignment_offset
-#pv_align="1052160B" # 1048576 + (7*512)
-#vgcreate -c n --metadatasize 128k --dataalignmentoffset 7s $vg $dev1
-#check pv_field $dev1 pe_start $pv_align "--units b"
-#vgremove -f $vg
-#pvremove -f $dev1
+pv_align="1052160B" # 1048576 + (7*512)
+vgcreate -c n --metadatasize 128k --dataalignmentoffset 7s $vg $dev1
+check pv_field $dev1 pe_start $pv_align "--units b"
+vgremove -f $vg
+pvremove -f $dev1
+fi
 
 # metadatatype
 for i in 1 2

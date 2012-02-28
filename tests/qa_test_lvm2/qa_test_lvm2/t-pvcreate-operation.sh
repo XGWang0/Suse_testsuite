@@ -97,9 +97,10 @@ bogusuuid=fred
 # pvcreate rejects uuid option with less than 32 characters
 not pvcreate --uuid $bogusuuid $dev1
 
-#FIXME: Skipped
-#pvcreate rejects uuid option without restorefile
-#not pvcreate --uuid $uuid1 $dev1
+if test is_sp2;then
+pvcreate rejects uuid option without restorefile
+not pvcreate --uuid $uuid1 $dev1
+fi
 
 # pvcreate rejects uuid already in use
 pvcreate --uuid $uuid1 $dev1

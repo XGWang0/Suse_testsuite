@@ -133,12 +133,13 @@ check mirror_legs $vg $lv1 2
 #check mirror_no_temporaries $vg $lv1
 #check mirror_legs $vg $lv1 4
 
-#FIXME: mirrored not implemented
+if test is_sp2;then
 # Linear to mirror with mirrored log using --alloc anywhere
-#aux prepare_vg 5
-#lvcreate -l2 -n $lv1 $vg $dev1
-#lvconvert -m +1 --mirrorlog mirrored $vg/$lv1 $dev1 $dev2 --alloc anywhere
-#should check mirror $vg $lv1
+aux prepare_vg 5
+lvcreate -l2 -n $lv1 $vg $dev1
+lvconvert -m +1 --mirrorlog mirrored $vg/$lv1 $dev1 $dev2 --alloc anywhere
+should check mirror $vg $lv1
+fi
 
 # convert inactive mirror and start polling
 aux prepare_vg 5

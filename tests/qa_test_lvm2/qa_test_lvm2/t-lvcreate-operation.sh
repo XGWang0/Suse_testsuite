@@ -32,12 +32,13 @@ lvcreate -n$lv1 -l4 $vg $dev1
 lvcreate -n$lv2 -l4 -s $vg/$lv1
 cleanup_lvs
 
-#FIXME: Not implemented
+if test is_sp2;then
 # ---
 # Create mirror on two devices with mirrored log using --alloc anywhere
-#lvcreate -m 1 -l4 -n $lv1 --mirrorlog mirrored $vg --alloc anywhere $dev1 $dev2
-#cleanup_lvs
+lvcreate -m 1 -l4 -n $lv1 --mirrorlog mirrored $vg --alloc anywhere $dev1 $dev2
+cleanup_lvs
 # --
 # Create mirror on one dev with mirrored log using --alloc anywhere, should fail
-#not lvcreate -m 1 -l4 -n $lv1 --mirrorlog mirrored $vg --alloc anywhere $dev1
-#cleanup_lvs
+not lvcreate -m 1 -l4 -n $lv1 --mirrorlog mirrored $vg --alloc anywhere $dev1
+cleanup_lvs
+fi

@@ -23,6 +23,7 @@ lvconvert --mirrorlog core $vg/mirror
 not lvconvert -m 1 --mirrorlog disk $vg/mirror $dev3 2>&1 | tee $TESTDIR/errs
 grep "two steps" $TESTDIR/errs
 
-#FIXME: Not implemented
-#not lvconvert -m 1 --mirrorlog mirrored $vg/mirror $dev3 $dev4 2>&1 | tee $TESTDIR/errs
-#grep "two steps" $TESTDIR/errs
+if test is_sp2;then
+not lvconvert -m 1 --mirrorlog mirrored $vg/mirror $dev3 $dev4 2>&1 | tee $TESTDIR/errs
+grep "two steps" $TESTDIR/errs
+fi
