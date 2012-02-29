@@ -28,15 +28,15 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 
 Name:           qa_test_yast_HA
-License:		SUSE Proprietary
+License:	SUSE Proprietary
 Group:          SuSE internal
 Summary:        HA Yast tools UI Automation tests
-Provides:	qa_test_yast_HA
-Obsoletes:	qa_test_yast_HA
-Requires:       strongwind ctcs2 yast2-cluster yast2-iplb yast2-drbd
+Provides:	qa_yast_HA
+Obsoletes:	qa_yast_HA
+Requires:       strongwind ctcs2 yast2-cluster yast2-iplb yast2-drbd yast2-gtk
 Version:        0.1
 Release:        1
-Source0:        %name-%version.tar.bz2
+Source0:        %{name}-%{version}.tar.bz2
 Source1:        qa_yast_HA.tcf
 Source2:        test_yast_HA-run
 Source3:	qa_test_yast_HA.8
