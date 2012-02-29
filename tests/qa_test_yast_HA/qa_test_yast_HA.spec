@@ -36,7 +36,7 @@ Obsoletes:	qa_yast_HA
 Requires:       strongwind ctcs2 yast2-cluster yast2-iplb yast2-drbd yast2-gtk
 Version:        0.1
 Release:        1
-Source0:        %name-%version.tar.bz2
+Source0:        %{name}-%{version}.tar.bz2
 Source1:        qa_yast_HA.tcf
 Source2:        test_yast_HA-run
 Source3:	qa_test_yast_HA.8
