@@ -73,6 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa
 /usr/share/qa/tcf
 /usr/share/qa/tools
+%doc COPYING
 
 %changelog
 * Tue Feb 28 2012 - cachen@suse.com
