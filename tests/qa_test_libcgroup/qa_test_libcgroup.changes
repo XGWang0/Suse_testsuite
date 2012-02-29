@@ -1,0 +1,15 @@
+-------------------------------------------------------------------
+Tue Apr  5 16:21:27 UTC 2011 - dvaleev@novell.com
+
+- Fix 64 bit library path 
+
+-------------------------------------------------------------------
+Fri Apr  1 11:10:20 UTC 2011 - dvaleev@novell.com
+
+- fix wrong test path
+
+-------------------------------------------------------------------
+Fri Apr  1 11:01:36 UTC 2011 - dvaleev@novell.com
+
+- initial version 
+

@@ -1,0 +1,11 @@
+--- src/Makefile.old	2011-04-04 16:24:46.000000000 +0200
++++ src/Makefile	2011-04-04 16:24:53.000000000 +0200
+@@ -15,7 +15,7 @@
+ 
+ 
+ 
+-LIBDIR = /usr/lib
++LIBDIR = /usr/lib64
+ pkgdatadir = $(datadir)/libcgroup
+ pkgincludedir = $(includedir)/libcgroup
+ pkglibdir = $(libdir)/libcgroup
