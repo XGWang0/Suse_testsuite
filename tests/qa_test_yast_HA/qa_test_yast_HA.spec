@@ -33,7 +33,7 @@ Group:          SuSE internal
 Summary:        HA Yast tools UI Automation tests
 Provides:	qa_yast_HA
 Obsoletes:	qa_yast_HA
-Requires:       strongwind ctcs2 yast2-cluster yast2-iplb yast2-drbd yast2-gtk
+Requires:       strongwind ctcs2 python-pexpect yast2-cluster yast2-iplb yast2-drbd yast2-gtk
 Version:        0.1
 Release:        1
 Source0:        %{name}-%{version}.tar.bz2
