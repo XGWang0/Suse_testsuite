@@ -21,10 +21,10 @@ Url:            http://samba.org/ftp/tridge/qa_test_dbench/
 Source0:        dbench-%{version}.tar.bz2
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:        qa_test_dbench.8
-Source3:        test_dbench-nfs-run
-Source4:        test_dbench-nfs4-run
-Source5:        test_dbench-run
-Source6:        test_dbench-run-old
+Source3:        qa_test_dbench-nfs-run
+Source4:        qa_test_dbench-nfs4-run
+Source5:        qa_test_dbench-run
+Source6:        qa_test_dbench-run-old
 Patch0:         verbose.diff
 Patch1:		fileio_leak_repair.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
