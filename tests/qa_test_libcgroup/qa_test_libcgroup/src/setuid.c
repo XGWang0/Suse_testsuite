@@ -34,14 +34,8 @@ int main(int argc, char *argv[])
 	/* UID of user */
 	uid_t uid;
 
-	/* Group data */
-	struct group *grp;
-
-	/* GID of group */
-	gid_t gid;
-
 	/* Return codes */
-	int ret;
+	int ret = 0;
 
 	if (argc < 2) {
 		printf("Usage: %s <uid_value> \n", argv[0]);

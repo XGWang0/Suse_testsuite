@@ -16,9 +16,11 @@
 
 #define __LIBCG_INTERNAL
 
+#define _LIBCGROUP_H_INSIDE
+
 __BEGIN_DECLS
 
-#include "./config.h"
+#include <libcgroup/config.h>
 #include <fts.h>
 #include <libcgroup.h>
 #include <limits.h>

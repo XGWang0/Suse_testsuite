@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "./libcgroup-internal.h"
+#include "libcgroup-internal.h"
 
 int main(int argc, char *argv[])
 {
