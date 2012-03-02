@@ -11,7 +11,7 @@
 # norootforbuild
 
 Name:		qa_test_libcgroup
-BuildRequires:	ctcs2 qa_dummy
+BuildRequires:	ctcs2 
 License:	GPL v2 or later
 Group:		SuSE internal
 Summary:	libcgroup automated testsuite
