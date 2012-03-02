@@ -27,7 +27,8 @@
 ##############################################################################
 # Written by:  Cachen Chen <cachen@novell.com>
 # Date:        03/01/2012
-# Description: Set up hosts on both nodes, nodes can connection with hostname
+# Description: remote connection and setup functions, use python expect module
+#              to control interaction
 ##############################################################################
 
 import pexpect
