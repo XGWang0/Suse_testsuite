@@ -22,6 +22,7 @@ Source0:	%{name}-%{version}.tar.bz2
 Source2:	libcgroup-run
 Obsoletes:	qa_libcgroup
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+BuildArch:      noarch
 
 %description
 libcgroup automated testsuite
