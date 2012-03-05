@@ -11,18 +11,18 @@
 # norootforbuild
 
 Name:		qa_test_libcgroup
-BuildRequires:	ctcs2 qa_dummy
+BuildRequires:	ctcs2 
 License:	GPL v2 or later
 Group:		SuSE internal
 Summary:	libcgroup automated testsuite
 Requires:	libcgroup1 libcgroup-devel
 Version:	1.0
 Release:	1
-Source0:	%name.tar.bz2
+Source0:	%{name}-%{version}.tar.bz2
 Source2:	libcgroup-run
-Patch0:		64bit.patch
 Obsoletes:	qa_libcgroup
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+BuildArch:      noarch
 
 %description
 libcgroup automated testsuite
@@ -31,9 +31,6 @@ libcgroup upstream tests
 
 %prep
 %setup -q -n %{name}
-%ifarch ppc64 s390x x86_64
-%patch0
-%endif
 
 %build
 
@@ -43,7 +40,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT%{_docdir}/%{name}
 
-ln -s ../%name/tcf/qa_libcgroup.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../%name/tcf/qa_test_libcgroup.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 
