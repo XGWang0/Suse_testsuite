@@ -103,4 +103,31 @@ def ping_test(node_ip, node_pwd, ping_hostname):
 
     connect.sendline('exit')
 
+def setup_UItest(node_ip, node_pwd, boolean=True):
+    '''
+    Enable Accessibility for UI test, restart gnome session to load at-spi process
+    '''
+    EOF_line = "<<EOF\n[Desktop Entry]\nType=Application\nExec=xhost +\nHidden=false\nX-Gnome-Autostart-enabled=true\nName=xhost\nComment=xhost + to allow hamsta run UI tests\nEOF"
+    xhost_path = "/root/.config/autostart/xhost.desktop"
 
+    connect = ssh_connect(node_ip, node_pwd)
+
+    # enable accessibility
+    connect.sendline('gconftool-2  -s --type=Boolean /desktop/gnome/interface/accessibility %s' % boolean)
+    connect.expect([pexpect.TIMEOUT,"#|->"])
+
+    # enable xhost +
+    connect.sendline('ls %s' % xhost_path)
+    connect.expect([pexpect.TIMEOUT,"#|->"])
+    if re.search('cannot access', connect.before):
+        connect.sendline('mkdir -p /root/.config/autostart')
+        connect.expect([pexpect.TIMEOUT, "#|->"])
+        connect.sendline('cat >>%s %s' % (xhost_path, EOF_line))
+        connect.expect([pexpect.TIMEOUT, "#|->"])
+        print connect.before
+
+    # restart gnome session
+    connect.sendline('rcxdm restart')
+    connect.expect(pexpect.TIMEOUT)
+
+    connect.sendline('exit')
