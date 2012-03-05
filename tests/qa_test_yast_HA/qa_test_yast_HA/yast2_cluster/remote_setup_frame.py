@@ -38,11 +38,11 @@ import re
 from time import sleep
 from yast2_cluster_config import *
 
-def ssh_connect(node_ip, node_pwd):
+def ssh_connect(node_ip, node_pwd, user="root"):
     '''
     SSH remote connect to node
     '''
-    connect = pexpect.spawn('ssh -X %s' % node_ip)
+    connect = pexpect.spawn('ssh -X %s@%s' % (user, node_ip))
     expects = connect.expect([pexpect.TIMEOUT, 'Password:', "#|->"])
     if expects == 1:
         connect.sendline(node_pwd)
@@ -103,7 +103,7 @@ def ping_test(node_ip, node_pwd, ping_hostname):
 
     connect.sendline('exit')
 
-def setup_UItest(node_ip, node_pwd, boolean=True):
+def setup_UItest(node_ip, node_pwd, user="root", boolean=True):
     '''
     Enable Accessibility for UI test, restart gnome session to load at-spi process
     '''
@@ -120,7 +120,7 @@ def setup_UItest(node_ip, node_pwd, boolean=True):
     connect.sendline('ls %s' % xhost_path)
     connect.expect([pexpect.TIMEOUT,"#|->"])
     if re.search('cannot access', connect.before):
-        connect.sendline('mkdir -p /root/.config/autostart')
+        connect.sendline('mkdir -p /%s/.config/autostart' % user)
         connect.expect([pexpect.TIMEOUT, "#|->"])
         connect.sendline('cat >>%s %s' % (xhost_path, EOF_line))
         connect.expect([pexpect.TIMEOUT, "#|->"])
