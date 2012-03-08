@@ -32,4 +32,6 @@ for dir in $wlist;do
   cd - > /dev/null
 done > /usr/share/qa/qa_test_apache_testsuite/tcf/qa_apache_testsuite.tcf
 
+export LC_ALL=C
+
 $CTCS2_DIR/tools/run $TCF_DIR/qa_apache_testsuite.tcf
