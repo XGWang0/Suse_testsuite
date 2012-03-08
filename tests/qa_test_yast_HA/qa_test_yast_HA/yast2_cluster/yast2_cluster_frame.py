@@ -61,6 +61,21 @@ def removeFile(path):
     if os.path.exists(path):
         os.system('rm -fr %s' % path)
 
+def checkInfo(info, f_path):
+    '''
+    Checking informations are expected in the file
+    '''
+    result = os.system('grep "%s" %s' % (info, f_path))
+    if result != 0:
+        raise Exception, "%s doesn't exist in %s" % (info, f_path)
+
+def checkProcess(p_name):
+    '''
+    Checking process is running
+    '''
+    if os.system('pgrep -xl %s' % p_name) is None:
+        raise Exception, "%s is not running" % p_name
+
 def press (x, y, button=1, log=True):
     """
     Synthesize a mouse button press at (x,y)
