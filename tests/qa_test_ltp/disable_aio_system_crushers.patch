@@ -2,18 +2,18 @@ Index: ltp-full-20110606/runtest/ltp-aiodio.part2
 ===================================================================
 --- ltp-full-20110606.orig/runtest/ltp-aiodio.part2
 +++ ltp-full-20110606/runtest/ltp-aiodio.part2
-@@ -36,8 +36,6 @@ ADSP034 aiodio_sparse -i 64 -a 8k  -r 8k
- ADSP035 aiodio_sparse -i 4 -a 8k  -r 32k -w 4096k -s 16384k -n 32
- ADSP036 aiodio_sparse -i 4 -a 8k  -r 32k -w 4096k -s 16384k -n 64
- ADSP037 aiodio_sparse -i 4 -a 8k  -r 8k -w 18192k -s 72768k -n 128
--ADSP038 aiodio_sparse -i 4 -a 8k  -r 8k -w 18192k -n 512 
--ADSP039 aiodio_sparse -i 4 -a 8k  -r 64k -w 18192k -n 1000
+@@ -36,8 +36,6 @@ ADSP034 aiodio_sparse -i 64 -a 8k
+ ADSP035 aiodio_sparse -i 4 -a 8k -w 4096k -s 16384k -n 32
+ ADSP036 aiodio_sparse -i 4 -a 8k -w 4096k -s 16384k -n 64
+ ADSP037 aiodio_sparse -i 4 -a 8k -w 18192k -s 72768k -n 128
+-ADSP038 aiodio_sparse -i 4 -a 8k -w 18192k -n 512 
+-ADSP039 aiodio_sparse -i 4 -a 8k -w 18192k -n 1000
  ADSP040 dio_sparse 
  ADSP041 dio_sparse -s 180k
- ADSP042 dio_sparse -dd -s 1751k -r 18k -w 11k
-@@ -76,5 +74,3 @@ ADSP074 dio_sparse  -a 8k -r 8k -w 1024k
- ADSP075 dio_sparse  -a 8k -r 32k -w 4096k -s 4096k -n 32
- ADSP076 dio_sparse  -a 8k -r 32k -w 8192k -s 8192k -n 64
- ADSP077 dio_sparse  -a 8k -r 8k -w 518192k -s 18192k -n 128
--ADSP078 dio_sparse  -a 8k -r 8k -w 518192k -s 518192k -n 512
--ADSP079 dio_sparse  -a 8k -r 64k -w 518192k -s 518192k -n 1000
+ ADSP042 dio_sparse -dd -s 1751k -w 11k
+@@ -76,5 +74,3 @@ ADSP074 dio_sparse  -a 8k -w 1024k
+ ADSP075 dio_sparse  -a 8k -w 4096k -s 4096k -n 32
+ ADSP076 dio_sparse  -a 8k -w 8192k -s 8192k -n 64
+ ADSP077 dio_sparse  -a 8k -w 518192k -s 18192k -n 128
+-ADSP078 dio_sparse  -a 8k -w 518192k -s 518192k -n 512
+-ADSP079 dio_sparse  -a 8k -w 518192k -s 518192k -n 1000

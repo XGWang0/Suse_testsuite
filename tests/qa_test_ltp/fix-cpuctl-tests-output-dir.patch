@@ -31,10 +31,10 @@ Signed-off-by: Jiri Benc <jbenc@suse.cz>
  testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh        |   45 +++++---
  2 files changed, 55 insertions(+), 41 deletions(-)
 
-Index: ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
+Index: ltp-full-20120104/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
 ===================================================================
---- ltp-full-20110915.orig/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
-+++ ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
+--- ltp-full-20120104.orig/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
++++ ltp-full-20120104/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_test.sh
 @@ -71,6 +71,13 @@ M=10;			# Default total num of tasks in
  PWD=`pwd`
  cd $LTPROOT/testcases/bin/
@@ -183,10 +183,10 @@ Index: ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_stress_t
  	cleanup;
  	cd $PWD
  	exit 0;		#to let PAN reprt success of test
-Index: ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
+Index: ltp-full-20120104/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
 ===================================================================
---- ltp-full-20110915.orig/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
-+++ ltp-full-20110915/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
+--- ltp-full-20120104.orig/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
++++ ltp-full-20120104/testcases/kernel/controllers/cpuctl/run_cpuctl_test.sh
 @@ -61,6 +61,13 @@ PWD=`pwd`
  cd $LTPROOT/testcases/bin/
  NUM_CPUS=`cat /proc/cpuinfo | grep -w -i processor | wc -l`
