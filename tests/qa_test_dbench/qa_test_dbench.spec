@@ -17,7 +17,7 @@ AutoReqProv:    on
 Version:        3.04
 Release:        112
 Summary:        File System Benchmark Similar to Netbench
-Url:            http://samba.org/ftp/tridge/qa_test_dbench/
+Url:            http://samba.org/ftp/tridge/dbench
 Source0:        dbench-%{version}.tar.bz2
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:        qa_test_dbench.8
