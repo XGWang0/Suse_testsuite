@@ -105,6 +105,7 @@ rm -fr $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_samba.8.gz
+/usr/share/qa
 /usr/share/qa/%name
 /usr/share/qa/tcf/qa_samba.tcf
 /usr/share/qa/tools/test_samba-run
