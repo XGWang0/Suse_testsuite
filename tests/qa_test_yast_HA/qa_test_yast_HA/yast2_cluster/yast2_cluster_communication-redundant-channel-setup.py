@@ -52,14 +52,6 @@ print doc
 
 conf_path = "/etc/corosync/corosync.conf"
 
-bind_net_addr_1 = bind_net_addr_1
-multicast_addr_1 = multicast_addr_1
-multicast_port_1 = multicast_port_1
-
-bind_net_addr_2 = bind_net_addr_2
-multicast_addr_2 = multicast_addr_2
-multicast_port_2 = multicast_port_2
-
 ###### Actions:
 # STEP1: Launch yast2 cluster
 app = launchYastApp("yast2 -gtk cluster&", "y2base")
@@ -68,7 +60,7 @@ yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
 # STEP2: set up Communication Channels 
 # (udp, 147.2.207.0, 226.94.1.2, 5406, Auto Generate Node ID)
-yFrame.findMenuItem("udp", checkShowing=False).click(log=True)
+yFrame.findMenuItem(transport_type, checkShowing=False).click(log=True)
 sleep(config.SHORT_DELAY)
 
 channel_texts = yFrame.findPanel("Channel").findAllTexts(None)
@@ -99,7 +91,7 @@ map(insert, redundant_texts, channel_info)
 sleep(config.SHORT_DELAY)
 
 # STEP4: Set up rrp mode to "passive"
-yFrame.findMenuItem("passive", checkShowing=False).click(log=True)
+yFrame.findMenuItem(rrp_mode, checkShowing=False).click(log=True)
 sleep(config.SHORT_DELAY)
 
 yFrame.findPushButton("Finish").mouseClick()
@@ -115,6 +107,6 @@ for m in channel_info:
     checkInfo(m, conf_path)
 
 # STEP2: rrp_mode shows "passive" in corosync.conf
-procedurelogger.expectedResult("rrp_mode shows passive in %s" % conf_path)
-checkInfo("rrp_mode:\tpassive", conf_path)
+procedurelogger.expectedResult("rrp_mode shows %s in %s" % (rrp_mode, conf_path))
+checkInfo("rrp_mode:\t%s" % rrp_mode, conf_path)
 
