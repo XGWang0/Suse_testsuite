@@ -69,12 +69,16 @@ def checkInfo(info, f_path):
     if result != 0:
         raise Exception, "%s doesn't exist in %s" % (info, f_path)
 
-def checkProcess(p_name):
+def checkProcess(p_name, status=True):
     '''
-    Checking process is running
+    Checking process: when status is True the process should be running, otherwise it should be stopped"
     '''
-    if os.system('pgrep -xl %s' % p_name) is None:
-        raise Exception, "%s is not running" % p_name
+    process = os.system('pgrep -xl %s' % p_name)
+
+    if status and process != 0:
+           raise Exception, "%s is not running" % p_name
+    elif status == False and process == 0:
+            raise Exception, "%s should be stopped" % p_name       
 
 def press (x, y, button=1, log=True):
     """
