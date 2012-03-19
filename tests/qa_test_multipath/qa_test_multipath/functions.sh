@@ -242,7 +242,7 @@ function prepare ()
         parted -s /dev/mapper/$map mklabel msdos
         parted -s /dev/mapper/$map mkpart primary 0 $PART_SIZE
 	$udevwait
-	kpartx -a -p $PART /dev/mapper/$map
+	kpartx -a -p "${PART%1}" /dev/mapper/$map
 	$udevwait
         if [ ! -f /mnt/$map ]; then
         mkdir -p /mnt/$map
