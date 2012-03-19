@@ -34,11 +34,15 @@ node2_pwd = "novell"
 
 # Communication Channels settings
 # Channel
+transport_type = "udp"
+
 bind_net_addr_1 = "147.2.207.0"
 multicast_addr_1 = "226.94.1.2"
-multicast_port_1 = 5406
+multicast_port_1 = "5406"
 
 # Redundant Channel
+rrp_mode = "passive"
+
 bind_net_addr_2 = "147.2.212.0"
 multicast_addr_2 = "226.94.1.3"
-multicast_port_2 = 5407
+multicast_port_2 = "5407"

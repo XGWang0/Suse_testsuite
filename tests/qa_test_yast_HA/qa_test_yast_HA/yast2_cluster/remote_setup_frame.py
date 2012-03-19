@@ -36,13 +36,12 @@ import sys
 import re
 
 from time import sleep
-from yast2_cluster_config import *
 
-def ssh_connect(node_ip, node_pwd):
+def ssh_connect(node_ip, node_pwd, user="root"):
     '''
     SSH remote connect to node
     '''
-    connect = pexpect.spawn('ssh -X %s' % node_ip)
+    connect = pexpect.spawn('ssh -X %s@%s' % (user, node_ip))
     expects = connect.expect([pexpect.TIMEOUT, 'Password:', "#|->"])
     if expects == 1:
         connect.sendline(node_pwd)
@@ -103,4 +102,61 @@ def ping_test(node_ip, node_pwd, ping_hostname):
 
     connect.sendline('exit')
 
+def setup_UItest(node_ip, node_pwd, user="root", boolean=True):
+    '''
+    Enable Accessibility for UI test, restart gnome session to load at-spi process
+    '''
+    EOF_line = "<<EOF\n[Desktop Entry]\nType=Application\nExec=xhost +\nHidden=false\nX-Gnome-Autostart-enabled=true\nName=xhost\nComment=xhost + to allow hamsta run UI tests\nEOF"
+    xhost_path = "/root/.config/autostart/xhost.desktop"
 
+    connect = ssh_connect(node_ip, node_pwd)
+
+    # enable accessibility
+    connect.sendline('gconftool-2  -s --type=Boolean /desktop/gnome/interface/accessibility %s' % boolean)
+    connect.expect([pexpect.TIMEOUT,"#|->"])
+    print connect.before
+
+    # enable xhost +
+    connect.sendline('ls %s' % xhost_path)
+    connect.expect([pexpect.TIMEOUT,"#|->"])
+    if re.search('cannot access', connect.before):
+        connect.sendline('mkdir -p /%s/.config/autostart' % user)
+        connect.expect([pexpect.TIMEOUT, "#|->"])
+        connect.sendline('cat >>%s %s' % (xhost_path, EOF_line))
+        connect.expect([pexpect.TIMEOUT, "#|->"])
+        print connect.before
+
+    # restart gnome session
+    connect.sendline('rcxdm restart')
+    connect.expect(pexpect.TIMEOUT)
+    print connect.before
+
+    connect.sendline('exit')
+
+def install_Patterns(node_ip, node_pwd, user="root", patterns=[]):
+    '''
+    Install require patterns
+    '''
+    connect = ssh_connect(node_ip, node_pwd)
+
+    for p in patterns:
+        connect.sendline("zypper search -i -t pattern %s |tail -n 1" % p)
+        connect.expect([pexpect.TIMEOUT,"#|->"])
+        print connect.before
+
+        if re.search('No packages found', connect.before):
+            connect.sendline("zypper install -t pattern %s" % p)
+            exp = connect.expect([pexpect.TIMEOUT,"Continue(?i)","#|->"])
+            if exp == 1:
+                print connect.before
+                sleep(10)
+                connect.sendline("y")
+                while True:
+                    index = connect.expect([pexpect.TIMEOUT,"#|->"])
+                    print connect.before
+                    if index == 0:
+                        pass
+                    elif index == 1:
+                        break
+
+    connect.sendline('exit')
