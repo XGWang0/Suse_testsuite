@@ -115,6 +115,7 @@ def setup_UItest(node_ip, node_pwd, user="root", boolean=True):
     # enable accessibility
     connect.sendline('gconftool-2  -s --type=Boolean /desktop/gnome/interface/accessibility %s' % boolean)
     connect.expect([pexpect.TIMEOUT,"#|->"])
+    print connect.before
 
     # enable xhost +
     connect.sendline('ls %s' % xhost_path)
@@ -129,5 +130,34 @@ def setup_UItest(node_ip, node_pwd, user="root", boolean=True):
     # restart gnome session
     connect.sendline('rcxdm restart')
     connect.expect(pexpect.TIMEOUT)
+    print connect.before
+
+    connect.sendline('exit')
+
+def install_Patterns(node_ip, node_pwd, user="root", patterns=[]):
+    '''
+    Install require patterns
+    '''
+    connect = ssh_connect(node_ip, node_pwd)
+
+    for p in patterns:
+        connect.sendline("zypper search -i -t pattern %s |tail -n 1" % p)
+        connect.expect([pexpect.TIMEOUT,"#|->"])
+        print connect.before
+
+        if re.search('No packages found', connect.before):
+            connect.sendline("zypper install -t pattern %s" % p)
+            exp = connect.expect([pexpect.TIMEOUT,"Continue(?i)","#|->"])
+            if exp == 1:
+                print connect.before
+                sleep(10)
+                connect.sendline("y")
+                while True:
+                    index = connect.expect([pexpect.TIMEOUT,"#|->"])
+                    print connect.before
+                    if index == 0:
+                        pass
+                    elif index == 1:
+                        break
 
     connect.sendline('exit')
