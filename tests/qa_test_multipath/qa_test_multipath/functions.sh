@@ -242,10 +242,8 @@ function prepare ()
         parted -s /dev/mapper/$map mklabel msdos
         parted -s /dev/mapper/$map mkpart primary 0 $PART_SIZE
 	$udevwait
-        if [ $CODE -eq 10 ];then
-	kpartx -a -p -part /dev/mapper/$map
+	kpartx -a -p $PART /dev/mapper/$map
 	$udevwait
-        fi
         if [ ! -f /mnt/$map ]; then
         mkdir -p /mnt/$map
         fi
