@@ -30,11 +30,36 @@
 # Description: Enable accessibility, enable xhost, restart gdm
 ##############################################################################
 
-from yast2_cluster_config import *
+import getopt
 from remote_setup_frame import *
 
+node_ip = None
+node_pwd = None
+
+opts = []
+args = []
+opts, args = getopt.getopt(sys.argv[1:],"hi:p:",["help","ip=","password="])
+
+for o, a in opts:
+    if o in ("-h", "--help"):
+        print "Usage: remote_setup_UI-test.py -i <machine ip> -p <machine password>"
+        sys.exit(0)
+    if o in ("-i", "--ip"):
+        node_ip = a
+    if o in ("-p", "--pwd"):
+        node_pwd = a
+
+if node_ip == None or node_pwd == None:
+    from yast2_cluster_config import *
+    if node1_ip and node1_pwd:
+        node_ip = node1_ip
+        node_pwd = node1_pwd
+    else:
+        print "Usage: remote_setup_UI-test.py -i <machine ip> -p <machine password>"
+        sys.exit(1)
+
 # Install UI related patterns
-install_Patterns(node1_ip, node1_pwd, user="root", patterns=["X11", "gnome", "desktop-gnome", "apparmor"])
+install_Patterns(node_ip, node_pwd, user="root", patterns=["X11", "gnome", "desktop-gnome", "apparmor"])
 
 # Enable accessibility technology which the machine you want to run HA UI tool
-setup_UItest(node1_ip, node1_pwd)
+setup_UItest(node_ip, node_pwd)

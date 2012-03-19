@@ -36,7 +36,6 @@ import sys
 import re
 
 from time import sleep
-from yast2_cluster_config import *
 
 def ssh_connect(node_ip, node_pwd, user="root"):
     '''
