@@ -102,12 +102,12 @@ def ping_test(node_ip, node_pwd, ping_hostname):
 
     connect.sendline('exit')
 
-def setup_UItest(node_ip, node_pwd, user="root", boolean=True):
+def setup_UItest(node_ip, node_pwd, user="root", boolean=True, auto_login=True):
     '''
     Enable Accessibility for UI test, restart gnome session to load at-spi process
     '''
     EOF_line = "<<EOF\n[Desktop Entry]\nType=Application\nExec=xhost +\nHidden=false\nX-Gnome-Autostart-enabled=true\nName=xhost\nComment=xhost + to allow hamsta run UI tests\nEOF"
-    xhost_path = "/root/.config/autostart/xhost.desktop"
+    xhost_path = "/%s/.config/autostart/xhost.desktop" % user
 
     connect = ssh_connect(node_ip, node_pwd)
 
@@ -125,6 +125,19 @@ def setup_UItest(node_ip, node_pwd, user="root", boolean=True):
         connect.sendline('cat >>%s %s' % (xhost_path, EOF_line))
         connect.expect([pexpect.TIMEOUT, "#|->"])
         print connect.before
+
+    # make user auto login X window
+    if auto_login:
+        EOF_line = "<<EOF\n\n[daemon]\nTimedLoginEnable=true\nAutomaticLoginEnable=true\nTimedLogin=%s\nAutomaticLogin=%s\nTimeLoginDelay=5\nEOF" % (user, user)
+        gdm_conf_path = "/etc/gdm/custom.conf"
+
+        connect.sendline('grep -c "\[daemon\]" %s' % gdm_conf_path)
+        connect.expect([pexpect.TIMEOUT,"#|->"])
+        print connect.before
+        if re.search('0', connect.before):
+            connect.sendline('cat >>%s %s' % (gdm_conf_path, EOF_line))
+            connect.expect([pexpect.TIMEOUT, "#|->"])
+            print connect.before
 
     # restart gnome session
     connect.sendline('rcxdm restart')
