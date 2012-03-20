@@ -91,12 +91,15 @@ find $RPM_BUILD_ROOT -type f -print0 | xargs -0 chmod -c o-w,u-s
 %defattr(-,root,root)
 /usr/share/man/man8/qa_test_newburn.8.gz
 /usr/lib/ctcs2
+%exclude /usr/lib/ctcs2/tools/test_newburn-memtst-run
+%exclude /usr/lib/ctcs2/bin/qa_test_newburn/memtst
+
 
 %files memtst
 %defattr(-,root,root)
-/usr/share/qa
-/usr/share/qa/tcf
 /usr/share/qa/tcf/memtst.tcf
+/usr/lib/ctcs2/tools/test_newburn-memtst-run
+/usr/lib/ctcs2/bin/qa_test_newburn/memtst
 
 %clean
 rm -rf $RPM_BUILD_ROOT
