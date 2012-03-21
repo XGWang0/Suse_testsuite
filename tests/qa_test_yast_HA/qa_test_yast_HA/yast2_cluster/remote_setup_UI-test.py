@@ -59,7 +59,7 @@ if node_ip == None or node_pwd == None:
         sys.exit(1)
 
 # Install UI related patterns
-install_Patterns(node_ip, node_pwd, user="root", patterns=["X11", "gnome", "desktop-gnome", "apparmor"])
+install_Patterns(node_ip, node_pwd, user="root", patterns=["X11", "gnome"])
 
-# Enable accessibility technology which the machine you want to run HA UI tool
+# Enable accessibility technology which the machine you want to run UI tool
 setup_UItest(node_ip, node_pwd)
