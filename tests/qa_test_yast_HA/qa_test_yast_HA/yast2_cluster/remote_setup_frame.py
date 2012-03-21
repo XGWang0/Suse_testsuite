@@ -42,8 +42,16 @@ def ssh_connect(node_ip, node_pwd, user="root"):
     SSH remote connect to node
     '''
     connect = pexpect.spawn('ssh -X %s@%s' % (user, node_ip))
-    expects = connect.expect([pexpect.TIMEOUT, 'Password:', "#|->"])
-    if expects == 1:
+    expects = connect.expect([pexpect.EOF, pexpect.TIMEOUT, 'Are you sure(?i)', 'Password:', "#|->"])
+    if expects == 0:
+        raise Exception, "Network error!"
+    elif expects == 2:
+        connect.sendline("yes")
+        exp = connect.expect([pexpect.TIMEOUT,'Password:', "#|->"])
+        if exp == 1:
+            connect.sendline(node_pwd)
+            connect.expect([pexpect.TIMEOUT, "#|->"])
+    elif expects == 3:
         connect.sendline(node_pwd)
         connect.expect([pexpect.TIMEOUT, "#|->"])
     else:
