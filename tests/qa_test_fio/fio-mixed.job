@@ -2,7 +2,7 @@
 
 [global]
 name=fio-sync
-;directory=tmpfiles
+directory=/tmp
 rw=randrw
 rwmixread=67
 rwmixwrite=33

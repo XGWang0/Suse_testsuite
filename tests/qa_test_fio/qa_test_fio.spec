@@ -10,6 +10,7 @@ Source1:		qa_test_fio.8
 Source2:		fio-mixed.job
 Source3:		fio-mixed.tcf
 Source4:		test_fio-mixed-run
+Source5:		do-fio-mixed.sh
 URL:			http://freshmeat.net/projects/fio/
 Group:			System/Benchmark
 License:		GPL v2 or later
@@ -61,6 +62,7 @@ install -m 755 -d $RPM_BUILD_ROOT%{qadir}/tcf
 install -m 644 %{S:3} $RPM_BUILD_ROOT%{qadir}/tcf
 install -m 755 -d $RPM_BUILD_ROOT%{qadir}/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT%{qadir}/tools
+install -m 755 %{S:5} $RPM_BUILD_ROOT%{qadir}/tools
 install -m 755 -d $RPM_BUILD_ROOT%{_mandir}/man8
 install -m 644 %{S:1} $RPM_BUILD_ROOT%{_mandir}/man8
 gzip $RPM_BUILD_ROOT%{_mandir}/man8/%{name}.8
