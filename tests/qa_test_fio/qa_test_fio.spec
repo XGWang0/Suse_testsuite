@@ -1,12 +1,15 @@
 # norootforbuild
 
 Name:			qa_test_fio
-Version:		1.35
+Version:		2.0.5
 Release:		0
 Summary:		Flexible I/O Tester/benchmarker
 # http://brick.kernel.dk/snaps/fio-%{version}.tar.gz
 Source:			fio-%{version}.tar.bz2
 Source1:		qa_test_fio.8
+Source2:		fio-mixed.job
+Source3:		fio-mixed.tcf
+Source4:		test_fio-mixed-run
 URL:			http://freshmeat.net/projects/fio/
 Group:			System/Benchmark
 License:		GPL v2 or later
@@ -37,6 +40,8 @@ Authors:
 --------
     Jens Axboe <jens.axboe@oracle.com>
 
+%define qadir /usr/share/qa
+
 %debug_package
 %prep
 %setup -q -n "fio-%{version}"
@@ -50,9 +55,15 @@ Authors:
 	mandir="%{_mandir}"
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
+install -m 755 -d $RPM_BUILD_ROOT%{qadir}/fio
+install -m 644 %{S:2} $RPM_BUILD_ROOT%{qadir}/fio
+install -m 755 -d $RPM_BUILD_ROOT%{qadir}/tcf
+install -m 644 %{S:3} $RPM_BUILD_ROOT%{qadir}/tcf
+install -m 755 -d $RPM_BUILD_ROOT%{qadir}/tools
+install -m 755 %{S:4} $RPM_BUILD_ROOT%{qadir}/tools
+install -m 755 -d $RPM_BUILD_ROOT%{_mandir}/man8
+install -m 644 %{S:1} $RPM_BUILD_ROOT%{_mandir}/man8
+gzip $RPM_BUILD_ROOT%{_mandir}/man8/%{name}.8
 %__make \
 	DESTDIR="%{buildroot}" \
 	prefix="%{_prefix}" \
@@ -69,12 +80,13 @@ test -e "$h" && %__ln_s -f "$h" COPYING
 
 %files
 %defattr(-, root, root)
-/usr/share/man/man8/qa_test_fio.8.gz
+%doc %{_mandir}/man8/qa_test_fio.8.gz
 %doc COPYING README examples
 %{_bindir}/fio
 %{_bindir}/fio_generate_plots
 %doc %{_mandir}/man1/fio.1*
 %doc %{_mandir}/man1/fio_generate_plots.1*
+%{qadir}
 
 %changelog
 # Local Variables:
