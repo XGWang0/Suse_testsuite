@@ -12,7 +12,7 @@
 
 
 Name:           qa_test_bonnie
-Url:            http://www.garloff.de/kurt/linux/qa_test_bonnie/
+Url:            http://www.garloff.de/kurt/linux/bonnie
 License:        Artistic
 Group:          System/Benchmark
 AutoReqProv:    on

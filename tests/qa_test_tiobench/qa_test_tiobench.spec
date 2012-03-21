@@ -12,7 +12,7 @@
 
 
 Name:           qa_test_tiobench
-Url:            http://sourceforge.net/projects/qa_test_tiobench
+Url:            http://sourceforge.net/projects/tiobench
 License:        GPL v2 or later
 Group:          System/Benchmark
 AutoReqProv:    on

@@ -90,7 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa
 %config /usr/share/qa/%name/local_config.sh
 %{_docdir}/%{name}
-%doc %{_docdir}/%{name}/README COPYING
+%doc README COPYING
 
 %changelog
 

@@ -26,14 +26,63 @@
 
 ##############################################################################
 # Written by:  Cachen Chen <cachen@novell.com>
-# Date:        03/05/2012
-# Description: Enable accessibility, enable xhost, restart gdm
+# Date:        03/07/2012
+# Description: Communication Channels: Redundant Channel setup test
 ##############################################################################
 
 from strongwind import *
 from yast2_cluster_config import *
-from remote_setup_frame import *
+from yast2_cluster_frame import *
 
-# Enable accessibility technology which the machine you want to run HA UI tool
-procedurelogger.action("Enable accessibility, enable xhost, restart gdm on %s" % node1_ip)
-setup_UItest(node1_ip, node1_pwd)
+doc="""
+Actions:
+
+STEP1: Launch yast2 cluster
+STEP2: Enable Security Auth
+STEP3: Generate Auth Key File
+
+Expected:
+
+STEP1: /etc/corosync/authkey is created
+"""
+
+print doc
+
+key_path = "/etc/corosync/authkey"
+
+###### Actions:
+
+# Remove the exist authkey
+removeFile(key_path)
+
+# STEP1: Launch yast2 cluster
+app = launchYastApp("yast2 -gtk cluster&", "y2base")
+
+yFrame = app.findFrame(re.compile('^Cluster - Communication'))
+
+# STEP2: Enable Security Auth
+yFrame.findTableCell("Security").mouseClick()
+sleep(config.SHORT_DELAY)
+
+enable_cbox = yFrame.findCheckBox("Enable Security Auth")
+if not enable_cbox.checked:
+    enable_cbox.mouseClick()
+    sleep(config.SHORT_DELAY)
+
+# STEP3: Generate Auth Key File
+yFrame.findPushButton("Generate Auth Key File").mouseClick()
+sleep(config.SHORT_DELAY)
+
+app.findDialog(None).findPushButton("OK").mouseClick()
+sleep(config.SHORT_DELAY)
+
+yFrame.findPushButton("Finish").mouseClick()
+sleep(config.MEDIUM_DELAY)
+
+###### Expected:
+
+# STEP1: /etc/corosync/authkey is created
+procedurelogger.expectedResult("%s is created" % key_path)
+if not os.path.exists(key_path):
+    raise Exception, key_path + " doesn't been created"
+
