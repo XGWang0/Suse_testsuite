@@ -3,6 +3,7 @@
 CONFIG=/usr/share/qa/fio/fio-mixed.job
 NEEDED_MB=1600
 
+# config
 if [ ! -r $CONFIG ]
 then
 	echo "Config file $CONFIG missing"
@@ -28,4 +29,9 @@ then
 	echo "Not enough disk space in $DIR : $MB free, $NEEDED_MB needed"
 	exit 11
 fi
+
+# run
 fio $CONFIG
+
+# cleanup
+rm $DIR/file*.*.*

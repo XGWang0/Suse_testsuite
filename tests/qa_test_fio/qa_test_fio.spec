@@ -58,11 +58,11 @@ Authors:
 %install
 install -m 755 -d $RPM_BUILD_ROOT%{qadir}/fio
 install -m 644 %{S:2} $RPM_BUILD_ROOT%{qadir}/fio
+install -m 755 %{S:5} $RPM_BUILD_ROOT%{qadir}/fio
 install -m 755 -d $RPM_BUILD_ROOT%{qadir}/tcf
 install -m 644 %{S:3} $RPM_BUILD_ROOT%{qadir}/tcf
 install -m 755 -d $RPM_BUILD_ROOT%{qadir}/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT%{qadir}/tools
-install -m 755 %{S:5} $RPM_BUILD_ROOT%{qadir}/tools
 install -m 755 -d $RPM_BUILD_ROOT%{_mandir}/man8
 install -m 644 %{S:1} $RPM_BUILD_ROOT%{_mandir}/man8
 gzip $RPM_BUILD_ROOT%{_mandir}/man8/%{name}.8
