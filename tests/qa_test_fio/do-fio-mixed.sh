@@ -24,10 +24,13 @@ then
 	exit 11
 fi
 MB=`expr $DF / 1024`
-if [ $MB -lt $NEEDED_MB ]
+if [ ! -z "$MB" ]
 then
-	echo "Not enough disk space in $DIR : $MB free, $NEEDED_MB needed"
-	exit 11
+	if [ $MB -lt $NEEDED_MB ]
+	then
+		echo "Not enough disk space in $DIR : $MB free, $NEEDED_MB needed"
+		exit 11
+	fi
 fi
 
 # run
