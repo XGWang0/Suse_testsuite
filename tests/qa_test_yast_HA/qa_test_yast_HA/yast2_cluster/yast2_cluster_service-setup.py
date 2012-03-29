@@ -84,7 +84,7 @@ sleep(config.MEDIUM_DELAY)
 # STEP1: openais services is enabled:  #chkconfig -l |grep openais |grep on
 procedurelogger.expectedResult("openais services is enabled")
 if os.system("chkconfig -l |grep openais |grep on") is None:
-    raise Exception, "openais services should be enabled"
+    raise Exception, "openais services didn't enabled"
 
 # STEP2: openais process is not running
 procedurelogger.expectedResult("openais process is not running")
