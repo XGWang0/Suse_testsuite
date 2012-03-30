@@ -33,9 +33,11 @@
 from strongwind import *
 from yast2_cluster_config import *
 from yast2_cluster_frame import *
+from remote_setup_frame import *
 
 doc="""
-Actions:
+
+TestCase1 Actions:
 
 STEP1: Launch yast2 cluster
 STEP2: Generate Pre-Shared-keys to create /etc/csync2/key_hagroup
@@ -47,6 +49,18 @@ Expected:
 
 STEP1: host server1 server2 shows in /etc/csync2/csync2.cfg
 STEP2: "chkconfig -l |grep csync2" shows "on"
+
+TestCase2 Actions:
+
+STEP1: copy /etc/csync2/csync2.cfg to server2
+STEP2: copy /etc/csync2/key_hagroup to server2
+STEP3: chkconfig csync2 on; chkconfig xinetd on
+STEP4: start xinetd process: #rcxineted start
+STEP5: start csync2: #csync2 -xv 2>&1 |grep "Finished with 0 errors"
+
+Expected:
+
+STEP1: csync finished with 0 errors
 """
 
 print doc
@@ -54,7 +68,7 @@ print doc
 cfg_path = "/etc/csync2/csync2.cfg"
 key_path = "/etc/csync2/key_hagroup"
 
-###### Actions:
+######TestCase1 Actions:
 
 # Clean the exist file
 removeFile(key_path)
@@ -121,3 +135,36 @@ checkInfo(node2_hostname, cfg_path)
 procedurelogger.expectedResult("csync2 services is enabled")
 if os.system("chkconfig -l |grep csync2 |grep on") is None:
     raise Exception, "csync2 services didn't enabled"
+
+######TestCase2 Actions:
+
+# STEP1: copy /etc/csync2/csync2.cfg to server2
+# STEP2: copy /etc/csync2/key_hagroup to server2
+copy_file = "/etc/csync2/csync2.cfg /etc/csync2/key_hagroup"
+copy_path = "/etc/csync2/"
+procedurelogger.action("copy %s to %s" % (copy_file, node2_ip))
+scp_run(node2_ip, node2_pwd, user="root", copy_file=copy_file, copy_path=copy_path)
+
+# STEP3: chkconfig csync2 on; chkconfig xinetd on
+procedurelogger.action("chkconfig to make csync2 and xinetd on")
+os.system("chkconfig csync2 on")
+os.system("chkconfig xinetd on")
+
+status=os.popen("chkconfig -l |grep -E \"csync2|xinetd\" |grep -c on").read().strip()
+if status != '2':
+    raise Exception, "csync2 or xinetd services didn't enabled"
+
+# STEP4: start xinetd process: #rcxinetd start
+procedurelogger.action("start xinetd process")
+if os.system("rcxinetd start") != 0:
+    raise Exception, "xinetd process doesn't start"
+
+# STEP5: start csync2: #csync2 -xv 2>&1 |grep "Finished with 0 errors"
+procedurelogger.action("start csync2")
+
+######Expected:
+
+# STEP1: csync finished with 0 errors
+procedurelogger.expectedResult("csync finished with 0 errors")
+if os.system("csync2 -xv 2>&1 |grep \"Finished with 0 errors\"") != 0:
+    raise Exception, "csync nodes with error"
