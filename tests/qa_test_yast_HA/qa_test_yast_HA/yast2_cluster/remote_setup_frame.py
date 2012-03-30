@@ -37,6 +37,25 @@ import re
 
 from time import sleep
 
+def scp_run(node_ip, node_pwd, user="root", copy_file=None, copy_path=None):
+    """
+    scp files to remote server
+    """
+    connect = pexpect.spawn('scp -r %s %s@%s:%s' % (copy_file, user, node_ip, copy_path))
+    expects = connect.expect([pexpect.EOF, pexpect.TIMEOUT, 'Are you sure(?i)', 'Password:', "#|->"])
+    if expects == 2:
+        connect.sendline("yes")
+        exp = connect.expect([pexpect.TIMEOUT,'Password:', "#|->"])
+        if exp == 1:
+            connect.sendline(node_pwd)
+            connect.expect([pexpect.TIMEOUT, "#|->"])
+    elif expects == 3:
+        connect.sendline(node_pwd)
+        connect.expect([pexpect.TIMEOUT, "#|->"])
+    else:
+        pass
+    print connect.before
+
 def ssh_connect(node_ip, node_pwd, user="root"):
     '''
     SSH remote connect to node
