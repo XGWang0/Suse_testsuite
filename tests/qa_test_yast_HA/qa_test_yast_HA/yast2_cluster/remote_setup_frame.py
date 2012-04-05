@@ -78,7 +78,6 @@ def ssh_connect(node_ip, node_pwd, user="root"):
     print connect.before
     return connect
 
-
 # ssh interaction to set up hostname
 def setup_hostname(node_ip, node_pwd, node_hostname):
     '''
@@ -200,3 +199,35 @@ def install_Patterns(node_ip, node_pwd, user="root", patterns=[]):
                         break
 
     connect.sendline('exit')
+
+def act_service(node_ip, node_pwd, user="root", service=None, status=None, check=False, process=None):
+    '''
+    To start, stop, restart service
+    '''
+    connect = ssh_connect(node_ip, node_pwd)
+
+    connect.sendline('%s %s' % (service, status))
+    connect.expect([pexpect.TIMEOUT,"#|->"])
+
+    compiles=[re.compile('.*No such file.*'), re.compile('.*command not found.*')]
+    for i in compiles:
+        if i.search(connect.before):
+	    raise RuntimeError, "Service doesn't exist"
+    print connect.before
+
+    if check:
+        check_process(connect, process)
+   
+    connect.sendline('exit')
+
+def check_process(connect, process):
+    '''
+    Check process is running or not
+    '''
+    connect.sendline('pgrep -xl %s' % process)
+    connect.expect([pexpect.TIMEOUT,"#|->"])
+
+    if not re.search('[1-9].*%s' % process, connect.before):
+        raise Exception, "%s process doesn't exist" % process
+
+    print connect.before
