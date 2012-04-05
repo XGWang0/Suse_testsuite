@@ -17,7 +17,7 @@ then
 	exit 11
 fi
 
-DF=`df $DIR | grep -v Filesystem | cut -c41-52`
+DF=`df $DIR | grep -v Filesystem | sed 's/\s\+/ /g' | cut -d\  -f4`
 if [ -z "$DF" ]
 then
 	echo "Could not free disk space in $DIR"

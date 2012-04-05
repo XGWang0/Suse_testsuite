@@ -44,6 +44,7 @@ Url:            http://www.linuxbase.org
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Summary:        The LSB test suite adapted for automatic runs.
 BuildArch:      noarch
+Obsoletes:	qa_lsb
 Requires:       perl wget lsb xorg-x11-Xvfb xorg-x11-fonts-100dpi
 Recommends:     libqt4 libqt4-sql libqt4-sql-sqlite libqt4-x11 libqt4-qt3support
 

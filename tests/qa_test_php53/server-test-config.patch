@@ -1,27 +1,18 @@
---- server-tests-config.php	2011-04-19 18:16:27.805000075 +0800
-+++ php-5.3.8/server-tests-config.php	2011-04-19 18:23:05.081000077 +0800
-@@ -1,7 +1,7 @@
- <?php
- /* this file may be duplicated to provide testing for
-    multiple php binaries or configurations.  It is used
--   with the -c option on server-tests.php.  All these
-+   with the -c option on run-tests2.php.  All these
-    settings will also go into the environment for tests
-    that are directly executed, so you can also set things
-    like PHPRC here to force an executable to use a
-@@ -9,32 +9,32 @@
+--- server-tests-config.php	2012-04-05 11:08:23.926944163 +0800
++++ php-5.3.8/server-tests-config.php	2012-04-05 11:08:30.742944450 +0800
+@@ -9,7 +9,7 @@
     
  $conf = array(
  /* path to the php source tree */
 -'TEST_PHP_SRCDIR'      =>    NULL,
-+'TEST_PHP_SRCDIR'      =>    '/usr/share/qa/qa_php5-5.3',
++'TEST_PHP_SRCDIR'      =>    '/usr/share/qa/qa_test_php53',
  
  /* executable that will be tested.  Not used for
     web based tests */
- 'TEST_PHP_EXECUTABLE'  =>    NULL,
+@@ -17,24 +17,25 @@
  
  /* php.ini to use when executing php */
--'PHPRC'                =>    NULL,
+ 'PHPRC'                =>    NULL,
 +'PHPRC'                =>    '/etc/php.ini',
  
  /* log format */
@@ -43,30 +34,27 @@
  
  /* base url prefixed to any requests */
 -'TEST_WEB_BASE_URL'    =>    NULL,
-+'TEST_WEB_BASE_URL'    =>    "http://localhost/php5-tests-5.3",
++'TEST_WEB_BASE_URL'    =>    'http://localhost/php53-tests',
  
  /* if set, copy phpt files into this directory,
     which should be accessable via an http server.  The
-@@ -48,7 +48,7 @@
+@@ -48,7 +49,7 @@
     TEST_WEB_BASE_URL=http://localhost/test
     TEST_BASE_PATH=/path/to/htdocs/test
  */
 -'TEST_BASE_PATH'   =>    NULL,
-+'TEST_BASE_PATH'   =>    '/srv/www/htdocs/php5-tests-5.3',
++'TEST_BASE_PATH'   =>    '/srv/www/htdocs/php53-tests',
  
  /* file extension of pages requested via http
     this allows for php to be configured to parse
-@@ -60,7 +60,9 @@
+@@ -60,6 +61,7 @@
  'TEST_CONTEXT_INFO'    =>    false,
  
  /* : or ; seperated list of paths */
--'TEST_PATHS'           =>    NULL
-+'TEST_PATHS'           =>    NULL,
-+
-+'time out'             =>    120,
++'TEST_WEB'             =>    true,
+ 'TEST_PATHS'           =>    NULL
  /* additional configuration items that may be set
     to provide proxy support for testes:
-   timeout
 @@ -71,4 +73,4 @@
  */
  );
