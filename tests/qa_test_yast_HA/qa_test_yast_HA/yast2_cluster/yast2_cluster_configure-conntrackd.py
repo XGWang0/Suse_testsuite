@@ -30,9 +30,8 @@
 # Description: Communication Channels: Redundant Channel setup test
 ##############################################################################
 
-from strongwind import *
 from yast2_cluster_config import *
-from yast2_cluster_frame import *
+from yast2_test_frame import *
 
 doc="""
 Actions:
@@ -51,13 +50,15 @@ conf_path = "/etc/corosync/corosync.conf"
 multicast_addr = multicast_addr_1
 group_num = "1"
 
+UItest = autoUITest()
+
 ###### Actions:
 
 # Remove exists conntrackd.conf
-removeFile("/etc/conntrackd/conntrackd.conf")
+UItest.removeFile("/etc/conntrackd")
 
 # Launch yast2 cluster
-app = launchYastApp("yast2 -gtk cluster&", "y2base")
+app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
 
 yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
@@ -66,8 +67,8 @@ yFrame.findTableCell("Configure conntrackd").mouseClick()
 sleep(config.SHORT_DELAY)
 
 texts = yFrame.findAllTexts(None)
-texts[0].insertText(multicast_addr)
-texts[1].insertText(group_num)
+texts[0].text = multicast_addr
+texts[1].text = group_num
 sleep(config.SHORT_DELAY)
 
 # STEP2: Generate /etc/conntrackd/conntrackd.conf

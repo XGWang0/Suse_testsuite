@@ -31,7 +31,7 @@
 ##############################################################################
 
 import getopt
-from remote_setup_frame import *
+from yast2_test_frame import *
 
 node_ip = None
 node_pwd = None
@@ -59,7 +59,9 @@ if node_ip == None or node_pwd == None:
         sys.exit(1)
 
 # Install UI related patterns
-install_Patterns(node_ip, node_pwd, user="root", patterns=["X11", "gnome"])
+rs = remoteSetting(node_ip=node_ip, node_pwd=node_pwd)
+
+rs.install_Patterns(patterns=["X11", "gnome"])
 
 # Enable accessibility technology which the machine you want to run UI tool
-setup_UItest(node_ip, node_pwd)
+rs.setup_UItest()

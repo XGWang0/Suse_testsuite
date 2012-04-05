@@ -30,9 +30,8 @@
 # Description: Communication Channels: Redundant Channel setup test
 ##############################################################################
 
-from strongwind import *
 from yast2_cluster_config import *
-from yast2_cluster_frame import *
+from yast2_test_frame import *
 
 doc="""
 Actions:
@@ -52,9 +51,11 @@ print doc
 
 conf_path = "/etc/corosync/corosync.conf"
 
+UItest = autoUITest()
+
 ###### Actions:
 # STEP1: Launch yast2 cluster
-app = launchYastApp("yast2 -gtk cluster&", "y2base")
+app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
 
 yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
@@ -104,9 +105,9 @@ procedurelogger.action("Checking communication channel informations")
 
 procedurelogger.expectedResult("communication channel informations are in %s" % conf_path)
 for m in channel_info:
-    checkInfo(m, conf_path)
+    UItest.checkInfo(m, conf_path)
 
 # STEP2: rrp_mode shows "passive" in corosync.conf
 procedurelogger.expectedResult("rrp_mode shows %s in %s" % (rrp_mode, conf_path))
-checkInfo("rrp_mode:\t%s" % rrp_mode, conf_path)
+UItest.checkInfo("rrp_mode:\t%s" % rrp_mode, conf_path)
 

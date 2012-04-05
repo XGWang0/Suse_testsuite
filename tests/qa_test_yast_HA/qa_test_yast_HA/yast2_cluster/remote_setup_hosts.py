@@ -30,38 +30,35 @@
 # Description: Set up hosts on both nodes, nodes can connection with hostname
 ##############################################################################
 
-import strongwind
-import pexpect
-import sys
-
-from strongwind import *
 from yast2_cluster_config import *
-from remote_setup_frame import *
+from yast2_test_frame import *
 
 # Set up node1_hostname
+rs1 = remoteSetting(node_ip=node1_ip, node_pwd=node1_pwd)
 procedurelogger.action("SSH connect to node1 %s, set hostname to %s" % \
                                                     (node1_ip, node1_hostname))
-setup_hostname(node1_ip, node1_pwd, node1_hostname)
+rs1.setup_hostname(node1_hostname)
 
 # Set up node2_hostname
+rs2 = remoteSetting(node_ip=node2_ip, node_pwd=node2_pwd)
 procedurelogger.action("SSH connect to node1 %s, set hostname to %s" % \
                                                     (node2_ip, node2_hostname))
-setup_hostname(node2_ip, node2_pwd, node2_hostname)
+rs2.setup_hostname(node2_hostname)
 
 # Set up node1 hosts
 EOF_line="<<EOF\n%s %s\n%s %s\nEOF" % (node1_ip, node1_hostname, node2_ip, node2_hostname)
 
 procedurelogger.action("Set up %s /etc/hosts" % node1_hostname)
-setup_hosts(node1_ip, node1_pwd, node1_hostname, EOF_line)
+rs1.setup_hosts(node1_hostname, EOF_line)
 
 # Set up node2 hosts
 procedurelogger.action("Set up %s /etc/hosts" % node2_hostname)
-setup_hosts(node2_ip, node2_pwd, node2_hostname, EOF_line)
+rs2.setup_hosts(node2_hostname, EOF_line)
 
 # Ping node2 hostname to check the settings
 procedurelogger.expectedResult("Ping %s successed" % node2_hostname)
-ping_test(node1_ip, node1_pwd, node2_hostname)
+rs2.ping_test(node2_hostname)
 
 # Ping node1 hostname to check the settings
 procedurelogger.expectedResult("Ping %s successed" % node1_hostname)
-ping_test(node2_ip, node2_pwd, node1_hostname)
+rs1.ping_test(node1_hostname)

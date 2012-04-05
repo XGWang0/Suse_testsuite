@@ -30,10 +30,8 @@
 # Description: Configure Csync2 test
 ##############################################################################
 
-from strongwind import *
 from yast2_cluster_config import *
-from yast2_cluster_frame import *
-from remote_setup_frame import *
+from yast2_test_frame import *
 
 doc="""
 
@@ -68,13 +66,15 @@ print doc
 cfg_path = "/etc/csync2/csync2.cfg"
 key_path = "/etc/csync2/key_hagroup"
 
+UItest = autoUITest()
+
 ######TestCase1 Actions:
 
 # Clean the exist file
-removeFile(key_path)
+UItest.removeFile(key_path)
 
 # STEP1: Launch yast2 cluster
-app = launchYastApp("yast2 -gtk cluster&", "y2base")
+app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
 
 yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
@@ -126,10 +126,10 @@ sleep(config.MEDIUM_DELAY)
 
 # STEP1: host server1 server2 shows in /etc/csync2/csync2.cfg
 procedurelogger.expectedResult("%s shows in %s" % (node1_hostname, cfg_path))
-checkInfo(node1_hostname, cfg_path)
+UItest.checkInfo(node1_hostname, cfg_path)
 
 procedurelogger.expectedResult("%s shows in %s" % (node2_hostname, cfg_path))
-checkInfo(node2_hostname, cfg_path)
+UItest.checkInfo(node2_hostname, cfg_path)
 
 # STEP2: "chkconfig -l |grep csync2" shows "on"
 procedurelogger.expectedResult("csync2 services is enabled")
@@ -138,12 +138,14 @@ if os.system("chkconfig -l |grep csync2 |grep on") is None:
 
 ######TestCase2 Actions:
 
+rs = remoteSetting(node_ip=node2_ip, node_pwd=node2_pwd)
+
 # STEP1: copy /etc/csync2/csync2.cfg to server2
 # STEP2: copy /etc/csync2/key_hagroup to server2
 copy_file = "/etc/csync2/csync2.cfg /etc/csync2/key_hagroup"
 copy_path = "/etc/csync2/"
 procedurelogger.action("copy %s to %s" % (copy_file, node2_ip))
-scp_run(node2_ip, node2_pwd, user="root", copy_file=copy_file, copy_path=copy_path)
+rs.scp_run(copy_file=copy_file, copy_path=copy_path)
 
 # STEP3: chkconfig csync2 on; chkconfig xinetd on
 procedurelogger.action("chkconfig to make csync2 and xinetd on")
@@ -166,5 +168,7 @@ procedurelogger.action("start csync2")
 
 # STEP1: csync finished with 0 errors
 procedurelogger.expectedResult("csync finished with 0 errors")
+
+os.system("csync2 -xv 2>&1")
 if os.system("csync2 -xv 2>&1 |grep \"Finished with 0 errors\"") != 0:
     raise Exception, "csync nodes with error"

@@ -30,9 +30,8 @@
 # Description: First time to launch basic cluster setup test
 ##############################################################################
 
-from strongwind import *
 from yast2_cluster_config import *
-from yast2_cluster_frame import *
+from yast2_test_frame import *
 
 doc="""
 Actions:
@@ -61,12 +60,14 @@ bind_net_addr_1 = bind_net_addr_1
 multicast_addr_1 = multicast_addr_1
 multicast_port_1 = multicast_port_1
 
+UItest = autoUITest()
+
 ###### Actions:
 # STEP1: remove /etc/corosync/corosync.conf to initialize the first start up
-removeFile(conf_path)
+UItest.removeFile(conf_path)
 
 # Launch yast2 cluster
-app = launchYastApp("yast2 -gtk cluster&", "y2base")
+app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
 
 yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
@@ -131,23 +132,23 @@ procedurelogger.action("Checking communication channel informations")
 
 procedurelogger.expectedResult("communication channel informations are in %s" % conf_path)
 for m in channel_info:
-    checkInfo(m, conf_path)
+    UItest.checkInfo(m, conf_path)
 
 # STEP3: secauth shows in corosync.conf is "off"
 procedurelogger.expectedResult("secauth shows off in %s" % conf_path)
-checkInfo("secauth:\toff", conf_path)
+UItest.checkInfo("secauth:\toff", conf_path)
 
 # STEP4: use_mgmtd shows in corosync.conf is "yes"; openais process is running; mgmtd process is running
 procedurelogger.expectedResult("use_mgmtd shows yes in %s" % conf_path)
-checkInfo("use_mgmtd:\tyes", conf_path)
+UItest.checkInfo("use_mgmtd:\tyes", conf_path)
 
 procedurelogger.expectedResult("openais process is running")
-checkProcess("corosync")
+UItest.checkProcess("corosync")
 
 procedurelogger.expectedResult("mgmtd process is running")
-checkProcess("mgmtd")
+UItest.checkProcess("mgmtd")
 
 # STEP5: "group ha_group" is created in /etc/csync2/csync2.cfg
 procedurelogger.expectedResult("group ha_group is created in /etc/csync2/csync2.cfg")
-checkInfo("ha_group", "/etc/csync2/csync2.cfg")
+UItest.checkInfo("ha_group", "/etc/csync2/csync2.cfg")
 

@@ -30,9 +30,8 @@
 # Description: Communication Channels: Redundant Channel setup test
 ##############################################################################
 
-from strongwind import *
 from yast2_cluster_config import *
-from yast2_cluster_frame import *
+from yast2_test_frame import *
 
 doc="""
 Actions:
@@ -50,13 +49,15 @@ print doc
 
 key_path = "/etc/corosync/authkey"
 
+UItest = autoUITest()
+
 ###### Actions:
 
 # Remove the exist authkey
-removeFile(key_path)
+UItest.removeFile(key_path)
 
 # STEP1: Launch yast2 cluster
-app = launchYastApp("yast2 -gtk cluster&", "y2base")
+app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
 
 yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 

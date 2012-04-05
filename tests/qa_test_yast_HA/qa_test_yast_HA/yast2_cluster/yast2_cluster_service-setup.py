@@ -30,9 +30,8 @@
 # Description: Communication Channels: Redundant Channel setup test
 ##############################################################################
 
-from strongwind import *
 from yast2_cluster_config import *
-from yast2_cluster_frame import *
+from yast2_test_frame import *
 
 doc="""
 Actions:
@@ -53,10 +52,12 @@ print doc
 
 conf_path = "/etc/corosync/corosync.conf"
 
+UItest = autoUITest()
+
 ###### Actions:
 
 # STEP1: Launch yast2 cluster
-app = launchYastApp("yast2 -gtk cluster&", "y2base")
+app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
 
 yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
@@ -88,9 +89,9 @@ if os.system("chkconfig -l |grep openais |grep on") is None:
 
 # STEP2: openais process is not running
 procedurelogger.expectedResult("openais process is not running")
-checkProcess("corosync", status=False)
+UItest.checkProcess("corosync", status=False)
 
 # STEP3: use_mgmtd shows in corosync.conf is "no"
 procedurelogger.expectedResult("use_mgmtd shows no in %s" % conf_path)
-checkInfo("use_mgmtd:\tno", conf_path)
+UItest.checkInfo("use_mgmtd:\tno", conf_path)
 
