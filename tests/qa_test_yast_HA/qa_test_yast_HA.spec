@@ -37,8 +37,8 @@ Requires:       strongwind ctcs2 python-pexpect yast2-cluster yast2-iplb yast2-d
 Version:        0.1
 Release:        1
 Source0:        %{name}-%{version}.tar.bz2
-Source1:        qa_yast_HA.tcf
-Source2:        test_yast_HA-run
+Source1:        qa_HA_yast-cluster.tcf
+Source2:        test_HA_yast-cluster-run
 Source3:	qa_test_yast_HA.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
@@ -62,7 +62,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-ln -s ../%name/tcf/qa_yast_HA.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../%name/tcf/qa_HA_yast-cluster.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 %clean
 rm -rf $RPM_BUILD_ROOT

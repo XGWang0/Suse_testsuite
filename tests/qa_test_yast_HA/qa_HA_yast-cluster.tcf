@@ -23,6 +23,37 @@
 #
 
 timer 300
-fg 1 cleanup /usr/share/qa/qa_test_HA_yast/cleanup.sh
-wait 
+fg 1 remote_setup_hosts /usr/share/qa/qa_test_yast_HA/yast2_cluster/remote_setup_hosts.py
+wait
 
+timer 300
+fg 1 remote_setup_UI-test /usr/share/qa/qa_test_yast_HA/yast2_cluster/remote_setup_UI-test.py
+wait
+
+timer 300
+fg 1 yast2_cluster_first-launch /usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_first-launch.py
+wait
+
+timer 300
+fg 1 yast2_cluster_communication-redundant-channel /usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_communication-redundant-channel-setup.py
+wait
+
+timer 300
+fg 1 yast2_cluster_security-setup /usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_security-setup.py
+wait
+
+timer 300
+fg 1 yast2_cluster_service-setup /usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_service-setup.py
+wait
+
+timer 300
+fg 1 yast2_cluster_configure-csync2 /usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_configure-csync2.py
+wait
+
+timer 300
+fg 1 yast2_cluster_configure-conntrackd /usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_configure-conntrackd.py
+wait
+
+timer 300
+fg 1 remote_start_openais-test /usr/share/qa/qa_test_yast_HA/yast2_cluster/remote_start_openais-test.py
+wait
