@@ -147,14 +147,21 @@ class remoteSetting():
         '''
         Enable Accessibility for UI test, restart gnome session to load at-spi process
         '''
+        enable_acc = False
+        enable_xhost = False
+        enable_login = False
         EOF_line = "<<EOF\n[Desktop Entry]\nType=Application\nExec=xhost +\nHidden=false\nX-Gnome-Autostart-enabled=true\nName=xhost\nComment=xhost + to allow hamsta run UI tests\nEOF"
         xhost_path = "/%s/.config/autostart/xhost.desktop" % self.user
     
         connect = self.ssh_connect()
     
         # enable accessibility
-        connect.sendline('gconftool-2  -s --type=Boolean /desktop/gnome/interface/accessibility %s' % boolean)
+        connect.sendline('gconftool-2 -g /desktop/gnome/interface/accessibility')
         connect.expect([pexpect.TIMEOUT,"#|->"])
+        if re.search('false', connect.before):
+            connect.sendline('gconftool-2 -s --type=Boolean /desktop/gnome/interface/accessibility %s' % boolean)
+            connect.expect([pexpect.TIMEOUT,"#|->"])
+            enable_acc = True
         print connect.before
     
         # enable xhost +
@@ -165,6 +172,7 @@ class remoteSetting():
             connect.expect([pexpect.TIMEOUT, "#|->"])
             connect.sendline('cat >>%s %s' % (xhost_path, EOF_line))
             connect.expect([pexpect.TIMEOUT, "#|->"])
+            enable_xhost = True
             print connect.before
     
         # make user auto login X window
@@ -178,12 +186,14 @@ class remoteSetting():
             if re.search('0', connect.before):
                 connect.sendline('cat >>%s %s' % (gdm_conf_path, EOF_line))
                 connect.expect([pexpect.TIMEOUT, "#|->"])
+                enable_login = True
                 print connect.before
     
         # restart gnome session
-        connect.sendline('rcxdm restart')
-        connect.expect(pexpect.TIMEOUT)
-        print connect.before
+        if enable_acc or enable_xhost or enable_login:
+            connect.sendline('rcxdm restart')
+            connect.expect(pexpect.TIMEOUT)
+            print connect.before
     
         connect.sendline('exit')
     

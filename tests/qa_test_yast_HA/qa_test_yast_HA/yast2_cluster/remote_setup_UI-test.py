@@ -65,3 +65,4 @@ rs.install_Patterns(patterns=["X11", "gnome"])
 
 # Enable accessibility technology which the machine you want to run UI tool
 rs.setup_UItest()
+sleep(30)
