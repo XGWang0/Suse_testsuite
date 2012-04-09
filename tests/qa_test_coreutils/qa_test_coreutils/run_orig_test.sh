@@ -36,6 +36,12 @@
 #    Additional flag; currently can be only "no-root" which means the test
 #    should not be run as root, but as the common user.
 
+if [ $# -ne 2 -o $# -ne 3 -o $# -ne 4 ]; then
+	echo "Usage: $0 $TESTDIR $TESTPROG [$UTILTY] [$FLAG]"
+	echo "see \"Parameters\" in $0 for details"
+	exit 1
+fi
+
 # Read the parameters.
 TESTDIR=$1
 TESTPROG=$2
