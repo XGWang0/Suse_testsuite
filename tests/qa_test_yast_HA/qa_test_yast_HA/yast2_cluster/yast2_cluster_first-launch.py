@@ -69,6 +69,10 @@ UItest.removeFile(conf_path)
 # Launch yast2 cluster
 app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
 
+if app._accessible.childCount > 1:
+    app.findDialog(None).findPushButton("Install").mouseClick()
+    sleep(90)
+
 yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
 # STEP2: set up Communication Channels 
