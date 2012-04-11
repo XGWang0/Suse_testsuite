@@ -209,7 +209,7 @@ class remoteSetting():
             print connect.before
     
             if re.search('No packages found', connect.before):
-                connect.sendline("zypper install -t pattern %s" % p)
+                connect.sendline("zypper install -l -t pattern %s" % p)
                 exp = connect.expect([pexpect.TIMEOUT,"Continue(?i)","#|->"])
                 if exp == 1:
                     print connect.before
