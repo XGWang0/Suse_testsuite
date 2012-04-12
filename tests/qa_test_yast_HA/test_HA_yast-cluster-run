@@ -23,8 +23,16 @@
 # ****************************************************************************
 #
 
+os_release=`cat /etc/SuSE-release |awk 'NR==1'`
 config_path=/usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_config.py
 real_node1_ip=`ifconfig |grep 'inet addr' |awk '{print $2}' |head -n 1 |cut -d ':' -f2`
+
+eval $(cat /etc/SuSE-release |grep -v SUSE |awk '{print ""$1"="$3""}')
+if [ $PATCHLEVEL -lt 2 ]; then
+	echo "###############################################################"
+	echo -e "Warning: This test was created in SLES-SP2, but you are running \non $os_release $VERSION $PATCHLEVEL, that might got some test \nfailed due to difference UI design!"
+	echo "###############################################################"
+fi
 
 eval $(grep ip $config_path |awk '{print ""$1"="$3""}')
 
