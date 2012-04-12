@@ -23,11 +23,11 @@
 #
 
 timer 300
-fg 1 remote_setup_hosts /usr/share/qa/qa_test_yast_HA/yast2_cluster/remote_setup_hosts.py
+fg 1 remote_setup_UI-test /usr/share/qa/qa_test_yast_HA/yast2_cluster/remote_setup_UI-test.py
 wait
 
 timer 300
-fg 1 remote_setup_UI-test /usr/share/qa/qa_test_yast_HA/yast2_cluster/remote_setup_UI-test.py
+fg 1 remote_setup_hosts /usr/share/qa/qa_test_yast_HA/yast2_cluster/remote_setup_hosts.py
 wait
 
 timer 300
