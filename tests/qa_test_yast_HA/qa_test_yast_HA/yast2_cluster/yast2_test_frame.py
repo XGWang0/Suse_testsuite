@@ -203,6 +203,7 @@ class remoteSetting():
         '''
         connect = self.ssh_connect()
     
+        # Install patterns
         for p in patterns:
             connect.sendline("zypper search -i -t pattern %s |tail -n 1" % p)
             connect.expect([pexpect.TIMEOUT,"#|->"])
@@ -222,6 +223,30 @@ class remoteSetting():
                             pass
                         elif index == 1:
                             break
+
+                # Setup X
+                connect.sendline("sed -i '/id:3:initdefault/s/3/5/' /etc/inittab |grep initdefault") # change runlevel to 5
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+
+                connect.sendline("SuSEconfig") # reload sysconfig
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+                print connect.before
+
+                connect.sendline("sed -i '/DISPLAYMANAGER=\"\"/s/\"\"/\"gdm\"/' /etc/sysconfig/displaymanager") # set displaymanager
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+
+                connect.sendline("sed -i '/DEFAULT_WM=\"\"/s/\"\"/\"gnome\"/' /etc/sysconfig/windowmanager") # set windowmanager
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+
+                connect.sendline("rm -fr /etc/X11/xorg.conf*")
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+                connect.sendline("sax2 -a -V 0:1024x768@60") # set resolution 
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+                print connect.before
+
+                connect.sendline('rcxdm restart')
+                connect.expect(pexpect.TIMEOUT)
+                print connect.before
     
         connect.sendline('exit')
     
