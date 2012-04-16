@@ -33,7 +33,8 @@
 import os
 import getopt
 
-os.system("sed -i '/^from strongwind/s/from strongwind/#from strongwind/' yast2_test_frame.py")
+frame_path = "/usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_test_frame.py"
+os.system("sed -i '/^from strongwind/s/from strongwind/#from strongwind/' %s" % frame_path)
 
 from yast2_test_frame import *
 
@@ -71,4 +72,5 @@ rs.install_Patterns(patterns=["X11", "gnome"])
 rs.setup_UItest()
 sleep(30)
 
-os.system("sed -i '/^#from strongwind/s/#from strongwind/from strongwind/' yast2_test_frame.py")
+os.system("sed -i '/^#from strongwind/s/#from strongwind/from strongwind/' %s" % frame_path)
+
