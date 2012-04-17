@@ -22,7 +22,6 @@
 # ****************************************************************************
 #
 
-timer 300
 fg 1 remote_setup_UI-test /usr/share/qa/qa_test_yast_HA/yast2_cluster/remote_setup_UI-test.py
 wait
 
