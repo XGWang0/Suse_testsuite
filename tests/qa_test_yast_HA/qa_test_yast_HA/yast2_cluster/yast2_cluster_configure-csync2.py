@@ -158,7 +158,7 @@ if status != '2':
 
 # STEP4: start xinetd process: #rcxinetd start
 procedurelogger.action("start xinetd process")
-if os.system("rcxinetd start") != 0:
+if os.system("rcxinetd restart") != 0:
     raise Exception, "xinetd process doesn't start"
 
 # STEP5: start csync2: #csync2 -xv 2>&1 |grep "Finished with 0 errors"
@@ -169,6 +169,6 @@ procedurelogger.action("start csync2")
 # STEP1: csync finished with 0 errors
 procedurelogger.expectedResult("csync finished with 0 errors")
 
-os.system("csync2 -xv 2>&1")
-if os.system("csync2 -xv 2>&1 |grep \"Finished with 0 errors\"") != 0:
+os.system("csync2 -xvvv")
+if os.system("csync2 -xvvv 2>&1 |grep \"Finished with 0 errors\"") != 0:
     raise Exception, "csync nodes with error"
