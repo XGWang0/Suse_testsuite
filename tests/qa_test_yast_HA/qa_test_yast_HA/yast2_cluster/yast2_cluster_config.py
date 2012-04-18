@@ -29,8 +29,8 @@ node2_hostname = "server2"
 node1_ip = "147.2.207.3"
 node2_ip = "147.2.207.4"
 
-node1_pwd = "novell"
-node2_pwd = "novell"
+node1_pwd = "susetesting"
+node2_pwd = "susetesting"
 
 # Communication Channels settings
 # Channel
