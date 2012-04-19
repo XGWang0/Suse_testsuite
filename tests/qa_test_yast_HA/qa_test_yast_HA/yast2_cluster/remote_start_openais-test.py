@@ -54,14 +54,14 @@ print doc
 
 # STEP1: On nodes start openais: # rcopenais start
 # /usr/lib/heartbeat/crmd process started
-nodes = {node1_ip:node1_pwd, node2_ip:node2_pwd}
 service = "/usr/sbin/rcopenais"
-status = "start"
+status = "restart"
 
-procedurelogger.action("%s service %s on %s" % (status, service, node1_ip))
-for k in nodes.keys():
-    rs = remoteSetting(node_ip=k, node_pwd=nodes[k])
-    rs.act_service(service=service, status=status, check=True, process="crmd")
+rs = remoteSetting(node_ip=node2_ip, node_pwd=node2_pwd)
+rs.act_service(service=service, status=status,check=True, process="crmd")
+
+rs = remoteSetting(node_ip=node1_ip, node_pwd=node1_pwd)
+rs.act_service(service=service, status=status,check=True, process="crmd")
 
 ###### Expected:
 # STEP2: # crmadmin -S server1
