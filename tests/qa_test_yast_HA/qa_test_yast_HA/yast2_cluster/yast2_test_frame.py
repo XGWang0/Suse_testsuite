@@ -244,6 +244,9 @@ class remoteSetting():
                 connect.expect([pexpect.TIMEOUT,"#|->"])
                 print connect.before
 
+                connect.sendline("sed -i '/user=\"gdm\"/s/gdm/gdm/g' /etc/dbus-1/system.d/gdm.conf")
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+
                 connect.sendline('rcxdm restart')
                 connect.expect(pexpect.TIMEOUT)
                 print connect.before
