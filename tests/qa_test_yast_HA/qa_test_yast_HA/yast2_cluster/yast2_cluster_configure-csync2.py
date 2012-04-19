@@ -120,7 +120,7 @@ if os.system("chkconfig -l |grep csync2 |grep on") is None:
     sleep(config.SHORT_DELAY)
 
 yFrame.findPushButton("Finish").mouseClick()
-sleep(config.MEDIUM_DELAY)
+sleep(config.LONG_DELAY)
 
 ###### Expected:
 
@@ -160,6 +160,22 @@ if status != '2':
 procedurelogger.action("start xinetd process")
 if os.system("rcxinetd restart") != 0:
     raise Exception, "xinetd process doesn't start"
+
+# Remote enable node2 csync2 and xineted on, start xinetd
+connect = rs.ssh_connect()
+connect.sendline("chkconfig csync2 on")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
+connect.sendline("chkconfig xinetd on")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
+connect.sendline("rcxinetd restart")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
+connect.sendline('exit')
 
 # STEP5: start csync2: #csync2 -xv 2>&1 |grep "Finished with 0 errors"
 procedurelogger.action("start csync2")
