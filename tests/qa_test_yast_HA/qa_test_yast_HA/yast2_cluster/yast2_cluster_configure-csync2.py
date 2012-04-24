@@ -72,6 +72,7 @@ UItest = autoUITest()
 
 # Clean the exist file
 UItest.removeFile(key_path)
+UItest.removeFile("/var/lib/csync2/*.db")
 
 # STEP1: Launch yast2 cluster
 app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
@@ -162,7 +163,12 @@ if os.system("rcxinetd restart") != 0:
     raise Exception, "xinetd process doesn't start"
 
 # Remote enable node2 csync2 and xineted on, start xinetd
+# Remove exist db
 connect = rs.ssh_connect()
+connect.sendline("rm -fr /var/lib/csync2/*.db")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
 connect.sendline("chkconfig csync2 on")
 connect.expect([pexpect.TIMEOUT, "#|->"])
 print connect.before
@@ -185,6 +191,10 @@ procedurelogger.action("start csync2")
 # STEP1: csync finished with 0 errors
 procedurelogger.expectedResult("csync finished with 0 errors")
 
-os.system("csync2 -xvvv")
-if os.system("csync2 -xvvv 2>&1 |grep \"Finished with 0 errors\"") != 0:
+os.system("csync2 -f `csync2 -M |awk '{print $4}'`")
+sleep(config.SHORT_DELAY)
+os.system("csync2 -xv")
+sleep(config.SHORT_DELAY)
+
+if os.system("csync2 -xvv 2>&1 |grep \"Finished with 0 errors\"") != 0:
     raise Exception, "csync nodes with error"
