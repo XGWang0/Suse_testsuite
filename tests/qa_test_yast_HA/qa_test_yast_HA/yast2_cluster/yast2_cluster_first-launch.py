@@ -63,6 +63,11 @@ multicast_port_1 = multicast_port_1
 UItest = autoUITest()
 
 ###### Actions:
+# Stop openais
+sleep(config.SHORT_DELAY)
+
+os.system("rcopenais stop")
+
 # STEP1: remove /etc/corosync/corosync.conf to initialize the first start up
 UItest.removeFile(conf_path)
 
