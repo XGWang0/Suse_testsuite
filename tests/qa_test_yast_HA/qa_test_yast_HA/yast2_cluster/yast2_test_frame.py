@@ -180,10 +180,10 @@ class remoteSetting():
             EOF_line = "<<EOF\n\n[daemon]\nTimedLoginEnable=true\nAutomaticLoginEnable=true\nTimedLogin=%s\nAutomaticLogin=%s\nTimeLoginDelay=5\nEOF" % (self.user, self.user)
             gdm_conf_path = "/etc/gdm/custom.conf"
     
-            connect.sendline('grep -c "\[daemon\]" %s' % gdm_conf_path)
+            connect.sendline('grep "\[daemon\]" %s' % gdm_conf_path)
             connect.expect([pexpect.TIMEOUT,"#|->"])
             print connect.before
-            if re.search('0', connect.before):
+            if len(re.findall('daemon', connect.before)) == 1:
                 connect.sendline('cat >>%s %s' % (gdm_conf_path, EOF_line))
                 connect.expect([pexpect.TIMEOUT, "#|->"])
                 enable_login = True
