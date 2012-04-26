@@ -54,12 +54,11 @@ sh run-read 2&> /tmp/run-read
     echo "FAILED: bash test had an error :(" >&2
     echo "warning: please do not consider output differing only in the amount of" >&2
 echo "warning: white space to be an error." >&2
-    less /tmp/run-read
     #rm /tmp/run-read
     exit 1
   else    
     echo "PASSED: bash run was ok :)"
-    rm /tmp/run-read
+    #rm /tmp/run-read
     exit 0
   fi  
   

@@ -82,6 +82,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_sample.tcf
 /usr/share/qa/tools/test_sample-run
 /usr/share/man/man8/*
+%doc COPYING
 
 %changelog
 * Thu Sep 02 2010 - aguo@novell.com

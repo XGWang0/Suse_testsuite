@@ -75,6 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_cts.8.gz
 /usr/share/qa/%name
 /etc/qa/00-qa_test_cts-sharestorage-server
+%doc COPYING
 
 %changelog
 * Thu Aug 11 2011 - llipavsky@suse.cz

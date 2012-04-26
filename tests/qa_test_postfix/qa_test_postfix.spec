@@ -85,6 +85,7 @@ rm -rvf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_postfix.8.gz
 %{qa_location}
 /usr/share/qa
+%doc COPYING
 #/usr/share/qa/tcf/qa_postfix.tcf
 #/usr/share/qa/tools/test_postfix-run
 

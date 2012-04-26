@@ -1,0 +1,65 @@
+#!/bin/bash
+# ****************************************************************************
+# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+#
+
+os_release=`cat /etc/SuSE-release |awk 'NR==1'`
+config_path=/usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_config.py
+real_node1_ip=`ifconfig |grep 'inet addr' |awk '{print $2}' |head -n 1 |cut -d ':' -f2`
+
+eval $(cat /etc/SuSE-release |grep -v SUSE |awk '{print ""$1"="$3""}')
+if [ $PATCHLEVEL -lt 2 ]; then
+	echo "###############################################################"
+	echo -e "Warning: This test was created in SLES-SP2, but you are running \non $os_release $VERSION $PATCHLEVEL, that might got some test \nfailed due to difference UI design!"
+	echo "###############################################################"
+fi
+
+eval $(grep ip $config_path |awk '{print ""$1"="$3""}')
+
+if [ -z "$node1_ip" ] || [ "$node1_ip" != "$real_node1_ip" ]; then
+	sed -i '/node1_ip/s/node1_ip.*/node1_ip = "'$real_node1_ip'"/g' $config_path
+fi
+
+if [ -z "$node1_ip" ] || [ -z "$node2_ip" ]; then
+	echo "Please configure machine settings on $config_path and run test again"
+	exit 1
+fi
+
+username=`who |grep :0 | head -n 1 |awk {'print $1'}`
+comments="
+export LANG=C
+export DISPLAY=:0.0
+xhost +
+killall -9 /usr/lib/at-spi/at-spi-registryd
+[ `ps aux | grep at-spi-registry | wc -l` -gt 1 ] || /usr/lib/at-spi/at-spi-registryd&
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_HA_yast-cluster.tcf"
+
+# Run test
+if [ "$username" != "root" ]; then
+	su - $username 2>/dev/null -c "$comments"
+	cp -r `getent passwd $username | cut -d: -f 6`/var-log-qa/* /var/log/qa
+	su - $username 2>/dev/null -c "cd; rm -fr var-log-qa"
+else
+	sh -c "$comments"
+fi
+

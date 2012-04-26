@@ -56,7 +56,7 @@ sh run-cond 2&> /tmp/run-cond
 echo "warning: been compiled into the shell" >&2
 echo "warning: some of these tests will fail if extended pattern matching has not" >&2
 echo "warning: been compiled into the shell" >&2
-    less /tmp/run-cond
+    cat /tmp/run-cond
     rm /tmp/run-cond
     exit 1
   else    

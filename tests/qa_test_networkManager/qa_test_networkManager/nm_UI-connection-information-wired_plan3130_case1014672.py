@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -61,7 +61,7 @@ sleep(config.SHORT_DELAY)
 info_dialog = nm_applet_app.findDialog("Connection Information")
 
 # Step3: Choose "System eth0 (default)" page tab
-wired_tab = info_dialog.findPageTab("System eth0 (default)")
+wired_tab = info_dialog.findPageTab(re.compile('.*eth.*(default)'))
 
 wired_tab.mouseClick()
 sleep(config.SHORT_DELAY)

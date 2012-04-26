@@ -54,7 +54,7 @@ sh run-histexpand 2&> /tmp/run-histexpand
     echo "FAILED: bash test had an error :(" >&2
     echo "warning: all of these tests will fail if history has not been compiled" >&2
 echo "warning: into the shell" >&2
-    less /tmp/run-histexpand
+    cat /tmp/run-histexpand
     rm /tmp/run-histexpand
     exit 1
   else    

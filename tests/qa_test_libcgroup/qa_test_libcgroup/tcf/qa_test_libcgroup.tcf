@@ -1,0 +1,3 @@
+timer 300
+fg 1 libcgroup_common  /usr/share/qa/qa_test_libcgroup/common-test.sh
+wait

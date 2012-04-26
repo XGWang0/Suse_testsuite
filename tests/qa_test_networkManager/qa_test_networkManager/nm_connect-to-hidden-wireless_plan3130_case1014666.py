@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -74,9 +74,6 @@ else:
     exit(11)
 
 # Step2: Left click on the NetworkManager icon and select Connect to Hidden Wireless Network
-nm_panel.mouseClick()
-sleep(config.SHORT_DELAY)
-
 nm_applet_app.findWindow(None).findMenuItem(re.compile('^Connect to Hidden')).click(log=True)
 sleep(config.SHORT_DELAY)
 

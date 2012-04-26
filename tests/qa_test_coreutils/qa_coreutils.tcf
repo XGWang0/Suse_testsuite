@@ -70,9 +70,10 @@ timer 1200
 fg 1 sort_lsb  /usr/share/qa/qa_test_coreutils/sort_lsb.sh
 wait
 
-timer 1200
-fg 1 tty_lsb  /usr/share/qa/qa_test_coreutils/tty_lsb.sh
-wait
+#tty_lsb should be tested on tty console. stty console will failed (ssh connecting)
+#timer 1200
+#fg 1 sort_lsb  /usr/share/qa/qa_test_coreutils/sort_lsb.sh
+#wait
 
 timer 1200
 fg 1 uniq_lsb  /usr/share/qa/qa_test_coreutils/uniq_lsb.sh
@@ -391,7 +392,7 @@ fg 1 orig_ln_target-1 /tmp/qa_test_coreutils/run_orig_test.sh ln target-1
 wait
 
 timer 1200
-fg 1 orig_ls-2 /tmp/qa_test_coreutils/run_orig_test.sh ls-2 tests ls
+fg 1 orig_ls-2 /tmp/qa_test_coreutils/run_orig_test.sh ls-2 tests ls ls
 wait
 
 timer 1200
@@ -527,7 +528,7 @@ fg 1 orig_misc_pwd-long /tmp/qa_test_coreutils/run_orig_test.sh misc pwd-long
 wait
 
 timer 1200
-fg 1 orig_misc_sort-merge /tmp/qa_test_coreutils/run_orig_test.sh misc sort-merge
+fg 1 orig_misc_sort-merge /tmp/qa_test_coreutils/run_orig_test.sh misc sort-merge sort
 wait
 
 timer 1200

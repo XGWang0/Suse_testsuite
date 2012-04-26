@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -122,6 +122,6 @@ sleep(30)
 authenWireless(wireless1_pwd)
 
 # Step9: Make sure "System eth0" and last known wireless wireless1_name connected
-checkInfo(['System eth0 (default)', 'Auto ' + wireless1_name,])
+checkInfo(['eth0', 'Auto ' + wireless1_name,])
 
 

@@ -42,6 +42,9 @@ rm -f /tmp/xx
 
 
 echo run-array 
+echo "warning: all of these tests will fail if arrays have not" 
+echo "warning: been compiled into the shell" 
+
 cd /usr/share/qa/qa_test_bash/data/tests
 sh run-array 2&> /tmp/run-array
  
@@ -52,7 +55,7 @@ sh run-array 2&> /tmp/run-array
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-array
+    cat /tmp/run-array
     rm /tmp/run-array
     exit 1
   else    

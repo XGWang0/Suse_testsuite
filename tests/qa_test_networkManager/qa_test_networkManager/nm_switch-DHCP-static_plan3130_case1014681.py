@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -84,7 +84,7 @@ nm_editor_app = cache._desktop.findApplication("nm-connection-editor", checkShow
 connection_dialog = nm_editor_app.findDialog("Network Connections")
 
 # Step2: On "Wired" tab page, select "System eth0", click Edit
-connection_dialog.findTableCell("System eth0").mouseClick()
+connection_dialog.findTableCell(re.compile('.*eth.*')).mouseClick()
 sleep(config.SHORT_DELAY)
 
 connection_dialog.findPushButton(re.compile('^Edit')).mouseClick()
@@ -93,7 +93,7 @@ sleep(config.SHORT_DELAY)
 # Step3: Exit the test if Root Authenticate dialog pops up, Enter root password manually and 
 # enable "Remember authorization", then rerun the test
 try:
-    editing_frame = nm_editor_app.findFrame("Editing System eth0")
+    editing_frame = nm_editor_app.findFrame(re.compile('^Editing'))
 except SearchError:
     authenticate = cache._desktop.findApplication('polkit-gnome-manager', checkShowing=False)
     authen_dialog = authenticate.findDialog("Authenticate")
@@ -160,7 +160,7 @@ nm_editor_app.assertClosed()
 nm_panel.mouseClick()
 sleep(config.SHORT_DELAY)
 
-nm_applet_app.findWindow(None).findCheckMenuItem("System eth0").mouseClick()
+nm_applet_app.findWindow(None).findCheckMenuItem(re.compile('.*eth.*')).mouseClick()
 sleep(20)
 
 # Step8: Make sure Network connection is successful to open url i.e. www.google.com
@@ -195,12 +195,12 @@ nm_editor_app = cache._desktop.findApplication("nm-connection-editor", checkShow
 connection_dialog = nm_editor_app.findDialog("Network Connections")
 
 # Step2: On "Wired" tab page, select "System eth0", click Edit
-connection_dialog.findTableCell("System eth0").mouseClick()
+connection_dialog.findTableCell(re.compile('.*eth.*')).mouseClick()
 sleep(config.SHORT_DELAY)
 
 connection_dialog.findPushButton(re.compile('^Edit')).mouseClick()
 sleep(config.SHORT_DELAY)
-editing_frame = nm_editor_app.findFrame("Editing System eth0")
+editing_frame = nm_editor_app.findFrame(re.compile('Editing'))
 
 # Step3: Click "IPv4 Settings" tab page, select "Automatic (DHCP)" method
 ipv4_tab = editing_frame.findPageTab("IPv4 Settings")
@@ -234,7 +234,7 @@ nm_editor_app.assertClosed()
 nm_panel.mouseClick()
 sleep(config.SHORT_DELAY)
 
-nm_applet_app.findWindow(None).findCheckMenuItem("System eth0").mouseClick()
+nm_applet_app.findWindow(None).findCheckMenuItem(re.compile('.*eth.*')).mouseClick()
 sleep(20)
 
 # Step6: Make sure Network connection is successful to open url i.e. www.google.com

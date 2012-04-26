@@ -42,6 +42,9 @@ rm -f /tmp/xx
 
 
 echo run-execscript 
+echo "warning: The text of a system error message may vary between systems and produce diff output." >&2
+echo "warning: If the text of the error messages concerning \`notthere' or \`/tmp/bash-notthere' not being found or \`/' being a directory produce diff output, please do not consider this a test failure." >&2
+echo "warning: if diff output differing only in the location of the bash binary appears, please do not consider this a test failure." >&2
 cd /usr/share/qa/qa_test_bash/data/tests
 sh run-execscript 2&> /tmp/run-execscript
  
@@ -52,7 +55,7 @@ sh run-execscript 2&> /tmp/run-execscript
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-execscript
+    cat /tmp/run-execscript
     rm /tmp/run-execscript
     exit 1
   else    

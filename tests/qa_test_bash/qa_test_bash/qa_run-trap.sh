@@ -40,19 +40,18 @@ ${THIS_SH} --version
 
 rm -f /tmp/xx
 
-
 echo run-trap 
+echo "warning: UNIX versions number signals differently.  If output differing only in line numbers is produced, please do not consider this" >&2
+echo "warning: a test failure." >&2
 cd /usr/share/qa/qa_test_bash/data/tests
 sh run-trap 2&> /tmp/run-trap
- 
-                 
 
   if [ -s /tmp/run-trap ]
   then    
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-trap
+    cat /tmp/run-trap
     rm /tmp/run-trap
     exit 1
   else    

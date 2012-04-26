@@ -52,7 +52,7 @@ sh run-dollars 2&> /tmp/run-dollars
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-dollars
+    cat /tmp/run-dollars
     rm /tmp/run-dollars
     exit 1
   else    

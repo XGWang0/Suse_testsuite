@@ -45,6 +45,17 @@ rand_bytes()
     | tr -c $chars 01234567$chars$chars$chars
 }
 
+is_sp2()
+{
+CODE=$(cat /etc/SuSE-release | awk -F "=" '/VERSION/''{ print $2 }'|cut -c 2-3)
+SP=$(cat /etc/SuSE-release | awk -F "=" '/PATCHLEVEL/''{ print $2 }'|cut -c 2-3)
+	if [ "$CODE" = "11" -a "$SP" = "2" ];then
+		return 0
+	else
+		return 1
+	fi
+}
+
 mkdtemp()
 {
   case $# in

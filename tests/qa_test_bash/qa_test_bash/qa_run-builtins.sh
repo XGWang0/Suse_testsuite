@@ -52,7 +52,7 @@ sh run-builtins 2&> /tmp/run-builtins
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-builtins
+    cat /tmp/run-builtins
     rm /tmp/run-builtins
     exit 1
   else    

@@ -76,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_sched_stress.8.gz
 /usr/share/qa
+%doc COPYING
+
 %changelog
 * Wed Apr 01 2009 yxu@suse.de
 - initial release

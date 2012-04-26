@@ -9,7 +9,11 @@
 # Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 . /usr/share/qa/qa_test_lvm2/lib/test
-exit 22
+if test is_sp2;then
+	return
+else
+	exit 22
+fi
 aux prepare_devs 6
 
 echo Make sure we can ignore / un-ignore mdas on a per-PV basis

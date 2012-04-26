@@ -1,4 +1,8 @@
 -------------------------------------------------------------------
+Fri Jan 13 16:30:12 GMT 2012 - vpelcak@suse.com
+- Added Apache + MySQL deployment
+
+-------------------------------------------------------------------
 Thu Aug 11 10:07:16 GMT 2011 - llipavsky@suse.cz
 
 - Package rename: qa_hacluster -> qa_test_hacluster

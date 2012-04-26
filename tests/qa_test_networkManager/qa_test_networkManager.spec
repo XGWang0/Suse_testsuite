@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -40,6 +40,7 @@ Source1:        qa_networkManager.tcf
 Source2:        test_networkManager-run
 Source3:	qa_test_networkManager.8
 Source4:	README
+Source5:	test_local_networkManager-run
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 
@@ -62,6 +63,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name/
+install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_networkManager.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
@@ -75,6 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf
 /usr/share/qa/tools
 %attr(755,root,root) /usr/share/qa/%name/*.py
+%doc COPYING
 
 %changelog
 * Fri Aug 12 2011 - llipavsky@suse.cz

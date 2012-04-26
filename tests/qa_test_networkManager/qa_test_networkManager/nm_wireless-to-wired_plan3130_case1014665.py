@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -67,11 +67,11 @@ sleep(20)
 authenWireless(wireless1_pwd)
 
 # Step3: Left click on the NetworkManager icon, make sure "System eth0" and wireless1_name are checked
-checkConnection("System eth0")
+checkConnection("eth0")
 checkConnection(wireless1_name)
 
 # Check Connection Information
-checkInfo(['System eth0 (default)', 'Auto ' + wireless1_name,])
+checkInfo(['eth0', 'Auto ' + wireless1_name,])
 
 # Step4: Right click on the NetworkManager icon, uncheck Enable Wireless 
 nm_panel.mouseClick(button=3)
@@ -83,10 +83,10 @@ if enable_wireless.checked:
     sleep(config.MEDIUM_DELAY)
 
 # Step5: Make sure "Wired Network" System eth0 is still connected
-checkConnection("System eth0")
+checkConnection("eth0")
 
 # Check Connection Information
-checkInfo(['System eth0 (default)',])
+checkInfo(['eth0',])
 
 # Step6: Right click on the NetworkManager icon, check Enable Wireless 
 nm_panel.mouseClick(button=3)
@@ -100,11 +100,11 @@ if not enable_wireless.checked:
 authenWireless(wireless1_pwd)
 
 # Step7: Make sure "Wired Network" System eth0 is still connected
-checkConnection("System eth0")
+checkConnection("eth0")
 checkConnection(wireless1_name)
 
 # Check Connection Information
-checkInfo(['System eth0 (default)', 'Auto ' + wireless1_name,])
+checkInfo(['eth0', 'Auto ' + wireless1_name,])
 
 # Remove connection
 cleanConnection(wireless1_name)

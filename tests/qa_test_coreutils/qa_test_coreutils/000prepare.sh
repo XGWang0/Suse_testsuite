@@ -33,14 +33,14 @@ chown -R nobody /tmp/qa_test_coreutils || exit 1
 
 # Create a small virtual partition for tests that need one.
 dd if=/dev/zero of=/tmp/qa_coreutils_tmpfs bs=1k count=65535 || exit 1
-yes | mkfs -t ext2 /tmp/qa_coreutils_tmpfs || exit 1
+mkfs -t ext2 -F /tmp/qa_coreutils_tmpfs || exit 1
 mkdir /tmp/qa_coreutils_mnt || exit 1
 mount -t ext2 -o loop /tmp/qa_coreutils_tmpfs /tmp/qa_coreutils_mnt || exit 1
 chown -R nobody.users /tmp/qa_coreutils_mnt || exit 1
 
 # Create a full virtual partition for tests that need one.
 dd if=/dev/zero of=/tmp/qa_coreutils_full_tmpfs bs=1k count=1024 || exit 1
-yes | mkfs -t ext2 /tmp/qa_coreutils_full_tmpfs || exit 1
+mkfs -t ext2 -F /tmp/qa_coreutils_full_tmpfs || exit 1
 mkdir /tmp/qa_coreutils_full_mnt || exit 1
 mount -t ext2 -o loop /tmp/qa_coreutils_full_tmpfs /tmp/qa_coreutils_full_mnt || exit 1
 dd if=/dev/zero of=/tmp/qa_coreutils_full_mnt/zero

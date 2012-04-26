@@ -52,7 +52,7 @@ sh run-test 2&> /tmp/run-test
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-test
+    cat /tmp/run-test
     rm /tmp/run-test
     exit 1
   else    

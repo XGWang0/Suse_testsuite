@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -58,8 +58,6 @@ print doc
 # Get nm-applet application layer
 nm_applet_app = nmAppletApp()
 
-old_apps = cache._desktop.findAllApplications(None)
-
 # Step1: Left click on the NetworkManager icon and select Create New Wireless Network 
 nm_panel = nmPanel()
 
@@ -75,10 +73,13 @@ create_dialog = nm_applet_app.findDialog("Create New Wireless Network")
 create_dialog.findText(None).typeText('adhoc_test')
 sleep(config.SHORT_DELAY)
 
+old_apps = cache._desktop.findAllApplications(None, checkShowing=False)
+
 create_dialog.findPushButton("Create").mouseClick()
 sleep(config.SHORT_DELAY)
 
-new_apps = cache._desktop.findAllApplications(None)
+new_apps = cache._desktop.findAllApplications(None, checkShowing=False)
+
 if len(new_apps) == len(old_apps):
     pass
 else:

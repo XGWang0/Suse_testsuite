@@ -1,3 +1,4 @@
+test-tests: the test suite should not be run as root
 t -a noexist
 1
 t -a run-all

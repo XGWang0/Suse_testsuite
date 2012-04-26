@@ -47,7 +47,7 @@ Source5:	example.test
 Source6:	test_hw_multipath-run
 Source7:	qa_test_multipath.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArch: noarch
+BuildArch:	noarch
 Obsoletes:	qa_sw_multipath
 
 %description
@@ -82,9 +82,9 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT%{_docdir}/%{name}
-install -m 644 %{S:3} $RPM_BUILD_ROOT%{_docdir}/%{name}
-install -m 644 %{S:4} $RPM_BUILD_ROOT%{_docdir}/%{name}
-install -m 644 %{S:5} $RPM_BUILD_ROOT%{_docdir}/%{name}
+install -m 644 %{S:3} .
+install -m 644 %{S:4} .
+install -m 644 %{S:5} .
 
 ln -s ../%name/tcf/qa_sw_multipath.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%name/tcf/qa_hw_multipath.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
@@ -97,6 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
+%doc README.target README.tests example.test COPYING
 /usr/share/man/man8/qa_test_multipath.8.gz
 %dir %{_datadir}/qa
 %{_datadir}/qa/%name
@@ -106,10 +107,5 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/qa/tcf
 %{_datadir}/qa/tcf/qa_sw_multipath.tcf
 %{_datadir}/qa/tcf/qa_hw_multipath.tcf
-%dir %{_docdir}/%{name}
-%doc %{_docdir}/%{name}/README.target
-%doc %{_docdir}/%{name}/README.tests
-%doc %{_docdir}/%{name}/example.test
 
 %changelog
-

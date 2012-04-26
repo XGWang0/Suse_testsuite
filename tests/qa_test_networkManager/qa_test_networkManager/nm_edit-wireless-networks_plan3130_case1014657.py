@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -58,17 +58,17 @@ if wireless1_name == "" or wireless1_pwd == "":
     raise Exception, "ERROR: Please config nm_config to give Wireless settings"
     exit(11)
 
-# Get nm-applet application layer
-nm_applet_app = nmAppletApp()
-
 # Left click on the NetworkManager icon and select wireless1_name check item
 nm_panel = nmPanel()
 
 nm_panel.mouseClick()
 sleep(config.SHORT_DELAY)
 
+# Get nm-applet application layer
+nm_applet_app = nmAppletApp()
+
 nm_applet_app.findWindow(None).findCheckMenuItem(wireless1_name).mouseClick()
-sleep(20)
+sleep(60)
 authenWireless(wireless1_pwd)
 
 # Step1: Right click NetworkManager icon
@@ -113,7 +113,7 @@ connection_dialog.findPushButton("Close").mouseClick()
 sleep(config.SHORT_DELAY)
 
 nm_editor_app.assertClosed()
-sleep(30)
+sleep(80)
 
 # Step8: Make sure Authentication Required dialog appears due to wrong password
 try:

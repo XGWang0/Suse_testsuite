@@ -1,6 +1,6 @@
 #!/bin/sh
 
-
+. /usr/share/qa/qa_test_coreutils/detect.sh
 # Show that mv doesn't preserve links to files the user has declined to move.
 
 if test "$VERBOSE" = yes; then
@@ -31,26 +31,35 @@ if test $framework_failure = 1; then
   (exit 1); exit 1
 fi
 
-fail=0
 
-mv --reply=no a/bar a/foo b 2> err > out || fail=1
-cat <<EOF > exp
+if [ $ostag == "S11.2" ];then
+
+  exit 0
+
+else
+
+  fail=0
+  mv --reply=no a/bar a/foo b 2> err > out || fail=1
+
+  cat <<EOF > exp
 EOF
-
-cat <<EOF > exp_err
-mv: the --reply option is deprecated; use -i or -f instead
+  
+  cat <<EOF > exp_err
+  mv: the --reply option is deprecated; use -i or -f instead
 EOF
+  
+  cmp err exp_err || fail=1
+  test $fail = 1 && diff err exp_err 2> /dev/null
+  
+  cmp out exp || fail=1
+  test $fail = 1 && diff out exp 2> /dev/null
 
-cmp err exp_err || fail=1
-test $fail = 1 && diff err exp_err 2> /dev/null
+  case "`cat b/foo`" in
+    foo) ;;
+    *) fail=1;;
+  esac
 
-cmp out exp || fail=1
-test $fail = 1 && diff out exp 2> /dev/null
 
-case "`cat b/foo`" in
-  foo) ;;
-  *) fail=1;;
-esac
+  (exit $fail); exit $fail
 
-(exit $fail); exit $fail
-
+fi

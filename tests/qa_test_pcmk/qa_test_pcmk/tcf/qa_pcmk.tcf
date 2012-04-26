@@ -1,3 +1,4 @@
+
 fg 1 simple1 /usr/share/qa/qa_test_pcmk/simple1.sh
 wait
 
@@ -98,6 +99,14 @@ fg 1 bug-1718 /usr/share/qa/qa_test_pcmk/bug-1718.sh
 wait
 
 
+fg 1 bug-lf-2613 /usr/share/qa/qa_test_pcmk/bug-lf-2613.sh
+wait
+
+
+fg 1 bug-lf-2619 /usr/share/qa/qa_test_pcmk/bug-lf-2619.sh
+wait
+
+
 fg 1 rsc_dep1 /usr/share/qa/qa_test_pcmk/rsc_dep1.sh
 wait
 
@@ -155,6 +164,10 @@ wait
 
 
 fg 1 params-4 /usr/share/qa/qa_test_pcmk/params-4.sh
+wait
+
+
+fg 1 params-5 /usr/share/qa/qa_test_pcmk/params-5.sh
 wait
 
 
@@ -351,10 +364,6 @@ wait
 
 
 fg 1 rsc-sets-master /usr/share/qa/qa_test_pcmk/rsc-sets-master.sh
-wait
-
-
-fg 1 rsc-sets-clone-1 /usr/share/qa/qa_test_pcmk/rsc-sets-clone-1.sh
 wait
 
 
@@ -734,10 +743,6 @@ fg 1 clone-max-zero /usr/share/qa/qa_test_pcmk/clone-max-zero.sh
 wait
 
 
-fg 1 clone-anon-dup /usr/share/qa/qa_test_pcmk/clone-anon-dup.sh
-wait
-
-
 fg 1 bug-lf-2160 /usr/share/qa/qa_test_pcmk/bug-lf-2160.sh
 wait
 
@@ -918,6 +923,26 @@ fg 1 master-promotion-constraint /usr/share/qa/qa_test_pcmk/master-promotion-con
 wait
 
 
+fg 1 unmanaged-master /usr/share/qa/qa_test_pcmk/unmanaged-master.sh
+wait
+
+
+fg 1 master-unmanaged-monitor /usr/share/qa/qa_test_pcmk/master-unmanaged-monitor.sh
+wait
+
+
+fg 1 master-demote-2 /usr/share/qa/qa_test_pcmk/master-demote-2.sh
+wait
+
+
+fg 1 master-move /usr/share/qa/qa_test_pcmk/master-move.sh
+wait
+
+
+fg 1 history-1 /usr/share/qa/qa_test_pcmk/history-1.sh
+wait
+
+
 fg 1 managed-0 /usr/share/qa/qa_test_pcmk/managed-0.sh
 wait
 
@@ -975,58 +1000,6 @@ wait
 
 
 fg 1 novell-239079 /usr/share/qa/qa_test_pcmk/novell-239079.sh
-wait
-
-
-fg 1 594 /usr/share/qa/qa_test_pcmk/594.sh
-wait
-
-
-fg 1 662 /usr/share/qa/qa_test_pcmk/662.sh
-wait
-
-
-fg 1 696 /usr/share/qa/qa_test_pcmk/696.sh
-wait
-
-
-fg 1 726 /usr/share/qa/qa_test_pcmk/726.sh
-wait
-
-
-fg 1 735 /usr/share/qa/qa_test_pcmk/735.sh
-wait
-
-
-fg 1 764 /usr/share/qa/qa_test_pcmk/764.sh
-wait
-
-
-fg 1 797 /usr/share/qa/qa_test_pcmk/797.sh
-wait
-
-
-fg 1 829 /usr/share/qa/qa_test_pcmk/829.sh
-wait
-
-
-fg 1 994 /usr/share/qa/qa_test_pcmk/994.sh
-wait
-
-
-fg 1 994-2 /usr/share/qa/qa_test_pcmk/994-2.sh
-wait
-
-
-fg 1 1360 /usr/share/qa/qa_test_pcmk/1360.sh
-wait
-
-
-fg 1 1484 /usr/share/qa/qa_test_pcmk/1484.sh
-wait
-
-
-fg 1 1494 /usr/share/qa/qa_test_pcmk/1494.sh
 wait
 
 
@@ -1106,63 +1079,15 @@ fg 1 bug-lf-2551 /usr/share/qa/qa_test_pcmk/bug-lf-2551.sh
 wait
 
 
-fg 1 systemhealth1 /usr/share/qa/qa_test_pcmk/systemhealth1.sh
+fg 1 bug-lf-2606 /usr/share/qa/qa_test_pcmk/bug-lf-2606.sh
 wait
 
 
-fg 1 systemhealth2 /usr/share/qa/qa_test_pcmk/systemhealth2.sh
+fg 1 bug-lf-2474 /usr/share/qa/qa_test_pcmk/bug-lf-2474.sh
 wait
 
 
-fg 1 systemhealth3 /usr/share/qa/qa_test_pcmk/systemhealth3.sh
-wait
-
-
-fg 1 systemhealthn1 /usr/share/qa/qa_test_pcmk/systemhealthn1.sh
-wait
-
-
-fg 1 systemhealthn2 /usr/share/qa/qa_test_pcmk/systemhealthn2.sh
-wait
-
-
-fg 1 systemhealthn3 /usr/share/qa/qa_test_pcmk/systemhealthn3.sh
-wait
-
-
-fg 1 systemhealthm1 /usr/share/qa/qa_test_pcmk/systemhealthm1.sh
-wait
-
-
-fg 1 systemhealthm2 /usr/share/qa/qa_test_pcmk/systemhealthm2.sh
-wait
-
-
-fg 1 systemhealthm3 /usr/share/qa/qa_test_pcmk/systemhealthm3.sh
-wait
-
-
-fg 1 systemhealtho1 /usr/share/qa/qa_test_pcmk/systemhealtho1.sh
-wait
-
-
-fg 1 systemhealtho2 /usr/share/qa/qa_test_pcmk/systemhealtho2.sh
-wait
-
-
-fg 1 systemhealtho3 /usr/share/qa/qa_test_pcmk/systemhealtho3.sh
-wait
-
-
-fg 1 systemhealthp1 /usr/share/qa/qa_test_pcmk/systemhealthp1.sh
-wait
-
-
-fg 1 systemhealthp2 /usr/share/qa/qa_test_pcmk/systemhealthp2.sh
-wait
-
-
-fg 1 systemhealthp3 /usr/share/qa/qa_test_pcmk/systemhealthp3.sh
+fg 1 bug-suse-707150 /usr/share/qa/qa_test_pcmk/bug-suse-707150.sh
 wait
 
 
@@ -1206,15 +1131,583 @@ fg 1 utilization-order3 /usr/share/qa/qa_test_pcmk/utilization-order3.sh
 wait
 
 
-fg 1 utilization-order4 /usr/share/qa/qa_test_pcmk/utilization-order4.sh
-wait
-
-
-fg 1 bug-lf-2474 /usr/share/qa/qa_test_pcmk/bug-lf-2474.sh
+fg 1 utilization-shuffle /usr/share/qa/qa_test_pcmk/utilization-shuffle.sh
 wait
 
 
 fg 1 reprobe-target_rc /usr/share/qa/qa_test_pcmk/reprobe-target_rc.sh
+wait
+
+
+fg 1 stopped-monitor-00 /usr/share/qa/qa_test_pcmk/stopped-monitor-00.sh
+wait
+
+
+fg 1 stopped-monitor-01 /usr/share/qa/qa_test_pcmk/stopped-monitor-01.sh
+wait
+
+
+fg 1 stopped-monitor-02 /usr/share/qa/qa_test_pcmk/stopped-monitor-02.sh
+wait
+
+
+fg 1 stopped-monitor-03 /usr/share/qa/qa_test_pcmk/stopped-monitor-03.sh
+wait
+
+
+fg 1 stopped-monitor-04 /usr/share/qa/qa_test_pcmk/stopped-monitor-04.sh
+wait
+
+
+fg 1 stopped-monitor-05 /usr/share/qa/qa_test_pcmk/stopped-monitor-05.sh
+wait
+
+
+fg 1 stopped-monitor-06 /usr/share/qa/qa_test_pcmk/stopped-monitor-06.sh
+wait
+
+
+fg 1 stopped-monitor-07 /usr/share/qa/qa_test_pcmk/stopped-monitor-07.sh
+wait
+
+
+fg 1 stopped-monitor-08 /usr/share/qa/qa_test_pcmk/stopped-monitor-08.sh
+wait
+
+
+fg 1 stopped-monitor-09 /usr/share/qa/qa_test_pcmk/stopped-monitor-09.sh
+wait
+
+
+fg 1 stopped-monitor-10 /usr/share/qa/qa_test_pcmk/stopped-monitor-10.sh
+wait
+
+
+fg 1 stopped-monitor-11 /usr/share/qa/qa_test_pcmk/stopped-monitor-11.sh
+wait
+
+
+fg 1 stopped-monitor-12 /usr/share/qa/qa_test_pcmk/stopped-monitor-12.sh
+wait
+
+
+fg 1 stopped-monitor-20 /usr/share/qa/qa_test_pcmk/stopped-monitor-20.sh
+wait
+
+
+fg 1 stopped-monitor-21 /usr/share/qa/qa_test_pcmk/stopped-monitor-21.sh
+wait
+
+
+fg 1 stopped-monitor-22 /usr/share/qa/qa_test_pcmk/stopped-monitor-22.sh
+wait
+
+
+fg 1 stopped-monitor-23 /usr/share/qa/qa_test_pcmk/stopped-monitor-23.sh
+wait
+
+
+fg 1 stopped-monitor-24 /usr/share/qa/qa_test_pcmk/stopped-monitor-24.sh
+wait
+
+
+fg 1 stopped-monitor-25 /usr/share/qa/qa_test_pcmk/stopped-monitor-25.sh
+wait
+
+
+fg 1 stopped-monitor-26 /usr/share/qa/qa_test_pcmk/stopped-monitor-26.sh
+wait
+
+
+fg 1 stopped-monitor-27 /usr/share/qa/qa_test_pcmk/stopped-monitor-27.sh
+wait
+
+
+fg 1 stopped-monitor-30 /usr/share/qa/qa_test_pcmk/stopped-monitor-30.sh
+wait
+
+
+fg 1 stopped-monitor-31 /usr/share/qa/qa_test_pcmk/stopped-monitor-31.sh
+wait
+
+
+fg 1 ticket-primitive-1 /usr/share/qa/qa_test_pcmk/ticket-primitive-1.sh
+wait
+
+
+fg 1 ticket-primitive-2 /usr/share/qa/qa_test_pcmk/ticket-primitive-2.sh
+wait
+
+
+fg 1 ticket-primitive-3 /usr/share/qa/qa_test_pcmk/ticket-primitive-3.sh
+wait
+
+
+fg 1 ticket-primitive-4 /usr/share/qa/qa_test_pcmk/ticket-primitive-4.sh
+wait
+
+
+fg 1 ticket-primitive-5 /usr/share/qa/qa_test_pcmk/ticket-primitive-5.sh
+wait
+
+
+fg 1 ticket-primitive-6 /usr/share/qa/qa_test_pcmk/ticket-primitive-6.sh
+wait
+
+
+fg 1 ticket-primitive-7 /usr/share/qa/qa_test_pcmk/ticket-primitive-7.sh
+wait
+
+
+fg 1 ticket-primitive-8 /usr/share/qa/qa_test_pcmk/ticket-primitive-8.sh
+wait
+
+
+fg 1 ticket-primitive-9 /usr/share/qa/qa_test_pcmk/ticket-primitive-9.sh
+wait
+
+
+fg 1 ticket-primitive-10 /usr/share/qa/qa_test_pcmk/ticket-primitive-10.sh
+wait
+
+
+fg 1 ticket-primitive-11 /usr/share/qa/qa_test_pcmk/ticket-primitive-11.sh
+wait
+
+
+fg 1 ticket-primitive-12 /usr/share/qa/qa_test_pcmk/ticket-primitive-12.sh
+wait
+
+
+fg 1 ticket-primitive-13 /usr/share/qa/qa_test_pcmk/ticket-primitive-13.sh
+wait
+
+
+fg 1 ticket-primitive-14 /usr/share/qa/qa_test_pcmk/ticket-primitive-14.sh
+wait
+
+
+fg 1 ticket-primitive-15 /usr/share/qa/qa_test_pcmk/ticket-primitive-15.sh
+wait
+
+
+fg 1 ticket-primitive-16 /usr/share/qa/qa_test_pcmk/ticket-primitive-16.sh
+wait
+
+
+fg 1 ticket-primitive-17 /usr/share/qa/qa_test_pcmk/ticket-primitive-17.sh
+wait
+
+
+fg 1 ticket-primitive-18 /usr/share/qa/qa_test_pcmk/ticket-primitive-18.sh
+wait
+
+
+fg 1 ticket-primitive-19 /usr/share/qa/qa_test_pcmk/ticket-primitive-19.sh
+wait
+
+
+fg 1 ticket-primitive-20 /usr/share/qa/qa_test_pcmk/ticket-primitive-20.sh
+wait
+
+
+fg 1 ticket-primitive-21 /usr/share/qa/qa_test_pcmk/ticket-primitive-21.sh
+wait
+
+
+fg 1 ticket-primitive-22 /usr/share/qa/qa_test_pcmk/ticket-primitive-22.sh
+wait
+
+
+fg 1 ticket-primitive-23 /usr/share/qa/qa_test_pcmk/ticket-primitive-23.sh
+wait
+
+
+fg 1 ticket-primitive-24 /usr/share/qa/qa_test_pcmk/ticket-primitive-24.sh
+wait
+
+
+fg 1 ticket-group-1 /usr/share/qa/qa_test_pcmk/ticket-group-1.sh
+wait
+
+
+fg 1 ticket-group-2 /usr/share/qa/qa_test_pcmk/ticket-group-2.sh
+wait
+
+
+fg 1 ticket-group-3 /usr/share/qa/qa_test_pcmk/ticket-group-3.sh
+wait
+
+
+fg 1 ticket-group-4 /usr/share/qa/qa_test_pcmk/ticket-group-4.sh
+wait
+
+
+fg 1 ticket-group-5 /usr/share/qa/qa_test_pcmk/ticket-group-5.sh
+wait
+
+
+fg 1 ticket-group-6 /usr/share/qa/qa_test_pcmk/ticket-group-6.sh
+wait
+
+
+fg 1 ticket-group-7 /usr/share/qa/qa_test_pcmk/ticket-group-7.sh
+wait
+
+
+fg 1 ticket-group-8 /usr/share/qa/qa_test_pcmk/ticket-group-8.sh
+wait
+
+
+fg 1 ticket-group-9 /usr/share/qa/qa_test_pcmk/ticket-group-9.sh
+wait
+
+
+fg 1 ticket-group-10 /usr/share/qa/qa_test_pcmk/ticket-group-10.sh
+wait
+
+
+fg 1 ticket-group-11 /usr/share/qa/qa_test_pcmk/ticket-group-11.sh
+wait
+
+
+fg 1 ticket-group-12 /usr/share/qa/qa_test_pcmk/ticket-group-12.sh
+wait
+
+
+fg 1 ticket-group-13 /usr/share/qa/qa_test_pcmk/ticket-group-13.sh
+wait
+
+
+fg 1 ticket-group-14 /usr/share/qa/qa_test_pcmk/ticket-group-14.sh
+wait
+
+
+fg 1 ticket-group-15 /usr/share/qa/qa_test_pcmk/ticket-group-15.sh
+wait
+
+
+fg 1 ticket-group-16 /usr/share/qa/qa_test_pcmk/ticket-group-16.sh
+wait
+
+
+fg 1 ticket-group-17 /usr/share/qa/qa_test_pcmk/ticket-group-17.sh
+wait
+
+
+fg 1 ticket-group-18 /usr/share/qa/qa_test_pcmk/ticket-group-18.sh
+wait
+
+
+fg 1 ticket-group-19 /usr/share/qa/qa_test_pcmk/ticket-group-19.sh
+wait
+
+
+fg 1 ticket-group-20 /usr/share/qa/qa_test_pcmk/ticket-group-20.sh
+wait
+
+
+fg 1 ticket-group-21 /usr/share/qa/qa_test_pcmk/ticket-group-21.sh
+wait
+
+
+fg 1 ticket-group-22 /usr/share/qa/qa_test_pcmk/ticket-group-22.sh
+wait
+
+
+fg 1 ticket-group-23 /usr/share/qa/qa_test_pcmk/ticket-group-23.sh
+wait
+
+
+fg 1 ticket-group-24 /usr/share/qa/qa_test_pcmk/ticket-group-24.sh
+wait
+
+
+fg 1 ticket-clone-1 /usr/share/qa/qa_test_pcmk/ticket-clone-1.sh
+wait
+
+
+fg 1 ticket-clone-2 /usr/share/qa/qa_test_pcmk/ticket-clone-2.sh
+wait
+
+
+fg 1 ticket-clone-3 /usr/share/qa/qa_test_pcmk/ticket-clone-3.sh
+wait
+
+
+fg 1 ticket-clone-4 /usr/share/qa/qa_test_pcmk/ticket-clone-4.sh
+wait
+
+
+fg 1 ticket-clone-5 /usr/share/qa/qa_test_pcmk/ticket-clone-5.sh
+wait
+
+
+fg 1 ticket-clone-6 /usr/share/qa/qa_test_pcmk/ticket-clone-6.sh
+wait
+
+
+fg 1 ticket-clone-7 /usr/share/qa/qa_test_pcmk/ticket-clone-7.sh
+wait
+
+
+fg 1 ticket-clone-8 /usr/share/qa/qa_test_pcmk/ticket-clone-8.sh
+wait
+
+
+fg 1 ticket-clone-9 /usr/share/qa/qa_test_pcmk/ticket-clone-9.sh
+wait
+
+
+fg 1 ticket-clone-10 /usr/share/qa/qa_test_pcmk/ticket-clone-10.sh
+wait
+
+
+fg 1 ticket-clone-11 /usr/share/qa/qa_test_pcmk/ticket-clone-11.sh
+wait
+
+
+fg 1 ticket-clone-12 /usr/share/qa/qa_test_pcmk/ticket-clone-12.sh
+wait
+
+
+fg 1 ticket-clone-13 /usr/share/qa/qa_test_pcmk/ticket-clone-13.sh
+wait
+
+
+fg 1 ticket-clone-14 /usr/share/qa/qa_test_pcmk/ticket-clone-14.sh
+wait
+
+
+fg 1 ticket-clone-15 /usr/share/qa/qa_test_pcmk/ticket-clone-15.sh
+wait
+
+
+fg 1 ticket-clone-16 /usr/share/qa/qa_test_pcmk/ticket-clone-16.sh
+wait
+
+
+fg 1 ticket-clone-17 /usr/share/qa/qa_test_pcmk/ticket-clone-17.sh
+wait
+
+
+fg 1 ticket-clone-18 /usr/share/qa/qa_test_pcmk/ticket-clone-18.sh
+wait
+
+
+fg 1 ticket-clone-19 /usr/share/qa/qa_test_pcmk/ticket-clone-19.sh
+wait
+
+
+fg 1 ticket-clone-20 /usr/share/qa/qa_test_pcmk/ticket-clone-20.sh
+wait
+
+
+fg 1 ticket-clone-21 /usr/share/qa/qa_test_pcmk/ticket-clone-21.sh
+wait
+
+
+fg 1 ticket-clone-22 /usr/share/qa/qa_test_pcmk/ticket-clone-22.sh
+wait
+
+
+fg 1 ticket-clone-23 /usr/share/qa/qa_test_pcmk/ticket-clone-23.sh
+wait
+
+
+fg 1 ticket-clone-24 /usr/share/qa/qa_test_pcmk/ticket-clone-24.sh
+wait
+
+
+fg 1 ticket-master-1 /usr/share/qa/qa_test_pcmk/ticket-master-1.sh
+wait
+
+
+fg 1 ticket-master-2 /usr/share/qa/qa_test_pcmk/ticket-master-2.sh
+wait
+
+
+fg 1 ticket-master-3 /usr/share/qa/qa_test_pcmk/ticket-master-3.sh
+wait
+
+
+fg 1 ticket-master-4 /usr/share/qa/qa_test_pcmk/ticket-master-4.sh
+wait
+
+
+fg 1 ticket-master-5 /usr/share/qa/qa_test_pcmk/ticket-master-5.sh
+wait
+
+
+fg 1 ticket-master-6 /usr/share/qa/qa_test_pcmk/ticket-master-6.sh
+wait
+
+
+fg 1 ticket-master-7 /usr/share/qa/qa_test_pcmk/ticket-master-7.sh
+wait
+
+
+fg 1 ticket-master-8 /usr/share/qa/qa_test_pcmk/ticket-master-8.sh
+wait
+
+
+fg 1 ticket-master-9 /usr/share/qa/qa_test_pcmk/ticket-master-9.sh
+wait
+
+
+fg 1 ticket-master-10 /usr/share/qa/qa_test_pcmk/ticket-master-10.sh
+wait
+
+
+fg 1 ticket-master-11 /usr/share/qa/qa_test_pcmk/ticket-master-11.sh
+wait
+
+
+fg 1 ticket-master-12 /usr/share/qa/qa_test_pcmk/ticket-master-12.sh
+wait
+
+
+fg 1 ticket-master-13 /usr/share/qa/qa_test_pcmk/ticket-master-13.sh
+wait
+
+
+fg 1 ticket-master-14 /usr/share/qa/qa_test_pcmk/ticket-master-14.sh
+wait
+
+
+fg 1 ticket-master-15 /usr/share/qa/qa_test_pcmk/ticket-master-15.sh
+wait
+
+
+fg 1 ticket-master-16 /usr/share/qa/qa_test_pcmk/ticket-master-16.sh
+wait
+
+
+fg 1 ticket-master-17 /usr/share/qa/qa_test_pcmk/ticket-master-17.sh
+wait
+
+
+fg 1 ticket-master-18 /usr/share/qa/qa_test_pcmk/ticket-master-18.sh
+wait
+
+
+fg 1 ticket-master-19 /usr/share/qa/qa_test_pcmk/ticket-master-19.sh
+wait
+
+
+fg 1 ticket-master-20 /usr/share/qa/qa_test_pcmk/ticket-master-20.sh
+wait
+
+
+fg 1 ticket-master-21 /usr/share/qa/qa_test_pcmk/ticket-master-21.sh
+wait
+
+
+fg 1 ticket-master-22 /usr/share/qa/qa_test_pcmk/ticket-master-22.sh
+wait
+
+
+fg 1 ticket-master-23 /usr/share/qa/qa_test_pcmk/ticket-master-23.sh
+wait
+
+
+fg 1 ticket-master-24 /usr/share/qa/qa_test_pcmk/ticket-master-24.sh
+wait
+
+
+fg 1 ticket-rsc-sets-1 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-1.sh
+wait
+
+
+fg 1 ticket-rsc-sets-2 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-2.sh
+wait
+
+
+fg 1 ticket-rsc-sets-3 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-3.sh
+wait
+
+
+fg 1 ticket-rsc-sets-4 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-4.sh
+wait
+
+
+fg 1 ticket-rsc-sets-5 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-5.sh
+wait
+
+
+fg 1 ticket-rsc-sets-6 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-6.sh
+wait
+
+
+fg 1 ticket-rsc-sets-7 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-7.sh
+wait
+
+
+fg 1 ticket-rsc-sets-8 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-8.sh
+wait
+
+
+fg 1 ticket-rsc-sets-9 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-9.sh
+wait
+
+
+fg 1 ticket-rsc-sets-10 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-10.sh
+wait
+
+
+fg 1 ticket-rsc-sets-11 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-11.sh
+wait
+
+
+fg 1 ticket-rsc-sets-12 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-12.sh
+wait
+
+
+fg 1 ticket-rsc-sets-13 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-13.sh
+wait
+
+
+fg 1 ticket-rsc-sets-14 /usr/share/qa/qa_test_pcmk/ticket-rsc-sets-14.sh
+wait
+
+
+fg 1 template-1 /usr/share/qa/qa_test_pcmk/template-1.sh
+wait
+
+
+fg 1 template-2 /usr/share/qa/qa_test_pcmk/template-2.sh
+wait
+
+
+fg 1 template-3 /usr/share/qa/qa_test_pcmk/template-3.sh
+wait
+
+
+fg 1 template-coloc-1 /usr/share/qa/qa_test_pcmk/template-coloc-1.sh
+wait
+
+
+fg 1 template-coloc-2 /usr/share/qa/qa_test_pcmk/template-coloc-2.sh
+wait
+
+
+fg 1 template-coloc-3 /usr/share/qa/qa_test_pcmk/template-coloc-3.sh
+wait
+
+
+fg 1 template-order-1 /usr/share/qa/qa_test_pcmk/template-order-1.sh
+wait
+
+
+fg 1 template-order-2 /usr/share/qa/qa_test_pcmk/template-order-2.sh
+wait
+
+
+fg 1 template-order-3 /usr/share/qa/qa_test_pcmk/template-order-3.sh
+wait
+
+
+fg 1 template-ticket /usr/share/qa/qa_test_pcmk/template-ticket.sh
 wait
 
 

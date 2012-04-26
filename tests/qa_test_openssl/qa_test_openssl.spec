@@ -17,8 +17,8 @@ Group:          SuSE internal
 Summary:        Unittests for openssl framework using the system openssl
 Provides:	qa_openssl
 Obsoletes:	qa_openssl
-Requires:       make openssl bc ctcs2 libopenssl-devel perl
-BuildRequires:  make openssl bc ctcs2 libopenssl-devel perl
+Requires:       make openssl bc ctcs2 libopenssl-devel perl gcc
+BuildRequires:  make openssl bc ctcs2 libopenssl-devel perl gcc
 %if 0%{?suse_version} < 1120
 Version:	0.9.8r
 %else
@@ -30,7 +30,7 @@ Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
 Source3:	generate_openssl_tests.sh
 Source4:	qa_test_openssl_benchmark.sh
-Source5:	qa_test_openssl_benchmark_z.sh
+Source5:	process_benchmarks.pl
 Patch0:		qa_test_openssl-Makefile-1.0.0e.patch
 Patch1:		qa_test_openssl-Makefile-0.9.8r.patch
 Patch2:		qa_test_openssl-sle10-drop-ige.patch
@@ -103,8 +103,7 @@ cat $RPM_BUILD_ROOT/%{qa_location}/ctcs2_test_list | while read test; do
 	echo -en "wait\n\n"
 done >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
 echo -en "timer 300\nfg 1 clean %{qa_location}/ctcs2_run_test.sh clean\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
-echo -en "timer 3000\nfg 1 openssl_bench %{qa_location}/qa_test_openssl_benchmark.sh\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
-echo -en "timer 3000\nfg 1 openssl_bench_z %{qa_location}/qa_test_openssl_benchmark_z.sh\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
+echo -en "timer 6000\nfg 1 openssl_benchmark %{qa_location}/qa_test_openssl_benchmark.sh\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
 
 
 %clean

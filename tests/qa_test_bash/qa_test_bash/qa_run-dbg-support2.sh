@@ -52,7 +52,7 @@ sh run-dbg-support2 2&> /tmp/run-dbg-support2
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-dbg-support2
+    cat /tmp/run-dbg-support2
     rm /tmp/run-dbg-support2
     exit 1
   else    

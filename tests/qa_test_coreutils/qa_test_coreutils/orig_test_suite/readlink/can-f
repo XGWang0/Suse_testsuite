@@ -81,14 +81,14 @@ for p in "" "$pwd/$tmp/"; do
   v=`readlink -f ${p}subdir/more` || break
   test "$v" = "$my_pwd/$tmp/subdir/more" || break
 
-  v=`readlink -f ${p}./subdir/more/` && break
-  test -z "$v" || break
+  v=`readlink -f ${p}./subdir/more/` || break
+  test "$v" = "$my_pwd/$tmp/subdir/more" || break
 
   v=`readlink -f ${p}missing` || break
   test "$v" = "$my_pwd/$tmp/missing" || break
 
-  v=`readlink -f ${p}./missing/` && break
-  test -z "$v" || break
+  v=`readlink -f ${p}./missing/` || break
+  test "$v" = "$my_pwd/$tmp/missing" || break
 
   v=`readlink -f ${p}missing/more` && break
   test -z "$v" || break
@@ -117,8 +117,8 @@ for p in "" "$pwd/$tmp/"; do
   v=`readlink -f ${p}link2/more` || break
   test "$v" = "$my_pwd/$tmp/subdir/more" || break
 
-  v=`readlink -f ${p}./link2/more/` && break
-  test -z "$v" || break
+  v=`readlink -f ${p}./link2/more/` || break
+  test "$v" = "$my_pwd/$tmp/subdir/more" || break
 
   v=`readlink -f ${p}link2/more/more2` && break
   test -z "$v" || break
@@ -129,8 +129,8 @@ for p in "" "$pwd/$tmp/"; do
   v=`readlink -f ${p}link3` || break
   test "$v" = "$my_pwd/$tmp/missing" || break
 
-  v=`readlink -f ${p}./link3/` && break
-  test -z "$v" || break
+  v=`readlink -f ${p}./link3/` || break
+  test "$v" = "$my_pwd/$tmp/missing" || break
 
   v=`readlink -f ${p}link3/more` && break
   test -z "$v" || break
@@ -141,8 +141,8 @@ for p in "" "$pwd/$tmp/"; do
   v=`readlink -f ${p}link4` || break
   test "$v" = "$my_pwd/$tmp/subdir/missing" || break
 
-  v=`readlink -f ${p}./link4/` && break
-  test -z "$v" || break
+  v=`readlink -f ${p}./link4/` || break
+  test "$v" = "$my_pwd/$tmp/subdir/missing" || break
 
   v=`readlink -f ${p}link4/more` && break
   test -z "$v" || break

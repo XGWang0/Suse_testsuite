@@ -54,7 +54,7 @@ sh run-array2 2&> /tmp/run-array2
     echo "FAILED: bash test had an error :(" >&2
     echo "warning: all of these tests will fail if arrays have not" >&2
     echo "warning: been compiled into the shell" >&2
-    less /tmp/run-array2
+    cat /tmp/run-array2
     rm /tmp/run-array2
     exit 1
   else    

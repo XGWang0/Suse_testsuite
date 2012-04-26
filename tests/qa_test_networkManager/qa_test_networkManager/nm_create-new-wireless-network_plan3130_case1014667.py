@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -71,10 +71,28 @@ create_dialog = nm_applet_app.findDialog("Create New Wireless Network")
 # Step2: Specify an ad-hoc network named "NewTest", Select security method "None"
 create_dialog.findText(None).typeText('NewTest')
 sleep(config.SHORT_DELAY)
+old_apps = cache._desktop.findAllApplications(None, checkShowing=False)
 
 # Click the "Create" button
 create_dialog.findPushButton("Create").mouseClick()
 sleep(config.SHORT_DELAY)
+
+new_apps = cache._desktop.findAllApplications(None, checkShowing=False)
+
+if len(new_apps) == len(old_apps):
+    pass
+else:
+    authenticate = cache._desktop.findApplication('polkit-gnome-manager', checkShowing=False)
+    authen_dialog = authenticate.findDialog("Authenticate")
+    authen_dialog.findPasswordText(None).typeText(sys1_root_pwd)
+    sleep(config.SHORT_DELAY)
+
+    authen_dialog.findCheckBox("Remember authorization").mouseClick()
+    sleep(config.SHORT_DELAY)
+
+    authen_dialog.findPushButton("Authenticate").mouseClick()
+    sleep(config.SHORT_DELAY)
+
 
 create_dialog.assertClosed()
 sleep(30)

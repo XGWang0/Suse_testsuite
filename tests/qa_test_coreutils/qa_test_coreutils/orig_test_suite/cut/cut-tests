@@ -2341,7 +2341,9 @@ else
   esac
 fi
 test -s multichar-od.E || rm -f multichar-od.E
-$xx '-dï¿½' -f2,3 --out=_ $srcdir/8bit-delim.I > 8bit-delim.O 2> 8bit-delim.E
+
+
+$xx '-d­' -f2,3 --out=_ $srcdir/8bit-delim.I > 8bit-delim.O 2> 8bit-delim.E
 code=$?
 if test $code != 0; then
   $echo "Test 8bit-delim(F) failed: $xx return code $code differs from expected value 0" 1>&2
@@ -2359,7 +2361,7 @@ else
   esac
 fi
 test -s 8bit-delim.E || rm -f 8bit-delim.E
-cat $srcdir/8bit-delim.I | $xx '-dï¿½' -f2,3 --out=_ > 8bit-delim.O 2> 8bit-delim.E
+cat $srcdir/8bit-delim.I | $xx '-d­' -f2,3 --out=_ > 8bit-delim.O 2> 8bit-delim.E
 code=$?
 if test $code != 0; then
   $echo "Test 8bit-delim(|) failed: $xx return code $code differs from expected value 0" 1>&2
@@ -2377,7 +2379,7 @@ else
   esac
 fi
 test -s 8bit-delim.E || rm -f 8bit-delim.E
-$xx '-dï¿½' -f2,3 --out=_ < $srcdir/8bit-delim.I > 8bit-delim.O 2> 8bit-delim.E
+$xx '-d­' -f2,3 --out=_ < $srcdir/8bit-delim.I > 8bit-delim.O 2> 8bit-delim.E
 code=$?
 if test $code != 0; then
   $echo "Test 8bit-delim(<) failed: $xx return code $code differs from expected value 0" 1>&2

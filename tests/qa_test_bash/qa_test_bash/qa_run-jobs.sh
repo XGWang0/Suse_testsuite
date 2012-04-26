@@ -56,7 +56,7 @@ sh run-jobs 2&> /tmp/run-jobs
 echo "warning: into the shell" >&2
 echo "warning: there may be a message regarding a cat process dying due to a" >&2
 echo "warning: SIGHUP.  Please disregard." >&2
-    less /tmp/run-jobs
+    cat /tmp/run-jobs
     rm /tmp/run-jobs
     exit 1
   else    

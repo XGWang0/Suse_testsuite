@@ -12,11 +12,11 @@
 . /usr/share/qa/qa_test_lvm2/lib/test
 
 extend() {
-        lvextend --alloc --config "activation { snapshot_extend_threshold = $1 }" $vg/snap
+        lvextend --use-policies --config "activation { snapshot_extend_threshold = $1 }" $vg/snap
 }
 
 write() {
-	mkdir $TESTDIR/mnt
+	mkdir -p $TESTDIR/mnt
 	mount /dev/$vg/snap $TESTDIR/mnt
 	dd if=/dev/zero of=$TESTDIR/mnt/file$1 bs=1k count=$2
 	umount $TESTDIR/mnt

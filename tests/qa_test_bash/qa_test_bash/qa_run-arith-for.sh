@@ -52,7 +52,7 @@ sh run-arith-for 2&> /tmp/run-arith-for
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-arith-for
+    cat /tmp/run-arith-for
     rm /tmp/run-arith-for
     exit 1
   else    

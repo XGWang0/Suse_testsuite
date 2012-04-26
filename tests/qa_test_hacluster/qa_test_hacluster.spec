@@ -66,6 +66,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools/test_hacluster-run
 
 %changelog
+* Fri Jan 13 2012 - vpelcak@suse.com
+- Added Apache + MySQL deployment
+
 * Fri Dec 03 2010 - vpelcak@novell.com
 - Finished cLVM, initial work on CTDB
 

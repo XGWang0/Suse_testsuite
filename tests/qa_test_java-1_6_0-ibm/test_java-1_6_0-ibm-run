@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_java-1_6_0-ibm.tcf

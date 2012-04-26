@@ -52,7 +52,7 @@ sh run-set-e 2&> /tmp/run-set-e
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-set-e
+    cat /tmp/run-set-e
     rm /tmp/run-set-e
     exit 1
   else    

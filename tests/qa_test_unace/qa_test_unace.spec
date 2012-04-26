@@ -79,6 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/tcf/qa_unace.tcf
 /usr/share/qa/tools/test_unace-run
+%doc COPYING
 
 %changelog -n qa_test_unace
 * Wed Aug 10 09:19:08 GMT 2011 - llipavsky@suse.cz

@@ -52,7 +52,7 @@ sh run-posixpat 2&> /tmp/run-posixpat
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-posixpat
+    cat /tmp/run-posixpat
     rm /tmp/run-posixpat
     exit 1
   else    

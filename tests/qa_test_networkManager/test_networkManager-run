@@ -1,6 +1,6 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -22,10 +22,30 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+username=`who |grep :0 | head -n 1 |awk {'print $1'}`
+
+comments="
 export LANG=C
 export DISPLAY=:0.0
 xhost +
-killall /usr/lib/at-spi/at-spi-registryd
-[ `ps aux | grep at-spi-registry | wc -l` -gt 1 ] || /usr/lib/at-spi/at-spi-registryd&
-/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_networkManager.tcf
+killall gnome-panel
+sleep 5
+killall -9 -q /usr/lib/at-spi/at-spi-registryd nm-applet NetworkManager
+sleep 2
+NetworkManager&
+sleep 2
+nm-applet&
+sleep 5
+sh -c \"/usr/lib/at-spi/at-spi-registryd&\"
+sleep 3
+eval \`dbus-launch --sh-syntax&\`
+sleep 3
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_networkManager.tcf"
 
+if [ "$username" != "$USER" ]; then
+	su - $username 2>/dev/null -c "$comments"
+	cp -r `getent passwd $username | cut -d: -f 6`/var-log-qa/* /var/log/qa
+	su - $username 2>/dev/null -c "cd; rm -fr var-log-qa"
+else
+	sh -c "$comments"
+fi

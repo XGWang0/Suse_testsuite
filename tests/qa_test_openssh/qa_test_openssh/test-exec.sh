@@ -4,6 +4,7 @@
 #SUDO=sudo
 
 # Unbreak GNU head(1)
+export LC_ALL=C
 _POSIX2_VERSION=199209
 export _POSIX2_VERSION
 

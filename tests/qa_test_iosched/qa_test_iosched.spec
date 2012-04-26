@@ -72,7 +72,8 @@ cp -v iosched_testing.sh $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 cp -v qa_iosched_test.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf/
 ln -sf ../%{name}/tcf/qa_iosched_test.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iosched_test.tcf
 ln -sf ../../../share/qa/%{name}/tcf/qa_iosched_test.tcf  $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/qa_iosched_test.tcf
-install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/
+cp -v %{S:2} $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/
+ln -sf $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_iosched-run /usr/share/qa/tools/test_iosched-run
 
 %clean
 rm -rvf $RPM_BUILD_ROOT
@@ -85,6 +86,7 @@ rm -rvf $RPM_BUILD_ROOT
 /usr/share/qa
 /usr/share/qa/qa_test_iosched
 /usr/share/qa/tcf/qa_iosched_test.tcf
+%doc COPYING
 
 %changelog -n qa_test_iosched
 * Wed Feb 15 2006 - fseidel@suse.de

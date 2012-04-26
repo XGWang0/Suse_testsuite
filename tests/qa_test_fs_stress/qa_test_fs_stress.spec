@@ -79,6 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/lib/ctcs2
 %attr (0755, root, root) /usr/share/qa/tools/test_fs_stress-run
 %attr (0755, root, root) /usr/share/qa/tools/file_copy
+%doc COPYING
+
 %changelog
 * Wed Apr 01 2009 yxu@suse.de
 - initial release

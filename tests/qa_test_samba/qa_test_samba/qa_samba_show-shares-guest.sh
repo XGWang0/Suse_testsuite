@@ -135,8 +135,8 @@ $TEST_SHARE3
 		return 1
 	fi
 
-	restartService smb && checkService smb || return 1
-	restartService nmb && checkService nmb || return 1
+	restartService smb && sleep 10 && checkService smb || return 1
+	restartService nmb && sleep 10 && checkService nmb || return 1
 
 	return 0
 

@@ -1,0 +1,70 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+#
+#  Copyright International Business Machines Corp. 2008
+#
+#  Authors:	Balbir Singh <balbir@linux.vnet.ibm.com>
+#  This program is free software; you can redistribute it and/or modify it
+#  under the terms of version 2.1 of the GNU Lesser General Public License
+#  as published by the Free Software Foundation.
+#
+#  This program is distributed in the hope that it would be useful, but
+#  WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+AC_PREREQ(2.61)
+
+# In following section update all occurences of version, including soname
+AC_INIT([libcgroup], 0.37.1)
+AM_INIT_AUTOMAKE([foreign dist-bzip2])
+
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+
+# set library version, soname is libcgroup.so.MAJOR
+AC_SUBST(LIBRARY_VERSION_MAJOR, 1)
+AC_SUBST(LIBRARY_VERSION_MINOR, 0)
+AC_SUBST(LIBRARY_VERSION_RELEASE, 37)
+
+# we do not want static libraries
+AC_DISABLE_STATIC
+
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_YACC
+if test "$YACC" = yacc; then
+    AC_CHECK_PROG([REALLY_YACC], [yacc], [yacc])
+    if test "$REALLY_YACC" = ""; then
+        AC_MSG_ERROR([This program cannot be built unless a version of yacc is installed.])
+    fi
+fi
+AM_PROG_LEX
+if test "$LEX" != flex; then
+    AC_MSG_ERROR([This program cannot be built unless flex is installed.])
+fi
+AC_PROG_LIBTOOL
+
+# Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_CHECK_HEADERS([limits.h mntent.h stdlib.h string.h sys/mount.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_TYPE_UID_T
+AC_C_INLINE
+AC_TYPE_INT64_T
+AC_TYPE_PID_T
+
+# Checks for library functions.
+AC_FUNC_CHOWN
+AC_FUNC_GETMNTENT
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_FUNC_STAT
+AC_CHECK_FUNCS([getmntent hasmntopt memset mkdir rmdir strdup])
+
+AC_CONFIG_FILES([Makefile])
+CFLAGS="$CFLAGS -Wall"
+AC_OUTPUT
+

@@ -685,7 +685,9 @@ else
   esac
 fi
 test -s sp-vs-blank.E || rm -f sp-vs-blank.E
-$xx -tï¿½ $srcdir/8-bit-t.I1 $srcdir/8-bit-t.I2 > 8-bit-t.O 2> 8-bit-t.E
+
+
+$xx -t§ $srcdir/8-bit-t.I1 $srcdir/8-bit-t.I2 > 8-bit-t.O 2> 8-bit-t.E
 code=$?
 if test $code != 0; then
   $echo "Test 8-bit-t failed: $xx return code $code differs from expected value 0" 1>&2
