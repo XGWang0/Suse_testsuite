@@ -27,17 +27,16 @@ wait_for_cluster()
   status_done
 }
 
-while getopts :a:b:i:l:m:p:s:t:x arg; do
+while getopts :a:b:i:l:m:p:s:t arg; do
 	case $arg in
 	a)	addon="$OPTARG";;
 	b)	bindnetaddr="$OPTARG";;
-	i)	iscsi_sbd_host="$OPTARG";;
+	i)	iscsi_host="$OPTARG";;
 	l)	login="$OPTARG";;
 	m)	mcastaddr="$OPTARG";;
 	p)	password="$OPTARG";;
 	s)	sbd_disk="$OPTARG";;
 	t)	target="$OPTARG";;
-	x)	server=TRUE;;
 	:)
 		echo "$0:Option $OPTARG requires variable".
 	exit 1
@@ -48,9 +47,9 @@ while getopts :a:b:i:l:m:p:s:t:x arg; do
 	esac
 done
 
-sntp -P no -r pool.ntp.org
+sntp -P no -r ntp.suse.cz
 
-if [[ $iscsi_sbd_host && ! -e /sbin/iscsiadm ]]; then
+if [[ $iscsi_host && ! -e /sbin/iscsiadm ]]; then
   zypper in -y open-iscsi
 fi
 
@@ -62,7 +61,7 @@ if [[ $addon && $bindnetaddr && $mcastaddr && $sbd_disk ]]; then
     zypper in -l -y -t product sle-hae
     zypper in -y -t pattern ha_sles
   fi
-  if [ $iscsi_sbd_host ]; then
+  if [ $iscsi_host ]; then
 
 cat<<EOF > /etc/iscsi/initiatorname.iscsi
 InitiatorName=iqn.1996-04.de.suse:01:ha-automation
@@ -79,7 +78,7 @@ EOF
     fi
   fi
 
-  if [[ $iscsi_sbd_host && $target ]]; then
+  if [[ $iscsi_host && $target ]]; then
 cat<<EOF > /etc/init.d/ais
 #! /bin/sh
 
@@ -107,15 +106,15 @@ cat<<EOF > /etc/init.d/ais
     case \$1 in
         start)
             rcopen-iscsi start
-	    iscsiadm -m discovery -t st -p $iscsi_sbd_host
-            iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
+	    iscsiadm -m discovery -t st -p $iscsi_host
+            iscsiadm -m node -T $target -p $iscsi_host:3260 --login
             sleep 5
             rcopenais start
             echo
             ;;
         stop)
             rcopenais stop
-            iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --logout
+            iscsiadm -m node -T $target -p $iscsi_host:3260 --logout
             echo
             ;;
         reload)
@@ -149,14 +148,14 @@ EOF
 
 rcopen-iscsi start
 
-iscsiadm -m discovery -t st -p $iscsi_sbd_host
+iscsiadm -m discovery -t st -p $iscsi_host
 
 chmod +x /etc/init.d/ais
 
 ln -s /etc/init.d/ais /usr/sbin/rcais
 
-  iscsiadm -m discovery -t st -p $iscsi_sbd_host
-  iscsiadm -m node -T $target -p $iscsi_sbd_host:3260 --login
+  iscsiadm -m discovery -t st -p $iscsi_host
+  iscsiadm -m node -T $target -p $iscsi_host:3260 --login
 fi
 
 cat<<EOF  > /etc/corosync/corosync.conf
@@ -199,11 +198,11 @@ totem {
 
         #Timeout for a token lost. in ms
 
-        token:  3000
+        token:  5000
 
         #How long to wait for consensus to be achieved before starting a new round of membership configuration.
 
-        consensus:      4000
+        consensus:      6000
 
         #HMAC/SHA1 should be used to authenticate all message
 
@@ -217,22 +216,43 @@ totem {
 
         threads:        0
 
+        #
+
+        transport:      udpu
+
         #The only valid version is 2
 
         version:        2
 
         interface {
-                #Network Address to be bind for this interface setting
+EOF
 
-                bindnetaddr:    $bindnetaddr
+ipaddr=$(echo $ROLE_0_IP | tr "," "\n")
 
-                #The multicast address to be used
+for member in $ipaddr
+do
+    echo "                member {
+                        memberaddr:     $member" >> /etc/corosync/corosync.conf
+    echo "                }" >> /etc/corosync/corosync.conf
+done
 
-                mcastaddr:      $mcastaddr
+ipaddr=$(echo $ROLE_1_IP | tr "," "\n")
 
+for member in $ipaddr
+do
+    echo "                member {
+                        memberaddr:     $member" >> /etc/corosync/corosync.conf
+    echo "                }" >> /etc/corosync/corosync.conf
+done
+
+cat<<EOF >> /etc/corosync/corosync.conf
                 #The multicast port to be used
 
                 mcastport:      5405
+
+                #Network Address to be bind for this interface setting
+
+                bindnetaddr:    $bindnetaddr
 
                 #The ringnumber assigned to this interface setting
 
@@ -259,7 +279,7 @@ logging {
 
         #Log timestamp as well
 
-        timestamp:      on
+        timestamp:      off
 
         #Log to the standard error output
 
@@ -267,7 +287,7 @@ logging {
 
         #Logging file line in the source code as well
 
-        fileline:       off
+        fileline:       no
 
         #Facility in syslog
 
@@ -290,9 +310,19 @@ EOF
     sbd -d $sbd_disk create
   fi
 
-  sbd -d $sbd_disk allocate $(hostname)
+  sbd -d $sbd_disk dump | grep "Header version"
+  sbd=$?
+  if [[ "$sbd" != "0" ]]; then
+    sbd -d $sbd_disk create
+  if
 
-  if [[ $iscsi_sbd_host ]]; then
+  sbd -d $sbd_disk list | grep $(hostname) 2>&1 > /dev/null
+  sbd_host=$?
+  if [[ "$sbd_host" != "0" ]]; then
+    sbd -d $sbd_disk allocate $(hostname)
+  if
+
+  if [[ $iscsi_host ]]; then
     rcais start
   else
     rcopenais start
@@ -303,16 +333,15 @@ EOF
   crm configure primitive sbd_stonith stonith:external/sbd
 
 else
-  echo -a $adddon -b $bindnetaddr -d devel -m $mcastaddr -i $iscsi_sbd_host -l $login -p $password -s $sbd_disk -t $target -x
+  echo -a $addon -b $bindnetaddr -d -i $iscsi_host -s $sbd_disk -t $target
   echo "Wrong or missing arguments"
-  echo "Usage: node_conf_runner -b bindnetaddr -d -m mcastaddr -i iscsi_sbd_host -s sbd_disk -t target"
+  echo "Usage: node_conf_runner -b bindnetaddr -d -i iscsi_host -s sbd_disk -t target"
   echo "       addon - url to add-on directory"
   echo "       bindnetaddr - address used for corosync [10.20.3.0]"
   echo "       mcastaddr - multicast addresss for cluster [239.50.1.1]"
-  echo "       iscsi_sbd_host - IP address of your iscsi shared disk provider [10.20.136.150]"
+  echo "       iscsi_host - IP address of your iscsi shared disk provider [10.20.136.150]"
   echo "       login - login for iscsi target"
   echo "       password - password for iscsi target"
-  echo "       sbd_disk - disk used for sbd/STONITH [/dev/disk/by-path/ip-10.20.5.173:3260-iscsi-iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a-lun-5-part1]"
+  echo "       sbd_disk - disk used for sbd/STONITH [/dev/disk/by-path/pci-0000:00:01.1-scsi-0:0:1:0-part1]"
   echo "       target - [iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a]"
-  echo "       -x - specifies that machine creates prepares sbd partition, only one machine in cluster should use this"
 fi
