@@ -63,15 +63,13 @@ yFrame = app.findFrame(re.compile('^IPLB - Global'))
 # STEP1: Set up global configuration
 text_settings = os.popen("grep gt yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
 texts = yFrame.findPageTab("Global Configuration").findAllTexts(None)
-def setupText(k, v):
-    return k.insertText(v)
-map(setupText, texts, text_settings)
+for k, v in zip(texts, text_settings):
+    k.insertText(v)
 
 combobox_settings = os.popen("grep gc yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
 comboboxs = yFrame.findPageTab("Global Configuration").findAllComboBoxs(None)
-def setupComboBox(k, v):
-    return k.findMenuItem(v, checkShowing=False).click(log=True)
-map(setupComboBox, comboboxs, combobox_settings)
+for k, v in zip(comboboxs, combobox_settings):
+    k.findMenuItem(v, checkShowing=False).click(log=True)
 
 yFrame.findPushButton("OK").mouseClick()
 sleep(config.MEDIUM_DELAY)
@@ -81,3 +79,6 @@ sleep(config.MEDIUM_DELAY)
 procedurelogger.expectedResult("%s is created" % conf_path)
 if not os.path.exists(conf_path):
     raise Exception, conf_path + " doesn't been created"
+
+for i in set(text_settings + combobox_settings):
+    UItest.checkInfo(i, conf_path)
