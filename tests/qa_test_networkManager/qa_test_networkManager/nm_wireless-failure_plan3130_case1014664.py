@@ -57,7 +57,7 @@ nm_applet_app = nmAppletApp()
 
 # Step1: Make sure "Wired Network" System eth0 is connected
 try:
-    checkInfo(['System eth0 (default)',])
+    checkInfo(['eth0',])
 except:
     print "Please connect your wired network with cabled"
     exit(11)
@@ -86,7 +86,7 @@ else:
     sleep(config.SHORT_DELAY)
 
     authen_dialog.findPushButton("Connect").mouseClick()
-    sleep(30)
+    sleep(60)
 
 # Step5: Make sure wireless connection is failed that authentication dialog pops up again
 procedurelogger.expectedResult("Wireless connection is failed")
@@ -98,8 +98,8 @@ authen_dialog.assertClosed()
 checkConnection(wireless1_name, status=False)
 
 # Step6: Make sure wired System eth0 connection is successful
-checkConnection("System eth0")
-checkInfo(['System eth0 (default)',])
+checkConnection("eth0")
+checkInfo(['eth0',])
 
 # Clean wireless
 cleanConnection(wireless1_name)

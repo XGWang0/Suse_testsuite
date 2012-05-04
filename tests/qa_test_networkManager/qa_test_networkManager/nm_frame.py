@@ -113,7 +113,7 @@ def checkConnection(acc_name, status=True):
     nm_panel.mouseClick()
     sleep(config.SHORT_DELAY)
 
-    acc_item = nm_applet_app.findWindow(None).findCheckMenuItem(acc_name)
+    acc_item = nm_applet_app.findWindow(None).findCheckMenuItem(re.compile('.*%s.*' % acc_name))
 
     if status:
         connection = "checked"
@@ -147,7 +147,7 @@ def checkInfo(acc_name=[]):
     for i in acc_name:
         procedurelogger.expectedResult("Successful Connection to %s" % i)
         try: 
-            info_dialog.findPageTab(i)
+            info_dialog.findPageTab(re.compile('.*%s.*' % i))
         except:
             info_dialog.findPushButton("Close").click(log=True)
             sleep(config.SHORT_DELAY)
@@ -181,7 +181,8 @@ def setDLink(dlink_url, admin_pwd, item_name, item_role, set_info=None):
     # Launch Firefox and load D-Link SYSTEMS web page with url giving
     firefox_app = launchApp('/usr/bin/firefox', "Firefox")
     fFrame = firefox_app.firefoxFrame
-    entry = fFrame.findEntry("Search Bookmarks and History")
+    autocomplete = fFrame.findAutocomplete(None)
+    entry = autocomplete.findEntry(None)
     entry.mouseClick(log=False)
     sleep(config.SHORT_DELAY)
     entry.text = dlink_url
@@ -191,8 +192,9 @@ def setDLink(dlink_url, admin_pwd, item_name, item_role, set_info=None):
 
     # Give Admin password to D-Link settings page
     dlink_frame = firefox_app.findDocumentFrame(re.compile('^D-LINK SYSTEMS'))
-    dlink_frame.findMenuItem("English", checkShowing=False).select(log=True)
-    sleep(config.SHORT_DELAY)
+    dlink_frame.findAllComboBoxs(None)[-1].mouseClick()
+    dlink_frame.findMenuItem("English").mouseClick()
+    sleep(config.MEDIUM_DELAY)
     dlink_frame.findPasswordText(None).enterText(admin_pwd)
     sleep(config.SHORT_DELAY)
     dlink_frame.findPushButton("Log In").mouseClick()

@@ -26,11 +26,7 @@ fg 1 nm_remove-wireless-network /usr/share/qa/qa_test_networkManager/nm_remove-w
 wait
 
 timer 300
-fg 1 nm_edit-wireless-networks /usr/share/qa/qa_test_networkManager/nm_edit-wireless-networks_plan3130_case1014657.py
-wait
-
-timer 300
-fg 1 nm_UI-About /usr/share/qa/qa_test_networkManager/nm_UI-About_plan2556_case926928.py 
+fg 1 nm_UI-About /usr/share/qa/qa_test_networkManager/nm_UI-About_plan3130_case225347.py
 wait
 
 timer 300
@@ -127,4 +123,8 @@ wait
 
 timer 300
 fg 1 VPN-connection /usr/share/qa/qa_test_networkManager/nm_VPN-connection_plan3130_case1014662.py
+wait
+
+timer 300
+fg 1 nm_edit-wireless-networks /usr/share/qa/qa_test_networkManager/nm_edit-wireless-networks_plan3130_case1014657.py
 wait

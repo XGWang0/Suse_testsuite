@@ -34,8 +34,7 @@ This package contains automated tests for apache developed with
 perl-framework.
 
 %prep
-%setup -b 1 -n mod_perl
-%setup -b 0 -n %{name} 
+%setup -b 1 -n %{name}
 cd ..
 %patch0 -p0
 
@@ -66,8 +65,8 @@ rm -f t/php/umask.t
 #
 #
 #
-cp -rv * $RPM_BUILD_ROOT/usr/share/qa/%{name}/httpd-test
-cp -rv ../mod_perl/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/mod_perl-tests
+cp -r * $RPM_BUILD_ROOT/usr/share/qa/%{name}/httpd-test
+cp -r ../mod_perl/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/mod_perl-tests
 find $RPM_BUILD_ROOT/usr/share/qa -type f -name "*.html" -print0 | xargs -0 -r chmod a-x
 
 %build
@@ -82,6 +81,7 @@ rm -rvf $RPM_BUILD_ROOT
 #/usr/share/qa/qa_test_apache_testsuite/
 #/usr/lib/ctcs2/tcf/
 /usr/share/qa/tcf/qa_apache_testsuite.tcf
+%attr(777, root, root) /usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/lib/Apache/TestConfigData.pm
 
 %changelog
 * Wed Aug 17 2011 - llipavsky@suse.cz

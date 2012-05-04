@@ -52,7 +52,7 @@ sh run-precedence 2&> /tmp/run-precedence
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-precedence
+    cat /tmp/run-precedence
     rm /tmp/run-precedence
     exit 1
   else    

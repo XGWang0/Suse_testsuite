@@ -216,7 +216,7 @@ sub badblocks {
 		$key =~ s/\///g;
 		for($i=0;$i < $parallel; $i++) {
 			my $cmd = $ctcs2dir . "bin/$binprefix/$testcommand-info /dev/$drive";
-			push @tcflines,"$tcfcommand BB".$key."$i $binprefix/$testcommand ".`$cmd`;
+			push @tcflines,"$tcfcommand BB".$key."$i $binprefix/loop.sh $binprefix/$testcommand ".`$cmd`;
 		}
 	}
 	return @tcflines;

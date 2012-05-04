@@ -42,6 +42,8 @@ rm -f /tmp/xx
 
 
 echo run-intl 
+echo "warning: some of these tests will fail if you do not have UTF-8 locales installed on your system." >&2
+echo "warning: please ignore any differences consisting only of white space" >&2
 cd /usr/share/qa/qa_test_bash/data/tests
 sh run-intl 2&> /tmp/run-intl
  
@@ -52,7 +54,7 @@ sh run-intl 2&> /tmp/run-intl
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-intl
+    cat /tmp/run-intl
     rm /tmp/run-intl
     exit 1
   else    

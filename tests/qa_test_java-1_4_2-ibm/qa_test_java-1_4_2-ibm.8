@@ -1,0 +1,296 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<head>
+  
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>qa/qa_lib_ibmjava.8 - ibmjava in IBM Java update tools - Gitorious</title>
+<link href="/stylesheets/all.css?1289343843" media="screen" rel="stylesheet" type="text/css" />
+<script src="/javascripts/all.js?1289346241" type="text/javascript"></script>      <link href="/stylesheets/prettify/prettify.css?1289346241" media="screen" rel="stylesheet" type="text/css" />    <script src="/javascripts/lib/prettify.js?1289346241" type="text/javascript"></script>        <script type="text/javascript" charset="utf-8">
+      $(document).ready(function(){
+          if ($("#codeblob tr td.line-numbers:last").text().length < 3500) {
+              prettyPrint();
+          } else {
+              $("#long-file").show().find("a#highlight-anyway").click(function(e){
+                  prettyPrint();
+                  e.preventDefault();
+              });
+          }
+      });
+    </script>
+  <!--[if IE 8]>
+<link rel="stylesheet" href="/stylesheets/ie8.css" type="text/css">
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" href="/stylesheets/ie7.css" type="text/css">
+<![endif]-->
+
+
+</head>
+
+<body id="blobs">
+<div id="wrapper">
+    <ul id="user-nav">
+	<li><a href="/">Dashboard</a></li>
+	
+    <li class="secondary"><a href="/login">Login</a></li>
+  </ul>
+  <div id="header">
+    <h1 id="logo">
+      <a href="/"><img alt="Logo" src="/img/logo.png?1289347387" /></a>    </h1>
+
+    <ul id="menu">
+                    <li class="activity"><a href="/activities">Activities</a></li>
+        <li class="projects"><a href="/projects">Projects</a></li>
+        <li class="teams"><a href="/teams">Teams</a></li>
+          </ul>
+
+  </div>
+  
+	<div id="top-bar">
+    <ul id="breadcrumbs">
+      <li class="project"><a href="/ibmjava">IBM Java update tools</a></li><li class="repository"><a href="/ibmjava/ibmjava">ibmjava</a></li><li class="branch"><a href="/ibmjava/ibmjava/commits/master">master</a></li><li class="tree"><a href="/ibmjava/ibmjava/trees/master">/</a></li><li class="folder"><a href="/ibmjava/ibmjava/trees/master/qa">qa</a></li><li class="file"><a href="/ibmjava/ibmjava/blobs/master/qa/qa_lib_ibmjava.8">qa_lib_ibmjava.8</a></li>    </ul>
+          <div id="searchbox">
+        
+
+
+<div class="search_bar">
+<form action="http://git.suse.de/search" method="get"><p>
+  <input class="text search-field round-5" id="q" name="q" type="text" /> 
+  <input type="submit" value="Search" class="search-submit round-5" />
+</p>  
+<p class="hint search-hint" style="display: none;">
+  eg. 'wrapper', 'category:python' or '"document database"'
+  </p>
+</form></div>
+      </div>
+      </div>
+
+  <div id="container" class="">
+    <div id="content" class="">
+      
+      
+
+
+
+<div class="page-meta">
+  <ul class="page-actions">
+    <li>Blob contents</li>
+    <li><a href="/ibmjava/ibmjava/blobs/history/master/qa/qa_lib_ibmjava.8">Blob history</a></li>
+    <li><a href="/ibmjava/ibmjava/blobs/raw/master/qa/qa_lib_ibmjava.8">Raw blob data</a></li>
+  </ul>
+</div>
+
+
+<!-- mime: text/plain -->
+
+       <div id="long-file" style="display:none"
+                  class="help-box center error round-5">
+               <div class="icon error"></div>        <p>
+          This file looks large and may slow your browser down if we attempt
+          to syntax highlight it, so we are showing it without any
+          pretty colors.
+          <a href="#highlight-anyway" id="highlight-anyway">Highlight
+          it anyway</a>.
+        </p>
+     </div>    <table id="codeblob" class="highlighted lang-8">
+<tr id="line1">
+<td class="line-numbers"><a href="#line1" name="line1">1</a></td>
+<td class="code"><pre class="prettyprint lang-8">.&quot; Manpage for qa_lib_ibmjava.</pre></td>
+</tr>
+<tr id="line2">
+<td class="line-numbers"><a href="#line2" name="line2">2</a></td>
+<td class="code"><pre class="prettyprint lang-8">.&quot; Contact Michal Vyskocil &lt;mvyskocil@suse.cz&gt; to correct errors or typos.</pre></td>
+</tr>
+<tr id="line3">
+<td class="line-numbers"><a href="#line3" name="line3">3</a></td>
+<td class="code"><pre class="prettyprint lang-8">.TH man 8 &quot;26 Aug 2011&quot; &quot;1.0&quot; &quot;qa_lib_ibmjava man page&quot;</pre></td>
+</tr>
+<tr id="line4">
+<td class="line-numbers"><a href="#line4" name="line4">4</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH NAME</pre></td>
+</tr>
+<tr id="line5">
+<td class="line-numbers"><a href="#line5" name="line5">5</a></td>
+<td class="code"><pre class="prettyprint lang-8">qa_lib_ibmjava</pre></td>
+</tr>
+<tr id="line6">
+<td class="line-numbers"><a href="#line6" name="line6">6</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH SYNOPSIS</pre></td>
+</tr>
+<tr id="line7">
+<td class="line-numbers"><a href="#line7" name="line7">7</a></td>
+<td class="code"><pre class="prettyprint lang-8">Common scripts for checking IBM Java packages.</pre></td>
+</tr>
+<tr id="line8">
+<td class="line-numbers"><a href="#line8" name="line8">8</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH TYPE</pre></td>
+</tr>
+<tr id="line9">
+<td class="line-numbers"><a href="#line9" name="line9">9</a></td>
+<td class="code"><pre class="prettyprint lang-8">lib</pre></td>
+</tr>
+<tr id="line10">
+<td class="line-numbers"><a href="#line10" name="line10">10</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH DESCRIPTION</pre></td>
+</tr>
+<tr id="line11">
+<td class="line-numbers"><a href="#line11" name="line11">11</a></td>
+<td class="code"><pre class="prettyprint lang-8">Various scripts checking the IBM Java packages - if the files are not modified, etc.</pre></td>
+</tr>
+<tr id="line12">
+<td class="line-numbers"><a href="#line12" name="line12">12</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH README</pre></td>
+</tr>
+<tr id="line13">
+<td class="line-numbers"><a href="#line13" name="line13">13</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH OPTIONS</pre></td>
+</tr>
+<tr id="line14">
+<td class="line-numbers"><a href="#line14" name="line14">14</a></td>
+<td class="code"><pre class="prettyprint lang-8">See appropritate qa_test_java-$FOO-ibm packages.</pre></td>
+</tr>
+<tr id="line15">
+<td class="line-numbers"><a href="#line15" name="line15">15</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH WHAT IT DOES</pre></td>
+</tr>
+<tr id="line16">
+<td class="line-numbers"><a href="#line16" name="line16">16</a></td>
+<td class="code"><pre class="prettyprint lang-8"> - check-modified-files.sh</pre></td>
+</tr>
+<tr id="line17">
+<td class="line-numbers"><a href="#line17" name="line17">17</a></td>
+<td class="code"><pre class="prettyprint lang-8">.br</pre></td>
+</tr>
+<tr id="line18">
+<td class="line-numbers"><a href="#line18" name="line18">18</a></td>
+<td class="code"><pre class="prettyprint lang-8">Script will read the .qa_filelist.${arch} located in the jre directory</pre></td>
+</tr>
+<tr id="line19">
+<td class="line-numbers"><a href="#line19" name="line19">19</a></td>
+<td class="code"><pre class="prettyprint lang-8">($LIBDIR/jvm/$JAVADIR/jre/), which is the csv file with format</pre></td>
+</tr>
+<tr id="line20">
+<td class="line-numbers"><a href="#line20" name="line20">20</a></td>
+<td class="code"><pre class="prettyprint lang-8">md5sum;orig-path;installed-path;package. It reformats it to form usable by</pre></td>
+</tr>
+<tr id="line21">
+<td class="line-numbers"><a href="#line21" name="line21">21</a></td>
+<td class="code"><pre class="prettyprint lang-8">md5sum -c and then checks if all files matches. In case some subpackage is not</pre></td>
+</tr>
+<tr id="line22">
+<td class="line-numbers"><a href="#line22" name="line22">22</a></td>
+<td class="code"><pre class="prettyprint lang-8">installed and all files are missing, it prints a warning on stderr only.</pre></td>
+</tr>
+<tr id="line23">
+<td class="line-numbers"><a href="#line23" name="line23">23</a></td>
+<td class="code"><pre class="prettyprint lang-8"></pre></td>
+</tr>
+<tr id="line24">
+<td class="line-numbers"><a href="#line24" name="line24">24</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH COMMON PROBLEMS</pre></td>
+</tr>
+<tr id="line25">
+<td class="line-numbers"><a href="#line25" name="line25">25</a></td>
+<td class="code"><pre class="prettyprint lang-8">None.</pre></td>
+</tr>
+<tr id="line26">
+<td class="line-numbers"><a href="#line26" name="line26">26</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH WARNINGS</pre></td>
+</tr>
+<tr id="line27">
+<td class="line-numbers"><a href="#line27" name="line27">27</a></td>
+<td class="code"><pre class="prettyprint lang-8">Test result will pass even if not all subpackages are installed.</pre></td>
+</tr>
+<tr id="line28">
+<td class="line-numbers"><a href="#line28" name="line28">28</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH SEE ALSO</pre></td>
+</tr>
+<tr id="line29">
+<td class="line-numbers"><a href="#line29" name="line29">29</a></td>
+<td class="code"><pre class="prettyprint lang-8">None.</pre></td>
+</tr>
+<tr id="line30">
+<td class="line-numbers"><a href="#line30" name="line30">30</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH BUGS</pre></td>
+</tr>
+<tr id="line31">
+<td class="line-numbers"><a href="#line31" name="line31">31</a></td>
+<td class="code"><pre class="prettyprint lang-8">No known bugs.</pre></td>
+</tr>
+<tr id="line32">
+<td class="line-numbers"><a href="#line32" name="line32">32</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH TODO</pre></td>
+</tr>
+<tr id="line33">
+<td class="line-numbers"><a href="#line33" name="line33">33</a></td>
+<td class="code"><pre class="prettyprint lang-8">Enhance tests for other aspects - for example update-alternatives.</pre></td>
+</tr>
+<tr id="line34">
+<td class="line-numbers"><a href="#line34" name="line34">34</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH DISTRIBUTION</pre></td>
+</tr>
+<tr id="line35">
+<td class="line-numbers"><a href="#line35" name="line35">35</a></td>
+<td class="code"><pre class="prettyprint lang-8">Internal, Our code.</pre></td>
+</tr>
+<tr id="line36">
+<td class="line-numbers"><a href="#line36" name="line36">36</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH LICENSE</pre></td>
+</tr>
+<tr id="line37">
+<td class="line-numbers"><a href="#line37" name="line37">37</a></td>
+<td class="code"><pre class="prettyprint lang-8">License: n/a. Spec file license: GPL v2 or later.</pre></td>
+</tr>
+<tr id="line38">
+<td class="line-numbers"><a href="#line38" name="line38">38</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH UPSTREAM</pre></td>
+</tr>
+<tr id="line39">
+<td class="line-numbers"><a href="#line39" name="line39">39</a></td>
+<td class="code"><pre class="prettyprint lang-8">http://qit.suse.de/ibmjava/ibmjava/blobs/master/qa/</pre></td>
+</tr>
+<tr id="line40">
+<td class="line-numbers"><a href="#line40" name="line40">40</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH AUTHOR</pre></td>
+</tr>
+<tr id="line41">
+<td class="line-numbers"><a href="#line41" name="line41">41</a></td>
+<td class="code"><pre class="prettyprint lang-8">Michal Vyskocil &lt;mvyskocil@suse.cz&gt;</pre></td>
+</tr>
+<tr id="line42">
+<td class="line-numbers"><a href="#line42" name="line42">42</a></td>
+<td class="code"><pre class="prettyprint lang-8">.SH MAINTAINER</pre></td>
+</tr>
+<tr id="line43">
+<td class="line-numbers"><a href="#line43" name="line43">43</a></td>
+<td class="code"><pre class="prettyprint lang-8">Michal Vyskocil &lt;mvyskocil@suse.cz&gt;</pre></td>
+</tr>
+</table>  
+    </div>
+      </div>
+	<div id="footer">
+      
+<div class="powered-by">
+	<a href="http://www.shortcut.no"><img alt="Shortcut" src="/images/../img/shortcut.png?1289346241" title="A product from Shortcut" /></a>  	<a href="http://gitorious.org"><img alt="Poweredby" src="/images/../img/poweredby.png?1289346241" title="Powered by Gitorious" /></a></div>
+	<div id="footer-links">
+		<h3>Gitorious</h3>
+		<ul>
+			<li><a href="/">Home</a></li>
+	        <li><a href="/about">About Gitorious</a></li>
+	        <li><a href="/about/faq">FAQ</a></li>
+	        <li><a href="/contact">Contact</a></li>
+		</ul>
+		<ul>
+			<li><a href="http://groups.google.com/group/gitorious">Discussion group</a></li>
+	        <li><a href="http://blog.gitorious.org">Blog</a></li>
+		</ul>
+		
+	</div>
+
+      <div class="clear"></div>
+    </div>
+</div>
+</body>
+</html>

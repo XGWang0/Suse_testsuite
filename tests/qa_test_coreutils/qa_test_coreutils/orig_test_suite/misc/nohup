@@ -1,5 +1,6 @@
 #!/bin/sh
 
+. /usr/share/qa/qa_test_coreutils/detect.sh
 # test nohup
 
 if test "$VERBOSE" = yes; then
@@ -100,8 +101,13 @@ EOF
 # test $fail = 1 && diff exp err 2> /dev/null
 
 # Make sure it fails with exit status of 127 when given too few arguments.
+if [ $ostag == "S11.2" ];then
+rr=125
+else
+rr=127
+fi
 nohup >/dev/null 2>&1
-test $? = 127 || fail=1
+test $? = $rr || fail=1
 
 (exit $fail); exit $fail
 

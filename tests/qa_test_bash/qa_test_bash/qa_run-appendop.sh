@@ -52,7 +52,7 @@ sh run-appendop 2&> /tmp/run-appendop
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-appendop
+    cat /tmp/run-appendop
     rm /tmp/run-appendop
     exit 1
   else    

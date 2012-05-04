@@ -27,6 +27,7 @@ Source1:        test_php5-run
 Source2:	qa_test_php5.8
 Source3:	apache2-php5-prepare.sh
 Patch0:		server-test-config.patch
+Patch1:		syntax_fix.patch
 BuildArch:      noarch
 Provides:	qa_php5
 Obsoletes:	qa_php5
@@ -88,6 +89,7 @@ Authors:
 
 %prep
 %setup -n php-%{version} -q
+%patch1 -p1
 cd ..
 
 search_for_tests() {

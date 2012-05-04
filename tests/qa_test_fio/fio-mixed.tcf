@@ -1,0 +1,4 @@
+timer 40m
+fg 1 fio-mixed /usr/share/qa/fio/do-fio-mixed.sh
+wait
+

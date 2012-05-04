@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Mar 21 15:11:16 GMT 2012 - vmarsik@suse.cz
+- upgraded to 2.0.5
+- added job file from qa_test_autotest
+
+-------------------------------------------------------------------
 Mon Aug 15 14:47:31 GMT 2011 - llipavsky@suse.cz
 
 - Package rename: fio -> qa_test_fio

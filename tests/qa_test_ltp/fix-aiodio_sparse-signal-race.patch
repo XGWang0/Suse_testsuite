@@ -1,0 +1,26 @@
+Index: ltp-full-20120104/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
+===================================================================
+--- ltp-full-20120104.orig/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
++++ ltp-full-20120104/testcases/kernel/io/ltp-aiodio/aiodio_sparse.c
+@@ -268,10 +268,10 @@ int main(int argc, char **argv)
+ 	dirty_freeblocks(filesize);
+ 
+ 	tst_resm(TINFO, "Starting I/O tests");
++	signal(SIGTERM, SIG_DFL);
+ 	for (i = 0; i < num_children; i++) {
+ 		switch (pid[i] = fork()) {
+ 		case 0:
+-			signal(SIGTERM, SIG_DFL);
+ 			read_sparse(filename, filesize);
+ 		break;
+ 		case -1:
+@@ -283,7 +283,8 @@ int main(int argc, char **argv)
+ 			continue;
+ 		}
+ 	}
+-	
++	tst_sig(FORK, DEF_HANDLER, cleanup);
++
+ 	ret = aiodio_sparse(filename, alignment, writesize, filesize, num_aio);
+ 	
+ 	tst_resm(TINFO, "Killing childrens(s)");

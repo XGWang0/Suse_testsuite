@@ -52,7 +52,7 @@ sh run-quote 2&> /tmp/run-quote
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-quote
+    cat /tmp/run-quote
     rm /tmp/run-quote
     exit 1
   else    

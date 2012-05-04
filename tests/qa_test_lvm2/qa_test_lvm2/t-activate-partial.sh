@@ -9,7 +9,7 @@
 # Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 . /usr/share/qa/qa_test_lvm2/lib/test
-#exit 22
+
 aux prepare_vg 3
 
 lvcreate -m 1 -l 1 -n mirror $vg

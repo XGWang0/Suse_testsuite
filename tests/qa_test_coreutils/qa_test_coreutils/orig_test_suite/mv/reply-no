@@ -1,5 +1,11 @@
 #!/bin/sh
 
+. /usr/share/qa/qa_test_coreutils/detect.sh
+
+if [ $ostag == "S11.2" ];then
+# --reply is not support by mv in SLES11SP2
+exit 0
+fi
 
 # Ensure that `mv --reply=no f1 f2' works.
 

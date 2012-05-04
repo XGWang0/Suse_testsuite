@@ -52,7 +52,7 @@ sh run-rhs-exp 2&> /tmp/run-rhs-exp
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-rhs-exp
+    cat /tmp/run-rhs-exp
     rm /tmp/run-rhs-exp
     exit 1
   else    

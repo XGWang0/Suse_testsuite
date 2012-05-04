@@ -30,7 +30,7 @@ pvcreate $dev1
 pvcreate --metadatacopies 0 $dev2
 pvcreate --metadatacopies 0 $dev3
 pvcreate $dev4
-pvcreate -u $TEST_UUID --metadatacopies 0 $dev5
+pvcreate -u $TEST_UUID --norestorefile --metadatacopies 0 $dev5
 vgcreate -c n $vg $(cat $TESTDIR/DEVICES)
 lvcreate -n $lv -l 5 -i5 -I256 $vg
 

@@ -27,7 +27,7 @@ Version:        0.5.2
 Release:        1
 Provides:	newburn
 Obsoletes:	newburn
-Requires:       ctcs2 
+Requires:       ctcs2 kernel-source
 Source0:        %{name}-%{version}.tar.bz2
 Source1:        memtst.tcf
 Source2:	qa_test_newburn.8
@@ -75,6 +75,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 cp blockrdtst blockrdtst-info info_linux messages newburn-generator vmstat-wrapper $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
 cp dmesg kernel newburn timestamp $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
 cp print_disk_info flushb flushb.src/flushb.real $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
+cp loop.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
 ln -s blockrdtst $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn/sblockrdtst
 ln -s blockrdtst-info $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn/sblockrdtst-info
 cp %{S:4} $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
@@ -91,12 +92,16 @@ find $RPM_BUILD_ROOT -type f -print0 | xargs -0 chmod -c o-w,u-s
 %defattr(-,root,root)
 /usr/share/man/man8/qa_test_newburn.8.gz
 /usr/lib/ctcs2
+%exclude /usr/lib/ctcs2/tools/test_newburn-memtst-run
+%exclude /usr/lib/ctcs2/bin/qa_test_newburn/memtst
+
 
 %files memtst
 %defattr(-,root,root)
-/usr/share/qa
-/usr/share/qa/tcf
 /usr/share/qa/tcf/memtst.tcf
+/usr/share/qa
+/usr/lib/ctcs2/tools/test_newburn-memtst-run
+/usr/lib/ctcs2/bin/qa_test_newburn/memtst
 
 %clean
 rm -rf $RPM_BUILD_ROOT

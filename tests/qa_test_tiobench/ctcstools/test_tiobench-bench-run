@@ -1,8 +1,11 @@
 #!/bin/sh
 
 # run tiobench.pl with some good standard parameters
+T_Mem=`grep "MemTotal" /proc/meminfo | awk '{print $2}'`
+U_Mem=`expr \( $T_Mem / 1024 \) \* 2`
 
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
+sed -i "s/--size [0-9]\+/--size $U_Mem/" $TCF_DIR/tiobench-bench.tcf
 $CTCS2_DIR/tools/run $TCF_DIR/tiobench-bench.tcf

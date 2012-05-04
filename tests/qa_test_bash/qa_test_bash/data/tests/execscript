@@ -1,9 +1,9 @@
 export LC_ALL=C
 export LANG=C
 
-if [ $UID -eq 0 ]; then
-        echo "execscript: the test suite should not be run as root" >&2
-fi
+#if [ $UID -eq 0 ]; then
+#        echo "execscript: the test suite should not be run as root" >&2
+#fi
 
 set -- one two three
 echo before exec1.sub: "$@"

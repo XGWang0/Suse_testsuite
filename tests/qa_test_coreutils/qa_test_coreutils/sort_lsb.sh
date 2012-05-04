@@ -43,7 +43,7 @@
 TMPDIR=`mktemp -d`
 TESTDATADIR=/usr/share/qa/qa_test_coreutils/data
 FAILED=0
-
+. /usr/share/qa/qa_test_coreutils/detect.sh
 export LC_ALL=C	
 
 if sort --help &>/dev/null; then
@@ -52,10 +52,18 @@ if sort --help &>/dev/null; then
 	for i in ignore-leading-blanks dictionary-order ignore-case general-numeric-sort ignore-nonprinting numeric-sort reverse; do
 		N=`expr $N + 1`
 
+               
+                if [ -e $TESTDATADIR/sort_$i.chk.$ostag ];then
+                        expect_file=$TESTDATADIR/sort_$i.chk.$ostag
+                else
+                        expect_file=$TESTDATADIR/sort_$i.chk
+                fi 
+                
+                
 		cat $TESTDATADIR/origin | sort --$i > $TMPDIR/$i
 		
 		if [ $? -eq 0 ]; then 
-			if ! diff $TMPDIR/$i $TESTDATADIR/sort_$i.chk >/dev/null; then
+			if ! diff $TMPDIR/$i $expect_file >/dev/null; then
 				echo "FAILED: Test #$N sorted file (sort --$i) is different from the reference "
 				FAILED=$N
 			fi

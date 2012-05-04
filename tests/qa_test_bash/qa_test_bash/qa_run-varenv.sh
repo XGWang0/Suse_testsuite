@@ -52,7 +52,7 @@ sh run-varenv 2&> /tmp/run-varenv
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-varenv
+    cat /tmp/run-varenv
     rm /tmp/run-varenv
     exit 1
   else    

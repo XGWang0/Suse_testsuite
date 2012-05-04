@@ -44,7 +44,8 @@ Url:            http://www.linuxbase.org
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Summary:        The LSB test suite adapted for automatic runs.
 BuildArch:      noarch
-Requires:       qa_dummy perl wget lsb xorg-x11-Xvfb xorg-x11-fonts-100dpi
+Obsoletes:	qa_lsb
+Requires:       perl wget lsb xorg-x11-Xvfb xorg-x11-fonts-100dpi
 Recommends:     libqt4 libqt4-sql libqt4-sql-sqlite libqt4-x11 libqt4-qt3support
 
 %description
@@ -113,6 +114,8 @@ rm -rvf $RPM_BUILD_ROOT
 
 
 %changelog -n qa_lsb
+* Wed Jan 18 2012 - aguo@suse.com
+- remove qa_dummy dependency
 * Mon Jul 19 2010 - jdluhos@suse.cz
 - brand new version based on new upstream version
 * Fri Feb 02 2007 - ro@suse.de

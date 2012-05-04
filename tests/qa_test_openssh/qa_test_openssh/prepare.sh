@@ -11,6 +11,7 @@
 #!/bin/sh
 
 # path to the directory for temporary test files
+export LC_ALL=C
 WORKING_PATH=/tmp/qa_test_openssh
 mkdir -p $WORKING_PATH || exit 1
 chown -R nobody $WORKING_PATH

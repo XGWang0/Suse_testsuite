@@ -1,11 +1,44 @@
----
- runtest/ltp-aiodio.part1 |   10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-Index: ltp-full-20100831/runtest/ltp-aiodio.part1
+Index: ltp-full-20120104/runtest/ltp-aio-stress.part1
 ===================================================================
---- ltp-full-20100831.orig/runtest/ltp-aiodio.part1
-+++ ltp-full-20100831/runtest/ltp-aiodio.part1
+--- ltp-full-20120104.orig/runtest/ltp-aio-stress.part1
++++ ltp-full-20120104/runtest/ltp-aio-stress.part1
+@@ -26,6 +26,8 @@
+ #       -x turn off thread stonewalling
+ #       -h this message
+ #
++ADPREP0 mkdir -p /test/aiodio/
++ADPREP1 dd if=/proc/kcore of=/test/aiodio/junkfile bs=1024 count=30000
+ ADS1000 aio-stress -I500  -o2 -S -r4   /test/aiodio/file1
+ ADS1001 aio-stress -I500  -o2 -S -r8   /test/aiodio/file1
+ ADS1002 aio-stress -I500  -o2 -S -r16  /test/aiodio/file1
+@@ -77,3 +79,4 @@ ADS1047 aio-stress -I500  -o1 -O -r32
+ ADS1048 aio-stress -I500  -o1 -O -r64   -t8   /test/aiodio/junkfile /test/aiodio/file2  /test/aiodio/file7  /test/aiodio/file8 /test/aiodio/file3  /test/aiodio/file4  /test/aiodio/file5  /test/aiodio/file6
+ ADS1049 aio-stress -I500  -o1 -O -r128  -t8   /test/aiodio/junkfile /test/aiodio/file2        /test/aiodio/file7  /test/aiodio/file8 /test/aiodio/file3  /test/aiodio/file4  /test/aiodio/file5  /test/aiodio/file6
+ ADS1050 aio-stress -I500  -o1 -O -r256  -t2   /test/aiodio/junkfile /test/aiodio/file2
++ADPOST0 rm -rf /test/
+Index: ltp-full-20120104/runtest/ltp-aio-stress.part2
+===================================================================
+--- ltp-full-20120104.orig/runtest/ltp-aio-stress.part2
++++ ltp-full-20120104/runtest/ltp-aio-stress.part2
+@@ -26,6 +26,8 @@
+ #       -x turn off thread stonewalling
+ #       -h this message
+ #
++ADPREP0 mkdir -p /test/aiodio/ /test/aiodio2/
++ADPREP1 dd if=/proc/kcore of=/test/aiodio/junkfile bs=1024 count=30000
+ ADS2001 aio-stress -I500  -o2 -S -r32  -t2  /test/aiodio/junkfile /test/aiodio2/file2
+ ADS2002 aio-stress -I500  -o3 -S -r8   -t2  /test/aiodio/junkfile /test/aiodio2/file2
+ ADS2003 aio-stress -I500  -o3 -S -r16  -t2  /test/aiodio/junkfile /test/aiodio2/file2
+@@ -36,3 +38,5 @@ ADS2007 aio-stress -I500  -o3 -O -r8   -
+ ADS2008 aio-stress -I500  -o3 -O -r16  -t2  /test/aiodio/junkfile /test/aiodio2/file2
+ ADS2009 aio-stress -I500  -o3 -O -r32  -t4  /test/aiodio/junkfile /test/aiodio2/file2 /test/aiodio/file3 /test/aiodio2/file4
+ ADS2010 aio-stress -I500  -o3 -O -r64  -t4  /test/aiodio/junkfile /test/aiodio2/file2 /test/aiodio/file3 /test/aiodio2/file4
++ADPOST0 rm -rf /test/
++
+Index: ltp-full-20120104/runtest/ltp-aiodio.part1
+===================================================================
+--- ltp-full-20120104.orig/runtest/ltp-aiodio.part1
++++ ltp-full-20120104/runtest/ltp-aiodio.part1
 @@ -1,216 +1,226 @@
  #DESCRIPTION:ltp A-sync IO and Direct IO tests
  # 
@@ -447,10 +480,10 @@ Index: ltp-full-20100831/runtest/ltp-aiodio.part1
 +AD304 aiocp -b 128k -n 32 -f CREAT -f DIRECT /tmp/aiodio/ff3 /tmp/aiodio/junkdir/ff3
 +
 +ADPOST0 rm -rf /tmp/aiodio/
-Index: ltp-full-20100831/runtest/ltp-aiodio.part3
+Index: ltp-full-20120104/runtest/ltp-aiodio.part3
 ===================================================================
---- ltp-full-20100831.orig/runtest/ltp-aiodio.part3
-+++ ltp-full-20100831/runtest/ltp-aiodio.part3
+--- ltp-full-20120104.orig/runtest/ltp-aiodio.part3
++++ ltp-full-20120104/runtest/ltp-aiodio.part3
 @@ -1,51 +1,57 @@
  #           fname:  this filename is Required (no default)
  #
@@ -557,10 +590,10 @@ Index: ltp-full-20100831/runtest/ltp-aiodio.part3
 +FSX079 fsx-linux -N 100000  /tmp/aiodio/junkfile9
 +
 +ADPOST0 rm -rf /tmp/aiodio/
-Index: ltp-full-20100831/runtest/ltp-aiodio.part4
+Index: ltp-full-20120104/runtest/ltp-aiodio.part4
 ===================================================================
---- ltp-full-20100831.orig/runtest/ltp-aiodio.part4
-+++ ltp-full-20100831/runtest/ltp-aiodio.part4
+--- ltp-full-20120104.orig/runtest/ltp-aiodio.part4
++++ ltp-full-20120104/runtest/ltp-aiodio.part4
 @@ -34,16 +34,16 @@ DIO07 dio_sparse
  DIO08 dio_sparse
  DIO09 dio_sparse
@@ -600,49 +633,3 @@ Index: ltp-full-20100831/runtest/ltp-aiodio.part4
 +DOR001 ltp-diorh $TMPDIR/aiodio/file3
 +DOR002 ltp-diorh $TMPDIR/aiodio/file4
 +DOR003 ltp-diorh $TMPDIR/aiodio/file5
-Index: ltp-full-20100831/runtest/ltp-aiodio.part2
-===================================================================
---- ltp-full-20100831.orig/runtest/ltp-aiodio.part2
-+++ ltp-full-20100831/runtest/ltp-aiodio.part2
-@@ -78,4 +78,3 @@ ADSP076 dio_sparse  -a 8k -r 32k -w 8192
- ADSP077 dio_sparse  -a 8k -r 8k -w 518192k -s 18192k -n 128
- ADSP078 dio_sparse  -a 8k -r 8k -w 518192k -s 518192k -n 512
- ADSP079 dio_sparse  -a 8k -r 64k -w 518192k -s 518192k -n 1000
--  
-Index: ltp-full-20100831/runtest/ltp-aio-stress.part1
-===================================================================
---- ltp-full-20100831.orig/runtest/ltp-aio-stress.part1
-+++ ltp-full-20100831/runtest/ltp-aio-stress.part1
-@@ -26,6 +26,8 @@
- #       -x turn off thread stonewalling
- #       -h this message
- #
-+ADPREP0 mkdir -p /test/aiodio/
-+ADPREP1 dd if=/proc/kcore of=/test/aiodio/junkfile bs=1024 count=30000
- ADS1000 aio-stress -I500  -o2 -S -r4   /test/aiodio/file1
- ADS1001 aio-stress -I500  -o2 -S -r8   /test/aiodio/file1
- ADS1002 aio-stress -I500  -o2 -S -r16  /test/aiodio/file1
-@@ -77,3 +79,4 @@ ADS1047 aio-stress -I500  -o1 -O -r32   
- ADS1048 aio-stress -I500  -o1 -O -r64   -t8   /test/aiodio/junkfile /test/aiodio/file2  /test/aiodio/file7  /test/aiodio/file8 /test/aiodio/file3  /test/aiodio/file4  /test/aiodio/file5  /test/aiodio/file6
- ADS1049 aio-stress -I500  -o1 -O -r128  -t8   /test/aiodio/junkfile /test/aiodio/file2        /test/aiodio/file7  /test/aiodio/file8 /test/aiodio/file3  /test/aiodio/file4  /test/aiodio/file5  /test/aiodio/file6
- ADS1050 aio-stress -I500  -o1 -O -r256  -t2   /test/aiodio/junkfile /test/aiodio/file2
-+ADPOST0 rm -rf /test/
-Index: ltp-full-20100831/runtest/ltp-aio-stress.part2
-===================================================================
---- ltp-full-20100831.orig/runtest/ltp-aio-stress.part2
-+++ ltp-full-20100831/runtest/ltp-aio-stress.part2
-@@ -26,6 +26,8 @@
- #       -x turn off thread stonewalling
- #       -h this message
- #
-+ADPREP0 mkdir -p /test/aiodio/ /test/aiodio2/
-+ADPREP1 dd if=/proc/kcore of=/test/aiodio/junkfile bs=1024 count=30000
- ADS2001 aio-stress -I500  -o2 -S -r32  -t2  /test/aiodio/junkfile /test/aiodio2/file2
- ADS2002 aio-stress -I500  -o3 -S -r8   -t2  /test/aiodio/junkfile /test/aiodio2/file2
- ADS2003 aio-stress -I500  -o3 -S -r16  -t2  /test/aiodio/junkfile /test/aiodio2/file2
-@@ -36,3 +38,5 @@ ADS2007 aio-stress -I500  -o3 -O -r8   -
- ADS2008 aio-stress -I500  -o3 -O -r16  -t2  /test/aiodio/junkfile /test/aiodio2/file2
- ADS2009 aio-stress -I500  -o3 -O -r32  -t4  /test/aiodio/junkfile /test/aiodio2/file2 /test/aiodio/file3 /test/aiodio2/file4
- ADS2010 aio-stress -I500  -o3 -O -r64  -t4  /test/aiodio/junkfile /test/aiodio2/file2 /test/aiodio/file3 /test/aiodio2/file4
-+ADPOST0 rm -rf /test/
-+

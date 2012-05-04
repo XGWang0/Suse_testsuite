@@ -23,7 +23,7 @@
 #
 
 #
-# spec file for package qa_gnutls (Version 0.1)
+# spec file for package qa_gnutls (Version 0.3)
 #
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
@@ -38,14 +38,14 @@ Provides:	qa_gnutls
 Obsoletes:	qa_gnutls
 Requires:       gnutls ctcs2
 BuildRequires:  ctcs2
-Version:        0.2
+Version:        0.3
 Release:        1.1
 Source0:        %name-%version.tar.bz2
 Source1:        qa_gnutls.tcf
 Source2:        test_gnutls-run
 Source3:        qa_test_gnutls.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArchitectures: noarch
+BuildArch: noarch
 
 %description
 Test cases for the gnutls package.
@@ -82,11 +82,17 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_gnutls.8.gz
 /usr/share/qa
 /usr/share/qa/%name
-/usr/share/qa/tcf/qa_gnutls.tcf
-/usr/share/qa/tools/test_gnutls-run
+/usr/share/qa/tcf
+/usr/share/qa/tools
+# redundant...
+# /usr/share/qa/tcf/qa_gnutls.tcf
+# /usr/share/qa/tools/test_gnutls-run
 %doc COPYING
 
 %changelog
+* Tue Jan 24 2012 - kgw@suse.de
+- Bugfix: robust detection of $QA_GNUTLS_PATH
+- Improved the manual page
 * Wed Aug 17 2011 - llipavsky@suse.cz
 - Remove qa_dummy dependency
 * Thu Aug 11 2011 - llipavsky@suse.cz

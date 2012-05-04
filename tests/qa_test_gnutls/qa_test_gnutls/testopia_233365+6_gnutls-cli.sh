@@ -39,7 +39,36 @@ export LC_ALL=C
 
 myname="$(basename "$0")"
 
-QA_GNUTLS_PATH=/usr/share/qa/qa_test_gnutls
+# Figure out where my stuff resides
+QA_GNUTLS_PATH=`dirname "$0"`
+if [ "$QA_GNUTLS_PATH" == "${QA_GNUTLS_PATH#/}" ] ; then
+	QA_GNUTLS_PATH="$PWD/$QA_GNUTLS_PATH"
+	MYSELF="$QA_GNUTLS_PATH/$myname"
+fi
+## increasingly desperate fallbacks if things go weirdly wrong
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	MY_RPM="$(rpm -q "$0")" 2>/dev/null
+	MYSELF="$(rpm -ql "$MY_RPM" | grep "/$myname\$")"
+	QA_GNUTLS_PATH=`dirname "$MYSELF"`
+fi
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	MYSELF="$(type -p "$myname")"
+	QA_GNUTLS_PATH=`dirname "$MYSELF"`
+fi
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	QA_GNUTLS_PATH=/usr/share/qa/qa_test_gnutls
+	MYSELF="$QA_GNUTLS_PATH/$myname"
+fi
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	QA_GNUTLS_PATH=/usr/share/qa/qa_gnutls
+	MYSELF="$QA_GNUTLS_PATH/$myname"
+fi
+if ! [ -f "$MYSELF" -a -x "$MYSELF" ] ; then
+	echo "$myname: ERROR: unable to figure out the directory I'm residing in. Giving up..."
+	exit "$RC_IntErr"
+fi
+
+export LC_ALL=C
 MASTERSCRIPT="$QA_GNUTLS_PATH"/testopia_233364.sh
 
 if [ -f "$MASTERSCRIPT" -a -x "$MASTERSCRIPT" ] ; then

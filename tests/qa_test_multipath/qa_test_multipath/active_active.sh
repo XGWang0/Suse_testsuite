@@ -45,19 +45,19 @@ copy_data
 
 for n in `seq 1 $PATHS_NUMBER`;
 	do
-	fail_path $n
+	trigger_path $n fail
 	sleep 30;
 	paths_status
-	check_failed $n
+	check_path $n failed
 	checkerror
 
 	check_data
 	checkerror
 
-	recover_path $n
+	trigger_path $n recover
 	sleep 30;
 	paths_status
-	check_active $n
+	check_path $n active
 	checkerror
 
 	check_data

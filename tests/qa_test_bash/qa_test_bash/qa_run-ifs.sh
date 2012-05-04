@@ -52,7 +52,7 @@ sh run-ifs 2&> /tmp/run-ifs
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-ifs
+    cat /tmp/run-ifs
     rm /tmp/run-ifs
     exit 1
   else    

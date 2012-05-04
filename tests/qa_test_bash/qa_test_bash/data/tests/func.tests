@@ -115,8 +115,8 @@ declare -F f1	# should print just the name
 declare -f f1	# should print the definition, too
 
 # no functions should be exported, right?
-declare -xF
-declare -xf
+#declare -xF
+#declare -xf
 
 # FUNCNAME tests
 func2()

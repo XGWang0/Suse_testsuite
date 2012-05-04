@@ -1,7 +1,7 @@
 #
-# spec file for package ltp (Version 20081031)
+# spec file for package ltp
 #
-# Copyright (c) 2009 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2009-2012 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -28,6 +28,17 @@ BuildRequires: flex gcc-c++ libaio-devel zip
 BuildRequires: flex gcc-c++ libaio-devel libcap-devel zip
 %endif
 
+#
+# Attr library name is different on RedHat derivatives
+#
+%if 0%{?suse_version} >= 1000
+BuildRequires: attr-devel
+%endif
+
+%if 0%{?rhel_version} || 0%{?centos_version} || 0%{?fedora}
+BuildRequires: libattr-devel
+%endif
+
 Url:            http://ltp.sf.net
 License:        GPL v2 or later
 Group:          System/Benchmark
@@ -36,11 +47,12 @@ Provides:	ltp ltp-ctcs2-glue
 Obsoletes:	ltp ltp-ctcs2-glue
 Requires:       bash
 Requires:       perl
+Requires:      	qa_lib_ctcs2 
 Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20110915
+Version:        20120104
 Release:        1
 Source:         ltp-full-%{version}.bz2
 # For subpackage creation
@@ -58,8 +70,6 @@ Patch101:	workaround-sles11-capability-headers.patch
 # Waiting for upstream approval
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
-Patch401:	fix-aiodio-dir.patch
-Patch402:	fix-aiodio_sparse-exit.patch
 Patch404:       increase-stack-size.diff
 Patch408:       fix-sched_stress.patch
 # Patches 5xx Workarounds
@@ -68,8 +78,7 @@ Patch501:	change_ltp_prog_install_dir.patch
 Patch601:       fix-sched_setparam_10_1.patch
 Patch602:       bug-307752_sched_setparam-2-1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0002-Fix-sigaction-16-1.c.patch
-Patch701:	0003-Second-fix-for-sigaction-16-1.c.patch
+Patch700:	fix-aiodio_sparse-signal-race.patch
 # Patches 8xx CTCS2 related changes
 Patch802:       pan-pass-returnvalue.diff
 Patch803:	ctcs2-glue-fixups.patch
@@ -133,8 +142,6 @@ Authors:
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes
 #%patch404 -p1
-%patch401 -p1
-%patch402 -p1
 %patch408 -p1
 # Patches 5xx Workarounds
 %patch501 -p1
@@ -143,7 +150,6 @@ Authors:
 #%patch602 -p1
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
-%patch701 -p1
 # Patches 8xx CTCS2 related changes
 %patch802 -p1
 %patch803 -p1
@@ -157,11 +163,6 @@ Authors:
 %patch1004 -p1
 
 %build
-#%ifarch %ix86 x86_64 ppc ppc64
-#%if 0%{?sles_version} != 9
-
-#%endif
-#%endif
 
 %configure --prefix=/opt/ltp --with-openposix-testsuite
 find testcases | gzip --fast > TC_INDEX.gz
@@ -246,12 +247,15 @@ done
 %defattr(-,root,root)
 /usr/lib/ctcs2
 %{_datadir}/qa
-%{_datadir}/qa/qa_test_ltp
+#%{_datadir}/qa/qa_test_ltp
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Feb 02 2012 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20120104
+
 * Mon Aug 22 2011 - llipavsky@suse.cz
 - Package rename: ltp -> qa_test_ltp
 

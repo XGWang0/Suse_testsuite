@@ -52,7 +52,7 @@ sh run-posix2 2&> /tmp/run-posix2
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-posix2
+    cat /tmp/run-posix2
     rm /tmp/run-posix2
     exit 1
   else    

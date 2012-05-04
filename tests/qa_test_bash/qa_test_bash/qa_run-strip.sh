@@ -52,7 +52,7 @@ sh run-strip 2&> /tmp/run-strip
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-strip
+    cat /tmp/run-strip
     rm /tmp/run-strip
     exit 1
   else    

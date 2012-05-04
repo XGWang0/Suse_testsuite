@@ -17,7 +17,7 @@ Group:		SuSE internal
 Summary:	CUPS automated testsuite
 Provides:	qa_cups
 Obsoletes:	qa_cups
-Requires:	cups cups-devel
+Requires:	ctcs2 cups cups-devel
 Version:	1.0
 Release:	1
 Source0:	%name-%version-sle11.tar.bz2

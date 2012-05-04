@@ -1,0 +1,21 @@
+-------------------------------------------------------------------
+Tue Jan 24 12:01:00 GMT 2012 - kgw@suse.de
+
+- Bugfix: robust detection of $QA_GNUTLS_PATH
+- Improved the manual page
+
+-------------------------------------------------------------------
+Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
+
+- Remove qa_dummy dependency
+
+-------------------------------------------------------------------
+Thu Aug 11 10:03:03 GMT 2011 - llipavsky@suse.cz
+
+- Package rename: qa_gnutls -> qa_test_gnutls
+
+-------------------------------------------------------------------
+Thu Oct  7 18:25:00 CEST 2010 - kgw@suse.de
+
+- package created, version 0.2 
+

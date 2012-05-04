@@ -52,7 +52,7 @@ sh run-getopts 2&> /tmp/run-getopts
     FAILED="1"
     echo "Diff is not empty!"
     echo "FAILED: bash test had an error :(" >&2
-    less /tmp/run-getopts
+    cat /tmp/run-getopts
     rm /tmp/run-getopts
     exit 1
   else    

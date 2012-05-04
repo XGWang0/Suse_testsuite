@@ -13,5 +13,6 @@ distclean: clean
 	rm -f simple
 
 install: all
+	-mkdir -p ../../data/file-access-acl
 	cp simple ../../data/file-access-acl/
 
