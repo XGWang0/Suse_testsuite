@@ -26,10 +26,11 @@
 
 ##############################################################################
 # Written by:  Cachen Chen <cachen@novell.com>
-# Date:        05/03/2012
+# Date:        05/08/2012
 # Description: iplb global configuration setup test
 ##############################################################################
 
+import sys
 from yast2_iplb_config import *
 from yast2_iplb_frame import *
 
@@ -53,6 +54,23 @@ print doc
 
 conf_path = "/etc/ha.d/ldirectord.cf"
 
+try:
+    ip_type = sys.argv[1]
+except IndexError:
+    print "Usage: yast2_iplb_virtual-setup.py <ipv4|ipv6>"
+    sys.exit(0)
+
+if ip_type == "ipv4":
+    text_settings = os.popen("grep vt yast2_iplb_config.py |grep -v ipv6 |awk '{print $3}'").read().strip().replace('"','').split('\n')
+elif ip_type == "ipv6":
+    text_settings = os.popen("grep vt yast2_iplb_config.py |grep -v ipv4 |awk '{print $3}'").read().strip().replace('"','').split('\n')
+else:
+    print "ERROR: IP type should be ipv4 or ipv6"
+    exit(2)
+
+combobox_settings = os.popen("grep vc yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
+real_server_settings = os.popen("grep \"real_server_\" yast2_iplb_config.py |grep %s |awk '{print $3}'" % ip_type).read().strip().replace('"','').split('\n')
+
 UItest = autoUITest()
 
 ###### Actions:
@@ -74,19 +92,30 @@ sleep(config.SHORT_DELAY)
 
 yFrame = app.findFrame(re.compile('^IPLB - Virtual'))
 
-# STEP2: Set up Virtual Server: IP + Port (support IPv4)
+# STEP2: Set up Virtual Server: IP + Port (support IPv4 and IPv6)
 # STEP3: Set up other configurations
-text_settings = os.popen("grep vt yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
 texts = yFrame.findAllTexts(None)
 for k, v in zip(texts, text_settings):
     k.insertText(v)
 
-combobox_settings = os.popen("grep vc yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
 comboboxs = yFrame.findAllComboBoxs(None)
 for k, v in zip(comboboxs, combobox_settings):
     k.findMenuItem(v, checkShowing=False).click(log=True)
 
-# STEP4: Add Real Servers: IP + Port + forwarding method (support IPv4)
+# STEP4: Add Real Servers: IP + Port + forwarding method (support IPv4 and IPv6)
+for i in real_server_settings:
+    yFrame.findPushButton("Add").mouseClick()
+    sleep(config.SHORT_DELAY)
+
+    dialog = app.findDialog(None)
+    dialog.findText(None).insertText(i)
+    sleep(config.SHORT_DELAY)
+    dialog.findMenuItem(real_forward_method, checkShowing=False).click()
+    sleep(config.SHORT_DELAY)
+    dialog.findSpinButton(None).text = real_weight
+
+    dialog.findPushButton("OK").mouseClick()
+    sleep(config.SHORT_DELAY)
 
 yFrame.findPushButton("OK").mouseClick()
 sleep(config.SHORT_DELAY)
@@ -100,5 +129,5 @@ procedurelogger.expectedResult("%s is created" % conf_path)
 if not os.path.exists(conf_path):
     raise Exception, conf_path + " doesn't been created"
 
-for i in set(text_settings + combobox_settings):
+for i in set(text_settings + combobox_settings + real_server_settings):
     UItest.checkInfo(i, conf_path)
