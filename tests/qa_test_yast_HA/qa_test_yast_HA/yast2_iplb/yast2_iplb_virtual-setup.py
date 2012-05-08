@@ -71,6 +71,10 @@ else:
 combobox_settings = os.popen("grep vc yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
 real_server_settings = os.popen("grep \"real_server_\" yast2_iplb_config.py |grep %s |awk '{print $3}'" % ip_type).read().strip().replace('"','').split('\n')
 
+if text_settings[0] == '':
+    print "ERROR: Please give server settings on yast2_iplb_config.py"
+    exit(2)
+
 UItest = autoUITest()
 
 ###### Actions:
