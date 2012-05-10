@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+set +x
 
 #devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config | cut -d= -f2`
 #devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config | cut -d= -f2`
@@ -33,6 +33,7 @@ while getopts :b:i:s:t: arg; do
 	case $arg in
 	a)	addon="$OPTARG";;
 	b)	bindnetaddr="$OPTARG";;
+	i)	iscsi_host="$OPTARG";;
 	i)	iscsi_host="$OPTARG";;
 	s)	sbd_disk="$OPTARG";;
 	t)	target="$OPTARG";;
@@ -159,7 +160,7 @@ ln -s /etc/init.d/ais /usr/sbin/rcais
 fi
 
 cat<<EOF  > /etc/corosync/corosync.conf
-echo aisexec {
+aisexec {
         #Group to run aisexec as. Needs to be root for Pacemaker
 
         group:  root
@@ -173,6 +174,10 @@ service {
         #Default to start mgmtd with pacemaker
 
         use_mgmtd:      yes
+
+        #Use logd for pacemaker
+
+        use_logd:       yes
 
         ver:    0
 
@@ -204,39 +209,13 @@ totem {
 
         consensus:      6000
 
-        #HMAC/SHA1 should be used to authenticate all message
-
-        secauth:        off
-
-        #How many token retransmits should be attempted before forming a new configuration.
-
-        token_retransmits_before_loss_const:    10
-
-        #How many threads should be used to encypt and sending message. Only have meanings when secauth is turned on
-
-        threads:        0
-
-        #
-
-        transport:      udpu
-
-        #The only valid version is 2
-
-        version:        2
-
         interface {
+                #Network Address to be bind for this interface setting
+
+                bindnetaddr:    $bindnetaddr
 EOF
 
-ipaddr=$(echo $ROLE_0_IP | tr "," "\n")
-
-for member in $ipaddr
-do
-    echo "                member {
-                        memberaddr:     $member" >> /etc/corosync/corosync.conf
-    echo "                }" >> /etc/corosync/corosync.conf
-done
-
-ipaddr=$(echo $ROLE_1_IP | tr "," "\n")
+ipaddr=$(echo $IP | tr "," "\n")
 
 for member in $ipaddr
 do
@@ -250,15 +229,27 @@ cat<<EOF >> /etc/corosync/corosync.conf
 
                 mcastport:      5405
 
-                #Network Address to be bind for this interface setting
-
-                bindnetaddr:    $bindnetaddr
-
                 #The ringnumber assigned to this interface setting
 
                 ringnumber:     0
 
         }
+        #HMAC/SHA1 should be used to authenticate all message
+
+        secauth:        off
+
+        #The only valid version is 2
+
+        version:        2
+
+        #
+
+        transport:      udpu
+
+        #How many token retransmits should be attempted before forming a new configuration.
+
+        token_retransmits_before_loss_const:    10
+
         #To make sure the auto-generated nodeid is positive
 
         clear_node_high_bit:    yes
@@ -283,11 +274,11 @@ logging {
 
         #Log to the standard error output
 
-        to_stderr:      yes
+        to_stderr:      no
 
         #Logging file line in the source code as well
 
-        fileline:       no
+        fileline:       off
 
         #Facility in syslog
 
@@ -297,7 +288,8 @@ logging {
 amf {
         #Enable or disable AMF
 
-        mode:   disable
+        mode:   disabled
+
 }
 EOF
 
@@ -323,7 +315,7 @@ EOF
   fi
 
   if [[ $iscsi_host ]]; then
-    rcais start
+    rcais restart
   else
     rcopenais start
   fi
