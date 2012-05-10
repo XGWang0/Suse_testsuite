@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 #devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config | cut -d= -f2`
 #devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config | cut -d= -f2`
 
@@ -27,14 +29,11 @@ wait_for_cluster()
   status_done
 }
 
-while getopts :a:b:i:l:m:p:s:t arg; do
+while getopts :b:i:s:t: arg; do
 	case $arg in
 	a)	addon="$OPTARG";;
 	b)	bindnetaddr="$OPTARG";;
 	i)	iscsi_host="$OPTARG";;
-	l)	login="$OPTARG";;
-	m)	mcastaddr="$OPTARG";;
-	p)	password="$OPTARG";;
 	s)	sbd_disk="$OPTARG";;
 	t)	target="$OPTARG";;
 	:)
@@ -53,7 +52,7 @@ if [[ $iscsi_host && ! -e /sbin/iscsiadm ]]; then
   zypper in -y open-iscsi
 fi
 
-if [[ $addon && $bindnetaddr && $mcastaddr && $sbd_disk ]]; then
+if [[ $bindnetaddr && $sbd_disk ]]; then
   zypper se -t pattern | grep ha_sles | grep "i |" 2>&1 > /dev/null
   ha_sles=$?
   if [ "$ha_sles" != "0" ]; then
@@ -156,6 +155,7 @@ ln -s /etc/init.d/ais /usr/sbin/rcais
 
   iscsiadm -m discovery -t st -p $iscsi_host
   iscsiadm -m node -T $target -p $iscsi_host:3260 --login
+
 fi
 
 cat<<EOF  > /etc/corosync/corosync.conf
@@ -314,13 +314,13 @@ EOF
   sbd=$?
   if [[ "$sbd" != "0" ]]; then
     sbd -d $sbd_disk create
-  if
+  fi
 
   sbd -d $sbd_disk list | grep $(hostname) 2>&1 > /dev/null
   sbd_host=$?
   if [[ "$sbd_host" != "0" ]]; then
     sbd -d $sbd_disk allocate $(hostname)
-  if
+  fi
 
   if [[ $iscsi_host ]]; then
     rcais start
@@ -333,13 +333,13 @@ EOF
   crm configure primitive sbd_stonith stonith:external/sbd
 
 else
-  echo -a $addon -b $bindnetaddr -d -i $iscsi_host -s $sbd_disk -t $target
+  echo -b $bindnetaddr -i $iscsi_host -s $sbd_disk -t $target
   echo "Wrong or missing arguments"
   echo "Usage: node_conf_runner -b bindnetaddr -d -i iscsi_host -s sbd_disk -t target"
   echo "       addon - url to add-on directory"
-  echo "       bindnetaddr - address used for corosync [10.20.3.0]"
+  echo "       bindnetaddr - address used for corosync [10.100.101.1]"
   echo "       mcastaddr - multicast addresss for cluster [239.50.1.1]"
-  echo "       iscsi_host - IP address of your iscsi shared disk provider [10.20.136.150]"
+  echo "       iscsi_host - IP address of your iscsi shared disk provider [10.100.96.150]"
   echo "       login - login for iscsi target"
   echo "       password - password for iscsi target"
   echo "       sbd_disk - disk used for sbd/STONITH [/dev/disk/by-path/pci-0000:00:01.1-scsi-0:0:1:0-part1]"

@@ -1,5 +1,12 @@
 #!/bin/bash
 
+wait_for_resource ()
+{
+  while !crm_resource --locate --resource $1 2>&1 | grep - q 'running on';  do
+    $BE_QUIET || echo -n '.' sleep 1
+  done
+}
+
 while getopts :a:b:u: arg; do
 	case $arg in
 	a)	sitea="$OPTARG";;
@@ -44,6 +51,9 @@ EOF
   fi
 
   if [ "$usage" = "ocfs2" ] ; then
+  crm_resource --locate --resource g-booth
+  booth=$?
+    if [[ "$booth" != "0" ]]; then
 crm configure << EOF
 primitive booth ocf:pacemaker:booth-site \
         meta resource-stickiness="INFINITY" \
@@ -55,9 +65,13 @@ group g-booth booth-ip booth \
 order base-then-clusterfs inf: base-clone c-clusterfs
 rsc_ticket base-clone-req-ticketA ticketA: base-clone loss-policy=stop
 EOF
+    fi
   fi
 
   if [ "$usage" = "mysql" ] ; then
+  crm_resource --locate --resource g-booth
+  booth=$?
+    if [[ "$booth" != "0" ]]; then
 crm configure << EOF
 primitive booth ocf:pacemaker:booth-site \
         meta resource-stickiness="INFINITY" \
@@ -69,6 +83,7 @@ group g-booth booth-ip booth \
 order base-then-clusterfs inf: base-clone c-clusterfs
 rsc_ticket base-clone-req-ticketB ticketB: base-clone loss-policy=stop
 EOF
+    fi
   fi
 
 else
