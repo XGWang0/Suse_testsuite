@@ -23,9 +23,11 @@
 # ****************************************************************************
 
 # Machines settings
-real_server1 = "147.2.207.3"
-real_server2 = "147.2.207.4"
-virtual_server = "147.2.207.5"
+real_server1_ip = "147.2.207.3"
+real_server1_pwd = "susetesting"
+real_server2_ip = "147.2.207.4"
+real_server2_pwd = "susetesting"
+virtual_server_ip = "147.2.207.5"
 
 # Global configuration settings:
 gt_check_interval = "5"
