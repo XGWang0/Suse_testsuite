@@ -34,3 +34,6 @@ timer 300
 fg 1 yast2_iplb_virtual-setup-ipv6 /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_virtual-setup.py ipv6
 wait
 
+timer 300
+fg 1 remote_setup_apache-server /usr/share/qa/qa_test_yast_HA/yast2_iplb/remote_setup_apache-server.py
+wait
