@@ -15,7 +15,7 @@ Name:           qa_test_hacluster
 License:        SUSE Proprietary
 Group:          SuSE internal
 AutoReqProv:    on
-Version:        0.4.1
+Version:        0.5.0
 Release:        1
 Summary:        (rd-)qa internal package for HA setup
 Url:            http://qa.suse.de/
@@ -66,6 +66,10 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools/test_hacluster-run
 
 %changelog
+* Mon May 14 2012 - vpelcak@suse.com
+- Added HA GEO setup
+- Updated OCFS2 deployment
+
 * Fri Jan 13 2012 - vpelcak@suse.com
 - Added Apache + MySQL deployment
 
