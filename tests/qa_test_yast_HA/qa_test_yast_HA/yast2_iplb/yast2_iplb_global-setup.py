@@ -48,6 +48,7 @@ STEP1: Settings is saved to /etc/ha.d/ldirectord.cf
 print doc
 
 conf_path = "/etc/ha.d/ldirectord.cf"
+iplb_conf = "/usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_config.py"
 
 UItest = autoUITest()
 
@@ -61,12 +62,12 @@ app = UItest.launchYastApp("yast2 -gtk iplb&", "y2base")
 yFrame = app.findFrame(re.compile('^IPLB - Global'))
 
 # STEP1: Set up global configuration
-text_settings = os.popen("grep gt yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
+text_settings = os.popen("grep gt %s |awk '{print $3}'" % iplb_conf).read().strip().replace('"','').split('\n')
 texts = yFrame.findPageTab("Global Configuration").findAllTexts(None)
 for k, v in zip(texts, text_settings):
     k.insertText(v)
 
-combobox_settings = os.popen("grep gc yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
+combobox_settings = os.popen("grep gc %s |awk '{print $3}'" % iplb_conf).read().strip().replace('"','').split('\n')
 comboboxs = yFrame.findPageTab("Global Configuration").findAllComboBoxs(None)
 for k, v in zip(comboboxs, combobox_settings):
     k.findMenuItem(v, checkShowing=False).click(log=True)

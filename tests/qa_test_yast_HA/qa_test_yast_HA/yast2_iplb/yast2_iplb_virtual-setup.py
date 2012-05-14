@@ -53,6 +53,7 @@ STEP1: Settings is saved to /etc/ha.d/ldirectord.cf
 print doc
 
 conf_path = "/etc/ha.d/ldirectord.cf"
+iplb_conf = "/usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_config.py"
 
 try:
     ip_type = sys.argv[1]
@@ -61,15 +62,15 @@ except IndexError:
     sys.exit(0)
 
 if ip_type == "ipv4":
-    text_settings = os.popen("grep vt yast2_iplb_config.py |grep -v ipv6 |awk '{print $3}'").read().strip().replace('"','').split('\n')
+    text_settings = os.popen("grep vt %s |grep -v ipv6 |awk '{print $3}'" % iplb_conf).read().strip().replace('"','').split('\n')
 elif ip_type == "ipv6":
-    text_settings = os.popen("grep vt yast2_iplb_config.py |grep -v ipv4 |awk '{print $3}'").read().strip().replace('"','').split('\n')
+    text_settings = os.popen("grep vt %s |grep -v ipv4 |awk '{print $3}'" % iplb_conf).read().strip().replace('"','').split('\n')
 else:
     print "ERROR: IP type should be ipv4 or ipv6"
     exit(2)
 
-combobox_settings = os.popen("grep vc yast2_iplb_config.py |awk '{print $3}'").read().strip().replace('"','').split('\n')
-real_server_settings = os.popen("grep \"real_server_\" yast2_iplb_config.py |grep %s |awk '{print $3}'" % ip_type).read().strip().replace('"','').split('\n')
+combobox_settings = os.popen("grep vc %s |awk '{print $3}'" % iplb_conf).read().strip().replace('"','').split('\n')
+real_server_settings = os.popen("grep \"real_server_\" %s |grep %s |awk '{print $3}'" % (iplb_conf, ip_type)).read().strip().replace('"','').split('\n')
 
 if text_settings[0] == '':
     print "ERROR: Please give server settings on yast2_iplb_config.py"
@@ -99,7 +100,8 @@ yFrame = app.findFrame(re.compile('^IPLB - Virtual'))
 # STEP2: Set up Virtual Server: IP + Port (support IPv4 and IPv6)
 # STEP3: Set up other configurations
 texts = yFrame.findAllTexts(None)
-for k, v in zip(texts, text_settings):
+texts[0].insertText(text_settings[0])
+for k, v in zip(texts[1:], text_settings):
     k.insertText(v)
 
 comboboxs = yFrame.findAllComboBoxs(None)
