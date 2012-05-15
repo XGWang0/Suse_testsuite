@@ -15,7 +15,7 @@ while getopts: a: m:arg; do
 	esac
 done
 
-declare BE_QUIET = false
+declare BE_QUIET=false
 
 wait_for_resource ()
 {

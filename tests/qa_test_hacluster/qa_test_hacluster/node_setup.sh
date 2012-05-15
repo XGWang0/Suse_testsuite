@@ -322,7 +322,11 @@ EOF
 
   wait_for_cluster
 
-  crm configure primitive sbd_stonith stonith:external/sbd
+  crm_resource --locate --resource sbd_stonith
+  stonith=$?
+    if [[ "$stonith" != "0" ]]; then
+      crm configure primitive sbd_stonith stonith:external/sbd
+    fi
 
 else
   echo -b $bindnetaddr -i $iscsi_host -s $sbd_disk -t $target

@@ -14,11 +14,13 @@ while getopts :i:m:p: arg; do
 	esac
 done
 
-declare BE_QUIET = false
+if [[ $iscsi_target && $iscsi_portal && $mysql_disk ]]; then
+
+declare BE_QUIET=false
 
 wait_for_resource ()
 {
-  while !crm_resource --locate --resource $1 2>&1 | grep - q 'running on';  do
+  while !crm_resource --locate --resource $1 2>&1 | grep -q 'running on';  do
     $BE_QUIET || echo -n '.' sleep 1
   done
 }
@@ -29,7 +31,7 @@ wait_for_resource ()
     yes | mkfs.ext3 $mysql_disk
   fi
 
-if [!-e /usr/bin/mysqld_safe]; then
+if [ ! -e /usr/bin/mysqld_safe ] ; then
   zypper in -y mysql
 fi
 
@@ -50,7 +52,7 @@ EOF
 
 wait_for_resource fs_ext3
 
-if [ crm_resource --locate --resource 2>&1 | grep $(hostname) ]; then
+if [crm_resource --locate --resource 2>&1 | grep $(hostname)]; then
 	rcmysql start
 	chown -R mysql:mysql /var/lib/mysql
 	rcmysql stop
