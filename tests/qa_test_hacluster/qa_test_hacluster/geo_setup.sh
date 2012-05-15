@@ -46,8 +46,8 @@ EOF
   if [ "$usage" = "arb" ] ; then
     rcbooth-arbitrator start
     sleep 60
-    booth client grant -t ticketA -s 10.100.101.37
-    booth client grant -t ticketB -s 10.100.101.43
+    booth client grant -t ticketA -s $sitea
+    booth client grant -t ticketB -s $siteb
   fi
 
   if [ "$usage" = "ocfs2" ] ; then
