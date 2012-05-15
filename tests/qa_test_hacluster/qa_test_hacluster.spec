@@ -15,7 +15,7 @@ Name:           qa_test_hacluster
 License:        SUSE Proprietary
 Group:          SuSE internal
 AutoReqProv:    on
-Version:        0.5.0
+Version:        0.5.1
 Release:        1
 Summary:        (rd-)qa internal package for HA setup
 Url:            http://qa.suse.de/
