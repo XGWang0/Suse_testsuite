@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set +x
 wait_for_resource ()
 {
   while !crm_resource --locate --resource $1 2>&1 | grep - q 'running on';  do
@@ -62,7 +62,6 @@ primitive booth-ip ocf:heartbeat:IPaddr2 \
         params ip="$sitea" cidr_netmask="21"
 group g-booth booth-ip booth \
         meta target-role="Started"
-order base-then-clusterfs inf: base-clone c-clusterfs
 rsc_ticket base-clone-req-ticketA ticketA: base-clone loss-policy=stop
 EOF
     fi
@@ -80,8 +79,9 @@ primitive booth-ip ocf:heartbeat:IPaddr2 \
         params ip="$siteb" cidr_netmask="21"
 group g-booth booth-ip booth \
         meta target-role="Started"
-order base-then-clusterfs inf: base-clone c-clusterfs
-rsc_ticket base-clone-req-ticketB ticketB: base-clone loss-policy=stop
+EOF
+crm configure << EOF
+rsc_ticket iscsi_ext3-req-ticketB ticketB: iscsi_ext3 loss-policy=stop
 EOF
     fi
   fi

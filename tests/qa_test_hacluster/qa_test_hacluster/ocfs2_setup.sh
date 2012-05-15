@@ -62,6 +62,7 @@ clone base-clone base-group \
 clone c-clusterfs clusterfs \
         meta interleave="true" target-role="Started"
 colocation clusterfs-with-base inf: c-clusterfs base-clone
+order base-then-clusterfs inf: base-clone c-clusterfs
 EOF
     fi
 
