@@ -27,11 +27,11 @@ wait_for_resource ()
 if [[$iscsi_disk]]; then
   mkfs.ext3 $mysql_disk
 
-if [!-e /usr/bin/mysqld_safe]; then
+if [ ! -e /usr/bin/mysqld_safe ]; then
   zypper in -y mysql
 fi
 
-if [!-e /etc/init.d/apache2]; then
+if [ ! -e /etc/init.d/apache2 ]; then
   zypper in -y apache2
 fi
 
