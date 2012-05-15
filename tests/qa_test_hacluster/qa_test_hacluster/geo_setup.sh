@@ -89,7 +89,7 @@ EOF
 else
   echo -a $sitea -b $siteb -u $usage
   echo "Wrong or missing arguments"
-  echo "Usage: geo_conf_runner -a arbitrator -b sitea -c sitea -u usage"
+  echo "Usage: geo_setup.sh -a arbitrator -b sitea -c sitea -u usage"
   echo "       arbitrator - IP ddress of arbitrator"
   echo "       sitea - IP address of booth-ip resource in ocfs2 cluster [10.100.101.37]"
   echo "       siteb - IP address of booth-ip resource in mysql cluster [10.100.101.43]"

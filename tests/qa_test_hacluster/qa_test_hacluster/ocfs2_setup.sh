@@ -57,8 +57,6 @@ primitive o2cb ocf:ocfs2:o2cb \
         op start interval="0" timeout="90" \
         op stop interval="0" timeout="100" \
         op monitor interval="60" timeout="60"
-primitive stonith_sbd stonith:external/sbd
-
 clone base-clone base-group \
         meta interleave="true" target-role="Started"
 clone c-clusterfs clusterfs \
@@ -85,7 +83,7 @@ EOF
 else
   echo -f $fs_dir -i $iscsi_target -o $ocfs2_disk -p $iscsi_portal
   echo "Wrong or missing arguments"
-  echo "Usage: ocfs2_configuration.sh -f fs_dir -i iscsi_target -o ocfs2_disk -p iscsi_portal"
+  echo "Usage: ocfs2_setup.sh -f fs_dir -i iscsi_target -o ocfs2_disk -p iscsi_portal"
   echo "       fs_dir - directory, where OCFS2 dick will be mounted [/ocfs2]"
   echo "       iscsi_target - iscsi target name [iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a]"
   echo "       ocfs2_disk - disk used as OCFS2 storage [/dev/disk/by-path/ip-10.100.96.150:3260-iscsi-iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a-lun-2-part1]"

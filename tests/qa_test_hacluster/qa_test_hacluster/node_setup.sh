@@ -327,7 +327,7 @@ EOF
 else
   echo -b $bindnetaddr -i $iscsi_host -s $sbd_disk -t $target
   echo "Wrong or missing arguments"
-  echo "Usage: node_conf_runner -b bindnetaddr -d -i iscsi_host -s sbd_disk -t target"
+  echo "Usage: node_setup.sh -b bindnetaddr -d -i iscsi_host -s sbd_disk -t target"
   echo "       addon - url to add-on directory"
   echo "       bindnetaddr - address used for corosync [10.100.101.1]"
   echo "       mcastaddr - multicast addresss for cluster [239.50.1.1]"
