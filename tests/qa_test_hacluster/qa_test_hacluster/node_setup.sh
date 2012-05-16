@@ -215,7 +215,7 @@ totem {
                 bindnetaddr:    $bindnetaddr
 EOF
 
-ipaddr=$(echo $IP | tr "," "\n")
+ipaddr=$(echo $ROLE_0_IP | tr "," "\n")
 
 for member in $ipaddr
 do
