@@ -50,7 +50,7 @@ STEP1: Both test.html can be visited
 
 print doc
 
-http_file = "/srv/www/htdocs/test.html"
+http_file = "/srv/www/htdocs/index.html"
 
 ##### On real_server1
 # Install lamp_server pattern
@@ -72,9 +72,9 @@ connect.sendline('exit')
 
 # test.html can be visited
 procedurelogger.expectedResult("Apache on real server 1 %s works" % real_server1_ip)
-status = urllib.urlopen("http://%s/test.html" % real_server1_ip).read().find("real_server1")
+status = urllib.urlopen("http://%s/index.html" % real_server1_ip).read().find("real_server1")
 if status == -1:
-    raise Exception, "http://%s/test.html doesn't works!" % real_server1_ip
+    raise Exception, "http://%s/index.html doesn't works!" % real_server1_ip
 
 ##### On real_server2
 # Install lamp_server pattern
@@ -96,6 +96,6 @@ connect.sendline('exit')
 
 # test.html can be visited
 procedurelogger.expectedResult("Apache on real server 2 %s works" % real_server2_ip)
-status = urllib.urlopen("http://%s/test.html" % real_server2_ip).read().find("real_server2")
+status = urllib.urlopen("http://%s/index.html" % real_server2_ip).read().find("real_server2")
 if status == -1:
-    raise Exception, "http://%s/test.html doesn't works!" % real_server2_ip
+    raise Exception, "http://%s/index.html doesn't works!" % real_server2_ip
