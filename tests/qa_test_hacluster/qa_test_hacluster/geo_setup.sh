@@ -1,5 +1,5 @@
 #!/bin/bash
-set +x
+
 wait_for_resource ()
 {
   while !crm_resource --locate --resource $1 2>&1 | grep - q 'running on';  do
