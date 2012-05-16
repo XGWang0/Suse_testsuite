@@ -46,8 +46,8 @@ EOF
   if [ "$usage" = "arb" ] ; then
     rcbooth-arbitrator start
     sleep 60
-    booth client grant -t ticketA -s 10.100.101.37
-    booth client grant -t ticketB -s 10.100.101.43
+    booth client grant -t ticketA -s $sitea
+    booth client grant -t ticketB -s $siteb
   fi
 
   if [ "$usage" = "ocfs2" ] ; then
@@ -62,7 +62,6 @@ primitive booth-ip ocf:heartbeat:IPaddr2 \
         params ip="$sitea" cidr_netmask="21"
 group g-booth booth-ip booth \
         meta target-role="Started"
-order base-then-clusterfs inf: base-clone c-clusterfs
 rsc_ticket base-clone-req-ticketA ticketA: base-clone loss-policy=stop
 EOF
     fi
@@ -80,8 +79,9 @@ primitive booth-ip ocf:heartbeat:IPaddr2 \
         params ip="$siteb" cidr_netmask="21"
 group g-booth booth-ip booth \
         meta target-role="Started"
-order base-then-clusterfs inf: base-clone c-clusterfs
-rsc_ticket base-clone-req-ticketB ticketB: base-clone loss-policy=stop
+EOF
+crm configure << EOF
+rsc_ticket iscsi_ext3-req-ticketB ticketB: iscsi_ext3 loss-policy=stop
 EOF
     fi
   fi
@@ -89,7 +89,7 @@ EOF
 else
   echo -a $sitea -b $siteb -u $usage
   echo "Wrong or missing arguments"
-  echo "Usage: geo_conf_runner -a arbitrator -b sitea -c sitea -u usage"
+  echo "Usage: geo_setup.sh -a arbitrator -b sitea -c sitea -u usage"
   echo "       arbitrator - IP ddress of arbitrator"
   echo "       sitea - IP address of booth-ip resource in ocfs2 cluster [10.100.101.37]"
   echo "       siteb - IP address of booth-ip resource in mysql cluster [10.100.101.43]"

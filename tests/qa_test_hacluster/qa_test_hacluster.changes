@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon May 14 15:07:02 GMT 2012 - vpelcak@suse.com
+- Added HA GEO
+- Updated OCFS2 setup
+
+-------------------------------------------------------------------
 Fri Jan 13 16:30:12 GMT 2012 - vpelcak@suse.com
 - Added Apache + MySQL deployment
 

@@ -14,19 +14,16 @@ wait_for_resource()
 {
 	while ! crm_resource --locate --resource $1 2>&1 | grep -q 'running on'; do
 		$BE_QUIET || echo -n '.'
-		chown -R mysql:mysql /var/lib/mysql
 		sleep 1
 	done
 }
 
 wait_for_resource fs-mysql
 
-rcmysql start
-rcmysql stop
-
-wait_for_resource fs-mysql
-
-rcmysql start
-rcmysql stop
+if [ crm_resource --locate --resource 2>&1 | grep $(hostname) ]; then
+	rcmysql start
+	chown -R mysql:mysql /var/lib/mysql
+	rcmysql stop
+fi
 
 wait_for_resource sql1

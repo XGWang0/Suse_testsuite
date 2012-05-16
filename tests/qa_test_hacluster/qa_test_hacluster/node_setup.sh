@@ -215,7 +215,7 @@ totem {
                 bindnetaddr:    $bindnetaddr
 EOF
 
-ipaddr=$(echo $IP | tr "," "\n")
+ipaddr=$(echo $ROLE_0_IP | tr "," "\n")
 
 for member in $ipaddr
 do
@@ -322,12 +322,16 @@ EOF
 
   wait_for_cluster
 
-  crm configure primitive sbd_stonith stonith:external/sbd
+  crm_resource --locate --resource sbd_stonith
+  stonith=$?
+    if [[ "$stonith" != "0" ]]; then
+      crm configure primitive sbd_stonith stonith:external/sbd
+    fi
 
 else
   echo -b $bindnetaddr -i $iscsi_host -s $sbd_disk -t $target
   echo "Wrong or missing arguments"
-  echo "Usage: node_conf_runner -b bindnetaddr -d -i iscsi_host -s sbd_disk -t target"
+  echo "Usage: node_setup.sh -b bindnetaddr -d -i iscsi_host -s sbd_disk -t target"
   echo "       addon - url to add-on directory"
   echo "       bindnetaddr - address used for corosync [10.100.101.1]"
   echo "       mcastaddr - multicast addresss for cluster [239.50.1.1]"
