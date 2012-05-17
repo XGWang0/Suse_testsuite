@@ -90,6 +90,41 @@ class remoteSetting():
             pass
         print connect.before
         return connect
+
+    def setup_hosts(self, node_hostname, EOF_line):
+        '''
+        Add each node's ip and hostname to hosts
+        '''
+        connect = self.ssh_connect()
+    
+        connect.sendline('grep %s /etc/hosts' % self.node_ip)
+        connect.expect("#|->")
+        grep_info=connect.before
+    
+        if grep_info.find(self.node_ip + ' ' + node_hostname) == -1:
+            connect.sendline('cat >>/etc/hosts %s' % EOF_line)
+            connect.expect([pexpect.TIMEOUT, "#|->"])
+            print connect.before
+    
+        connect.sendline('exit')
+
+    def ping_test(self, ping_host):
+        '''
+        Ping test in each node
+        '''
+        connect = self.ssh_connect()
+    
+        connect.sendline('ping -c 1 %s' % ping_host)
+        connect.expect([pexpect.TIMEOUT,"#|->"])
+    
+        compiles = [re.compile('unknown host'), re.compile('unreachable')]
+        for i in compiles:
+            if i.search(connect.before):
+                raise RuntimeError, "Your setting up fails"
+    
+        print connect.before
+    
+        connect.sendline('exit')
     
     def setup_UItest(self, boolean=True, auto_login=True):
         '''
