@@ -30,6 +30,7 @@
 # Description: Set up Apache server on both real servers for IPLB test
 ##############################################################################
 
+import getopt
 from yast2_iplb_config import *
 from yast2_iplb_frame import *
 
@@ -45,30 +46,56 @@ STEP1: Each server can ping Virtual IP successful
 ========================Start Running========================
 """
 
-print doc
+def usage():
+    usage = """Usage: remote_setup_network.py [-m machine_ip=password] [-i ip] <interface> <netmask>
+        [-i ip]        give ip for what you want to set up
+        [-m machine_ip=password]    give ip and password for which you want to set up network, multi machines can be separated by comma for example  192.168.0.2=susetesting,192.168.0.3=susetesting
+        <interface>    for example eth0 or eth0:0
+        <netmask>      for example 255.255.255.0"""
+    print usage
 
-# Variables
-machines = {
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "hm:i:", ["help","machines=","ip="])
+except getopt.GetoptError:
+    usage()
+    sys.exit(2)
+
+if len(opts) == 0:
+    set_ip = virtual_server_ip
+    machines = {
         director_server_ip:director_server_pwd, 
         real_server1_ip:real_server1_pwd, 
         real_server2_ip:real_server2_pwd
-}
-
+        }
+else:
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            usage()
+            sys.exit(0)
+        if o in ("-i", "--ip"):
+            set_ip = a
+        else:
+            set_ip = virtual_server_ip
+        if o in ("-m", "--machines"):
+            i_list = []
+            p_list = []
+            m_list=a.split(',')
+            for i in m_list:
+                i_list.append(i.split('=')[0])
+                p_list.append(i.split('=')[1])
+            machines = dict(zip(i_list, p_list))
 try:
-    eth_interface = sys.argv[1:][0]
+    eth_interface = args[0]
 except IndexError:
-    print "Usage: remote_setup_network.py <interface> [ip] [netmask]"
-    sys.exit(1)
+    usage()
+    sys.exit(2)
 
 try:
-    set_ip = sys.argv[1:][1]
-except IndexError:
-    set_ip = virtual_server_ip
-
-try:
-    netmask = sys.argv[1:][2]
+    netmask = args[1]
 except IndexError:
     netmask = "255.255.255.0"
+
+print doc
 
 # Actions
 for k, v in machines.iteritems():
