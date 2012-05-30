@@ -25,8 +25,11 @@ Requires:       ctcs2
 BuildRequires:  qa_lib_ctcs2 >= 2.4.0 ctcs2 
 
 %description
-    Author : Put your name here
-No description
+    Author : Junwei Hao (jhao@suse.com)
+run 5 iterative algorithms(like fibonacci sequence)
+calculate the average CPU cost measured by seconds:
+CPUTime=1000-5*(a+b+c+d+e)/2
+
 
 %prep
 cd $RPM_SOURCE_DIR
