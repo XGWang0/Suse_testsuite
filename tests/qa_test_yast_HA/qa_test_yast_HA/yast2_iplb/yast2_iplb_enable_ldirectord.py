@@ -48,7 +48,7 @@ STEP1: Return "Starting ldirectord... success"
 print doc
 
 ##### On director server
-ds = remoteSetting(node_ip=director_server_ip, node_pwd=director_server_pwd)
+ds = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
 
 ds.act_service(service="/etc/init.d/ldirectord", status="start", check=True, process="ldirectord")
 

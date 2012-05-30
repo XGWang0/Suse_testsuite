@@ -23,8 +23,8 @@
 # ****************************************************************************
 
 # Machines settings
-director_server_ip = "147.2.207.2"
-director_server_pwd = "susetesting"
+director_ip = "147.2.207.2"
+director_pwd = "susetesting"
 
 real_server1_ip = "147.2.207.3"
 real_server1_pwd = "susetesting"

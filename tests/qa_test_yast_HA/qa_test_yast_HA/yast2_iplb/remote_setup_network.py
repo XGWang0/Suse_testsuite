@@ -63,7 +63,7 @@ except getopt.GetoptError:
 if len(opts) == 0:
     set_ip = virtual_server_ip
     machines = {
-        director_server_ip:director_server_pwd, 
+        director_ip:director_pwd, 
         real_server1_ip:real_server1_pwd, 
         real_server2_ip:real_server2_pwd
         }
