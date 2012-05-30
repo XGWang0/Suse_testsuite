@@ -29,15 +29,3 @@ timer 400
 benchparser /usr/share/qa/qa_test_numbench/numbenchparser
 fg 1 numbench /usr/share/qa/qa_test_numbench/qa_numbench.sh 2
 wait
-
-#timer 300
-#fg 1 qa_numbench_testtwo /usr/share/qa/qa_test_numbench/qa_numbench_testtwo.pl
-#wait
-
-#timer 300
-#fg 1 qa_numbench_testthree /usr/share/qa/qa_test_numbench/qa_numbench_testthree.py
-#wait
-
-#timer 300
-#fg 1 qa_numbench_testfour /usr/share/qa/qa_test_numbench/qa_numbench_testfour.sh
-
