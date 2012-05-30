@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # ****************************************************************************
 # Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -22,29 +24,31 @@
 # ****************************************************************************
 #
 
-fg 1 remote_setup_network /usr/share/qa/qa_test_yast_HA/yast2_iplb/remote_setup_network.py eth0:0
-wait
+##############################################################################
+# Written by:  Cachen Chen <cachen@novell.com>
+# Date:        05/21/2012
+# Description: Enable ldirectord on director server
+##############################################################################
 
-timer 300
-fg 1 yast2_iplb_global-setup /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_global-setup.py
-wait
+from yast2_iplb_config import *
+from yast2_iplb_frame import *
 
-timer 300
-fg 1 yast2_iplb_virtual-setup-ipv4 /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_virtual-setup.py ipv4
-wait
+doc="""
+Actions:
 
-timer 300
-fg 1 yast2_iplb_virtual-setup-ipv6 /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_virtual-setup.py ipv6
-wait
+STEP1: On server, enable ldirectord (#/etc/init.d/ldirectord start)
 
-timer 300
-fg 1 remote_setup_apache-server /usr/share/qa/qa_test_yast_HA/yast2_iplb/remote_setup_apache-server.py
-wait
+Expected:
 
-timer 300
-fg 1 yast2_iplb_enable_ldirectord /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_enable_ldirectord.py
-wait
+STEP1: Return "Starting ldirectord... success"
 
-timer 300
-fg 1 yast2_iplb_web-test /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_web-test.py
-wait
+========================Start Running========================
+"""
+
+print doc
+
+##### On director server
+ds = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
+
+ds.act_service(service="/etc/init.d/ldirectord", status="start", check=True, process="ldirectord")
+

@@ -38,19 +38,19 @@ doc="""
 Actions:
 
 STEP1: Install Apache and start up http process on both real server nodes: /etc/init.d/apache2 start
-STEP2: Create test.html to real_server1
-STEP3: Create test.html to real_server2 (page different from real_server1) 
+STEP2: Create index.html to real_server1
+STEP3: Create index.html to real_server2 (page different from real_server1) 
 
 Expected:
 
-STEP1: Both test.html can be visited
+STEP1: Both index.html can be visited
 
 ========================Start Running========================
 """
 
 print doc
 
-http_file = "/srv/www/htdocs/test.html"
+http_file = "/srv/www/htdocs/index.html"
 
 ##### On real_server1
 # Install lamp_server pattern
@@ -62,7 +62,7 @@ rs1.install_Patterns(patterns=["lamp_server"], setup_x=False)
 # Start up http process: /etc/init.d/apache2 start
 rs1.act_service(service="/etc/init.d/apache2", status="start", check=True, process="httpd2-prefork")
 
-# Create test.html
+# Create index.html
 connect = rs1.ssh_connect()
 http_EOF = "<<EOF\n<html><body><h1>real_server1 works!</h1></body></html>\nEOF"
 connect.sendline('cat >%s %s' % (http_file, http_EOF))
@@ -70,11 +70,11 @@ connect.expect([pexpect.TIMEOUT,"#|->"])
 print connect.before
 connect.sendline('exit')
 
-# test.html can be visited
+# index.html can be visited
 procedurelogger.expectedResult("Apache on real server 1 %s works" % real_server1_ip)
-status = urllib.urlopen("http://%s/test.html" % real_server1_ip).read().find("real_server1")
+status = urllib.urlopen("http://%s/index.html" % real_server1_ip).read().find("real_server1")
 if status == -1:
-    raise Exception, "http://%s/test.html doesn't works!" % real_server1_ip
+    raise Exception, "http://%s/index.html doesn't works!" % real_server1_ip
 
 ##### On real_server2
 # Install lamp_server pattern
@@ -86,7 +86,7 @@ rs1.install_Patterns(patterns=["lamp_server"], setup_x=False)
 # Start up http process: /etc/init.d/apache2 start
 rs1.act_service(service="/etc/init.d/apache2", status="start", check=True, process="httpd2-prefork")
 
-# Create test.html
+# Create index.html
 connect = rs1.ssh_connect()
 http_EOF = "<<EOF\n<html><body><h1>real_server2 works!</h1></body></html>\nEOF"
 connect.sendline('cat >%s %s' % (http_file, http_EOF))
@@ -94,8 +94,8 @@ connect.expect([pexpect.TIMEOUT,"#|->"])
 print connect.before
 connect.sendline('exit')
 
-# test.html can be visited
+# index.html can be visited
 procedurelogger.expectedResult("Apache on real server 2 %s works" % real_server2_ip)
-status = urllib.urlopen("http://%s/test.html" % real_server2_ip).read().find("real_server2")
+status = urllib.urlopen("http://%s/index.html" % real_server2_ip).read().find("real_server2")
 if status == -1:
-    raise Exception, "http://%s/test.html doesn't works!" % real_server2_ip
+    raise Exception, "http://%s/index.html doesn't works!" % real_server2_ip

@@ -1,7 +1,7 @@
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
-# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
 # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
@@ -20,31 +20,12 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
-#
-
-fg 1 remote_setup_network /usr/share/qa/qa_test_yast_HA/yast2_iplb/remote_setup_network.py eth0:0
-wait
 
 timer 300
-fg 1 yast2_iplb_global-setup /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_global-setup.py
+benchparser /usr/share/qa/qa_test_numbench/numbenchparser
+fg 1 numbench /usr/share/qa/qa_test_numbench/qa_numbench.sh 1
 wait
-
-timer 300
-fg 1 yast2_iplb_virtual-setup-ipv4 /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_virtual-setup.py ipv4
-wait
-
-timer 300
-fg 1 yast2_iplb_virtual-setup-ipv6 /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_virtual-setup.py ipv6
-wait
-
-timer 300
-fg 1 remote_setup_apache-server /usr/share/qa/qa_test_yast_HA/yast2_iplb/remote_setup_apache-server.py
-wait
-
-timer 300
-fg 1 yast2_iplb_enable_ldirectord /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_enable_ldirectord.py
-wait
-
-timer 300
-fg 1 yast2_iplb_web-test /usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_web-test.py
+timer 400
+benchparser /usr/share/qa/qa_test_numbench/numbenchparser
+fg 1 numbench /usr/share/qa/qa_test_numbench/qa_numbench.sh 2
 wait

@@ -23,10 +23,15 @@
 # ****************************************************************************
 
 # Machines settings
+director_ip = "147.2.207.2"
+director_pwd = "susetesting"
+
 real_server1_ip = "147.2.207.3"
 real_server1_pwd = "susetesting"
+
 real_server2_ip = "147.2.207.4"
 real_server2_pwd = "susetesting"
+
 virtual_server_ip = "147.2.207.5"
 
 # Global configuration settings:
@@ -42,7 +47,7 @@ gt_email_alert_status = ""
 gt_callback = ""
 gt_execute = ""
 gc_auto_reload = "yes"
-gc_quiescent_fork = "yes"
+gc_quiescent_fork = "no"
 gc_fork = ""
 gc_supervised = ""
 
@@ -59,8 +64,8 @@ vc_check_type = "negotiate"
 vc_service = "http"
 vt_check_command = ""
 vt_check_port = ""
-vt_request = "test.html"
-vt_receive = "still alive"
+vt_request = "index.html"
+vt_receive = "works!"
 vc_http_method = ""
 vt_virtual_host = ""
 vt_login = ""
