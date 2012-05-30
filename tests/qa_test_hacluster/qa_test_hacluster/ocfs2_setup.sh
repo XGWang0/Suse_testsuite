@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 while getopts :f:i:o:p: arg; do
 	case $arg in
 	f)	fs_dir="$OPTARG";;
@@ -16,19 +16,39 @@ while getopts :f:i:o:p: arg; do
 	esac
 done
 
-if [[ $fs_dir && $ocfs2_disk ]]; then
-  o2info --volinfo $ocfs2_disk | grep "Node Slots"
-  ocfs2=$?
-  if [[ "$ocfs2" != "0" ]]; then
-    yes | mkfs.ocfs2 -N 16 --cluster-stack=pcmk --cluster-name=pacemaker $ocfs2_disk -F
-  fi
-
-mkdir $fs_dir
+if [[ $iscsi_target && ! -e /sbin/iscsiadm ]]; then
+  zypper in -y open-iscsi
+fi
 
   if [[ $iscsi_target && $iscsi_portal ]]; then
-    crm_resource --locate --resource iscsi_ocfs2
-    iscsi=$?
-    if [[ "$iscsi" != "0" ]]; then
+cat << EOF > /etc/iscsi/initiatorname.iscsi
+InitiatorName=iqn.1996-04.de.suse:01:ha-automation
+EOF
+  insserv open-iscsi
+  rcopen-iscsi restart
+  iscsiadm -m discovery -t st -p $iscsi_portal
+  iscsiadm -m node -T $iscsi_target -p $iscsi_portal:3260 --login
+  iscsiadm -m node -T $iscsi_target -o update -n node.startup -v automatic
+  sleep 10
+fi
+
+  mkdir $fs_dir
+
+if [[ $fs_dir && $ocfs2_disk ]]; then
+# select first machine in the group to format ocfs2 disk
+  machine=$(echo $ROLE_0_NAME | sed -e 's/,.*//')
+  if [[ $machine = $(hostname) ]]; then
+#    grep node.startup "/etc/iscsi/nodes/$iscsi_target/$iscsi_portal,3260,1/default"
+#    o2info --volinfo $ocfs2_disk 2>&1 | grep "Node Slots"
+#    ocfs2="$?"
+#    if [[ "$ocfs2" != "0" ]]; then
+    yes | mkfs.ocfs2 -N 4 --cluster-stack=pcmk --cluster-name=pacemaker $ocfs2_disk -F
+#    fi
+
+    if [[ $iscsi_target && $iscsi_portal ]]; then
+      crm_resource --locate --resource iscsi_ocfs2 2>&1 | grep -q 'running on'
+      iscsi="$?"
+      if [[ "$iscsi" != "0" ]]; then
 crm configure << EOF
 primitive iscsi_ocfs2 ocf:heartbeat:iscsi \
         params portal="$iscsi_portal:3260" target="$iscsi_target" udev="no" \
@@ -37,18 +57,13 @@ primitive iscsi_ocfs2 ocf:heartbeat:iscsi \
         op monitor interval="120" timeout="30" \
         meta target-role="Started"
 EOF
+      fi
     fi
-  fi
 
-  crm_resource --locate --resource clusterfs
-  clusterfs=$?
-    if [[ "$clusterfs" != "0" ]]; then
+    crm_resource --locate --resource base-group 2>&1 | grep -q 'running on'
+    base="$?"
+    if [[ "$base" != "0" ]]; then
 crm configure << EOF
-primitive clusterfs ocf:heartbeat:Filesystem \
-        params device="$ocfs2_disk" directory="$fs_dir" fstype="ocfs2" \
-        op start interval="0" timeout="60" \
-        op stop interval="0" timeout="60" \
-        op monitor interval="20" timeout="40"
 primitive dlm ocf:pacemaker:controld \
         op start interval="0" timeout="90" \
         op stop interval="0" timeout="100" \
@@ -57,6 +72,27 @@ primitive o2cb ocf:ocfs2:o2cb \
         op start interval="0" timeout="90" \
         op stop interval="0" timeout="100" \
         op monitor interval="60" timeout="60"
+EOF
+      if [[ $iscsi_target && $iscsi_portal ]]; then
+crm configure << EOF
+group base-group dlm o2cb iscsi_ocfs2
+EOF
+      else
+crm configure << EOF
+group base-group dlm o2cb
+EOF
+      fi
+    fi
+
+    crm_resource --locate --resource clusterfs 2>&1 | grep -q 'running on'
+    clusterfs="$?"
+    if [[ "$clusterfs" != "0" ]]; then
+crm configure << EOF
+primitive clusterfs ocf:heartbeat:Filesystem \
+        params device="$ocfs2_disk" directory="$fs_dir" fstype="ocfs2" \
+        op start interval="0" timeout="60" \
+        op stop interval="0" timeout="60" \
+        op monitor interval="20" timeout="40"
 clone base-clone base-group \
         meta interleave="true" target-role="Started"
 clone c-clusterfs clusterfs \
@@ -64,22 +100,13 @@ clone c-clusterfs clusterfs \
 colocation clusterfs-with-base inf: c-clusterfs base-clone
 order base-then-clusterfs inf: base-clone c-clusterfs
 EOF
-    fi
 
-    if [[ $iscsi_target && $iscsi_portal ]]; then
-  crm_resource --locate --resource iscsi_ocfs2
-  iscsi=$?
-      if [[ "$iscsi" != "0" ]]; then
-crm configure << EOF
-group base-group dlm o2cb
-EOF
-      else
-crm configure << EOF
-group base-group iscsi_ocfs2 dlm o2cb
-EOF
-      fi 
+      crm resource cleanup o2cb
     fi
-
+    sleep 20
+    crm resource cleanup base-clone
+    crm resource cleanup c-clusterfs
+  fi
 
 else
   echo -f $fs_dir -i $iscsi_target -o $ocfs2_disk -p $iscsi_portal
@@ -90,5 +117,3 @@ else
   echo "       ocfs2_disk - disk used as OCFS2 storage [/dev/disk/by-path/ip-10.100.96.150:3260-iscsi-iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a-lun-2-part1]"
   echo "       iscsi_portal - IP of iscsi target machine [10.100.96.150]"
 fi
-
-

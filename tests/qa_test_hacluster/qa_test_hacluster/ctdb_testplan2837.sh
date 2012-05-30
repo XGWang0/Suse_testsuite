@@ -16,13 +16,13 @@ done
 if [[ $ocfs2_disk ]]; then
 
 zypper se | grep ctdb | grep "i |" 2>&1 > /dev/null
-ctdb=$?
+ctdb="$?"
 if [ "$ctdb" != "0" ]; then
   zypper in -y ctdb
 fi
 
 zypper se | grep "| samba" | grep "i |" 2>&1 > /dev/null
-samba=$?
+samba="$?"
 if [ "$samba" != "0" ]; then
   zypper in -y samba samba-winbind
 fi
