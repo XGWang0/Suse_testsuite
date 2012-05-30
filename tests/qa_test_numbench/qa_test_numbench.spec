@@ -52,9 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)   
-/usr/share/qa/tcf
-/usr/share/qa/tools
-/usr/share/qa/qa_test_numbench
+/usr/share/qa
 
 %changelog
 * Mon May 21 2012 - nobody@novell.com
