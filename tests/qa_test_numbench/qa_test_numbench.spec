@@ -17,12 +17,12 @@ Version:        0.1
 Release:        1
 Summary:        simple benchmark for CPU test.
 Url:            http://www.novell.com/
-Source0:        %name-%version.tar.gz
+Source0:        %name-%version.tar.bz2
 Source1:        qa_numbench.tcf
 Source2:        test_numbench-run
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Requires:       ctcs2 
-BuildRequires:  qa_lib_ctcs2 >= 2.4.0 ctcs2 
+Requires:       qa_lib_ctcs2 
+BuildRequires:  qa_lib_ctcs2 >= 2.4.0 
 
 %description
     Author : Junwei Hao (jhao@suse.com)
@@ -32,8 +32,6 @@ CPUTime=1000-5*(a+b+c+d+e)/2
 
 
 %prep
-cd $RPM_SOURCE_DIR
-tar -zxvf %name-%version.tar.gz
 %setup -q -n %{name}
 
 %install
@@ -54,10 +52,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)   
-/usr/share/qa
 /usr/share/qa/tcf
 /usr/share/qa/tools
-/usr/share/qa/%name
+/usr/share/qa/qa_test_numbench
 
 %changelog
 * Mon May 21 2012 - nobody@novell.com
