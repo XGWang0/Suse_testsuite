@@ -37,6 +37,8 @@ tar -zxvf %name-%version.tar.gz
 %setup -q -n %{name}
 
 %install
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
