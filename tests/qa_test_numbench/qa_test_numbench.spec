@@ -10,12 +10,12 @@
 # norootforbuild
 
 Name:           qa_test_numbench
-License:        GPL v2 or later
-Group:          OpenSUSE
+License:        SUSE Proprietary
+Group:          SuSE internal
 AutoReqProv:    on
 Version:        0.1
 Release:        1
-Summary:        qa_test_numbench
+Summary:        simple benchmark for CPU test.
 Url:            http://www.novell.com/
 Source0:        %name-%version.tar.gz
 Source1:        qa_numbench.tcf
@@ -54,9 +54,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)   
+/usr/share/qa
+/usr/share/qa/tcf
+/usr/share/qa/tools
 /usr/share/qa/%name
-/usr/share/qa/tcf/qa_numbench.tcf
-/usr/share/qa/tools/test_numbench-run
 
 %changelog
 * Mon May 21 2012 - nobody@novell.com
