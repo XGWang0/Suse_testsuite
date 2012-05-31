@@ -55,7 +55,10 @@ print doc
 # STEP1: On nodes start openais: # rcopenais start
 # /usr/lib/heartbeat/crmd process started
 service = "/usr/sbin/rcopenais"
-status = "restart"
+status = "restart \&"
+
+rs = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
+rs.act_service(service=service, status=status,check=True, process="crmd")
 
 rs = remoteSetting(node_ip=node2_ip, node_pwd=node2_pwd)
 rs.act_service(service=service, status=status,check=True, process="crmd")
@@ -64,6 +67,10 @@ rs = remoteSetting(node_ip=node1_ip, node_pwd=node1_pwd)
 rs.act_service(service=service, status=status,check=True, process="crmd")
 
 ###### Expected:
+procedurelogger.action("Check %s crmd status" % director_hostname)
+if os.system('crmadmin -S %s |grep ok' % director_hostname) != 0:
+    raise Exception, "crmd@%s status is failed" % director_hostname
+
 # STEP2: # crmadmin -S server1
 #       Status of crmd@server1: S_IDLE (ok)
 procedurelogger.action("Check %s crmd status" % node1_hostname)

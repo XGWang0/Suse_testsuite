@@ -33,6 +33,12 @@
 from yast2_cluster_config import *
 from yast2_test_frame import *
 
+# Set up director_hostname
+ds = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
+procedurelogger.action("SSH connect to director %s, set hostname to %s" % \
+                                                    (director_ip, director_hostname))
+ds.setup_hostname(director_hostname)
+
 # Set up node1_hostname
 rs1 = remoteSetting(node_ip=node1_ip, node_pwd=node1_pwd)
 procedurelogger.action("SSH connect to node1 %s, set hostname to %s" % \
@@ -45,9 +51,12 @@ procedurelogger.action("SSH connect to node1 %s, set hostname to %s" % \
                                                     (node2_ip, node2_hostname))
 rs2.setup_hostname(node2_hostname)
 
-# Set up node1 hosts
-EOF_line="<<EOF\n%s %s\n%s %s\nEOF" % (node1_ip, node1_hostname, node2_ip, node2_hostname)
+# Set up director hosts
+EOF_line="<<EOF\n%s %s\n%s %s\n%s %s\nEOF" % (director_ip, director_hostname, node1_ip, node1_hostname, node2_ip, node2_hostname)
+procedurelogger.action("Set up %s /etc/hosts" % director_hostname)
+ds.setup_hosts(director_hostname, EOF_line)
 
+# Set up node1 hosts
 procedurelogger.action("Set up %s /etc/hosts" % node1_hostname)
 rs1.setup_hosts(node1_hostname, EOF_line)
 
