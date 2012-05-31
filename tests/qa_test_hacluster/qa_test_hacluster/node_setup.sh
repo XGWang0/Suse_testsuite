@@ -1,7 +1,5 @@
 #!/bin/bash
-
-set +x
-
+set -x
 #devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config | cut -d= -f2`
 #devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config | cut -d= -f2`
 
@@ -31,9 +29,7 @@ wait_for_cluster()
 
 while getopts :b:i:s:t: arg; do
 	case $arg in
-	a)	addon="$OPTARG";;
 	b)	bindnetaddr="$OPTARG";;
-	i)	iscsi_host="$OPTARG";;
 	i)	iscsi_host="$OPTARG";;
 	s)	sbd_disk="$OPTARG";;
 	t)	target="$OPTARG";;
@@ -47,6 +43,7 @@ while getopts :b:i:s:t: arg; do
 	esac
 done
 
+# time sync
 sntp -P no -r ntp.suse.cz
 
 if [[ $iscsi_host && ! -e /sbin/iscsiadm ]]; then
@@ -55,110 +52,30 @@ fi
 
 if [[ $bindnetaddr && $sbd_disk ]]; then
   zypper se -t pattern | grep ha_sles | grep "i |" 2>&1 > /dev/null
-  ha_sles=$?
+  ha_sles="$?"
   if [ "$ha_sles" != "0" ]; then
-    zypper ar $addon sle-hae
     zypper in -l -y -t product sle-hae
     zypper in -y -t pattern ha_sles
   fi
-  if [ $iscsi_host ]; then
 
+  if [ $iscsi_host ]; then
 cat<<EOF > /etc/iscsi/initiatorname.iscsi
 InitiatorName=iqn.1996-04.de.suse:01:ha-automation
 EOF
-
-    if [[ $login && $password ]]; then
-      grep ICSCI-AUTO-SETUP-WAS-HERE /etc/iscsi/iscsid.conf 2>&1 > /dev/null
-      rc=$?
-      if [[ "$rc" != "0" ]]; then
-      echo "# ISCSI-AUTO-SETUP-WAS-HERE
-      node.session.auth.username = $login
-      node.session.auth.password = $password" >> /etc/iscsi/iscsid.conf
-      fi
-    fi
   fi
 
+#in case iscsi is used, iscsi target is checked and logged into, then it is set to autoconnect on iscsi daemon restart
   if [[ $iscsi_host && $target ]]; then
-cat<<EOF > /etc/init.d/ais
-#! /bin/sh
+    rcopen-iscsi start
+    iscsiadm -m discovery -t st -p $iscsi_host
+    iscsiadm -m node -T $target -p $iscsi_host:3260 --login
+    sleep 10
+    sed -i "s/node.startup = manual/node.startup = automatic/" "/etc/iscsi/nodes/$iscsi_target/$iscsi_portal,3260,1/default"
+    grep node.startup "/etc/iscsi/nodes/$iscsi_target/$iscsi_portal,3260,1/default"
+    rcopen-iscsi restart
+  fi
 
-# init file for configuring iscsi and starting openais
-# For SuSE and cousins
-### BEGIN INIT INFO
-# Provides:                   ais
-# Required-Start:             \$local_fs \$network
-# Required-Stop:              \$local_fs \$network
-# Default-Start:              2 3 5
-# Default-Stop:               2 3 5
-# Short-Description:          Configures network cards for IPv6 testing
-# Description:                IPv6 testing configuration
-# X-UnitedLinux-Default-Enabled: yes
-### END INIT INFO
-
-# This program is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the Free
-# Software Foundation; either version 2, or (at your option) any later
-# version. 
-# You should have received a copy of the GNU General Public License (for
-# example COPYING); if not, write to the Free Software Foundation, Inc., 675
-# Mass Ave, Cambridge, MA 02139, USA.
-
-    case \$1 in
-        start)
-            rcopen-iscsi start
-	    iscsiadm -m discovery -t st -p $iscsi_host
-            iscsiadm -m node -T $target -p $iscsi_host:3260 --login
-            sleep 5
-            rcopenais start
-            echo
-            ;;
-        stop)
-            rcopenais stop
-            iscsiadm -m node -T $target -p $iscsi_host:3260 --logout
-            echo
-            ;;
-        reload)
-            \$0 stop
-            \$0 start
-            echo
-            ;;
-        report)
-            rcopen-iscsi report
-            rcopenais report
-            echo
-            ;;
-        restart)
-            \$0 stop
-            \$0 start
-            echo
-            ;;
-        status)
-            rcopen-iscsi status
-            rcopenais status
-            ;;
-        *)
-            echo "Usage: \$0 {start|stop|reload|report|restart|status}"
-            RETVAL=1
-    esac
-
-    exit \$RETVAL
-
-rc_exit
-EOF
-
-rcopen-iscsi start
-
-iscsiadm -m discovery -t st -p $iscsi_host
-
-chmod +x /etc/init.d/ais
-
-ln -s /etc/init.d/ais /usr/sbin/rcais
-
-  iscsiadm -m discovery -t st -p $iscsi_host
-  iscsiadm -m node -T $target -p $iscsi_host:3260 --login
-
-fi
-
+# deployment of corosync configuration with unicast communication
 cat<<EOF  > /etc/corosync/corosync.conf
 aisexec {
         #Group to run aisexec as. Needs to be root for Pacemaker
@@ -280,7 +197,9 @@ logging {
 
         fileline:       off
 
-        #Facility in syslog
+        #Facility in syslogrm -f /var/lib/heartbeat/hostcache
+rm /var/lib/heartbeat/crm/cib*
+
 
         syslog_facility:        daemon
 
@@ -293,23 +212,29 @@ amf {
 }
 EOF
 
+# preparatin of SBD STONITH device
 cat<<EOF > /etc/sysconfig/sbd
 SBD_DEVICE="$sbd_disk"
 SBD_OPTS="-W"
 EOF
 
-  if [[ $server ]]; then
+# select first machine in the group to prepare SBD disk
+machine=$(echo $ROLE_0_NAME | sed -e 's/,.*//')
+
+  if [[ $machine = $(hostname) ]]; then
     sbd -d $sbd_disk create
   fi
 
-  sbd -d $sbd_disk dump | grep "Header version"
-  sbd=$?
-  if [[ "$sbd" != "0" ]]; then
-    sbd -d $sbd_disk create
-  fi
+# check if disk is SBD ready
+#  sbd -d $sbd_disk dump | grep "Header version"
+#  sbd="$?"
+#  if [[ "$sbd" != "0" ]]; then
+#    sbd -d $sbd_disk create
+#  fi
 
+# allocation of SBD slots to nodes
   sbd -d $sbd_disk list | grep $(hostname) 2>&1 > /dev/null
-  sbd_host=$?
+  sbd_host="$?"
   if [[ "$sbd_host" != "0" ]]; then
     sbd -d $sbd_disk allocate $(hostname)
   fi
@@ -322,8 +247,9 @@ EOF
 
   wait_for_cluster
 
-  crm_resource --locate --resource sbd_stonith
-  stonith=$?
+# addinf stonith primitive, if there is none
+  crm_resource --locate --resource sbd_stonith  2>&1 | grep -q 'running on' > /dev/null
+  stonith="$?"
     if [[ "$stonith" != "0" ]]; then
       crm configure primitive sbd_stonith stonith:external/sbd
     fi
@@ -332,12 +258,8 @@ else
   echo -b $bindnetaddr -i $iscsi_host -s $sbd_disk -t $target
   echo "Wrong or missing arguments"
   echo "Usage: node_setup.sh -b bindnetaddr -d -i iscsi_host -s sbd_disk -t target"
-  echo "       addon - url to add-on directory"
   echo "       bindnetaddr - address used for corosync [10.100.101.1]"
-  echo "       mcastaddr - multicast addresss for cluster [239.50.1.1]"
   echo "       iscsi_host - IP address of your iscsi shared disk provider [10.100.96.150]"
-  echo "       login - login for iscsi target"
-  echo "       password - password for iscsi target"
   echo "       sbd_disk - disk used for sbd/STONITH [/dev/disk/by-path/pci-0000:00:01.1-scsi-0:0:1:0-part1]"
   echo "       target - [iqn.1986-03.com.hp:storage.msa2012i.0839d71eda.a]"
 fi

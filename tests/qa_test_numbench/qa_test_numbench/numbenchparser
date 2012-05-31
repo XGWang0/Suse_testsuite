@@ -1,0 +1,84 @@
+#!/usr/bin/perl -w
+# ****************************************************************************
+# # Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# # 
+# # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# # THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# # TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# # PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# # LIABILITY.
+# # 
+# # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# # AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# # LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# # ****************************************************************************
+BEGIN {
+        push (@INC,"/usr/share/qa/lib");
+}
+use benchxml;
+my $bench_results = {};
+$bench_results->{attrs} = {
+                                times => {
+                                                id => 'count',
+                                                label => 'count',
+                                                desc => 'The Nth computing.',
+                                                type => 'linear',
+                                                unit => 'times'
+                                         },
+                                depth => {
+                                                id => 'depth',
+                                                label => 'Depth',
+                                                desc => 'Iterative Depth',
+                                                type => 'linear',
+                                                unit => ''
+                                        },
+                                CPUTime => {
+                                                id => 'CPUTime',
+                                                label => 'CPUTime',
+                                                desc => 'CPU comsumption measured by time.',
+                                                type => 'linear',
+                                                unit => 's'
+                                        }
+};
+$bench_result->{values}=[];
+$bench_result->{graphs}=[];
+my $val;
+my $graphs;
+my $v=0;
+my $g=0;
+my $x;
+my $y;
+foreach my $row (<STDIN>)
+{
+    if( $row =~ /(Iterative Depth is [\d]+)/ )
+    {
+        $x='times'.$g;
+	$y='CPUTime'.$g;
+        $graphs->[$g]->{label} = $1.'*500000';
+        $graphs->[$g]->{desc} = $1;
+        $graphs->[$g]->{result} = $y;
+        $graphs->[$g]->{axis_1} = $x;
+        $graphs->[$g]->{axis_2} = $y;
+        $g = $g+1;
+    }
+    if( $row =~ /^([\d]+)\s+([\d]+)\s+([\d]+[\.]?[\d]*)/ )
+    {
+        $val->[$v]->{$x} = $1;
+        $val->[$v]->{$y} = $3;
+        $v++;
+    }
+}
+$bench_results->{values} = $val;
+$bench_results->{graphs} = $graphs;
+print bench_data_to_xml($bench_results);
+
+

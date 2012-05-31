@@ -30,7 +30,7 @@ node=$ROLE_1_NAME
 for i in `echo ${node} | tr ',' '\n'` ; do
    str=${str},${i}
    grep ${i} /root/.ssh/known_hosts 2>&1 > /dev/null
-   machine=$?
+   machine="$?"
    if [ $machine != 0 ]; then
      echo ${i} $key>> /root/.ssh/known_hosts
    fi
@@ -45,7 +45,7 @@ nodes=$(echo $ROLE_1_NAME | sed "s/,/ /g")
 echo "Nodes to be tested: $nodes"
 
 grep CTS-AUTO-SETUP-WAS-HERE /etc/syslog-ng/syslog-ng.conf 2>&1 > /dev/null
-rc=$?
+rc="$?"
 if [ $rc != 0 ]; then
 echo "# CTS-AUTO-SETUP-WAS-HERE
 source s_tcp { tcp(port($port) max-connections(99999)); };
