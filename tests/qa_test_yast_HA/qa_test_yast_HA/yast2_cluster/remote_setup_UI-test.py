@@ -64,7 +64,7 @@ if node_ip == None or node_pwd == None:
         sys.exit(1)
 
 # Install UI related patterns
-rs = remoteSetting(node_ip=node_ip, node_pwd=node_pwd)
+rs = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
 
 rs.install_Patterns(patterns=["X11", "gnome"])
 

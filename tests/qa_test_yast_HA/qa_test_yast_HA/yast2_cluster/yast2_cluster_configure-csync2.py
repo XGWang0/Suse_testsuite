@@ -103,6 +103,13 @@ yFrame.findPanel("Sync File").findTableCell(key_path)
 # STEP4: Add server1 and server2 to Sync Host list 
 yFrame.findPanel("Sync Host").findPushButton("Add").mouseClick()
 sleep(config.SHORT_DELAY)
+app.findDialog(None).findText(None).insertText(director_hostname)
+sleep(config.SHORT_DELAY)
+app.findDialog(None).findPushButton("OK").mouseClick()
+sleep(config.SHORT_DELAY)
+
+yFrame.findPanel("Sync Host").findPushButton("Add").mouseClick()
+sleep(config.SHORT_DELAY)
 app.findDialog(None).findText(None).insertText(node1_hostname)
 sleep(config.SHORT_DELAY)
 app.findDialog(None).findPushButton("OK").mouseClick()
@@ -126,6 +133,9 @@ sleep(config.LONG_DELAY)
 ###### Expected:
 
 # STEP1: host server1 server2 shows in /etc/csync2/csync2.cfg
+procedurelogger.expectedResult("%s shows in %s" % (director_hostname, cfg_path))
+UItest.checkInfo(director_hostname, cfg_path)
+
 procedurelogger.expectedResult("%s shows in %s" % (node1_hostname, cfg_path))
 UItest.checkInfo(node1_hostname, cfg_path)
 
@@ -139,14 +149,18 @@ if os.system("chkconfig -l |grep csync2 |grep on") is None:
 
 ######TestCase2 Actions:
 
-rs = remoteSetting(node_ip=node2_ip, node_pwd=node2_pwd)
-
 # STEP1: copy /etc/csync2/csync2.cfg to server2
 # STEP2: copy /etc/csync2/key_hagroup to server2
 copy_file = "/etc/csync2/csync2.cfg /etc/csync2/key_hagroup"
 copy_path = "/etc/csync2/"
+
+rs1 = remoteSetting(node_ip=node1_ip, node_pwd=node1_pwd)
+procedurelogger.action("copy %s to %s" % (copy_file, node1_ip))
+rs1.scp_run(copy_file=copy_file, copy_path=copy_path)
+
+rs2 = remoteSetting(node_ip=node2_ip, node_pwd=node2_pwd)
 procedurelogger.action("copy %s to %s" % (copy_file, node2_ip))
-rs.scp_run(copy_file=copy_file, copy_path=copy_path)
+rs2.scp_run(copy_file=copy_file, copy_path=copy_path)
 
 # STEP3: chkconfig csync2 on; chkconfig xinetd on
 procedurelogger.action("chkconfig to make csync2 and xinetd on")
@@ -162,9 +176,9 @@ procedurelogger.action("start xinetd process")
 if os.system("rcxinetd restart") != 0:
     raise Exception, "xinetd process doesn't start"
 
-# Remote enable node2 csync2 and xineted on, start xinetd
+# Remote enable node1 csync2 and xineted on, start xinetd
 # Remove exist db
-connect = rs.ssh_connect()
+connect = rs1.ssh_connect()
 connect.sendline("rm -fr /var/lib/csync2/*.db")
 connect.expect([pexpect.TIMEOUT, "#|->"])
 print connect.before
@@ -182,6 +196,30 @@ connect.expect([pexpect.TIMEOUT, "#|->"])
 print connect.before
 
 connect.sendline('exit')
+
+# Remote enable node2 csync2 and xineted on, start xinetd
+# Remove exist db
+connect = rs2.ssh_connect()
+connect.sendline("rm -fr /var/lib/csync2/*.db")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
+connect.sendline("chkconfig csync2 on")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
+connect.sendline("chkconfig xinetd on")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
+connect.sendline("rcxinetd restart")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
+connect.sendline('exit')
+
+# Remove exist db
+os.system("rm -fr /var/lib/csync2/*.db")
 
 # STEP5: start csync2: #csync2 -xv 2>&1 |grep "Finished with 0 errors"
 procedurelogger.action("start csync2")

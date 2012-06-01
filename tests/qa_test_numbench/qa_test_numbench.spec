@@ -10,19 +10,19 @@
 # norootforbuild
 
 Name:           qa_test_numbench
-License:        GPL v2 or later
-Group:          OpenSUSE
+License:        SUSE Proprietary
+Group:          SuSE internal
 AutoReqProv:    on
 Version:        0.1
 Release:        1
-Summary:        qa_test_numbench
+Summary:        simple benchmark for CPU test.
 Url:            http://www.novell.com/
-Source0:        %name-%version.tar.gz
+Source0:        %name-%version.tar.bz2
 Source1:        qa_numbench.tcf
 Source2:        test_numbench-run
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Requires:       ctcs2 
-BuildRequires:  qa_lib_ctcs2 >= 2.4.0 ctcs2 
+Requires:       qa_lib_ctcs2 
+BuildRequires:  qa_lib_ctcs2 >= 2.4.0 
 
 %description
     Author : Junwei Hao (jhao@suse.com)
@@ -32,11 +32,11 @@ CPUTime=1000-5*(a+b+c+d+e)/2
 
 
 %prep
-cd $RPM_SOURCE_DIR
-tar -zxvf %name-%version.tar.gz
 %setup -q -n %{name}
 
 %install
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
@@ -52,9 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)   
-/usr/share/qa/%name
-/usr/share/qa/tcf/qa_numbench.tcf
-/usr/share/qa/tools/test_numbench-run
+/usr/share/qa
 
 %changelog
 * Mon May 21 2012 - nobody@novell.com

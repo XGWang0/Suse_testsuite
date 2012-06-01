@@ -23,12 +23,15 @@
 # ****************************************************************************
 
 # Node machines settings
+director_hostname = "director"
 node1_hostname = "server1"
 node2_hostname = "server2"
 
+director_ip = "147.2.207.2"
 node1_ip = "147.2.207.3"
 node2_ip = "147.2.207.4"
 
+director_pwd = "susetesting"
 node1_pwd = "susetesting"
 node2_pwd = "susetesting"
 
