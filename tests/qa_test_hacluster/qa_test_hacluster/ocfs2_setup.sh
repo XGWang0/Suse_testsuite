@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+
 while getopts :f:i:o:p: arg; do
 	case $arg in
 	f)	fs_dir="$OPTARG";;
@@ -38,13 +38,7 @@ if [[ $fs_dir && $ocfs2_disk ]]; then
 # select first machine in the group to format ocfs2 disk
   machine=$(echo $ROLE_0_NAME | sed -e 's/,.*//')
   if [[ $machine = $(hostname) ]]; then
-#    grep node.startup "/etc/iscsi/nodes/$iscsi_target/$iscsi_portal,3260,1/default"
-#    o2info --volinfo $ocfs2_disk 2>&1 | grep "Node Slots"
-#    ocfs2="$?"
-#    if [[ "$ocfs2" != "0" ]]; then
     yes | mkfs.ocfs2 -N 4 --cluster-stack=pcmk --cluster-name=pacemaker $ocfs2_disk -F
-#    fi
-
     if [[ $iscsi_target && $iscsi_portal ]]; then
       crm_resource --locate --resource iscsi_ocfs2 2>&1 | grep -q 'running on'
       iscsi="$?"
@@ -60,7 +54,7 @@ EOF
       fi
     fi
 
-    crm_resource --locate --resource base-group 2>&1 | grep -q 'running on'
+    crm_resource --locate --resource base-group 2>&1 | grep -q 'running on' 2>&1 > /dev/null
     base="$?"
     if [[ "$base" != "0" ]]; then
 crm configure << EOF
@@ -84,7 +78,7 @@ EOF
       fi
     fi
 
-    crm_resource --locate --resource clusterfs 2>&1 | grep -q 'running on'
+    crm_resource --locate --resource clusterfs 2>&1 | grep -q 'running on' 2>&1 > /dev/null
     clusterfs="$?"
     if [[ "$clusterfs" != "0" ]]; then
 crm configure << EOF

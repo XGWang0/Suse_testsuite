@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 declare BE_QUIET=false
 
@@ -48,27 +47,31 @@ ticket="ticketA;1000"
 ticket="ticketB;1000"
 EOF
 
-# start booth daemon, atempt to ping booth resource IP and then grant ticket
+# start booth daemon, atempt to ping booth resource IP and then grant ticket if possible, otherwise wait for 5 sec
   if [ "$usage" = "arb" ] ; then
     rcbooth-arbitrator start
 
     while ping -c 1 $sitea | grep -q '0 received';  do
-      $BE_QUIET || echo -n '.' sleep 5
+      sleep 5
     done
+    sleep 10
     booth client grant -t ticketA -s $sitea
 
-    while ping -c 1 $sitea | grep -q '0 received';  do
-      $BE_QUIET || echo -n '.' sleep 5
+    while ping -c 1 $siteb | grep -q '0 received';  do
+      sleep 5
     done
+    sleep 10
     booth client grant -t ticketB -s $siteb
   fi
 
 # deplooyment of booth resources
   if [ "$usage" = "ocfs2" ] ; then
     wait_for_resource c-clusterfs
-    crm_resource --locate --resource g-booth
-    booth="$?"
-    if [[ "$booth" != "0" ]]; then
+    machine=$(echo $ROLE_0_NAME | sed -e 's/,.*//')
+    if [[ $machine = $(hostname) ]]; then
+      crm_resource --locate --resource g-booth 2>&1 > /dev/null
+      booth="$?"
+      if [[ "$booth" != "0" ]]; then
 crm configure << EOF
 primitive booth ocf:pacemaker:booth-site \
         meta resource-stickiness="INFINITY" \
@@ -81,14 +84,17 @@ group g-booth booth-ip booth \
         meta target-role="Started"
 rsc_ticket base-clone-req-ticketA ticketA: base-clone loss-policy=stop
 EOF
+      fi
     fi
   fi
 
   if [ "$usage" = "mysql" ] ; then
     wait_for_resource g-mysql
-    crm_resource --locate --resource g-booth
-    booth="$?"
-    if [[ "$booth" != "0" ]]; then
+    machine=$(echo $ROLE_0_NAME | sed -e 's/,.*//')
+    if [[ $machine = $(hostname) ]]; then
+      crm_resource --locate --resource g-booth 2>&1 > /dev/null
+      booth="$?"
+      if [[ "$booth" != "0" ]]; then
 crm configure << EOF
 primitive booth ocf:pacemaker:booth-site \
         meta resource-stickiness="INFINITY" \
@@ -101,14 +107,14 @@ group g-booth booth-ip booth \
         meta target-role="Started"
 rsc_ticket iscsi_ext3-req-ticketB ticketB: iscsi_ext3 loss-policy=stop
 EOF
+      fi
     fi
   fi
 
 else
   echo -a $sitea -b $siteb -u $usage
   echo "Wrong or missing arguments"
-  echo "Usage: geo_setup.sh -a arbitrator -b sitea -c sitea -u usage"
-  echo "       arbitrator - IP ddress of arbitrator"
+  echo "Usage: geo_setup.sh -a sitea -b siteb -u usage"
   echo "       sitea - IP address of booth-ip resource in ocfs2 cluster [10.100.101.37]"
   echo "       siteb - IP address of booth-ip resource in mysql cluster [10.100.101.43]"
   echo "       usage - specifies whether machine is arbitrator or node of ocfs2 or mysql cluster [arb|ocfs2|mysql]"

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+
 #devel_hae_11_sp1=`grep devel_hae_11_sp1 qa_test_hacluter-config | cut -d= -f2`
 #devel_hae_11_sp2=`grep devel_hae_11_sp2 qa_test_hacluter-config | cut -d= -f2`
 
@@ -224,13 +224,6 @@ machine=$(echo $ROLE_0_NAME | sed -e 's/,.*//')
   if [[ $machine = $(hostname) ]]; then
     sbd -d $sbd_disk create
   fi
-
-# check if disk is SBD ready
-#  sbd -d $sbd_disk dump | grep "Header version"
-#  sbd="$?"
-#  if [[ "$sbd" != "0" ]]; then
-#    sbd -d $sbd_disk create
-#  fi
 
 # allocation of SBD slots to nodes
   sbd -d $sbd_disk list | grep $(hostname) 2>&1 > /dev/null
