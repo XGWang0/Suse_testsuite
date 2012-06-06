@@ -1,0 +1,42 @@
+From 62e3be1facfdb51ef4b9cb1f107fca7ffed06e03 Mon Sep 17 00:00:00 2001
+From: Wanlong Gao <gaowanlong@cn.fujitsu.com>
+Date: Tue, 3 Apr 2012 10:14:18 +0800
+Subject: [PATCH] pthread_join: skip the detached thread
+
+It's impossible to re-join a thread if it's detached.
+
+Signed-off-by: Wanlong Gao <gaowanlong@cn.fujitsu.com>
+---
+ .../conformance/interfaces/pthread_join/1-2.c      |    2 ++
+ .../conformance/interfaces/pthread_join/6-3.c      |    2 ++
+ 2 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/1-2.c b/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/1-2.c
+index 7463937..4329f45 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/1-2.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/1-2.c
+@@ -77,6 +77,8 @@ int main(int argc, char *argv[])
+ 	scenar_init();
+ 
+ 	for (sc = 0; sc < NSCENAR; sc++) {
++		if (scenarii[sc].detached == 1)
++			continue;
+ #if VERBOSE > 0
+ 		output("-----\n");
+ 		output("Starting test with scenario (%i): %s\n",
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/6-3.c b/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/6-3.c
+index bfaf25c..11f35e9 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/6-3.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/6-3.c
+@@ -133,6 +133,8 @@ static void *test(void *arg)
+ 
+ 	while (do_it2) {
+ 		for (sc = 0; sc < NSCENAR; sc++) {
++			if (scenarii[sc].detached == 1)
++				continue;
+ 			ret = pthread_create(&child, &scenarii[sc].ta,
+ 					     threaded, NULL);
+ 
+-- 
+1.7.3.4
+

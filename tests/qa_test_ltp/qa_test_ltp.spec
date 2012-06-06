@@ -52,7 +52,7 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20120104
+Version:        20120401
 Release:        1
 Source:         ltp-full-%{version}.bz2
 # For subpackage creation
@@ -66,6 +66,7 @@ Patch004:	add_testcases_to_ltp-run.patch
 # Compiler warnings and workarounds
 Patch100:	sles9-workarounds.patch
 Patch101:	workaround-sles11-capability-headers.patch
+Patch102:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
 # Patches 3xx RPMLinit Warning Fixes
@@ -78,7 +79,8 @@ Patch501:	change_ltp_prog_install_dir.patch
 Patch601:       fix-sched_setparam_10_1.patch
 Patch602:       bug-307752_sched_setparam-2-1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	fix-aiodio_sparse-signal-race.patch
+Patch700:	0001-pthread_join-6-3-split-the-do_it-switch.patch
+Patch701:	0001-pthread_join-skip-the-detached-thread.patch
 # Patches 8xx CTCS2 related changes
 Patch802:       pan-pass-returnvalue.diff
 Patch803:	ctcs2-glue-fixups.patch
@@ -150,6 +152,7 @@ Authors:
 #%patch602 -p1
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
+%patch701 -p1
 # Patches 8xx CTCS2 related changes
 %patch802 -p1
 %patch803 -p1
@@ -226,7 +229,7 @@ done
 %files
 %defattr(-,root,root)
 %doc %{_mandir}/man8/qa_test_ltp.8.*
-%doc README INSTALL COPYING CREDITS ChangeLog
+%doc README INSTALL COPYING CREDITS
 /opt/ltp/
 %{_mandir}/man1/*
 %{_mandir}/man3/*
@@ -253,6 +256,9 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jun 06 2012 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20120401
+
 * Fri Feb 02 2012 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20120104
 
