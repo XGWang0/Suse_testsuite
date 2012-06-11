@@ -1,4 +1,5 @@
 #!/bin/sh
+#sut_timeout 3600
 
 # run tiobench.pl with some good standard parameters
 CTCS2_DIR=/usr/lib/ctcs2

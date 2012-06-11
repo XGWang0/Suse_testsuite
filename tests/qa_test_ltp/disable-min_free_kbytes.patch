@@ -1,0 +1,10 @@
+Index: ltp-full-20120401/runtest/mm
+===================================================================
+--- ltp-full-20120401.orig/runtest/mm
++++ ltp-full-20120401/runtest/mm
+@@ -98,5 +98,3 @@ overcommit_memory overcommit_memory -R 1
+ overcommit_memory overcommit_memory -R 200
+ 
+ max_map_count max_map_count -i 10
+-
+-min_free_kbytes min_free_kbytes

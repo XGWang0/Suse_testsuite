@@ -1,7 +1,9 @@
 #!/bin/bash
+#sut_timeout 3600
 
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
+
 
 cd /usr/share/qa/qa_test_apache_testsuite/httpd-test
 perl Makefile.PL -apxs /usr/sbin/apxs2 -startuptimeout 120 > /dev/null 2>&1
