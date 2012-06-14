@@ -90,7 +90,8 @@ def checkLinks(expected_links=[]):
     assert texts == expected_links, "Should only %s exist, actual: %s" % \
                                                (expected_links, texts)
 
-    firefox_app.findMenuItem("Quit", checkShowing=False).click(log=True)
+    #firefox_app.findMenuItem("Quit", checkShowing=False).click(log=True)
+    firefox_app.keyCombo('<Alt>F4')
     sleep(config.SHORT_DELAY)
 
     try:
