@@ -63,8 +63,8 @@ def launchExport():
     return export_dialog
 
 def saveHTML():
-    procedurelogger.action('Save "Note A.html" to /home')
-    export_dialog.findText(None, labelledBy="Name:").text = "/home/Note A.html"
+    procedurelogger.action('Save "Note A.html" to /tmp')
+    export_dialog.findText(None, labelledBy="Name:").text = "/tmp/Note A.html"
 
     export_dialog.findPushButton("Save").mouseClick()
     sleep(config.SHORT_DELAY)
@@ -175,14 +175,14 @@ for check_item in [export_check, export_all_check]:
         check_item.mouseClick()
         sleep(config.SHORT_DELAY)
 
-# Save "Note A.html" to /home
+# Save "Note A.html" to /tmp
 saveHTML()
 
 # Step8: Auto-launch Note A.html in Firefox, make sure there are only one heading
 checkLinks(expected_links=['Note A'])
 
 # Remove Note A.html
-os.remove('/home/Note A.html')
+os.remove('/tmp/Note A.html')
 
 # Step9: Active Note A, From Tools -> Export to HTML
 export_dialog = launchExport()
@@ -198,14 +198,14 @@ if export_all_check.checked:
     export_all_check.mouseClick()
     sleep(config.SHORT_DELAY)
 
-# Save "Note A.html" to /home
+# Save "Note A.html" to /tmp
 saveHTML()
 
 # Step10: Auto-launch Note A.html in Firefox, make sure there are only two heading
 checkLinks(expected_links=['Note A', 'Note B'])
 
 # Remove Note A.html
-os.remove('/home/Note A.html')
+os.remove('/tmp/Note A.html')
 
 # Step11: Active Note A, From Tools -> Export to HTML
 export_dialog = launchExport()
@@ -221,14 +221,14 @@ if not export_all_check.checked:
     export_all_check.mouseClick()
     sleep(config.SHORT_DELAY)
 
-# Save "Note A.html" to /home
+# Save "Note A.html" to /tmp
 saveHTML()
 
 # Step12: Auto-launch Note A.html in Firefox, make sure there are only three heading
 checkLinks(expected_links=['Note A', 'Note B', 'Note C'])
 
 # Remove Note A.html
-os.remove('/home/Note A.html')
+os.remove('/tmp/Note A.html')
 
 # Delete the note
 deleteNote(app, new3_frame)
