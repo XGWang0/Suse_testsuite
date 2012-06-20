@@ -69,6 +69,7 @@ Patch101:	workaround-sles11-capability-headers.patch
 Patch102:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
+Patch300:     0001-Fix-realtime-build.patch
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
 Patch404:       increase-stack-size.diff
@@ -142,6 +143,7 @@ Authors:
 %patch101 -p1
 # Patches 2xx Build Environment Patches
 # Patches 3xx RPMLinit Warning Fixes
+%patch300 -p1
 # Patches 4xx Real Bug Fixes
 #%patch404 -p1
 %patch408 -p1
@@ -167,7 +169,7 @@ Authors:
 
 %build
 
-%configure --prefix=/opt/ltp --with-openposix-testsuite
+%configure --prefix=/opt/ltp --with-openposix-testsuite --with-realtime-testsuite
 find testcases | gzip --fast > TC_INDEX.gz
 
 make all %{?jobs:-j%jobs}
@@ -181,13 +183,6 @@ install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/%{_mandir}/man8/qa_test_ltp.8
 
 # install LTP
 make DESTDIR=$RPM_BUILD_ROOT install
-
-# Realtime tests build only on  i386, x86_64, ppc, ppc64
-#%ifarch %ix86 x86_64 ppc ppc64
-#%if 0%{?sles_version} != 9
-#make -C testcases/realtime DESTDIR=$RPM_BUILD_ROOT install
-#%endif
-#%endif
 
 # Now subpackage ltp-ctcs2-glue
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
@@ -256,6 +251,9 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jun 20 2012 Cyril Hrubis chrubis@suse.cz
+  Fixed realtime build.
+
 * Wed Jun 06 2012 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20120401
 
