@@ -86,6 +86,9 @@ function parse_args() {
         *6*)
             MAIN_PACKAGE="java-1_6_0-ibm"
             ;;
+        *7*)
+            MAIN_PACKAGE="java-1_7_0-ibm"
+            ;;
         *)
             error "Unkown value ${1}"
             usage "${0}"

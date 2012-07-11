@@ -18,7 +18,7 @@ Name:		qa_lib_ibmjava
 License:	GPL v2 or later
 Group:		SUSE internal
 AutoReqProv:	on
-Version:	1.0
+Version:	1.1
 Release:	1
 Summary:	Shared QA IBM Java functions
 Url:            http://qit.suse.de/ibmjava/ibmjava/blobs/master/qa/

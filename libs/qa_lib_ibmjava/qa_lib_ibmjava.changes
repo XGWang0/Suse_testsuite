@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Jul 11 13:23:40 UTC 2012 - mvyskocil@suse.cz
+
+- support for java-1_7_0-ibm 
+
+-------------------------------------------------------------------
 Tue Nov 22 10:11:13 UTC 2011 - mvyskocil@suse.cz
 
 - Initial version 1.0 of qa_lib_ibmjava 
