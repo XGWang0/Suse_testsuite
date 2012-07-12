@@ -55,9 +55,9 @@ from tomboy_frame import *
 print doc
 
 # Step1: Remove ~/.tomboy if that is exist
-who = os.popen('whoami').read().replace('\n', '')
-if os.path.exists('/%s/.tomboy' % who):
-    os.system('rm -fr /%s/.tomboy' % who)
+note_path = "%s/.local/share/tomboy" % os.getenv("HOME")
+if os.path.exists(note_path):
+    os.system('rm -fr %s' % note_path)
 
 # Check version
 app_name = checkVersion()

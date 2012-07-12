@@ -53,8 +53,8 @@ iplb_conf = "/usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_config.py"
 UItest = autoUITest()
 
 ###### Actions:
-# STEP1: remove /etc/ha.d/ldirectord.cf to initialize the set up
-UItest.removeFile(conf_path)
+# STEP1: backup the old /etc/ha.d/ldirectord.cf to initialize the set up
+os.system("mv %s %s.bak 2>/dev/null" % (conf_path, con_path))
 
 # Launch yast2 iplb
 app = UItest.launchYastApp("yast2 -gtk iplb&", "y2base")

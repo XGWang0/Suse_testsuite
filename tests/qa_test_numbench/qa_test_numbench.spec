@@ -27,8 +27,7 @@ BuildRequires:  qa_lib_ctcs2 >= 2.4.0
 %description
     Author : Junwei Hao (jhao@suse.com)
 run 5 iterative algorithms(like fibonacci sequence)
-calculate the average CPU cost measured by seconds:
-CPUTime=1000-5*(a+b+c+d+e)/2
+calculate every CPU cost measured by seconds:
 
 
 %prep

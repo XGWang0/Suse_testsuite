@@ -27,26 +27,19 @@ BEGIN {
 use benchxml;
 my $bench_results = {};
 $bench_results->{attrs} = {
-                                times => {
-                                                id => 'count',
-                                                label => 'count',
-                                                desc => 'The Nth computing.',
-                                                type => 'linear',
-                                                unit => 'times'
-                                         },
                                 depth => {
                                                 id => 'depth',
-                                                label => 'Depth',
+                                                label => 'depth',
                                                 desc => 'Iterative Depth',
                                                 type => 'linear',
-                                                unit => ''
+                                                unit => 'depth'
                                         },
-                                CPUTime => {
-                                                id => 'CPUTime',
-                                                label => 'CPUTime',
+                               time => {
+                                                id => 'time',
+                                                label => 'time',
                                                 desc => 'CPU comsumption measured by time.',
                                                 type => 'linear',
-                                                unit => 's'
+                                                unit => 'sec'
                                         }
 };
 $bench_result->{values}=[];
@@ -55,25 +48,28 @@ my $val;
 my $graphs;
 my $v=0;
 my $g=0;
-my $x;
-my $y;
+my $depth;
+my $name;
+#my $x;
+#my $y;
 foreach my $row (<STDIN>)
 {
-    if( $row =~ /(Iterative Depth is [\d]+)/ )
+    if( $row =~ /((fibonacci|pi|primo|collatz|oro)\s+iteration)/ )
     {
-        $x='times'.$g;
-	$y='CPUTime'.$g;
-        $graphs->[$g]->{label} = $1.'*500000';
+#        $x='times'.$g;
+#	$y='CPUTime'.$g;
+        $name = $1;
+        $graphs->[$g]->{label} = $1;
         $graphs->[$g]->{desc} = $1;
-        $graphs->[$g]->{result} = $y;
-        $graphs->[$g]->{axis_1} = $x;
-        $graphs->[$g]->{axis_2} = $y;
+        $graphs->[$g]->{result} = 'time';
+        $graphs->[$g]->{axis_1} = 'depth';
         $g = $g+1;
     }
-    if( $row =~ /^([\d]+)\s+([\d]+)\s+([\d]+[\.]?[\d]*)/ )
+    if( $row =~ /^([\d]+)\s+([\d]+[\.]?[\d]*)/ )
     {
-        $val->[$v]->{$x} = $1;
-        $val->[$v]->{$y} = $3;
+        $val->[$v]->{depth} = $1;
+        $val->[$v]->{time} = $2;
+	$val->[$v]->{g_ind} = $name;
         $v++;
     }
 }
