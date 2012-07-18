@@ -33,7 +33,13 @@ import os
 from pyatspi import Registry
 from strongwind import *
 
-tomboy_version = os.popen('rpm -q tomboy').read().split('-')[1].split('.')
+try:
+    tomboy_version = os.popen('rpm -q tomboy').read().split('-')[1].split('.')
+except IndexError:
+    os = os.popen('cat /etc/SuSE-release').read().split('\n')[0]
+    print "WARNING: you are running on %s" % os
+    print "WARNING: test should be runing on SLED, with tomboy application installed!"
+    exit(2)
 
 def checkVersion():
     """
