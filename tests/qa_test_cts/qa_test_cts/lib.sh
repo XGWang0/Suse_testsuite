@@ -22,7 +22,7 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-source /usr/share/qa/tools/config ''
+source /usr/share/qa/lib/config ''
 
 iscsi_username="`get_qa_config ISCSI_USERNAME`"
 iscsi_password="`get_qa_config ISCSI_PASSWORD`"
@@ -35,12 +35,12 @@ iscsi_disk=
 stonith_iscsi_disk=
 ocfs2_iscsi_disk=
 
-repo_sles_11_sp1=`grep repo_sles_11_sp1 qa_test_cts-config |cut -d= -f2`
-repo_sles_11_sp2=`grep repo_sles_11_sp2 qa_test_cts-config |cut -d= -f2`
+repo_sles_11_sp1=`grep repo_sles_11_sp1 /usr/share/qa/qa_test_cts/qa_test_cts-config |cut -d= -f2`
+repo_sles_11_sp2=`grep repo_sles_11_sp2 /usr/share/qa/qa_test_cts/qa_test_cts-config |cut -d= -f2`
 
-update_sles_11_sp1=`grep update_sles_11_sp1 qa_test_cts-config |cut -d= -f2`
-ga_sles_11_sp1=`grep ga_sles_11_sp1 qa_test_cts-config |cut -d= -f2`
-ga_sles_11_sp2=`grep ga_sles_11_sp2 qa_test_cts-config |cut -d= -f2`
+update_sles_11_sp1=`grep update_sles_11_sp1 /usr/share/qa/qa_test_cts/qa_test_cts-config |cut -d= -f2`
+ga_sles_11_sp1=`grep ga_sles_11_sp1 /usr/share/qa/qa_test_cts/qa_test_cts-config |cut -d= -f2`
+ga_sles_11_sp2=`grep ga_sles_11_sp2 /usr/share/qa/qa_test_cts/qa_test_cts-config |cut -d= -f2`
 
 ha_mcast=226.94.1.2
 ha_network=`ip addr|awk '/inet /{gsub(/.* inet /,"");gsub(/[0-9]+\/.*/,"");a=\$0"0"}END{print a}'`
