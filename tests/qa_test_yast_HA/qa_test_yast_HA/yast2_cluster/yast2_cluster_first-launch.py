@@ -69,7 +69,7 @@ sleep(config.SHORT_DELAY)
 os.system("rcopenais stop")
 
 # STEP1: backup the old /etc/corosync/corosync.conf to initialize the first start up
-os.system("mv %s %s.bak 2>/dev/null" % (conf_path, con_path))
+os.system("mv %s %s.bak 2>/dev/null" % (conf_path, conf_path))
 
 # Launch yast2 cluster
 app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")
