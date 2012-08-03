@@ -39,6 +39,7 @@ Release:        1
 Source0:        %{name}-%{version}.tar.bz2
 Source1:        qa_HA_yast-cluster.tcf
 Source2:        test_HA_yast-cluster-run
+Source4:        test_HA_yast-iplb-run
 Source3:	qa_test_yast_HA.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
@@ -61,6 +62,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_HA_yast-cluster.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
