@@ -60,7 +60,7 @@ procedurelogger.action("SSH connect to real server 1 %s, install lamp_server pat
 rs1.install_Patterns(patterns=["lamp_server"], setup_x=False)
 
 # Start up http process: /etc/init.d/apache2 start
-rs1.act_service(service="/etc/init.d/apache2", status="start", check=True, process="httpd2-prefork")
+rs1.act_service(service="/etc/init.d/apache2", status="start", check=True, process="httpd2")
 
 # Create index.html
 connect = rs1.ssh_connect()
@@ -84,7 +84,7 @@ procedurelogger.action("SSH connect to real server 2 %s, install lamp_server pat
 rs1.install_Patterns(patterns=["lamp_server"], setup_x=False)
 
 # Start up http process: /etc/init.d/apache2 start
-rs1.act_service(service="/etc/init.d/apache2", status="start", check=True, process="httpd2-prefork")
+rs1.act_service(service="/etc/init.d/apache2", status="start", check=True, process="httpd2")
 
 # Create index.html
 connect = rs1.ssh_connect()

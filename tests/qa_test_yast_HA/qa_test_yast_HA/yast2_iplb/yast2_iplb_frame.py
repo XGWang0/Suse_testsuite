@@ -261,7 +261,7 @@ class remoteSetting():
         '''
         Check process is running or not
         '''
-        connect.sendline('pgrep -xl %s' % process)
+        connect.sendline('pgrep -xl ".*%s.*"' % process)
         connect.expect([pexpect.TIMEOUT,"#|->"])
     
         if not re.search('[1-9].*%s' % process, connect.before):

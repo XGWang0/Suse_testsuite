@@ -54,7 +54,7 @@ UItest = autoUITest()
 
 ###### Actions:
 # STEP1: backup the old /etc/ha.d/ldirectord.cf to initialize the set up
-os.system("mv %s %s.bak 2>/dev/null" % (conf_path, con_path))
+os.system("mv %s %s.bak 2>/dev/null" % (conf_path, conf_path))
 
 # Launch yast2 iplb
 app = UItest.launchYastApp("yast2 -gtk iplb&", "y2base")
@@ -71,6 +71,7 @@ combobox_settings = os.popen("grep gc %s |awk '{print $3}'" % iplb_conf).read().
 comboboxs = yFrame.findPageTab("Global Configuration").findAllComboBoxs(None)
 for k, v in zip(comboboxs, combobox_settings):
     k.findMenuItem(v, checkShowing=False).click(log=True)
+    sleep(config.SHORT_DELAY)
 
 yFrame.findPushButton("OK").mouseClick()
 sleep(config.MEDIUM_DELAY)
