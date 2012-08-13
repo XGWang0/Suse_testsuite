@@ -161,21 +161,6 @@ logger -p daemon.info "syslogd_initial succeed"
 
 
 function ha_repo_init {
-	if [ -z "`zypper ls |awk '{if($3=="ha")print "yes"}'|tail -1`" ];then
-		if [ -n "`grep \"Server 11 SP1\" /etc/issue`" ];then
-			zypper sa -t rpm-md $repo_sles_11_sp1 ha
-			zypper sa -t rpm-md $update_sles_11_sp1 sp1-kernel-extra
-			zypper sa -t rpm-md $ga_sles_11_sp1 sp1-ctdb
-			zypper --gpg-auto-import-keys ref
-		elif [ -n "`grep \"Server 11 SP2\" /etc/issue`" ];then
-			zypper sa -t rpm-md $repo_sles_11_sp2 ha
-			zypper sa -t rpm-md $ga_sles_11_sp2 sp2-kernel-extra
-			zypper --gpg-auto-import-keys ref
-		else
-			echo "HA repo is only for SLES 11"
-			exit 2
-		fi
-	fi
 	zypper ref
 	zypper -n in corosync pacemaker pacemaker-mgmt pacemaker-mgmt-devel libpacemaker-devel lvm2-clvm ocfs2-tools ocfs2-tools-o2cb ocfs2-kmp-default kernel-default-extra ctdb
 	if [ -n "`rpm -qa|grep pacemaker-mgmt-devel`" ] && [ -n "`rpm -qa|grep corosync-`" ];then
