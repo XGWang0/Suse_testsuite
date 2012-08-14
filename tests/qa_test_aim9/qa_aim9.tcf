@@ -1,0 +1,3 @@
+timer 5h
+fg 1 aim9_singleuser  /usr/share/qa/qa_test_aim9/do_aim9_singleuser
+wait
