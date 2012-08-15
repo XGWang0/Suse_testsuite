@@ -46,6 +46,7 @@ Source0:        %name-%version.tar.bz2
 Source1:        qa_coreutils.tcf
 Source2:        test_coreutils-run
 Source3:	qa_test_coreutils.8
+Patch0:		run_orig_test.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 
@@ -57,6 +58,7 @@ sort, touch, tr, tty, uniq, wc
 
 %prep
 %setup -q -n %{name}
+%patch0 -p0
 
 %build
 
