@@ -51,6 +51,7 @@ install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_hacluster.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../%name/node_setup.sh $RPM_BUILD_ROOT/usr/share/qa/%name/node_configuration.sh
 
 %clean
 rm -rf $RPM_BUILD_ROOT
