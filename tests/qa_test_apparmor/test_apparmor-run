@@ -1,4 +1,5 @@
 #!/bin/bash
+#sut_timeout 3600
 
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf

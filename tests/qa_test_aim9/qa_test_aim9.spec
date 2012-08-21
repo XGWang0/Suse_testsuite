@@ -17,8 +17,12 @@ Group:        System/Benchmark
 Autoreqprov:  on
 Version:      1 
 Release:      141
-Source0:       %{name}-%{version}.tar.bz2
-Source1:	qa_test_aim9.8
+Source0:      %{name}-%{version}.tar.bz2
+Source1:      qa_test_aim9.8
+Source2:      do_aim9_singleuser
+Source3:      qa_aim9.tcf
+Source4:      test_aim9-run
+Patch0:       fix-RUN-command.patch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Summary:      AIM Independent Resource Benchmark - Suite IX
 Provides:     qa-aim9
@@ -44,7 +48,7 @@ SuSE series: suse
 %prep
 %setup -n %{name}
 #%patch
-#
+%patch0 -p0
 
 %build
 make 
@@ -55,17 +59,14 @@ rm -rf $DESTDIR
 mkdir $DESTDIR
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
-install -d $DESTDIR/opt/testing/aim9
-install -m 755 aim_1.sh $DESTDIR/opt/testing/aim9
-install -m 755 aim_2.sh $DESTDIR/opt/testing/aim9
-install -m 755 aim_3.sh $DESTDIR/opt/testing/aim9
-install -m 755 aim_3.sh $DESTDIR/opt/testing/aim9
-install -m 755 singleuser $DESTDIR/opt/testing/aim9
-install -m 755 rpt9 $DESTDIR/opt/testing/aim9
-install -m 755 true $DESTDIR/opt/testing/aim9
-install -m 644 s9workfile $DESTDIR/opt/testing/aim9
-install -m 644 fakeh.tar $DESTDIR/opt/testing/aim9
+install -d $RPM_BUILD_ROOT/usr/share/qa/qa_test_aim9
+install -m 755 {aim_1.sh,aim_2.sh,aim_3.sh,singleuser,rpt9,true,RUN,%{S:2}} $DESTDIR/usr/share/qa/qa_test_aim9
+install -m 644 {s9workfile,fakeh.tar,input,%{S:3}} $DESTDIR/usr/share/qa/qa_test_aim9
+ln -s ../qa_test_aim9/qa_aim9.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
@@ -77,16 +78,14 @@ install -m 644 fakeh.tar $DESTDIR/opt/testing/aim9
 /usr/share/man/man8/qa_test_aim9.8.gz
 %doc COPYING CREDITS HISTORY MANIFEST README
 %doc doc/*
-%dir /opt/testing
-%dir /opt/testing/aim9
-/opt/testing/aim9/rpt9
-/opt/testing/aim9/true
-/opt/testing/aim9/s9workfile
-/opt/testing/aim9/fakeh.tar
-/opt/testing/aim9/aim_1.sh
-/opt/testing/aim9/aim_2.sh
-/opt/testing/aim9/aim_3.sh
-/opt/testing/aim9/singleuser
+%dir /usr/share/qa/qa_test_aim9
+%dir /usr/share/qa
+%dir /usr/share/qa/tools
+%dir /usr/share/qa/tcf
+/usr/share/qa/qa_test_aim9/*
+/usr/share/qa/tcf/qa_aim9.tcf
+/usr/share/qa/tools/test_aim9-run
+
 
 %changelog -n qa_test_aim9
 * Wed Aug 10 2011 - llipavsky@suse.cz

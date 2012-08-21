@@ -1,9 +1,0 @@
-#!/bin/sh
-# AIM Suite 9 RUN
-# Copyright (c) 1996 - 2001 Caldera International, Inc.
-# All Rights Reserved.
-#
-# ' @(#) RUN9:1.3 1/22/96 00:00:00'
-#
-singleuser -nl < input
-

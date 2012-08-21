@@ -23,7 +23,6 @@
 # ****************************************************************************
 
 export LANG=C
-export DISPLAY=:0.0
 xhost +
 killall /usr/lib/at-spi/at-spi-registryd tomboy
 [ `ps aux | grep at-spi-registry | wc -l` -gt 1 ] || /usr/lib/at-spi/at-spi-registryd&

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+mkdir /tmp/aim9
+
+input="/usr/share/qa/qa_test_aim9/input"
+touch $input
+`echo hostname` > $input
+`echo uname -r` >> $input
+echo 500 >> $input
+echo /tmp/aim9 >> $input
+
+cd /usr/share/qa/qa_test_aim9
+./RUN

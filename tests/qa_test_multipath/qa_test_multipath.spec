@@ -90,6 +90,7 @@ ln -s ../%name/tcf/qa_sw_multipath.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%name/tcf/qa_hw_multipath.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 install -m 755 %{S:2} %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools
+ln -s ../tools/test_sw_multipath-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_multipath-run
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 
 %clean
@@ -102,6 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/qa
 %{_datadir}/qa/%name
 %dir %{_datadir}/qa/tools
+%{_datadir}/qa/tools/test_multipath-run
 %{_datadir}/qa/tools/test_sw_multipath-run
 %{_datadir}/qa/tools/test_hw_multipath-run
 %dir %{_datadir}/qa/tcf

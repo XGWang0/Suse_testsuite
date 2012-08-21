@@ -1,10 +1,13 @@
 #!/bin/bash
 
-if [ -e /usr/lib64/python2.6/site-packages/ ]; then
+pyver=$(python --version 2>&1 | awk '{print $2}' | awk -F"." '{print $1"."$2}')
+
+if [ -e /usr/lib64/python$pyver/site-packages/ ]; then
 	python_site=/usr/lib64/python2.6/site-packages
 else
-    python_site=/usr/lib/python2.6/site-packages
+	python_site=/usr/lib/python$pyver/site-packages
 fi
+
 for i in ManifestDestiny-0.2.3.tar.gz mozrunner-2.5.3.tar.gz jsbridge-2.4.2.tar.gz mozmill-1.5.2.tar.gz; do
 	easy_install -d $python_site /usr/share/qa/qa_test_mozmill/$i
 done

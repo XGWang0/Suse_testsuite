@@ -22,9 +22,19 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
+# Run setupUIAutomation test script to restore X window if running display is not equal to 1
+displays=(`who |awk {'print $2'} |grep :[0-9]`)
 
-username=`who |grep ":[0-9] " |awk {'print $1'}`
-DISPLAY=`who |grep ":[0-9] " |awk {'print $2'}`.0
+if [ "${#displays[*]}" -eq 0 ] || [ "${#displays[*]}" -gt 1 ]; then
+	/usr/share/qa/tools/setupUIAutomationtest
+	sleep 60
+fi
+
+who_info=(`who |awk {'print $1,$2'} |grep :[0-9]`)
+username=${who_info[0]}
+display=${who_info[1]}
+
+echo "INFO: User $username run test on display $display.0"
 
 # Add non-root user to sudoers to use sudo comment without root password in test
 if [[ "$username" != "root" && `grep -c "$username ALL=(ALL)" /etc/sudoers` -eq 0 ]];then
@@ -34,8 +44,9 @@ fi
 
 comments="
 export LANG=C
-export DISPLAY=$DISPLAY
+export DISPLAY=$display.0
 xhost +
+gnome-screensaver-command -d
 killall -9 -q /usr/lib/at-spi/at-spi-registryd
 [ `ps aux | grep at-spi-registry | wc -l` -gt 1 ] || /usr/lib/at-spi/at-spi-registryd&
 /usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_gnome.tcf"

@@ -22,12 +22,26 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
+# Run setupUIAutomation test script to restore X window if running display is not equal to 1
+displays=(`who |awk {'print $2'} |grep :[0-9]`)
 
-username=`who |grep :0 | head -n 1 |awk {'print $1'}`
+if [ "${#displays[*]}" -eq 0 ] || [ "${#displays[*]}" -gt 1 ]; then
+	/usr/share/qa/tools/setupUIAutomationtest
+	sleep 60
+fi
+
+who_info=(`who |awk {'print $1,$2'} |grep :[0-9]`)
+username=${who_info[0]}
+display=${who_info[1]}
+
+echo "INFO: User $username run test on display $display.0"
+
+# Run test
 comments="
 export LANG=C
-export DISPLAY=:0.0
+export DISPLAY=$display.0
 xhost +
+gnome-screensaver-command -d
 killall -9 -q /usr/lib/at-spi/at-spi-registryd evince
 [ `ps aux | grep at-spi-registry | wc -l` -gt 1 ] || /usr/lib/at-spi/at-spi-registryd&
 /usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_evince.tcf"

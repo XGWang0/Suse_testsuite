@@ -46,7 +46,7 @@ Source3:        qa_test_logwatch.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	qa_logwatch_test
 Obsoletes:	qa_logwatch_test
-Requires:       ctcs2
+Requires:       ctcs2 logwatch
 
 %description
 Tests the following features of logwatch: .

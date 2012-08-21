@@ -66,7 +66,7 @@ def assert_file_exists(filename):
 	if not os.path.exists(filename):
 		close(1)
 
-def make_report(filename=None, detail=10, logfile=None, service=None, range1='yesterday', mailto=None):
+def make_report(filename=None, detail=10, logfile=None, service=None, range1='yesterday', mailto=None, archives=None):
 	command = ['/usr/sbin/logwatch']
 	command.append("--detail=" + str(detail))
 	outputfile = None
@@ -80,6 +80,8 @@ def make_report(filename=None, detail=10, logfile=None, service=None, range1='ye
 		command.append("--range=" + range1)
 	if mailto:
 		command.append("--mailto=" + mailto)
+	if archives:
+		command.append("--archives")
 	code = call(command, stdout=outputfile)
 	if code != 0:
 		close(1)
