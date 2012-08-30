@@ -26,7 +26,7 @@ Source3:        qa_test_yast2.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	qa_yast2
 Obsoletes:	qa_yast2
-Requires:       yast2 yast2-qt yast2-packagemanager yast2-online-update
+Requires:       yast2 yast2-qt yast2-packagemanager yast2-online-update ctcs2
 
 %description
 Test of YaST online update (so far)
