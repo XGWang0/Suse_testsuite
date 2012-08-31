@@ -5,4 +5,4 @@ CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
 /etc/init.d/apache2 restart
-$CTCS2_DIR/tools/run $TCF_DIR/qa_php5.tcf
+$CTCS2_DIR/tools/run $TCF_DIR/qa_php5-server.tcf
