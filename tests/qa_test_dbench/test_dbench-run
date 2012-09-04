@@ -1,4 +1,5 @@
 #!/bin/sh
+#sut_timeout 3600
 
 ctcsdir="/usr/lib/ctcs2"
 basedir="/usr/share/qa/qa_test_dbench"

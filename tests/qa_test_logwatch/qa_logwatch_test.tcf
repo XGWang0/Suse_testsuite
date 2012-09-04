@@ -23,7 +23,7 @@
 #
 
 timer 300
-fg 1 archives _test /usr/share/qa/qa_test_logwatch/archives_test.py
+fg 1 archives_test /usr/share/qa/qa_test_logwatch/archives_test.py
 wait
 
 timer 300

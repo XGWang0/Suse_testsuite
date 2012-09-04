@@ -36,7 +36,7 @@ from yast2_test_frame import *
 doc="""
 Actions:
 
-STEP1: remove /etc/corosync/corosync.conf to initialize the first start up
+STEP1: backup the old /etc/corosync/corosync.conf to initialize the first start up
 STEP2: set up Communication Channels (udp, 147.2.207.0, 226.94.1.2, 5406, Auto Generate Node ID)
 STEP3: set up Security as default (disable)
 STEP4: set up Service as default (Booting off, start openais now, enable mgmtd)
@@ -63,8 +63,13 @@ multicast_port_1 = multicast_port_1
 UItest = autoUITest()
 
 ###### Actions:
-# STEP1: remove /etc/corosync/corosync.conf to initialize the first start up
-UItest.removeFile(conf_path)
+# Stop openais
+sleep(config.SHORT_DELAY)
+
+os.system("rcopenais stop")
+
+# STEP1: backup the old /etc/corosync/corosync.conf to initialize the first start up
+os.system("mv %s %s.bak 2>/dev/null" % (conf_path, conf_path))
 
 # Launch yast2 cluster
 app = UItest.launchYastApp("yast2 -gtk cluster&", "y2base")

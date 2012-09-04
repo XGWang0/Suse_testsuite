@@ -1,0 +1,19 @@
+--- run_orig_test.sh.orig	2012-08-15 14:59:41.000000000 +0200
++++ run_orig_test.sh	2012-08-15 14:59:52.000000000 +0200
+@@ -36,11 +36,11 @@
+ #    Additional flag; currently can be only "no-root" which means the test
+ #    should not be run as root, but as the common user.
+ 
+-if [ $# -ne 2 -o $# -ne 3 -o $# -ne 4 ]; then
+-	echo "Usage: $0 \$TESTDIR \$TESTPROG [\$UTILTY] [\$FLAG]"
+-	echo "see \"Parameters\" in $0 for details"
+-	exit 1
+-fi
++#if [ $# -ne 2 -o $# -ne 3 -o $# -ne 4 ]; then
++#	echo "Usage: $0 \$TESTDIR \$TESTPROG [\$UTILTY] [\$FLAG]"
++#	echo "see \"Parameters\" in $0 for details"
++#	exit 1
++#fi
+ 
+ # Read the parameters.
+ TESTDIR=$1

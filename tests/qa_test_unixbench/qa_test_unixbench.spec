@@ -31,6 +31,8 @@ Source1:        COPYING
 Source2:        LICENSE
 Source3:        qa_test_unixbench-rpmlintrc
 Source4:	qa_test_unixbench.8
+Source5:	test_unixbench-run
+Source6:	qa_unixbench.tcf
 Patch0:         unixbench-fix_Run_nomake.diff
 Patch1:         unixbench-fix_context_x86_64.diff
 Patch2:         unixbench-fix_execl_no_such_file.diff
@@ -67,39 +69,38 @@ make
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:4} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench
-#mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/src
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/testdir
-#mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/old-doc
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/tmp
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/results
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/pgms
 install -m 755 ./Run $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/Run
-#install -m 755 ./COPYING $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/COPYING
-#install -m 755 ./LICENSE $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/LICENSE
 install -m 755 ./pgms/* $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/pgms/.
-#install -m 755 ./src/* $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/src/.
 install -m 755 ./testdir/* $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/testdir/.
-#install -m 755 ./old-doc/* $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/old-doc/.
-#install -m 755 ./tmp $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/tmp/.
-#install -m 755 ./results $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/results/.
-#if [ ! -d $RPM_BUILD_ROOT/usr/bin ];
-#then
-#	mkdir -p $RPM_BUILD_ROOT/usr/bin
-#fi
-#ln -sf  $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench/Run  $RPM_BUILD_ROOT/usr/bin/unixbench-run 
+install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -m 644 %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 %clean
 rm -rf $RPM_BUILD_ROOT/usr/share/qa/qa_test_unixbench
-#rm -rf $RPM_BUILD_ROOT/usr/share/qa/unixbench-run
 
 %files
 %defattr(-,root,root)   
 /usr/share/man/man8/qa_test_unixbench.8.gz
 %doc COPYING LICENSE
 %dir /usr/share/qa
-/usr/share/qa/qa_test_unixbench
-#
+%dir /usr/share/qa/tools
+%dir /usr/share/qa/tcf
+%dir /usr/share/qa/qa_test_unixbench
+%dir /usr/share/qa/qa_test_unixbench/pgms
+%dir /usr/share/qa/qa_test_unixbench/testdir
+/usr/share/qa/qa_test_unixbench/Run
+/usr/share/qa/qa_test_unixbench/pgms/*
+/usr/share/qa/qa_test_unixbench/testdir/*
+/usr/share/qa/tcf/qa_unixbench.tcf
+/usr/share/qa/tools/test_unixbench-run
+
 
 %changelog
 * Fri Nov 28 2008 ro@suse.de

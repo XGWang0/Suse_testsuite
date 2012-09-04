@@ -30,7 +30,12 @@
 # Description: Enable accessibility, enable xhost, restart gdm
 ##############################################################################
 
+import os
 import getopt
+
+frame_path = "/usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_test_frame.py"
+os.system("sed -i '/^from strongwind/s/from strongwind/#from strongwind/' %s" % frame_path)
+
 from yast2_test_frame import *
 
 node_ip = None
@@ -59,10 +64,13 @@ if node_ip == None or node_pwd == None:
         sys.exit(1)
 
 # Install UI related patterns
-rs = remoteSetting(node_ip=node_ip, node_pwd=node_pwd)
+rs = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
 
 rs.install_Patterns(patterns=["X11", "gnome"])
 
 # Enable accessibility technology which the machine you want to run UI tool
 rs.setup_UItest()
 sleep(30)
+
+os.system("sed -i '/^#from strongwind/s/#from strongwind/from strongwind/' %s" % frame_path)
+

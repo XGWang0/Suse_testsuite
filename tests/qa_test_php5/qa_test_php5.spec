@@ -26,6 +26,7 @@ Source0:        php-%{version}.tar.bz2
 Source1:        test_php5-run
 Source2:	qa_test_php5.8
 Source3:	apache2-php5-prepare.sh
+Source4:	test_php5-server-run
 Patch0:		server-test-config.patch
 Patch1:		syntax_fix.patch
 BuildArch:      noarch
@@ -148,7 +149,8 @@ touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5.tcf
 touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php5-server.tcf
 ln -s ../qa_test_php5/tcf/qa_php5.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../qa_test_php5/tcf/qa_php5-server.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-install -m 755 %{_sourcedir}/test_php5-run $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 
 %clean
 rm -rvf $RPM_BUILD_ROOT
@@ -179,6 +181,7 @@ done > %{qa_location}/tcf/qa_php5-server.tcf
 /usr/share/qa/
 /usr/share/qa/tcf/qa_php5.tcf
 /usr/share/qa/tools
+%exclude /usr/share/qa/tools/test_php5-server-run
 %exclude /usr/share/qa/tcf/qa_php5-server.tcf
 %exclude %{qa_location}/tcf/qa_php5-server.tcf
 %exclude %{qa_location}/server-tests-config.php
@@ -187,6 +190,7 @@ done > %{qa_location}/tcf/qa_php5-server.tcf
 %files server
 %defattr(-, root, root)
 %{qa_server_location}
+/usr/share/qa/tools/test_php5-server-run
 /usr/share/qa/tcf/qa_php5-server.tcf
 %{qa_location}/tcf/qa_php5-server.tcf
 %{qa_location}/server-tests-config.php

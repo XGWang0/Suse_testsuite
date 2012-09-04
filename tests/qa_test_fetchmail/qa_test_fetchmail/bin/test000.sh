@@ -39,6 +39,10 @@ fi
 
 function test01() {
     if [ "$LOCAL_MODE" = "yes" ]; then
+        if id "$TESTUSER" > /dev/null; then
+            delUser "$TESTUSER"
+        fi;
+
         if ! addUser "$TESTUSER"; then
             printMessage $MSG_ERROR "Unable to create testuser"
             return $FAILED

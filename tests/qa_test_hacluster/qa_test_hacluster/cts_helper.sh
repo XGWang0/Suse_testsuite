@@ -17,7 +17,7 @@ done
 if [[ $port ]]; then
 
 grep CTS-AUTO-SETUP-WAS-HERE /etc/syslog-ng/syslog-ng.conf 2>&1 > /dev/null
-rc=$?
+rc="$?"
 
 if [ $rc != 0 ]; then
 echo "# CTS-AUTO-SETUP-WAS-HERE

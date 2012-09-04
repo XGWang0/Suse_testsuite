@@ -15,7 +15,7 @@ Name:           qa_test_hacluster
 License:        SUSE Proprietary
 Group:          SuSE internal
 AutoReqProv:    on
-Version:        0.4.1
+Version:        0.6.0
 Release:        1
 Summary:        (rd-)qa internal package for HA setup
 Url:            http://qa.suse.de/
@@ -51,6 +51,7 @@ install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_hacluster.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../%name/node_setup.sh $RPM_BUILD_ROOT/usr/share/qa/%name/node_configuration.sh
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -66,6 +67,17 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools/test_hacluster-run
 
 %changelog
+* Fri Jun 01 2012 - vpelcak@suse.com
+- Finished HA GEO automation
+
+* Wed May 30 2012 - vpelcak@suse.com
+- Updated HA GEO setup
+- Updated OCFS2/MySQL setup
+
+* Mon May 14 2012 - vpelcak@suse.com
+- Added HA GEO setup
+- Updated OCFS2 deployment
+
 * Fri Jan 13 2012 - vpelcak@suse.com
 - Added Apache + MySQL deployment
 

@@ -180,10 +180,10 @@ class remoteSetting():
             EOF_line = "<<EOF\n\n[daemon]\nTimedLoginEnable=true\nAutomaticLoginEnable=true\nTimedLogin=%s\nAutomaticLogin=%s\nTimeLoginDelay=5\nEOF" % (self.user, self.user)
             gdm_conf_path = "/etc/gdm/custom.conf"
     
-            connect.sendline('grep -c "\[daemon\]" %s' % gdm_conf_path)
+            connect.sendline('grep "\[daemon\]" %s' % gdm_conf_path)
             connect.expect([pexpect.TIMEOUT,"#|->"])
             print connect.before
-            if re.search('0', connect.before):
+            if len(re.findall('daemon', connect.before)) == 1:
                 connect.sendline('cat >>%s %s' % (gdm_conf_path, EOF_line))
                 connect.expect([pexpect.TIMEOUT, "#|->"])
                 enable_login = True
@@ -203,13 +203,14 @@ class remoteSetting():
         '''
         connect = self.ssh_connect()
     
+        # Install patterns
         for p in patterns:
             connect.sendline("zypper search -i -t pattern %s |tail -n 1" % p)
             connect.expect([pexpect.TIMEOUT,"#|->"])
             print connect.before
     
             if re.search('No packages found', connect.before):
-                connect.sendline("zypper install -l -t pattern %s" % p)
+                connect.sendline("zypper install -l -t pattern %s" % ' '.join(patterns))
                 exp = connect.expect([pexpect.TIMEOUT,"Continue(?i)","#|->"])
                 if exp == 1:
                     print connect.before
@@ -222,6 +223,33 @@ class remoteSetting():
                             pass
                         elif index == 1:
                             break
+
+                # Setup X
+                connect.sendline("sed -i '/id:3:initdefault/s/3/5/' /etc/inittab |grep initdefault") # change runlevel to 5
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+
+                connect.sendline("SuSEconfig") # reload sysconfig
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+                print connect.before
+
+                connect.sendline("sed -i '/DISPLAYMANAGER=\"\"/s/\"\"/\"gdm\"/' /etc/sysconfig/displaymanager") # set displaymanager
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+
+                connect.sendline("sed -i '/DEFAULT_WM=\"\"/s/\"\"/\"gnome\"/' /etc/sysconfig/windowmanager") # set windowmanager
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+
+                connect.sendline("rm -fr /etc/X11/xorg.conf*")
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+                connect.sendline("sax2 -a -V 0:1024x768@60") # set resolution 
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+                print connect.before
+
+                connect.sendline("sed -i '/user=\"gdm\"/s/gdm/gdm/g' /etc/dbus-1/system.d/gdm.conf")
+                connect.expect([pexpect.TIMEOUT,"#|->"])
+
+                connect.sendline('rcxdm restart')
+                connect.expect(pexpect.TIMEOUT)
+                print connect.before
     
         connect.sendline('exit')
     
