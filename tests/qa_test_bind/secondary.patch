@@ -1,6 +1,6 @@
 diff -Nur qa_test_bind.org/qa_test_bind/data/secondary/named.conf qa_test_bind/qa_test_bind/data/secondary/named.conf
 --- qa_test_bind.org/qa_test_bind/data/secondary/named.conf	2012-03-14 14:27:49.043542791 +0800
-+++ qa_test_bind/data/qa_test_bind/secondary/named.conf	2012-08-22 16:45:39.636364806 +0800
++++ qa_test_bind/qa_test_bind/data/secondary/named.conf		2012-08-22 16:45:39.636364806 +0800
 @@ -84,10 +84,10 @@
  	file "root.hint";
  };
