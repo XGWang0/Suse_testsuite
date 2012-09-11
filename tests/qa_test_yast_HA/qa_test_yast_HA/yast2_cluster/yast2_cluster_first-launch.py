@@ -68,6 +68,13 @@ sleep(config.SHORT_DELAY)
 
 os.system("rcopenais stop")
 
+# Install missing packages
+packages = ["pacemaker-mgmt", "pacemaker-mgmt-clent", "csync2"]
+for p in packages:
+    result = os.system('rpm -q %s' % p)
+    if result != 0:
+        os.system('zypper -n in -l %s' % p)
+
 # STEP1: backup the old /etc/corosync/corosync.conf to initialize the first start up
 os.system("mv %s %s.bak 2>/dev/null" % (conf_path, conf_path))
 

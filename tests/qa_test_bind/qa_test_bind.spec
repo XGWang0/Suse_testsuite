@@ -43,7 +43,6 @@ Source0:        %name-%version.tar.bz2
 Source1:        qa_bind.tcf
 Source2:        test_bind-run
 Source3:        qa_test_bind.8
-Patch0:         secondary.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -66,7 +65,6 @@ Authors:
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
 
 %build
 
