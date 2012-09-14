@@ -22,14 +22,14 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-HW=1
 . /usr/share/qa/qa_test_multipath/functions.sh
+HW=1
 
 backup_conf
 
 config_prepare HP 
 if [ $? -eq 50 ];then
-exit 22
+	exit 22
 fi 
 
 reseterr

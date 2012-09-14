@@ -42,8 +42,7 @@ paths_status
 
 copy_data
 
-for n in `seq 1 $PATHS_NUMBER`;
-	do
+for n in `seq 1 $PATHS_NUMBER`;do
 	trigger_path $n fail
 	sleep 30;
 	paths_status
@@ -63,4 +62,3 @@ for n in `seq 1 $PATHS_NUMBER`;
 	checkerror
 done
 createresult
-

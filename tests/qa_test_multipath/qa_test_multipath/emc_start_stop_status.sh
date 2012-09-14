@@ -23,14 +23,13 @@
 # ****************************************************************************
 
 . /usr/share/qa/qa_test_multipath/functions.sh
+HW=1
 
 backup_conf
 
-HW=1
-
 config_prepare EMC 
 if [ $? -eq 50 ];then
-exit 22
+	exit 22
 fi 
 
 reseterr

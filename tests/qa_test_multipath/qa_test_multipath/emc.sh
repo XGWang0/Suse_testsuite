@@ -23,50 +23,47 @@
 # ****************************************************************************
 
 . /usr/share/qa/qa_test_multipath/functions.sh
+HW=1
 
 backup_conf
 
-HW=1
-
 config_prepare EMC
 if [ $? -eq 50 ];then
-exit 22
+	exit 22
 fi
 
-for map_alias in ${MAPS[@]};
-do
-map="$map_alias"
+for map_alias in ${MAPS[@]};do
+	map="$map_alias"
 
-reseterr
-prepare
-checkerror
+	reseterr
+	prepare
+	checkerror
 
-get_paths
-PATHS_NUMBER=$[${#PATHS[*]}-1]
-paths_status
-
-copy_data
-
-for n in `seq 1 $PATHS_NUMBER`;
-	do
-	trigger_path $n fail
-	sleep 30;
+	get_paths
+	PATHS_NUMBER=$[${#PATHS[*]}-1]
 	paths_status
-	check_path $n failed
-	checkerror
 
-	check_data
-	checkerror
+	copy_data
 
-	trigger_path $n recover
-	sleep 30;
-	paths_status
-	check_path $n active
-	checkerror
+	for n in `seq 1 $PATHS_NUMBER`;do
+		trigger_path $n fail
+		sleep 30;
+		paths_status
+		check_path $n failed
+		checkerror
 
-	check_data
-	checkerror
-done
+		check_data
+		checkerror
+
+		trigger_path $n recover
+		sleep 30;
+		paths_status
+		check_path $n active
+		checkerror
+
+		check_data
+		checkerror
+	done
 done
 createresult
 

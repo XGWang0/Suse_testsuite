@@ -22,70 +22,48 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-DATA_DIR="/usr/share/qa/qa_test_multipath/data"
-DTOPT="iotype=random capacity=2g flags=sync,rsync limit=1g enable=lbdata,raw min=b max=256k incr=var dlimit=512 oncerr=abort dtype=disk passes=inf"
-#Load external vars
-. $DATA_DIR/vars
-
-if [ "HW" = "1" ];then
-trap 'stop_data;cleanup;restore_conf' EXIT SIGHUP SIGINT SIGTERM
-else
-trap 'stop_data;cleanup;iscsi_disconnect;restore_conf' EXIT SIGHUP SIGINT SIGTERM
-fi
-#get SLE version
-CODE=`cat /etc/SuSE-release | awk -F "=" '/VERSION/''{ print $2 }'\
-        | cut -c 2-3`
-SP=`cat /etc/SuSE-release | awk -F "=" '/PATCHLEVEL/''{ print $2 }'\
-        | cut -c 2`
-
-if [ $CODE -eq 11 ]; then
-	PART="_part1"
-	udevwait="udevadm settle --timeout=30"
-fi
-if [ $CODE -eq 10 ]; then
-	PART="-part1"
-	udevwait="udevsettle --timeout=30"
-fi
-
-if [ -z $TARGET ];then
-        echo "target address is not set. Please define TARGET variable"
-        exit 5;
-fi
-if [ -z $TARGET_DISK ];then
-        echo "target disk is not set. Please define TARGET_DISK variable"
-        exit 5;
-fi
-if [ -z $PART_SIZE ];then
-        echo "PART_SIZE is not set. Please define PART_SIZE variable"
-        exit 5;
-fi
-
-
+function do_cmd ()
+{
+	multipathd -k"$1"
+}
 #get device name
 function get_paths ()
 {
-if [ $CODE -eq 11 ];then
-PATHS=( "" `multipathd -k"list map $map topology"|sed -n '/[0-9]:[0-9]/ p'|cut -c 2- | awk -F " " '{print $3}'`)
-else
-PATHS=( "" `multipathd -k"list map $map topology"|sed -n '/[0-9]:[0-9]/ p'| cut -d " " -f 4`)
-fi
+	PATHS=( "" $(get_paths_cmd))
+}
+
+function get_paths_cmd () 
+{
+	case $CODE in
+		11) do_cmd "list map $map topology"|sed -n '/[0-9]:[0-9]/ p'|cut -c 2- | awk -F " " '{print $3}' ;;
+		10) do_cmd "list map $map topology"|sed -n '/[0-9]:[0-9]/ p'| cut -d " " -f 4;;
+	esac
 }
 
 #get device status
 function paths_status ()
 {
-PATHS_STATUS=( "" `multipathd -k"list map $map topology"|sed -n '/[0-9]:[0-9]/ p'| sed -r 's/.*(active|failed|enabled).*/\1/'`)
+	PATHS_STATUS=( "" $(do_cmd "list map $map topology"|sed -n '/[0-9]:[0-9]/ p'| sed -r 's/.*(active|failed|enabled).*/\1/'))
+}
+
+function reread_paths ()
+{
+	do_cmd "reconfigure"
+	$udevwait
+	multipath -F
+	$udevwait
+	multipath &>/dev/null
+	$udevwait
 }
 
 #recover/fail path
 function trigger_path ()
 {
-if [ "$2" = "fail" ];then
-	cmd="offline"
-elif [ "$2" = "recover" ];then
-	cmd="running"
-fi
-echo "$cmd" > /sys/block/${PATHS[$1]}/device/state
+	case $2 in
+		fail)    cmd="offline" ;;
+		recover) cmd="running" ;;
+	esac
+	echo "$cmd" > /sys/block/${PATHS[$1]}/device/state
 }
 
 #I/O
@@ -102,18 +80,18 @@ function stop_data ()
 }
 function check_data () {
 	if $(checkproc /usr/bin/dt);then
-        echo "PASSED: data flow is ok"
-        return 0;
+	        echo "PASSED: data flow is ok"
+	        return 0;
 	else
-	return 1;
+		return 1;
         fi
 }
 function check_path {
 	echo "path ${PATHS[$1]} is ${PATHS_STATUS[$1]}"
 	if [ ${PATHS_STATUS[$1]} = "$2" ];then
-	return 0;
+		return 0;
 	else 
-	return 1;
+		return 1;
 	fi
 }
 
@@ -142,8 +120,8 @@ function iscsi_connect ()
         echo "reset already discovered target"
         iscsiadm -m node | grep $TARGET_DISK 
         if [ $? -eq 0 ];then
-        iscsiadm -m node -T $TARGET_DISK -u
-        iscsiadm -m node -T $TARGET_DISK -o delete
+	        iscsiadm -m node -T $TARGET_DISK -u
+	        iscsiadm -m node -T $TARGET_DISK -o delete
         if [ $? -ne 0 ]; then
               echo "delete failed"
                 exit 1;
@@ -153,14 +131,14 @@ function iscsi_connect ()
         iscsiadm -m node -T $TARGET_DISK -p $TARGET -o new
         if [ $? -ne 0 ]; then
               echo "bind failed"
-                exit 1;
+              exit 1;
         fi
 
         echo "connect target"
         iscsiadm -m node -T $TARGET_DISK -l
         if [ $? -ne 0 ]; then
               echo "connect failed"
-                exit 1;
+              exit 1;
         fi
 	echo "iSCSI connected"
 	#wait until udev finishes his jobs
@@ -169,24 +147,28 @@ function iscsi_connect ()
 
 config_prepare ()
 {
-#Get LUNS attached to system
-CONF=$(mktemp /tmp/mpath.confXXX)
-DEV_MAPS=$(mktemp /tmp/map.XXX)
+	#Get LUNS attached to system
+	CONF=$(mktemp /tmp/mpath.confXXX)
+	DEV_MAPS=$(mktemp /tmp/map.XXX)
 
-if [ -f /etc/multipath.conf ];then
-	cat /etc/multipath.conf | grep -F "user_friendly_names yes"
-	if [ $? -eq 0 ];then
-	multipath -ll | egrep '[0-9a-z]{32}' | sed -e 's/dm\-[0-9]//g' -e 's/,/\ /g' -e 's/(//g' -e 's/)//g' -e 's/^ *[^ ]* //' > "$CONF"
+	reread_paths
+
+	if [ -f /etc/multipath.conf ];then
+		cat /etc/multipath.conf | grep -F "user_friendly_names yes"
+		if [ $? -eq 0 ];then
+			multipath -ll | egrep '[0-9a-z]{32}' | sed -e 's/dm\-[0-9]//g' -e 's/,/\ /g' -e 's/(//g' -e 's/)//g' -e 's/^ *[^ ]* //' > "$CONF"
+		fi
+	else
+		multipath -ll | grep '^[0-9]'| sed -e 's/dm\-[0-9]//g' -e 's/,/\ /g' > $CONF
 	fi
-else
-	multipath -ll | grep '^[0-9]'| sed -e 's/dm\-[0-9]//g' -e 's/,/\ /g' > $CONF
-fi
-if [ $(grep -c "$1" "$CONF") -eq 0 ];then
-	return 50;
-fi
-grep "$1" $CONF > $DEV_MAPS
-N=1
-cat << EOF > /etc/multipath.conf
+
+	if [ $(grep -c "$1" "$CONF") -eq 0 ];then
+		return 50;
+	fi
+
+	grep "$1" $CONF > $DEV_MAPS
+	N=1
+	cat << EOF > /etc/multipath.conf
 defaults {
     user_friendly_names yes 
     max_fds max
@@ -194,22 +176,21 @@ defaults {
 multipaths {
 EOF
 
-while read map;
-	do
-        ALIAS=$(echo $map| awk -F ' ' '{OFS = "-"; print $2, $3}')
-        WWID=$(echo $map| awk -F ' ' '{print $1}')
-	cat << EOF >> /etc/multipath.conf
+	while read map;do
+        	ALIAS=$(echo $map| awk -F ' ' '{OFS = "-"; print $2, $3}')
+	        WWID=$(echo $map| awk -F ' ' '{print $1}')
+		cat << EOF >> /etc/multipath.conf
     multipath {
         wwid $WWID 
         alias $ALIAS-$N
     }
 EOF
-	MAPS=( "${MAPS[@]}" "$ALIAS-$N" )
-	N=`expr $N + 1`
-done < $DEV_MAPS
-echo "}" >> /etc/multipath.conf
-rm $CONF
-rm $DEV_MAPS
+		MAPS=( "${MAPS[@]}" "$ALIAS-$N" )
+		N=`expr $N + 1`
+	done < $DEV_MAPS
+	echo "}" >> /etc/multipath.conf
+	rm $CONF
+	rm $DEV_MAPS
 }
 function prepare () 
 {
@@ -245,7 +226,7 @@ function prepare ()
 	kpartx -a -p "${PART%1}" /dev/mapper/$map
 	$udevwait
         if [ ! -f /mnt/$map ]; then
-        mkdir -p /mnt/$map
+        	mkdir -p /mnt/$map
         fi
 	mkfs.reiserfs -q /dev/mapper/$map$PART
         mount /dev/mapper/$map$PART /mnt/$map
@@ -257,15 +238,15 @@ function prepare ()
 }
 
 function backup_conf () {
-if [ -f /etc/multipath.conf ];then
-   tar -czf $BACKUP -C / /etc/multipath.conf 2> /dev/null || exit 2
-fi
+	if [ -f /etc/multipath.conf ];then
+	   tar -czf $BACKUP -C / /etc/multipath.conf 2> /dev/null || exit 2
+	fi
 }
 function restore_conf () {
-if [ -f $BACKUP ];then
-   tar -xzf $BACKUP -C / 2> /dev/null || exit 2
-   rm $BACKUP
-fi
+	if [ -f $BACKUP ];then
+	   tar -xzf $BACKUP -C / 2> /dev/null || exit 2
+	   rm $BACKUP
+	fi
 }
 
 function reseterr() {
@@ -291,11 +272,9 @@ function checkscript() {
         fi
 }
 
-
 function getwd() {
 	CWD=`pwd`
 }
-
 
 function createresult() {
 	if [ $ERRORS -ne 0 ]; then
@@ -307,4 +286,40 @@ function createresult() {
 	fi
 }
 
+DATA_DIR="/usr/share/qa/qa_test_multipath/data"
+DTOPT="iotype=random capacity=2g flags=sync,rsync limit=1g enable=lbdata,raw min=b max=256k incr=var dlimit=512 oncerr=abort dtype=disk passes=inf"
+#Load external vars
+. $DATA_DIR/vars
 
+if [ "$HW" = "1" ];then
+        trap 'stop_data;cleanup;restore_conf' EXIT SIGHUP SIGINT SIGTERM
+else
+        trap 'stop_data;cleanup;iscsi_disconnect;restore_conf' EXIT SIGHUP SIGINT SIGTERM
+fi
+#get SLE version
+CODE=`cat /etc/SuSE-release | awk -F "=" '/VERSION/''{ print $2 }'\
+        | cut -c 2-3`
+SP=`cat /etc/SuSE-release | awk -F "=" '/PATCHLEVEL/''{ print $2 }'\
+        | cut -c 2`
+#SLE11 and SLE10 deviations
+if [ $CODE -eq 11 ]; then
+        PART="_part1"
+        udevwait="udevadm settle --timeout=30"
+fi
+if [ $CODE -eq 10 ]; then
+        PART="-part1"
+        udevwait="udevsettle --timeout=30"
+fi
+
+if [ -z $TARGET ];then
+        echo "target address is not set. Please define TARGET variable"
+        exit 5;
+fi
+if [ -z $TARGET_DISK ];then
+        echo "target disk is not set. Please define TARGET_DISK variable"
+        exit 5;
+fi
+if [ -z $PART_SIZE ];then
+        echo "PART_SIZE is not set. Please define PART_SIZE variable"
+        exit 5;
+fi
