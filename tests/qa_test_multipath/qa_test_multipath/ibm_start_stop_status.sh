@@ -31,6 +31,7 @@ config_prepare IBM
 if [ $? -eq 50 ];then
 	exit 22
 fi 
+map=${MAPS[0]}
 
 reseterr
 prepare
