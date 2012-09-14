@@ -196,7 +196,7 @@ function prepare ()
 {
 	if [ "$HW" != "1" ];then
 		if [ ! -z "$CONFIG" ];then 
-			cp $CONFIG /etc/multipath.conf 
+			cp $CONFIG /etc/multipath.conf
 		fi
 	fi
         /etc/init.d/multipathd status
@@ -208,11 +208,9 @@ function prepare ()
                 exit 1;
                 fi
         fi
-
-	#multipathd -k"reconfigure"
+	#we need to reread configuration file here
+	reread_paths
 	echo "probe multipath maps"
-	multipath -v2
-	$udevwait
 	if [ -b /dev/mapper/$map ];
 		then
 			echo "$map created"
