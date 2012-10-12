@@ -74,6 +74,9 @@ Author:
 %prep
 %setup -q -n llcbench -a1
 
+%build
+make linux-lam
+
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
@@ -82,6 +85,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/llcbench
 install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 755 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/%name
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 
 cp * -arf $RPM_BUILD_ROOT/usr/share/qa/%name/llcbench
 cd ctcstools
@@ -103,10 +107,9 @@ find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {}
 %defattr(-,root,root)   
 /usr/share/qa/%name
 /usr/share/qa/tcf/qa_llcbench.tcf
-/usr/share/qa/tools/*
-/usr/share/man/man8/*
+/usr/share/qa/tools
+/usr/share/man/man8/%{name}.8.gz
 %doc COPYING
-/usr/share/qa/tools/test_llcbench-run
 
 %changelog
 * Tue Oct 09 2012 - jyao@suse.com
