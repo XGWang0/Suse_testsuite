@@ -105,12 +105,14 @@ find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)   
+%defattr(-,root,root)
+/usr/share/qa
 /usr/share/qa/%name
-/usr/share/qa/tcf/qa_llcbench.tcf
+/usr/share/qa/tcf
 /usr/share/qa/tools
+/usr/share/qa/%name/llcbench
 /usr/share/man/man8/%{name}.8.gz
-%doc COPYING
+#%doc COPYING
 
 %changelog
 * Tue Oct 09 2012 - jyao@suse.com
