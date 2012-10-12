@@ -53,6 +53,7 @@ Source3:	test_llcbench-run
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Requires:       ctcs2 gcc blas gcc33-fortran
 BuildRequires:  ctcs2 gcc
+BuildArch:	noarch
 
 %description
 Low Level Architectural Characterization Benchmark Suite,
@@ -101,7 +102,7 @@ cd ..
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
 
 %clean
-#rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)   
