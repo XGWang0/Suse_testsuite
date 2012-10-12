@@ -47,7 +47,7 @@ Release:        1
 Summary:        qa_test_llcbench
 Url:            http://www.novell.com/
 Source0:        llcbench.tar.gz
-Source1:        ctcstools.tar.bz2
+Source1:        ctcstools-%{version}.tar.bz2
 Source2:	%name.8
 Source3:	test_llcbench-run
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
