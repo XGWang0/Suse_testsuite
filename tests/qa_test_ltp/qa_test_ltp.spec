@@ -52,7 +52,7 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20120401
+Version:        20120903
 Release:        1
 Source:         ltp-full-%{version}.bz2
 # For subpackage creation
@@ -65,14 +65,13 @@ Patch003:	fix_ltp_wrapper.patch
 Patch004:	add_testcases_to_ltp-run.patch
 # Compiler warnings and workarounds
 Patch100:	sles9-workarounds.patch
-Patch101:	workaround-sles11-capability-headers.patch
 Patch102:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
-Patch300:     0001-Fix-realtime-build.patch
+Patch300:	0001-Fix-realtime-build.patch
+Patch301:	check_keepcaps_ifdefs_fix.patch 
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
-Patch404:       increase-stack-size.diff
 Patch408:       fix-sched_stress.patch
 # Patches 5xx Workarounds
 Patch501:	change_ltp_prog_install_dir.patch
@@ -80,8 +79,7 @@ Patch501:	change_ltp_prog_install_dir.patch
 Patch601:       fix-sched_setparam_10_1.patch
 Patch602:       bug-307752_sched_setparam-2-1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0001-pthread_join-6-3-split-the-do_it-switch.patch
-Patch701:	0001-pthread_join-skip-the-detached-thread.patch
+Patch700: 	0001-timers-add-a-new-test-case-leapsec_timer.patch
 # Patches 8xx CTCS2 related changes
 Patch802:       pan-pass-returnvalue.diff
 Patch803:	ctcs2-glue-fixups.patch
@@ -140,12 +138,12 @@ Authors:
 %if 0%{?sles_version} == 9
 %patch100 -p1
 %endif
-%patch101 -p1
+%patch102 -p1
 # Patches 2xx Build Environment Patches
 # Patches 3xx RPMLinit Warning Fixes
 %patch300 -p1
+%patch301 -p1
 # Patches 4xx Real Bug Fixes
-#%patch404 -p1
 %patch408 -p1
 # Patches 5xx Workarounds
 %patch501 -p1
@@ -154,7 +152,6 @@ Authors:
 #%patch602 -p1
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
-%patch701 -p1
 # Patches 8xx CTCS2 related changes
 %patch802 -p1
 %patch803 -p1
@@ -234,6 +231,7 @@ done
 %{_bindir}/execltp
 # It is back, reminder to fix testcases/mem/ correclty
 %{_libdir}/libmem.a
+%{_libdir}/libkerntest.a
 
 #%files devel
 #%defattr(-,root,root)
@@ -251,6 +249,9 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Oct 18 2012 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20120903
+
 * Wed Jun 20 2012 Cyril Hrubis chrubis@suse.cz
   Fixed realtime build.
 

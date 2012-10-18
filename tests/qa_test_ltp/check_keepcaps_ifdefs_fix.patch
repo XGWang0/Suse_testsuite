@@ -1,0 +1,29 @@
+Index: ltp-full-20120903/testcases/kernel/security/securebits/check_keepcaps.c
+===================================================================
+--- ltp-full-20120903.orig/testcases/kernel/security/securebits/check_keepcaps.c
++++ ltp-full-20120903/testcases/kernel/security/securebits/check_keepcaps.c
+@@ -57,13 +57,6 @@ static int am_privileged(void)
+ 
+ 	return am_privileged;
+ }
+-#else
+-static int am_privileged(void)
+-{
+-	tst_resm(TBROK, "libcap not installed.");
+-	tst_exit();
+-}
+-#endif
+ 
+ #define EXPECT_NOPRIVS 0
+ #define EXPECT_PRIVS 1
+@@ -165,3 +158,10 @@ int main(int argc, char *argv[])
+ 	tst_resm(TFAIL, "should not reach here\n");
+ 	tst_exit();
+ }
++#else
++int main(void)
++{
++	tst_resm(TCONF, "libcap not installed.");
++	tst_exit();
++}
++#endif
