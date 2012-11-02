@@ -23,6 +23,8 @@
 # ****************************************************************************
 #
 
+LSB_DIR=/usr/share/qa/qa_test_lsb
+
 #############################################################################
 # Checking for essential utilities
 #############################################################################
@@ -156,9 +158,16 @@ function download_package() {
 		$WGET -N --retr-symlinks "$REPOSITORY/$1$2" -P "$LOCAL_PKG_DIR"
 		if [ "$?" -ne "0" ] ; then
 			echo
-			echo "Error: Download failed (maybe the file locations"
-			echo "on the server changed?)"
-			exit 1
+			echo "Warning: Download failed (maybe the file locations"
+			echo "on the server changed?), will try extra local packages"
+			if [ -e "$LSB_DIR/$2" ] ; then
+				mkdir -p "$LOCAL_PKG_DIR"
+				cp "$LSB_DIR/$2" "$LOCAL_PKG_DIR/"
+			else
+				echo
+				echo "Error: Extra packages are not available"
+				exit 1
+			fi
 		fi
 	fi
 }
@@ -196,6 +205,8 @@ install_package "lsb-xvfb" "*.$RPMEXT"
 install_package "lsb-dist-checker" "*.$RPMEXT"
 
 mkdir -p /var/log/qa/lsb >/dev/null 2>&1
+
+exit 0	# REMOVE ME!
 
 #############################################################################
 # Here we really run the test suite
