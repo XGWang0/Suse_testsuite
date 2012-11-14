@@ -36,7 +36,7 @@ import sys
 
 config_path = ""
 suit = ""
-v_name = ""
+v_name = "node"
 args = sys.argv[1:]
 
 # Setting test suit argument
@@ -44,7 +44,6 @@ try:
     if args[0] == "cluster":
         config_path="/usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_config.py"
         suit = "cluster"
-        v_name = "node"
     elif args[0] == "iplb":
         config_path = "/usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_config.py"
         suit = "iplb"
