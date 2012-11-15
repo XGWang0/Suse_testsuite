@@ -4,10 +4,8 @@ OPENPOSIX_MODE=0
 LTP_MODE=0
 
 if [ -z "$LTPROOT" ]; then
-	if [ -d "/usr/lib64/ltp" ]; then
-		LTPROOT="/usr/lib64/ltp";
-	elif [ -d "/usr/lib/ltp" ]; then
-		LTPROOT="/usr/lib/ltp";
+	if [ -d "/opt/ltp" ]; then
+		LTPROOT="/opt/ltp";
 	else
 		echo "$0: couldn't find LTP installation!";
 		exit 1;
@@ -22,8 +20,9 @@ if [ -z "$1" ]; then
 	exit 1;
 fi
 
-export TMP=`mktemp -d /tmp/ltp-XXXXXXXXXX`
-cd $TMP
+export TMPDIR=`mktemp -d /tmp/ltp-XXXXXXXXXX`
+chmod 777 "$TMPDIR"
+cd "$TMPDIR"
 
 # Keep the order! First check for openposix!
 if [ `basename $0` == "openposix_wrapper.sh" ]; then
@@ -59,33 +58,33 @@ elif [ `basename $0` == "ltp_wrapper.sh" ]; then
 fi;
 
 #eval $@
-eval pan -n $$ -a $$ -e -S -L -f $@ 
+eval ltp-pan -n $$ -a $$ -e -S -L -f $@
 rc=$?
  
 if [ $rc -eq 0 ]; then
-  echo "INFO: pan reported all tests PASS"
+  echo "INFO: ltp-pan reported all tests PASS"
   VALUE=0
 # LTP_MODE map unsuitable/unsupported tests to PASS. Check if _only_ TCONF is set!
 elif [ $LTP_MODE -eq 1 ] && [[ "$rc" -eq 4 ]]; then
-  echo "INFO: pan reported this test is unsuitable/unsupported (LTP_MODE)"
+  echo "INFO: ltp-pan reported this test is unsuitable/unsupported (LTP_MODE)"
   VALUE=0
 # LTP_MODE uses bit fields - TFAIL is 0x1
 elif [ $LTP_MODE -eq 1 ]  && [ "$(( $rc & 1 ))" -eq 0 ] ; then
-  echo "INFO: pan reported this test had INTERNAL ERRORS (LTP_MODE)"
+  echo "INFO: ltp-pan reported this test had INTERNAL ERRORS (LTP_MODE)"
   VALUE=2
 # OPENPOSIX_MODE map internal errors
 elif [ $OPENPOSIX_MODE -eq 1 ] && [[ "$rc" -eq 5 || "$rc" -eq "2" ]]; then
-  echo "INFO: pan reported this test had INTERNAL ERRORS (OPENPOSIX_MODE)"
+  echo "INFO: ltp-pan reported this test had INTERNAL ERRORS (OPENPOSIX_MODE)"
   VALUE=2
 # OPENPOSIX_MODE map unsuitable/unsupported tests to PASS
 elif [ $OPENPOSIX_MODE -eq 1 ] && [[ "$rc" -eq 4 ]]; then
-  echo "INFO: pan reported this test is unsuitable/unsupported (OPENPOSIX_MODE)"
+  echo "INFO: ltp-pan reported this test is unsuitable/unsupported (OPENPOSIX_MODE)"
   VALUE=0
 else
-  echo "INFO: pan reported some tests FAIL"
+  echo "INFO: ltp-pan reported some tests FAIL"
   VALUE=1
 fi
 
-rm -rf $TMP
+rm -rf "$TMPDIR"
 
 exit $VALUE

@@ -58,11 +58,6 @@ Source:         ltp-full-%{version}.bz2
 # For subpackage creation
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:	qa_test_ltp.8
-# Fixes for internal tools
-Patch001:	fix_ctcs2_glue.patch
-Patch002:	reorder_run-ltp_testcases.patch
-Patch003:	fix_ltp_wrapper.patch
-Patch004:	add_testcases_to_ltp-run.patch
 # Compiler warnings and workarounds
 Patch100:	sles9-workarounds.patch
 Patch102:	disable-min_free_kbytes.patch
@@ -129,11 +124,6 @@ Authors:
 
 %prep
 %setup -q -n ltp-full-%{version} -a1
-# Fixes for internal tools
-%patch001 -p1
-%patch002 -p1
-%patch003 -p1
-%patch004 -p1
 # Compiler warnings and workarounds
 %if 0%{?sles_version} == 9
 %patch100 -p1
