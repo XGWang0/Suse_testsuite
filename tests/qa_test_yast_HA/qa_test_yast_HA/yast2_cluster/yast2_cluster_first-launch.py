@@ -89,7 +89,8 @@ yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
 # STEP2: set up Communication Channels 
 # (udp, 147.2.207.0, 226.94.1.2, 5406, Auto Generate Node ID)
-yFrame.findMenuItem("udp", checkShowing=False).click(log=True)
+udp_item = yFrame.findMenuItem("udp", checkShowing=False).click(log=True)
+udpu_item = yFrame.findMenuItem("udpu", checkShowing=False).click(log=True)
 sleep(config.SHORT_DELAY)
 
 channel_texts = yFrame.findPanel("Channel").findAllTexts(None)
