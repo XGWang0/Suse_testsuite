@@ -23,23 +23,23 @@
 # ****************************************************************************
 
 # Machines settings
-director_ip = "147.2.207.2"
+server1 = director_ip = "147.2.207.2"
 director_pwd = "susetesting"
 
-node1_ip = "147.2.207.3"
+server2 = node1_ip = "147.2.207.3"
 node1_pwd = "susetesting"
 
 # configuration settings
 resource_name = "r0"
 
 # director settings
-director_name = "server2"
-director_addr_port = "%s:7789" % node2_ip
-director_device = /dev/drbd0
-director_disk = /dev/sda3
+director_name = "server1"
+director_addr_port = "%s:7789" % server1
+director_device = "/dev/drbd0"
+director_disk = "/dev/sda3"
 
 # node1 settings
-node1_name = "server1"
-node1_addr_port = "%s:7789" % node1_ip
-node1_device = /dev/drbd0
-node1_disk = /dev/sda3
+node1_name = "server2"
+node1_addr_port = "%s:7789" % server2
+node1_device = "/dev/drbd0"
+node1_disk = "/dev/sda3"

@@ -87,4 +87,4 @@ for i in range(len(args[1:])):
     if suit == "iplb":
         os.system("sed -i '/real_server_%s_ipv4/s/real_server_%s.*/real_server_%s_ipv4 = \"%s:80\"/g' %s" % (i+1, i+1, i+1, args[i+1], config_path))
 
-print "Run %s test on %s, node servers are %s" % (suit, director_ip, args[1:])
+print "Run %s test on %s, node servers are %s" % (suit, gui_server_ip, args[1:])
