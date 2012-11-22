@@ -36,7 +36,7 @@ import sys
 
 config_path = ""
 suit = ""
-v_name = ""
+v_name = "node"
 args = sys.argv[1:]
 
 # Setting test suit argument
@@ -44,7 +44,6 @@ try:
     if args[0] == "cluster":
         config_path="/usr/share/qa/qa_test_yast_HA/yast2_cluster/yast2_cluster_config.py"
         suit = "cluster"
-        v_name = "node"
     elif args[0] == "iplb":
         config_path = "/usr/share/qa/qa_test_yast_HA/yast2_iplb/yast2_iplb_config.py"
         suit = "iplb"
@@ -88,4 +87,4 @@ for i in range(len(args[1:])):
     if suit == "iplb":
         os.system("sed -i '/real_server_%s_ipv4/s/real_server_%s.*/real_server_%s_ipv4 = \"%s:80\"/g' %s" % (i+1, i+1, i+1, args[i+1], config_path))
 
-print "Run %s test on %s, node servers are %s" % (suit, director_ip, args[1:])
+print "Run %s test on %s, node servers are %s" % (suit, gui_server_ip, args[1:])

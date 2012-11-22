@@ -22,30 +22,26 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-# Node machines settings
-director_hostname = "director"
-node1_hostname = "server1"
-node2_hostname = "server2"
-
-director_ip = "147.2.207.2"
-node1_ip = "147.2.207.3"
-node2_ip = "147.2.207.4"
-
+# Machines settings
+server1 = director_ip = "147.2.207.2"
 director_pwd = "susetesting"
+
+server2 = node1_ip = "147.2.207.3"
 node1_pwd = "susetesting"
-node2_pwd = "susetesting"
 
-# Communication Channels settings
-# Channel
-transport_type = "udpu"
+# configuration settings
+resource_name = "r0"
 
-bind_net_addr_1 = "147.2.207.0"
-multicast_addr_1 = "226.94.1.2"
-multicast_port_1 = "5406"
+# director settings
+director_name = "director"
+director_addr_port = "%s:7789" % server1
+director_device = "/dev/drbd0"
+director_disk = "/dev/loop0"
+director_meta = "internal"
 
-# Redundant Channel
-rrp_mode = "passive"
-
-bind_net_addr_2 = "147.2.212.0"
-multicast_addr_2 = "226.94.1.3"
-multicast_port_2 = "5407"
+# node1 settings
+node1_name = "server1"
+node1_addr_port = "%s:7789" % server2
+node1_device = "/dev/drbd0"
+node1_disk = "/dev/loop0"
+node1_meta = "internal"

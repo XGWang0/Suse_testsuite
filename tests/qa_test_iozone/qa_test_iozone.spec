@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2012 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -23,69 +23,68 @@
 #
 
 #
-# spec file for package qa_test_yast_HA (Version 0.1)
+# spec file for package qa_test_iozone (Version 3_300)
 #
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
+#
 
-Name:           qa_test_yast_HA
-License:	SUSE Proprietary
+# norootforbuild
+
+Name:           qa_test_iozone
+License:        SUSE Proprietary
 Group:          SuSE internal
-Summary:        HA Yast tools UI Automation tests
-Provides:	qa_yast_HA
-Obsoletes:	qa_yast_HA
-Requires:       strongwind ctcs2 python-pexpect yast2-cluster yast2-iplb yast2-drbd yast2-gtk
-Version:        0.1
-Release:        1
-Source0:        %{name}-%{version}.tar.bz2
-Source1:        qa_HA_yast-cluster.tcf
-Source2:        test_HA_yast-cluster-run
-Source3:	qa_test_yast_HA.8
-Source4:        test_HA_yast-iplb-run
-Source5:        qa_HA_yast-iplb.tcf
-Source6:        test_HA_yast-drbd-run
-Source7:        qa_HA_yast-drbd.tcf
+Summary:        iozone test
+Requires:       ctcs2
+BuildRequires:  ctcs2
+Version:        3_300
+Release:	1
+Source0:        %name-%version.tar.bz2
+Source1:        qa_iozone.tcf
+Source2:        test_iozone-run
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArch:      noarch
+BuildArchitectures: noarch
 
 %description
-UI Automation test cases for HA Yast tools package, include yast2-cluster yast2-iplb yast2-drbd
+IOzone is a filesystem benchmark tool. The benchmark generates and measures a variety 
+of file operations. Iozone has been ported to many machines and runs under many
+operating systems. 
+
 
 %prep
 %setup -q -n %{name}
 
 %build
+cd src/current
+make linux
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 644 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 644 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-ln -s ../%name/tcf/qa_HA_yast-cluster.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-ln -s ../%name/tcf/qa_HA_yast-iplb.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-ln -s ../%name/tcf/qa_HA_yast-drbd.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+install -m 755 -d $RPM_BUILD_ROOT/usr/bin
+install -m 744 src/current/iozone $RPM_BUILD_ROOT/usr/bin
+install -m 744 src/current/fileop $RPM_BUILD_ROOT/usr/bin
+install -m 744 src/current/Generate_Graphs $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 744 src/current/gengnuplot.sh $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 744 src/current/gnu3d.dem $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 744 src/current/iozone_visualizer.pl $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 744 src/current/report.pl $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 644 src/current/Gnuplot.txt $RPM_BUILD_ROOT/usr/share/qa/%name
+ln -s ../%name/tcf/qa_iozone.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
-/usr/share/man/man8/qa_test_yast_HA.8.gz
+/usr/bin/iozone
+/usr/bin/fileop
 /usr/share/qa
-/usr/share/qa/tcf
-/usr/share/qa/tools
-%doc COPYING
+/usr/share/qa/%name/*
 
-%changelog
-* Tue Feb 28 2012 - cachen@suse.com
-- package created, version 0.1
+%changelog 
+* Thu Nov 15 2012 - yxu@suse.de
+- package created, version 3_300
 

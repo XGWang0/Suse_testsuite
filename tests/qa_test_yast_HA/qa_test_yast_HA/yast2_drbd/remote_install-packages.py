@@ -1,8 +1,9 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
-# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
 # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
@@ -21,31 +22,29 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
+#
 
-# Node machines settings
-director_hostname = "director"
-node1_hostname = "server1"
-node2_hostname = "server2"
+##############################################################################
+# Written by:  Cachen Chen <cachen@novell.com>
+# Date:        11/22/2012
+# Description: Install missing packages on each servers
+##############################################################################
 
-director_ip = "147.2.207.2"
-node1_ip = "147.2.207.3"
-node2_ip = "147.2.207.4"
+from yast2_drbd_config import *
+from yast2_test_frame import *
 
-director_pwd = "susetesting"
-node1_pwd = "susetesting"
-node2_pwd = "susetesting"
+###### Actions:
+# Install missing packages on director
+packages = ["drbd", "drbd-kmp-default"]
 
-# Communication Channels settings
-# Channel
-transport_type = "udpu"
+ds = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
 
-bind_net_addr_1 = "147.2.207.0"
-multicast_addr_1 = "226.94.1.2"
-multicast_port_1 = "5406"
+procedurelogger.action("SSH connect to %s and install missing packages" % director_ip)
+ds.install_packages(packages )
 
-# Redundant Channel
-rrp_mode = "passive"
+# Install missing packages on node1
+rs1 = remoteSetting(node_ip=node1_ip, node_pwd=node1_pwd)
 
-bind_net_addr_2 = "147.2.212.0"
-multicast_addr_2 = "226.94.1.3"
-multicast_port_2 = "5407"
+procedurelogger.action("SSH connect to %s and install missing packages" % director_ip)
+rs1.install_packages(packages )
+
