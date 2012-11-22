@@ -1,8 +1,9 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
-# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
 # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
@@ -21,27 +22,29 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
+#
 
-# Machines settings
-server1 = director_ip = "147.2.207.2"
-director_pwd = "susetesting"
+##############################################################################
+# Written by:  Cachen Chen <cachen@novell.com>
+# Date:        11/22/2012
+# Description: Install missing packages on each servers
+##############################################################################
 
-server2 = node1_ip = "147.2.207.3"
-node1_pwd = "susetesting"
+from yast2_drbd_config import *
+from yast2_test_frame import *
 
-# configuration settings
-resource_name = "r0"
+###### Actions:
+# Install missing packages on director
+packages = ["drbd", "drbd-kmp-default"]
 
-# director settings
-director_name = "director"
-director_addr_port = "%s:7789" % server1
-director_device = "/dev/drbd0"
-director_disk = "/dev/loop0"
-director_meta = "internal"
+ds = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
 
-# node1 settings
-node1_name = "server1"
-node1_addr_port = "%s:7789" % server2
-node1_device = "/dev/drbd0"
-node1_disk = "/dev/loop0"
-node1_meta = "internal"
+procedurelogger.action("SSH connect to %s and install missing packages" % director_ip)
+ds.install_packages(packages )
+
+# Install missing packages on node1
+rs1 = remoteSetting(node_ip=node1_ip, node_pwd=node1_pwd)
+
+procedurelogger.action("SSH connect to %s and install missing packages" % director_ip)
+rs1.install_packages(packages )
+
