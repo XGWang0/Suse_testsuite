@@ -22,6 +22,7 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
+#sut_timeout 300000
 
 LSB_DIR=/usr/share/qa/qa_test_lsb
 
