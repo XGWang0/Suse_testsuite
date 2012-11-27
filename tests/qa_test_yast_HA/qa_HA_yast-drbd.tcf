@@ -22,3 +22,42 @@
 # ****************************************************************************
 #
 
+timer 300
+fg 1 clean_director /usr/share/qa/qa_test_yast_HA/yast2_drbd/clean_director.py
+wait
+
+timer 300
+fg 1 clean_node /usr/share/qa/qa_test_yast_HA/yast2_drbd/clean_node.py
+wait
+
+timer 300
+fg 1 remote_setup_hosts /usr/share/qa/qa_test_yast_HA/yast2_drbd/remote_setup_hosts.py
+wait
+
+timer 300
+fg 1 remote_create_drbd-disk /usr/share/qa/qa_test_yast_HA/yast2_drbd/remote_create_drbd-disk.py
+wait
+
+timer 300
+fg 1 remote_install-packages /usr/share/qa/qa_test_yast_HA/yast2_drbd/remote_install-packages.py
+wait
+
+timer 300
+fg 1 yast2_drbd_resource-configuration /usr/share/qa/qa_test_yast_HA/yast2_drbd/yast2_drbd_resource-configuration.py
+wait
+
+timer 300
+fg 1 yast2_drbd_global-configuration /usr/share/qa/qa_test_yast_HA/yast2_drbd/yast2_drbd_global-configuration.py
+wait
+
+timer 300
+fg 1 remote_synchronize-configuration /usr/share/qa/qa_test_yast_HA/yast2_drbd/remote_synchronize-configuration.py
+wait
+
+timer 300
+fg 1 yast2_drbd_setup-configuration /usr/share/qa/qa_test_yast_HA/yast2_drbd/yast2_drbd_setup-configuration.py
+wait
+
+timer 300
+fg 1 yast2_drbd_synchronize-testing /usr/share/qa/qa_test_yast_HA/yast2_drbd/yast2_drbd_synchronize-testing.py
+wait
