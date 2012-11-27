@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # ****************************************************************************
 # Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -23,22 +24,37 @@
 # ****************************************************************************
 #
 
-gconfd_pid=`ps -ef |grep "gconfd-2" |grep -v grep |awk '{print $2}'`
+##############################################################################
+# Written by:  Cachen Chen <cachen@novell.com>
+# Date:        11/26/2012
+# Description: Clean up on director server
+##############################################################################
 
-if [ "$gconfd_pid" ] && [ "$USER" = "root" ] || [ -z "$USER" ]; then
-	rm -rf /root/.evolution/ /root/.gconf/apps/evolution/ /root/.gnome2_private/*
-	killall gconfd-2
-else
-	rm -rf ~/.evolution/ ~/.gconf/apps/evolution/ ~/.gnome2_private/*
-	user_pid=`ps -ef |grep "gconfd-2" |grep -v grep |grep -v "root" |awk '{print $2}'`
-	if [ "$user_pid" ]; then
-		kill $user_pid
-	fi
-fi
+from yast2_drbd_config import *
+from yast2_test_frame import *
 
-gkd_pid=`ps -ef |grep "gnome-keyring-daemon" |grep -v grep |grep "\$USER" |awk '{print $2}'`
-if [ "$gkd_pid" ]; then
-	kill -9 $gkd_pid
-fi
+procedurelogger.action("Clean up %s" % director_ip)
 
+# umount /mnt
+os.system('umount /mnt 2>/dev/null')
 
+# stop rcdrbd
+os.system('rcdrbd stop')
+sleep(config.SHORT_DELAY)
+
+# wipe r0
+child = pexpect.spawn('drbdadm -- --ignore-sanity-checks wipe-md r0')
+exp = child.expect([pexpect.TIMEOUT, ".*[need to type 'yes' to confirm]", "#|->"])
+if exp == 1:
+    child.sendline("yes")
+    print child.before
+
+# losetup loop0
+os.system('losetup -d %s 2>/dev/null' % director_disk)
+
+# rm drbd.img
+os.system('rm -fr /opt/drbd.img')
+
+# mv drbd configuration files
+os.system('mv /etc/drbd.conf /etc/drbd.conf.bak')
+os.system('mv /etc/drbd.d /etc/drbd.d.bak')
