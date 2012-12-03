@@ -22,6 +22,7 @@ Source1:        qa_numbench.tcf
 Source2:        test_numbench-run
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Requires:       qa_lib_ctcs2 >= 2.4.0
+Requires:	qa_lib_perl
 BuildRequires:  qa_lib_ctcs2 >= 2.4.0 
 
 %description

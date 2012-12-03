@@ -30,6 +30,7 @@
 # Description: Create drbd disk on both nodes
 ##############################################################################
 
+
 from yast2_drbd_config import *
 from yast2_test_frame import *
 
@@ -45,14 +46,16 @@ ds = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
 
 ds_connect = ds.ssh_connect()
 ds_connect.sendline('drbdadm -- --ignore-sanity-checks create-md r0')
-exp = ds_connect.expect([pexpect.TIMEOUT, "[need to type 'yes' to confirm]", "#|->"])
-if exp == 1:
-    ds_connect.sendline("yes")
+
+while True:
+    exp = ds_connect.expect([pexpect.TIMEOUT, "[need to type 'yes' to confirm]", ".*RETURN]", "#|->"])
     print ds_connect.before
-if ds_connect.expect(".*RETURN]"):
-    ds_connect.sendline("")
-ds_connect.expect([pexpect.TIMEOUT,"#|->"])
-print ds_connect.before
+    if exp == 1:
+        ds_connect.sendline("yes")
+    if exp == 2:
+        ds_connect.sendline("")
+    else:
+        break
 
 ds_connect.sendline('rcdrbd start')
 ds_connect.expect([pexpect.TIMEOUT, "#|->"])
@@ -61,14 +64,16 @@ print ds_connect.before
 # Initialize and start drbd on node1
 rs1_connect = rs1.ssh_connect()
 rs1_connect.sendline('drbdadm -- --ignore-sanity-checks create-md r0')
-exp = rs1_connect.expect([pexpect.TIMEOUT, "[need to type 'yes' to confirm]", "#|->"])
-if exp == 1:
-    rs1_connect.sendline("yes")
-    print ds_connect.before
-if rs1_connect.expect(".*RETURN]"):
-    rs1_connect.sendline("")
-rs1_connect.expect([pexpect.TIMEOUT,"#|->"])
-print rs1_connect.before
+
+while True:
+    exp = rs1_connect.expect([pexpect.TIMEOUT, "[need to type 'yes' to confirm]", ".*RETURN]", "#|->"])
+    print rs1_connect.before
+    if exp == 1:
+        rs1_connect.sendline("yes")
+    if exp == 2:
+        rs1_connect.sendline("")
+    else:
+        break
 
 rs1_connect.sendline('rcdrbd start')
 rs1_connect.expect([pexpect.TIMEOUT, "#|->"])
