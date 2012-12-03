@@ -35,6 +35,8 @@ from yast2_test_frame import *
 
 procedurelogger.action("Clean up %s" % director_ip)
 
+os.system('killall -9 zenity 2>/dev/null')
+
 # umount /mnt
 os.system('umount /mnt 2>/dev/null')
 
