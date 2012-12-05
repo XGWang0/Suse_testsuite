@@ -41,6 +41,7 @@ Release:	1
 Source0:        %name-%version.tar.bz2
 Source1:        qa_iozone.tcf
 Source2:        test_iozone-run
+Source3:	qa_test_iozone.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -58,6 +59,9 @@ cd src/current
 make linux
 
 %install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
@@ -79,6 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
+/usr/share/man/man8/%{name}.8.gz
 /usr/bin/iozone
 /usr/bin/fileop
 /usr/share/qa
