@@ -1,0 +1,36 @@
+." Manpage for qa_test_netpipe.
+." Contact Yi Xu <yxu@suse.com> to correct errors or typos.
+.TH man 8 "05 Dec 2012" "1.0" "qa_test_netpipe man page"
+.SH NAME
+qa_test_netpipe
+.SH SYNOPSIS
+None.
+.SH TYPE
+test
+.SH DESCRIPTION
+Variable time bench mark, ie, it measures network performance using variable sized communication transfers
+.br
+.SH README
+None.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+NetPIPE is a protocol independent performance tool that visually represents the network performance under a variety of conditions. It performs simple ping-pong tests, bouncing messages of increasing size between two processes, whether across a network or within an SMP system. Message sizes are chosen at regular intervals, and with slight perturbations, to provide a complete test of the communication system. Each data point involves many ping-pong tests to provide an accurate timing. Latencies are calculated by dividing the round trip time in half for small messages ( < 64 Bytes ). 
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+None.
+.SH SEE ALSO
+None.
+.SH BUGS
+None.
+.SH DISTRIBUTION
+External, no patches.
+.SH LICENSE
+GPL v2 or later
+.SH UPSTREAM
+http://www.scl.ameslab.gov/netpipe/
+.SH AUTHOR
+Dave Turner
+.SH MAINTAINER
+Yi Xu <yxu@suse.com>

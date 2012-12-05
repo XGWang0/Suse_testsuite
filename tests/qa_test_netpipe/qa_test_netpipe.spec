@@ -39,6 +39,7 @@ BuildRequires:  gcc
 Version:        3.7.1
 Release:	1
 Source0:        NetPIPE-%version.tar.bz2
+Source1:	qa_test_netpipe.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -53,6 +54,9 @@ binary data within a subnet using UDP broadcasting techniques
 make 
 
 %install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d $RPM_BUILD_ROOT/usr/bin/
 install -m 755 NPtcp $RPM_BUILD_ROOT/usr/bin/
 
@@ -61,6 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
+/usr/share/man/man8/%{name}.8.gz
 /usr/bin/NPtcp
 
 %changelog 
