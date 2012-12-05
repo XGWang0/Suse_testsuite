@@ -23,6 +23,7 @@ Source0:	%{name}-%{version}.tar.bz2
 Source1:	test_postmark-run
 Source2:	qa_postmark.tcf
 Source3:	input
+Source4:	qa_test_postmark.8
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 
@@ -48,6 +49,9 @@ Authors:
 make CFLAGS="$RPM_OPT_FLAGS"
 
 %install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:4} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d -m 755  $RPM_BUILD_ROOT/usr/bin
 install -d -m 755  $RPM_BUILD_ROOT/usr/share/qa
 install -d -m 755  $RPM_BUILD_ROOT/usr/share/qa/tcf
@@ -65,6 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)   
+/usr/share/man/man8/qa_test_postmark.8.gz
 /usr/bin/postmark
 /usr/share/qa
 /usr/share/qa/tcf
