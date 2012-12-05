@@ -39,6 +39,7 @@ BuildRequires:  ctcs2 gcc gcc-c++
 Version:        2.0.5
 Release:	1
 Source0:        iperf-%version.tar.bz2
+Source1:	%{name}.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -55,6 +56,9 @@ Iperf reports bandwidth, delay jitter, datagram loss.
 make 
 
 %install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d $RPM_BUILD_ROOT/usr/bin/
 install -m 755 src/iperf $RPM_BUILD_ROOT/usr/bin/
 
@@ -63,6 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
+/usr/share/man/man8/%{name}.8.gz
 /usr/bin/iperf
 
 %changelog 
