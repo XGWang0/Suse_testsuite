@@ -39,6 +39,7 @@ BuildRequires:  gcc
 Version:        04
 Release:	1
 Source0:        nfstests.tar.bz2
+Source1:        %{name}.8
 Patch0:		tests.init.patch
 Patch1:		server.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -56,6 +57,9 @@ Testsuite for the NFS Protocol
 make all
 
 %install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d $RPM_BUILD_ROOT/usr/share/qa/%name/bin
 install -m 755 {server,domount,getopt,runtests} $RPM_BUILD_ROOT/usr/share/qa/%name/bin/
 install -m 644 tests.init $RPM_BUILD_ROOT/usr/share/qa/%name/bin/
@@ -69,7 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/%name/bin
 /usr/share/qa/%name/bin/*
-
+/usr/share/man/man8/%{name}.8.gz
 
 %changelog 
 * Wed Nov 25 2012 - yxu@suse.de
