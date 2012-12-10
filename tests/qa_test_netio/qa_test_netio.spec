@@ -39,6 +39,7 @@ BuildRequires:  gcc
 Version:        131
 Release:	1
 Source0:        netio-%version.tar.bz2
+Source1:        %{name}.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -56,6 +57,9 @@ protocols using various different packet sizes.
 make linux
 
 %install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d $RPM_BUILD_ROOT/usr/bin/
 install -m 755 netio $RPM_BUILD_ROOT/usr/bin/
 
@@ -65,6 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /usr/bin/netio
+/usr/share/man/man8/%{name}.8.gz
 
 %changelog 
 * Tue Nov 27 2012 - yxu@suse.de
