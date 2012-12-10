@@ -41,7 +41,7 @@ Release:	1
 Source0:        %name-%version.tar.bz2
 Source1:        qa_iogen.tcf
 Source2:        test_iogen-run
-Source3:        iogen.8
+Source3:        %name.8
 Source4:        do_iogen
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
@@ -83,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name/do_iogen
 /usr/share/qa/tcf/qa_iogen.tcf
 /usr/share/qa/tools/test_iogen-run
-/usr/share/man/man8/iogen.8.gz
+/usr/share/man/man8/%name.8.gz
 
 %changelog 
 * Wed Nov 07 2012 - yxu@suse.de
