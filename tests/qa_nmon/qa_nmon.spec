@@ -37,6 +37,7 @@ Summary:        nmom
 Version:	1
 Release:	1
 Source0:        nmon_linux_14g.tar.gz
+Source1:        %{name}.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -68,6 +69,9 @@ nmon tool is used to monitor and analyze performance data, including:
 %build
 
 %install
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d $RPM_BUILD_ROOT/usr/share/qa/%{name}/bin/
 install -m 755 {nmon_ia64_sles10,nmon_power_32_sles11,nmon_power_64_sles11,nmon_x86_64_sles11,nmon_x86_sles11} $RPM_BUILD_ROOT/usr/share/qa/%{name}/bin/
 
@@ -84,6 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%{name}/bin/nmon_power_64_sles11
 /usr/share/qa/%{name}/bin/nmon_x86_64_sles11
 /usr/share/qa/%{name}/bin/nmon_x86_sles11
+/usr/share/man/man8/%{name}.8.gz
 
 %changelog 
 * Mon Dec 03 2012 - yxu@suse.de
