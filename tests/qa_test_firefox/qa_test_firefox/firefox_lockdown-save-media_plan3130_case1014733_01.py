@@ -76,10 +76,10 @@ config_frame = app.findFrame(re.compile('^about:config'))
 config_frame.findPushButton("I'll be careful, I promise!").mouseClick()
 sleep(config.SHORT_DELAY)
 
-config_frame.findEntry("Filter:").mouseClick()
+config_frame.findAllEntrys(None)[-1].mouseClick()
 sleep(config.SHORT_DELAY)
 
-config_frame.findEntry("Filter:").typeText("config.lockdown.savepage")
+config_frame.findAllEntrys(None)[-1].typeText("config.lockdown.savepage")
 
 # Step2: Search for config.lockdown.savemedia table cell
 try:
@@ -134,10 +134,10 @@ config_frame = app.findFrame(re.compile('^about:config'))
 config_frame.findPushButton("I'll be careful, I promise!").mouseClick()
 sleep(config.SHORT_DELAY)
 
-config_frame.findEntry("Filter:").mouseClick()
+config_frame.findAllEntrys(None)[-1].mouseClick()
 sleep(config.SHORT_DELAY)
 
-config_frame.findEntry("Filter:").typeText("config.lockdown.savepage")
+config_frame.findAllEntrys(None)[-1].typeText("config.lockdown.savepage")
 
 # change value
 doubleClick(config_frame.findTableCell("config.lockdown.savepage"))

@@ -39,14 +39,6 @@ fg 1 firefox_bookmarks /usr/share/qa/qa_test_firefox/firefox_bookmarks_plan2556_
 wait
 
 timer 300
-fg 1 firefox_security /usr/share/qa/qa_test_firefox/firefox_security_plan2556_case926919_01.py
-wait
-
-timer 300
-fg 1 firefox_sidebar /usr/share/qa/qa_test_firefox/firefox_sidebar_plan2556_case926920_01.py
-wait
-
-timer 300
 fg 1 firefox_adobe-acrobat-plugin /usr/share/qa/qa_test_firefox/firefox_adobe-acrobat-plugin_plan2556_case926942_01.py
 wait
 
@@ -72,10 +64,6 @@ wait
 
 timer 300
 fg 1 firefox_new-browser-window /usr/share/qa/qa_test_firefox/firefox_new-browser-window_plan2556_case926911_01.py
-wait
-
-timer 300
-fg 1 firefox_search /usr/share/qa/qa_test_firefox/firefox_search_plan2556_case926918_01.py
 wait
 
 timer 300
@@ -148,4 +136,16 @@ wait
 
 timer 300
 fg 1 firefox_novell-moonligh /usr/share/qa/qa_test_firefox/firefox_novell-moonlight_plan2556_case926944_01.py
+wait
+
+timer 300
+fg 1 firefox_security /usr/share/qa/qa_test_firefox/firefox_security_plan2556_case926919_01.py
+wait
+
+timer 300
+fg 1 firefox_search /usr/share/qa/qa_test_firefox/firefox_search_plan2556_case926918_01.py
+wait
+
+timer 300
+fg 1 firefox_sidebar /usr/share/qa/qa_test_firefox/firefox_sidebar_plan2556_case926920_01.py
 wait

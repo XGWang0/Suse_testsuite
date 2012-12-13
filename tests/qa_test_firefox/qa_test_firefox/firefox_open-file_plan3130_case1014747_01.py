@@ -76,8 +76,49 @@ if os.path.exists("%s/%s" % (who, rpm_name)):
 else:
     pass
 
-# Step1: From File | Open File... to load a local .html file
 menubar = fFrame.findMenuBar(None)
+
+# Step5: Load .rpm format file
+rpm_url = test_source + rpm_name
+
+menubar.findMenu("File").mouseClick()
+sleep(config.SHORT_DELAY)
+menubar.findMenuItem(re.compile('^Open File'), checkShowing=False).click()
+sleep(config.SHORT_DELAY)
+
+open_dialog = app.findDialog("Open File")
+file_toggle = open_dialog.findToggleButton("Type a file name")
+
+open_dialog.findText(None, labelledBy="Location:").text = rpm_url
+open_dialog.findText(None, labelledBy="Location:").keyCombo("enter", grabFocus=False)
+sleep(config.SHORT_DELAY)
+open_dialog.assertClosed()
+
+# Step6: Select "Save File"
+save_dialog = app.findDialog(re.compile('^Opening'))
+if not save_dialog.findRadioButton("Save File").checked:
+    save_dialog.keyCombo('Down', grabFocus=False)
+sleep(config.SHORT_DELAY)
+
+save_dialog.findPushButton("OK").mouseClick()
+sleep(config.MEDIUM_DELAY)
+
+if app._accessible.getChildAtIndex(1).name.startswith("Enter name"):
+    app.findDialog(re.compile('^Enter name')).findPushButton("Save").grabFocus()
+    app.findDialog(re.compile('^Enter name')).keyCombo('enter', grabFocus=False)
+    sleep(config.SHORT_DELAY)
+
+    if app._accessible.childCount > 1:
+        app.keyCombo('enter', grabFocus=False)
+        sleep(config.SHORT_DELAY)
+
+# Step7: Make sure rpm is saving
+d_frame = app.findFrame(re.compile('Downloads$'))
+d_frame.findPushButton("Clear List").mouseClick()
+sleep(config.SHORT_DELAY)
+d_frame.keyCombo('<Alt>F4', grabFocus=False)
+
+# Step1: From File | Open File... to load a local .html file
 menubar.findMenu("File").mouseClick()
 sleep(config.SHORT_DELAY)
 menubar.findMenuItem(re.compile('^Open File')).click(log=True)
@@ -109,7 +150,7 @@ open_dialog = app.findDialog("Open File")
 file_toggle = open_dialog.findToggleButton("Type a file name")
 
 open_dialog.findText(None, labelledBy="Location:").text = wav_url
-open_dialog.findPushButton("Open").mouseClick()
+open_dialog.findText(None, labelledBy="Location:").keyCombo("enter", grabFocus=False)
 sleep(config.SHORT_DELAY)
 open_dialog.assertClosed()
 
@@ -117,40 +158,9 @@ open_dialog.assertClosed()
 procedurelogger.expectedResult("make sure %s is opened" % wav_url)
 fFrame.findDocumentFrame(re.compile('^question.wav'))
 
-# Step5: Load .rpm format file
-rpm_url = test_source + rpm_name
-
-menubar.findMenu("File").mouseClick()
-sleep(config.SHORT_DELAY)
-menubar.findMenuItem(re.compile('^Open File')).click(log=True)
-sleep(config.SHORT_DELAY)
-
-open_dialog = app.findDialog("Open File")
-file_toggle = open_dialog.findToggleButton("Type a file name")
-
-open_dialog.findText(None, labelledBy="Location:").text = rpm_url
-open_dialog.findPushButton("Open").mouseClick()
-sleep(config.SHORT_DELAY)
-open_dialog.assertClosed()
-
-# Step6: Select "Save File"
-save_dialog = app.findDialog(re.compile('^Opening'))
-
-save_dialog.findRadioButton("Save File").mouseClick()
-sleep(config.SHORT_DELAY)
-save_dialog.findPushButton("OK").mouseClick()
-sleep(config.MEDIUM_DELAY)
-
-if app._accessible.getChildAtIndex(1).name.startswith("Enter name"):
-    app.findDialog(re.compile('^Enter name')).findPushButton("Save").mouseClick()
-    sleep(config.SHORT_DELAY)
-
-# Step7: Make sure rpm is saving
-app.findFrame(re.compile('Downloads$'))
-
 # Close application
 menubar = fFrame.findMenuBar(None)
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
-fFrame.assertClosed()
+app.assertClosed()
 

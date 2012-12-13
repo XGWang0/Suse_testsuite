@@ -134,5 +134,5 @@ example_doc.findText(None)
 menubar = fFrame.findMenuBar(None)
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
-fFrame.assertClosed()
+app.assertClosed()
 
