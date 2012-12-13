@@ -75,10 +75,6 @@ if os.path.exists(file_path):
 # Step1: Open browser to http://www.mozilla.org
 openURL(fFrame, "http://www.mozilla.org")
 
-procedurelogger.expectedResult("make sure mozilla.org is opened")
-assert fFrame.name == "Home of the Mozilla Project - Mozilla Firefox", \
-                                       "Mozilla.org frame doesn't appears"
-
 # Step2: From the top level menu, select File | Save Page As
 menubar = fFrame.findMenuBar(None)
 fFrame.findMenu("File").mouseClick()

@@ -114,10 +114,11 @@ sleep(config.MEDIUM_DELAY)
 # Step3: Make sure Confirm alert appears to asking whether you wish to save the 
 # username and password
 procedurelogger.expectedResult('Make sure confirm alert appears')
-pwd_alert = fFrame.findAlert(None)
+#pwd_alert = fFrame.findAlert(None)
 
 # Step4: Click "Remember" button
-pwd_alert.findPushButton(re.compile('^Remember')).mouseClick()
+#pwd_alert.findPushButton(re.compile('^Remember')).mouseClick()
+pyatspi.findDescendant(fFrame, lambda x: x.name == "Remember Password").mouseClick()
 sleep(config.SHORT_DELAY)
 
 # Step5: Log out the site and refresh the login page again
@@ -181,8 +182,8 @@ sleep(config.MEDIUM_DELAY)
 
 save_frame = app.findFrame("Saved Passwords")
 
-site = "http://live.gnome.org"
-save_frame.findTableCell(site).mouseClick()
+site = "live.gnome.org"
+save_frame.findTableCell(re.compile('%s$' % site)).mouseClick()
 sleep(config.SHORT_DELAY)
 
 save_frame.findPushButton("Remove").mouseClick()

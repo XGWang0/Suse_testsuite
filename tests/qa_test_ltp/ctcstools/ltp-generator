@@ -2,33 +2,32 @@
 
 #fix for pathes given to new root-dir (as third arg)
 $MYROOT="/";
-if ( $#ARGV == 2 )
-{
+if ($#ARGV == 2) {
          $MYROOT="$ARGV[2]";
 }
 
 # first parameter is used as timeout parameter
 $timeout = shift;
-if(!$timeout) { $timeout = "300"; }
+if (!$timeout) {
+	$timeout = "300";
+}
 
 $libdir = shift;
-if(!$libdir) { $libdir = "/usr/lib"; }
-
+if (!$libdir) {
+	$libdir = "/usr/lib";
+}
 
 $ctcs = "$MYROOT/usr/lib/ctcs2";
 $ltpdir = -d "$libdir/qa_test_ltp" ? "$libdir/qa_test_ltp" : "$libdir/ltp";
 $ltp	= "ltp";
 $tcfdir = "$MYROOT/usr/share/qa/qa_test_ltp/tcf/";
 $latertmpdir = "/usr/share/qa/qa_test_ltp/tmp/ltp_temp/";
-$tmpdir = "$MYROOT$latertmpdir";
 $count = 0;
 @all = glob("$ctcs/config/$ltp/runtest/*");
 
-system ("rm -rf $tmpdir");
-system ("mkdir -p $tmpdir");
 mkdir($tcfdir);
 
- print "Using $libdir as libdir";
+print "Using $libdir as libdir\n";
 
 while ($all[$count]) {
 	$incount = 0;
@@ -37,42 +36,32 @@ while ($all[$count]) {
 	$group = $1;
 
 	if ($group =~ m/^openposix$/) {
-		$wrapper = "openposix_wrapper.sh";
-		$openposix_mode = 1;
+		$wrapper = "ltp_openposix_wrapper.sh";
 	} else {
 		$wrapper = "ltp_wrapper.sh";
-		$openposix_mode = 0;
 	}
 
 	print "Generating single scripts for $group\n";
 	open(TESTCASES, $file);              		# open and read actual ltp testgroup file
 	@lines = <TESTCASES>;                
 	close(TESTCASES);                    
-
 	open(TCF, ">$tcfdir$group.tcf");		# open .tcf file for actual group
  
 	while ($lines[$incount]) {
 		$actual = $lines[$incount];
 		if ($actual =~ m/^\#.*/) {		# line is a comment
 		} elsif ($actual =~ m/^\s+$/){		# line contains only spaces
-		} else {				# line is testcase, extract and write 
-			$actual =~ m/^(\w+).*$/;	# to single file
+		} else {				# line is testcase, extract and write to tcf 
+			$actual =~ m/^(\w+).*$/;
 			$tcname = $1;
-			$outfile=$tmpdir.$group.".".$tcname;
-			$lateroutfile=$latertmpdir.$group.".".$tcname;
+			$actual =~ s/^(\S+)\s//;
+			chomp $actual;
 
-			open(OUT, ">$outfile");		# write single testcase to file in /tmp
-			print OUT "$actual";
-			#print "Written $outfile\n";
-			close (OUT);
-
-			print TCF "timer $timeout\nfg 1 $tcname /usr/lib/ctcs2/tools/$wrapper $lateroutfile\nwait\n\n";
+			print TCF "timer $timeout\nfg 1 $tcname /usr/lib/ctcs2/tools/$wrapper '$actual'\nwait\n\n";
 		}
-		$incount ++;
+		$incount++;
 	}	
 	close(TCF);
 	$count++;
 }
-print "end";
-
-
+print "end\n";

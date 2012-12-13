@@ -76,8 +76,6 @@ Patch602:       bug-307752_sched_setparam-2-1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 Patch700: 	0001-timers-add-a-new-test-case-leapsec_timer.patch
 # Patches 8xx CTCS2 related changes
-Patch802:       pan-pass-returnvalue.diff
-Patch803:	ctcs2-glue-fixups.patch
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
 Patch901:       enables_lvm_part_xfs.patch  
@@ -143,8 +141,6 @@ Authors:
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
 # Patches 8xx CTCS2 related changes
-%patch802 -p1
-%patch803 -p1
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
 %patch901 -p0
