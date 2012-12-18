@@ -27,10 +27,13 @@ import os, shutil, gzip, subprocess
 from subprocess import Popen, call
 
 TEST_DIR = '/tmp/qa_test_logwatch'
+MAIL_F = '/var/mail/root'
 
 def setup():
 	if os.path.exists(TEST_DIR):
 		cleanup()
+	if not os.path.exists(MAIL_F):
+		os.system("touch %s" % MAIL_F)
 	os.mkdir(TEST_DIR)
 
 def remove_text_from_file(filename, text):
