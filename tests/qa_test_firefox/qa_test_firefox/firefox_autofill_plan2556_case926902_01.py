@@ -163,7 +163,7 @@ doc_frame = fFrame.findDocumentFrame("Login - GNOME Live!")
 # Step7: Autofill should still work
 procedurelogger.expectedResult('The username and password should be filled in')
 name_entry = doc_frame.findAllEntrys(None)[1]
-assert name_entry.text == user, "username shouldn't be %s" % entry.text
+assert name_entry.text == user, "username shouldn't be %s" % name_entry.text
 
 assert doc_frame.findPasswordText(None).text != "qapassword", "error password"
 

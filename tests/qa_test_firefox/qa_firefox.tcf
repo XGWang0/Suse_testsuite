@@ -35,6 +35,14 @@ fg 1 firefox_launch /usr/share/qa/qa_test_firefox/firefox_launch_plan2556_case92
 wait
 
 timer 300
+fg 1 firefox_navigation /usr/share/qa/qa_test_firefox/firefox_navigation_plan2556_case926910_01.py
+wait
+
+timer 300
+fg 1 firefox_pageload-control /usr/share/qa/qa_test_firefox/firefox_pageload-control_plan2556_case926913_01.py
+wait
+
+timer 300
 fg 1 firefox_new-browser-window /usr/share/qa/qa_test_firefox/firefox_new-browser-window_plan2556_case926911_01.py
 wait
 
@@ -55,10 +63,6 @@ fg 1 firefox_remember-password /usr/share/qa/qa_test_firefox/firefox_remember-pa
 wait
 
 timer 300
-fg 1 firefox_autofill /usr/share/qa/qa_test_firefox/firefox_autofill_plan2556_case926902_01.py
-wait
-
-timer 300
 fg 1 firefox_online-video /usr/share/qa/qa_test_firefox/firefox_online-video_plan2556_case986593_01.py
 wait
 
@@ -72,10 +76,6 @@ wait
 
 timer 300
 fg 1 firefox_history /usr/share/qa/qa_test_firefox/firefox_history_plan2556_case926906_01.py
-wait
-
-timer 300
-fg 1 firefox_pageload-control /usr/share/qa/qa_test_firefox/firefox_pageload-control_plan2556_case926913_01.py
 wait
 
 timer 300
@@ -103,10 +103,6 @@ fg 1 firefox_java-plugin /usr/share/qa/qa_test_firefox/firefox_java-plugin_plan3
 wait
 
 timer 300
-fg 1 firefox_navigation /usr/share/qa/qa_test_firefox/firefox_navigation_plan2556_case926910_01.py
-wait
-
-timer 300
 fg 1 firefox_open-file /usr/share/qa/qa_test_firefox/firefox_open-file_plan3130_case1014747_01.py
 waits
 
@@ -120,6 +116,10 @@ wait
 
 timer 300
 fg 1 firefox_security /usr/share/qa/qa_test_firefox/firefox_security_plan2556_case926919_01.py
+wait
+
+timer 300
+fg 1 firefox_autofill /usr/share/qa/qa_test_firefox/firefox_autofill_plan2556_case926902_01.py
 wait
 
 timer 300
