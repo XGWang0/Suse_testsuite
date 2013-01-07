@@ -146,6 +146,9 @@ config_prepare ()
 	#Get LUNS attached to system
 	CONF=$(mktemp /tmp/mpath.confXXX)
 	DEV_MAPS=$(mktemp /tmp/map.XXX)
+	CLEAN_MAPS=$(mktemp /tmp/maps.XXX)
+	BLACKLIST=$(mktemp /tmp/maps.XXX)
+	egrep '[0-9a-z]{32}' $DATA_DIR/blacklist > $BLACKLIST
 
 	reread_paths
 
@@ -163,15 +166,25 @@ config_prepare ()
 	fi
 
 	grep "$1" $CONF > $DEV_MAPS
+	#don't add blacklisted maps to tested maps
+	while read map;do
+		grep -v $map $DEV_MAPS >> $CLEAN_MAPS
+	done < $BLACKLIST
 	N=1
 	cat << EOF > /etc/multipath.conf
 defaults {
     user_friendly_names yes 
     max_fds max
 }
-multipaths {
 EOF
+#blacklist needed paths
+echo "blacklist {" >> /etc/multipath.conf
+	while read blacklist_map;do
+		echo -e "\twwid $blacklist_map" >> /etc/multipath.conf
+	done < $BLACKLIST
+echo "}" >> /etc/multipath.conf
 
+echo "multipaths {" >> /etc/multipath.conf
 	while read map;do
         	ALIAS=$(echo $map| awk -F ' ' '{OFS = "-"; print $2, $3}')
 	        WWID=$(echo $map| awk -F ' ' '{print $1}')
@@ -183,10 +196,9 @@ EOF
 EOF
 		MAPS=( "${MAPS[@]}" "$ALIAS-$N" )
 		N=`expr $N + 1`
-	done < $DEV_MAPS
+	done < $CLEAN_MAPS
 	echo "}" >> /etc/multipath.conf
-	rm $CONF
-	rm $DEV_MAPS
+	rm $CONF $DEV_MAPS $CLEAN_MAPS
 }
 function prepare () 
 {
@@ -269,9 +281,6 @@ DATA_DIR="/usr/share/qa/qa_test_multipath/data"
 DTOPT="iotype=random capacity=2g flags=sync,rsync limit=1g enable=lbdata,raw min=b max=256k incr=var dlimit=512 oncerr=abort dtype=disk passes=inf"
 #Load external vars
 . $DATA_DIR/vars
-#Load blacklist
-. $DATA_DIR/blacklist
-
 if [ "$HW" = "1" ];then
         trap 'stop_data;cleanup;restore_conf' EXIT SIGHUP SIGINT SIGTERM
 else
