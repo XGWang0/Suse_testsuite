@@ -70,7 +70,7 @@ function trigger_path ()
 function copy_data () 
 {
 	echo "do I/O"
-	startproc -q /usr/bin/dt of=/mnt/$map/test_data pattern=iot $DTOPT
+	startproc -q /usr/bin/dt of=/dev/disk/by-id/scsi-$map pattern=iot $DTOPT
 	DATA_PID=$(checkproc -v /usr/bin/dt)
 }
 
@@ -99,10 +99,6 @@ function check_path {
 function cleanup () 
 {
         echo "cleanup"
-        cat /proc/mounts | grep $map$PART && umount /dev/mapper/$map$PART
-	rm -rf /mnt/$map
-	parted -s /dev/mapper/$map rm 1
-	$udevwait
 	[ ! "$HW" ] && multipath -f $map
 }
 
@@ -217,21 +213,6 @@ function prepare ()
 		else
 			echo "$map creation failed"
 	fi
-        echo "create fs"
-        parted -s /dev/mapper/$map mklabel msdos
-        parted -s /dev/mapper/$map mkpart primary 0 $PART_SIZE
-	$udevwait
-	kpartx -a -p "${PART%1}" /dev/mapper/$map
-	$udevwait
-        if [ ! -f /mnt/$map ]; then
-        	mkdir -p /mnt/$map
-        fi
-	mkfs.reiserfs -q /dev/mapper/$map$PART
-        mount /dev/mapper/$map$PART /mnt/$map
-        if [ $? -ne 0 ]; then
-              echo "mount failed"
-                exit 1;
-        fi
         echo "Initial setup done"
 }
 
@@ -288,6 +269,8 @@ DATA_DIR="/usr/share/qa/qa_test_multipath/data"
 DTOPT="iotype=random capacity=2g flags=sync,rsync limit=1g enable=lbdata,raw min=b max=256k incr=var dlimit=512 oncerr=abort dtype=disk passes=inf"
 #Load external vars
 . $DATA_DIR/vars
+#Load blacklist
+. $DATA_DIR/blacklist
 
 if [ "$HW" = "1" ];then
         trap 'stop_data;cleanup;restore_conf' EXIT SIGHUP SIGINT SIGTERM
@@ -301,11 +284,9 @@ SP=`cat /etc/SuSE-release | awk -F "=" '/PATCHLEVEL/''{ print $2 }'\
         | cut -c 2`
 #SLE11 and SLE10 deviations
 if [ $CODE -eq 11 ]; then
-        PART="_part1"
         udevwait="udevadm settle --timeout=30"
 fi
 if [ $CODE -eq 10 ]; then
-        PART="-part1"
         udevwait="udevsettle --timeout=30"
 fi
 
