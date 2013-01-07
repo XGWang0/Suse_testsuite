@@ -107,6 +107,13 @@ function iscsi_disconnect ()
         iscsiadm -m node -T $TARGET_DISK -u
 }
 
+function check_error ()
+{
+if [ $? -ne 0 ]; then
+	echo "$1"
+	exit "$2"
+fi
+}
 function iscsi_connect ()
 {
         /etc/init.d/open-iscsi status
@@ -118,24 +125,16 @@ function iscsi_connect ()
         if [ $? -eq 0 ];then
 	        iscsiadm -m node -T $TARGET_DISK -u
 	        iscsiadm -m node -T $TARGET_DISK -o delete
-        if [ $? -ne 0 ]; then
-              echo "delete failed"
-                exit 1;
-        fi
+	check_error delete failed 1
         fi
         echo "bind target"
         iscsiadm -m node -T $TARGET_DISK -p $TARGET -o new
-        if [ $? -ne 0 ]; then
-              echo "bind failed"
-              exit 1;
-        fi
+        check_error "bind failed" 1
 
         echo "connect target"
         iscsiadm -m node -T $TARGET_DISK -l
-        if [ $? -ne 0 ]; then
-              echo "connect failed"
-              exit 1;
-        fi
+        check_error "connect failed" 1
+
 	echo "iSCSI connected"
 	#wait until udev finishes his jobs
 	$udevwait
@@ -210,16 +209,12 @@ function prepare ()
         /etc/init.d/multipathd status
         if [ $? -ne 0 ]; then
                 /etc/init.d/multipathd restart
-
-                if [ $? -ne 0 ]; then
-                echo "multipathd start FAILED"
-                exit 1;
-                fi
+                check_error "multipathd start FAILED" 1
         fi
 	#we need to reread configuration file here
 	reread_paths
 	echo "probe multipath maps"
-	if [ -b /dev/mapper/$map ];
+	if [ -b /dev/disk/by-id/$map ];
 		then
 			echo "$map created"
 		else
