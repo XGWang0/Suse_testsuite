@@ -153,7 +153,7 @@ config_prepare ()
 	reread_paths
 
 	if [ -f /etc/multipath.conf ];then
-		cat /etc/multipath.conf | grep -F "user_friendly_names yes"
+		cat /etc/multipath.conf | grep -qF "user_friendly_names yes"
 		if [ $? -eq 0 ];then
 			multipath -ll | egrep '[0-9a-z]{32}' | sed -e 's/dm\-[0-9]*//g' -e 's/,/\ /g' -e 's/(//g' -e 's/)//g' -e 's/^ *[^ ]* //' > "$CONF"
 		fi
