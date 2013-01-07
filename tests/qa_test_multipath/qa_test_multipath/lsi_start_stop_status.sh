@@ -1,3 +1,4 @@
+#!/bin/bash
 # ****************************************************************************
 # Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
@@ -21,43 +22,32 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-timer 1200
-fg 1 IBM_start_stop /usr/share/qa/qa_test_multipath/ibm_start_stop_status.sh
-wait
+. /usr/share/qa/qa_test_multipath/functions.sh
+HW=1
 
-timer 1200
-fg 1 HP_start_stop /usr/share/qa/qa_test_multipath/hp_start_stop_status.sh
-wait
+backup_conf
 
-timer 1200
-fg 1 NETAPP_start_stop /usr/share/qa/qa_test_multipath/netapp_start_stop_status.sh
-wait
+config_prepare LSI 
+if [ $? -eq 50 ];then
+	exit 22
+fi 
+map=${MAPS[0]}
 
-timer 1200
-fg 1 EMC_start_stop /usr/share/qa/qa_test_multipath/emc_start_stop_status.sh
-wait
+reseterr
+prepare
+checkerror
 
-timer 1200
-fg 1 EMC /usr/share/qa/qa_test_multipath/emc.sh
-wait
+/etc/init.d/multipathd stop
+checkerror
 
-timer 1200
-fg 1 IBM /usr/share/qa/qa_test_multipath/ibm.sh
-wait
+/etc/init.d/multipathd start
+checkerror
 
-timer 1200
-fg 1 NETAPP /usr/share/qa/qa_test_multipath/netapp.sh
-wait
+/etc/init.d/multipathd restart
+checkerror
 
-timer 1200
-fg 1 HP /usr/share/qa/qa_test_multipath/hp.sh
-wait
+/etc/init.d/multipathd status
+checkerror
 
-timer 1200
-fg 1 LSI /usr/share/qa/qa_test_multipath/lsi.sh
-wait
-
-timer 1200
-fg 1 LSI_start_stop /usr/share/qa/qa_test_multipath/lsi_start_stop_status.sh
-wait
+createresult
 
