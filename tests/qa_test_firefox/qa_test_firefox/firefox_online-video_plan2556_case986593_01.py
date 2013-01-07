@@ -46,6 +46,7 @@ Adobe Flash Player is accessibled to a 'Text' role that is hard to ensure the vi
 """
 # imports
 import re
+import os
 from strongwind import *
 from firefox_frame import *
 
@@ -85,9 +86,11 @@ def assertWeb(web_name, accessible_name=True):
         assert doc == web_name, "DocURL expected:%s,actual: %s" % \
                                                            (web_name, doc)
 
-# Step1: Load http://www.youtube.com/
-loadWeb("http://www.youtube.com/watch?v=O7W0DMAx8FY&feature=topvideos")
-assertWeb("http://www.youtube.com/watch?v=O7W0DMAx8FY&feature=topvideos", accessible_name=False)
+# Step1: Load http://www.youtube.com/ (website doesn't work in China)
+ip = os.popen("ifconfig -a | grep 'inet ' | cut -d ':' -f 2 |cut -d ' ' -f 1 | grep -v '^127'").read()
+if not ip.startswith("147"):
+    loadWeb("http://www.youtube.com/watch?v=O7W0DMAx8FY&feature=topvideos")
+    assertWeb("http://www.youtube.com/watch?v=O7W0DMAx8FY&feature=topvideos", accessible_name=False)
 
 # Step2: Load http://vimeo.com/
 loadWeb("http://vimeo.com/")
@@ -105,5 +108,5 @@ assertWeb("http://www.tudou.com/", accessible_name=False)
 menubar = fFrame.findMenuBar(None)
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
-fFrame.assertClosed()
+app.assertClosed()
 

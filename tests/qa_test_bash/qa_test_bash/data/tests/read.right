@@ -37,7 +37,7 @@ a = abc
 4
 1
 4
-./read2.sub: line 13: read: -3: invalid timeout specification
+./read2.sub: line 16: read: -3: invalid timeout specification
 1
 4
 abcde

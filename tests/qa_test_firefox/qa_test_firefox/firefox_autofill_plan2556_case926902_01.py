@@ -114,10 +114,11 @@ sleep(config.MEDIUM_DELAY)
 # Step3: Make sure Confirm alert appears to asking whether you wish to save the 
 # username and password
 procedurelogger.expectedResult('Make sure confirm alert appears')
-pwd_alert = fFrame.findAlert(None)
+#pwd_alert = fFrame.findAlert(None)
 
 # Step4: Click "Remember" button
-pwd_alert.findPushButton(re.compile('^Remember')).mouseClick()
+#pwd_alert.findPushButton(re.compile('^Remember')).mouseClick()
+pyatspi.findDescendant(fFrame, lambda x: x.name == "Remember Password").mouseClick()
 sleep(config.SHORT_DELAY)
 
 # Step5: Log out the site and refresh the login page again
@@ -162,7 +163,7 @@ doc_frame = fFrame.findDocumentFrame("Login - GNOME Live!")
 # Step7: Autofill should still work
 procedurelogger.expectedResult('The username and password should be filled in')
 name_entry = doc_frame.findAllEntrys(None)[1]
-assert name_entry.text == user, "username shouldn't be %s" % entry.text
+assert name_entry.text == user, "username shouldn't be %s" % name_entry.text
 
 assert doc_frame.findPasswordText(None).text != "qapassword", "error password"
 
@@ -181,8 +182,8 @@ sleep(config.MEDIUM_DELAY)
 
 save_frame = app.findFrame("Saved Passwords")
 
-site = "http://live.gnome.org"
-save_frame.findTableCell(site).mouseClick()
+site = "live.gnome.org"
+save_frame.findTableCell(re.compile('%s$' % site)).mouseClick()
 sleep(config.SHORT_DELAY)
 
 save_frame.findPushButton("Remove").mouseClick()

@@ -69,7 +69,6 @@ foreach my $row (<STDIN>)
     {
         $val->[$v]->{depth} = $1;
         $val->[$v]->{time} = $2;
-	$val->[$v]->{g_ind} = $name;
         $v++;
     }
 }

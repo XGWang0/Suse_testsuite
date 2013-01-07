@@ -23,13 +23,13 @@
 # ****************************************************************************
 #
 
-rm -rf ~/.evolution/ ~/.gconf/apps/evolution/ ~/.gnome2_private/*
-
 gconfd_pid=`ps -ef |grep "gconfd-2" |grep -v grep |awk '{print $2}'`
 
-if [ "$gconfd_pid" ] && [ "$USER" == "root" ]; then
+if [ "$gconfd_pid" ] && [ "$USER" = "root" ] || [ -z "$USER" ]; then
+	rm -rf /root/.evolution/ /root/.gconf/apps/evolution/ /root/.gnome2_private/*
 	killall gconfd-2
 else
+	rm -rf ~/.evolution/ ~/.gconf/apps/evolution/ ~/.gnome2_private/*
 	user_pid=`ps -ef |grep "gconfd-2" |grep -v grep |grep -v "root" |awk '{print $2}'`
 	if [ "$user_pid" ]; then
 		kill $user_pid

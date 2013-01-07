@@ -106,7 +106,7 @@ else:
     # Disable Flash plugin to check Section's number
     procedurelogger.action('Select Shockwave Flash list item')
 
-    addon_frame.findListItem(re.compile('^Shockwave Flash'), checkShowing=False).findPushButton("Disable").press(log=True)
+    addon_frame.findListItem(re.compile('^Shockwave Flash'), checkShowing=False).findPushButton("Disable", checkShowing=False).press(log=True)
     sleep(config.MEDIUM_DELAY)
     section_num_old = len(fFrame.findDocumentFrame("Adobe - Flash Player", checkShowing=False).findAllSections(None, checkShowing=False))
 

@@ -1,0 +1,11 @@
+set location /abuild
+set number 1000 
+set transactions 50000
+run
+set number 20000
+set transactions 50000
+run
+set number 20000
+set transactions 100000
+run
+exit

@@ -22,6 +22,9 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
+#sut_timeout 300000
+
+LSB_DIR=/usr/share/qa/qa_test_lsb
 
 #############################################################################
 # Checking for essential utilities
@@ -30,26 +33,26 @@
 WGET=`which wget`
 if [ -z "$WGET" ] ; then
 	echo "Error: 'wget' utility not found"
-	exit 1
+	exit 2
 fi
 
 RPM=`which rpm`
 if [ -z "$RPM" ] ; then
 	echo "Error: 'rpm' utility not found (is this a RPM-based distro?)"
-	exit 1
+	exit 2
 fi
 
 which "uname" >/dev/null 2>&1
 if [ "$?" -ne "0" ] ; then
 	echo "Error: 'uname' utility not found"
-	exit 1
+	exit 2
 fi
 
 which "lsb_release" >/dev/null 2>&1
 if [ "$?" -ne "0" ] ; then
 	echo "Error: 'lsb_release' utility not found"
 	echo "(you may need to explicitly install the 'lsb' package)"
-	exit 1
+	exit 2
 fi
 
 #############################################################################
@@ -113,7 +116,7 @@ else
 	echo "$ARCH"
 	echo
 	echo "Error: unrecognized architecture '$ARCH'."
-	exit 1
+	exit 2
 fi
 
 echo "$ARCH (using '$LSB_ARCH' for repo, '$RPMEXT' for RPMs)"
@@ -132,7 +135,7 @@ fi
 if [ "$UID" -ne "0" ] ; then
 	echo
 	echo "Error: This script must be run as the root user."
-	exit 1
+	exit 2
 fi
 
 #############################################################################
@@ -156,9 +159,16 @@ function download_package() {
 		$WGET -N --retr-symlinks "$REPOSITORY/$1$2" -P "$LOCAL_PKG_DIR"
 		if [ "$?" -ne "0" ] ; then
 			echo
-			echo "Error: Download failed (maybe the file locations"
-			echo "on the server changed?)"
-			exit 1
+			echo "Warning: Download failed (maybe the file locations"
+			echo "on the server changed?), will try extra local packages"
+			if [ -e "$LSB_DIR/$2" ] ; then
+				mkdir -p "$LOCAL_PKG_DIR"
+				cp "$LSB_DIR/$2" "$LOCAL_PKG_DIR/"
+			else
+				echo
+				echo "Error: Extra packages are not available"
+				exit 2
+			fi
 		fi
 	fi
 }
@@ -178,7 +188,7 @@ function install_package() {
 		if [ "$?" -ne "0" ] ; then
 			echo
 			echo "Error: could not update the existing package."
-			exit 1
+			exit 2
 		fi
 	else
 		echo "installing"
@@ -186,7 +196,7 @@ function install_package() {
 		if [ "$?" -ne "0" ] ; then
 			echo
 			echo "Error: package installation failed."
-			exit 1
+			exit 2
 		fi
 	fi
 }
@@ -205,6 +215,12 @@ echo "Starting the test suite (this may need multiple hours)."
 
 TESTRUN_DIR="qa_lsb-`date +%Y-%m-%d-%Hh-%Mm-%Ss`"
 
+# Remember to update the list of package versions from the server (there might
+# have been some time betweeen installation and running, and the versions
+# might have changed).
+TERM=linux /opt/lsb/test/manager/utils/dist-checker.pl --update
+
+# Run the test suite (it automatically downloads additional packages)
 TERM=linux /opt/lsb/test/manager/utils/dist-checker.pl --testrun-id $TESTRUN_DIR -D -s "LSB $LSB_VERSION" $TEST_LIST
 
 echo "Test suite finished (exit code $?)."
@@ -220,7 +236,7 @@ if [ "$?" -ne "0" ] ; then
 	echo
 	echo "Error: Could not copy the results to /var/log/qa/lsb."
 	echo "Please check!"
-	exit 1
+	exit 2
 fi
 
 echo "Cleaning up."
@@ -237,6 +253,16 @@ gzip /var/log/qa/lsb/$TESTRUN_DIR/verbose_log
 gzip /var/log/qa/lsb/$TESTRUN_DIR/results/*.part1
 gzip /var/log/qa/lsb/$TESTRUN_DIR/results/*.part2
 
-echo "Completed."
+#############################################################################
+# Returns 0 if all tests succeeded, 1 if there were unwaived errors
+#############################################################################
 
+cat "/var/opt/lsb/test/manager/results/$TESTRUN_DIR/INFO" | grep -ie 'Verdict:\s*Passed' >/dev/null 2>&1
+if [ "$?" -eq "0" ] ; then
+	echo "Completed."
+	exit 0
+fi
+
+echo "Completed with errors."
+exit 1
 

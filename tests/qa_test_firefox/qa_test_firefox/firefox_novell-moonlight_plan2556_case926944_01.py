@@ -91,13 +91,10 @@ openURL(fFrame, "http://www.belindaperez.com/demo/deepu/SimpleImageScroller.html
 # "Install Microsoft Sliverlight".
 procedurelogger.expectedResult('%s document frame appears' % \
                                                   "SimpleImageScrollerDemo")
-fFrame.findDocumentFrame("SimpleImageScrollerDemo")
-try:
-    fFrame.findLink("Get Microsoft Silverlight")
-except SearchError:
-    pass # expected
-else:
-    assert False, "the website should not show Install Microsoft Sliverlight"
+links=fFrame.findAllLinks(None)
+for i in links:
+    if i.name == "Get Microsoft Silverlight":
+        assert False, "the website should not show Install Microsoft Sliverlight"
 
 # Add new tab to launch http://www.innoveware.com/ql3/QuakeLight.html
 # that is Silverlight3
@@ -111,12 +108,11 @@ openURL(fFrame, "http://www.innoveware.com/ql3/QuakeLight.html")
 procedurelogger.expectedResult('%s document frame appears' % \
                                                   "QuakeLight")
 fFrame.findDocumentFrame(re.compile('^QuakeLight'))
-try:
-    fFrame.findLink("Get Microsoft Silverlight")
-except SearchError:
-    pass # expected
-else:
-    assert False, "the website should not show Install Microsoft Sliverlight"
+
+links=fFrame.findAllLinks(None)
+for i in links:
+    if i.name == "Get Microsoft Silverlight":
+        assert False, "the website should not show Install Microsoft Sliverlight"
 
 # Add new tab to Launch http://net35.ccs.neu.edu/home/cobracar/DiggSample.html
 # that is Silverlight2
@@ -127,19 +123,19 @@ openURL(fFrame, "http://net35.ccs.neu.edu/home/cobracar/DiggSample.html")
 
 # Make sure websites be showed correctly. the website should not show 
 # "Install Microsoft Sliverlight".
+'''
 procedurelogger.expectedResult('%s document frame appears' % \
                                                   "DiggSearch")
-fFrame.findDocumentFrame("Digg Sample (HTML)")
-try:
-    fFrame.findLink("Get Microsoft Silverlight")
-except SearchError:
-    pass # expected
-else:
-    assert False, "the website should not show Install Microsoft Sliverlight"
+fFrame.findDocumentFrame(re.compile('^Digg'))
 
+links=fFrame.findAllLinks(None)
+for i in links:
+    if i.name == "Get Microsoft Silverlight":
+        assert False, "the website should not show Install Microsoft Sliverlight"
+'''
 # Close application
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
 quitMultipleTabs(app)
-fFrame.assertClosed()
+app.assertClosed()
 

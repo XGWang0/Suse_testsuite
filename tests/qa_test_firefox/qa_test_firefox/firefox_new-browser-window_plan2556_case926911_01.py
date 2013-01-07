@@ -69,7 +69,8 @@ frames = app.findAllFrames(None)
 assert len(frames) == 2, "expected 2 frames, actual is %s" % len(frames)
 
 # Close new frame window
-frames[1].keyCombo('<Alt>F4')
+frames[1].keyCombo('<Alt>F4', grabFocus=False)
+#quitFirefox(frames[1])
 sleep(config.SHORT_DELAY)
 assert len(app.findAllFrames(None)) == 1, "new window doesn't closed"
 
@@ -79,7 +80,8 @@ sleep(config.SHORT_DELAY)
 
 # Step4: Make sure there are 2 DocumentFrame under Firefox application
 procedurelogger.expectedResult('Make sure there are 2 Frame under Firefox application')
-doc_frames = app.findAllDocumentFrames(None, checkShowing=False)
+#doc_frames = app.findAllDocumentFrames(None, checkShowing=False)
+doc_frames = app.findAllInternalFrames(None, checkShowing=False)
 assert len(doc_frames) == 2, "expected 2 frames, actual is %s" % len(doc_frames)
 
 # Close application

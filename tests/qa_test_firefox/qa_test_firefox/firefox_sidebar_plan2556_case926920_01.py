@@ -62,10 +62,6 @@ print doc
 web = "http://www.mozilla.org/"
 openURL(fFrame, web)
 
-procedurelogger.expectedResult('mozilla.org frame appears')
-fFrame.findDocumentFrame("Home of the Mozilla Project")
-
-
 # Step2: Click on View -> Sidebar to open each Sidebar
 fFrame.findMenu("View").mouseClick()
 sleep(config.SHORT_DELAY)
@@ -93,9 +89,6 @@ procedurelogger.expectedResult('%s Sidebar disappears' % \
 if sidebar.name:
     raise Exception, "Sidebar shouldn't appears"
     exit(1)
-
-if sidebar.showing:
-    raise Exception, "Closed Sidebar has wrong states: %s, see BUG705315" % sidebar._accessible.getState().getStates()
 
 # Close application
 menubar = fFrame.findMenuBar(None)

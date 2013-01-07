@@ -21,22 +21,26 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-timer 1000
+timer 1100
 benchparser /usr/share/qa/qa_test_numbench/numbenchparser
 fg 1 fib /usr/share/qa/qa_test_numbench/NumBench-fib.py 
 wait
+
 timer 400
 benchparser /usr/share/qa/qa_test_numbench/numbenchparser
 fg 1 pi /usr/share/qa/qa_test_numbench/NumBench-pi.py
 wait
+
 timer 400
 benchparser /usr/share/qa/qa_test_numbench/numbenchparser
 fg 1 primo /usr/share/qa/qa_test_numbench/NumBench-primo.py 
 wait
+
 timer 400
 benchparser /usr/share/qa/qa_test_numbench/numbenchparser
 fg 1 collatz /usr/share/qa/qa_test_numbench/NumBench-collatz.py 
 wait
+
 timer 400
 benchparser /usr/share/qa/qa_test_numbench/numbenchparser
 fg 1 oro /usr/share/qa/qa_test_numbench/NumBench-oro.py 

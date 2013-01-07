@@ -37,7 +37,7 @@ node2_pwd = "susetesting"
 
 # Communication Channels settings
 # Channel
-transport_type = "udp"
+transport_type = "udpu"
 
 bind_net_addr_1 = "147.2.207.0"
 multicast_addr_1 = "226.94.1.2"
