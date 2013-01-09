@@ -214,7 +214,7 @@ function prepare ()
 	#we need to reread configuration file here
 	reread_paths
 	echo "probe multipath maps"
-	if [ -b /dev/disk/by-id/$map ];
+	if [ -b /dev/disk/by-id/scsi-$map ];
 		then
 			echo "$map created"
 		else
