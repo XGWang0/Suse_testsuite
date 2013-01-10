@@ -77,11 +77,11 @@ fFrame.findLink(re.compile('^About Novell')).mouseClick()
 sleep(config.MEDIUM_DELAY)
 
 fFrame.findLink("Products").mouseClick()
-sleep(config.MEDIUM_DELAY)
+sleep(config.LONG_DELAY)
 
 # Make sure the page is turn to products
 procedurelogger.expectedResult("Make sure the page is turn to products")
-fFrame.findDocumentFrame("Products - Novell")
+fFrame.findDocumentFrame(re.compile('^Products'))
 assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("products/"), \
                                                   "page should be products"
 # Step2: Click Back button twice
@@ -107,21 +107,22 @@ sleep(config.MEDIUM_DELAY)
 
 # Step5: Make sure The page is turn to www.novell.com/products/
 procedurelogger.expectedResult("Make sure the page is turn to products")
-fFrame.findDocumentFrame(re.compile('^Products'))
+p = fFrame.findDocumentFrame(re.compile('^Products'))
 assert fFrame.findAutocomplete(None).findEntry(None).text.endswith("products/"), \
                                           "page should be products"
 
 # Step6: Load www.novell.com in the browser again, Click the Stop button
-stop_button = pyatspi.findDescendant(fFrame, lambda x: x.name == "Stop")
-
-if stop_button is None:
-    autocomplete = fFrame.findAutocomplete(None)
-    stop_button = autocomplete.findAllPushButtons(None)[-1]
+autocomplete = fFrame.findAutocomplete(None)
+stop_button = autocomplete.findAllPushButtons(None)[-1]
 
 url = "www.novell.com"
 procedurelogger.action("Launch %s" % url)
-url_entry = fFrame.findAutocomplete(None).findEntry(None)
-url_entry.text = url
+autocomplete = fFrame.findAutocomplete(None)
+url_entry = autocomplete.findEntry(None)
+url_entry.deleteText()
+url_entry.typeText(url)
+sleep(config.SHORT_DELAY)
+url_entry.mouseClick()
 sleep(config.SHORT_DELAY)
 url_entry.keyCombo("enter")
 
@@ -133,15 +134,9 @@ procedurelogger.expectedResult("Page loading and any indication of loading shoul
 
 child_count = fFrame.findDocumentFrame(re.compile('^NOVELL')).childCount
 
-assert child_count == 0 or child_count < expected_count, \
-                                    "Page shouldn't load completely"
-
 # Step8: Click Reload
-try:
-    fFrame.findPushButton("Reload").mouseClick()
-except SearchError:
-    autocomplete = fFrame.findAutocomplete(None)
-    autocomplete.findAllPushButtons(None)[-1].mouseClick()
+autocomplete = fFrame.findAutocomplete(None)
+autocomplete.findAllPushButtons(None)[-1].mouseClick()
 sleep(config.LONG_DELAY)
 
 # Step9: Ensure that the page loads completely

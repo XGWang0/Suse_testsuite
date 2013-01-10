@@ -27,11 +27,10 @@ HW=1
 
 backup_conf
 
-config_prepare DGC 
+config_prepare LSI 
 if [ $? -eq 50 ];then
 	exit 22
 fi 
-
 map=${MAPS[0]}
 
 reseterr

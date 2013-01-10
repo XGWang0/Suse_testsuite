@@ -27,28 +27,46 @@ HW=1
 
 backup_conf
 
-config_prepare DGC 
+config_prepare LSI 
 if [ $? -eq 50 ];then
 	exit 22
 fi 
 
-map=${MAPS[0]}
+reread_paths
 
-reseterr
-prepare
-checkerror
+for map_alias in ${MAPS[@]};do
+	map="$map_alias"
 
-/etc/init.d/multipathd stop
-checkerror
+	reseterr
+	prepare
+	checkerror
 
-/etc/init.d/multipathd start
-checkerror
+	get_paths
+	PATHS_NUMBER=$[${#PATHS[*]}-1]
+	paths_status
 
-/etc/init.d/multipathd restart
-checkerror
+	copy_data
 
-/etc/init.d/multipathd status
-checkerror
+	for n in `seq 1 $PATHS_NUMBER`;do
+		trigger_path $n fail
+		sleep 30;
+		paths_status
+		check_path $n failed
+		checkerror
+
+		check_data
+		checkerror
+
+		trigger_path $n recover
+		sleep 30;
+		paths_status
+		check_path $n active
+		checkerror
+
+		check_data
+		checkerror
+	done
+done
 
 createresult
 

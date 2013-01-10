@@ -286,7 +286,7 @@ menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
 app.assertClosed()
 
-sleep(config.MEDIUM_DELAY)
+sleep(config.SHORT_DELAY)
 
 # Launch Firefox again
 try:
@@ -313,5 +313,5 @@ else:
 menubar = fFrame.findMenuBar(None)
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
-fFrame.assertClosed()
+app.assertClosed()
 

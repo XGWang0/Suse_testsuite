@@ -70,7 +70,7 @@ function trigger_path ()
 function copy_data () 
 {
 	echo "do I/O"
-	startproc -q /usr/bin/dt of=/mnt/$map/test_data pattern=iot $DTOPT
+	startproc -q /usr/bin/dt of=/dev/disk/by-id/scsi-$map pattern=iot $DTOPT
 	DATA_PID=$(checkproc -v /usr/bin/dt)
 }
 
@@ -99,10 +99,6 @@ function check_path {
 function cleanup () 
 {
         echo "cleanup"
-        cat /proc/mounts | grep $map$PART && umount /dev/mapper/$map$PART
-	rm -rf /mnt/$map
-	parted -s /dev/mapper/$map rm 1
-	$udevwait
 	[ ! "$HW" ] && multipath -f $map
 }
 
@@ -111,6 +107,13 @@ function iscsi_disconnect ()
         iscsiadm -m node -T $TARGET_DISK -u
 }
 
+function check_error ()
+{
+if [ $? -ne 0 ]; then
+	echo "$1"
+	exit "$2"
+fi
+}
 function iscsi_connect ()
 {
         /etc/init.d/open-iscsi status
@@ -122,24 +125,16 @@ function iscsi_connect ()
         if [ $? -eq 0 ];then
 	        iscsiadm -m node -T $TARGET_DISK -u
 	        iscsiadm -m node -T $TARGET_DISK -o delete
-        if [ $? -ne 0 ]; then
-              echo "delete failed"
-                exit 1;
-        fi
+	check_error delete failed 1
         fi
         echo "bind target"
         iscsiadm -m node -T $TARGET_DISK -p $TARGET -o new
-        if [ $? -ne 0 ]; then
-              echo "bind failed"
-              exit 1;
-        fi
+        check_error "bind failed" 1
 
         echo "connect target"
         iscsiadm -m node -T $TARGET_DISK -l
-        if [ $? -ne 0 ]; then
-              echo "connect failed"
-              exit 1;
-        fi
+        check_error "connect failed" 1
+
 	echo "iSCSI connected"
 	#wait until udev finishes his jobs
 	$udevwait
@@ -150,13 +145,16 @@ config_prepare ()
 	#Get LUNS attached to system
 	CONF=$(mktemp /tmp/mpath.confXXX)
 	DEV_MAPS=$(mktemp /tmp/map.XXX)
+	CLEAN_MAPS=$(mktemp /tmp/maps.XXX)
+	BLACKLIST=$(mktemp /tmp/maps.XXX)
+	egrep '[0-9a-z]{32}' $DATA_DIR/blacklist > $BLACKLIST
 
 	reread_paths
 
 	if [ -f /etc/multipath.conf ];then
-		cat /etc/multipath.conf | grep -F "user_friendly_names yes"
+		cat /etc/multipath.conf | grep -qF "user_friendly_names yes"
 		if [ $? -eq 0 ];then
-			multipath -ll | egrep '[0-9a-z]{32}' | sed -e 's/dm\-[0-9]//g' -e 's/,/\ /g' -e 's/(//g' -e 's/)//g' -e 's/^ *[^ ]* //' > "$CONF"
+			multipath -ll | egrep '[0-9a-z]{32}' | sed -e 's/dm\-[0-9]*//g' -e 's/,/\ /g' -e 's/(//g' -e 's/)//g' -e 's/^ *[^ ]* //' > "$CONF"
 		fi
 	else
 		multipath -ll | grep '^[0-9]'| sed -e 's/dm\-[0-9]//g' -e 's/,/\ /g' > $CONF
@@ -167,15 +165,25 @@ config_prepare ()
 	fi
 
 	grep "$1" $CONF > $DEV_MAPS
+	#don't add blacklisted maps to tested maps
+	while read map;do
+		grep -v $map $DEV_MAPS >> $CLEAN_MAPS
+	done < $BLACKLIST
 	N=1
 	cat << EOF > /etc/multipath.conf
 defaults {
     user_friendly_names yes 
     max_fds max
 }
-multipaths {
 EOF
+#blacklist needed paths
+echo "blacklist {" >> /etc/multipath.conf
+	while read blacklist_map;do
+		echo -e "\twwid $blacklist_map" >> /etc/multipath.conf
+	done < $BLACKLIST
+echo "}" >> /etc/multipath.conf
 
+echo "multipaths {" >> /etc/multipath.conf
 	while read map;do
         	ALIAS=$(echo $map| awk -F ' ' '{OFS = "-"; print $2, $3}')
 	        WWID=$(echo $map| awk -F ' ' '{print $1}')
@@ -187,53 +195,31 @@ EOF
 EOF
 		MAPS=( "${MAPS[@]}" "$ALIAS-$N" )
 		N=`expr $N + 1`
-	done < $DEV_MAPS
+	done < $CLEAN_MAPS
 	echo "}" >> /etc/multipath.conf
-	rm $CONF
-	rm $DEV_MAPS
+	rm $CONF $DEV_MAPS $CLEAN_MAPS
 }
 function prepare () 
 {
 	if [ "$HW" != "1" ];then
 		if [ ! -z "$CONFIG" ];then 
-			cp $CONFIG /etc/multipath.conf 
+			cp $CONFIG /etc/multipath.conf
 		fi
 	fi
         /etc/init.d/multipathd status
         if [ $? -ne 0 ]; then
                 /etc/init.d/multipathd restart
-
-                if [ $? -ne 0 ]; then
-                echo "multipathd start FAILED"
-                exit 1;
-                fi
+                check_error "multipathd start FAILED" 1
         fi
-
-	#multipathd -k"reconfigure"
+	#we need to reread configuration file here
+	reread_paths
 	echo "probe multipath maps"
-	multipath -v2
-	$udevwait
-	if [ -b /dev/mapper/$map ];
+	if [ -b /dev/disk/by-id/scsi-$map ];
 		then
 			echo "$map created"
 		else
 			echo "$map creation failed"
 	fi
-        echo "create fs"
-        parted -s /dev/mapper/$map mklabel msdos
-        parted -s /dev/mapper/$map mkpart primary 0 $PART_SIZE
-	$udevwait
-	kpartx -a -p "${PART%1}" /dev/mapper/$map
-	$udevwait
-        if [ ! -f /mnt/$map ]; then
-        	mkdir -p /mnt/$map
-        fi
-	mkfs.reiserfs -q /dev/mapper/$map$PART
-        mount /dev/mapper/$map$PART /mnt/$map
-        if [ $? -ne 0 ]; then
-              echo "mount failed"
-                exit 1;
-        fi
         echo "Initial setup done"
 }
 
@@ -290,7 +276,6 @@ DATA_DIR="/usr/share/qa/qa_test_multipath/data"
 DTOPT="iotype=random capacity=2g flags=sync,rsync limit=1g enable=lbdata,raw min=b max=256k incr=var dlimit=512 oncerr=abort dtype=disk passes=inf"
 #Load external vars
 . $DATA_DIR/vars
-
 if [ "$HW" = "1" ];then
         trap 'stop_data;cleanup;restore_conf' EXIT SIGHUP SIGINT SIGTERM
 else
@@ -303,11 +288,9 @@ SP=`cat /etc/SuSE-release | awk -F "=" '/PATCHLEVEL/''{ print $2 }'\
         | cut -c 2`
 #SLE11 and SLE10 deviations
 if [ $CODE -eq 11 ]; then
-        PART="_part1"
         udevwait="udevadm settle --timeout=30"
 fi
 if [ $CODE -eq 10 ]; then
-        PART="-part1"
         udevwait="udevsettle --timeout=30"
 fi
 

@@ -49,6 +49,10 @@ There are some different steps with TestCase926919 in TestPlan2556:
 (1) In step1, use https://bugzilla.novell.com to instead http://sourceforge.net
 (2) In step2, no Warning Dialog comes up
 (3) In step5, "Untrusted Connection" page appears to instead error dialog
+
+In FF17:
+(1) no "Lock icon" at the bottom
+(2) no Untrusted Connection page
 """
 
 # imports
@@ -115,14 +119,23 @@ sleep(config.SHORT_DELAY)
 
 # There is no Lock icon at the bottom right side of the browser
 procedurelogger.action('Find Lock icon at the bottom right side')
-procedurelogger.expectedResult('There is no Lock icon in %s web' % "www.opensuse.org")
 
-buttons = fFrame.findStatusBar(None).findAllPushButtons(None)
-button_names = [i.name for i in buttons]
-name1 = "bugzilla.novell.com"
-name2 = "Authenticated by DigiCert Inc"
-assert (name1 not in button_names) or (name2 not in button_names), \
-                                     "Lock icon shouldn't appears in statusbar"
+#buttons = fFrame.findStatusBar(None).findAllPushButtons(None)
+#button_names = [i.name for i in buttons]
+#name1 = "bugzilla.novell.com"
+#name2 = "Authenticated by DigiCert Inc"
+#assert (name1 not in button_names) or (name2 not in button_names), \
+#                                     "Lock icon shouldn't appears in statusbar"
+fFrame.findAutocomplete("Go to a Website").findPushButton("Location").mouseClick()
+sleep(config.SHORT_DELAY)
+
+procedurelogger.expectedResult('There is no Lock icon in %s web' % "www.opensuse.org")
+labels = fFrame.findAllLabels(None)
+auth = False
+for i in labels:
+    if i.name == "Verified by: DigiCert Inc":
+        auth = True
+assert auth == False, "Lock icon shouldn't appears in statusbar"
 
 # Step2: Go to a secure site, say, https://bugzilla.novell.com
 entry = fFrame.findAutocomplete(None).findEntry(None)
@@ -134,12 +147,21 @@ sleep(20)
 
 # Step3: Verify that the Lock icon at the bottom right side of the browser window appears locked.
 procedurelogger.action('Find Lock icon at the bottom right side')
-procedurelogger.expectedResult('There is Lock icon in %s web' % "bugzilla.novell.com")
 
-buttons = fFrame.findStatusBar(None).findAllPushButtons(None)
-button_names = [i.name for i in buttons]
-assert (name1 in button_names) or (name2 in button_names), \
-                                     "Lock icon should appears in statusbar"
+#buttons = fFrame.findStatusBar(None).findAllPushButtons(None)
+#button_names = [i.name for i in buttons]
+#assert (name1 in button_names) or (name2 in button_names), \
+#                                     "Lock icon should appears in statusbar"
+fFrame.findAutocomplete("Go to a Website").findPushButton("Location").mouseClick()
+sleep(config.SHORT_DELAY)
+
+procedurelogger.expectedResult('There is Lock icon in %s web' % "bugzilla.novell.com")
+labels = fFrame.findAllLabels(None)
+auth = False
+for i in labels:
+    if i.name == "which is run by":
+        auth = True
+assert auth == True, "Lock icon should appears in statusbar"
 
 # Step4: Visit https://sf.net 
 entry.mouseClick()
@@ -148,6 +170,8 @@ sleep(config.SHORT_DELAY)
 fFrame.keyCombo("enter", grabFocus=False)
 sleep(20)
 
+# no Untrusted Connection page appears in FF17
+'''
 # ensure that the "Untrusted Connection" page appears.
 procedurelogger.expectedResult('Untrusted Connection page appears')
 sf_frame = fFrame.findDocumentFrame("Untrusted Connection")
@@ -170,10 +194,10 @@ else:
 # Step6: Click "Confirm Security Exception" to visit the site
 security_dialog.findPushButton("Confirm Security Exception").mouseClick()
 sleep(20)
-
+'''
 # Step7: ensure that it loads the same https://sourceforge.net as above.
 procedurelogger.expectedResult('Ensure https://sourceforge.net page appears')
-source_frame = fFrame.findDocumentFrame(re.compile('^SourceForge.net:'))
+source_frame = fFrame.findDocumentFrame(re.compile('^SourceForge'))
 assert source_frame.showing == True, \
                              "SourceForge.net page doesn't appears"
 
@@ -181,5 +205,5 @@ assert source_frame.showing == True, \
 menubar = fFrame.findMenuBar(None)
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
-fFrame.assertClosed()
+app.assertClosed()
 

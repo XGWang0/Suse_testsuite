@@ -99,7 +99,7 @@ t -s run-all
 echo 't -t 20'
 t -t 20
 echo 't -t 0'
-t -t 0 < /dev/tty
+if [ "`tty 2>&1`" != "not a tty" ];then t -t 0 < /dev/tty;else echo 0 ;fi  # ignor error message when running from non-tty ENV
 
 echo 't -u noexist'
 t -u noexist

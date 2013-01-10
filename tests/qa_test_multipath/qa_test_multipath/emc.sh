@@ -27,7 +27,7 @@ HW=1
 
 backup_conf
 
-config_prepare EMC
+config_prepare DGC 
 if [ $? -eq 50 ];then
 	exit 22
 fi

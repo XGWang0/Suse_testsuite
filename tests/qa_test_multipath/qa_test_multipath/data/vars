@@ -3,6 +3,6 @@ BACKUP=/var/tmp/multipath_backup.tar.gz
 #Target disk name
 TARGET_DISK="iqn.2010-06.de.suse:multipath"
 #Target IP
-TARGET="galileo.suse.de"
+TARGET="galileo.qam.suse.de"
 #Partition size
 PART_SIZE="2G"

@@ -37,7 +37,7 @@ Summary:        Simple multipath tests for ctcs framework
 Provides:	qa_multipath
 Obsoletes:	qa_multipath
 Requires:       multipath-tools open-iscsi ctcs2 grep dt
-Version:        1.2
+Version:        1.3
 Release:        1
 Source0:        %name-%version.tar.bz2
 Source2:        test_sw_multipath-run
