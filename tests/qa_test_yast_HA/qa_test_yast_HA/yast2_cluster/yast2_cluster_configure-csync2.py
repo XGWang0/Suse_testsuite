@@ -195,6 +195,10 @@ connect.sendline("rcxinetd restart")
 connect.expect([pexpect.TIMEOUT, "#|->"])
 print connect.before
 
+connect.sendline("csync2 -f `csync2 -M |awk '{print $4}'`")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
 connect.sendline('exit')
 
 # Remote enable node2 csync2 and xineted on, start xinetd
@@ -213,6 +217,10 @@ connect.expect([pexpect.TIMEOUT, "#|->"])
 print connect.before
 
 connect.sendline("rcxinetd restart")
+connect.expect([pexpect.TIMEOUT, "#|->"])
+print connect.before
+
+connect.sendline("csync2 -f `csync2 -M |awk '{print $4}'`")
 connect.expect([pexpect.TIMEOUT, "#|->"])
 print connect.before
 
