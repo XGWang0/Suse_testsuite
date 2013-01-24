@@ -39,6 +39,20 @@ Release:	1
 Source0:        %{name}-%{version}.tar.bz2
 Source1:        %{name}.8
 Source2:        test_lynis-run
+# PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE  
+Patch0:         lynis_%{version}_lynis.diff
+# PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE
+Patch2:         lynis_%{version}_include_consts.diff
+# PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE
+Patch3:         lynis_%{version}_include_binaries.diff
+# PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE
+Patch4:         lynis_%{version}_include-test-databases.diff
+Patch5:         lynis_%{version}_include-osdetection.diff
+Patch6:         lynis_%{version}_include-test-filesystem.diff
+Patch7:         lynis_%{version}_include-test-kernel.diff
+Patch8:         lynis_%{version}_include-test-storage.diff
+Patch9:         lynis_%{version}_include-test-homedirs.diff
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -56,6 +70,15 @@ See http://www.rootkit.nl for a full description and documentation.
 
 %prep
 %setup -q 
+%patch0
+%patch2
+%patch3
+%patch4
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
 
 %build
 
