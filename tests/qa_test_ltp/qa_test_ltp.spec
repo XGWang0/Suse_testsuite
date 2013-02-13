@@ -67,7 +67,7 @@ Patch300:	0001-Fix-realtime-build.patch
 Patch301:	0001-syscalls-mremap05-Fix-build.patch
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
-#Patch408:       fix-sched_stress.patch
+Patch408:       fix-sched_stress.patch
 # Patches 5xx Workarounds
 Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
