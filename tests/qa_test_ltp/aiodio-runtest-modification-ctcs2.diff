@@ -1,7 +1,7 @@
-Index: ltp-full-20120104/runtest/ltp-aio-stress.part1
+Index: ltp-full-20130109/runtest/ltp-aio-stress.part1
 ===================================================================
---- ltp-full-20120104.orig/runtest/ltp-aio-stress.part1
-+++ ltp-full-20120104/runtest/ltp-aio-stress.part1
+--- ltp-full-20130109.orig/runtest/ltp-aio-stress.part1
++++ ltp-full-20130109/runtest/ltp-aio-stress.part1
 @@ -26,6 +26,8 @@
  #       -x turn off thread stonewalling
  #       -h this message
@@ -16,10 +16,10 @@ Index: ltp-full-20120104/runtest/ltp-aio-stress.part1
  ADS1049 aio-stress -I500  -o1 -O -r128  -t8   /test/aiodio/junkfile /test/aiodio/file2        /test/aiodio/file7  /test/aiodio/file8 /test/aiodio/file3  /test/aiodio/file4  /test/aiodio/file5  /test/aiodio/file6
  ADS1050 aio-stress -I500  -o1 -O -r256  -t2   /test/aiodio/junkfile /test/aiodio/file2
 +ADPOST0 rm -rf /test/
-Index: ltp-full-20120104/runtest/ltp-aio-stress.part2
+Index: ltp-full-20130109/runtest/ltp-aio-stress.part2
 ===================================================================
---- ltp-full-20120104.orig/runtest/ltp-aio-stress.part2
-+++ ltp-full-20120104/runtest/ltp-aio-stress.part2
+--- ltp-full-20130109.orig/runtest/ltp-aio-stress.part2
++++ ltp-full-20130109/runtest/ltp-aio-stress.part2
 @@ -26,6 +26,8 @@
  #       -x turn off thread stonewalling
  #       -h this message
@@ -35,13 +35,13 @@ Index: ltp-full-20120104/runtest/ltp-aio-stress.part2
  ADS2010 aio-stress -I500  -o3 -O -r64  -t4  /test/aiodio/junkfile /test/aiodio2/file2 /test/aiodio/file3 /test/aiodio2/file4
 +ADPOST0 rm -rf /test/
 +
-Index: ltp-full-20120104/runtest/ltp-aiodio.part1
+Index: ltp-full-20130109/runtest/ltp-aiodio.part1
 ===================================================================
---- ltp-full-20120104.orig/runtest/ltp-aiodio.part1
-+++ ltp-full-20120104/runtest/ltp-aiodio.part1
+--- ltp-full-20130109.orig/runtest/ltp-aiodio.part1
++++ ltp-full-20130109/runtest/ltp-aiodio.part1
 @@ -1,216 +1,226 @@
  #DESCRIPTION:ltp A-sync IO and Direct IO tests
- # 
+ #
 -AD001 time aiocp -b 1k -n 1 -f DIRECT $TMPDIR/aiodio.$$/junkfile $TMPDIR/aiodio.$$/ff2
 -AD002 time aiocp -b 1k -n 1 -f SYNC $TMPDIR/aiodio.$$/junkfile $TMPDIR/aiodio.$$/ff2
 -AD003 time aiocp -b 1k -n 1 -f DIRECT -f SYNC $TMPDIR/aiodio.$$/junkfile $TMPDIR/aiodio.$$/ff2
@@ -480,62 +480,62 @@ Index: ltp-full-20120104/runtest/ltp-aiodio.part1
 +AD304 aiocp -b 128k -n 32 -f CREAT -f DIRECT /tmp/aiodio/ff3 /tmp/aiodio/junkdir/ff3
 +
 +ADPOST0 rm -rf /tmp/aiodio/
-Index: ltp-full-20120104/runtest/ltp-aiodio.part3
+Index: ltp-full-20130109/runtest/ltp-aiodio.part3
 ===================================================================
---- ltp-full-20120104.orig/runtest/ltp-aiodio.part3
-+++ ltp-full-20120104/runtest/ltp-aiodio.part3
+--- ltp-full-20130109.orig/runtest/ltp-aiodio.part3
++++ ltp-full-20130109/runtest/ltp-aiodio.part3
 @@ -1,51 +1,57 @@
  #           fname:  this filename is Required (no default)
  #
  #
--FSX032 fsx-linux -d  -l 500000 -r 4096 -t 4096 -w 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile 
--FSX033 fsx-linux -d  -l 500000 -r 4096 -t 2048 -w 2048 -N 10000 $TMPDIR/aiodio.$$/junkfile 
--FSX034 fsx-linux -d  -l 500000 -r 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile 
--FSX035 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile 
--FSX036 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile 
--FSX037 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile 
--FSX038 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile 
--FSX039 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile 
--FSX040 fsx-linux -N 10000 -o 1024 $TMPDIR/aiodio.$$/junkfile 
--FSX041 fsx-linux -N 10000 -o 2048 $TMPDIR/aiodio.$$/junkfile 
--FSX042 fsx-linux -N 10000 -o 4096 $TMPDIR/aiodio.$$/junkfile 
--FSX043 fsx-linux -N 10000 -o 8192 $TMPDIR/aiodio.$$/junkfile 
--FSX044 fsx-linux -N 10000 -o 16384 $TMPDIR/aiodio.$$/junkfile 
--FSX045 fsx-linux -N 10000 -o 32768 $TMPDIR/aiodio.$$/junkfile 
--FSX046 fsx-linux -N 10000 -o 128000 $TMPDIR/aiodio.$$/junkfile 
--FSX047 fsx-linux -N 10000 -o 1024 $TMPDIR/aiodio.$$/junkfile 
--FSX048 fsx-linux -N 10000 -o 2048 $TMPDIR/aiodio.$$/junkfile 
--FSX049 fsx-linux -N 10000 -o 4096 $TMPDIR/aiodio.$$/junkfile 
--FSX050 fsx-linux -N 10000 -o 8192 $TMPDIR/aiodio.$$/junkfile 
--FSX051 fsx-linux -N 10000 -o 16384 $TMPDIR/aiodio.$$/junkfile 
--FSX052 fsx-linux -N 10000 -o 32768 $TMPDIR/aiodio.$$/junkfile 
--FSX053 fsx-linux -N 10000 -o 128000 $TMPDIR/aiodio.$$/junkfile 
--FSX054 fsx-linux -N 10000  -o 1024 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile 
--FSX055 fsx-linux -N 10000  -o 2048 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile 
--FSX056 fsx-linux -N 10000  -o 4096 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile 
--FSX057 fsx-linux -N 10000  -o 8192 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile 
--FSX058 fsx-linux -N 10000  -o 16384 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile 
--FSX059 fsx-linux -N 10000  -o 32768 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile 
--FSX060 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile 
--FSX061 fsx-linux -N 10000 -o 32768 $TMPDIR/aiodio.$$/junkfile                                          
--FSX062 fsx-linux -N 10000 -o 128000 $TMPDIR/aiodio.$$/junkfile                                         
--FSX063 fsx-linux -N 10000  -o 1024  -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile   
--FSX064 fsx-linux -N 10000  -o 2048 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile   
--FSX065 fsx-linux -N 10000  -o 4096 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile   
--FSX066 fsx-linux -N 10000  -o 8192  -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile    
--FSX067 fsx-linux -N 10000  -o 16384 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile   
--FSX068 fsx-linux -N 10000  -o 32768 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile   
--FSX069 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile  
--FSX070 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile   
--FSX071 fsx-linux -N 10000  -o 16384 -l 500000 -r 4096 -t 4096 -w 4096   $TMPDIR/aiodio.$$/junkfile1 
--FSX072 fsx-linux -N 10000  -o 32768 -l 500000 -r 4096 -t 2048 -w 2048   $TMPDIR/aiodio.$$/junkfile2 
--FSX073 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile3 
--FSX074 fsx-linux -N 10000  -o 16384 -l 500000 -r 4096 -t 4096 -w 4096   $TMPDIR/aiodio.$$/junkfile4 
--FSX075 fsx-linux -N 10000  -o 32768 -l 500000 -r 4096 -t 2048 -w 2048   $TMPDIR/aiodio.$$/junkfile5 
--FSX076 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile6 
--FSX077 fsx-linux -N 10000   $TMPDIR/aiodio.$$/junkfile7 
--FSX078 fsx-linux -N 100000  $TMPDIR/aiodio.$$/junkfile8 
--FSX079 fsx-linux -N 100000  $TMPDIR/aiodio.$$/junkfile9 
+-FSX032 fsx-linux -d  -l 500000 -r 4096 -t 4096 -w 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX033 fsx-linux -d  -l 500000 -r 4096 -t 2048 -w 2048 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX034 fsx-linux -d  -l 500000 -r 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX035 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX036 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX037 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX038 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX039 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX040 fsx-linux -N 10000 -o 1024 $TMPDIR/aiodio.$$/junkfile
+-FSX041 fsx-linux -N 10000 -o 2048 $TMPDIR/aiodio.$$/junkfile
+-FSX042 fsx-linux -N 10000 -o 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX043 fsx-linux -N 10000 -o 8192 $TMPDIR/aiodio.$$/junkfile
+-FSX044 fsx-linux -N 10000 -o 16384 $TMPDIR/aiodio.$$/junkfile
+-FSX045 fsx-linux -N 10000 -o 32768 $TMPDIR/aiodio.$$/junkfile
+-FSX046 fsx-linux -N 10000 -o 128000 $TMPDIR/aiodio.$$/junkfile
+-FSX047 fsx-linux -N 10000 -o 1024 $TMPDIR/aiodio.$$/junkfile
+-FSX048 fsx-linux -N 10000 -o 2048 $TMPDIR/aiodio.$$/junkfile
+-FSX049 fsx-linux -N 10000 -o 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX050 fsx-linux -N 10000 -o 8192 $TMPDIR/aiodio.$$/junkfile
+-FSX051 fsx-linux -N 10000 -o 16384 $TMPDIR/aiodio.$$/junkfile
+-FSX052 fsx-linux -N 10000 -o 32768 $TMPDIR/aiodio.$$/junkfile
+-FSX053 fsx-linux -N 10000 -o 128000 $TMPDIR/aiodio.$$/junkfile
+-FSX054 fsx-linux -N 10000  -o 1024 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX055 fsx-linux -N 10000  -o 2048 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile
+-FSX056 fsx-linux -N 10000  -o 4096 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX057 fsx-linux -N 10000  -o 8192 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile
+-FSX058 fsx-linux -N 10000  -o 16384 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX059 fsx-linux -N 10000  -o 32768 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile
+-FSX060 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX061 fsx-linux -N 10000 -o 32768 $TMPDIR/aiodio.$$/junkfile
+-FSX062 fsx-linux -N 10000 -o 128000 $TMPDIR/aiodio.$$/junkfile
+-FSX063 fsx-linux -N 10000  -o 1024  -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX064 fsx-linux -N 10000  -o 2048 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile
+-FSX065 fsx-linux -N 10000  -o 4096 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX066 fsx-linux -N 10000  -o 8192  -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile
+-FSX067 fsx-linux -N 10000  -o 16384 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX068 fsx-linux -N 10000  -o 32768 -l 500000 -r 4096 -t 2048 -w 2048 $TMPDIR/aiodio.$$/junkfile
+-FSX069 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX070 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile
+-FSX071 fsx-linux -N 10000  -o 16384 -l 500000 -r 4096 -t 4096 -w 4096   $TMPDIR/aiodio.$$/junkfile1
+-FSX072 fsx-linux -N 10000  -o 32768 -l 500000 -r 4096 -t 2048 -w 2048   $TMPDIR/aiodio.$$/junkfile2
+-FSX073 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile3
+-FSX074 fsx-linux -N 10000  -o 16384 -l 500000 -r 4096 -t 4096 -w 4096   $TMPDIR/aiodio.$$/junkfile4
+-FSX075 fsx-linux -N 10000  -o 32768 -l 500000 -r 4096 -t 2048 -w 2048   $TMPDIR/aiodio.$$/junkfile5
+-FSX076 fsx-linux -N 10000  -o 128000 -l 500000 -r 4096 -t 4096 -w 4096 $TMPDIR/aiodio.$$/junkfile6
+-FSX077 fsx-linux -N 10000   $TMPDIR/aiodio.$$/junkfile7
+-FSX078 fsx-linux -N 100000  $TMPDIR/aiodio.$$/junkfile8
+-FSX079 fsx-linux -N 100000  $TMPDIR/aiodio.$$/junkfile9
 +
 +ADPREP0 mkdir -p /tmp/aiodio/
 +ADPREP1 touch /tmp/aiodio/junkfile /tmp/aiodio/junkfile1 /tmp/aiodio/junkfile2 /tmp/aiodio/junkfile3 /tmp/aiodio/junkfile4 /tmp/aiodio/junkfile5 /tmp/aiodio/junkfile6 /tmp/aiodio/junkfile7 /tmp/aiodio/junkfile8 /tmp/aiodio/junkfile9
@@ -590,10 +590,10 @@ Index: ltp-full-20120104/runtest/ltp-aiodio.part3
 +FSX079 fsx-linux -N 100000  /tmp/aiodio/junkfile9
 +
 +ADPOST0 rm -rf /tmp/aiodio/
-Index: ltp-full-20120104/runtest/ltp-aiodio.part4
+Index: ltp-full-20130109/runtest/ltp-aiodio.part4
 ===================================================================
---- ltp-full-20120104.orig/runtest/ltp-aiodio.part4
-+++ ltp-full-20120104/runtest/ltp-aiodio.part4
+--- ltp-full-20130109.orig/runtest/ltp-aiodio.part4
++++ ltp-full-20130109/runtest/ltp-aiodio.part4
 @@ -34,16 +34,16 @@ DIO07 dio_sparse
  DIO08 dio_sparse
  DIO09 dio_sparse
@@ -623,7 +623,7 @@ Index: ltp-full-20120104/runtest/ltp-aiodio.part4
  ADI001 dio_append
 @@ -62,7 +62,7 @@ DIT002 dio_truncate
  #Running read_checkzero
- #gread_checkzero 
+ #gread_checkzero
  #Running ltp-diorh
 -DOR000 ltp-diorh $TMPDIR/aiodio.$$/file2
 -DOR001 ltp-diorh $TMPDIR/aiodio.$$/file3
