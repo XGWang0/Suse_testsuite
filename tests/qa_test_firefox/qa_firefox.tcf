@@ -35,11 +35,15 @@ fg 1 firefox_launch /usr/share/qa/qa_test_firefox/firefox_launch_plan2556_case92
 wait
 
 timer 300
-fg 1 firefox_bookmarks /usr/share/qa/qa_test_firefox/firefox_bookmarks_plan2556_case926903_01.py
+fg 1 firefox_navigation /usr/share/qa/qa_test_firefox/firefox_navigation_plan2556_case926910_01.py
 wait
 
 timer 300
-fg 1 firefox_security /usr/share/qa/qa_test_firefox/firefox_security_plan2556_case926919_01.py
+fg 1 firefox_pageload-control /usr/share/qa/qa_test_firefox/firefox_pageload-control_plan2556_case926913_01.py
+wait
+
+timer 300
+fg 1 firefox_new-browser-window /usr/share/qa/qa_test_firefox/firefox_new-browser-window_plan2556_case926911_01.py
 wait
 
 timer 300
@@ -55,27 +59,11 @@ fg 1 firefox_adobe-flashplayer /usr/share/qa/qa_test_firefox/firefox_adobe-flash
 wait
 
 timer 300
-fg 1 firefox_HTTPheaders /usr/share/qa/qa_test_firefox/firefox_HTTPheaders_plan3130_case1014742_01.py
-wait
-
-timer 300
-fg 1 firefox_important-certificate /usr/share/qa/qa_test_firefox/firefox_important-certificate_plan3130_case1014759_01.py
-wait
-
-timer 300
-fg 1 firefox_location-control /usr/share/qa/qa_test_firefox/firefox_location-control_plan3130_case1014744_01.py
+fg 1 firefox_remember-password /usr/share/qa/qa_test_firefox/firefox_remember-password_plan2556_case926916_01.py
 wait
 
 timer 300
 fg 1 firefox_online-video /usr/share/qa/qa_test_firefox/firefox_online-video_plan2556_case986593_01.py
-wait
-
-timer 300
-fg 1 firefox_new-browser-window /usr/share/qa/qa_test_firefox/firefox_new-browser-window_plan2556_case926911_01.py
-wait
-
-timer 300
-fg 1 firefox_search /usr/share/qa/qa_test_firefox/firefox_search_plan2556_case926918_01.py
 wait
 
 timer 300
@@ -91,27 +79,11 @@ fg 1 firefox_history /usr/share/qa/qa_test_firefox/firefox_history_plan2556_case
 wait
 
 timer 300
-fg 1 firefox_pageload-control /usr/share/qa/qa_test_firefox/firefox_pageload-control_plan2556_case926913_01.py
-wait
-
-timer 300
 fg 1 firefox_preferences-save-homepage /usr/share/qa/qa_test_firefox/firefox_preferences-save-home-page_plan2556_case926914_01.py
 wait
 
 timer 300
-fg 1 firefox_remember-password /usr/share/qa/qa_test_firefox/firefox_remember-password_plan2556_case926916_01.py
-wait
-
-timer 300
-fg 1 firefox_autofill /usr/share/qa/qa_test_firefox/firefox_autofill_plan2556_case926902_01.py
-wait
-
-timer 300
 fg 1 firefox_print /usr/share/qa/qa_test_firefox/firefox_print_plan2556_case926915_01.py
-wait
-
-timer 300
-fg 1 firefox_lockdown-save-media /usr/share/qa/qa_test_firefox/firefox_lockdown-save-media_plan3130_case1014733_01.py
 wait
 
 timer 300
@@ -131,10 +103,6 @@ fg 1 firefox_java-plugin /usr/share/qa/qa_test_firefox/firefox_java-plugin_plan3
 wait
 
 timer 300
-fg 1 firefox_navigation /usr/share/qa/qa_test_firefox/firefox_navigation_plan2556_case926910_01.py
-wait
-
-timer 300
 fg 1 firefox_open-file /usr/share/qa/qa_test_firefox/firefox_open-file_plan3130_case1014747_01.py
 waits
 
@@ -143,9 +111,42 @@ fg 1 firefox_savepage /usr/share/qa/qa_test_firefox/firefox_savepage_plan2556_ca
 wait
 
 timer 300
-fg 1 firefox_SSLcertificate /usr/share/qa/qa_test_firefox/firefox_SSLcertificate_plan3130_case1014760_01.py
+fg 1 firefox_novell-moonligh /usr/share/qa/qa_test_firefox/firefox_novell-moonlight_plan2556_case926944_01.py
 wait
 
 timer 300
-fg 1 firefox_novell-moonligh /usr/share/qa/qa_test_firefox/firefox_novell-moonlight_plan2556_case926944_01.py
+fg 1 firefox_security /usr/share/qa/qa_test_firefox/firefox_security_plan2556_case926919_01.py
 wait
+
+timer 300
+fg 1 firefox_autofill /usr/share/qa/qa_test_firefox/firefox_autofill_plan2556_case926902_01.py
+wait
+
+timer 300
+fg 1 firefox_HTTPheaders /usr/share/qa/qa_test_firefox/firefox_HTTPheaders_plan3130_case1014742_01.py
+wait
+
+timer 300
+fg 1 firefox_SSLcertificate /usr/share/qa/qa_test_firefox/firefox_SSLcertificate_plan3130_case1014760_01.py
+wait
+
+## Not for FF17
+#timer 300
+#fg 1 firefox_lockdown-save-media /usr/share/qa/qa_test_firefox/firefox_lockdown-save-media_plan3130_case1014733_01.py
+#wait
+
+#timer 300
+#fg 1 firefox_bookmarks /usr/share/qa/qa_test_firefox/firefox_bookmarks_plan2556_case926903_01.py
+#wait
+
+#timer 300
+#fg 1 firefox_location-control /usr/share/qa/qa_test_firefox/firefox_location-control_plan3130_case1014744_01.py
+#wait
+
+#timer 300
+#fg 1 firefox_search /usr/share/qa/qa_test_firefox/firefox_search_plan2556_case926918_01.py
+#wait
+
+#timer 300
+#fg 1 firefox_important-certificate /usr/share/qa/qa_test_firefox/firefox_important-certificate_plan3130_case1014759_01.py
+#wait

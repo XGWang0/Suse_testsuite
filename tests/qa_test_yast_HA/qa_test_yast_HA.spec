@@ -33,7 +33,7 @@ Group:          SuSE internal
 Summary:        HA Yast tools UI Automation tests
 Provides:	qa_yast_HA
 Obsoletes:	qa_yast_HA
-Requires:       strongwind ctcs2 python-pexpect yast2-cluster yast2-iplb yast2-drbd yast2-gtk
+Requires:       strongwind ctcs2 python-pexpect yast2-cluster yast2-iplb yast2-drbd yast2-gtk csync2
 Version:        0.1
 Release:        1
 Source0:        %{name}-%{version}.tar.bz2
@@ -42,6 +42,8 @@ Source2:        test_HA_yast-cluster-run
 Source3:	qa_test_yast_HA.8
 Source4:        test_HA_yast-iplb-run
 Source5:        qa_HA_yast-iplb.tcf
+Source6:        test_HA_yast-drbd-run
+Source7:        qa_HA_yast-drbd.tcf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 
@@ -65,9 +67,12 @@ install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 644 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_HA_yast-cluster.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%name/tcf/qa_HA_yast-iplb.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../%name/tcf/qa_HA_yast-drbd.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 %clean
 rm -rf $RPM_BUILD_ROOT

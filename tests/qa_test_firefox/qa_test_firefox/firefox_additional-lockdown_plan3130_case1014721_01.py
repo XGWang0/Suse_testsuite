@@ -55,12 +55,14 @@ def updateCacheEntry(size):
         if not cache_check.checked:
             cache_check.mouseClick()
             sleep(config.SHORT_DELAY)
-        cache_entry = preferences_frame.findPanel("Offline Storage").findEntry(None)
+        #cache_entry = preferences_frame.findPanel("Offline Storage").findEntry(None)
+        cache_entry = preferences_frame.findEntry(None, labelledBy="Limit cache to")
 
     cache_entry.mouseClick(log=False)
     cache_entry.deleteText()
     procedurelogger.action('set cache_size to %s' % size)
-    cache_entry.text = size
+    cache_entry.grabFocus()
+    cache_entry.typeText(size)
     sleep(config.SHORT_DELAY)
 
 # Make sure MozillaFirefox version is expected for the test

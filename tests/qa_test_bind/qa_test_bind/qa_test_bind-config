@@ -33,7 +33,7 @@ primary_query_2=192.168.42.251
 primary_match_2=251.42.168.192.in-addr.arpa
 
 # Variables for bind_secondary test
-secondary_query=felix.suse.cz
+secondary_query=felix.slave.suse.cz
 secondary_match=10.20.1.89
 
 # Variables for bind_forwarder test

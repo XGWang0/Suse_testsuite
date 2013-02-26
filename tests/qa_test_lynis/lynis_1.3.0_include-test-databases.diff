@@ -1,0 +1,13 @@
+Index: include/tests_databases
+===================================================================
+--- include/tests_databases.orig
++++ include/tests_databases
+@@ -117,7 +117,7 @@
+     #               reco: recovery (optional)
+     Register --test-no DBS-1840 --weight L --network NO --description "Checking active Oracle processes"
+     if [ ${SKIPTEST} -eq 0 ]; then
+-	FIND=`${PSBINARY} ax | grep "ora_pmon|ora_smon|tnslsnr" | grep -v "grep"`
++	FIND=`${PSBINARY} ax | grep -E "ora_pmon|ora_smon|tnslsnr" | grep -v "grep"`
+ 	if [ "${FIND}" = "" ]; then
+ 	    Display --indent 2 --text "- Oracle processes status..." --result "NOT FOUND" --color WHITE
+ 	    logtext "Result: Oracle process(es) not active"

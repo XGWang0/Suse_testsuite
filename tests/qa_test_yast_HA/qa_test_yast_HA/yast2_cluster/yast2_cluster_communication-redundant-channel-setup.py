@@ -65,12 +65,25 @@ yFrame.findMenuItem(transport_type, checkShowing=False).click(log=True)
 sleep(config.SHORT_DELAY)
 
 channel_texts = yFrame.findPanel("Channel").findAllTexts(None)
-channel_info = [bind_net_addr_1, multicast_addr_1, multicast_port_1]
+if transport_type == "udpu":
+    channel_info = [bind_net_addr_1, "", multicast_port_1]
+else:
+    channel_info = [bind_net_addr_1, multicast_addr_1, multicast_port_1]
 
 def insert(x, y):
     x.text = y
 map(insert, channel_texts, channel_info)
 sleep(config.SHORT_DELAY)
+
+ips=[director_ip, node1_ip, node2_ip]
+if transport_type == "udpu":
+    for ip in ips:
+        yFrame.findAllPushButtons("Add")[0].mouseClick()
+        sleep(config.SHORT_DELAY)
+        app.findDialog(None).findText(None).text = ip
+        sleep(config.SHORT_DELAY)
+        app.findDialog(None).findPushButton('OK').mouseClick()
+        sleep(config.SHORT_DELAY)
 
 if not yFrame.findCheckBox("Auto Generate Node ID").checked:
     yFrame.findCheckBox("Auto Generate Node ID").mouseClick()
@@ -84,12 +97,25 @@ if not redundant_cbox.checked:
 
 parent_panel = redundant_cbox.parent
 redundant_texts = parent_panel.getChildAtIndex(0).findAllTexts(None)
-channel_info = [bind_net_addr_2, multicast_addr_2, multicast_port_2]
+if transport_type == "udpu":
+    channel_info = [bind_net_addr_2, "", multicast_port_2]
+else:
+    channel_info = [bind_net_addr_2, multicast_addr_2, multicast_port_2]
 
 def insert(x, y):
     x.text = y
 map(insert, redundant_texts, channel_info)
 sleep(config.SHORT_DELAY)
+
+ips=[director_ip, node1_ip, node2_ip]
+if transport_type == "udpu":
+    for ip in ips:
+        yFrame.findAllPushButtons("Add")[-1].mouseClick()
+        sleep(config.SHORT_DELAY)
+        app.findDialog(None).findText(None).text = ip
+        sleep(config.SHORT_DELAY)
+        app.findDialog(None).findPushButton('OK').mouseClick()
+        sleep(config.SHORT_DELAY)
 
 # STEP4: Set up rrp mode to "passive"
 yFrame.findMenuItem(rrp_mode, checkShowing=False).click(log=True)

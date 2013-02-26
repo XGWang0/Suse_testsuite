@@ -1,0 +1,12 @@
+diff -ENbru lynis-1.3.0/include/tests_kernel lynis-1.3.0_suse/include/tests_kernel
+--- lynis-1.3.0/include/tests_kernel    2011-12-25 15:56:11.000000000 +0100
++++ lynis-1.3.0_suse/include/tests_kernel       2013-01-10 11:54:16.288498525 +0100
+@@ -280,7 +280,7 @@
+ 	    
+ 	    # Sysctl option
+ 	    logtext "Test: Checking sysctl value of fs.suid_dumpable"
+-	    FIND=`sysctl fs.suid_dumpable | awk '{ if ($1=="fs.suid_dumplable") { print $3 } }'`
++	    FIND=`/sbin/sysctl fs.suid_dumpable | awk '{ if ($1=="fs.suid_dumplable") { print $3 } }'`
+ 	    logtext "Result: value ${FIND} found"
+ 	    if [ "${FIND}" = "1" ]; then
+ 	        logtext "Result: setuid programs can perform core dumps"

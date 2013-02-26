@@ -1,0 +1,22 @@
+#!/bin/sh
+
+WORKDIR="/usr/share/qa/qa_test_llcbench/llcbench"
+LOGFILE=$WORKDIR/cachebench.log
+cd $WORKDIR
+
+# remove all of the old cachebench test data
+host=`hostname`
+arch=`uname -m`
+rm -f ./results/$host-$arch_cache*
+
+# caculate the total log2(memory)
+memory=`cat /proc/meminfo | grep "MemTotal:" | awk '{print $2}'`
+memory_log=`echo "l($memory*1024)/l(2)" | bc -l | awk -F. '{print $1}'`
+
+if [ ! -f ./user.def.org ]; then
+	cp -ap user.def user.def.org
+fi
+sed -i "s/^\(BB_Memsize\s*=\s*\)[0-9]\{1,\}/\1$memory_log/" $WORKDIR/user.def
+
+make cache-bench
+make cache-run

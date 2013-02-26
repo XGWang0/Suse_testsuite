@@ -91,7 +91,8 @@ else:
     sleep(config.SHORT_DELAY)
 
 # Step2: load to http://gsmworld.com/documents/a5_3_and_gea3_specifications.pdf
-pdf_web = "http://gsmworld.com/documents/a5_3_and_gea3_specifications.pdf"
+#pdf_web = "http://gsmworld.com/documents/a5_3_and_gea3_specifications.pdf"
+pdf_web = "http://www.irs.gov/pub/irs-pdf/fw4.pdf"
 entry = fFrame.findAutocomplete(None).findEntry(None)
 procedurelogger.action('Load to %s' % pdf_web)
 entry.text = pdf_web
@@ -116,8 +117,8 @@ else:
 # Step3: view this pdf file in firefox rather than a dialog pops up 
 # which prompt you to download this pdf 
 procedurelogger.expectedResult('%s frame appears' % \
-                                    "a5_3_and_gea3_specifications.pdf")
-assert fFrame.name.startswith("a5_3_and_gea3_specifications.pdf"), \
+                                    "fw4.pdf")
+assert fFrame.name.startswith("fw4.pdf"), \
               "frame name shouldn't be %s" % fFrame.name  
 
 # Close application

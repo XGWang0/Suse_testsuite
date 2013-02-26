@@ -1,0 +1,13 @@
+Index: include/binaries
+===================================================================
+--- include/binaries.orig
++++ include/binaries
+@@ -80,7 +80,7 @@
+       J=${I}"/aa-status";    	if [ -f ${J} ]; then APPARMORFOUND=1;    AASTATUSBINARY=${J}; 	logtext "Found ${J}";	fi
+       J=${I}"/afick.pl";    	if [ -f ${J} ]; then AFICKFOUND=0;	 AFICKBINARY=${J}; 	logtext "Found ${J}";	fi
+       J=${I}"/aide";    	if [ -f ${J} ]; then AIDEFOUND=1;   	 AIDEBINARY=${J}; 	logtext "Found ${J}";	fi
+-      J=${I}"/apache2";      	if [ -f ${J} ]; then HTTPDFOUND=1;    	 HTTPDBINARY=${J};   	logtext "Found ${J}";   fi
++      J=${I}"/httpd2-prefork";  if [ -f ${J} ]; then HTTPDFOUND=1;    	 HTTPDBINARY=${J};   	logtext "Found ${J}";   fi
+       J=${I}"/auditd";    	if [ -f ${J} ]; then AUDITDFOUND=1;      AUDITDBINARY=${J}; 	logtext "Found ${J}";	fi    
+       J=${I}"/awk";    		if [ -f ${J} ]; then AWKFOUND=0;	 AWKBINARY=${J}; 	logtext "Found ${J}";	fi
+       J=${I}"/chkconfig"; 	if [ -f ${J} ]; then CHKCONFIGFOUND=1;   CHKCONFIGBINARY=${J};	logtext "Found ${J}";   fi

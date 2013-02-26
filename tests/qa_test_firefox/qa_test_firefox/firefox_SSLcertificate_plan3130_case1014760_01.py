@@ -93,18 +93,32 @@ certificate_dialog = app.findDialog("Certificate Manager")
 # Import pdb.suse.de file in Servers label
 pdb_cell = certificate_dialog.findPageTab("Servers").switch(log=True)
 sleep(config.SHORT_DELAY)
-certificate_dialog.findPushButton(re.compile('^Import')).mouseClick()
+
+certificate_dialog.findPushButton(re.compile('^Import')).press()
 sleep(config.MEDIUM_DELAY)
 
-select_dialog = app.findDialog(re.compile('^Select File'))
+select_dialog = app.findDialog(re.compile('.*File.*'))
 toggle = select_dialog.findToggleButton(None)
 if not toggle.checked:
-    toggle.click(log=True)
+    toggle.mouseClick(log=True)
 
 location_text = select_dialog.findText(None, labelledBy="Location:", \
-                                checkShowing=False).text = "%s/%s" % (source_path, ca_name)
+                                checkShowing=False)
+location_text.typeText("%s/%s" % (source_path, ca_name))
+sleep(config.SHORT_DELAY)
+location_text.mouseClick()
+sleep(config.SHORT_DELAY)
+select_dialog.findMenuItem('All Files', checkShowing=False).click()
+sleep(config.SHORT_DELAY)
+
 select_dialog.findPushButton("Open").mouseClick()
 sleep(config.SHORT_DELAY)
+
+if app.findAllDialogs(None)[-1].name == "Password Entry Dialog":
+    app.findAllDialogs(None)[-1].findPasswordText(None).typeText("novell")
+    sleep(config.SHORT_DELAY)
+    app.findAllDialogs(None)[-1].findPushButton("OK").mouseClick()
+    sleep(config.SHORT_DELAY)
 
 procedurelogger.expectedResult('Make sure %s is imported' % ca_name)
 pdb_cell = certificate_dialog.findTableCell(ca_name)
@@ -119,7 +133,7 @@ pdb_cell.activate()
 sleep(config.SHORT_DELAY)
 certificate_dialog.findPushButton(re.compile('^Edit')).mouseClick()
 sleep(config.MEDIUM_DELAY)
-edit_dialog = app.findDialog(re.compile('^Edit web site'))
+edit_dialog = app.findDialog(re.compile('^Edit'))
 
 edit_dialog.findRadioButton(re.compile('^Trust ')).mouseClick()
 sleep(config.SHORT_DELAY)
@@ -146,5 +160,5 @@ sleep(config.SHORT_DELAY)
 menubar = fFrame.findMenuBar(None)
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
-fFrame.assertClosed()
+app.assertClosed()
 

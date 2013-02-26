@@ -5,4 +5,3 @@ TCF_DIR=/usr/share/qa/tcf
 
 /etc/init.d/apache2 restart
 $CTCS2_DIR/tools/run $TCF_DIR/qa_php53.tcf
-$CTCS2_DIR/tools/run $TCF_DIR/qa_php53-server.tcf

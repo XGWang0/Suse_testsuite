@@ -23,15 +23,16 @@
 # ****************************************************************************
 
 . /usr/share/qa/qa_test_multipath/functions.sh
+HW=1
 
 backup_conf
 
-HW=1
-
-config_prepare EMC 
+config_prepare DGC 
 if [ $? -eq 50 ];then
-exit 22
+	exit 22
 fi 
+
+map=${MAPS[0]}
 
 reseterr
 prepare

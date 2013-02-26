@@ -1,0 +1,31 @@
+Index: lynis
+===================================================================
+--- lynis.orig
++++ lynis
+@@ -464,6 +464,14 @@ REPORT_version="${REPORT_version_major}.
+ #
+ #################################################################################
+ #
++
++#
++#################################################################################
++#
++	# init totl number of files
++	FILE_NUM_TOTAL=$(find / -xdev \( -type f -o -type d -o -type s -o -type b -type p -o -type c \) | wc -l | cut -d' ' -f1)
++
++
+     # Test sections
+     if [ "${TESTS_CATEGORY_TO_PERFORM}" = "" ]; then
+ 	#YYY insert plugin support
+@@ -474,7 +482,9 @@ REPORT_version="${REPORT_version_major}.
+ 		       webservers ssh snmp databases ldap php squid logging \
+ 		       insecure_services banners scheduling accounting \
+ 		       time crypto virtualization mac_frameworks file_integrity hardening_tools \
+-		       malware file_permissions homedirs kernel_hardening hardening"
++		       malware file_permissions file_permissionsDB homedirs kernel_hardening hardening \
++                       system_dbus users_wo_password binary_rpath tmp_symlinks file_permissions_ww \
++                       system_proc network_allowed_ports"
+       else
+         INCLUDE_TESTS="${TESTS_CATEGORY_TO_PERFORM}"
+     fi
+

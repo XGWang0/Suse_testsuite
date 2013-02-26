@@ -1,0 +1,36 @@
+." Manpage for qa_test_usb.
+." Contact Yi Xu <yxu@suse.com> to correct errors or typos.
+.TH man 8 "10 01 2013" "1.0" "qa_test_usb man page"
+.SH NAME
+qa_test_usb
+.SH SYNOPSIS
+None.
+.SH TYPE
+test
+.SH DESCRIPTION
+A USB test suite.
+.br
+.SH README
+None.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+The testusb program just issues ioctls to perform the tests implemented by the kernel driver. It can generate a variety of transfer patterns; you should make sure to test both regular streaming and mixes of transfer sizes (including short transfers), maybe by using this test.sh script. 
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+None.
+.SH SEE ALSO
+None.
+.SH BUGS
+None.
+.SH DISTRIBUTION
+External.
+.SH LICENSE
+GPL v2 or later
+.SH UPSTREAM
+http://www.linux-usb.org/usbtest/
+.SH AUTHOR
+linux-usb.org
+.SH MAINTAINER
+Yi Xu <yxu@suse.com>

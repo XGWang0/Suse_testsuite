@@ -34,6 +34,7 @@ export PATH
 
 : ${THIS_SH:=/bin/bash}
 export THIS_SH
+export LC_ALL='en_US.UTF-8'
 
 ${THIS_SH} --version
 

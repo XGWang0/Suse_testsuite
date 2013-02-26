@@ -137,13 +137,15 @@ assertWeb("Welcome to Flickr")
 loadWeb("www.myspace.com")
 assertWeb("MySpace.com")
 
-# Step13: load www.youtube.com
-loadWeb("www.youtube.com")
-assertWeb("YouTube")
+# Step13: load www.youtube.com (website doesn't work in China)
+ip = os.popen("ifconfig -a | grep 'inet ' | cut -d ':' -f 2 |cut -d ' ' -f 1 | grep -v '^127'").read()
+if not ip.startswith("147"):
+    loadWeb("www.youtube.com")
+    assertWeb("YouTube")
 
 # Close application
 menubar = fFrame.findMenuBar(None)
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
-fFrame.assertClosed()
+app.assertClosed()
 

@@ -102,10 +102,11 @@ if master_check.checked:
     preferences_frame.findPushButton(re.compile('^Saved Passwords')).mouseClick()
     sleep(config.MEDIUM_DELAY)
     save_dialog = app.findFrame("Saved Passwords")
-    save_dialog.findPushButton("Remove All").mouseClick()
-    sleep(config.MEDIUM_DELAY)
-    app.findDialog("Remove all passwords").findPushButton("Yes").mouseClick()
-    sleep(config.SHORT_DELAY)
+    if save_dialog.findPushButton("Remove All").sensitive:
+        save_dialog.findPushButton("Remove All").mouseClick()
+        sleep(config.MEDIUM_DELAY)
+        app.findDialog("Remove all passwords").findPushButton("Yes").mouseClick()
+        sleep(config.SHORT_DELAY)
    
     quitFirefox(fFrame)
 
@@ -163,10 +164,11 @@ sleep(config.SHORT_DELAY)
 # Step4: Make sure Confirm alert appears to asking whether you wish to save the 
 # username and password
 procedurelogger.expectedResult('Make sure confirm alert appears')
-pwd_alert = fFrame.findAlert(None)
+#pwd_alert = fFrame.findAlert(None)
 
 # Step5: Click "Remember" button
-pwd_alert.findPushButton(re.compile('^Remember')).mouseClick()
+fFrame.findPushButton(re.compile('^Remember')).mouseClick()
+#pyatspi.findDescendant(pwd_alert, lambda x: x.name == "Remember Password").mouseClick()
 sleep(config.SHORT_DELAY)
 
 # Step6: Make sure The dialog called "Password Required" appears
@@ -284,7 +286,7 @@ menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
 app.assertClosed()
 
-sleep(config.MEDIUM_DELAY)
+sleep(config.SHORT_DELAY)
 
 # Launch Firefox again
 try:
@@ -311,5 +313,5 @@ else:
 menubar = fFrame.findMenuBar(None)
 menubar.select(['File', 'Quit'])
 sleep(config.SHORT_DELAY)
-fFrame.assertClosed()
+app.assertClosed()
 

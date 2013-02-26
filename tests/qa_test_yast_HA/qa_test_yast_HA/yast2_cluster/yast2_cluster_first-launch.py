@@ -89,16 +89,30 @@ yFrame = app.findFrame(re.compile('^Cluster - Communication'))
 
 # STEP2: set up Communication Channels 
 # (udp, 147.2.207.0, 226.94.1.2, 5406, Auto Generate Node ID)
-yFrame.findMenuItem("udp", checkShowing=False).click(log=True)
+if transport_type == "udpu":
+    udpu_item = yFrame.findMenuItem("udpu", checkShowing=False).click(log=True)
+    channel_info = [bind_net_addr_1, "", multicast_port_1]
+else:
+    udp_item = yFrame.findMenuItem("udp", checkShowing=False).click(log=True)
+    channel_info = [bind_net_addr_1, multicast_addr_1, multicast_port_1]
 sleep(config.SHORT_DELAY)
 
 channel_texts = yFrame.findPanel("Channel").findAllTexts(None)
-channel_info = [bind_net_addr_1, multicast_addr_1, multicast_port_1]
 
 def insert(x, y):
     x.text = y
 map(insert, channel_texts, channel_info)
 sleep(config.SHORT_DELAY)
+
+ips=[director_ip, node1_ip, node2_ip]
+if transport_type == "udpu":
+    for ip in ips:
+        yFrame.findPushButton("Add").mouseClick()
+        sleep(config.SHORT_DELAY)
+        app.findDialog(None).findText(None).text = ip
+        sleep(config.SHORT_DELAY)
+        app.findDialog(None).findPushButton('OK').mouseClick()
+        sleep(config.SHORT_DELAY)
 
 if not yFrame.findCheckBox("Auto Generate Node ID").checked:
     yFrame.findCheckBox("Auto Generate Node ID").mouseClick()
@@ -149,6 +163,10 @@ procedurelogger.action("Checking communication channel informations")
 procedurelogger.expectedResult("communication channel informations are in %s" % conf_path)
 for m in channel_info:
     UItest.checkInfo(m, conf_path)
+
+if transport_type == "udpu":
+    for m in ips:
+        UItest.checkInfo(m, conf_path)
 
 # STEP3: secauth shows in corosync.conf is "off"
 procedurelogger.expectedResult("secauth shows off in %s" % conf_path)

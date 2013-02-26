@@ -1,0 +1,103 @@
+#!/usr/bin/perl -w
+# ****************************************************************************
+# # Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# # 
+# # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# # THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# # TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# # PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# # LIABILITY.
+# # 
+# # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# # AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# # LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# # ****************************************************************************
+
+BEGIN {
+        push (@INC,"/usr/share/qa/lib");
+}
+
+use benchxml;
+my $bench_results = {};
+
+# Because the test suites have it's own result data, besides, thay are very usable,
+# this parser will not read <STDIN> file descript which is read from the log file.
+
+# It is a sample interface, maybe the paser can be reused by the other two test suites:
+# blasbench and mpbench
+#my $testsuite_name = ($ARGV[0])?$ARGV[0]:"cache";
+my $testsuite_name = "cache";
+
+my @test_cases = ("read", "write", "rmw", "handread", "handwrite", "handrmw", "memset", "memcpy");
+
+my $host = `hostname`;
+chomp($host);
+my $arch = `uname -m`;
+chomp($arch);
+
+my $result_dir = "/usr/share/qa/qa_test_llcbench/llcbench/results";
+
+# define the attributes and graphics
+my @attributes = ();
+my @graphics = ();
+foreach my $case (@test_cases){
+        my $bytes =   {
+                   id => "bytes_$case",
+                   label => 'vector length',
+                   desc => 'vector length in bytes',
+                   type => 'linear',
+                   unit => 'KByte'
+        };
+        my $bandwidth = {
+                        id => "bandwidth_$case",
+                        label => "data $case bandwidth",
+                        desc => "data $case bandwidth in a compiler optimized loop",
+                        type => 'linear',
+                        unit => 'MB/Sec'
+        };
+        push(@attributes, $bytes);
+        push(@attributes, $bandwidth);
+
+	my $graph = {
+		label => "Cache Performance of $case",
+        	desc => "Cache Performance of $case, ",
+        	result => "bandwidth_$case",
+        	axis_1 => "bytes_$case"
+	};
+	push(@graphics, $graph);
+}
+
+$bench_results->{attrs} = \@attributes;
+$bench_results->{graphs} = \@graphics;
+
+#define the values
+@values = ();
+
+foreach my $case (@test_cases){
+	my $case_file = "$result_dir/${host}-${arch}_${testsuite_name}_${case}.dat";
+        open(FILE, "<", $case_file);
+	while (<FILE>){
+		chomp;
+		my ($bytes, $bandwidth) = split(/\s+/, $_);
+
+		my %value = ();
+		$value{"bytes_$case"} = $bytes;
+		$value{"bandwidth_$case"} = $bandwidth;
+		$value{'g_ind'} = $case;
+		push(@values, \%value);	 
+	}
+}
+
+$bench_results->{values} = \@values;
+
+print bench_data_to_xml($bench_results);
+

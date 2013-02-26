@@ -1,16 +1,20 @@
 a=4
+tty=`tty 2>&1`
 
-read -t 2 a < /dev/tty
+if [ "$tty" == "not a tty" ];then read -t 2 a < <(sleep 4); else read -t 2 a < $tty ;fi
+
 echo $?
 
 echo $a
 
 sleep 5 | read -t 1 a
+
 echo $?
 
 echo $a
 
-read -t -3 a < /dev/tty
+if [ "$tty" == "not a tty" ];then read -t -3 a < <(sleep 5); else read -t -3 a < $tty; fi
+
 echo $?
 
 echo $a

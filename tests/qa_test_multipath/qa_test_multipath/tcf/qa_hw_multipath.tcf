@@ -53,3 +53,11 @@ timer 1200
 fg 1 HP /usr/share/qa/qa_test_multipath/hp.sh
 wait
 
+timer 1200
+fg 1 LSI /usr/share/qa/qa_test_multipath/lsi.sh
+wait
+
+timer 1200
+fg 1 LSI_start_stop /usr/share/qa/qa_test_multipath/lsi_start_stop_status.sh
+wait
+
