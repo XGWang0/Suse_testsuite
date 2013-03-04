@@ -1,0 +1,193 @@
+From 572f0e0d44fd24acfd232816af8eaae5312c0f05 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Wed, 20 Feb 2013 16:20:25 +0100
+Subject: [PATCH] syscalls/readlink04: Simplify the code.
+
+This commit moves the creat_slink.c code
+into the readlink04 as there is no point
+in running the symlink in separate binary.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ testcases/kernel/syscalls/readlink/creat_slink.c |   59 ----------------------
+ testcases/kernel/syscalls/readlink/readlink04.c  |   56 ++++++++------------
+ 2 files changed, 22 insertions(+), 93 deletions(-)
+ delete mode 100644 testcases/kernel/syscalls/readlink/creat_slink.c
+
+diff --git a/testcases/kernel/syscalls/readlink/creat_slink.c b/testcases/kernel/syscalls/readlink/creat_slink.c
+deleted file mode 100644
+index 1658eab..0000000
+--- a/testcases/kernel/syscalls/readlink/creat_slink.c
++++ /dev/null
+@@ -1,59 +0,0 @@
+-/*
+- *
+- *   Copyright (c) International Business Machines  Corp., 2001
+- *
+- *   This program is free software;  you can redistribute it and/or modify
+- *   it under the terms of the GNU General Public License as published by
+- *   the Free Software Foundation; either version 2 of the License, or
+- *   (at your option) any later version.
+- *
+- *   This program is distributed in the hope that it will be useful,
+- *   but WITHOUT ANY WARRANTY;  without even the implied warranty of
+- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+- *   the GNU General Public License for more details.
+- *
+- *   You should have received a copy of the GNU General Public License
+- *   along with this program;  if not, write to the Free Software
+- *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+- */
+-
+-/*
+- * Description: This is a program invoked as nobody that will
+- *		creat a testfile and a symlink to that testfile.
+- *
+- *		This program exits with 0 or 1 depending upon the
+- *		success or failure of each system call.
+- */
+-#include <unistd.h>
+-#include <fcntl.h>
+-#include <sys/stat.h>
+-#include <errno.h>
+-#include <stdlib.h>
+-#include <stdio.h>
+-
+-#define FILE_MODE        S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
+-
+-int main(int ac, char **av)
+-{
+-	int fd;			/* file handle for testfile */
+-
+-	/* Create a testfile under temporary directory */
+-	if ((fd = open(av[1], O_RDWR | O_CREAT, FILE_MODE)) == -1) {
+-		perror("creat_slink: open() failed");
+-		exit(1);
+-	}
+-
+-	/* Close the testfile created */
+-	if (close(fd) == -1) {
+-		perror("creat_slink: close() failed");
+-		exit(1);
+-	}
+-
+-	/* Create a symlink of testfile under temporary directory */
+-	if (symlink(av[1], av[2]) < 0) {
+-		perror("creat_slink: symlink() failed");
+-		exit(1);
+-	}
+-
+-	exit(0);
+-}
+diff --git a/testcases/kernel/syscalls/readlink/readlink04.c b/testcases/kernel/syscalls/readlink/readlink04.c
+index ac9c067..5d76b1a 100644
+--- a/testcases/kernel/syscalls/readlink/readlink04.c
++++ b/testcases/kernel/syscalls/readlink/readlink04.c
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (c) International Business Machines  Corp., 2001
++ * Copyright (c) 2013 Cyril Hrubis <chrubis@suse.cz>
+  *
+  * This program is free software;  you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+@@ -45,7 +46,6 @@ int TST_TOTAL = 1;
+ 
+ static char TESTFILE[] = "./testfile\0";
+ static char SYMFILE[] = "slink_file\0";
+-static char creat_slink[] = "/creat_slink";
+ 
+ #define MAX_SIZE	256
+ 
+@@ -106,16 +106,12 @@ int main(int ac, char **av)
+ 
+ 	cleanup();
+ 	tst_exit();
+-
+ }
+ 
+ static void setup(void)
+ {
+ 	int pid;
+ 	char *tmp_dir = NULL;
+-	char path_buffer[BUFSIZ];
+-	char *cargv[4];
+-	char bin_dir[PATH_MAX];
+ 	struct passwd *pwent;
+ 
+ 	tst_require_root(NULL);
+@@ -124,12 +120,6 @@ static void setup(void)
+ 
+ 	TEST_PAUSE;
+ 
+-	/* Get current bin directory */
+-	if (getcwd(bin_dir, sizeof(bin_dir)) == NULL) {
+-		tst_brkm(TBROK, NULL,
+-			 "getcwd(3) fails to get working directory of process");
+-	}
+-
+ 	tst_tmpdir();
+ 
+ 	/* get the name of the temporary directory */
+@@ -150,38 +140,36 @@ static void setup(void)
+ 		tst_brkm(TBROK, cleanup, "chmod() failed");
+ 	}
+ 
+-	/* create the full pathname of the executable to be execvp'ed */
+-	strcpy((char *)path_buffer, (char *)bin_dir);
+-	strcat((char *)path_buffer, (char *)creat_slink);
+-
+ 	symfile_path = "slink_file\0";
+ 
+-	/* set up the argument vector to pass into the execvp call */
+-	cargv[0] = tmp_dir;
+-	cargv[1] = TESTFILE;
+-	cargv[2] = symfile_path;
+-	cargv[3] = NULL;
+-
+ 	if ((pid = FORK_OR_VFORK()) == -1) {
+ 		tst_brkm(TBROK, cleanup, "fork failed");
+ 	}
+ 
+ 	if (pid == 0) {
+-		/*
+-		 * execvp the process/program that will create the test file
+-		 * and set up the symlink
+-		 */
+-		execvp(path_buffer, cargv);
++		#define FILE_MODE        S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
++	
++		int fd;
++
++		/* Create a testfile under temporary directory */
++		if ((fd = open(TESTFILE, O_RDWR | O_CREAT, FILE_MODE)) == -1) {
++			perror("child: open() failed");
++			exit(1);
++		}
+ 
+-		/* on success, execvp will not return */
+-		perror("execvp");
+-		tst_brkm(TBROK, NULL, "execvp() failed");
++		/* Close the testfile created */
++		if (close(fd) == -1) {
++			perror("child: close() failed");
++			exit(1);
++		}
+ 
+-		/*
+-		 * In reality, the contents/functionality of the creat_slink
+-		 * program could be included right here.  This would simplify
+-		 * the test a bit.  For now, however, we'll leave it as is.
+-		 */
++		/* Create a symlink of testfile under temporary directory */
++		if (symlink(TESTFILE, symfile_path) < 0) {
++			perror("creat_slink: symlink() failed");
++			exit(1);
++		}
++
++		exit(0);
+ 	}
+ 
+ 	/* wait to let the execvp'ed process do its work */
+-- 
+1.7.8.6
+

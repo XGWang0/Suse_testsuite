@@ -73,6 +73,10 @@ Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 #Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+Patch700:	0001-syscalls-getrusage04-Try-guess-timer-granularity.patch
+Patch701:	0001-openposix-.-pthread_cond_timedwait-2-2-2-3.patch
+Patch702:	0001-syscalls-readlink04-Cleanup.patch
+Patch703:	0001-syscalls-readlink04-Simplify-the-code.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -116,6 +120,10 @@ Authors:
 %patch501 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+%patch700 -p1
+%patch701 -p1
+%patch702 -p1
+%patch703 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -201,6 +209,13 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Mar  4 2013 Cyril Hrubis chrubis@suse.cz
+  Backported fixes for:
+
+  getrusage04 
+  pthread_cond_timedwait/{2-2,2-3}
+  readlink04
+
 * Wed Feb 13 2013 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20130109
 
