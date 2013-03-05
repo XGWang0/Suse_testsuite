@@ -77,6 +77,7 @@ Patch700:	0001-syscalls-getrusage04-Try-guess-timer-granularity.patch
 Patch701:	0001-openposix-.-pthread_cond_timedwait-2-2-2-3.patch
 Patch702:	0001-syscalls-readlink04-Cleanup.patch
 Patch703:	0001-syscalls-readlink04-Simplify-the-code.patch
+Patch704:	0001-openposix-Remove-stubs.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -124,6 +125,7 @@ Authors:
 %patch701 -p1
 %patch702 -p1
 %patch703 -p1
+%patch704 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -209,6 +211,10 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Mar  5 2013 Cyril Hrubis chrubis@suse.cz
+  Backported patches to remove stubs from
+  openposix testsuite.
+
 * Mon Mar  4 2013 Cyril Hrubis chrubis@suse.cz
   Backported fixes for:
 

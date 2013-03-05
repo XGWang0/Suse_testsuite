@@ -1,0 +1,2572 @@
+From 3882ab13249d16541d87c9727aaa456f03ba851e Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Tue, 5 Mar 2013 12:26:56 +0100
+Subject: [PATCH] openposix: Remove stubs.
+
+openposix/.../lio_listio/: remove stubs.
+openposix/.../sched_setparam: Remove stubs.
+openposix/.../mq_open: Remove stubs.
+openposix/.../timer_getoverrun: Remove stub.
+openposix/.../mq_timedsend: Remove stubs.
+openposix/.../sched_setscheduler: Remove stubs.
+openposix/.../mq_close: Remove stub.
+openposix/.../mq_unlink: Remove stub.
+openposix/.../aio_suspend: Remove stub.
+openposix/.../shm_open: Remove stubs.
+openposix/.../sched_getscheduler: Remove stub.
+openposix/.../aio_read: Remove stubs.
+openposix/.../mq_send: Remove stub.
+openposix/.../aio_write: Remove stubs.
+openposix/.../aio_fsync: Remove stubs.
+
+Remove testcases that just returns UNTESTED.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ .../conformance/interfaces/aio_fsync/1-1.c         |   19 ----------
+ .../conformance/interfaces/aio_fsync/10-1.c        |   33 -----------------
+ .../conformance/interfaces/aio_fsync/11-1.c        |   19 ----------
+ .../conformance/interfaces/aio_fsync/13-1.c        |   19 ----------
+ .../conformance/interfaces/aio_fsync/6-1.c         |   19 ----------
+ .../conformance/interfaces/aio_fsync/7-1.c         |   19 ----------
+ .../conformance/interfaces/aio_read/12-1.c         |   32 -----------------
+ .../conformance/interfaces/aio_read/13-1.c         |   31 ----------------
+ .../conformance/interfaces/aio_read/14-1.c         |   32 -----------------
+ .../conformance/interfaces/aio_read/15-1.c         |   32 -----------------
+ .../conformance/interfaces/aio_read/2-1.c          |   31 ----------------
+ .../conformance/interfaces/aio_read/6-1.c          |   32 -----------------
+ .../conformance/interfaces/aio_suspend/2-1.c       |   31 ----------------
+ .../conformance/interfaces/aio_write/10-1.c        |   32 -----------------
+ .../conformance/interfaces/aio_write/11-1.c        |   32 -----------------
+ .../conformance/interfaces/aio_write/12-1.c        |   31 ----------------
+ .../conformance/interfaces/aio_write/13-1.c        |   32 -----------------
+ .../conformance/interfaces/lio_listio/16-1.c       |   32 -----------------
+ .../conformance/interfaces/lio_listio/17-1.c       |   21 -----------
+ .../conformance/interfaces/lio_listio/19-1.c       |   19 ----------
+ .../conformance/interfaces/lio_listio/20-1.c       |   19 ----------
+ .../conformance/interfaces/lio_listio/21-1.c       |   19 ----------
+ .../conformance/interfaces/lio_listio/22-1.c       |   19 ----------
+ .../conformance/interfaces/lio_listio/23-1.c       |   19 ----------
+ .../conformance/interfaces/lio_listio/24-1.c       |   19 ----------
+ .../conformance/interfaces/lio_listio/25-1.c       |   19 ----------
+ .../conformance/interfaces/mq_close/5-1.c          |   25 -------------
+ .../conformance/interfaces/mq_open/10-1.c          |   32 -----------------
+ .../conformance/interfaces/mq_open/14-1.c          |   22 ------------
+ .../conformance/interfaces/mq_open/17-1.c          |   22 ------------
+ .../conformance/interfaces/mq_open/22-1.c          |   22 ------------
+ .../conformance/interfaces/mq_open/24-1.c          |   23 ------------
+ .../conformance/interfaces/mq_open/25-1.c          |   24 -------------
+ .../conformance/interfaces/mq_open/28-1.c          |   24 -------------
+ .../conformance/interfaces/mq_open/30-1.c          |   24 -------------
+ .../conformance/interfaces/mq_open/4-1.c           |   25 -------------
+ .../conformance/interfaces/mq_send/6-1.c           |   24 -------------
+ .../conformance/interfaces/mq_timedsend/17-1.c     |   21 -----------
+ .../conformance/interfaces/mq_timedsend/6-1.c      |   24 -------------
+ .../conformance/interfaces/mq_unlink/2-3.c         |   24 -------------
+ .../interfaces/sched_getscheduler/2-1.c            |   22 ------------
+ .../conformance/interfaces/sched_setparam/12-1.c   |   35 ------------------
+ .../conformance/interfaces/sched_setparam/13-1.c   |   35 ------------------
+ .../conformance/interfaces/sched_setparam/14-1.c   |   37 --------------------
+ .../conformance/interfaces/sched_setparam/15-1.c   |   37 --------------------
+ .../conformance/interfaces/sched_setparam/16-1.c   |   36 -------------------
+ .../conformance/interfaces/sched_setparam/17-1.c   |   22 ------------
+ .../conformance/interfaces/sched_setparam/18-1.c   |   22 ------------
+ .../conformance/interfaces/sched_setparam/19-1.c   |   22 ------------
+ .../conformance/interfaces/sched_setparam/3-1.c    |   22 ------------
+ .../conformance/interfaces/sched_setparam/6-1.c    |   23 ------------
+ .../conformance/interfaces/sched_setparam/7-1.c    |   23 ------------
+ .../conformance/interfaces/sched_setparam/8-1.c    |   23 ------------
+ .../interfaces/sched_setscheduler/10-1.c           |   28 ---------------
+ .../interfaces/sched_setscheduler/11-1.c           |   29 ---------------
+ .../interfaces/sched_setscheduler/12-1.c           |   22 ------------
+ .../interfaces/sched_setscheduler/13-1.c           |   22 ------------
+ .../interfaces/sched_setscheduler/14-1.c           |   22 ------------
+ .../interfaces/sched_setscheduler/2-1.c            |   22 ------------
+ .../interfaces/sched_setscheduler/5-1.c            |   23 ------------
+ .../interfaces/sched_setscheduler/6-1.c            |   23 ------------
+ .../interfaces/sched_setscheduler/7-1.c            |   23 ------------
+ .../interfaces/sched_setscheduler/9-1.c            |   35 ------------------
+ .../conformance/interfaces/shm_open/10-1.c         |   21 -----------
+ .../conformance/interfaces/shm_open/12-1.c         |   28 ---------------
+ .../conformance/interfaces/shm_open/19-1.c         |   23 ------------
+ .../conformance/interfaces/shm_open/2-1.c          |   23 ------------
+ .../conformance/interfaces/shm_open/24-1.c         |   22 ------------
+ .../conformance/interfaces/shm_open/27-1.c         |   22 ------------
+ .../conformance/interfaces/shm_open/29-1.c         |   22 ------------
+ .../conformance/interfaces/shm_open/3-1.c          |   22 ------------
+ .../conformance/interfaces/shm_open/36-1.c         |   24 -------------
+ .../conformance/interfaces/shm_open/42-1.c         |   22 ------------
+ .../conformance/interfaces/shm_open/6-1.c          |   22 ------------
+ .../conformance/interfaces/shm_open/7-1.c          |   22 ------------
+ .../conformance/interfaces/shm_open/9-1.c          |   21 -----------
+ .../conformance/interfaces/timer_getoverrun/3-1.c  |   26 --------------
+ 77 files changed, 0 insertions(+), 1926 deletions(-)
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/1-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/10-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/11-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/13-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/6-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/7-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_read/12-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_read/13-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_read/14-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_read/15-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_read/2-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_read/6-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_suspend/2-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_write/10-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_write/11-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_write/12-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/aio_write/13-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/16-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/17-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/19-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/20-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/21-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/22-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/23-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/24-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/lio_listio/25-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_close/5-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/10-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/14-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/17-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/22-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/24-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/25-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/28-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/30-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_open/4-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_send/6-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/17-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/6-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/mq_unlink/2-3.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler/2-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/12-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/13-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/14-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/15-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/16-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/17-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/18-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/19-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/3-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/6-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/7-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/8-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/10-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/11-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/12-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/13-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/14-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/2-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/5-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/6-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/7-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/9-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/10-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/12-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/19-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/2-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/24-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/27-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/29-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/3-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/36-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/42-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/6-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/7-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/shm_open/9-1.c
+ delete mode 100644 testcases/open_posix_testsuite/conformance/interfaces/timer_getoverrun/3-1.c
+
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/1-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/1-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/1-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/10-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/10-1.c
+deleted file mode 100644
+index 8c6b07c..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/10-1.c
++++ /dev/null
+@@ -1,33 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- *	aio_fsync() shall asynchronously force I/O operations associated
+- *	with aio_fildes.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- *	We are not able to check if I/O operations have been forced.
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/11-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/11-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/11-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/13-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/13-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/13-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/6-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/6-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/7-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/7-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/7-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/12-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_read/12-1.c
+deleted file mode 100644
+index 17e0675..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/12-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- * The error status of a succesfully queued operation shall be:
+- * [EBADF] if the aio_fildes argument is not a valid file descriptor open for
+- * reading.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/13-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_read/13-1.c
+deleted file mode 100644
+index a9a5a8c..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/13-1.c
++++ /dev/null
+@@ -1,31 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- * The error status of a succesfully queued operation shall be:
+- * [ECANCELED] if The requested I/O was canceled before the I/O completed.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/14-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_read/14-1.c
+deleted file mode 100644
+index 83ac9df..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/14-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- * The error status of a succesfully queued operation shall be:
+- * [EINVAL] if aio_offset would be invalid, or aio_reqprio is not a valid
+- * value, or aio_nbytes is an invalid value.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/15-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_read/15-1.c
+deleted file mode 100644
+index 151bbdf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/15-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- * aio_read() shall fail with:
+- * [EOVERFLOW] if aio_nbytes is greater than 0, aio_offset is before EOF
+- * and is at or beyond the offset maximum associated with aio_fildes.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/2-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_read/2-1.c
+deleted file mode 100644
+index 913af48..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/2-1.c
++++ /dev/null
+@@ -1,31 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- * If prioritized I/O is supported asynchronous operation shall be
+- * submitted at priority equal to a base schedulling priority minus
+- * aio_reqprio.
+- *
+- * method:
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) != 200112L ||
+-	    sysconf(_SC_PRIORITIZED_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_read/6-1.c
+deleted file mode 100644
+index 4bbbafb..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_read/6-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- * For regular files, no data transfer shall occur past the offset
+- * maximum established in the open file description associated with
+- * aio_fildes.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_suspend/2-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_suspend/2-1.c
+deleted file mode 100644
+index de8c23a..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_suspend/2-1.c
++++ /dev/null
+@@ -1,31 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- *	If any of the aiocb structures in the list correspond to a completed
+- *	AIO, the aio_suspend() shall return without suspending.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_write/10-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_write/10-1.c
+deleted file mode 100644
+index f95616a..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_write/10-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- *	The error status of a succesfully queued  operation shall be:
+- *	[EBADF] if the aio_fildes argument is not a valid file descriptor open for
+- *	writing.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_write/11-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_write/11-1.c
+deleted file mode 100644
+index 0a70486..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_write/11-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- *	The error status of a succesfully queued  operation shall be:
+- *	[EINVAL] if aio_offset would be invalid, or aio_reqprio is not a valid
+- *	value, or aio_nbytes is an invalid value.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_write/12-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_write/12-1.c
+deleted file mode 100644
+index d639564..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_write/12-1.c
++++ /dev/null
+@@ -1,31 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- *	The error status of a succesfully queued  operation shall be:
+-	[ECANCELED] The requested I/O was canceled before the I/O completed.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_write/13-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_write/13-1.c
+deleted file mode 100644
+index cd1e29f..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_write/13-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- *	aio_write() shall fail or the error status of the operation shall be [EFBIG]:
+- *	if aio_nbytes is greater than 0 and aio_offset is at or beyond the
+- *	offset maximum of aio_fildes.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/16-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/16-1.c
+deleted file mode 100644
+index 232edad..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/16-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * assertion:
+- *
+- *	lio_listio() shall fail if:
+- *	[EAGAIN] The resource necessary to queue all the I/O request were not
+- *	available.
+- *
+- * method:
+- *
+- *	UNTESTED
+- *
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main(void)
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/17-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/17-1.c
+deleted file mode 100644
+index 9a34a9c..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/17-1.c
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <aio.h>
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/19-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/19-1.c
+deleted file mode 100644
+index fc82293..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/19-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main(void)
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/20-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/20-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/20-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/21-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/21-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/21-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/22-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/22-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/22-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/23-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/23-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/23-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/24-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/24-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/24-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/25-1.c b/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/25-1.c
+deleted file mode 100644
+index 79f4caf..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/lio_listio/25-1.c
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/*
+- * Copyright (c) 2004, Bull SA. All rights reserved.
+- * Created by:  Laurent.Vivier@bull.net
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-#define _XOPEN_SOURCE 600
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	if (sysconf(_SC_ASYNCHRONOUS_IO) < 200112L)
+-		exit(PTS_UNSUPPORTED);
+-	exit(PTS_UNTESTED);
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_close/5-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_close/5-1.c
+deleted file mode 100644
+index a9f3c79..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_close/5-1.c
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/*
+- * Copyright (c) 2002, Intel Corporation. All rights reserved.
+- * Created by:  geoffrey.r.gustafson REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Since it is undefined what will happen if mqdes is used after
+- * mq_close() is successfully called and mq_open() has not been
+- * called again, this will not be tested.  (Eventually, this could
+- * be a speculative test)
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Functionality of using mqdes after mq_close() and before\n");
+-	printf("mq_open() will not be tested as POSIX says this is ");
+-	printf("undefined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/10-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/10-1.c
+deleted file mode 100644
+index 38dd1b0..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/10-1.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test the user ID and group ID of the message queue as would
+- * need multiple users/groups for setup to test.
+- *
+- * Will also not test the file permissions as the implementation of the
+- * message queue is TBD and so it would not be possible to know how to
+- * check the file permissions.
+- *
+- * Will not test what happens if non-file permission bits are set as that
+- * is undefined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test the user ID and group ID of a created\n");
+-	printf("message queue as we would need multiple users and\n");
+-	printf("groups on the system to test.\n");
+-	printf("Will not test the file permissions as testing would\n");
+-	printf("be implementation defined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/14-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/14-1.c
+deleted file mode 100644
+index 36590bc..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/14-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test calling process privileges on name as POSIX does not
+- * define when this error occurs.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test calling process privileges on name\n");
+-	printf("as POSIX does not define when this error occurs.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/17-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/17-1.c
+deleted file mode 100644
+index 9e40842..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/17-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test setting O_EXCL without O_CREAT because results are
+- * undefined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test setting O_EXCL without O_CREAT because\n");
+-	printf("results are undefined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/22-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/22-1.c
+deleted file mode 100644
+index 630a33e..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/22-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test returning EACCESS when privileges are denied as POSIX does not
+- * define when this error occurs.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test returning EACCESS when privileges are denied\n");
+-	printf("as POSIX does not define when this error occurs.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/24-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/24-1.c
+deleted file mode 100644
+index 7915f52..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/24-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test mq_open() failing with EINTR since mq_open() does not have
+- * a blocking situation where we could predictably interrupt it with
+- * a signal.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test mq_open() being interrupted as it is\n");
+-	printf("not possible to predictably interrupt an mq_open().\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/25-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/25-1.c
+deleted file mode 100644
+index c87d0fa..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/25-1.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test mq_open() failing with EINVAL if mq_open() is not
+- * supported for the name parameter as unsupported names are implementation
+- * defined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test mq_open() failing with EINVAL if mq_open()\n");
+-	printf("is not supported for the name parameter as\n");
+-	printf("unsupported names are implementation defined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/28-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/28-1.c
+deleted file mode 100644
+index ea5dafa..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/28-1.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test returning with ENFILE if the system has too many
+- * message queues open when mq_open() is called as we do not have
+- * control of the system's message queues from this test.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test returning with ENFILE if the system has\n");
+-	printf("too many message queues as this is beyond this\n");
+-	printf("test's domain.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/30-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/30-1.c
+deleted file mode 100644
+index aad6e73..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/30-1.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test mq_open() failing with ENOSPC if there is not enough
+- * space to create the message queue as system space cannot be controled
+- * from this test.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test mq_open() failing with ENOSPC when there\n");
+-	printf("is not enough space to create the message queue\n");
+-	printf("as system space cannot be controlled from this test.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/4-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_open/4-1.c
+deleted file mode 100644
+index b3ebee2..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_open/4-1.c
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Will not test that if the message queue descriptor is implemented with
+- * a file descriptor then at least {OPEN_MAX} file and message queues
+- * can be opened as we cannot determine at run-time if a given implementation
+- * is implemented with a file descriptor.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test that {OPEN_MAX} file and message queues can\n");
+-	printf("be opened as we cannot determine at run-time if a given\n");
+-	printf("implementation is implemented with a file descriptor.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_send/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_send/6-1.c
+deleted file mode 100644
+index e0d8430..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_send/6-1.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- * Copyright (c) 2002, Intel Corporation. All rights reserved.
+- * Created by:  geoffrey.r.gustafson REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Since the implementation of the order in which items are placed into
+- * a message queue is undetermined unless Priority Scheduling is enabled,
+- * this test will not be written right now.  It needs priority scheduling
+- * to complete.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Priority Scheduling needed to make a reliable test case\n");
+-	printf("for this instance.  Will not be tested.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/17-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/17-1.c
+deleted file mode 100644
+index 065b91c..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/17-1.c
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  geoffrey.r.gustafson REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Since timeouts can happen at any time on the system, resolution of
+- * timeouts cannot be determined.  Will not test timeout resolution.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test timeout resolution.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/6-1.c
+deleted file mode 100644
+index afae399..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/6-1.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  geoffrey.r.gustafson REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- * Since the implementation of the order in which items are placed into
+- * a message queue is undetermined unless Priority Scheduling is enabled,
+- * this test will not be written right now.  It needs priority scheduling
+- * to complete.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Priority Scheduling needed to make a reliable test case\n");
+-	printf("for this instance.  Will not be tested.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mq_unlink/2-3.c b/testcases/open_posix_testsuite/conformance/interfaces/mq_unlink/2-3.c
+deleted file mode 100644
+index f073174..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/mq_unlink/2-3.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- * Copyright (c) 2003, Intel Corporation. All rights reserved.
+- * Created by:  crystal.xiong REMOVE-THIS AT intel DOT com:wq
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- */
+-
+-/*
+- *  If one or more process have the message queue open,
+- *  mq_unlink() may block until all the referneces have been closed.
+- *  NOTE: It is difficult to detect such instance. so won't test.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Difficult to detect whether mq_unlink will block until all the reference have been closed\n");
+-	printf("for this instance.  Will not be tested.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler/2-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler/2-1.c
+deleted file mode 100644
+index 619445b..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler/2-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the behavior of sched_getscheduler() when pid is negative
+- * because it is unspecified.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test the behavior of sched_getscheduler() "
+-	       "when pid is negative\n because it is unspecified.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/12-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/12-1.c
+deleted file mode 100644
+index 78c8013..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/12-1.c
++++ /dev/null
+@@ -1,35 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Test that the sched_ss_repl_period and sched_ss_init_budget members of the
+- * param argument represent the time parameters to be used by the sporadic
+- * server scheduling policy for the target process.
+- *
+- * @pt:SS
+- */
+-
+-#include <stdio.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-#ifdef _POSIX_SPORADIC_SERVER
+-int main()
+-{
+-	printf("Not yet tested.\n");
+-	return PTS_UNTESTED;
+-}
+-
+-#else
+-int main()
+-{
+-	printf("Does not support SS (SPORADIC SERVER)\n");
+-	return PTS_UNSUPPORTED;
+-}
+-
+-#endif
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/13-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/13-1.c
+deleted file mode 100644
+index 6de32ad..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/13-1.c
++++ /dev/null
+@@ -1,35 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Test that the sched_ss_max_repl member of the param argument represent the
+- * maximum number of replenishments that are allowed to be pending
+- * simultaneously for the process scheduled under the SCHED_SPORADIC policy.
+- *
+- * @pt:SS
+- */
+-
+-#include <stdio.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-#ifdef _POSIX_SPORADIC_SERVER
+-int main()
+-{
+-	printf("Not yet tested.\n");
+-	return PTS_UNTESTED;
+-}
+-
+-#else
+-int main()
+-{
+-	printf("Does not support SS (SPORADIC SERVER)\n");
+-	return PTS_UNSUPPORTED;
+-}
+-
+-#endif
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/14-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/14-1.c
+deleted file mode 100644
+index 44ce94c..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/14-1.c
++++ /dev/null
+@@ -1,37 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Test that the sched_ss_low_priority, sched_ss_repl_period, and
+- * sched_ss_init_budget members of the param argument have no effect on the
+- * scheduling behavior if the scheduling policy of the target process is either
+- * SCHED_FIFO or SCHED_RR.
+-
+- *
+- * @pt:SS
+- */
+-
+-#include <stdio.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-#ifdef _POSIX_SPORADIC_SERVER
+-int main()
+-{
+-	printf("Not yet tested.\n");
+-	return PTS_UNTESTED;
+-}
+-
+-#else
+-int main()
+-{
+-	printf("Does not support SS (SPORADIC SERVER)\n");
+-	return PTS_UNSUPPORTED;
+-}
+-
+-#endif
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/15-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/15-1.c
+deleted file mode 100644
+index 6a928e2..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/15-1.c
++++ /dev/null
+@@ -1,37 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the effects of the sched_ss_low_priority,
+- * sched_ss_repl_period, and sched_ss_init_budget members when the scheduling
+- * policy of the target process is not SCHED_FIFO, SCHED_RR, or SCHED_SPORADIC.
+- * It is implementation-defined.
+- *
+- * @pt:SS
+- */
+-
+-#include <stdio.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-#ifdef _POSIX_SPORADIC_SERVER
+-int main()
+-{
+-	printf
+-	    ("Will not test the effects of the sched_ss_low_priority,\nsched_ss_repl_period, and sched_ss_init_budget members when the scheduling\npolicy of the target process is not SCHED_FIFO, SCHED_RR, or SCHED_SPORADIC.\nIt is implementation-defined.\n");
+-	return PTS_UNTESTED;
+-}
+-
+-#else
+-int main()
+-{
+-	printf("Does not support SS (SPORADIC SERVER)\n");
+-	return PTS_UNSUPPORTED;
+-}
+-
+-#endif
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/16-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/16-1.c
+deleted file mode 100644
+index 4d0823d..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/16-1.c
++++ /dev/null
+@@ -1,36 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the result of sched_setparam when the scheduling policy of the
+- * target process is not SCHED_FIFO, SCHED_RR, or SCHED_SPORADIC. It is
+- * implementation-defined.
+- *
+- * @pt:SS
+- */
+-
+-#include <stdio.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-#ifdef _POSIX_SPORADIC_SERVER
+-int main()
+-{
+-	printf
+-	    (" Will not test the result of sched_setparam when the scheduling policy of the\ntarget process is not SCHED_FIFO, SCHED_RR, or SCHED_SPORADIC.\nIt is implementation-defined.\n");
+-	return PTS_UNTESTED;
+-}
+-
+-#else
+-int main()
+-{
+-	printf("Does not support SS (SPORADIC SERVER)\n");
+-	return PTS_UNSUPPORTED;
+-}
+-
+-#endif
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/17-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/17-1.c
+deleted file mode 100644
+index e899048..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/17-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that sched_setparam have no effect on the scheduling of
+- * threads with system scheduling contention scope.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that sched_setparam have no effect on the scheduling of threads\n with system scheduling contention scope.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/18-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/18-1.c
+deleted file mode 100644
+index ebafe27..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/18-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that the threads scheduling policy and associated parameters
+- * are not affected.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that the threads scheduling policy and associated parameters\nare not affected.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/19-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/19-1.c
+deleted file mode 100644
+index 46564e2..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/19-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that the underlying kernel-scheduled entities for the system
+- * contention scope threads are not be affected by this function.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that the underlying kernel-scheduled entities for the system\ncontention scope threads are not be affected by this sched_setparam().\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/3-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/3-1.c
+deleted file mode 100644
+index ac8bf8c..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/3-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the behavior of sched_setparam() when pid is negative because
+- * it is unspecified.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the behavior of sched_setparam() when pid is negative because\nit is unspecified.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/6-1.c
+deleted file mode 100644
+index 68296b2..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/6-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the conditions under which one process has permission to
+- * change the scheduling parameters of another process, because they are
+- * implementation-defined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the conditions under which one process has permission to\nchange the scheduling parameters of another process, because they are\nimplementation-defined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/7-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/7-1.c
+deleted file mode 100644
+index 8174044..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/7-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that implementations may require the requesting process to
+- * have the appropriate privilege to set its own scheduling parameters or those
+- * of another process.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that implementations may require the requesting process to\nhave the appropriate privilege to set its own scheduling parameters or those\nof another process.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/8-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/8-1.c
+deleted file mode 100644
+index 20ca7ba..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam/8-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *
+- * Will not test that the target process is moved to the tail of the thread
+- * list for its priority when it is running.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that the target process is moved to the tail of the thread\nlist for its priority when it is running.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/10-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/10-1.c
+deleted file mode 100644
+index bcac861..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/10-1.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Test that the sched_ss_max_repl member of the param argument represent the
+- * maximum number of replenishments that are allowed to be pending
+- * simultaneously for the process scheduled under the SCHED_SPORADIC policy.
+- *
+- * @pt:SS
+- */
+-
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-#if defined(_POSIX_SPORADIC_SERVER)&&(_POSIX_SPORADIC_SERVER != -1)
+-	exit(PTS_UNSUPPORTED);
+-#else
+-	exit(PTS_UNTESTED);
+-#endif
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/11-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/11-1.c
+deleted file mode 100644
+index c6b955d..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/11-1.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Test that the sched_ss_low_priority, sched_ss_repl_period, and
+- * sched_ss_init_budget members of the param argument have no effect on the
+- * scheduling behavior if the scheduling policy of the target process is either
+- * SCHED_FIFO or SCHED_RR.
+- *
+- * @pt:SS
+- */
+-
+-#include <stdlib.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-#if defined(_POSIX_SPORADIC_SERVER)&&(_POSIX_SPORADIC_SERVER != -1)
+-	exit(PTS_UNSUPPORTED);
+-#else
+-	exit(PTS_UNTESTED);
+-#endif
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/12-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/12-1.c
+deleted file mode 100644
+index 6b6d7a3..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/12-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that sched_setscheduler have no effect on the scheduling of
+- * threads with system scheduling contention scope.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that sched_setscheduler have no effect on the scheduling of\n threads with system scheduling contention scope.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/13-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/13-1.c
+deleted file mode 100644
+index ebafe27..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/13-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that the threads scheduling policy and associated parameters
+- * are not affected.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that the threads scheduling policy and associated parameters\nare not affected.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/14-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/14-1.c
+deleted file mode 100644
+index 2eadf67..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/14-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that the underlying kernel-scheduled entities for the system
+- * contention scope threads are not be affected by this function.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that the underlying kernel-scheduled entities for the system\ncontention scope threads are not be affected by sched_setscheduler().\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/2-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/2-1.c
+deleted file mode 100644
+index b58611d..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/2-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the behavior of sched_setscheduler() when pid is negative
+- * because it is unspecified.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the behavior of sched_setscheduler() when pid is negative\n because it is unspecified.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/5-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/5-1.c
+deleted file mode 100644
+index 4a1f5a4..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/5-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the condition under which one process has the appropriate
+- * privilege to change the scheduling parameters of another process because
+- * they are implementation-defined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the condition under which one process has the appropriate\nprivilege to change the scheduling parameters of another process because \nthey are implementation-defined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/6-1.c
+deleted file mode 100644
+index 28fe639..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/6-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that implementations may require that the requesting process
+- * have permission to set its own scheduling parameters or those of another
+- * process.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that implementations may require that the requesting process\nhave permission to set its own scheduling parameters or those of another\nprocess.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/7-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/7-1.c
+deleted file mode 100644
+index aa5eee0..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/7-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test if implementation-defined restrictions apply as to the
+- * appropriate privileges required to set a process' own scheduling policy, or
+- * another process' scheduling policy, to a particular value.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test if implementation-defined restrictions apply as to the\nappropriate privileges required to set a process' own scheduling policy, or\nanother process' scheduling policy, to a particular value.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/9-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/9-1.c
+deleted file mode 100644
+index 78c8013..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler/9-1.c
++++ /dev/null
+@@ -1,35 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Test that the sched_ss_repl_period and sched_ss_init_budget members of the
+- * param argument represent the time parameters to be used by the sporadic
+- * server scheduling policy for the target process.
+- *
+- * @pt:SS
+- */
+-
+-#include <stdio.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-#ifdef _POSIX_SPORADIC_SERVER
+-int main()
+-{
+-	printf("Not yet tested.\n");
+-	return PTS_UNTESTED;
+-}
+-
+-#else
+-int main()
+-{
+-	printf("Does not support SS (SPORADIC SERVER)\n");
+-	return PTS_UNSUPPORTED;
+-}
+-
+-#endif
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/10-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/10-1.c
+deleted file mode 100644
+index 2408429..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/10-1.c
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test whether the file offset is set because it is unspecified.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test whether the file offset is set because it is unspecified.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/12-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/12-1.c
+deleted file mode 100644
+index 310f934..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/12-1.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the behavior of implementation when an application does not
+- * specify exactly one of the first two values (access modes) below in the
+- * value of oflag:
+- *     O_RDONLY
+- *     O_RDWR
+- *
+- * Often O_RDONLY == 0 and O_RDWR == 2^n, so when both values are specified,
+- * the result is the same than when only O_RDWR is set.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the behavior of implementation when an application does not\nspecify exactly one of two values: O_RDONLY and O_RDWR.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/19-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/19-1.c
+deleted file mode 100644
+index 41b4996..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/19-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the effect of calling shm_open() when the shared memory object
+- * does not exists, the O_CREAT flags is set, and bits in mode other than the
+- * file permission bits are set. It is unspecified.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the effect of calling shm_open() when the shared memory object\ndoes not exists, the O_CREAT flags is set, and bits in mode other than the\nfile permission bits are set. It is unspecified.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/2-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/2-1.c
+deleted file mode 100644
+index 801f08c..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/2-1.c
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that the shm_open() function create an open file description
+- * that refers to the shared memory object and a file descriptor that refers to
+- * that open file description.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Test doesn't exercise requirements; read code comments for "
+-	       "more details of what isn't tested\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/24-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/24-1.c
+deleted file mode 100644
+index ed4974d..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/24-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the result of shm_open() when O_EXCL is set and O_CREAT is not
+- * set because it is undefined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the result of shm_open() when O_EXCL is set and O_CREAT is not\nset because it is undefined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/27-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/27-1.c
+deleted file mode 100644
+index c47dd49..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/27-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the result of shm_open() when using O_TRUNC with O_RDONLY.
+- * It is undefined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the result of shm_open() when using O_TRUNC with O_RDONLY.\nIt is undefined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/29-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/29-1.c
+deleted file mode 100644
+index ec39c39..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/29-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test whether the name and shared memory object state remain valid
+- * after a system reboot. It is unspecified.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test whether the name and shared memory object state remain valid\nafter a system reboot. It is unspecified.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/3-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/3-1.c
+deleted file mode 100644
+index a425389..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/3-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test whether the name appears in the file system and is visible to
+- * other functions that take pathnames as arguments because it is unspecified.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test whether the name appears in the file system and is visible to\nother functions that take pathnames as arguments because it is unspecified.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/36-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/36-1.c
+deleted file mode 100644
+index 5664988..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/36-1.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Test that the shm_open() function sets errno = EINTR if the operation was
+- * interrupted by a signal.
+- *
+- * This is very difficult to test for a non blocking function.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("It is very difficult to test that the shm_open() function sets errno = EINTR\nwhen it is interrupted by a signal.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/42-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/42-1.c
+deleted file mode 100644
+index fbf2d88..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/42-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Test that the shm_open() function sets errno =  ENOSPC if there is
+- * insufficient space for the creation of the new shared memory object.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test that the shm_open() function sets errno to ENOSPC if there is\ninsufficient space for the creation of the new shared memory object.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/6-1.c
+deleted file mode 100644
+index fb47c31..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/6-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the effec of a name which does not begin with the slash
+- * character because it is implementation-defined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the effect of a name which does not begin with the slash\ncharacter because it is implementation-defined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/7-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/7-1.c
+deleted file mode 100644
+index ee56dcb..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/7-1.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test the interpretation of slash characters other than the leading
+- * slash character in name because it is implementation-defined.
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf
+-	    ("Will not test the interpretation of slash characters other than the leading\nslash character in name because it is implementation-defined.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/9-1.c b/testcases/open_posix_testsuite/conformance/interfaces/shm_open/9-1.c
+deleted file mode 100644
+index 23c75aa..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/shm_open/9-1.c
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/*
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License version 2.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- * Will not test that the open file description is new (and therefore the file
+- * descriptor does not share it with any other processes).
+- */
+-
+-#include <stdio.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	printf("Will not test that the open file description is new.\n");
+-	return PTS_UNTESTED;
+-}
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/timer_getoverrun/3-1.c b/testcases/open_posix_testsuite/conformance/interfaces/timer_getoverrun/3-1.c
+deleted file mode 100644
+index b71af0e..0000000
+--- a/testcases/open_posix_testsuite/conformance/interfaces/timer_getoverrun/3-1.c
++++ /dev/null
+@@ -1,26 +0,0 @@
+-/*
+- * Copyright (c) 2002, Intel Corporation. All rights reserved.
+- * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com
+- * This file is licensed under the GPL license.  For the full content
+- * of this license, see the COPYING file at the top level of this
+- * source tree.
+- *
+- * Test that timer_getoverrun() can only return a value up to but
+- * not including {DELAYTIMER_MAX}.
+- * - adam.li 2004-04-29 Make the output as HEX.
+- * - s.decugis 2005-11-25 Changed return value to UNTESTED.
+- */
+-
+-#include <time.h>
+-#include <stdio.h>
+-#include <limits.h>
+-#include <unistd.h>
+-#include "posixtest.h"
+-
+-int main()
+-{
+-	long delaytimer_max = sysconf(_SC_DELAYTIMER_MAX);
+-	printf("Cannot be tested as DELAYTIMER_MAX is too large.\n");
+-	printf("DELAYTIMER_MAX is %lx\n", delaytimer_max);
+-	return PTS_UNTESTED;
+-}
+-- 
+1.7.8.6
+
