@@ -36,9 +36,12 @@ Group:          SuSE internal
 Summary:        lynis 
 Version:	1.3.0
 Release:	1
+Requires:	qa_lib_ctcs2
 Source0:        %{name}-%{version}.tar.bz2
 Source1:        %{name}.8
 Source2:        test_lynis-run
+Source3:        qa_lynis.tcf
+Source4:        runtest.sh
 # PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE  
 Patch0:         lynis_%{version}_lynis.diff
 # PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE
@@ -87,6 +90,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d $RPM_BUILD_ROOT/usr/share/qa/tools
+install -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -d $RPM_BUILD_ROOT/usr/share/qa/%{name}/{include,plugins,db}
 install -m 755 lynis $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 644 default.prf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
@@ -94,6 +98,8 @@ install -m 644 include/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/include/
 install -m 644 plugins/*  $RPM_BUILD_ROOT/usr/share/qa/%{name}/plugins/
 install -m 644 db/*  $RPM_BUILD_ROOT/usr/share/qa/%{name}/db/
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 
 
 %clean
@@ -103,19 +109,24 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %dir /usr/share/qa
 %dir /usr/share/qa/tools
+%dir /usr/share/qa/tcf
 %dir /usr/share/qa/%{name}
 %dir /usr/share/qa/%{name}/include
 %dir /usr/share/qa/%{name}/plugins
 %dir /usr/share/qa/%{name}/db
 /usr/share/qa/%{name}/lynis
+/usr/share/qa/%{name}/runtest.sh
 /usr/share/qa/%{name}/default.prf
 /usr/share/qa/%{name}/include/*
 /usr/share/qa/%{name}/plugins/*
 /usr/share/qa/%{name}/db/*
 /usr/share/qa/tools/test_lynis-run
+/usr/share/qa/tcf/qa_lynis.tcf
 /usr/share/man/man8/%{name}.8.gz
 
 %changelog 
+* Thu Mar 07 2013 - llipavsky@suse.com
+- moved to use ctcs2 -> thus submit to QADB
 * Wed Dec 12 2012 - yxu@suse.de
 - package created
 

@@ -21,16 +21,10 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
-#sut_timeout 
 
-TIME=`date +%Y-%m-%d-%H-%M-%S`
-logdir=/var/log/qa/ctcs2/qa_lynis-$TIME
-logfile=qa_lynis
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
 
-mkdir -p $logdir
-touch $logdir/$logfile
-
-cd /usr/share/qa/qa_test_lynis
-
-./lynis -c --no-colors -Q  > $logdir/$logfile
+cd $CTCS2_DIR
+tools/run $TCF_DIR/qa_lynis.tcf
 

@@ -20,21 +20,9 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
-
-#
-# This file contains default configuration for qa_test_bind test
 #
 
-# Variables for bind_primary test
-primary_query_1=probe1.testing.foo
-primary_match_1=192.168.42.250
+timer 600
+fg 1 check_results /usr/share/qa/qa_test_lynis/runtest.sh 
+wait
 
-primary_query_2=192.168.42.251
-primary_match_2=251.42.168.192.in-addr.arpa
-
-# Variables for bind_secondary test
-secondary_query=felix.suse.cz
-secondary_match=10.20.1.89
-
-# Variables for bind_forwarder test
-forwarder_query=www.web.de

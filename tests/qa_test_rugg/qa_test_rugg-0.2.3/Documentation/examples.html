@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript">
+
+function init()
+{
+}
+
+function kiwi_toggleSection(e)
+{
+	var target = e.target;
+	var parent = target.parentNode.parentNode;
+	for ( var i=0 ; i<parent.childNodes.length ; i++ )
+	{
+		var child = parent.childNodes[i];
+		if ( child.getAttribute("class") && child.getAttribute("class").indexOf("level",0)==0 )
+		{
+			if ( child.style.display != "block" )
+			{	child.style.display = "block";}
+			else
+			{	child.style.display = "none";}
+		}
+	}
+}
+</script>
+<title>Rugg Examples</title>
+<style><!-- 
+body {
+	margin-left: 10%;
+	margin-right: 10%;
+	padding: 20pt;
+	padding-top: 10pt;
+	background: rgb(255,255,255);
+	font:  9pt/13pt "Lucida Grande",Lucida,sans-serif;
+	font:  9.5pt/12pt "Georgia",serif;
+	color: rgb(80,80,80);
+}
+
+table tr td {
+	font:  8pt/12pt "Lucida Grande",Lucida,sans-serif;
+}
+
+h1, h2, h3, h4 {
+	font-family: "Trebuchet MS",sans-serif;
+	color: rgb(22, 130, 178);
+	font-weight: normal;
+	padding-top: 0.5em;
+}
+
+strong {
+	color: rgb(103,183,0);
+}
+
+a:link, a:active, a:visited {
+	color: rgb(22,130,178);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+	background-color: #dbecf4;
+}
+
+aimg {
+	border: 0;
+}
+
+#header, #footer {
+	font-size: 7pt;
+	clear: both;
+	width: 100%;
+	color: rgb(177,208,223);
+}
+
+#content {
+}
+
+#footer {
+	padding-top:  30pt;
+	text-align: right;
+}
+
+/*  Kiwi-specific  */
+
+.title {
+	margin-bottom: 0;
+}
+
+#meta {
+	width: 100%;
+	padding: 5pt;
+	margin-bottom:  2em;
+	border-top:  1px solid rgb(150, 220, 238);
+	background-color: rgb(250,250,250);
+}
+
+#meta tr td {
+	color: rgb(22, 130, 178);
+}
+
+#meta tr td.name {
+	font-weight: bold;
+}
+
+#content h1, #content h2{
+	padding-bottom: 5pt;
+	border-bottom:  1px dotted rgb(150, 220, 238);
+}
+
+#content pre {
+	padding: 5pt;
+	border-left:  1px solid rgb(150, 220, 238);
+	padding-left: 20pt;
+	background-color: rgb(250,250,250);
+}
+
+#content pre, #content code {
+	font-size: 80%;
+	color: rgb(143, 160, 168);
+}
+
+#content table {
+	border:  1px solid rgb(150, 220, 238);
+}
+
+#content table caption {
+	font-family: serif;
+	padding-top: 1em;
+	padding-bottom: 0.5em;
+	font-style: italic;
+	font-size: 90%;
+	color: rgb(22, 130, 178);
+}
+
+#content table tr td {
+	padding: 10px;
+	background-color: rgb(250,250,250);
+}
+
+#content table tr.odd td {
+	background-color: rgb(250,250,250);
+}
+
+#content span.term {
+	color: rgb(22, 130, 178);
+	border-bottom:  1px solid rgb(150, 220, 238);
+}
+
+#content span.quote {
+	font-style: italic;
+	color: rgb(120, 120, 120);
+}
+
+#content blockquote.example {
+	font-size: 8pt;
+	padding: 10px;
+	background-color: rgb(240,240,240);
+	border: 1px solid rgb(160,160,160);
+}
+
+#content blockquote.example div.title {
+	margin: 0;
+	padding: 0;
+	padding-top: 5pt;
+	padding-bottom: 5pt;
+	font-size: 9pt;
+	font-weight: bold;
+	text-align: center;
+	border-bottom: 1px dotted rgb(160,160,160);
+}
+
+#content blockquote.example pre {
+	border-left:  1px solid rgb(150, 220, 238);
+	padding: 0;
+	padding-left: 10pt;
+	font-size: 7.5pt;
+}
+
+#references {
+	font:  8pt/12pt "Lucida Grande",Lucida,sans-serif;
+	margin-top: 10pt;
+	padding: 5pt;
+	border-top:  1px solid rgb(150, 220, 238);
+	background-color: rgb(250,250,250);
+	color: rgb(200, 200, 200);
+	font-size: 8pt;
+}
+#references a:link, #references a:active, #references a:visited {
+	color: rgb(150,150,150);
+}
+
+#references .entry {
+	padding-top: 5pt;
+	clear: both;
+}
+
+#references .entry .name {
+	float: left;
+	font-weight: bold;
+	padding-right: 5pt;
+}
+
+#references .entry .content {
+	text-align: right;
+}
+ --></style>
+</head>
+<body onload="init()">
+<div
+	class="title"><h1>Rugg Examples</h1></div>
+ <div id='content'><p><b>Basic scenarios examples</b>:</p><blockquote><div class='content'><p>Create a 5Mb zone, and blank it <pre>zone 5Mb, blank</pre></p><p>Creates a 5Mb zone, blanks it, fills it with text, ensures it is not blank <pre>zone 5Mb, blank, fill text, ensure not blank</pre></p><p>Create a 5Mb zone, divide it into two parts, and fill the whole zone with random text. The subzones should not be the same. <pre>zone 5Mb, subdivide 2 : fill text, ensure different</pre></p><p>Same as above, but the subzones are filled with the SAME data, and checking that the zones are actually the same. <pre>zone 5Mb, subdivide 2 : fill same text, ensure same</pre></p><p>The same scenario, but with filling the zones in parallel threads (with the same data) <pre>zone 5Mb, subdivide 2 | fill same text, ensure same</pre></p><p>Divide a 5Mb zone into 10 subzones, blanking in parallel, then filling them in parallel, then ensuring that they are all the same <pre>zone 5Mb, subdivide 10 | blank | ensure blank | fill same text, ensure same</pre></p></div></blockquote><p><b>What would it look like in Python ?</b></p><blockquote><div class='content'><p>On a side note, here is the equivalent Python code for the following Rugg scenario:</p><pre> 10..100Mb : zone : 1..10 :  divide : fill text : same !</pre><p>and the approximative Python translation :</p><pre> for size in range(10,100 + (100-10) / 10, (100-10) / 10 ):
+     zone = Zone(MB(size))
+     for n in range(2,11):
+         subzones = zone.subdivide(n)
+         for subzone in subzones:
+             subzone.fill(producer=randomTextProducer)
+         checkSame(subzones)</pre><p>This kind of code can get way more complicated when using the parallel execution operator (<code>|</code>), as threads have to be created and managed by the program.</p></div></blockquote></div>
+
+</body>
+</html>
