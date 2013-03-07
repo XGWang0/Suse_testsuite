@@ -1,0 +1,53 @@
+== Rugg
+== Hard drive harness tool
+-- Author: Sébastien Pierre, XPrima Corp <sebastien@xprima.com>
+-- Version: 0.1.5
+
+_Rugg_ is a *hard drive and filesystem harness tool* that allows you to test and
+benchmark drives and filesystems, by writing simple to complex scenarios that
+can mimic the behaviour of real-world applications.
+
+What makes _Rugg_ special is that it can be *easily customized to test specific
+usages of the filesystem*. Initially, _Rugg_ was made to test new database server
+harddrives inteded to host a Postgres database. 
+
+Here how you ''check that 100 threads can fill up a 100Gb zone of your hard
+drive without data corruption'':
+
+>   zone 100Gb, subdivide100 | fill same binary, ensure same
+
+Features 
+========
+
+_Rugg_ offers a number of unique features, which make it a flexible tool to help
+you reproduce particular condition that you would like to exercise:
+
+	- You write _scenarios_ using a simple shell-like language
+	- You can easily express parallel and sequential processes
+	- Many operations are already provided, including data generation
+	- Can be easily extend thanks to its Python implementation
+
+Thanks to its features, Rugg can be used as a versatile, easy disk and
+filesystem harness test, that can ensure that your hardware and software meets
+your application expectations.
+
+Requirements
+============
+
+	- [Python](http://www.python.org) 2.4+
+	- A UNIX platform (Rugg will probably not work under Windows)
+	- The 'locate' utility, to easily find eligible data
+	- Free space to make your tests
+
+
+If you want to know more, you can have a look at the
+[Rugg guide](guide.html), which will tell you how to use Rugg in
+detail.
+
+
+	[E2FSCK]:
+	[BADBLOCKS]:
+	[LINUXHDD]:     <http://yhslug.tux.org/docs/hdtest.htm>
+	[TESTING]:      <http://tinyurl.com/ng9np>
+	[NFSTEST]:      <http://wiki.linux-nfs.org/index.php/Testing_tools>
+	[LTP]: Linux Test Project <http://ltp.sourceforge.net/tooltable.php>

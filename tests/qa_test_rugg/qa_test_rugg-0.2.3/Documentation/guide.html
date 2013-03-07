@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript">
+
+function init()
+{
+}
+
+function kiwi_toggleSection(e)
+{
+	var target = e.target;
+	var parent = target.parentNode.parentNode;
+	for ( var i=0 ; i<parent.childNodes.length ; i++ )
+	{
+		var child = parent.childNodes[i];
+		if ( child.getAttribute("class") && child.getAttribute("class").indexOf("level",0)==0 )
+		{
+			if ( child.style.display != "block" )
+			{	child.style.display = "block";}
+			else
+			{	child.style.display = "none";}
+		}
+	}
+}
+</script>
+<title>Rugg</title>
+<style><!-- 
+body {
+	margin-left: 10%;
+	margin-right: 10%;
+	padding: 20pt;
+	padding-top: 10pt;
+	background: rgb(255,255,255);
+	font:  9pt/13pt "Lucida Grande",Lucida,sans-serif;
+	font:  9.5pt/12pt "Georgia",serif;
+	color: rgb(80,80,80);
+}
+
+table tr td {
+	font:  8pt/12pt "Lucida Grande",Lucida,sans-serif;
+}
+
+h1, h2, h3, h4 {
+	font-family: "Trebuchet MS",sans-serif;
+	color: rgb(22, 130, 178);
+	font-weight: normal;
+	padding-top: 0.5em;
+}
+
+strong {
+	color: rgb(103,183,0);
+}
+
+a:link, a:active, a:visited {
+	color: rgb(22,130,178);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+	background-color: #dbecf4;
+}
+
+aimg {
+	border: 0;
+}
+
+#header, #footer {
+	font-size: 7pt;
+	clear: both;
+	width: 100%;
+	color: rgb(177,208,223);
+}
+
+#content {
+}
+
+#footer {
+	padding-top:  30pt;
+	text-align: right;
+}
+
+/*  Kiwi-specific  */
+
+.title {
+	margin-bottom: 0;
+}
+
+#meta {
+	width: 100%;
+	padding: 5pt;
+	margin-bottom:  2em;
+	border-top:  1px solid rgb(150, 220, 238);
+	background-color: rgb(250,250,250);
+}
+
+#meta tr td {
+	color: rgb(22, 130, 178);
+}
+
+#meta tr td.name {
+	font-weight: bold;
+}
+
+#content h1, #content h2{
+	padding-bottom: 5pt;
+	border-bottom:  1px dotted rgb(150, 220, 238);
+}
+
+#content pre {
+	padding: 5pt;
+	border-left:  1px solid rgb(150, 220, 238);
+	padding-left: 20pt;
+	background-color: rgb(250,250,250);
+}
+
+#content pre, #content code {
+	font-size: 80%;
+	color: rgb(143, 160, 168);
+}
+
+#content table {
+	border:  1px solid rgb(150, 220, 238);
+}
+
+#content table caption {
+	font-family: serif;
+	padding-top: 1em;
+	padding-bottom: 0.5em;
+	font-style: italic;
+	font-size: 90%;
+	color: rgb(22, 130, 178);
+}
+
+#content table tr td {
+	padding: 10px;
+	background-color: rgb(250,250,250);
+}
+
+#content table tr.odd td {
+	background-color: rgb(250,250,250);
+}
+
+#content span.term {
+	color: rgb(22, 130, 178);
+	border-bottom:  1px solid rgb(150, 220, 238);
+}
+
+#content span.quote {
+	font-style: italic;
+	color: rgb(120, 120, 120);
+}
+
+#content blockquote.example {
+	font-size: 8pt;
+	padding: 10px;
+	background-color: rgb(240,240,240);
+	border: 1px solid rgb(160,160,160);
+}
+
+#content blockquote.example div.title {
+	margin: 0;
+	padding: 0;
+	padding-top: 5pt;
+	padding-bottom: 5pt;
+	font-size: 9pt;
+	font-weight: bold;
+	text-align: center;
+	border-bottom: 1px dotted rgb(160,160,160);
+}
+
+#content blockquote.example pre {
+	border-left:  1px solid rgb(150, 220, 238);
+	padding: 0;
+	padding-left: 10pt;
+	font-size: 7.5pt;
+}
+
+#references {
+	font:  8pt/12pt "Lucida Grande",Lucida,sans-serif;
+	margin-top: 10pt;
+	padding: 5pt;
+	border-top:  1px solid rgb(150, 220, 238);
+	background-color: rgb(250,250,250);
+	color: rgb(200, 200, 200);
+	font-size: 8pt;
+}
+#references a:link, #references a:active, #references a:visited {
+	color: rgb(150,150,150);
+}
+
+#references .entry {
+	padding-top: 5pt;
+	clear: both;
+}
+
+#references .entry .name {
+	float: left;
+	font-weight: bold;
+	padding-right: 5pt;
+}
+
+#references .entry .content {
+	text-align: right;
+}
+ --></style>
+</head>
+<body onload="init()">
+<div
+	class="title"><h1>Rugg</h1><h2>Language Guide</h2></div><table id='meta'><tr><td class='name'>Author</td><td class='value'>Sébastien Pierre, XPrima Corp &lt;sebastien@xprima.com&gt;</td></tr><tr><td class='name'>Version</td><td class='value'>0.2.3</td></tr></table>
+ <div id='content'><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Overview</h2></a><div class="level2"><p>Rugg is a simple, concise language to describe fielsystem test scenarios, that was designed with the following objectives in mind :</p><ul><li>Rugg scripts should be <b>short one-liners</b> </li><li>Allow to express <b>parallel and sequencial</b> processing with ease </li><li>Easy repetition on range of values (ex: from 10 to 100, etc) </li><li>Maximize expressivity, minimize syntactic complexity</li></ul><p>We will present in this document, which is a complement to the <a href="index.html">Rugg main page</a>, the various aspects of the Rugg language, and conclude by giving a list of useful examples.</p></div><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Concepts</h2></a><div class="level2"><ul><li><span class='term'>Scenarios</span> are scripts that execise some specific aspects of the filesystem. Scripts can be combined in many different ways to create comple tests. A scenario must comply to some constraints listed below.</li><li><span class='term'>Zones</span> are regular files that can be created using the <code>rugg</code> API. Zones can be divided into <span class='term'>subzones</span>, which can be manipulated as regular files. This allows to make tests on the low-level filesystem blocks covered by the zone file.</li></ul></div><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Syntax</h2></a><div class="level2"><p>Rugg scripts are one-liners: they must be short and expressive. As such, the Rugg syntax is simply a sequence of <span class='term'>operations</span> and <span class='term'>values</span>, that can be &ldquo;<span class='quote'>piped</span>&rdquo; together using <span class='term'>compositions</span>.</p><pre>ATOM       := VALUE | OPERATION | '(' EXPRESSION ')'
+OPERATION  := NAME VALUE*
+EXPRESSION := ATOM ( COMPOSITION ATOM )*</pre><p>In practive, the syntax is really similar to the Unix shells, where you do something like:</p><pre>command | command ; another command &amp;&amp; yet another command</pre><p>excepted that Rugg offers you different compositions that the "piping" composition. For the impatient, here is an example of Rugg code:</p><pre> zone 5Mb, subdivide 10 | blank | ensure blank : fill same text, ensure same</pre><p>Rugg scripts can also be multi-line (spaces and new lines are considered as separators), and comments can be specified by prefixing a line by <code>#</code>.</p><pre># Here is a comment for my script 
+# and I can make it multi-line
+zone 50Mb,
+    blank,
+    fill</pre></div><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Operations</h2></a><div class="level2"><p>To create test scenarios, you can use a number of basic operations that allow you to manipulate zones, generate data, and ensure that the data is as expected. Here is the list of the currently implemented operations:</p><ul><li><code>zone SIZE</code> : Creates a new zone of the given <code>SIZE</code></li><li><code>blank ZONE(S)</code> <b>Blanks</b> the given zone or set of zones. Data is erased, and the <b>write offset is set to 0</b>.</li><li><code>fill METHOD? DATA? VARIANT? ZONE</code> <b>fills</b> the given zone with the given kind of data, <b>starting at the beginning of the file</b>. The METHOD can be <code>same</code> to indicate the same data should be filled among the successive <code>fill same</code> operations. The DATA can be either <code>text</code>, <code>blank</code> or <code>binary</code>, depending on the type of data to be generated. The VARIANT can be <code>fast</code>, when you want to favor speed in place of randomness of data.</li><li><code>ensure WHAT</code> ensures that the given <b>files have the same, different or blank data</b>, depending on the WHAT parameter. Reading will start where the read offset points in each given file, and will be left where the ensure test has stopped reading. The <code>WHAT</code> argument can be either <code>same</code>, <code>different</code>, <code>blank</code> or <code>blank</code>, with optional prefixing by <code>not</code> for getting the opposite result.</li><li><code>subdivide NUMBER ZONE</code> Subdivides the given zone in the given number of subzones. You should not create more than a thousand sub-zones per running Rugg interepreter, as you may reach the maximum limit of opened file descriptors.</li><li><code>join ZONE</code> : Joins the given zone, after it has been subdivided.</li><li><code>sig ZONE(S)</code> : Prints out the SHA-1 signatures for the given zones. This is to be used mainly for debugging purposes.</li><li><code>time</code> : Prints the time elapsed since the program start, or since the last <code>time</code> operation. This is very useful for benchmarking</li><li><code>unlink ZONE(S)</code> : Cleans up the given zone. This physically removes the given zone(s) from the filesystem.</li></ul><p>These operations are sufficient for writing useful test cases.</p></div><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Values</h2></a><div class="level2"><p>Operations can be parametered by giving them values. Rugg recognizes three different kind of values :</p><ul><li><span class='term'>WORDS</span>, which are simply sequence of characters (think &ldquo;<span class='quote'>unquoted strings</span>&rdquo;). Words are for instance what you give to the <code>ensure</code> operation to describe what you want to check.</li><li><span class='term'>NUMBERS</span>, are integer or floating numbers. The separator is a dot.</li><li><span class='term'>QUANTITIES</span>, are numbers suffixed by a unit (supported units are <code>b</code>, <code>kb</code>, <code>mb</code> and <code>gb</code>, as well as freespace-relative unit <code>%</code>), which indicate a quantity of data.</li><li><span class='term'>RANGES</span>, are a way to specify sets of numbers or quantities, with a given number of element. A range is described by a start and end range (which will be included in the resulting set), and by a total number of values. The range <code>1..10</code> will return 10 values, while <code>1..10/5</code> will only return 5 values.</li></ul><p>From the above value, the most powerful (and useful) are the ranges.</p></div><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Combinators</h2></a><div class="level2"><p>Last but not least, you will need to combine your operations to create scenarios. Combination is simply the operation that &ldquo;<span class='quote'>joins</span>&rdquo; or &ldquo;<span class='quote'>pipes</span>&rdquo; your operations together, that is pass the result of an operation A to an operation B.</p><p>There are different ways to make an operation B use the result of an operation A:</p><ul><li><span class='term'>Composition</span>, where the result of A is directly applied to B. Think of the mathematic expression <code>g(f(x))</code>.</li><li><span class='term'>Iteration</span>, which is a special kind of composition where A is expected to return a set (instead of a single value), and that B is sequentially applied to each element of the result of A. This is like &ldquo;<span class='quote'>for each x of A, do B(x)</span>&rdquo;. An iteration returns a set which contains each element of the result of A applied to B.</li><li><span class='term'>Application</span>, which is an alternative version of the <span class='term'>Iteration</span>, where the application of B on the elements of the result of A is made &ldquo;<span class='quote'>at once</span>&rdquo;, using multiple threads (one per element of the result of A).</li></ul><p>The iteration and the application allow you to easily express sequential and parallel execution, and then allows you to make tests involving concurrency.</p></div><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Quick reference</h2></a><div class="level2"><table cellpadding="0" cellspacing="0" align="center"><caption>Values and Operations</caption><tbody><tr class='even'><td><p><code>10</code>, <code>10.0</code>, <code>1000</code></p></td><td><p>A <span class='term'>NUMBER</span></p></td></tr><tr class='odd'><td><p><code>10Mb</code>, <code>10b</code>, <code>40.10Mb</code>, <code>100Gb</code></p></td><td><p>A <span class='term'>QUANTITY</span> of data</p></td></tr><tr class='even'><td><p><code>0.1%</code>, <code>100%</code></p></td><td><p>A <span class='term'>QUANTITY</span> of data <span class='term'>relative</span> to free space</p></td></tr><tr class='odd'><td><p><code>10..100</code>, <code>10..100/10</code>, <code>0..500Mb</code></p></td><td><p>Ranges with inclusive bounds and the total number of elements</p></td></tr><tr class='even'><td><p><code>zone QUANTITY</code></p></td><td><p>Creates a new zone</p></td></tr><tr class='odd'><td><p><code>fill same? (binary|text) fast?</code></p></td><td><p>Fills with the (same) text or binary data</p></td></tr><tr class='even'><td><p><code>blank</code></p></td><td><p>blanks the zone</p></td></tr><tr class='odd'><td><p><code>ensure (not) (same|different|blank)</code></p></td><td><p>Checks the given zones</p></td></tr><tr class='even'><td><p><code>subdivide NUMBER</code></p></td><td><p>creates a set of <span class='term'>NUMBER</span> subzones</p></td></tr><tr class='odd'><td><p><code>unlink</code></p></td><td><p>physically removes the current zone</p></td></tr><tr class='even'><td><p><code>sig ZONE(s)</code></p></td><td><p>prints out the SHA-1 signature for the zone content</p></td></tr><tr class='odd'><td><p><code>time</code></p></td><td><p>prints the time since the program start or last time call</p></td></tr></tbody></table><table cellpadding="0" cellspacing="0" align="center"><caption>Combinators</caption><tbody><tr class='even'><td><p><span class='term'>Sequence</span></p></td><td><p><code>A, B</code></p></td><td><p>The result of A is passed as argument to B</p></td></tr><tr class='odd'><td><p><span class='term'>Iteration</span></p></td><td><p><code>A : B</code></p></td><td><p>B is sequentially invoked with each element of the result of A as argument.</p></td></tr><tr class='even'><td><p><span class='term'>Application</span></p></td><td><p><code>A | B</code></p></td><td><p>B is invoked in a new thread for each element of the result of A</p></td></tr><tr class='odd'><td><p><span class='term'>Grouping</span></p></td><td><p><code>(A, B)</code></p></td><td><p>Creates a new operation that is the given combination of A and B.</p></td></tr></tbody></table></div><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Tips</h2></a><div class="level2"><ul><li>When writing scenarios, log the different steps of your tests, and try to output progress information, and maybe also put the processing time for each scenario. This will be very useful when you will run long tests.</li><li>Install some 'dev' packages, or install the source of the Linux kernel somewhere and update your locate database (<code>updatedb</code>). This will enable give Rugg some data from where to pick data.</li></ul></div></div>
+
+</body>
+</html>
