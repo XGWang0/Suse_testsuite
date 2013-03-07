@@ -41,6 +41,7 @@ Source0:        %{name}-%{version}.tar.bz2
 Source1:        %{name}.8
 Source2:        test_lynis-run
 Source3:        qa_lynis.tcf
+Source4:        runtest.sh
 # PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE  
 Patch0:         lynis_%{version}_lynis.diff
 # PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE
@@ -97,7 +98,8 @@ install -m 644 include/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/include/
 install -m 644 plugins/*  $RPM_BUILD_ROOT/usr/share/qa/%{name}/plugins/
 install -m 644 db/*  $RPM_BUILD_ROOT/usr/share/qa/%{name}/db/
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 
 
 %clean
@@ -113,6 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /usr/share/qa/%{name}/plugins
 %dir /usr/share/qa/%{name}/db
 /usr/share/qa/%{name}/lynis
+/usr/share/qa/%{name}/runtest.sh
 /usr/share/qa/%{name}/default.prf
 /usr/share/qa/%{name}/include/*
 /usr/share/qa/%{name}/plugins/*

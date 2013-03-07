@@ -22,7 +22,7 @@
 # ****************************************************************************
 #
 
-timer 300
-fg 1 check_results cd /usr/share/qa/qa_test_lynis && ./lynis -c --no-colors -Q 
+timer 600
+fg 1 check_results /usr/share/qa/qa_test_lynis/runtest.sh 
 wait
 
