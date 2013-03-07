@@ -1,6 +1,5 @@
-#!/bin/bash
 # ****************************************************************************
-# Copyright (c) 2012 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -21,10 +20,9 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
+#
 
-CTCS2_DIR=/usr/lib/ctcs2
-TCF_DIR=/usr/share/qa/tcf
-
-cd $CTCS2_DIR
-tools/run $TCF_DIR/qa_lynis.tcf
+timer 300
+fg 1 check_results cd /usr/share/qa/qa_test_lynis && ./lynis -c --no-colors -Q 
+wait
 
