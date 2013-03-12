@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_iperf
-License:        SUSE Proprietary
+License:        other
 Group:          SuSE internal
 Summary:        iperf test
 Requires:       ctcs2 gcc gcc-c++

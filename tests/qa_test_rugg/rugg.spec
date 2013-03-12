@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_rugg
-License:        SUSE Proprietary
+License:        GPL v2
 Group:          Filesystem test
 Summary:        rugg test
 Requires:       python, qa_lib_ctcs2

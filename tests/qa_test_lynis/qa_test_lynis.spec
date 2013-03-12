@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_lynis
-License:        SUSE Proprietary
+License:        GPL v3
 Group:          SuSE internal
 Summary:        lynis 
 Version:	1.3.0

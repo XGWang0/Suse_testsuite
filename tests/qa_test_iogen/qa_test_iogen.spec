@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_iogen
-License:        SUSE Proprietary
+License:        BSD
 Group:          SuSE internal
 Summary:        iogen test
 Requires:       ctcs2

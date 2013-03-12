@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_iozone
-License:        SUSE Proprietary
+License:        Freeware
 Group:          SuSE internal
 Summary:        iozone test
 Requires:       ctcs2
