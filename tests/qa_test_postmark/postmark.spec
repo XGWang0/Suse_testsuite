@@ -12,7 +12,7 @@
 
 
 Name:		qa_test_postmark
-License:	GPL
+License:	Artistic License
 Group:		System/Benchmark
 AutoReqProv:	on
 Version:	1.51

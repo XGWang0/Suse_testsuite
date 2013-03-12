@@ -31,7 +31,7 @@
 # norootforbuild
 
 Name:           qa_test_nmon
-License:        SUSE Proprietary
+License:        GPL v2 or later
 Group:          SuSE internal
 Summary:        nmom 
 Version:	1
