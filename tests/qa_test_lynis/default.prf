@@ -1,0 +1,188 @@
+#################################################################################
+#
+# Lynis scan profile
+#
+# This is the default profile and is used as a baseline when testing systems and
+# applications. Since there are generally no "best" options, Lynis will assume
+# some default values.
+# 
+# All empty lines or with the # prefix will be skipped
+#
+# This is the default profile and contains default values. You are encouraged to
+# copy this file and use it's base for custom audit profiles.
+#
+#################################################################################
+
+[configuration]
+# Profile name, will be used as title/description
+config:profile_name:Default Audit Template:
+
+# Number of seconds to pause between every test (0 is no pause)
+config:pause_between_tests:0:
+
+
+
+#################################################################################
+# Testing options
+# ---------------
+#################################################################################
+
+# ** Scan type (how deep test has to be, light, normal or full) **
+# config:test_scan_mode:light|normal|full:
+config:test_scan_mode:full
+
+# ** Skip one or more specific tests **
+# (always ignores scan mode and will make sure the test is skipped)
+# config:test_skip_always:AAAA-1234 BBBB-5678 CCCC-9012:
+
+# ** Define the role(s) of a machine **
+# Values: desktop|server (default: server)
+#config:machine_role:server:
+config:machine_role:desktop
+
+
+#################################################################################
+#
+# Plugins
+# ---------------
+# Define which plugins are enabled
+#
+#################################################################################
+plugin_enable=security_malware
+plugin_enable=security_rootkit
+plugin_enable=plugin_fileperms
+
+
+#################################################################################
+#
+# Sysctl options
+# ---------------
+# sysctl:<sysctl key>:<expected value>:
+# The 'expected value' is used to compare with the active value. If they
+# differ, the program will mark it with a warning.
+#
+#################################################################################
+
+[processes]
+sysctl:kern.randompid:1:
+
+[kernel]
+sysctl:kern.sugid_coredump:0:
+
+[network]
+sysctl:net.inet.tcp.blackhole:2:
+sysctl:net.inet.udp.blackhole:1:
+
+[security]
+sysctl:kern.securelevel:3:
+
+
+#################################################################################
+#
+# Apache options
+# columns: (1)apache : (2)option : (3)value
+#
+#################################################################################
+
+apache:ServerTokens:Prod:
+
+
+#################################################################################
+#
+# OpenLDAP options
+# columns: (1)openldap : (2)file : (3)option : (4)expected value(s)
+#
+#################################################################################
+
+openldap:slapd.conf:permissions:640-600:
+openldap:slapd.conf:owner:ldap-root:
+
+
+#################################################################################
+#
+# SSL certificates
+#
+#################################################################################
+
+# Locations where to search for SSL certificates
+ssl:certificates:/etc/ssl /var/www:
+
+
+#################################################################################
+#
+# File/directories permissions (currently not used yet)
+#
+#################################################################################
+
+# Scan for exact file name match
+#[scanfiles]
+#scanfile:/etc/rc.conf:FreeBSD configuration:
+
+# Scan for exact directory name match
+[scandirs]
+scandir:/etc:/etc directory:
+
+
+#################################################################################
+#
+# permfile
+# ---------------
+# permfile:file name:file permissions:owner:group:action:
+# Action = NOTICE or WARN
+# Examples:
+# permfile:/etc/test1.dat:600:root:wheel:NOTICE:
+# permfile:/etc/test1.dat:640:root:-:WARN:
+#
+#################################################################################
+
+#permfile:/etc/inetd.conf:rw-------:root:-:WARN:
+#permfile:/etc/fstab:rw-r--r--:root:-:WARN:
+#permfile:/etc/lilo.conf:rw-------:root:-:WARN:
+
+
+#################################################################################
+#
+# permdir
+# ---------------
+# permdir:directory name:file permissions:owner:group:action when permissions are different:
+#
+#################################################################################
+
+permdir:/root/.ssh:rwx------:root:-:WARN:
+permdir:/root/.gnupg:rwx------:root:-:WARN:
+
+# Scan for a program/binary in BINPATHs
+scanbinary:Rootkit Hunter:rkhunter:
+
+
+#################################################################################
+#
+# Audit customizing
+# -----------------
+#
+# Most options can contain 'yes' or 'no'.
+#  
+#################################################################################
+
+# Skip the FreeBSD portaudit test
+#config:freebsd_skip_portaudit:yes:
+
+# Skip security repository check for Debian based systems
+#config:debian_skip_security_repository:yes:
+
+# Allow promiscuous interfaces
+#   <option>:<promiscuous interface name>:<description>:
+#if_promisc:pflog0:pf log daemon interface:
+
+# Skip Lynis upgrade availability test (default: no)
+#config:skip_upgrade_test:yes:
+
+# Do not log tests with another guest operating system (default: yes)
+#config:log_tests_incorrect_os:no:
+
+# Amount of connections in WAIT state before reporting it as a warning
+#config:connections_max_wait_state:50:
+
+# Define if available NTP daemon is configured as a server or client on the network
+# values: server or client (default: client)
+#config:ntpd_role:client:
