@@ -36,10 +36,22 @@ Version:	1.3.0
 Release:	1
 Requires:	qa_lib_ctcs2
 Source0:        %{name}-%{version}.tar.bz2
-Source1:        %{name}.8
-Source2:        test_lynis-run
-Source3:        qa_lynis.tcf
-Source4:        runtest.sh
+Source1:        default.prf 
+Source2:        tests_binary_rpath
+Source3:        tests_file_permissionsDB
+Source4:        tests_file_permissions_ww
+Source5:        tests_network_allowed_ports
+Source6:        tests_system_dbus
+Source7:        tests_system_proc
+Source8:        tests_tmp_symlinks
+Source9:        tests_users_wo_password
+Source10:       prepare_for_suse.sh
+Source11:       dbus-whitelist.db.openSUSE_12.2_x86_64
+Source12:       fileperms.db.openSUSE_12.2_x86_64
+Source21:       %{name}.8
+Source22:       test_lynis-run
+Source23:       qa_lynis.tcf
+Source24:       runtest.sh
 # PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE  
 Patch0:         lynis_%{version}_lynis.diff
 # PATCH-OPENSUSE-FIX -- thomas@novell.com - modifying for openSUSE
@@ -85,19 +97,22 @@ See http://www.rootkit.nl for a full description and documentation.
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:21} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -d $RPM_BUILD_ROOT/usr/share/qa/%{name}/{include,plugins,db}
 install -m 755 lynis $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 644 default.prf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 644 include/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/include/
+install -m 644 {%{S:2},%{S:3},%{S:4},%{S:5},%{S:6},%{S:7},%{S:8},%{S:9}} $RPM_BUILD_ROOT/usr/share/qa/%{name}/include/
 install -m 644 plugins/*  $RPM_BUILD_ROOT/usr/share/qa/%{name}/plugins/
 install -m 644 db/*  $RPM_BUILD_ROOT/usr/share/qa/%{name}/db/
-install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tcf
-install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 644 {%{S:11},%{S:12}}  $RPM_BUILD_ROOT/usr/share/qa/%{name}/db/
+install -m 755 %{S:22} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 644 %{S:23} $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 755 %{S:24} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 
 
 %clean
@@ -115,6 +130,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%{name}/lynis
 /usr/share/qa/%{name}/runtest.sh
 /usr/share/qa/%{name}/default.prf
+/usr/share/qa/%{name}/prepare_for_suse.sh
 /usr/share/qa/%{name}/include/*
 /usr/share/qa/%{name}/plugins/*
 /usr/share/qa/%{name}/db/*
