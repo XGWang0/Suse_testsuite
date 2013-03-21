@@ -488,14 +488,14 @@ Index: ltp-full-20130109/runtest/ltp-aiodio.part3
  #           fname:  this filename is Required (no default)
  #
  #
--FSX032 fsx-linux -d  -l 500000 -r 4096 -t 4096 -w 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
--FSX033 fsx-linux -d  -l 500000 -r 4096 -t 2048 -w 2048 -N 10000 $TMPDIR/aiodio.$$/junkfile
--FSX034 fsx-linux -d  -l 500000 -r 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
--FSX035 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
--FSX036 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
--FSX037 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
--FSX038 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
--FSX039 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX032 fsx-linux -l 500000 -r 4096 -t 4096 -w 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX033 fsx-linux -l 500000 -r 4096 -t 2048 -w 2048 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX034 fsx-linux -l 500000 -r 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX035 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX036 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX037 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX038 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX039 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
 -FSX040 fsx-linux -N 10000 -o 1024 $TMPDIR/aiodio.$$/junkfile
 -FSX041 fsx-linux -N 10000 -o 2048 $TMPDIR/aiodio.$$/junkfile
 -FSX042 fsx-linux -N 10000 -o 4096 $TMPDIR/aiodio.$$/junkfile
@@ -540,14 +540,14 @@ Index: ltp-full-20130109/runtest/ltp-aiodio.part3
 +ADPREP0 mkdir -p /tmp/aiodio/
 +ADPREP1 touch /tmp/aiodio/junkfile /tmp/aiodio/junkfile1 /tmp/aiodio/junkfile2 /tmp/aiodio/junkfile3 /tmp/aiodio/junkfile4 /tmp/aiodio/junkfile5 /tmp/aiodio/junkfile6 /tmp/aiodio/junkfile7 /tmp/aiodio/junkfile8 /tmp/aiodio/junkfile9
 +
-+FSX032 fsx-linux -d  -l 500000 -r 4096 -t 4096 -w 4096 -N 10000 /tmp/aiodio/junkfile
-+FSX033 fsx-linux -d  -l 500000 -r 4096 -t 2048 -w 2048 -N 10000 /tmp/aiodio/junkfile
-+FSX034 fsx-linux -d  -l 500000 -r 4096 -N 10000 /tmp/aiodio/junkfile
-+FSX035 fsx-linux -d  -N 10000 /tmp/aiodio/junkfile
-+FSX036 fsx-linux -d  -N 10000 /tmp/aiodio/junkfile
-+FSX037 fsx-linux -d  -N 10000 /tmp/aiodio/junkfile
-+FSX038 fsx-linux -d  -N 10000 /tmp/aiodio/junkfile
-+FSX039 fsx-linux -d  -N 10000 /tmp/aiodio/junkfile
++FSX032 fsx-linux -l 500000 -r 4096 -t 4096 -w 4096 -N 10000 /tmp/aiodio/junkfile
++FSX033 fsx-linux -l 500000 -r 4096 -t 2048 -w 2048 -N 10000 /tmp/aiodio/junkfile
++FSX034 fsx-linux -l 500000 -r 4096 -N 10000 /tmp/aiodio/junkfile
++FSX035 fsx-linux -N 10000 /tmp/aiodio/junkfile
++FSX036 fsx-linux -N 10000 /tmp/aiodio/junkfile
++FSX037 fsx-linux -N 10000 /tmp/aiodio/junkfile
++FSX038 fsx-linux -N 10000 /tmp/aiodio/junkfile
++FSX039 fsx-linux -N 10000 /tmp/aiodio/junkfile
 +FSX040 fsx-linux -N 10000 -o 1024 /tmp/aiodio/junkfile
 +FSX041 fsx-linux -N 10000 -o 2048 /tmp/aiodio/junkfile
 +FSX042 fsx-linux -N 10000 -o 4096 /tmp/aiodio/junkfile

@@ -80,6 +80,7 @@ Patch703:	0001-syscalls-readlink04-Simplify-the-code.patch
 Patch704:	0001-openposix-Remove-stubs.patch
 Patch705:	0001-syscalls-sysctl03-Change-TWARN-to-TINFO.patch
 Patch706:	0001-testcases-.-process_stress-Silence-the-output.patch
+Patch707:	0001-runtest-ltp-aiodio.part3-fsx-linux-turn-off-debug.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -130,6 +131,7 @@ Authors:
 %patch704 -p1
 %patch705 -p1
 %patch706 -p1
+%patch707 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -216,7 +218,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
+  
   Silenced process_stress output (bug #810495).
+
+  Turned off debug for FSX tests
+
+  Fixed tests bellow flush stdout before fork:
+
+  pthread_cond_broadcast/1-2.c
+  pthread_create/3-2.c
+  pthread_exit/6-1.c
+  pthread_cond_timedwait/4-2.c
+
+  All in order not to generate several megabytes
+  of useless logs.
 
 * Wed Mar 20 2013 Cyril Hrubis chrubis@suse.cz
   Backported fix for sysctl03.
