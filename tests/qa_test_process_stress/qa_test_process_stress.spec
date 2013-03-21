@@ -21,8 +21,6 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
-
-Source1:	qa_test_process_stress.8
 #
 # spec file for package qa_process_stress (Version 0.1)
 #
