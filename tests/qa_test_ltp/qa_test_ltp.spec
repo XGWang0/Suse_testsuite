@@ -79,6 +79,7 @@ Patch702:	0001-syscalls-readlink04-Cleanup.patch
 Patch703:	0001-syscalls-readlink04-Simplify-the-code.patch
 Patch704:	0001-openposix-Remove-stubs.patch
 Patch705:	0001-syscalls-sysctl03-Change-TWARN-to-TINFO.patch
+Patch706:	0001-testcases-.-process_stress-Silence-the-output.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -128,6 +129,7 @@ Authors:
 %patch703 -p1
 %patch704 -p1
 %patch705 -p1
+%patch706 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -213,6 +215,9 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
+  Silenced process_stress output (bug #810495).
+
 * Wed Mar 20 2013 Cyril Hrubis chrubis@suse.cz
   Backported fix for sysctl03.
 
