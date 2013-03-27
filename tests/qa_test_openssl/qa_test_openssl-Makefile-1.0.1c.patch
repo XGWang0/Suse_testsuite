@@ -1,5 +1,5 @@
 --- a/Makefile	2011-12-27 22:38:27.000000000 +0800
-+++ b/Makefile	2013-03-27 17:27:32.805298718 +0800
++++ b/Makefile	2013-03-27 18:28:15.962437044 +0800
 @@ -23,10 +23,10 @@
  	tpkcs7.com tpkcs7d.com tverify.com testgen.com testss.com testssl.com \
  	testca.com VMSca-response.1 VMSca-response.2
@@ -24,15 +24,15 @@
  
  all:	exe
  
-@@ -124,7 +124,7 @@
- tags:
- 	ctags $(SRC)
- 
--tests:	exe apps $(TESTS)
-+tests:	exe $(TESTS)
+@@ -127,7 +127,7 @@
+ tests:	exe apps $(TESTS)
  
  apps:
- 	@(cd ..; $(MAKE) DIRS=apps all)
+-	@(cd ..; $(MAKE) DIRS=apps all)
++	@(cd ../apps; $(MAKE) openssl)
+ 
+ alltests: \
+ 	test_des test_idea test_sha test_md4 test_md5 test_hmac \
 @@ -321,13 +321,6 @@
  lint:
  	lint -DLINT $(INCLUDES) $(SRC)>fluff
@@ -47,6 +47,15 @@
  dclean:
  	$(PERL) -pe 'if (/^# DO NOT DELETE THIS LINE/) {print; exit(0);}' $(MAKEFILE) >Makefile.new
  	mv -f Makefile.new $(MAKEFILE)
+@@ -335,7 +328,7 @@
+ 			testreq.pem
+ 
+ clean:
+-	rm -f .rnd tmp.bntest tmp.bctest *.o *.obj *.dll lib tags core .pure .nfs* *.old *.bak fluff $(EXE) *.ss *.srl log dummytest
++	rm -f .rnd tmp.bntest tmp.bctest *.o *.obj *.dll lib tags core .pure .nfs* *.old *.bak fluff $(EXE) *.ss *.srl log dummytest;cd ../apps/;rm -f *.o *.obj *.dll lib tags core .pure .nfs* *.old *.bak fluff openssl req
+ 
+ $(DLIBSSL):
+ 	(cd ..; $(MAKE) DIRS=ssl all)
 @@ -348,21 +341,21 @@
  	fi; \
  	LIBRARIES="$(LIBSSL) $(LIBCRYPTO) $(LIBKRB5)"; \
