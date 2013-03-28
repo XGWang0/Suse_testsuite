@@ -1,5 +1,5 @@
 --- a/Makefile	2011-12-27 22:38:27.000000000 +0800
-+++ b/Makefile	2013-03-27 18:28:15.962437044 +0800
++++ b/Makefile	2013-03-28 12:43:48.704366184 +0800
 @@ -23,10 +23,10 @@
  	tpkcs7.com tpkcs7d.com tverify.com testgen.com testss.com testssl.com \
  	testca.com VMSca-response.1 VMSca-response.2
@@ -15,14 +15,17 @@
  
  BNTEST=		bntest
  ECTEST=		ectest
-@@ -102,7 +102,7 @@
+@@ -102,9 +102,9 @@
  ALL=    $(GENERAL) $(SRC) $(HEADER)
  
  top:
 -	(cd ..; $(MAKE) DIRS=$(DIR) TESTS=$(TESTS) all)
 +	(cd .; $(MAKE) DIRS=. TESTS=$(TESTS) all)
  
- all:	exe
+-all:	exe
++all:	exe apps
+ 
+ exe:	$(EXE) dummytest$(EXE_EXT)
  
 @@ -127,7 +127,7 @@
  tests:	exe apps $(TESTS)
