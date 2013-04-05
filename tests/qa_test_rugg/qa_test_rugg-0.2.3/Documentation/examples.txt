@@ -1,0 +1,84 @@
+== Rugg Examples
+
+*Basic scenarios examples*:
+
+    Create a 5Mb zone, and blank it
+    >    zone 5Mb, blank
+
+    Creates a 5Mb zone, blanks it, fills it with text, ensures it is not blank
+    >    zone 5Mb, blank, fill text, ensure not blank 
+
+    Create a 5Mb zone, divide it into two parts, and fill the whole zone with
+    random text. The subzones should not be the same.
+    >    zone 5Mb, subdivide 2 : fill text, ensure different
+
+    Same as above, but the subzones are filled with the SAME data, and checking
+    that the zones are actually the same.
+    >    zone 5Mb, subdivide 2 : fill same text, ensure same
+
+    The same scenario, but with filling the zones in parallel threads (with the
+    same data)
+    >    zone 5Mb, subdivide 2 | fill same text, ensure same
+
+    Divide a 5Mb zone into 10 subzones, blanking in parallel, then filling
+    them in parallel, then ensuring that they are all the same
+    >    zone 5Mb, subdivide 10 | blank | ensure blank | fill same text, ensure same
+
+
+#*Advanced scenarios examples*:
+
+#    Creates 50 zones of 5kb, fills them with the same binary data, and ensures that
+#    they are the same.
+#    >    1..50 * zone 50kb : fill same binary, ensure same
+
+#    Randomly fill 10 zones of 5Mb in parallel
+#    >    1..10 * zone 5Mb | fill binary, ensure different
+
+
+# This does not work right now
+#    Subdivides a zone from 1 to 10 zones, then randomly fills it 20 times
+#    >    zone 5Mb, 1..10 : ( subdivide : fill binary, sig, ensure different, join)
+
+#    Do the same things, but on two zones of 15Mb, in parallel:
+#    >    1..2 | zone 15Mb, subdivide 10 : ( do 0..20 : fill random )
+
+#    Subdivide a 5Mb into 2 to 10 subzones, filling them in parallel and
+#    ensuring they have the same content :
+#    >    zone 50mb, do 2..10: subdivide | fill same text : ensure same
+
+#    Do the same as above, but repeat it 10 times, one after the other. This will
+#    create a new zone at each run, but this does not ensure that the zones do
+#    not overlap.
+#    >    do 1..10 : zone 50mb, do 2..10: subdivide | fill text : ensure same
+
+#    Run the same scenario as above, but in two parallel instances
+#    >    do 1..10 | zone 50mb, do 2..10: subdivide | fill text : ensure same
+
+#    Creates zones ranging from 10Mb to 100Mb, dividing each zone from 2 to 10
+#    subzones. Fill each subzone with word and ensure that they are the same
+#    >    10..100Mb : zone : do 2..10 : divide : fill text : same
+#
+#    >    zone 5Mb, subdivide 10 : fill random : ensure not same : join, blank,
+#    >    subdivide 20 :
+
+*What would it look like in Python ?*
+
+    On a side note, here is the equivalent Python code for the following Rugg
+    scenario:
+
+    >    10..100Mb : zone : 1..10 :  divide : fill text : same !
+
+    and the approximative Python translation :
+
+    >    for size in range(10,100 + (100-10) / 10, (100-10) / 10 ):
+    >        zone = Zone(MB(size))
+    >        for n in range(2,11):
+    >            subzones = zone.subdivide(n)
+    >            for subzone in subzones:
+    >                subzone.fill(producer=randomTextProducer)
+    >            checkSame(subzones)
+
+    This kind of code can get way more complicated when using the parallel
+    execution operator (`|`), as threads have to be created and managed by the
+    program.
+

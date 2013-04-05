@@ -1,0 +1,97 @@
+From 3eca5e3f01d5807c4919f47fcfec4b4155dc04e4 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Thu, 14 Feb 2013 18:06:06 +0100
+Subject: [PATCH] openposix/.../pthread_cond_timedwait: 2-2, 2-3
+
+Fix rare segfaults.
+
+The retval passed to pthread_join() is a pointer
+to integer which is wrong as on 64 bit platform
+sizeof(void*) == 8 while sizeof(int) == 4. The
+pthread_exit() then rewrites part of the stack
+of the main process which may cause segfault.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ .../interfaces/pthread_cond_timedwait/2-2.c        |   14 +++++++-------
+ .../interfaces/pthread_cond_timedwait/2-3.c        |   13 ++++++++-----
+ 2 files changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/2-2.c b/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/2-2.c
+index 714c5c7..d9b5b8a 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/2-2.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/2-2.c
+@@ -73,10 +73,10 @@ void *t1_func(void *arg)
+ 	}
+ }
+ 
+-int main()
++int main(void)
+ {
+ 	pthread_t thread1;
+-	int th_ret;
++	void *th_ret;
+ 
+ 	if (pthread_mutex_init(&td.mutex, NULL) != 0) {
+ 		fprintf(stderr, "Fail to initialize mutex\n");
+@@ -110,16 +110,16 @@ int main()
+ 	alarm(INTERVAL);
+ 
+ 	/* Wait for the thread to return. */
+-	if (pthread_join(thread1, (void *)&th_ret) != 0) {
++	if (pthread_join(thread1, &th_ret) != 0) {
+ 		fprintf(stderr, "Could not join the thread.\n");
+ 		return PTS_UNRESOLVED;
+ 	}
+ 
+-	if (th_ret == PTS_PASS) {
++	if ((int)th_ret == PTS_PASS) {
+ 		printf("Test PASSED\n");
+ 		return PTS_PASS;
+-	} else {
+-		printf("Test FAILED\n");
+-		return PTS_FAIL;
+ 	}
++
++	printf("Test FAILED\n");
++	return PTS_FAIL;
+ }
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/2-3.c b/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/2-3.c
+index cf07116..257b6f8 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/2-3.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/2-3.c
+@@ -64,10 +64,11 @@ void *t1_func(void *arg)
+ 	}
+ }
+ 
+-int main()
++int main(void)
+ {
+ 	pthread_t thread1;
+-	int rc, th_ret;
++	int rc;
++	void *th_ret;
+ 
+ 	if (pthread_mutex_init(&td.mutex, NULL) != 0) {
+ 		fprintf(stderr, "Fail to initialize mutex\n");
+@@ -107,12 +108,14 @@ int main()
+ 		return PTS_UNRESOLVED;
+ 	}
+ 
+-	if (th_ret == PTS_PASS) {
++	switch ((int)th_ret) {
++	case PTS_PASS:
+ 		printf("Test PASSED\n");
+ 		return PTS_PASS;
+-	} else if (th_ret == PTS_FAIL) {
++	case PTS_FAIL:
+ 		printf("Test FAILED\n");
+ 		return PTS_FAIL;
+-	} else
++	default:
+ 		return PTS_UNRESOLVED;
++	}
+ }
+-- 
+1.7.8.6
+

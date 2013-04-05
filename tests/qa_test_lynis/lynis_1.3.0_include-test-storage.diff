@@ -1,0 +1,22 @@
+--- lynis-1.3.0/include/tests_storage   2011-12-25 14:54:21.000000000 +0100
++++ lynis-1.3.0_suse/include/tests_storage      2013-01-10 12:04:19.129284146 +0100
+@@ -25,7 +25,7 @@
+ 	FOUND=0
+ 	logtext "Test: Checking USB storage driver in directory /etc/modprobe.d and configuration file /etc/modprobe.conf"
+ 	if [ -d /etc/modprobe.d ]; then
+-	    FIND=`grep "install usb-storage /bin/true" /etc/modprobe.d | grep "usb-storage" | grep -v "#"`
++	    FIND=`grep "install usb-storage /bin/true" /etc/modprobe.d/* | grep "usb-storage" | grep -v "#"`
+ 	    if [ ! "${FIND}" = "" ]; then
+ 		FOUND=1
+ 		logtext "Result: found usb-storage driver in disabled state"	    
+@@ -61,8 +61,8 @@
+ 	FOUND=0
+ 	logtext "Test: Checking firewire storage driver in directory /etc/modprobe.d and configuration file /etc/modprobe.conf"
+ 	if [ -d /etc/modprobe.d ]; then
+-	    FIND1=`egrep "blacklist (ohci1394|firewire-ohci)" /etc/modprobe.d | grep "ohci" | grep -v "#"`	
+-	    FIND2=`egrep "install (ohci1394|firewire-ohci) /bin/true" /etc/modprobe.d | grep "ohci" | grep -v "#"`
++	    FIND1=`egrep "blacklist (ohci1394|firewire-ohci)" /etc/modprobe.d/* | grep "ohci" | grep -v "#"`	
++	    FIND2=`egrep "install (ohci1394|firewire-ohci) /bin/true" /etc/modprobe.d/* | grep "ohci" | grep -v "#"`
+ 	    if [ ! "${FIND1}" = "" -o ! "${FIND2}" = "" ]; then
+ 		FOUND=1
+ 		logtext "Result: found firewire ohci driver in disabled state"	    

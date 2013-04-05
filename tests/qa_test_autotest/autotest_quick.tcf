@@ -103,9 +103,6 @@ wait
 timer 86400
 fg 1 autotest-dacapo /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/dacapo/control  
 wait
-timer 86400
-fg 1 autotest-kvmtest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kvmtest/control  
-wait
 timer 600
 fg 1 autotest-cpu_hotplug /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cpu_hotplug/control
 wait

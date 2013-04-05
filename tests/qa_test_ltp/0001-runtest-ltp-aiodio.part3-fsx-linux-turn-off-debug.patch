@@ -1,0 +1,119 @@
+From 91fb3d2ce6b0700a44cd388659838cb573bce373 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Thu, 21 Mar 2013 12:32:26 +0100
+Subject: [PATCH] runtest/ltp-aiodio.part3: fsx-linux turn off debug
+
+Turn off debug mode for FSX tests otherwise these
+will generate several megabytes of useless logs.
+
+open_posix_testsuite/.../pthread_cond_broadcast: Fix.
+
+Flush the stdout before we fork, otherwise each
+children will flush the buffer resulting in
+quater of megabyte of logs.
+
+open_posix_testsuite/.../pthread_create/3-2.c
+
+Flush the stdout before fork().
+
+open_posix_testsuite/.../pthread_exit/6-1.c
+
+Flush the stdout before fork().
+
+open_posix_testsuite/.../pthread_cond_timedwait/4-2.c
+
+Flush the stdout before fork().
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ runtest/ltp-aiodio.part3                           |   16 ++++++++--------
+ .../interfaces/pthread_cond_broadcast/1-2.c        |    1 +
+ .../interfaces/pthread_cond_timedwait/4-2.c        |    1 +
+ .../conformance/interfaces/pthread_create/3-2.c    |    4 ++++
+ .../conformance/interfaces/pthread_exit/6-1.c      |    4 ++++
+ 5 files changed, 18 insertions(+), 8 deletions(-)
+
+diff --git a/runtest/ltp-aiodio.part3 b/runtest/ltp-aiodio.part3
+index c9b2b81..d53e836 100644
+--- a/runtest/ltp-aiodio.part3
++++ b/runtest/ltp-aiodio.part3
+@@ -1,14 +1,14 @@
+ #           fname:  this filename is Required (no default)
+ #
+ #
+-FSX032 fsx-linux -d  -l 500000 -r 4096 -t 4096 -w 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX033 fsx-linux -d  -l 500000 -r 4096 -t 2048 -w 2048 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX034 fsx-linux -d  -l 500000 -r 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX035 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX036 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX037 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX038 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
+-FSX039 fsx-linux -d  -N 10000 $TMPDIR/aiodio.$$/junkfile
++FSX032 fsx-linux -l 500000 -r 4096 -t 4096 -w 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
++FSX033 fsx-linux -l 500000 -r 4096 -t 2048 -w 2048 -N 10000 $TMPDIR/aiodio.$$/junkfile
++FSX034 fsx-linux -l 500000 -r 4096 -N 10000 $TMPDIR/aiodio.$$/junkfile
++FSX035 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
++FSX036 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
++FSX037 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
++FSX038 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
++FSX039 fsx-linux -N 10000 $TMPDIR/aiodio.$$/junkfile
+ FSX040 fsx-linux -N 10000 -o 1024 $TMPDIR/aiodio.$$/junkfile
+ FSX041 fsx-linux -N 10000 -o 2048 $TMPDIR/aiodio.$$/junkfile
+ FSX042 fsx-linux -N 10000 -o 4096 $TMPDIR/aiodio.$$/junkfile
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_broadcast/1-2.c b/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_broadcast/1-2.c
+index 7a568ad..f95f914 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_broadcast/1-2.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_broadcast/1-2.c
+@@ -340,6 +340,7 @@ int main(int argc, char *argv[])
+ 		output("Process-shared attributes won't be tested\n");
+ 	if ((cs < 0) || (monotonic < 0))
+ 		output("Alternative clock won't be tested\n");
++	fflush(stdout);
+ #endif
+ 
+ 	if (monotonic < 0)
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/4-2.c b/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/4-2.c
+index 2a87489..46d0b90 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/4-2.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait/4-2.c
+@@ -261,6 +261,7 @@ int main(int argc, char *argv[])
+ 		output("Process-shared attributes won't be tested\n");
+ 	if ((cs < 0) || (monotonic < 0))
+ 		output("Alternative clock won't be tested\n");
++	fflush(stdout);
+ #endif
+ 
+ 	/* We are not interested in testing the clock if we have no other clock available.. */
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/pthread_create/3-2.c b/testcases/open_posix_testsuite/conformance/interfaces/pthread_create/3-2.c
+index 78f5181..fa6f665 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/pthread_create/3-2.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/pthread_create/3-2.c
+@@ -186,6 +186,10 @@ int test_stack(pthread_attr_t * ta, size_t newsize)
+ 	int status;
+ 	int ret;
+ 
++#ifdef VERBOSE > 0
++	fflush(stdout);
++#endif
++
+ 	child = fork();		/* We'll test the feature in another process as this test may segfault */
+ 
+ 	if (child == -1) {
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/pthread_exit/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/pthread_exit/6-1.c
+index f961a9e..dfedcf2 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/pthread_exit/6-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/pthread_exit/6-1.c
+@@ -123,6 +123,10 @@ void *threaded(void *arg)
+ 	if (mf > 0)
+ 		*ctl = 0;
+ 
++#ifdef VERBOSE > 0
++	fflush(stdout);
++#endif
++
+ 	pid = fork();
+ 	if (pid == (pid_t) - 1) {
+ 		UNRESOLVED(errno, "Failed to fork()");
+-- 
+1.7.8.6
+

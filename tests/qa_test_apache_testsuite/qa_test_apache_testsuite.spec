@@ -27,7 +27,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 Provides:	qa_apache_testsuite
 Obsoletes:	qa_apache_testsuite
-Requires:       ctcs2 apache2-prefork apache2-devel apache2-mod_perl apache2-mod_php5 apache2-mod_python apache2-worker gcc perl-libwww-perl perl-IO-Socket-SSL
+Requires:       ctcs2 apache2-prefork apache2-devel apache2-mod_perl apache2-mod_python apache2-worker gcc perl-libwww-perl perl-IO-Socket-SSL
 
 %description
 This package contains automated tests for apache developed with

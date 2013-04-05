@@ -11,6 +11,16 @@
 # norootforbuild
 %define qa_location /usr/share/qa/qa_test_openssl
 
+%if 0%{?suse_version} < 1120
+%define Ver 0.9.8r
+%else
+%if 0%{?suse_version} < 1220
+%define Ver 1.0.0e
+%else
+%define Ver 1.0.1c
+%endif
+%endif
+
 Name:           qa_test_openssl
 License:        OpenSSL Open Source License; GPL v3 or later
 Group:          SuSE internal
@@ -19,11 +29,7 @@ Provides:	qa_openssl
 Obsoletes:	qa_openssl
 Requires:       make openssl bc ctcs2 libopenssl-devel perl gcc
 BuildRequires:  make openssl bc ctcs2 libopenssl-devel perl gcc
-%if 0%{?suse_version} < 1120
-Version:	0.9.8r
-%else
-Version:        1.0.0e
-%endif
+Version:	%{Ver}	
 Release:        19
 Source0:        %name-%version.tar.bz2
 Source1:        test_openssl-run
@@ -31,9 +37,8 @@ Source2:        qa_test_openssl.8
 Source3:	generate_openssl_tests.sh
 Source4:	qa_test_openssl_benchmark.sh
 Source5:	process_benchmarks.pl
-Patch0:		qa_test_openssl-Makefile-1.0.0e.patch
-Patch1:		qa_test_openssl-Makefile-0.9.8r.patch
-Patch2:		qa_test_openssl-sle10-drop-ige.patch
+Patch0:		qa_test_openssl-Makefile-%{Ver}.patch
+Patch1:		qa_test_openssl-sle10-drop-ige.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
@@ -50,13 +55,9 @@ chmod +x ./ctcs2_run_test.sh
 sed -i -e 's:/usr/local/bin/perl:/usr/bin/perl:g' util/*.{pl,sh} util/pl/*.pl
 sed -i -e 's:/bin/env perl:/usr/bin/perl:g' util/*.{pl,sh} util/pl/*.pl
 
-%if 0%{?suse_version} < 1120
-%patch1 -p1
-%else
 pushd test > /dev/null
 %patch0 -p1
 popd > /dev/null
-%endif
 
 # SLE 10 does not have this flag, it was added during 0.9.8e release
 # SLE 10 does not have support for IGE
@@ -65,7 +66,7 @@ popd > /dev/null
 pushd test > /dev/null
 sed -i -e '/RSA_FLAG_NO_CONSTTIME/ d' rsa_test.c
 sed -i -e 's:#define HEADER_E_OS_H:#define HEADER_E_OS_H\n#define OPENSSL_NO_CAMELLIA\n#define OPENSSL_NO_SEED\n:' ../e_os.h
-%patch2 -p1 
+%patch1 -p1 
 popd > /dev/null
 %endif
 

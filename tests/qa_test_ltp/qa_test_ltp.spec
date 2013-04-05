@@ -1,7 +1,7 @@
 #
-# spec file for package ltp
+# spec file for package qa_test_ltp
 #
-# Copyright (c) 2009-2012 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2009-2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -52,10 +52,10 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20120903
+Version:        20130109
 Release:        1
 Source:         ltp-full-%{version}.bz2
-# For subpackage creation
+# CTCS2 Glue
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:	qa_test_ltp.8
 # Compiler warnings and workarounds
@@ -64,17 +64,23 @@ Patch102:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
 Patch300:	0001-Fix-realtime-build.patch
-Patch301:	check_keepcaps_ifdefs_fix.patch 
+Patch301:	0001-syscalls-mremap05-Fix-build.patch
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
 Patch408:       fix-sched_stress.patch
 # Patches 5xx Workarounds
 Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
-Patch601:       fix-sched_setparam_10_1.patch
-Patch602:       bug-307752_sched_setparam-2-1.patch
+#Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700: 	0001-timers-add-a-new-test-case-leapsec_timer.patch
+Patch700:	0001-syscalls-getrusage04-Try-guess-timer-granularity.patch
+Patch701:	0001-openposix-.-pthread_cond_timedwait-2-2-2-3.patch
+Patch702:	0001-syscalls-readlink04-Cleanup.patch
+Patch703:	0001-syscalls-readlink04-Simplify-the-code.patch
+Patch704:	0001-openposix-Remove-stubs.patch
+Patch705:	0001-syscalls-sysctl03-Change-TWARN-to-TINFO.patch
+Patch706:	0001-testcases-.-process_stress-Silence-the-output.patch
+Patch707:	0001-runtest-ltp-aiodio.part3-fsx-linux-turn-off-debug.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -101,25 +107,6 @@ Authors:
 --------
     LTP authors.
 
-# %package devel 
-#License:        GPL v2 or later
-#Summary:        The Linux Test Project
-#Group:          System/Benchmark
-#AutoReqProv:    on
-#Requires:       ltp = %{version}
-#
-#%description devel
-#A collection of test suites to validate the reliability, robustness and
-#stability of Linux. It provides tools for testing the kernel and
-#related features.
-#
-#
-#
-#Authors:
-#--------
-#    LTP authors.
-
-
 %prep
 %setup -q -n ltp-full-%{version} -a1
 # Compiler warnings and workarounds
@@ -136,10 +123,15 @@ Authors:
 # Patches 5xx Workarounds
 %patch501 -p1
 # Patches 6xx Realtime related changes
-#%patch601 -p1
-#%patch602 -p1
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
+%patch701 -p1
+%patch702 -p1
+%patch703 -p1
+%patch704 -p1
+%patch705 -p1
+%patch706 -p1
+%patch707 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -215,16 +207,6 @@ done
 %{_bindir}/ltp-pan
 %{_bindir}/ltp-scanner
 %{_bindir}/execltp
-# It is back, reminder to fix testcases/mem/ correclty
-%{_libdir}/libmem.a
-%{_libdir}/libkerntest.a
-
-#%files devel
-#%defattr(-,root,root)
-#%{_includedir}/qa_test_ltp/
-#%{_libdir}/libltp.a
-#%{_datadir}/pkgconfig/ltp.pc
-#/usr/share/aclocal/*
 
 %defattr(-,root,root)
 /usr/lib/ctcs2
@@ -235,6 +217,39 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
+  
+  Silenced process_stress output (bug #810495).
+
+  Turned off debug for FSX tests
+
+  Fixed tests bellow flush stdout before fork:
+
+  pthread_cond_broadcast/1-2.c
+  pthread_create/3-2.c
+  pthread_exit/6-1.c
+  pthread_cond_timedwait/4-2.c
+
+  All in order not to generate several megabytes
+  of useless logs.
+
+* Wed Mar 20 2013 Cyril Hrubis chrubis@suse.cz
+  Backported fix for sysctl03.
+
+* Tue Mar  5 2013 Cyril Hrubis chrubis@suse.cz
+  Backported patches to remove stubs from
+  openposix testsuite.
+
+* Mon Mar  4 2013 Cyril Hrubis chrubis@suse.cz
+  Backported fixes for:
+
+  getrusage04 
+  pthread_cond_timedwait/{2-2,2-3}
+  readlink04
+
+* Wed Feb 13 2013 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20130109
+
 * Thu Oct 18 2012 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20120903
 

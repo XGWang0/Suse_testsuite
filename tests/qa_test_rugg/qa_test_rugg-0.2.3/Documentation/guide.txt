@@ -1,0 +1,219 @@
+== Rugg
+== Language guide
+-- Author: Sébastien Pierre, XPrima Corp <sebastien@xprima.com>
+-- Version: 0.2.3
+
+Overview
+========
+
+Rugg is a simple, concise language to describe fielsystem test scenarios, that
+was designed with the following objectives in mind :
+
+    - Rugg scripts should be *short one-liners*
+    - Allow to express *parallel and sequencial* processing with ease
+    - Easy repetition on range of values (ex: from 10 to 100, etc)
+    - Maximize expressivity, minimize syntactic complexity
+
+We will present in this document, which is a complement to the [Rugg
+main page](index.html), the various aspects of the Rugg language, and conclude
+by giving a list of useful examples.
+
+Concepts
+--------
+
+	- _Scenarios_ are scripts that execise some specific aspects of the
+	  filesystem. Scripts can be combined in many different ways to create
+	  comple tests. A scenario must comply to some constraints listed below.
+
+	- _Zones_ are regular files that can be created using the `rugg` API. Zones
+	  can be divided into _subzones_, which can be manipulated as regular files.
+	  This allows to make tests on the low-level filesystem blocks covered by
+	  the zone file.
+
+Syntax
+------
+
+Rugg scripts are one-liners: they must be short and expressive. As such, the
+Rugg syntax is simply a sequence of _operations_ and _values_, that can be
+''piped'' together using _compositions_.
+
+>   ATOM       := VALUE | OPERATION | '(' EXPRESSION ')'
+>   OPERATION  := NAME VALUE*
+>   EXPRESSION := ATOM ( COMPOSITION ATOM )*
+
+In practive, the syntax is really similar to the Unix shells, where you do
+something like:
+
+>   command | command ; another command && yet another command
+
+excepted that Rugg offers you different compositions that the "piping"
+composition. For the impatient, here is an example of Rugg code:
+
+>    zone 5Mb, subdivide 10 | blank | ensure blank : fill same text, ensure same
+
+Rugg scripts can also be multi-line (spaces and new lines are considered as
+separators), and comments can be specified by prefixing a line by `#`.
+
+>   # Here is a comment for my script 
+>   # and I can make it multi-line
+>   zone 50Mb,
+>       blank,
+>       fill
+
+Operations
+----------
+
+To create test scenarios, you can use a number of basic operations that allow
+you to manipulate zones, generate data, and ensure that the data is as expected.
+Here is the list of the currently implemented operations:
+
+    - `zone SIZE` : Creates  a new zone of the given `SIZE`
+
+    - `blank ZONE(S)` :
+      *Blanks* the given zone or set of zones. Data is erased, and the *write
+      offset is set to 0*.
+
+    - `fill METHOD? DATA? VARIANT? ZONE` :
+      *fills* the given zone with the given kind of data, *starting at the
+      beginning of the file*. The METHOD can be `same` to indicate the same data
+      should be filled among the successive  `fill same` operations. The DATA can
+      be either `text`, `blank` or `binary`, depending on the type of data to be
+      generated. The VARIANT can be `fast`, when you want to favor speed in
+      place of randomness of data.
+
+    - `ensure WHAT` :
+      ensures that the given *files have the same, different or blank data*,
+      depending on the WHAT parameter.  Reading will start where the read offset
+      points in each given file, and will be left where the ensure test has
+      stopped reading. The `WHAT` argument can be either `same`, `different`,
+      `blank` or `blank`, with optional prefixing by `not` for getting the
+      opposite result.
+
+    - `subdivide NUMBER ZONE` :
+      Subdivides the given zone in the given number of subzones. You should not
+      create more than a thousand sub-zones per running Rugg interepreter, as
+      you may reach the maximum limit of opened file descriptors. 
+
+    - `join ZONE` : Joins the given zone, after it has been subdivided.
+
+    - `sig ZONE(S)` : Prints out the SHA-1 signatures for the given zones. This
+      is to be used mainly for debugging purposes.
+    
+    - `time` : Prints the time elapsed since the program start, or since the
+      last `time` operation. This is very useful for benchmarking 
+
+    - `unlink ZONE(S)` : Cleans up the given zone. This physically removes the
+      given zone(s) from the filesystem.
+
+These operations are sufficient for writing useful test cases.
+
+Values
+------
+
+Operations can be parametered by giving them values. Rugg recognizes three
+different kind of values :
+
+    - _WORDS_, which are simply sequence of characters (think ''unquoted
+      strings''). Words are for instance what you give to the `ensure` operation
+      to describe what you want to check.
+
+    - _NUMBERS_, are integer or floating numbers. The separator is a dot.
+
+    - _QUANTITIES_, are numbers suffixed by a unit (supported units are `b`,
+      `kb`, `mb` and `gb`, as well as freespace-relative unit `%`),
+      which indicate a quantity of data.
+
+    - _RANGES_, are  a way to specify sets of numbers or quantities, with a
+      given number of element. A range is described by a start and end range
+      (which will be included in the resulting set), and by a total number of
+      values. The range `1..10` will return 10 values, while  `1..10/5` will
+      only return 5 values.
+
+From the above value, the most powerful (and useful) are the ranges.
+
+Combinators
+-----------
+
+Last but not least, you will need to combine your operations to create
+scenarios. Combination is simply the operation that ''joins'' or ''pipes'' your
+operations together, that is pass the result of an operation A to an operation
+B.
+
+There are different ways to make an operation B use the result of an operation
+A:
+
+    - _Composition_, where the result of A is directly applied to B. Think of
+      the mathematic expression `g(f(x))`.
+
+    - _Iteration_, which is a special kind of composition where A is expected to
+      return a set (instead of a single value), and that B is sequentially
+      applied to each element of the result of A. This is like ''for each x of
+      A, do B(x)''. An iteration returns a set which contains each element of
+      the result of A applied to B.
+
+    - _Application_, which is an alternative version of the _Iteration_, where
+      the application of B on the elements of the result of A is made ''at
+      once'', using multiple threads (one per element of the result of A).
+
+The iteration and the application allow you to easily express sequential and
+parallel execution, and then allows you to make tests involving concurrency.
+
+
+Quick reference
+===============
+
+    == Values and Operations
+    =============================================================================
+    `10`, `10.0`, `1000` || A _NUMBER_
+    -----------------------------------------------------------------------------
+    `10Mb`, `10b`, `40.10Mb`, `100Gb`  || A _QUANTITY_ of data
+    -----------------------------------------------------------------------------
+    `0.1%`, `100%`  || A _QUANTITY_ of data _relative_ to free space
+    -----------------------------------------------------------------------------
+    `10..100`, `10..100/10`, `0..500Mb` || Ranges with inclusive bounds and the total
+      ||number of elements
+    -----------------------------------------------------------------------------
+    `zone QUANTITY` || Creates a new zone
+    -----------------------------------------------------------------------------
+    `fill same? (binary|text) fast?` || Fills with the (same) text or binary data
+    -----------------------------------------------------------------------------
+    `blank`  || blanks the zone
+    -----------------------------------------------------------------------------
+    `ensure (not) (same|different|blank)` || Checks the given zones
+    -----------------------------------------------------------------------------
+    `subdivide NUMBER` || creates a set of _NUMBER_ subzones
+    -----------------------------------------------------------------------------
+    `unlink` || physically removes the current zone
+    -----------------------------------------------------------------------------
+    `sig ZONE(s)` || prints out the SHA-1 signature for the zone content
+    -----------------------------------------------------------------------------
+    `time` || prints the time since the program start or last time call
+    =============================================================================
+
+    == Combinators
+    =============================================================================
+    _Sequence_  || `A, B`     || The result of A is passed as argument to B
+    -----------------------------------------------------------------------------
+    _Iteration_ || `A : B`   ||  B  is sequentially invoked with each element of the result of A
+                ||        ||  as argument.
+    -----------------------------------------------------------------------------
+    _Application_  || `A | B` || B is invoked in a new thread for each element of
+                   ||     ||the result of A
+    -----------------------------------------------------------------------------
+    _Grouping_ || `(A, B)`   || Creates a new operation that is the given combination of
+               ||        || A and B.
+    =============================================================================
+
+Tips
+====
+
+
+	- When writing scenarios, log the different steps of your tests, and try to
+	  output progress information, and maybe also put the processing time for
+	  each scenario. This will be very useful when you will run long tests.
+
+	- Install some 'dev' packages, or install the source of the Linux kernel
+	  somewhere and update your locate database (`updatedb`). This will enable
+	  give Rugg some data from where to pick data.
+
+# vim: tw=80 ts=4 sw=4 et

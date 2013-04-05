@@ -26,12 +26,12 @@
 #
 
 # Variables for netperf test
-DE_netperf_server_1=
-DE_netperf_server_2=10.11.136.9
+DE_netperf_server_1=10.122.0.9
+DE_netperf_server_2=10.122.0.9
 CZ_netperf_server=
-CN_netperf_server=
+CN_netperf_server=10.122.0.9
 
-DE_1='10.10'
-DE_2='10.11'
+DE_1='10.121'
+DE_2='10.122'
 CZ='10.20'
 CN='147.2'

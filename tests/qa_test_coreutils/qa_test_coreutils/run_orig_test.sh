@@ -80,7 +80,8 @@ fi
 # Change to the test directory.
 cd "$MYDIR/orig_test_suite/$TESTDIR"
 
-BUILD_SRC_DIR="`cd $MYDIR/orig_test_suite/src; pwd -P`"
+#BUILD_SRC_DIR="`cd $MYDIR/orig_test_suite/src; pwd -P`"
+BUILD_SRC_DIR="`pwd -P`"
 export BUILD_SRC_DIR
 
 # Add it to the path so that the tests can see the symlinks.
