@@ -217,9 +217,7 @@ function prepare ()
 	reread_paths
 	echo "probe multipath maps"
 	if [ -b /dev/disk/by-id/scsi-$map ];then
-			echo "$map created"
-		else
-			echo "$map creation failed"
+		check_error "$map creation fails" 1
 	fi
 	echo "Initial setup done"
 }
