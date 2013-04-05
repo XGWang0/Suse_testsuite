@@ -49,11 +49,9 @@ function paths_status ()
 function reread_paths ()
 {
 	do_cmd "reconfigure"
-	$udevwait
-	multipath -F
-	$udevwait
+	udevwait
 	multipath &>/dev/null
-	$udevwait
+	udevwait
 }
 
 #recover/fail path
@@ -139,7 +137,7 @@ function iscsi_connect ()
 
 	echo "iSCSI connected"
 	#wait until udev finishes his jobs
-	$udevwait
+	udevwait
 }
 
 config_prepare ()
@@ -236,13 +234,13 @@ function restore_conf ()
 	fi
 }
 
-function reseterr()
+function reseterr ()
 {
 	ERRORS=0;
 	SCRIPTERR=0;
 }
 
-function checkerror()
+function checkerror ()
 {
 	if [ $? -ne 0 ];then
 		ERRORS=$(( $ERRORS + 1 ))
@@ -252,7 +250,7 @@ function checkerror()
 	fi
 }
 
-function checkscript()
+function checkscript ()
 {
 	if [ $? -ne 0 ];then
 		SCRIPTERR=$(( $SCRIPTERR + 1 ))
@@ -262,12 +260,12 @@ function checkscript()
 	fi
 }
 
-function getwd()
+function getwd ()
 {
 	CWD=`pwd`
 }
 
-function createresult()
+function createresult ()
 {
 	if [ $ERRORS -ne 0 ];then
 		echo FAILED
@@ -276,6 +274,14 @@ function createresult()
 		echo PASSED
 		exit 0
 	fi
+}
+
+function udevwait ()
+{
+case $CODE in
+	11) udevadm settle --timeout=30;;
+	10) udevsettle --timeout=30;;
+esac
 }
 
 DATA_DIR="/usr/share/qa/qa_test_multipath/data"
@@ -292,13 +298,6 @@ CODE=`cat /etc/SuSE-release | awk -F "=" '/VERSION/''{ print $2 }'\
 	| cut -c 2-3`
 SP=`cat /etc/SuSE-release | awk -F "=" '/PATCHLEVEL/''{ print $2 }'\
 	| cut -c 2`
-#SLE11 and SLE10 deviations
-if [ $CODE -eq 11 ];then
-	udevwait="udevadm settle --timeout=30"
-fi
-if [ $CODE -eq 10 ];then
-	udevwait="udevsettle --timeout=30"
-fi
 
 if [ -z $TARGET ];then
 	echo "target address is not set. Please define TARGET variable"
