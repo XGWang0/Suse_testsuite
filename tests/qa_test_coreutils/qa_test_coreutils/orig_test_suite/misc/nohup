@@ -101,7 +101,7 @@ EOF
 # test $fail = 1 && diff exp err 2> /dev/null
 
 # Make sure it fails with exit status of 127 when given too few arguments.
-if [ $ostag == "S11.2" ];then
+if [ `echo "$ostag >= 11.2"|bc` -eq 1 ];then
 rr=125
 else
 rr=127

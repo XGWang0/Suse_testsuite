@@ -2,7 +2,7 @@
 
 . /usr/share/qa/qa_test_coreutils/detect.sh
 
-if [ $ostag == "S11.2" ];then
+if [ `echo "$ostag >= 11.2"|bc` -eq 1 ];then
 # --reply is not support by mv in SLES11SP2
 exit 0
 fi

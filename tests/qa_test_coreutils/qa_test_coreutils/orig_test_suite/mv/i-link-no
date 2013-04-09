@@ -32,7 +32,7 @@ if test $framework_failure = 1; then
 fi
 
 
-if [ $ostag == "S11.2" ];then
+if [ `echo "$ostag >= 11.2"|bc` -eq 1 ];then
 
   exit 0
 
