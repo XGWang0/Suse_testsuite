@@ -81,6 +81,8 @@ Patch704:	0001-openposix-Remove-stubs.patch
 Patch705:	0001-syscalls-sysctl03-Change-TWARN-to-TINFO.patch
 Patch706:	0001-testcases-.-process_stress-Silence-the-output.patch
 Patch707:	0001-runtest-ltp-aiodio.part3-fsx-linux-turn-off-debug.patch
+Patch708:	0001-openposix-Fix-several-return-values.patch
+Patch709:	remove_lio_listio_11-1.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -132,6 +134,8 @@ Authors:
 %patch705 -p1
 %patch706 -p1
 %patch707 -p1
+%patch708 -p1
+%patch709 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -217,6 +221,20 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Apr 17 2013 Cyril Hrubis chrubis@suse.cz
+  
+  Backport several patches and fix openposix wrapper.
+
+  * Remove lio_listio_11-1 as the test was wrong
+
+  * Fixup several testcases to return UNTESTED
+    instead of UNRESOLVED when the test for
+    optional behavior (and not implemented by Linux).
+
+  * Fixup the openposix wrapper to interpret the
+    UNTESTED as skipped under CTCS2 which is closer
+    to the openposix interpretation.
+
 * Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
   
   Silenced process_stress output (bug #810495).

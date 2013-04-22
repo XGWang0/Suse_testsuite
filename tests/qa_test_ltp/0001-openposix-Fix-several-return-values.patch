@@ -1,0 +1,365 @@
+From c1bceb572fc3b586a4231f24dc42aac228945185 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Wed, 17 Apr 2013 15:07:57 +0200
+Subject: [PATCH] openposix: Fix several return values.
+
+openposix/.../aio_error/3-1: Fix.
+open_posix_testsuite/.../aio_return: Fix.
+openposix/.../sched_getparam/6-1: Fix.
+openposix/.../sched_getscheduler/7-1: Fix.
+openposix/.../clock_getcpuid/5-1: Fix.
+
+Return UNTESTED for failed optional behavior.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ .../conformance/interfaces/aio_error/3-1.c         |    2 +-
+ .../conformance/interfaces/aio_return/1-1.c        |   10 +++++-----
+ .../conformance/interfaces/aio_return/2-1.c        |   12 ++++++------
+ .../conformance/interfaces/aio_return/3-1.c        |   14 +++++++-------
+ .../conformance/interfaces/aio_return/3-2.c        |   12 ++++++------
+ .../conformance/interfaces/aio_return/4-1.c        |   14 +++++++-------
+ .../interfaces/clock_getcpuclockid/5-1.c           |    5 ++---
+ .../conformance/interfaces/sched_getparam/6-1.c    |    2 +-
+ .../interfaces/sched_getscheduler/7-1.c            |    6 +++---
+ 9 files changed, 38 insertions(+), 39 deletions(-)
+
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_error/3-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_error/3-1.c
+index 5d5dbe8..c88be99 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_error/3-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/aio_error/3-1.c
+@@ -70,7 +70,7 @@ int main(void)
+ 	if (ret != EINVAL) {
+ 		printf(TNAME " return code didn't match expected "
+ 		       "value (%d != %d).\n", ret, EINVAL);
+-		return PTS_UNRESOLVED;
++		return PTS_UNTESTED;
+ 	}
+ 
+ 	close(fd);
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/1-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/1-1.c
+index a76ebd6..b10b346 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/1-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/1-1.c
+@@ -53,7 +53,7 @@ int main(void)
+ 
+ 	if (fd == -1) {
+ 		printf(TNAME " Error at open(): %s\n", strerror(errno));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	}
+ 
+ 	unlink(tmpfname);
+@@ -67,7 +67,7 @@ int main(void)
+ 	if (aio_write(&aiocb) == -1) {
+ 		close(fd);
+ 		printf(TNAME " Error at aio_write(): %s\n", strerror(errno));
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	}
+ 
+ 	do {
+@@ -81,15 +81,15 @@ int main(void)
+ 		close(fd);
+ 		printf(TNAME " Error at aio_return(): %s\n",
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	} else if (retval != BUF_SIZE) {
+ 		close(fd);
+ 		printf(TNAME "aio_return didn't return expected size: %d\n",
+ 		       retval);
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	}
+ 
+ 	close(fd);
+ 	printf("Test PASSED\n");
+-	exit(PTS_PASS);
++	return PTS_PASS;
+ }
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/2-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/2-1.c
+index 77d976d..8782dd0 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/2-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/2-1.c
+@@ -51,7 +51,7 @@ int main(void)
+ 
+ 	if (fd == -1) {
+ 		printf(TNAME " Error at open(): %s\n", strerror(errno));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	}
+ 
+ 	unlink(tmpfname);
+@@ -66,7 +66,7 @@ int main(void)
+ 		close(fd);
+ 		printf(TNAME " Error at aio_write(): %s\n",
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	}
+ 
+ 	do {
+@@ -82,7 +82,7 @@ int main(void)
+ 			close(fd);
+ 			printf(TNAME " aio_return didn't return expected size: "
+ 			       "%d\n", retval);
+-			exit(PTS_FAIL);
++			return PTS_FAIL;
+ 		}
+ 
+ 		retval = aio_return(&aiocb);
+@@ -91,17 +91,17 @@ int main(void)
+ 			close(fd);
+ 			printf(TNAME " Second call to aio_return() may "
+ 			       "return -1; aio_return() returned %d\n", retval);
+-			exit(PTS_UNRESOLVED);
++			return PTS_UNTESTED;
+ 		}
+ 
+ 	} else {
+ 		close(fd);
+ 		printf(TNAME " Error at aio_error(): %s\n",
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	}
+ 
+ 	close(fd);
+ 	printf("Test PASSED\n");
+-	exit(PTS_PASS);
++	return PTS_PASS;
+ }
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/3-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/3-1.c
+index bdb1a83..8b2d649 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/3-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/3-1.c
+@@ -56,7 +56,7 @@ int main(void)
+ 
+ 	if (fd == -1) {
+ 		printf(TNAME " Error at open(): %s\n", strerror(errno));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	}
+ 
+ 	unlink(tmpfname);
+@@ -71,7 +71,7 @@ int main(void)
+ 		close(fd);
+ 		printf(TNAME " Error at aio_write(): %s\n",
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	}
+ 
+ 	do {
+@@ -85,7 +85,7 @@ int main(void)
+ 		close(fd);
+ 		printf(TNAME " Error at aio_return(): %d, %s\n", retval,
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	}
+ 
+ 	memset(&aiocb, 0, sizeof(struct aiocb));
+@@ -97,7 +97,7 @@ int main(void)
+ 		close(fd);
+ 		printf(TNAME " Error at aio_write(): %s\n",
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	}
+ 
+ 	do {
+@@ -111,19 +111,19 @@ int main(void)
+ 		close(fd);
+ 		printf(TNAME " Error at aio_return(): %s\n",
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	} else {
+ 
+ 		if (retval != (BUF_SIZE / 2)) {
+ 			close(fd);
+ 			printf(TNAME " aio_return() didn't fail as expected: "
+ 			       "%d, %s\n", retval, strerror(aio_error(&aiocb)));
+-			exit(PTS_UNRESOLVED);
++			return PTS_UNRESOLVED;
+ 		}
+ 
+ 	}
+ 
+ 	close(fd);
+ 	printf("Test PASSED\n");
+-	exit(PTS_PASS);
++	return PTS_PASS;
+ }
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/3-2.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/3-2.c
+index 8df6585..d5711a0 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/3-2.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/3-2.c
+@@ -54,7 +54,7 @@ int main(void)
+ 
+ 	if (fd == -1) {
+ 		printf(TNAME " Error at open(): %s\n", strerror(errno));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	}
+ 
+ 	unlink(tmpfname);
+@@ -69,7 +69,7 @@ int main(void)
+ 		close(fd);
+ 		printf(TNAME " Error at aio_write(): %s\n",
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	}
+ 
+ 	do {
+@@ -82,14 +82,14 @@ int main(void)
+ 	if (retval == -1) {
+ 		printf(TNAME " Error at aio_error(): %s\n",
+ 		       strerror(aio_error(&aiocb)));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	} else {
+ 
+ 		if (retval != BUF_SIZE) {
+ 			close(fd);
+ 			printf(TNAME " Error at aio_return(): %d, %s\n", retval,
+ 			       strerror(aio_error(&aiocb)));
+-			exit(PTS_FAIL);
++			return PTS_FAIL;
+ 		}
+ 
+ 		retval = aio_return(&aiocb);
+@@ -99,12 +99,12 @@ int main(void)
+ 			printf(TNAME " aio_return() may fail with (-1, %d); "
+ 			       "failed with (%d, %d) instead\n",
+ 			       EINVAL, retval, aio_error(&aiocb));
+-			exit(PTS_UNRESOLVED);
++			return PTS_UNTESTED;
+ 		}
+ 
+ 	}
+ 
+ 	close(fd);
+ 	printf("Test PASSED\n");
+-	exit(PTS_PASS);
++	return PTS_PASS;
+ }
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/4-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/4-1.c
+index 388c985..c4d0e94 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_return/4-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/aio_return/4-1.c
+@@ -54,7 +54,7 @@ int main(void)
+ 
+ 	if (fd == -1) {
+ 		printf(TNAME " Error at open(): %s\n", strerror(errno));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	}
+ 
+ 	unlink(tmpfname);
+@@ -68,7 +68,7 @@ int main(void)
+ 	if (aio_write(&aiocb) == -1) {
+ 		close(fd);
+ 		printf(TNAME " Error at aio_write(): %s\n", strerror(errno));
+-		exit(PTS_FAIL);
++		return PTS_FAIL;
+ 	}
+ 
+ 	do {
+@@ -89,8 +89,8 @@ int main(void)
+ 
+ 		if (retval != -1 || aio_error(&aiocb) != EINVAL) {
+ 			close(fd);
+-			printf(TNAME " aio_return() may fail\n");
+-			exit(PTS_UNRESOLVED);
++			printf(TNAME "aio_return() have not failed\n");
++			return PTS_UNTESTED;
+ 		}
+ 
+ 		retval = aio_return(&aiocb);
+@@ -99,16 +99,16 @@ int main(void)
+ 			close(fd);
+ 			printf(TNAME " Error at aio_return(): %d, %s\n", retval,
+ 			       strerror(aio_error(&aiocb)));
+-			exit(PTS_UNRESOLVED);
++			return PTS_UNRESOLVED;
+ 		}
+ 
+ 	} else {
+ 		close(fd);
+ 		printf(TNAME " Error at aio_error(): %s\n", strerror(retval));
+-		exit(PTS_UNRESOLVED);
++		return PTS_UNRESOLVED;
+ 	}
+ 
+ 	close(fd);
+ 	printf("Test PASSED\n");
+-	exit(PTS_PASS);
++	return PTS_PASS;
+ }
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/clock_getcpuclockid/5-1.c b/testcases/open_posix_testsuite/conformance/interfaces/clock_getcpuclockid/5-1.c
+index 7d15a9d..aab6250 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/clock_getcpuclockid/5-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/clock_getcpuclockid/5-1.c
+@@ -39,7 +39,6 @@ int main(void)
+ 			setgid(pwd->pw_gid);
+ 			setuid(pwd->pw_uid);
+ 		}
+-
+ 	}
+ 
+ 	/* Hmmm -- above steps failed :(... */
+@@ -51,8 +50,8 @@ int main(void)
+ 	/* Try and get the cpu clock ID for init(1) :)... */
+ 	error = clock_getcpuclockid(1, &clockid_1);
+ 	if (error == 0) {
+-		printf("clock_getcpuclockid(1, ..) passed unexpectedly\n");
+-		return PTS_UNRESOLVED;
++		printf("clock_getcpuclockid(1, ..) passed\n");
++		return PTS_UNTESTED;
+ 	} else if (error != EPERM) {
+ 		printf("clock_getcpuclockid(1, ..) failed with an improper "
+ 		       "error (%d != %d)\n", EPERM, error);
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_getparam/6-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_getparam/6-1.c
+index c27695d..2c9c5d5 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_getparam/6-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/sched_getparam/6-1.c
+@@ -94,7 +94,7 @@ int main(void)
+ 	}
+ 	if (result == 0) {
+ 		printf("The function sched_getparam has successed.\n");
+-		return PTS_UNRESOLVED;
++		return PTS_UNTESTED;
+ 	}
+ 	if (errno != EPERM) {
+ 		perror("errno is not EPERM: The system allows a non-root"
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler/7-1.c b/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler/7-1.c
+index 04a43b3..d0be68d 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler/7-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler/7-1.c
+@@ -21,8 +21,8 @@
+ #include <string.h>
+ #include "posixtest.h"
+ 
+-/** Set the euid of this process to a non-root uid */
+-int set_nonroot()
++/* Set the euid of this process to a non-root uid */
++int set_nonroot(void)
+ {
+ 	struct passwd *pw;
+ 	setpwent();
+@@ -74,7 +74,7 @@ int main(void)
+ 	}
+ 	if (result == 0) {
+ 		printf("The function sched_getscheduler has successed.\n");
+-		return PTS_UNRESOLVED;
++		return PTS_UNTESTED;
+ 	}
+ 	if (errno != EPERM) {
+ 		perror("errno is not EPERM");
+-- 
+1.7.8.6
+
