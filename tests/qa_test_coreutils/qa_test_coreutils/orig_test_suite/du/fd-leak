@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # check for file descriptor leak
-
-if test "$VERBOSE" = yes; then
+DEBUGME='no'
+if [ "$VERBOSE" = yes -a "$DEBUGME" = "yes" ]; then
   set -x
   du --version
 fi
@@ -28,6 +28,17 @@ for i in $x; do
     f="$f $i$j"
   done
 done
+echo "============================================================================"
+echo "|   Trying touch all files named by alpha-numeric combination as follows   |"
+echo "============================================================================"
+j=0
+for i in $f; do
+  echo -n "$i "
+  j=$(($j + 1))
+  if [ `expr $j % 36` -eq 0 ]; then
+	echo "";
+  fi
+done
 
 # This may fail due to command line limitations.
 touch $f || framework_failure=1
@@ -35,13 +46,17 @@ touch $f || framework_failure=1
 if test $framework_failure = 1; then
   echo "$0: failure in testing framework" 1>&2
   (exit 1); exit 1
+else
+  echo "===> Touch all files succeed! <==="
 fi
 
 fail=0
 
 # With coreutils-5.0, this would fail due to a file descriptor leak.
 du $f > out || fail=1
-
+if [ $fail = 1 ]; then
+	echo "$0: Failure in du command"
+fi
 (exit $fail); exit $fail
 
 

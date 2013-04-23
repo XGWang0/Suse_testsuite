@@ -3,7 +3,7 @@
 
 mkdir -p /abuild
 cd /abuild
-/usr/bin/iogen -s 10 g  -n 10
+/usr/bin/iogen -s 10g  -n 10
 #wait 10 
 rm iogen*rs
 rm iogen*io

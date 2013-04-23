@@ -68,6 +68,7 @@ install -m 755 -d -v $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 install -m 755 -d -v $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 install -m 755 -d -v $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
 install -m 755 -d -v $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 755 -d -v $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -v iosched_testing.sh $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 cp -v qa_iosched_test.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf/
 ln -sf ../%{name}/tcf/qa_iosched_test.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iosched_test.tcf
