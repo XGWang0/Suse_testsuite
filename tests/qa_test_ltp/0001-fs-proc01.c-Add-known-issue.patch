@@ -1,0 +1,34 @@
+From db7f4359731c9fab922399fd3d9c929295ab1307 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Wed, 24 Apr 2013 16:54:22 +0200
+Subject: [PATCH] fs/proc01.c: Add known issue.
+
+Since 786d7e1612f0b0adb6046f19b906609e4fe8b1ba upstream kernel commit
+the proc operations on regular files are done via proc_reg_*() proxies
+so the default errno for unimplemented read on proc file changed to EIO
+returned from the proxy rather than EINVAL that was previously returned
+from vfs_read().
+
+The only affected known issue I've found is the '/proc/xen/privcmd'
+file which makes the testcase fail on certain xen installations.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ testcases/kernel/fs/proc/proc01.c |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/testcases/kernel/fs/proc/proc01.c b/testcases/kernel/fs/proc/proc01.c
+index bfeb216..f2aa483 100644
+--- a/testcases/kernel/fs/proc/proc01.c
++++ b/testcases/kernel/fs/proc/proc01.c
+@@ -91,6 +91,7 @@ static const struct mapping known_issues[] = {
+ 	{"read", "/proc/sal/cmc/event", EAGAIN},
+ 	{"read", "/proc/sal/init/event", EAGAIN},
+ 	{"read", "/proc/sal/mca/event", EAGAIN},
++	{"read", "/proc/xen/privcmd", EIO},
+ 	{"read", "/proc/xen/privcmd", EINVAL},
+ 	{"read", "/proc/self/mem", EIO},
+ 	{"read", "/proc/self/task/[0-9]*/mem", EIO},
+-- 
+1.7.8.6
+
