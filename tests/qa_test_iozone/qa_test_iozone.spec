@@ -26,7 +26,6 @@ Source1:        qa_iozone.tcf
 Source2:        test_iozone-run
 Source3:	qa_test_iozone.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArchitectures: noarch
 
 %description
 IOzone is a filesystem benchmark tool. The benchmark generates and measures a variety 
