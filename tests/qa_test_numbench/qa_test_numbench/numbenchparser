@@ -37,7 +37,7 @@ $bench_results->{attrs} = {
                                time => {
                                                 id => 'time',
                                                 label => 'time',
-                                                desc => 'CPU comsumption measured by time.',
+                                                desc => 'CPU consumption measured by time.',
                                                 type => 'linear',
                                                 unit => 'sec'
                                         }

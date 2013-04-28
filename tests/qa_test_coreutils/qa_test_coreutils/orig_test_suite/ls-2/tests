@@ -10,7 +10,7 @@ $PERL -e 1 > /dev/null 2>&1 || {
   exit 77
 }
 
-if [ $ostag == "S11.2" ];then
+if [ `echo "$ostag >= 11.2"|bc` -eq 1 ];then
 
   exec $PERL -w -I$srcdir/.. -MCoreutils -- - << \EOF
 require 5.003;

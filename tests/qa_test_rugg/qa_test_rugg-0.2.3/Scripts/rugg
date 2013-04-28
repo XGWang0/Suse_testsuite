@@ -1,0 +1,4 @@
+#!/usr/bin/python
+# Calls the command line interface for Rugg
+import sys, rugg.main
+print rugg.main.run(sys.argv[1:])

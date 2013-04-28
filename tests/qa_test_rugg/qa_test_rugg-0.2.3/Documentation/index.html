@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript">
+
+function init()
+{
+}
+
+function kiwi_toggleSection(e)
+{
+	var target = e.target;
+	var parent = target.parentNode.parentNode;
+	for ( var i=0 ; i<parent.childNodes.length ; i++ )
+	{
+		var child = parent.childNodes[i];
+		if ( child.getAttribute("class") && child.getAttribute("class").indexOf("level",0)==0 )
+		{
+			if ( child.style.display != "block" )
+			{	child.style.display = "block";}
+			else
+			{	child.style.display = "none";}
+		}
+	}
+}
+</script>
+<title>Rugg</title>
+<style><!-- 
+body {
+	margin-left: 10%;
+	margin-right: 10%;
+	padding: 20pt;
+	padding-top: 10pt;
+	background: rgb(255,255,255);
+	font:  9pt/13pt "Lucida Grande",Lucida,sans-serif;
+	font:  9.5pt/12pt "Georgia",serif;
+	color: rgb(80,80,80);
+}
+
+table tr td {
+	font:  8pt/12pt "Lucida Grande",Lucida,sans-serif;
+}
+
+h1, h2, h3, h4 {
+	font-family: "Trebuchet MS",sans-serif;
+	color: rgb(22, 130, 178);
+	font-weight: normal;
+	padding-top: 0.5em;
+}
+
+strong {
+	color: rgb(103,183,0);
+}
+
+a:link, a:active, a:visited {
+	color: rgb(22,130,178);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+	background-color: #dbecf4;
+}
+
+aimg {
+	border: 0;
+}
+
+#header, #footer {
+	font-size: 7pt;
+	clear: both;
+	width: 100%;
+	color: rgb(177,208,223);
+}
+
+#content {
+}
+
+#footer {
+	padding-top:  30pt;
+	text-align: right;
+}
+
+/*  Kiwi-specific  */
+
+.title {
+	margin-bottom: 0;
+}
+
+#meta {
+	width: 100%;
+	padding: 5pt;
+	margin-bottom:  2em;
+	border-top:  1px solid rgb(150, 220, 238);
+	background-color: rgb(250,250,250);
+}
+
+#meta tr td {
+	color: rgb(22, 130, 178);
+}
+
+#meta tr td.name {
+	font-weight: bold;
+}
+
+#content h1, #content h2{
+	padding-bottom: 5pt;
+	border-bottom:  1px dotted rgb(150, 220, 238);
+}
+
+#content pre {
+	padding: 5pt;
+	border-left:  1px solid rgb(150, 220, 238);
+	padding-left: 20pt;
+	background-color: rgb(250,250,250);
+}
+
+#content pre, #content code {
+	font-size: 80%;
+	color: rgb(143, 160, 168);
+}
+
+#content table {
+	border:  1px solid rgb(150, 220, 238);
+}
+
+#content table caption {
+	font-family: serif;
+	padding-top: 1em;
+	padding-bottom: 0.5em;
+	font-style: italic;
+	font-size: 90%;
+	color: rgb(22, 130, 178);
+}
+
+#content table tr td {
+	padding: 10px;
+	background-color: rgb(250,250,250);
+}
+
+#content table tr.odd td {
+	background-color: rgb(250,250,250);
+}
+
+#content span.term {
+	color: rgb(22, 130, 178);
+	border-bottom:  1px solid rgb(150, 220, 238);
+}
+
+#content span.quote {
+	font-style: italic;
+	color: rgb(120, 120, 120);
+}
+
+#content blockquote.example {
+	font-size: 8pt;
+	padding: 10px;
+	background-color: rgb(240,240,240);
+	border: 1px solid rgb(160,160,160);
+}
+
+#content blockquote.example div.title {
+	margin: 0;
+	padding: 0;
+	padding-top: 5pt;
+	padding-bottom: 5pt;
+	font-size: 9pt;
+	font-weight: bold;
+	text-align: center;
+	border-bottom: 1px dotted rgb(160,160,160);
+}
+
+#content blockquote.example pre {
+	border-left:  1px solid rgb(150, 220, 238);
+	padding: 0;
+	padding-left: 10pt;
+	font-size: 7.5pt;
+}
+
+#references {
+	font:  8pt/12pt "Lucida Grande",Lucida,sans-serif;
+	margin-top: 10pt;
+	padding: 5pt;
+	border-top:  1px solid rgb(150, 220, 238);
+	background-color: rgb(250,250,250);
+	color: rgb(200, 200, 200);
+	font-size: 8pt;
+}
+#references a:link, #references a:active, #references a:visited {
+	color: rgb(150,150,150);
+}
+
+#references .entry {
+	padding-top: 5pt;
+	clear: both;
+}
+
+#references .entry .name {
+	float: left;
+	font-weight: bold;
+	padding-right: 5pt;
+}
+
+#references .entry .content {
+	text-align: right;
+}
+ --></style>
+</head>
+<body onload="init()">
+<div
+	class="title"><h1>Rugg</h1><h2>Hard Drive Harness Tool</h2></div><table id='meta'><tr><td class='name'>Author</td><td class='value'>Sébastien Pierre, XPrima Corp &lt;sebastien@xprima.com&gt;</td></tr><tr><td class='name'>Version</td><td class='value'>0.1.5</td></tr></table>
+ <div id='content'><p><span class='term'>Rugg</span> is a <b>hard drive and filesystem harness tool</b> that allows you to test and benchmark drives and filesystems, by writing simple to complex scenarios that can mimic the behaviour of real-world applications.</p><p>What makes <span class='term'>Rugg</span> special is that it can be <b>easily customized to test specific usages of the filesystem</b>. Initially, <span class='term'>Rugg</span> was made to test new database server harddrives inteded to host a Postgres database.</p><p>Here how you &ldquo;<span class='quote'>check that 100 threads can fill up a 100Gb zone of your hard drive without data corruption</span>&rdquo;:</p><pre>zone 100Gb, subdivide100 | fill same binary, ensure same</pre><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Features</h2></a><div class="level2"><p><span class='term'>Rugg</span> offers a number of unique features, which make it a flexible tool to help you reproduce particular condition that you would like to exercise:</p><ul><li>You write <span class='term'>scenarios</span> using a simple shell-like language </li><li>You can easily express parallel and sequential processes </li><li>Many operations are already provided, including data generation </li><li>Can be easily extend thanks to its Python implementation</li></ul><p>Thanks to its features, Rugg can be used as a versatile, easy disk and filesystem harness test, that can ensure that your hardware and software meets your application expectations.</p></div><div class="section"><a class="link" onclick="kiwi_toggleSection(event);"><h2 class="heading">Requirements</h2></a><div class="level2"><ul><li><a href="http://www.python.org">Python</a> 2.4+ </li><li>A UNIX platform (Rugg will probably not work under Windows) </li><li>The 'locate' utility, to easily find eligible data </li><li>Free space to make your tests</li></ul><p>If you want to know more, you can have a look at the <a href="guide.html">Rugg guide</a>, which will tell you how to use Rugg in detail.</p></div></div>
+<div id="references"><div class="entry"><div class="name"><a name="E2FSCK">E2FSCK</a></div><div class="content"></div></div><div class="entry"><div class="name"><a name="BADBLOCKS">BADBLOCKS</a></div><div class="content"></div></div><div class="entry"><div class="name"><a name="LINUXHDD">LINUXHDD</a></div><div class="content">     <a href="http://yhslug.tux.org/docs/hdtest.htm">http://yhslug.tux.org/docs/hdtest.htm</a></div></div><div class="entry"><div class="name"><a name="TESTING">TESTING</a></div><div class="content">      <a href="http://tinyurl.com/ng9np">http://tinyurl.com/ng9np</a></div></div><div class="entry"><div class="name"><a name="NFSTEST">NFSTEST</a></div><div class="content">      <a href="http://wiki.linux-nfs.org/index.php/Testing_tools">http://wiki.linux-nfs.org/index.php/Testing_tools</a></div></div><div class="entry"><div class="name"><a name="LTP">LTP</a></div><div class="content"> Linux Test Project <a href="http://ltp.sourceforge.net/tooltable.php">http://ltp.sourceforge.net/tooltable.php</a>
+</div></div></div>
+</body>
+</html>

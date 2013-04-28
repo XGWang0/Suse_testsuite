@@ -12,7 +12,7 @@
 
 
 Name:           qa_test_reaim
-BuildRequires:  libaio-devel
+BuildRequires:  libaio-devel automake
 Url:            http://sourceforge.net/projects/re-aim-7
 License:        GPL v2 or later
 Group:          Development/Tools/Other

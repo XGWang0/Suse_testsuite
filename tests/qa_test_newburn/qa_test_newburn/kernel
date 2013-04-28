@@ -1,7 +1,6 @@
 #!/bin/bash
 #ls1=`mktemp /tmp/kernelcompareorigXXXXXX`
 #ls2=`mktemp /tmp/kernelcomparenewXXXXXX`
-. ../lib/sh/ctcslib.sh
 
 kconfig="yes ''"
 
@@ -25,13 +24,6 @@ function interrupt () {
 #        echo $failed fail $succeed succeed $count count
 	rm -f $ls1 $ls2
 	rm -rf $dir
-        # this just grabs the process id and all children.  and kills them
-	# until they're dead
-	x=1
-	while [ $x -gt 0 ] ; do {
-		kill_children --KILL
-		x=$?
-	} ; done
 	# untrap the exit before we exit :)
         exit 255
 }

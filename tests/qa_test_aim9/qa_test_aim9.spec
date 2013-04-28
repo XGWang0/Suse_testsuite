@@ -1,15 +1,26 @@
 #
-# spec file for package qa-aim9 (Version 1 )
+#****************************************************************************
 #
-# Copyright (c) 2004 SuSE Linux AG, Nuernberg, Germany.
-# This file and all modifications and additions to the pristine
-# package are under the same license as the package itself.
+# Copyright (c) 2012 Novell, Inc.
+# All Rights Reserved.
 #
-# Please submit bugfixes or comments via http://www.suse.de/feedback/
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of version 2 of the GNU General Public License as
+# published by the Free Software Foundation.
 #
-
-# norootforbuild
-# usedforbuild    aaa_base acl attr bash bind-utils bison bzip2 coreutils cpio cpp cvs cyrus-sasl db devs diffutils e2fsprogs file filesystem fillup findutils flex gawk gdbm-devel glibc glibc-devel glibc-locale gpm grep groff gzip info insserv kbd less libacl libattr libgcc libstdc++ libxcrypt m4 make man mktemp modutils ncurses ncurses-devel net-tools netcfg openldap2-client openssl pam pam-devel pam-modules patch permissions popt ps rcs readline sed sendmail shadow strace syslogd sysvinit tar texinfo timezone unzip util-linux vim zlib zlib-devel autoconf automake binutils cracklib gcc gdbm gettext libtool perl rpm
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, contact Novell, Inc.
+#
+# To contact Novell about this file by physical or electronic mail,
+# you may find current contact information at www.novell.com
+#
+#***************************************************************************
+#
 
 Name:         qa_test_aim9
 License:      GPL v2 or later

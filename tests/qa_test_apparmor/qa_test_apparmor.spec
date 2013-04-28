@@ -161,11 +161,11 @@ ln -s ../../qa_test_postfix/tcf/qa_postfix.tcf $RPM_BUILD_ROOT/%{qa_location}/tc
 #add ping and netstat tests from ltp
 #this grep is stupid :(
 echo "timer 600" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf
-grep tcp_cmds.ping %ltp_tcp_cmds_tcf >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf
+grep ping01 %ltp_tcp_cmds_tcf >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf
 echo "wait" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf
 #
 echo "timer 600" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf
-grep tcp_cmds.netstat %ltp_tcp_cmds_tcf >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf
+grep netstat01 %ltp_tcp_cmds_tcf >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf
 echo "wait" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf
 #
 echo "timer 600" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor-ltp.tcf

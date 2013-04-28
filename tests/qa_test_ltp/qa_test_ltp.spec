@@ -73,6 +73,17 @@ Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 #Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+Patch700:	0001-syscalls-getrusage04-Try-guess-timer-granularity.patch
+Patch701:	0001-openposix-.-pthread_cond_timedwait-2-2-2-3.patch
+Patch702:	0001-syscalls-readlink04-Cleanup.patch
+Patch703:	0001-syscalls-readlink04-Simplify-the-code.patch
+Patch704:	0001-openposix-Remove-stubs.patch
+Patch705:	0001-syscalls-sysctl03-Change-TWARN-to-TINFO.patch
+Patch706:	0001-testcases-.-process_stress-Silence-the-output.patch
+Patch707:	0001-runtest-ltp-aiodio.part3-fsx-linux-turn-off-debug.patch
+Patch708:	0001-openposix-Fix-several-return-values.patch
+Patch709:	remove_lio_listio_11-1.patch
+Patch710:	0001-fs-proc01.c-Add-known-issue.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -116,6 +127,17 @@ Authors:
 %patch501 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+%patch700 -p1
+%patch701 -p1
+%patch702 -p1
+%patch703 -p1
+%patch704 -p1
+%patch705 -p1
+%patch706 -p1
+%patch707 -p1
+%patch708 -p1
+%patch709 -p1
+%patch710 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -201,6 +223,55 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Apr 24 2013 Cyril Hrubis chrubis@suse.cz
+  
+  Backport patch for proc01 for false possitive on
+  xen proc files.
+
+* Wed Apr 17 2013 Cyril Hrubis chrubis@suse.cz
+  
+  Backport several patches and fix openposix wrapper.
+
+  * Remove lio_listio_11-1 as the test was wrong
+
+  * Fixup several testcases to return UNTESTED
+    instead of UNRESOLVED when the test for
+    optional behavior (and not implemented by Linux).
+
+  * Fixup the openposix wrapper to interpret the
+    UNTESTED as skipped under CTCS2 which is closer
+    to the openposix interpretation.
+
+* Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
+  
+  Silenced process_stress output (bug #810495).
+
+  Turned off debug for FSX tests
+
+  Fixed tests bellow flush stdout before fork:
+
+  pthread_cond_broadcast/1-2.c
+  pthread_create/3-2.c
+  pthread_exit/6-1.c
+  pthread_cond_timedwait/4-2.c
+
+  All in order not to generate several megabytes
+  of useless logs.
+
+* Wed Mar 20 2013 Cyril Hrubis chrubis@suse.cz
+  Backported fix for sysctl03.
+
+* Tue Mar  5 2013 Cyril Hrubis chrubis@suse.cz
+  Backported patches to remove stubs from
+  openposix testsuite.
+
+* Mon Mar  4 2013 Cyril Hrubis chrubis@suse.cz
+  Backported fixes for:
+
+  getrusage04 
+  pthread_cond_timedwait/{2-2,2-3}
+  readlink04
+
 * Wed Feb 13 2013 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20130109
 
