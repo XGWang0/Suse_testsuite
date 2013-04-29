@@ -3,6 +3,7 @@
 
 tid="basic sftp put/get"
 
+echo "${SFTP_SERVER_PATH_OPTION}"
 DATA=/bin/ls${EXEEXT}
 COPY=${OBJ}/copy
 
@@ -20,7 +21,7 @@ for B in ${BUFFERSIZE}; do
 	for R in ${REQUESTS}; do
                 verbose "test $tid: buffer_size $B num_requests $R"
 		rm -f ${COPY}.1 ${COPY}.2                
-		${SFTP} -P ${SFTPSERVER} -B $B -R $R -b $SFTPCMDFILE \
+		${SFTP} ${SFTP_SERVER_PATH_OPTION} ${SFTPSERVER} -B $B -R $R -b $SFTPCMDFILE \
 		> /dev/null 2>&1
 		r=$?
 		if [ $r -ne 0 ]; then

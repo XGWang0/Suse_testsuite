@@ -83,6 +83,7 @@ Patch706:	0001-testcases-.-process_stress-Silence-the-output.patch
 Patch707:	0001-runtest-ltp-aiodio.part3-fsx-linux-turn-off-debug.patch
 Patch708:	0001-openposix-Fix-several-return-values.patch
 Patch709:	remove_lio_listio_11-1.patch
+Patch710:	0001-fs-proc01.c-Add-known-issue.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -136,6 +137,7 @@ Authors:
 %patch707 -p1
 %patch708 -p1
 %patch709 -p1
+%patch710 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -221,6 +223,11 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Apr 24 2013 Cyril Hrubis chrubis@suse.cz
+  
+  Backport patch for proc01 for false possitive on
+  xen proc files.
+
 * Wed Apr 17 2013 Cyril Hrubis chrubis@suse.cz
   
   Backport several patches and fix openposix wrapper.
