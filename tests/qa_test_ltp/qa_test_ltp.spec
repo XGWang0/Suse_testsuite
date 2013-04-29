@@ -84,6 +84,8 @@ Patch707:	0001-runtest-ltp-aiodio.part3-fsx-linux-turn-off-debug.patch
 Patch708:	0001-openposix-Fix-several-return-values.patch
 Patch709:	remove_lio_listio_11-1.patch
 Patch710:	0001-fs-proc01.c-Add-known-issue.patch
+Patch711:	0001-aio_fsync-2-1.c-fix-race-at-exit-check-if-write-comp.patch
+Patch712:	0001-fix-race-at-exit-by-checking-if-write-completed.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -138,6 +140,8 @@ Authors:
 %patch708 -p1
 %patch709 -p1
 %patch710 -p1
+%patch711 -p1
+%patch712 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -223,6 +227,12 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Apr 29 2013 Cyril Hrubis chrubis@suse.cz
+
+  Backport fixes for aio_fsync_2-1 and aio_fsync_3-1
+  (the testcases Segfaulted randomly due to race
+   condition)
+
 * Wed Apr 24 2013 Cyril Hrubis chrubis@suse.cz
   
   Backport patch for proc01 for false possitive on
