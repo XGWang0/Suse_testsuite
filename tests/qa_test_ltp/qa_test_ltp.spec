@@ -197,7 +197,7 @@ ln -s ../../../../../opt/ltp/runtest $RPM_BUILD_ROOT/usr/lib/ctcs2/config/ltp/ru
 ln -s ../../../../opt/ltp/testcases/bin $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/ltp
 
 # Generate ctcs2 tcf files from runtest files
-$RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 300 %{_libdir} $RPM_BUILD_ROOT
+$RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 720 %{_libdir} $RPM_BUILD_ROOT
 
 #Exclude tst_brk
 HARDLINKS="tst_brkm tst_res tst_resm tst_exit tst_flush tst_brkloop tst_brkloopm tst_kvercmp"
