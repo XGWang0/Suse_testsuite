@@ -86,6 +86,7 @@ Patch709:	remove_lio_listio_11-1.patch
 Patch710:	0001-fs-proc01.c-Add-known-issue.patch
 Patch711:	0001-aio_fsync-2-1.c-fix-race-at-exit-check-if-write-comp.patch
 Patch712:	0001-fix-race-at-exit-by-checking-if-write-completed.patch
+Patch713:	0001-syscalls-accept4-Fix-test-when-accept4-returns-ENOSY.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -142,6 +143,7 @@ Authors:
 %patch710 -p1
 %patch711 -p1
 %patch712 -p1
+%patch713 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -227,6 +229,20 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu May  2 2013 Cyril Hrubis chrubis@suse.cz
+
+  Backported fixes for following testcases:
+
+  * accept4 - Return TCONF on ENOSYS
+
+  * ksm05 - Fix Segfault on ENOSYS
+
+  * thp03: Return TCONF on ENOSYS
+
+  * pthread_key_create_5-1: Fix.
+
+  * pthread_mutexattr_gettype: Return UNTESTED on unimplemented.
+
 * Mon Apr 29 2013 Cyril Hrubis chrubis@suse.cz
 
   Backport fixes for aio_fsync_2-1 and aio_fsync_3-1
