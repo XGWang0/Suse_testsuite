@@ -35,6 +35,7 @@ Patch6:         fix-diskdir.patch
 Patch7:         drop-aio.patch
 Patch8:         fix-pipe_test.patch
 Patch9:         c_macro_problem.patch
+Patch10:	diskdir_abuild.patch
 Requires:       ctcs2
 Provides: 	reaim reaim-ctcs2-glue
 Obsoletes:	reaim reaim-ctcs2-glue
@@ -89,7 +90,7 @@ Authors:
 %endif
 %patch8 -p1
 %patch9 -p1
-
+%patch10 -p1
 %build
 ./bootstrap
 ./configure
@@ -109,6 +110,7 @@ cp src/reaim data/reaim.config $RPM_BUILD_ROOT/usr/lib/reaim
 cp data/workfile.alltests $RPM_BUILD_ROOT/usr/lib/reaim/workfile
 cp ctcstools/test_reaim-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 cp ctcstools/reaim.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+cp prepare.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim
 ln -s ../../../reaim/reaim.config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/reaim.config
 ln -s ../../../reaim/workfile $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/workfile
 ln -s ../../../reaim/reaim $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/reaim
