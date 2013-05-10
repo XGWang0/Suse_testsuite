@@ -41,6 +41,7 @@ Patch5:         immunix.patch
 Patch6:         qa_apparmor-linux-vdso.patch
 Patch7: 		wrong-cflag-in_makefile.diff
 Patch8:         qa_apparmor-mount-sh.patch
+Patch9:         bug-804628.patch
 #Patch6:         qa_apparmor-dirent.patch
 Url:            http://www.novell.com/products/apparmor/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -97,6 +98,7 @@ Currently the following profiles are tested: - postfix
 %patch6 -p1
 %patch7 -p1
 %patch8 -p5
+%patch9 -p1
 %build
 make -C regression/subdomain all
 make -C stress/subdomain all
