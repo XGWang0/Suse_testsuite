@@ -1,0 +1,11 @@
+--- reaim-7.0.1.13/data/reaim.config	2004-11-24 19:53:56.000000000 +0800
++++ reaim-7.0.1.13/data/reaim.config	2013-05-07 14:24:33.225175509 +0800
+@@ -13,7 +13,7 @@
+ POOLSIZE 1m
+ # 
+ # A list of disk directories for the exerciser
+-DISKDIR /tmp/diskdir
++DISKDIR /abuild
+ # To control number of users
+ STARTUSERS 50
+ ENDUSERS 500

@@ -104,7 +104,7 @@ install -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -d $RPM_BUILD_ROOT/usr/share/qa/%{name}/{include,plugins,db}
 install -m 755 lynis $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 644 default.prf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 644 include/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/include/
 install -m 644 {%{S:2},%{S:3},%{S:4},%{S:5},%{S:6},%{S:7},%{S:8},%{S:9}} $RPM_BUILD_ROOT/usr/share/qa/%{name}/include/
 install -m 644 plugins/*  $RPM_BUILD_ROOT/usr/share/qa/%{name}/plugins/

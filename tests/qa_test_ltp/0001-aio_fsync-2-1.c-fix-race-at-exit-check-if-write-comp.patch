@@ -1,0 +1,67 @@
+From 352358cd9f69f6e8296cc201b14bae938287796e Mon Sep 17 00:00:00 2001
+From: Jan Stancek <jstancek@redhat.com>
+Date: Mon, 28 Jan 2013 11:36:48 +0100
+Subject: [PATCH] aio_fsync/2-1.c: fix race at exit, check if write completed
+
+This is same issue as:
+  commit 4558bfae923a715ac78b5b3d3ecdfa16f9424808
+  Author: Jan Stancek <jstancek@redhat.com>
+  Date:   Wed Dec 5 12:49:47 2012 +0100
+      aio_read/7-1.c: fix race at exit
+
+This patch waits for aio_fsync to complete and after that
+checks that previously queued write is also completed.
+
+Signed-off-by: Jan Stancek <jstancek@redhat.com>
+Signed-off-by: Wanlong Gao <gaowanlong@cn.fujitsu.com>
+---
+ .../conformance/interfaces/aio_fsync/2-1.c         |   26 ++++++++++++++++---
+ 1 files changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/2-1.c b/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/2-1.c
+index a534513..09da565 100644
+--- a/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/2-1.c
++++ b/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync/2-1.c
+@@ -27,7 +27,7 @@ int main(void)
+ {
+ 	char tmpfname[256];
+ 	char buf[BUF_SIZE];
+-	int fd;
++	int fd, ret;
+ 	struct aiocb aiocb_write;
+ 	struct aiocb aiocb_fsync;
+ 
+@@ -63,9 +63,27 @@ int main(void)
+ 		exit(PTS_FAIL);
+ 	}
+ 
+-	close(fd);
++	/* wait for aio_fsync */
++	do {
++		usleep(10000);
++		ret = aio_error(&aiocb_fsync);
++	} while (ret == EINPROGRESS);
+ 
+-	/* we didn't check if the operation is really performed */
++	ret = aio_return(&aiocb_fsync);
++	if (ret) {
++		printf(TNAME " Error at aio_return(): %d (%s)\n",
++			ret, strerror(errno));
++		close(fd);
++		return PTS_FAIL;
++	}
+ 
+-	return PTS_UNTESTED;
++	/* check that aio_write is completed at this point */
++	ret = aio_error(&aiocb_write);
++	if (ret == EINPROGRESS) {
++		printf(TNAME " aiocb_write still in progress\n");
++		close(fd);
++		return PTS_FAIL;
++	}
++	close(fd);
++	return PTS_PASS;
+ }
+-- 
+1.7.8.6
+

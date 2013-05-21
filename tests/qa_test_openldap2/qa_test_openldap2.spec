@@ -8,7 +8,7 @@
 # norootforbuild
 #!BuildIgnore: post-build-checks
 
-%if %{suse_version} == 1110
+%if %{suse_version} >= 1110
 %define ver 2.4.20
 %define system sle11
 %endif

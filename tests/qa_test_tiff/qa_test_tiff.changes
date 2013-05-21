@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue May  7 16:53:55 UTC 2013 - tchvatal@suse.com
+
+- Add ctcs to requires so it gets installed on machines where
+  it was not before.
+
+-------------------------------------------------------------------
 Thu Nov 10 13:38:00 CET 2011 - tchvatal@suse.cz
 
 - Fix running tests on sle platforms

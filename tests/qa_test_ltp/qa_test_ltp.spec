@@ -81,6 +81,12 @@ Patch704:	0001-openposix-Remove-stubs.patch
 Patch705:	0001-syscalls-sysctl03-Change-TWARN-to-TINFO.patch
 Patch706:	0001-testcases-.-process_stress-Silence-the-output.patch
 Patch707:	0001-runtest-ltp-aiodio.part3-fsx-linux-turn-off-debug.patch
+Patch708:	0001-openposix-Fix-several-return-values.patch
+Patch709:	remove_lio_listio_11-1.patch
+Patch710:	0001-fs-proc01.c-Add-known-issue.patch
+Patch711:	0001-aio_fsync-2-1.c-fix-race-at-exit-check-if-write-comp.patch
+Patch712:	0001-fix-race-at-exit-by-checking-if-write-completed.patch
+Patch713:	0001-syscalls-accept4-Fix-test-when-accept4-returns-ENOSY.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 Patch900:       add-fsstress.patch
@@ -132,6 +138,12 @@ Authors:
 %patch705 -p1
 %patch706 -p1
 %patch707 -p1
+%patch708 -p1
+%patch709 -p1
+%patch710 -p1
+%patch711 -p1
+%patch712 -p1
+%patch713 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications 
 %patch900 -p1
@@ -187,7 +199,7 @@ ln -s ../../../../../opt/ltp/runtest $RPM_BUILD_ROOT/usr/lib/ctcs2/config/ltp/ru
 ln -s ../../../../opt/ltp/testcases/bin $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/ltp
 
 # Generate ctcs2 tcf files from runtest files
-$RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 300 %{_libdir} $RPM_BUILD_ROOT
+$RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 720 %{_libdir} $RPM_BUILD_ROOT
 
 #Exclude tst_brk
 HARDLINKS="tst_brkm tst_res tst_resm tst_exit tst_flush tst_brkloop tst_brkloopm tst_kvercmp"
@@ -217,6 +229,45 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu May  2 2013 Cyril Hrubis chrubis@suse.cz
+
+  Backported fixes for following testcases:
+
+  * accept4 - Return TCONF on ENOSYS
+
+  * ksm05 - Fix Segfault on ENOSYS
+
+  * thp03: Return TCONF on ENOSYS
+
+  * pthread_key_create_5-1: Fix.
+
+  * pthread_mutexattr_gettype: Return UNTESTED on unimplemented.
+
+* Mon Apr 29 2013 Cyril Hrubis chrubis@suse.cz
+
+  Backport fixes for aio_fsync_2-1 and aio_fsync_3-1
+  (the testcases Segfaulted randomly due to race
+   condition)
+
+* Wed Apr 24 2013 Cyril Hrubis chrubis@suse.cz
+  
+  Backport patch for proc01 for false possitive on
+  xen proc files.
+
+* Wed Apr 17 2013 Cyril Hrubis chrubis@suse.cz
+  
+  Backport several patches and fix openposix wrapper.
+
+  * Remove lio_listio_11-1 as the test was wrong
+
+  * Fixup several testcases to return UNTESTED
+    instead of UNRESOLVED when the test for
+    optional behavior (and not implemented by Linux).
+
+  * Fixup the openposix wrapper to interpret the
+    UNTESTED as skipped under CTCS2 which is closer
+    to the openposix interpretation.
+
 * Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
   
   Silenced process_stress output (bug #810495).
