@@ -43,6 +43,7 @@ Patch7: 		wrong-cflag-in_makefile.diff
 Patch8:         qa_apparmor-mount-sh.patch
 Patch9:         bug-804628.patch
 Patch10:        qa_apparmor-build_issue_on_sles11sp1.patch 
+Patch11:        qa_apparmor-disable_clone_in_tcf_on_ia64.patch
 #Patch6:         qa_apparmor-dirent.patch
 Url:            http://www.novell.com/products/apparmor/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -94,6 +95,7 @@ Currently the following profiles are tested: - postfix
 %patch3 -p1
 %ifarch ia64
 %patch4 -p1
+%patch11 -p1
 %endif
 %patch5
 %patch6 -p1
