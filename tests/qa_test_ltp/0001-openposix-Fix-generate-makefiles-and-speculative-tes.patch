@@ -1,0 +1,36 @@
+From 8c40131496399102fb4decd575e39cbf0968e3dd Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Mon, 6 May 2013 16:54:01 +0200
+Subject: [PATCH] openposix: Fix generate-makefiles and speculative tests.
+
+After the change that included dirname in test binary names the
+testcases in foo/speculative/ directories became
+"speculative_x-y.run-test". This commit adds special case to the
+makefile generator so that they end up as foo_speculative_x-y.run-test
+instead.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ .../scripts/generate-makefiles.sh                  |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/testcases/open_posix_testsuite/scripts/generate-makefiles.sh b/testcases/open_posix_testsuite/scripts/generate-makefiles.sh
+index 5a1b175..9c758d2 100755
+--- a/testcases/open_posix_testsuite/scripts/generate-makefiles.sh
++++ b/testcases/open_posix_testsuite/scripts/generate-makefiles.sh
+@@ -46,6 +46,12 @@ generate_makefile() {
+ 
+ 	test_prefix=$(basename "$prereq_dir")
+ 
++	# special case for speculative testcases
++	if [ "$test_prefix" = "speculative" ]; then
++		test_prefix=$(basename $(echo "$prereq_dir" | sed s/speculative//))
++		test_prefix="${test_prefix}_speculative"
++	fi
++
+ 	# Add all source files to $make_target_prereq_cache.
+ 	for prereq in $prereq_cache; do
+ 		# Stuff that needs to be tested.
+-- 
+1.7.8.6
+
