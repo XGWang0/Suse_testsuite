@@ -1,0 +1,11 @@
+$ttl 38400
+testing.foo.		IN	SOA	tested.testing.foo. testing.foo.de. (
+			994077097
+			10800
+			3600
+			432000
+			38400 )
+testing.foo.		IN	NS	tested.testing.foo.
+probe1.testing.foo.	IN	A	192.168.42.250
+probe2.testing.foo.	IN	A	192.168.42.251
+probe3.testing.foo.	IN	A	192.168.42.252

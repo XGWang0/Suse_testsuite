@@ -61,7 +61,7 @@ install_config(){
 
    sed "s#__DATADIR__#$DATADIR#" $TESTCONFDIR/named.conf > /etc/named.conf
    cp $TESTCONFDIR/sysconfig /etc/sysconfig/named
-   tar -xzf $TESTCONFDIR/data.tar.gz -C $DATADIR
+   cp -r $TESTCONFDIR/data/* $DATADIR
 }
 
 restore_config(){
