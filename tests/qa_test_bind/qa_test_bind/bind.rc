@@ -1,7 +1,7 @@
 #!/bin/bash
 # ****************************************************************************
 # Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
-# 
+#
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
@@ -12,7 +12,7 @@
 # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
 # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
 # LIABILITY.
-# 
+#
 # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
 # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
@@ -28,23 +28,36 @@ BINDCTRL=/etc/init.d/named
 PID_FILE=/var/run/named/named.pid
 DATADIR=/var/lib/named
 OSVERSION=`cat /etc/SuSE-brand | grep VERSION | cut -d" " -f3`
+CTLSTDWAIT=10
+
+RES_OK=0
+RES_FAIL=1
+RES_FAIL_INT=11
+RES_FAIL_SETUP=11
+RES_SKIPPED=22
+
+_HAVE_BACKUP=false
 
 if [ ! -d "$DATADIR" ]; then DATADIR="/var/named"; fi
-if [ ! -d "$DATADIR" ]; then exit 2; fi
+if [ ! -d "$DATADIR" ]; then exit $RES_FAIL_INT; fi
 
 backup_config(){
-   if [ $OSVERSION -eq '10' ]; then
-      tar -czf $BACKUP --one-file-system -C / /etc/named.conf /etc/named.conf.include /etc/named.d /etc/sysconfig/named $DATADIR 2> /dev/null || exit 2
-   else
-      tar -czf $BACKUP --one-file-system -C / /etc/named.conf /etc/named.d /etc/sysconfig/named $DATADIR 2> /dev/null || exit 2
-   fi
+	local BACKUP_PATHS
+	if [ $OSVERSION -eq '10' ]; then
+		BACKUP_PATHS="/etc/named.conf /etc/named.conf.include /etc/named.d /etc/sysconfig/named $DATADIR"
+	else
+		BACKUP_PATHS="/etc/named.conf /etc/named.d /etc/sysconfig/named $DATADIR"
+	fi
+
+	tar -czf $BACKUP --one-file-system -C / --exclude=$DATADIR/proc $BACKUP_PATHS 2> /dev/null || exit $RES_FAIL_INT
+	_HAVE_BACKUP=true
 }
 
 install_config(){
-   test -z "$1" && exit 2
+   test -z "$1" && exit $RES_FAIL_INT
 
    TESTCONFDIR="$TESTCONFBASE/$1"
-   test -d "$TESTCONFDIR" || exit 2
+   test -d "$TESTCONFDIR" || exit $RES_FAIL_INT
 
    sed "s#__DATADIR__#$DATADIR#" $TESTCONFDIR/named.conf > /etc/named.conf
    cp $TESTCONFDIR/sysconfig /etc/sysconfig/named
@@ -52,13 +65,70 @@ install_config(){
 }
 
 restore_config(){
-   tar -xzf $BACKUP -C / 2> /dev/null || exit 2
+	$_HAVE_BACKUP || return 0
 
-   rm $BACKUP
+	test -f $BACKUP
+	tar -xzf $BACKUP -C / 2> /dev/null || exit $RES_FAIL_INT
+	rm $BACKUP
 }
 
 restart_bind() {
    $BINDCTRL restart > /dev/null 2>&1
 }
 
+std_setup() {
+	backup_config
+	install_config $TEST_DATA
 
+	$BINDCTRL restart
+
+	sleep 10
+}
+
+# @FUNCTION: bctl_ww
+# @DESCRIPTION:
+# bind ctl with wait
+bctl_ww() {
+	$BINDCTRL $1
+	sleep $CTLSTDWAIT
+}
+
+main() {
+	if ! `type setup 2>&1 | grep -q 'is a function'`; then
+		if [ -z "${TEST_DATA:-}" ] ; then
+			echo "ERROR: missing setup() or TEST_DATA" >&2
+			exit $RES_FAIL_INT
+		fi
+		setup() {
+			std_setup
+		}
+	fi
+
+	if ! `type cleanup 2>&1 | grep -q 'is a function'`; then
+		cleanup() {
+			restore_config
+		}
+	fi
+
+	while getopts x name ; do
+		case $name in
+			x) set -x;;
+			?) echo "invalid arg"; exit $RES_FAIL_INT;;
+		esac
+	done
+
+	shift $((OPTIND - 1))
+
+	if [ $# -eq 0 ]; then
+		trap cleanup EXIT
+		setup
+		rc=$?
+		[ ! $rc -eq 0 ] && exit $rc
+		test_
+		exit $?
+	else
+		$1
+	fi
+}
+
+# vim: syntax=sh
