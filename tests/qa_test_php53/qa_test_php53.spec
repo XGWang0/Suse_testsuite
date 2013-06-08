@@ -1,5 +1,5 @@
 #
-# spec file for package qa_php5 (Version 5.3.8)
+# spec file for package qa_php5 (Version 5.3.26)
 #
 # Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
@@ -14,7 +14,7 @@
 Name:           qa_test_php53
 %define qa_location /usr/share/qa/qa_test_php53
 %define qa_server_location /srv/www/htdocs/php53-tests
-Version:        5.3.8
+Version:        5.3.26
 Release:        1
 License:        PHP
 Group:          System/Packages
