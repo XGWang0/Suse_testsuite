@@ -42,3 +42,18 @@ else
 	ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
 fi
 
+log=`ls $LOG_DIR |tail -n 1`
+
+if [ "${log##*.}" == "logerr" ]; then
+        echo "ftpload $FTP_SOURCE with failed, please check $LOG_DIR/$log"
+        exit 1
+elif [ "${log##*.}" == "all" ]; then
+        grep "Passed" $LOG_DIR/$log
+        if [ $? -eq 0 ]; then
+                echo "ftpload $FTP_SOURCE with passed, please check $LOG_DIR/$log"
+                exit 0
+        else
+                exit 1
+        fi
+fi
+
