@@ -45,7 +45,6 @@ Source2:        test_rugg-run
 Source3:        %name.8
 Source4:	input
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArchitectures: noarch
 
 %description
 Rugg is a hard drive and filesystem harness tool that allows you to test and 
