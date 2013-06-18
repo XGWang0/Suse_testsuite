@@ -22,17 +22,23 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-if [ ! -d /abuild/ftpload_test ] ; then
-	mkdir -p /abuild/ftpload_test
-fi 
+ARCH=$HOSTTYPE
 
 FREE_SPACE=`df -m / | grep -e "/$" | awk '{print $4}'`
 if [ $FREE_SPACE -le 400 ]; then
-	echo "no enough space for this test! At least 400MB free space is required!"
-	exit 1
+        echo "no enough space for this test! At least 400MB free space is required!"
+        exit 1
 fi
 
 FTP_SOURCE=`grep ftp_source /usr/share/qa/qa_test_ftpload/qa_test_ftpload-config |cut -d= -f2`
 
-ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
+if [ "$ARCH" != "s390x" ]; then
+	ftpload -d /tmp -c 1 $FTP_SOURCE
+else
+	if [ ! -d /abuild/ftpload_test ] ; then
+		mkdir -p /abuild/ftpload_test
+	fi 
+
+	ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
+fi
 
