@@ -23,7 +23,7 @@
 #
 
 timer 20m 
-fg 1 qa_rugg rugg < /usr/share/qa/qa_test_rugg/input 
+fg 1 qa_rugg /usr/local/bin/rugg < /usr/share/qa/qa_test_rugg/input 
 wait
 
 timer 5m  
