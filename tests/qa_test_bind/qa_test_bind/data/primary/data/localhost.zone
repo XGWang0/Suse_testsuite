@@ -1,0 +1,10 @@
+$TTL 2D
+@		IN SOA	@   root (
+				42		; serial (d. adams)
+				1D		; refresh
+				2H		; retry
+				1W		; expiry
+				2D )		; minimum
+
+		IN NS		@
+		IN A		127.0.0.1
