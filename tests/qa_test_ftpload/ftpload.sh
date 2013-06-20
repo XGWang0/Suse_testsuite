@@ -33,7 +33,7 @@ fi
 FTP_SOURCE=`grep ftp_source /usr/share/qa/qa_test_ftpload/qa_test_ftpload-config |cut -d= -f2`
 
 if [ "$ARCH" != "s390x" ]; then
-	ftpload -d /tmp -c 1 $FTP_SOURCE
+	ftpload -d /tmp -c 20 $FTP_SOURCE
 else
 	if [ ! -d /abuild/ftpload_test ] ; then
 		mkdir -p /abuild/ftpload_test
@@ -42,6 +42,7 @@ else
 	ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
 fi
 
+LOG_DIR=/var/opt/novell/NovellTestKits/ftpload/
 log=`ls $LOG_DIR |tail -n 1`
 
 if [ "${log##*.}" == "logerr" ]; then
