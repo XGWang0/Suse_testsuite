@@ -1,2 +1,4 @@
+fg 1 prepare /usr/lib/ctcs2/config/reaim/prepare.sh
+wait
 fg 1 reaim /usr/lib/reaim/reaim
 wait

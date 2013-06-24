@@ -744,7 +744,7 @@ where_am_i="gnutls-cli test: step 1: gnutls-cli $TLS_server"
   { sleep 6 ; echo "GET /" ; sleep 6 ; }  | gnutls-cli $TLS_server
 } > gnutls-cli.log2 2>&1
 cat gnutls-cli.log2
-if grep -q "Got a certificate list of 1 certificates." gnutls-cli.log2
+if grep -q "Got a certificate list of [0-9] certificates." gnutls-cli.log2
 then
 	echo "
 =========================================

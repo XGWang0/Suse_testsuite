@@ -30,7 +30,7 @@ Source0:        tests-%{version}.tar.bz2
 Source3:        qa_apparmor.tcf
 Source4:        subdomain-wrapper.sh
 Source5:        test_apparmor-run
-Source6:	qa_test_apparmor.8
+Source6:        qa_test_apparmor.8
 Source7:        test_apparmor-profiles-run
 Source8:        get_Apparmor_Tests
 Patch0:         qa_apparmor-parser-path.patch
@@ -39,8 +39,12 @@ Patch3:         qa_apparmor-clone.patch
 Patch4:         qa_apparmor-disable_clone_on_ia64.patch
 Patch5:         immunix.patch
 Patch6:         qa_apparmor-linux-vdso.patch
-Patch7: 		wrong-cflag-in_makefile.diff
+Patch7:         wrong-cflag-in_makefile.diff
 Patch8:         qa_apparmor-mount-sh.patch
+Patch9:         bug-804628.patch
+Patch10:        qa_apparmor-build_issue_on_sles11sp1.patch 
+Patch11:        qa_apparmor-disable_clone_in_tcf_on_ia64.patch
+Patch12:        qa_apparmor-clone_build_issue_on_ppc.patch
 #Patch6:         qa_apparmor-dirent.patch
 Url:            http://www.novell.com/products/apparmor/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -92,11 +96,15 @@ Currently the following profiles are tested: - postfix
 %patch3 -p1
 %ifarch ia64
 %patch4 -p1
+%patch11 -p1
 %endif
 %patch5
 %patch6 -p1
 %patch7 -p1
 %patch8 -p5
+%patch9 -p1
+%patch10 -p1
+%patch12 -p1
 %build
 make -C regression/subdomain all
 make -C stress/subdomain all

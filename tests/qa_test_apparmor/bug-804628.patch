@@ -1,0 +1,572 @@
+Index: tests/regression/subdomain/Makefile
+===================================================================
+--- tests.orig/regression/subdomain/Makefile
++++ tests/regression/subdomain/Makefile
+@@ -94,7 +94,7 @@ CHANGEHAT_FLAGS=$(shell if [ ! -f /usr/i
+ 	  			fi ;\
+ 			fi )
+ 
+-LIBIMMUNIX:=$(shell	if [ -f /usr/lib/libapparmor.so -o -f /usr/lib64/libapparmor.so ] ; then \
++LIBIMMUNIX:=$(shell	if [ -f /lib/libapparmor.so -o -f /lib64/libapparmor.so ] ; then \
+ 				echo -lapparmor ; \
+ 			elif [ -f /lib/libimmunix.so.1 -o -f /lib64/libimmunix.so ] ; then \
+ 				echo -limmunix ; \
+Index: tests/regression/subdomain/access.sh
+===================================================================
+--- tests.orig/regression/subdomain/access.sh
++++ tests/regression/subdomain/access.sh
+@@ -38,8 +38,8 @@ runchecktest "ACCESS file rwx (rwx)" pas
+ 
+ genprofile $file:$rperm
+ runchecktest "ACCESS file r (r)" pass $file r
+-runchecktest "ACCESS file rx (r)" fail $file rx
+-runchecktest "ACCESS file rwx (r)" fail $file rwx
++runchecktest "ACCESS file rx (r)" xfail $file rx
++runchecktest "ACCESS file rwx (r)" xfail $file rwx
+ 
+ genprofile $file:$wxperm
+ runchecktest "ACCESS file x (wx)" pass $file x
+@@ -47,9 +47,9 @@ runchecktest "ACCESS file w (wx)" pass $
+ runchecktest "ACCESS file wx (wx)" pass $file wx
+ 
+ genprofile $file:$wxperm
+-runchecktest "ACCESS file r (wx)" fail $file r
+-runchecktest "ACCESS file rx (wx)" fail $file rx
+-runchecktest "ACCESS file rwx (wx)" fail $file rwx
++runchecktest "ACCESS file r (wx)" xfail $file r
++runchecktest "ACCESS file rx (wx)" xfail $file rx
++runchecktest "ACCESS file rwx (wx)" xfail $file rwx
+ 
+ # wx are not necessary for directory write or traverse
+ # only r is required
+@@ -64,7 +64,7 @@ runchecktest "ACCESS dir rwx (rwx)" pass
+ genprofile $dir:$rperm
+ runchecktest "ACCESS dir r (r)" pass $dir r
+ runchecktest "ACCESS dir rx (r)" pass $dir rx
+-runchecktest "ACCESS dir rwx (r)" fail $dir rwx
++runchecktest "ACCESS dir rwx (r)" xfail $dir rwx
+ 
+ genprofile $dir:$wxperm
+ runchecktest "ACCESS dir x (wx)" pass $dir x
+@@ -72,6 +72,6 @@ runchecktest "ACCESS dir w (wx)" pass $d
+ runchecktest "ACCESS dir wx (wx)" pass $dir wx
+ 
+ genprofile $dir:$wxperm
+-runchecktest "ACCESS dir r (wx)" fail $dir r
+-runchecktest "ACCESS dir rx (wx)" fail $dir rx
+-runchecktest "ACCESS dir rwx (wx)" fail $dir rwx
++runchecktest "ACCESS dir r (wx)" xfail $dir r
++runchecktest "ACCESS dir rx (wx)" xfail $dir rx
++runchecktest "ACCESS dir rwx (wx)" xfail $dir rwx
+Index: tests/regression/subdomain/changehat.sh
+===================================================================
+--- tests.orig/regression/subdomain/changehat.sh
++++ tests/regression/subdomain/changehat.sh
+@@ -43,8 +43,8 @@ runchecktest "NO CHANGEHAT (access sub f
+ 
+ # CHANGEHAT NO HATS TEST
+ runchecktest "CHAGEHAT (no hats, nochange)" pass nochange $file
+-runchecktest_errno ENOENT "CHANGEHAT (no hats, $file)" fail $subtest $file
+-runchecktest_errno ENOENT "CHANGEHAT (no hats, $subfile)" fail $subtest $subfile
++runchecktest_errno ECHILD "CHANGEHAT (no hats, $file)" fail $subtest $file
++runchecktest_errno ECHILD "CHANGEHAT (no hats, $subfile)" fail $subtest $subfile
+ 
+ # CHANGEHAT TEST
+ 
+Index: tests/regression/subdomain/clone.c
+===================================================================
+--- tests.orig/regression/subdomain/clone.c
++++ tests/regression/subdomain/clone.c
+@@ -34,7 +34,7 @@ struct option long_options[] =
+ static void usage (char * program) {
+ 	fprintf(stderr, "usage: %s [arguments]\n",
+ 		program);
+-	fprintf(stderr, "%s\n", "$Id: clone.c 1202 2008-04-17 23:09:05Z steve-beattie $");
++	fprintf(stderr, "%s\n", "$Id$");
+ 	exit(1);
+ }
+ 
+@@ -61,8 +61,9 @@ int main(int argc, char *argv[])
+ 	int waitstatus;
+ 	int c;
+ 	char buf[BUFSIZ];
+-	void *child_stack = malloc(getpagesize() << 4);
+-	int clone_flags = 0;
++	int stack_size = PAGE_SIZE << 4;
++	void *child_stack = malloc(stack_size);
++	int clone_flags = SIGCHLD;
+ 
+ 	while ((c = getopt_long (argc, argv, "+hn", long_options, NULL)) != -1) {
+ 		switch (c) {
+@@ -87,7 +88,7 @@ int main(int argc, char *argv[])
+ 		exit(1);
+ 	}
+ 
+-	rc = clone(&do_child, child_stack, clone_flags, NULL);
++	rc = clone(do_child, child_stack + stack_size, clone_flags, argv);
+ 	if (rc < 0) {
+ 		perror("FAIL: clone failed");
+ 		exit(1);
+Index: tests/regression/subdomain/deleted.sh
+===================================================================
+--- tests.orig/regression/subdomain/deleted.sh
++++ tests/regression/subdomain/deleted.sh
+@@ -115,7 +115,7 @@ rm -f ${socket}
+ # FAIL - confined client, w access to the file
+ 
+ genprofile $file:$okperm $socket:rw $fd_client:px -- image=$fd_client $file:$badperm $socket:rw
+-runchecktest "fd passing; confined client w/ w only" pass $file $socket $fd_client "delete_file"
++runchecktest "fd passing; confined client w/ w only" fail $file $socket $fd_client "delete_file"
+ 
+ sleep 1
+ rm -f ${socket}
+Index: tests/regression/subdomain/mount.sh
+===================================================================
+--- tests.orig/regression/subdomain/mount.sh
++++ tests/regression/subdomain/mount.sh
+@@ -1,5 +1,5 @@
+ #! /bin/bash
+-# $Id: mount.sh 61 2006-05-19 18:32:14Z steve-beattie $
++# $Id$
+ 
+ #	Copyright (C) 2002-2005 Novell/SUSE
+ #
+@@ -63,18 +63,30 @@ fi
+ runchecktest "MOUNT (unconfined)" pass mount ${loop_device} ${mount_point}
+ runchecktest "UMOUNT (unconfined)" pass umount ${loop_device} ${mount_point}
+ 
+-# TEST A2.  confine MOUNT
++# TEST A2.  confine MOUNT 
++
++genprofile
++runchecktest "MOUNT (confined)" fail mount ${loop_device} ${mount_point}
++
++# TEST A3.  confine MOUNT - cap sys_admin allows mount
+ 
+ genprofile capability:sys_admin
+ runchecktest "MOUNT (confined)" pass mount ${loop_device} ${mount_point}
+ 
+-# TEST A3.  confine UMOUNT
++/bin/umount -text2 ${mount_point}
++
++# TEST A4.  confine UMOUNT
+ 
+ /bin/mount -text2 ${loop_device} ${mount_point}
+ 
++genprofile
+ runchecktest "UMOUNT (confined)" fail umount ${loop_device} ${mount_point}
+ 
++# TEST A4.  confine UMOUNT - cap sys_admin allows unmount
++genprofile capability:sys_admin
++runchecktest "UMOUNT (confined)" pass umount ${loop_device} ${mount_point}
++
+ # cleanup, umount file
+-cat /proc/mount > /etc/mtab
+ /bin/umount ${loop_device} > /dev/null 2> /dev/null  || /sbin/losetup -d ${loop_device} > /dev/null 2> /dev/null
++
+ /sbin/losetup -d ${loop_device} > /dev/null 2> /dev/null
+Index: tests/regression/subdomain/open.sh
+===================================================================
+--- tests.orig/regression/subdomain/open.sh
++++ tests/regression/subdomain/open.sh
+@@ -55,4 +55,4 @@ runchecktest "OPEN R+dac_override" fail
+ # to be required.
+ rm -f ${file}
+ genprofile $file:$badperm2
+-runchecktest "OPEN W (create)" known_fail $file
++runchecktest "OPEN W (create)" fail $file
+Index: tests/regression/subdomain/openat.sh
+===================================================================
+--- tests.orig/regression/subdomain/openat.sh
++++ tests/regression/subdomain/openat.sh
+@@ -73,7 +73,7 @@ runchecktest "OPENAT R+dac_override" fai
+ # This test currently passes when it should fail because of the o_creat bug
+ resettest
+ genprofile ${dir}/:r ${filepath}:$badperm2
+-runchecktest "OPENAT W (create)" known_fail $dir $file
++runchecktest "OPENAT W (create)" fail $dir $file
+ 
+ # PASS rename of directory in between opendir/openat
+ resettest
+Index: tests/regression/subdomain/prologue.inc
+===================================================================
+--- tests.orig/regression/subdomain/prologue.inc
++++ tests/regression/subdomain/prologue.inc
+@@ -68,7 +68,7 @@ genrunscript()
+ 	if [ "$retaintmpdir" = "true" ]
+ 	then
+ 		runfile=$tmpdir/runtest
+-		echo "$subdomain ${parser_args} < $profile" > $runfile
++		echo "$subdomain ${parser_args} $profile" > $runfile
+ 		echo -n "$testexec " >> $runfile
+ 		while [ $# -gt 0 ] ; do
+ 		      echo -n "\"$1\" " >> $runfile
+@@ -76,7 +76,7 @@ genrunscript()
+ 		done
+ 		echo "2>&1 > $outfile" >> $runfile
+ 		echo "echo $testname: \`cat $outfile\`" >> $runfile
+-		echo "$subdomain ${parser_args} -R < $profile" >> $runfile
++		echo "$subdomain ${parser_args} -R $profile" >> $runfile
+ 	fi
+ }
+ 
+@@ -122,6 +122,7 @@ resolve_symlink()
+ 		echo ${link}
+ 		return 0
+ 	else
++		echo "Could not resolve '$link'" >&2
+ 		return 1
+ 	fi
+ }
+@@ -146,7 +147,7 @@ resolve_libs()
+ 	# Suck. SuSE's ldd has a line "linux-gate.so.1 =>  (0xffffe000)"
+ 	#       Red Hat's ldd has "/lib/ld-linux.so.2 (0x007b1000)"
+ 	# good ${DIETY}, what gross kludgage.
+-	libs=$(ldd $exec | egrep -v "linux-(vdso(32|64|)|gate).so.1" | sed 's~^.*=> \(/.*\) (.*$~\1~' | awk '{print $1}')
++	libs=$(ldd $exec | egrep -v "linux-(vdso(32|64)?|gate).so.1" | sed 's~^.*=> \(/.*\) (.*$~\1~' | awk '{print $1}')
+ 
+ 	dynlibs="/etc/ld.so.cache:r"
+ 
+@@ -162,6 +163,8 @@ resolve_libs()
+ 		case $libpath in
+ 		/lib/ld[.-]*) mode=${mode}px
+ 			   ;;
++		/lib32/ld[.-]*) mode=${mode}px
++			   ;;
+ 		/lib64/ld[.-]*) mode=${mode}px
+ 			   ;;
+ 		*) mode=${mode}ix
+@@ -181,8 +184,8 @@ runtestbg()
+ 	# global _testdesc _pfmode _known _pid outfile
+ 	
+ 	_testdesc=$1
+-	if [ ${2:0:6} == "known_" ] ; then
+-		_pfmode=${2#known_}
++	if [ ${2:0:1} == "x" ] ; then
++		_pfmode=${2#x}
+ 		_known=" (known problem)"
+         else
+ 		_pfmode=$2
+@@ -216,8 +219,8 @@ runtestfg()
+ {
+ 	# global _testdesc _pfmode _known outfile
+ 	_testdesc=$1
+-	if [ ${2:0:6} == "known_" ] ; then
+-		_pfmode=${2#known_}
++	if [ ${2:0:1} == "x" ] ; then
++		_pfmode=${2#x}
+ 		_known=" (known problem)"
+         else
+ 		_pfmode=$2
+@@ -244,16 +247,22 @@ checktestfg()
+ 	teststatus=pass
+ 	
+ 	case "$ret" in
+-		PASS)	if [ "$_pfmode" != "pass" ]
++		PASS)	if [ "$_pfmode" != "pass" -a -z "${_known}" ]
+ 			then
+-				echo "Error: ${testname} passed. Test '${_testdesc}' was expected to '${_pfmode}'${_known}"
++				echo "Error: ${testname} passed. Test '${_testdesc}' was expected to '${_pfmode}'"
+ 				testfailed
++			elif [ "$_pfmode" == "pass" -a -n "${_known}" ]
++			then
++				echo "Alert: ${testname} passed. Test '${_testdesc}' was marked as expected pass but known problem (xpass)"
+ 			fi
+ 			;;
+-		FAIL*)  if [ "$_pfmode" != "fail" ]
++		FAIL*)  if [ "$_pfmode" != "fail" -a -z "${_known}" ]
+ 			then
+-				echo "Error: ${testname} failed. Test '${_testdesc}' was expected to '${_pfmode}'${_known}. Reason for failure '${ret}'"
++				echo "Error: ${testname} failed. Test '${_testdesc}' was expected to '${_pfmode}'. Reason for failure '${ret}'"
+ 				testfailed
++			elif [ "$_pfmode" == "fail" -a -n "${_known}" ]
++			then
++				echo "Alert: ${testname} failed. Test '${_testdesc}' was marked as expected fail but known problem (xfail)."
+ 			fi
+ 			;;
+ 		SIGNAL*) killedsig=`echo $ret | sed 's/SIGNAL//'`
+@@ -331,9 +340,11 @@ emit_profile()
+ 	if [ "$subprofile" -eq 1 -o "$nodefaults" -eq 1 ]
+ 	then
+ 		# skip dynamic libs for subprofiles
+-		$bin/mkprofile.pl ${mkflags} $name ${outfile}:w "$@" >> $profile
++		$bin/mkprofile.pl ${mkflags} "$name" ${outfile}:w "$@" >> $profile
++
+ 	else
+-		$bin/mkprofile.pl ${mkflags} $name ${name}:${perm} $dynlibs ${outfile}:w "$@" >> $profile
++
++		$bin/mkprofile.pl ${mkflags} "$name" ${name}:${perm} $dynlibs ${outfile}:w "$@" >> $profile
+ 	fi
+ 
+ 	echo $name >> $profilenames
+@@ -388,6 +399,16 @@ fi
+ 		# it is most often used after --, in fact it is basically
+ 		# mandatory after --
+ 		case "$1" in
++			profile=*) imagename=`echo $1 | sed 's/^profile=[rix]*//'`
++				 perm=`echo $1 | sed -n 's/^profile=\([rix]*\).*$/\1/p'`
++				 if [ -n "$perm" ]
++				 then
++					imageperm=$perm
++				 fi
++				 num_emitted=0
++				 shift
++				 ;;
++
+ 			image=*) imagename=`echo $1 | sed 's/^image=[rix]*//'`
+ 				 if [ ! -x "$imagename" ]
+ 				 then
+@@ -467,6 +488,17 @@ fi
+ 		loadprofile
+ 	fi
+ 
++	if [ -e ${sys_profiles} ] ; then
++		#check to see if the profiles are actually loaded
++		for f in `cat $profilenames` ; do
++			grep -Eq "^$f"' \([^)]+\)$' ${sys_profiles}
++			rc=$?
++			if [ $rc -ne 0 ] ; then
++				echo "Genprofile failed to load profile \"$f\""
++				exit 1
++			fi
++		done
++	fi
+ 	rm -f ${profile}.old ${profilenames}.old
+ }
+ 
+@@ -474,7 +506,7 @@ loadprofile()
+ {
+ 	#global complainflaf profile profileloaded
+ 
+-	$subdomain ${parser_args} $complainflag < $profile > /dev/null
++	$subdomain ${parser_args} $complainflag $profile > /dev/null
+ 	if [ $? -ne 0 ]
+ 	then
+ 		removeprofile
+@@ -488,7 +520,7 @@ replaceprofile()
+ {
+ 	#global complainflag profile
+ 
+-	$subdomain ${parser_args} -r $complainflag < $profile > /dev/null
++	$subdomain ${parser_args} -r $complainflag $profile > /dev/null
+ 	if [ $? -ne 0 ]
+ 	then
+ 		fatalerror "Unable to replace profile $profile"
+@@ -507,7 +539,7 @@ removeprofile()
+ 		remprofile=$profile
+ 	fi
+ 
+-	$subdomain ${parser_args} -R < $remprofile > /dev/null
++	$subdomain ${parser_args} -R $remprofile > /dev/null
+ 	if [ $? -ne 0 ]
+ 	then
+ 		fatalerror "Unable to remove profile $remprofile"
+Index: tests/regression/subdomain/ptrace.sh
+===================================================================
+--- tests.orig/regression/subdomain/ptrace.sh
++++ tests/regression/subdomain/ptrace.sh
+@@ -1,5 +1,5 @@
+ #! /bin/bash
+-# $Id: ptrace.sh 1156 2008-03-27 18:27:39Z jrjohansen $
++# $Id$
+ 
+ #	Copyright (C) 2002-2005 Novell/SUSE
+ #
+@@ -29,6 +29,10 @@ bin=$pwd
+ 
+ helper=$pwd/ptrace_helper
+ 
++# -n number of syscalls to perform
++# -c have the child call ptrace_me, else parent does ptrace_attach
++# -h transition child to ptrace_helper before doing ptrace (used to test
++#  x transitions with ptrace)
+ # test base line of unconfined tracing unconfined
+ runchecktest "test 1" pass -n 100 /bin/true
+ runchecktest "test 1 -c" pass -c -n 100 /bin/true
+@@ -97,27 +101,27 @@ runchecktest "test 7a -hc " pass -h -c -
+ runchecktest "test 7a -h prog" pass -h -n 100 $helper /bin/true
+ runchecktest "test 7a -hc prog" pass -h -c -n 100 $helper /bin/true
+ 
+-#traced helper can't do px - should update so depends on tracer
++#traced helper from unconfined
+ genprofile image=$helper $helper:ix /bin/true:rpx -- image=/bin/true
+ runchecktest "test 8" pass -n 100 /bin/true
+ # pass - ptrace_attach is done before exec
+ runchecktest "test 8 -c " pass -c -n 100 /bin/true
+ runchecktest "test 8 -h" pass -h -n 100 $helper
+ runchecktest "test 8 -hc " pass -h -c -n 100 $helper
+-# fail - can not px due to ptrace
+-runchecktest "test 8 -h prog" fail -h -n 100 $helper /bin/true
+-runchecktest "test 8 -hc prog" fail -h -c -n 100 $helper /bin/true
++# pass - can px if tracer can ptrace target
++runchecktest "test 8 -h prog" pass -h -n 100 $helper /bin/true
++runchecktest "test 8 -hc prog" pass -h -c -n 100 $helper /bin/true
+ 
+-#traced helper can't do ux - should update so depends on tracer
++#traced helper from unconfined
+ genprofile image=$helper $helper:ix /bin/true:rux -- image=/bin/true
+ runchecktest "test 9" pass -n 100 /bin/true
+ # pass - ptrace_attach is done before exec
+ runchecktest "test 9 -c " pass -c -n 100 /bin/true
+ runchecktest "test 9 -h" pass -h -n 100 $helper
+ runchecktest "test 9 -hc " pass -h -c -n 100 $helper
+-# fail - can not ux due to ptrace
+-runchecktest "test 9 -h prog" fail -h -n 100 $helper /bin/true
+-runchecktest "test 9 -hc prog" fail -h -c -n 100 $helper /bin/true
++# pass - can ux if tracer can ptrace target
++runchecktest "test 9 -h prog" pass -h -n 100 $helper /bin/true
++runchecktest "test 9 -hc prog" pass -h -c -n 100 $helper /bin/true
+ 
+ genprofile
+ # fail due to no exec permission
+@@ -148,13 +152,19 @@ runchecktest "test 12 -hc prog" pass -h
+ 
+ #ptraced confined app can't px - fails to unset profile
+ genprofile image=$helper $helper:rix /bin/true:rpx
+-runchecktest "test 14 -h prog" fail -h -n 100 $helper /bin/true
+-runchecktest "test 14 -hc prog" fail -h -c -n 100 $helper /bin/true
++runchecktest "test 13 -h prog" fail -h -n 100 $helper /bin/true
++runchecktest "test 13 -hc prog" fail -h -c -n 100 $helper /bin/true
+ 
+-#ptraced confined app can't ux - fails to unset profile
++
++#ptraced confined app can ux - if the tracer is unconfined
++#
+ genprofile image=$helper $helper:rix /bin/true:rux
+-runchecktest "test 14 -h prog" fail -h -n 100 $helper /bin/true
+-runchecktest "test 14 -hc prog" fail -h -c -n 100 $helper /bin/true
++runchecktest "test 14a -h prog" pass -h -n 100 $helper /bin/true
++runchecktest "test 14a -hc prog" pass -h -c -n 100 $helper /bin/true
++#ptraced confined app can't ux - if the tracer can't trace unconfined
++genprofile $helper:rpx -- image=$helper $helper:rix /bin/true:rux
++runchecktest "test 14b -h prog" fail -h -n 100 $helper /bin/true
++runchecktest "test 14b -hc prog" fail -h -c -n 100 $helper /bin/true
+ 
+ #confined app can't ptrace an unconfined app
+ genprofile $helper:rux
+Index: tests/regression/subdomain/uservars.inc
+===================================================================
+--- tests.orig/regression/subdomain/uservars.inc
++++ tests/regression/subdomain/uservars.inc
+@@ -4,8 +4,11 @@ subdomain=/sbin/apparmor_parser
+ #subdomain=/home/tonyj/subdomain_parser
+ 
+ # 2. additional arguments to the apparmor parser
+-parser_args=-q
++parser_args="-q -K"
+ 
+ # 3. directory to be used for temp files
+ # Need to be able to access this directory by the root and nobody users.
+ tmpdir=/tmp/sdtest.$$-$RANDOM
++
++# 4. Location of load system profiles for verification
++sys_profiles=/sys/kernel/security/apparmor/profiles
+Index: tests/regression/subdomain/xattrs.sh
+===================================================================
+--- tests.orig/regression/subdomain/xattrs.sh
++++ tests/regression/subdomain/xattrs.sh
+@@ -1,6 +1,4 @@
+ #! /bin/bash
+-# $Id: xattrs.sh 1053 2007-12-23 01:00:56Z jrjohansen $
+-
+ #	Copyright (C) 2002-2005 Novell/SUSE
+ #
+ #	This program is free software; you can redistribute it and/or
+@@ -38,32 +36,50 @@ bin=$pwd
+ 
+ . $bin/prologue.inc
+ 
+-file=$tmpdir/testfile
+-link=$tmpdir/testlink
+-dir=$tmpdir/testdir/
++tmpmount=$tmpdir/mountpoint
++diskimg=$tmpdir/disk.img
++file=$tmpmount/testfile
++link=$tmpmount/testlink
++dir=$tmpmount/testdir/
+ okperm=rw
+ badperm=r
+ 
++# guarantee fs supports user_xattrs
++dd if=/dev/zero of=${diskimg} bs=4096 count=4096 2> /dev/null
++mkfs.ext3 -q -F ${diskimg}
++mkdir ${tmpmount}
++mount -o loop,user_xattr ${diskimg} ${tmpmount}
++
+ touch $file
+ ln -s $file $link
+ mkdir $dir
+ 
++add_attrs()
++{
++    #set the xattr for thos that passed above again so we can test removing it
++    setfattr -h -n security.sdtest -v hello "$1"
++    setfattr -h -n trusted.sdtest -v hello "$1"
++    if [ "$1" != $link ] ; then
++        setfattr -h -n user.sdtest -v hello "$1"
++    fi
++}
++
+ for var in $file $link $dir ; do
+ #write xattr
+     genprofile $var:$badperm
+     xattrtest $var $badperm write security fail
+     #xattrtest $var $badperm write system fail
+     xattrtest $var $badperm write trusted fail
+-    if [ $var != $link ] ; then xattrtest $var $badperm write user fail ; fi
++    if [ $var != $link ] ; then xattrtest $var $badperm write user xfail ; fi
+ 
+     genprofile $var:$badperm capability:sys_admin
+-    xattrtest $var "$badperm+cap SYS_ADMIN" write security fail
++    xattrtest $var "$badperm+cap SYS_ADMIN" write security xfail
+     #xattrtest $var "$badperm+cap SYS_ADMIN" write system fail
+-    xattrtest $var "$badperm+cap SYS_ADMIN" write trusted fail
+-    if [ $var != $link ] ; then xattrtest $var "$badperm+cap SYS_ADMIN" write user fail ; fi
++    xattrtest $var "$badperm+cap SYS_ADMIN" write trusted xfail
++    if [ $var != $link ] ; then xattrtest $var "$badperm+cap SYS_ADMIN" write user xfail ; fi
+ 
+     genprofile $var:$okperm
+-    xattrtest $var $okperm write security pass
++    xattrtest $var $okperm write security xpass
+     #xattrtest $var $okperm write system fail
+     xattrtest $var $okperm write trusted fail
+     if [ $var != $link ] ; then xattrtest $var $okperm write user pass ; fi
+@@ -94,23 +110,25 @@ for var in $file $link $dir ; do
+     xattrtest $var $badperm remove security fail
+     #xattrtest $var $badperm remove system fail
+     xattrtest $var $badperm remove trusted fail
+-    if [ $var != $link ] ; then xattrtest $var $badperm remove user fail ; fi
++    if [ $var != $link ] ; then xattrtest $var $badperm remove user xfail ; fi
++
++    add_attrs $var
+ 
+     genprofile $var:$badperm capability:sys_admin
+-    xattrtest $var "$badperm+cap SYS_ADMIN" remove security fail
++    xattrtest $var "$badperm+cap SYS_ADMIN" remove security xfail
+     #xattrtest $var "$badperm+cap SYS_ADMIN" remove system fail
+-    xattrtest $var "$badperm+cap SYS_ADMIN" remove trusted fail
+-    if [ $var != $link ] ; then xattrtest $var "$badperm+cap SYS_ADMIN" remove user fail ; fi
++    xattrtest $var "$badperm+cap SYS_ADMIN" remove trusted xfail
++    if [ $var != $link ] ; then xattrtest $var "$badperm+cap SYS_ADMIN" remove user xfail ; fi
++
++    add_attrs $var
+ 
+     genprofile $var:$okperm
+-    xattrtest $var $okperm remove security pass
++    xattrtest $var $okperm remove security xpass
+     #xattrtest $var $okperm remove system fail
+     xattrtest $var $okperm remove trusted fail
+     if [ $var != $link ] ; then xattrtest $var $okperm remove user pass ; fi
+ 
+-    #set the xattr for thos that passed above again so we can test removing it
+-    setfattr -h -n security.sdtest -v hello $var
+-    if [ $var != $link ] ; then setfattr -h -n user.sdtest -v hello $var ; fi
++    add_attrs $var
+ 
+     genprofile $var:$okperm capability:sys_admin
+     xattrtest $var "$okperm+cap SYS_ADMIN" remove security pass
+@@ -120,3 +138,4 @@ for var in $file $link $dir ; do
+ 
+ done
+ 
++umount ${tmpmount}

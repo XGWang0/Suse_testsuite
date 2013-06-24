@@ -1,7 +1,7 @@
 #!/bin/sh
 # ****************************************************************************
 # Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
-# 
+#
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
@@ -12,7 +12,7 @@
 # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
 # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
 # LIABILITY.
-# 
+#
 # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
 # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
@@ -22,38 +22,34 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+set -eu
+
 WORKPATH="/usr/share/qa/qa_test_bind"
-cd $WORKPATH
+. $WORKPATH/bind.rc
 
-. bind.rc
+setup() {
+	backup_config
+	install_config "forwarder"
 
-backup_config
-install_config "forwarder"
+	bctl_ww restart
 
-$BINDCTRL restart
+	if [ ! -e $PID_FILE ]; then
+		echo "FAILED: bind - Stop daemon (could not start to stop)"
+		return $RES_FAIL_SETUP
+	fi
+}
 
-sleep 10
+test_() {
+	PID=`cat $PID_FILE`
+	bctl_ww stop
 
-if [ ! -e $PID_FILE ]; then
-   echo "FAILED: bind - Stop daemon (could not start to stop)"
-   RC=1
-else
-   PID=`cat $PID_FILE`
-   $BINDCTRL stop
-   
-   sleep 10
+	ps -p $PID > /dev/null && {
+		echo "FAILED: bind - Stop daemon (didn't stop)"
+		return $RES_FAIL
+	}
 
-   RESULT=$(ps ax | grep "$PID.*/usr/sbin/named" | grep -v grep)
-   if [ -n "$RESULT" ]; then
-      echo "FAILED: bind - Stop daemon (didn't stop)"
-      RC=1
-   else
-      echo "PASSED: bind - Stop daemon"
-   fi
-fi
+	echo "PASSED: bind - Stop daemon"
+	return $RES_OK
+}
 
-restore_config
-
-exit $RC
-
-
+main $@

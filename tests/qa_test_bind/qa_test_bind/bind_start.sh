@@ -22,40 +22,35 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+set -eu
+
 WORKPATH="/usr/share/qa/qa_test_bind"
-cd $WORKPATH
+. $WORKPATH/bind.rc
+TEST_DATA=forwarder
 
-. bind.rc
+setup() {
+	backup_config
+	install_config "forwarder"
 
-backup_config
-install_config "forwarder"
+	bctl_ww stop
+}
 
-$BINDCTRL stop
+test_() {
+	bctl_ww start
 
-sleep 10
+	if [ -e $PID_FILE ]; then
+		PID=`cat $PID_FILE`
 
-$BINDCTRL start
+		RESULT=$(ps ax | grep "$PID.*/usr/sbin/named")
 
-sleep 10
+		if [ -n "$RESULT" ]; then
+			echo "PASSED: bind - Start daemon"
+			return $RES_OK
+		fi
+	fi
 
-if [ -e $PID_FILE ]; then
-   PID=`cat $PID_FILE`
+	echo "FAILED: bind - Start daemon"
+	return $RES_FAIL
+}
 
-   RESULT=$(ps ax | grep "$PID.*/usr/sbin/named")
-
-   if [ -z "$RESULT" ]; then
-      echo "FAILED: bind - Start daemon"
-      RC=1
-   else 
-      echo "PASSED: bind - Start daemon"
-      RC=0
-   fi
-else
-   echo "FAILED: bind - Start daemon"
-   RC=1
-fi
-
-restore_config
-
-exit $RC
-
+main $@

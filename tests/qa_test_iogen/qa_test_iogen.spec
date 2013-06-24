@@ -27,7 +27,6 @@ Source2:        test_iogen-run
 Source3:        %name.8
 Source4:        do_iogen
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArchitectures: noarch
 
 %description
 An I/O generator. It forks child processes that each run a mix of reads and writes.

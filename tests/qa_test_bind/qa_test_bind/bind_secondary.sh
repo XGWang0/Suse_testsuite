@@ -22,32 +22,26 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+set -eu
+
 WORKPATH="/usr/share/qa/qa_test_bind"
-cd $WORKPATH
+. $WORKPATH/bind.rc
+TEST_DATA=secondary
 
-. bind.rc
+test_() {
+	QUERY=`grep secondary_query qa_test_bind-config |cut -d = -f2`
+	MATCH=`grep secondary_match qa_test_bind-config |cut -d = -f2`
+	RESULT=$(dig @127.0.0.1 $QUERY | grep -E "(^$QUERY.*$MATCH)")
 
-backup_config
-install_config "secondary"
+	echo "query for '$QUERY' resulted in '$RESULT'"
 
-$BINDCTRL restart
-sleep 10 # end of transfer
+	if [ -n "$RESULT" ]; then
+		echo "PASSED: bind - Slave DNS"
+		return $RES_OK
+	fi
 
-QUERY=`grep secondary_query qa_test_bind-config |cut -d = -f2`
-MATCH=`grep secondary_match qa_test_bind-config |cut -d = -f2`
-RESULT=$(dig @127.0.0.1 $QUERY | grep -E "(^$QUERY.*$MATCH)")
+	echo "FAILED: bind - Slave DNS"
+	return $RES_FAIL
+}
 
-echo "query for '$QUERY' resulted in '$RESULT'"
-
-if [ -n "$RESULT" ]; then
-   echo "PASSED: bind - Slave DNS"
-   RC=0
-else
-   echo "FAILED: bind - Slave DNS"
-   RC=1
-fi
-
-restore_config
-
-exit $RC
-
+main $@

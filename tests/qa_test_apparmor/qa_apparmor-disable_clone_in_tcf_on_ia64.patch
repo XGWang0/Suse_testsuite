@@ -1,0 +1,12 @@
+Index: tests/regression/subdomain/Makefile
+===================================================================
+--- tests.orig/regression/subdomain/Makefile
++++ tests/regression/subdomain/Makefile
+@@ -109,7 +109,6 @@ TESTS=access \
+       changehat_fork \
+       changehat_misc \
+       chdir \
+-      clone \
+       deleted \
+       environ \
+       exec \

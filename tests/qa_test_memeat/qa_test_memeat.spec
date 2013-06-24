@@ -23,6 +23,7 @@ Name:           qa_test_memeat
 License:        SUSE Proprietary
 Group:          SUSE internal
 AutoReqProv:    on
+Requires:	ctcs2
 Version:        0.1
 Release:        224
 Summary:        rd-qa-kernel internal package for easy memstressing

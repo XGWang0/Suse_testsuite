@@ -31,6 +31,27 @@ if ! ( [[ "$1" =~ "transfer.sh" ]] || [[ "$1" =~ "rekey.sh" ]] ); then
         export TEST_SSH_SSH="$TEST_SSH_SSH -n"
 fi
 
+SFTP_SERVER_PATH_OPTION='-D'
+MAJOR=`rpm -qi openssh| awk '/Version/{print $3}'| sed  -r 's/([0-9]+)\.([0-9]+).*/\1/'`
+MINOR=`rpm -qi openssh| awk '/Version/{print $3}'| sed  -r 's/([0-9]+)\.([0-9]+).*/\2/'`
+
+#if (( $MAJOR >= 5 && $MINOR >= 4)) 
+if (( $MAJOR > 5 )) 
+then
+	export SFTP_SERVER_PATH_OPTION='-D'
+elif (( $MAJOR == 5))
+then
+    if (( $MINOR >=4 ))
+    then 
+	export SFTP_SERVER_PATH_OPTION='-D'
+    else
+	export SFTP_SERVER_PATH_OPTION='-P'
+    fi
+else
+	export SFTP_SERVER_PATH_OPTION='-P'
+fi
+
+
 
 # set environment
 export SUDO=sudo

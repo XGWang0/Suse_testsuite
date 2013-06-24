@@ -17,7 +17,7 @@ Group:          SuSE internal
 Summary:        Unittests for tiff
 Provides:	qa_tiff
 Obsoletes:	qa_tiff
-Requires:       bash tiff
+Requires:       bash tiff qa_lib_ctcs2
 BuildRequires:  bash tiff
 Version:        4.0.0beta7
 Release:        21

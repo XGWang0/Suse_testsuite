@@ -24,7 +24,6 @@ Release:	1
 Source0:        iperf-%version.tar.bz2
 Source1:	%{name}.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArchitectures: noarch
 
 %description
 Iperf was developed as an alternative for measuring maximum TCP and UDP bandwidth performance. 

@@ -1,182 +1,182 @@
 timer 100 
- fg 1 qa_openssh_agent_getpeereid /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/agent-getpeereid.sh 
+fg 1 qa_openssh_agent_getpeereid /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/agent-getpeereid.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_agent_ptrace /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/agent-ptrace.sh 
+fg 1 qa_openssh_agent_ptrace /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/agent-ptrace.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_agent /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/agent.sh 
+fg 1 qa_openssh_agent /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/agent.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_agent_timeout /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/agent-timeout.sh 
+fg 1 qa_openssh_agent_timeout /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/agent-timeout.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_banner /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/banner.sh 
+fg 1 qa_openssh_banner /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/banner.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_brokenkeys /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/brokenkeys.sh 
+fg 1 qa_openssh_brokenkeys /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/brokenkeys.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_broken_pipe /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/broken-pipe.sh 
+fg 1 qa_openssh_broken_pipe /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/broken-pipe.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_cfgmatch /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/cfgmatch.sh 
+fg 1 qa_openssh_cfgmatch /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/cfgmatch.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_cipher_speed /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/cipher-speed.sh 
+fg 1 qa_openssh_cipher_speed /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/cipher-speed.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_connect_privsep /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/connect-privsep.sh 
+fg 1 qa_openssh_connect_privsep /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/connect-privsep.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_connect /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/connect.sh 
+fg 1 qa_openssh_connect /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/connect.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_dynamic_forward /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/dynamic-forward.sh 
+fg 1 qa_openssh_dynamic_forward /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/dynamic-forward.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_envpass /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/envpass.sh 
+fg 1 qa_openssh_envpass /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/envpass.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_exit_status /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/exit-status.sh 
+fg 1 qa_openssh_exit_status /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/exit-status.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_forcecommand /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/forcecommand.sh 
+fg 1 qa_openssh_forcecommand /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/forcecommand.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_forwarding /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/forwarding.sh 
+fg 1 qa_openssh_forwarding /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/forwarding.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_keygen_change /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/keygen-change.sh 
+fg 1 qa_openssh_keygen_change /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/keygen-change.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_keyscan /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/keyscan.sh 
+fg 1 qa_openssh_keyscan /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/keyscan.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_login_timeout /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/login-timeout.sh 
+fg 1 qa_openssh_login_timeout /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/login-timeout.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_multiplex /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/multiplex.sh 
+fg 1 qa_openssh_multiplex /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/multiplex.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_proto_mismatch /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/proto-mismatch.sh 
+fg 1 qa_openssh_proto_mismatch /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/proto-mismatch.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_proto_version /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/proto-version.sh 
+fg 1 qa_openssh_proto_version /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/proto-version.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_proxy_connect /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/proxy-connect.sh 
+fg 1 qa_openssh_proxy_connect /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/proxy-connect.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_reconfigure /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/reconfigure.sh 
+fg 1 qa_openssh_reconfigure /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/reconfigure.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_reexec /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/reexec.sh 
+fg 1 qa_openssh_reexec /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/reexec.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_rekey /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/rekey.sh 
+fg 1 qa_openssh_rekey /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/rekey.sh 
 wait 
- 
+
 
 timer 100 
- fg 1 qa_openssh_scp /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/scp.sh 
-wait 
- 
-timer 100 
- fg 1 qa_openssh_scp_ssh_wrapper /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/scp-ssh-wrapper.sh 
+fg 1 qa_openssh_scp /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/scp.sh 
 wait 
 
 timer 100 
- fg 1 qa_openssh_sftp_badcmds /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp-badcmds.sh 
-wait 
- 
-
-timer 100 
- fg 1 qa_openssh_sftp_batch /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp-batch.sh 
-wait 
- 
-
-timer 100 
- fg 1 qa_openssh_sftp_cmds /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp-cmds.sh 
-wait 
- 
-
-timer 100 
- fg 1 qa_openssh_sftp_glob /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp-glob.sh 
-wait 
- 
-
-timer 100 
- fg 1 qa_openssh_sftp /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp.sh 
-wait 
- 
-timer 100 
- fg 1 qa_openssh_stderr_after_eof /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/stderr-after-eof.sh 
-wait 
- 
-
-timer 100 
- fg 1 qa_openssh_stderr_data /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/stderr-data.sh 
+fg 1 qa_openssh_scp_ssh_wrapper /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/scp-ssh-wrapper.sh 
 wait 
 
 timer 100 
- fg 1 qa_openssh_transfer /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/transfer.sh 
+fg 1 qa_openssh_sftp_badcmds /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp-badcmds.sh 
+wait 
+
+
+timer 100 
+fg 1 qa_openssh_sftp_batch /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp-batch.sh 
+wait 
+
+
+timer 100 
+fg 1 qa_openssh_sftp_cmds /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp-cmds.sh 
+wait 
+
+
+timer 100 
+fg 1 qa_openssh_sftp_glob /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp-glob.sh 
+wait 
+
+
+timer 100 
+fg 1 qa_openssh_sftp /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/sftp.sh 
 wait 
 
 timer 100 
- fg 1 qa_openssh_try_ciphers /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/try-ciphers.sh 
+fg 1 qa_openssh_stderr_after_eof /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/stderr-after-eof.sh 
+wait 
+
+
+timer 100 
+fg 1 qa_openssh_stderr_data /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/stderr-data.sh 
 wait 
 
 timer 100 
- fg 1 qa_openssh_yes_head /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/yes-head.sh 
+fg 1 qa_openssh_transfer /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/transfer.sh 
+wait 
+
+timer 100 
+fg 1 qa_openssh_try_ciphers /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/try-ciphers.sh 
+wait 
+
+timer 100 
+fg 1 qa_openssh_yes_head /usr/share/qa/qa_test_openssh/prepare.sh /usr/share/qa/qa_test_openssh/yes-head.sh 
 wait 

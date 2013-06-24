@@ -22,6 +22,6 @@ case "$rc" in
 	"1") echo "INFO: Test FAILED"; exit 1;;
 	"2") echo "INFO: Test UNRESOLVED"; exit 11;;
 	"4") echo "INFO: Test UNSUPPORTED"; exit 22;;
-	"5") echo "INFO: Test UNTESTED"; exit 11;;
+	"5") echo "INFO: Test UNTESTED"; exit 22;;
 	*) echo "INFO: Test returned $rc"; exit $rc;;
 esac
