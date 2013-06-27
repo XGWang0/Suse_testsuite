@@ -2,7 +2,7 @@
 #
 # spec file for package qa_hazard (Version 0.1)
 #
-# Copyright (c) 2013 Novell, Inc.
+# Copyright (c) 2010 Novell, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #

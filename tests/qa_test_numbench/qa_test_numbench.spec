@@ -1,6 +1,6 @@
 #
 # spec file for package qa_test_numbench
-# Copyright (c) 2013 Novell, Inc.
+# Copyright (c) 2010 Novell, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
