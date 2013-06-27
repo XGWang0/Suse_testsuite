@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -29,7 +29,7 @@
 # norootforbuil
 #
 # spec file for package qa_test_llcbench
-# Copyright (c) 2012 SUSE.
+# Copyright (c) 2013 SUSE.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #

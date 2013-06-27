@@ -1,6 +1,6 @@
 # ****************************************************************************
 #
-# Copyright (c) 2012 Novell, Inc.
+# Copyright (c) 2013 Novell, Inc.
 # All Rights Reserved.
 #
 # This program is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 #
 # To contact Novell about this file by physical or electronic mail,
 # you may find current contact information at www.novell.com
-# Copyright (c) 2012 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # ****************************************************************************
 #
