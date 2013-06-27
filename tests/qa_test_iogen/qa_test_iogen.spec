@@ -25,7 +25,8 @@ Source0:        %name-%version.tar.bz2
 Source1:        qa_iogen.tcf
 Source2:        test_iogen-run
 Source3:        %name.8
-Source4:        do_iogen
+Source4:        iogen.8
+Source5:        do_iogen
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -42,14 +43,14 @@ make all
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 {%{S:3},%{S:4}} $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 -d $RPM_BUILD_ROOT/usr/bin
 install -m 744 iogen $RPM_BUILD_ROOT/usr/bin
 ln -s ../%name/tcf/qa_iogen.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
@@ -60,12 +61,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /usr/bin/iogen
-/usr/share/qa
-/usr/share/qa/%name
+%dir /usr/share/qa
+%dir /usr/share/qa/%name
+%dir /usr/share/qa/%name/tcf
+%dir /usr/share/qa/tcf
+%dir /usr/share/qa/tools
+
 /usr/share/qa/%name/do_iogen
 /usr/share/qa/tcf/qa_iogen.tcf
 /usr/share/qa/tools/test_iogen-run
 /usr/share/man/man8/%name.8.gz
+/usr/share/man/man8/iogen.8.gz
+/usr/share/qa/%name/tcf/qa_iogen.tcf
 
 %changelog 
 * Wed Nov 07 2012 - yxu@suse.de
