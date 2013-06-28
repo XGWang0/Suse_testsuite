@@ -79,6 +79,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:7} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/data
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT%{_docdir}/%{name}
@@ -93,6 +94,7 @@ install -m 755 %{S:2} %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../tools/test_sw_multipath-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_multipath-run
 install -m 755 *.sh $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 tcf/* $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 755 data/* $RPM_BUILD_ROOT/usr/share/qa/%name/data
 
 %clean
 rm -rf $RPM_BUILD_ROOT
