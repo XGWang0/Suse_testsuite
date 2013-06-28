@@ -91,7 +91,7 @@ ln -s ../%name/tcf/qa_hw_multipath.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 install -m 755 %{S:2} %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../tools/test_sw_multipath-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_multipath-run
-install -m 755 * $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 755 *.sh $RPM_BUILD_ROOT/usr/share/qa/%name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
