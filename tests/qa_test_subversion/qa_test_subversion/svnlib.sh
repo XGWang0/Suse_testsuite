@@ -6,6 +6,7 @@ TMP_BASEDIR=
 # }}}
 
 # {{{ hardcoded config
+SVN_TEST_VERSION="0.1.0"
 SVN_GRP="svn"
 SVN_USR="svn"
 SVN_HOME="/srv/svn"
@@ -15,9 +16,17 @@ SVN_CLI_HOME="/home/svntest"
 
 SVN_APACHE_CONF=/etc/apache2/conf.d/subversion.conf
 SVN_APACHE_CONF_BAK="${SVN_APACHE_CONF}.bak"
+
+RES_OK=0
+# RES_OK is not safe to redefine, the rest should work as long
+# as they are not 0
+RES_FAIL=1
+RES_FAIL_INT=11
+RES_FAIL_SETUP=11
+RES_SKIPPED=22
 # }}}
 
-# {{{ test helpers
+# {{{ helpers
 _check_shell_settings() {
 	opts="errexit nounset"
 	# NOTE: when using this from scripts you always wan't to have these options on.
@@ -44,29 +53,41 @@ svn_cli_exe() {
 # }}}
 
 svn_cleanup() {
-	cd /tmp
-	[ -n "${TMP_BASEDIR}" ] && rm -rf ${TMP_BASEDIR}
+	rc=$?
 
-	[ -f "${SVN_APACHE_CONF_BAK}" ] && \
-		mv $SVN_APACHE_CONF_BAK $SVN_APACHE_CONF
+	_cleanup() {
+		cd /tmp
+		[ -n "${TMP_BASEDIR}" ] && rm -rf ${TMP_BASEDIR}
 
-	is_usr $SVN_USR && userdel -r $SVN_USR >$LOGF 2>&1
-	is_usr $SVN_CLI_USR && userdel -r $SVN_CLI_USR >$LOGF 2>&1
-	is_grp $SVN_GRP && groupdel svn
+		[ -f "${SVN_APACHE_CONF_BAK}" ] && \
+			mv $SVN_APACHE_CONF_BAK $SVN_APACHE_CONF
 
-	a2dismod dav
-	a2dismod dav_svn
+		is_usr $SVN_USR && userdel -r $SVN_USR >$LOGF 2>&1
+		is_usr $SVN_CLI_USR && userdel -r $SVN_CLI_USR >$LOGF 2>&1
+		is_grp $SVN_GRP && groupdel svn
 
-	rcapache2 stop >$LOGF 2>&1
+		a2dismod dav
+		a2dismod dav_svn
+
+		rcapache2 stop >$LOGF 2>&1
+	}
+
+	set +e
+	_cleanup
+	[ ! $? -eq 0 ] && echo "cleanup failed"
+
+	for i in $RES_OK $RES_FAIL $RES_FAIL_INT $RES_FAIL_SETUP $RES_SKIPPED; do
+		[ $rc = $i ] && return $rc
+	done
+	return $RES_FAIL_INT
 }
 
 svn_setup() {
 	# Composed according to
 	# https://bugzilla.novell.com/tr_list_cases.cgi?tags_type=anyexact&tags=packagename_subversion
+	set -e
 
-	local config key keygen pubkey pubkey_f auth_keys cmd
-
-	config="./subversion.conf"
+	local key keygen pubkey pubkey_f auth_keys cmd
 
 	is_grp $SVN_GRP || groupadd $SVN_GRP
 	useradd -d $SVN_HOME -s /bin/bash -g $SVN_GRP $SVN_USR >$LOGF 2>&1
@@ -111,7 +132,7 @@ svn_setup() {
 	chown wwwrun:${SVN_GRP} -R \
 		${SVN_HOME}/repos/{davtest_world_writable,davtest_auth}
 
-	cp $config ${SVN_APACHE_CONF}
+	cp $SRCDIR/subversion.conf ${SVN_APACHE_CONF}
 
 	a2enmod dav
 	a2enmod dav_svn
@@ -119,62 +140,82 @@ svn_setup() {
 	rcapache2 restart >$LOGF 2>&1
 
 	TMP_BASEDIR=`mktemp -d -t svn_test.XXX`
+
+	# {{{ setup for dav+auth
+		svn_pwd_dir=${SVN_CLI_HOME}/.subversion/auth/svn.simple
+		mkdir -p $svn_pwd_dir
+		chown ${SVN_CLI_USR} ${SVN_CLI_HOME}/.subversion -R
+		realm=`grep FQDN_HOSTNAME ${SRCDIR}/svn-auth | sed "s/FQDN_HOSTNAME/$(hostname -f)/"`
+		svn_pwd_file=`python -c "import hashlib; print hashlib.md5(\"${realm}\").hexdigest()"`
+		cp ${SRCDIR}/svn-auth $svn_pwd_dir/$svn_pwd_file
+		sed -i "s/FQDN_HOSTNAME/$(hostname -f)/" $svn_pwd_dir/$svn_pwd_file
+		len=$(hostname -f | wc -c)
+		len=$(($len + 26)) # FIXME: magic value
+		sed -i "s/REALM_LEN/${len}/" $svn_pwd_dir/$svn_pwd_file
+		chown ${SVN_CLI_USR} $svn_pwd_dir/$svn_pwd_file
+		chmod 600 $svn_pwd_dir/$svn_pwd_file
+	# }}}
 }
 
 _test() {
-	set -e
-	local cmd wdir expected _diff reponame
+	local cmd wdir expected _diff reponame msg
 	reponame=$(basename $CASE_URL) # beware
 
-	# {{{
-	cmd="svn import $source_tree $CASE_URL -m \"import test\""
-	svn_cli_exe "$cmd"
-	echo "$CASE_NAME: Import test: PASSED"
-	# }}}
-
-	# {{{
-	wdir="${CASE_BASEDIR}/commit"
-	mkdir $wdir
-	chown $SVN_CLI_USR $TMP_BASEDIR -R
-	cd $wdir
-	svn_cli_exe "svn co ${CASE_URL}"
-
-	echo "$CASE_NAME: Checkout test: PASSED"
-	# }}}
-
-	# {{{
-	cd $reponame
-	svn_cli_exe "echo PASSED > README.test"
-
-	svn_cli_exe "svn add README.test"
-	svn_cli_exe "svn commit -m testcommit"
-	svn_cli_exe "svn cat README.test"
-
-	echo "$CASE_NAME: Commit test: PASSED"
-	# }}}
-
-	# {{{
-	wdir="${CASE_BASEDIR}/integrity"
-	mkdir $wdir
-	chown $SVN_CLI_USR $wdir
-	cd $wdir
-
-	svn_cli_exe "svn co ${CASE_URL}"
-	cd ${wdir}/$reponame
-
-	repo_diff() {
-		diff -x .svn -qNur $source_tree ${wdir}/$reponame
+	test_import() {
+		cmd="svn import $source_tree $CASE_URL -m \"import test\""
+		svn_cli_exe "$cmd" || return $RES_FAIL;
 	}
 
-	expected="Files ${source_tree}/README.test and"
-	expected="${expected} ${wdir}/${reponame}/README.test differ"
-	_diff=$(repo_diff) || true
-	echo >$LOGF 2>&1
-	[ $(echo ${_diff} | wc -l) = "1" ] && \
-		[ "${_diff}" = "${expected}" ] || \
-		return 1
+	test_checkout() {
+		wdir="${CASE_BASEDIR}/commit"
+		mkdir $wdir || return $RES_FAIL_INT
+		chown $SVN_CLI_USR $TMP_BASEDIR -R || return $RES_FAIL_INT
+		cd $wdir || return $RES_FAIL_INT
+		svn_cli_exe "svn co ${CASE_URL}" || return $RES_FAIL
+	}
 
-	echo "$CASE_NAME: Checkout Integrity check: PASSED"
+	test_commit() {
+		cd $reponame || return $RES_FAIL_INT
+		svn_cli_exe "echo PASSED > README.test" || return $RES_FAIL_INT
+
+		svn_cli_exe "svn add README.test" || return $RES_FAIL
+		svn_cli_exe "svn commit -m testcommit" || return $RES_FAIL
+		svn_cli_exe "svn cat README.test" || return $RES_FAIL
+	}
+
+	test_integrity() {
+		wdir="${CASE_BASEDIR}/integrity"
+		mkdir $wdir || return $RES_FAIL_INT
+		chown $SVN_CLI_USR $wdir || return $RES_FAIL_INT
+		cd $wdir || return $RES_FAIL_INT
+
+		svn_cli_exe "svn co ${CASE_URL}" || return $RES_FAIL_INT
+		cd ${wdir}/$reponame || return $RES_FAIL_INT
+
+		repo_diff() {
+			diff -x .svn -qNur $source_tree ${wdir}/$reponame
+		}
+
+		expected="Files ${source_tree}/README.test and"
+		expected="${expected} ${wdir}/${reponame}/README.test differ"
+		_diff=$(repo_diff)
+		echo >$LOGF 2>&1
+		[ $(echo ${_diff} | wc -l) = "1" ] && \
+			[ "${_diff}" = "${expected}" ] || \
+			return $RES_FAIL
+	}
+
+	subtest() {
+		test_$1
+		rc=$?
+		[ $rc -eq $RES_OK ] && echo "$CASE_NAME: $2: PASSED" || \
+			{ echo "$CASE_NAME: $2: FAILED"; return $rc; }
+	}
+
+	subtest import "Import test"
+	subtest checkout "Checkout test"
+	subtest commit "Commit test"
+	subtest integrity "Checkout Integrity check"
 }
 
 # {{{ case definition
@@ -194,21 +235,6 @@ case_dav_auth() {
 	export CASE_NAME="DAV+AUTH"
 	export CASE_URL="http://$svn_server/repos/davtest_auth"
 	export CASE_BASEDIR=${TMP_BASEDIR}/dav_auth
-
-	# {{{
-		svn_pwd_dir=${SVN_CLI_HOME}/.subversion/auth/svn.simple
-		mkdir -p $svn_pwd_dir
-		chown ${SVN_CLI_USR} ${SVN_CLI_HOME}/.subversion -R
-		realm=`grep FQDN_HOSTNAME ${CURDIR}/$(dirname $0)/svn-auth | sed "s/FQDN_HOSTNAME/$(hostname -f)/"`
-		svn_pwd_file=`python -c "import hashlib; print hashlib.md5(\"${realm}\").hexdigest()"`
-		cp ${CURDIR}/$(dirname $0)/svn-auth $svn_pwd_dir/$svn_pwd_file
-		sed -i "s/FQDN_HOSTNAME/$(hostname -f)/" $svn_pwd_dir/$svn_pwd_file
-		len=$(hostname -f | wc -c)
-		len=$(($len + 26)) # FIXME: magic value
-		sed -i "s/REALM_LEN/${len}/" $svn_pwd_dir/$svn_pwd_file
-		chown ${SVN_CLI_USR} $svn_pwd_dir/$svn_pwd_file
-		chmod 600 $svn_pwd_dir/$svn_pwd_file
-	# }}}
 }
 
 case_null() {
@@ -232,27 +258,27 @@ test_case() {
 
 svn_test_all() {
 	usage() {
-		echo "Usage: $0 <svn_server_fqdn> <local_dir>"
+		echo "Usage: $0 <svn_server_fqdn> <local_dir> [<case>]"
 		echo ""
 		echo "<local_dir> is used for svn uploading"
+		echo "if <case> is not given, it runs all cases"
 	}
 
 	main() {
 		[ $# -lt 2 ] && { usage; exit 1; }
 
-		local CURDIR svn_server source_tree reponame
+		local svn_server source_tree reponame cases
 
 		svn_server="$1"
 		source_tree="$2"
-
-		CURDIR=`pwd`
+		cases="${3:-ssh dav dav_auth}"
 
 		reponame=$(basename $source_tree)
 
 		echo "===$svn_server==="
 
 		rc=0
-		for i in ssh dav dav_auth; do
+		for i in $cases; do
 			set +e
 			test_case $i
 			rc=$(($rc | $?))
@@ -260,7 +286,13 @@ svn_test_all() {
 		done
 
 		echo ""
-		[ $rc -eq 0 ] && echo "PASSED" || echo "FAILED"
+		[ $rc -eq $RES_OK ] && echo "PASSED" || echo "FAILED"
+
+		case $rc in
+			0) ;;
+			1) ;;
+			*) rc=$RES_FAIL_INT;;
+		esac
 
 		return $rc
 	}

@@ -3,34 +3,42 @@
 set -eu
 
 cleanup=true
-log=
 
 usage() {
-	echo "Usage: $0 [-x] [-n] [-v] [-h]"
+	echo "Usage: $0 [-x] [-n] [-v] [-V] [-h] [<case>]"
 	echo ""
 	echo "  -x for shell tracing"
 	echo "  -n for no cleanup"
 	echo "  -v for increased verbosity"
-	echo "  -h guess what"
-	echo ""
-	echo "Interpretation"
-	echo " exit code != 0 => FAILURE"
-	echo " each subtest will print if it PASSED, but not if it FAILED."
+	echo "  -h help"
+	echo "  -V version"
 }
 
-. svnlib.sh
+if [ "${0:0:1}" = "/" ]; then
+	SRCDIR=$(dirname $0)
+else
+	SRCDIR=$PWD/$(dirname $0)
+fi
 
-while [ $# -gt 0 ]; do
-	case ${1:-} in
-		"-x")	set -x; shift ;;
-		"-n") cleanup=false; shift;;
-		"-v") export LOGF="/dev/stdout"; shift;;
-		"-h") usage; exit 0;;
-		*) usage; exit 1;;
+export SRCDIR
+. $SRCDIR/svnlib.sh
+
+while getopts xVnvh name ; do
+	case $name in
+		x)	set -x; shift ;;
+		n) cleanup=false; shift;;
+		v) export LOGF="/dev/stdout"; shift;;
+		h) usage; exit 0;;
+		V) echo $SVN_TEST_VERSION; exit 0;;
+		*) usage; exit $RES_FAIL_INT;;
 	esac
 done
 
+shift $((OPTIND - 1))
+
 $cleanup && trap svn_cleanup EXIT
 
+set -e
 svn_setup
-svn_test_all $(hostname -f) /usr/share/doc/packages/vim ${log}
+[ ! $? -eq 0 ] &&  exit $RES_FAIL_SETUP
+svn_test_all $(hostname -f) /usr/share/doc/packages/vim ${1:-}
