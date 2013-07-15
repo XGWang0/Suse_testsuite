@@ -27,9 +27,10 @@ BuildRequires:  ctcs2
 License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple subversion tests for ctcs framework
-Requires:       subversion subversion-server ctcs2 grep apache2
+Requires:       subversion subversion-server ctcs2 grep apache2 vim-base
 Version:        0.1.0
 Release:        1
+Source0:        %name-%version.tar.bz2
 Source1:        qa_subversion.tcf
 Source2:        test_subversion-run
 Source3:        qa_test_subversion.8
@@ -50,6 +51,7 @@ Authors:
 %build
 
 %install
+# TODO: make this work from the makefile
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8/
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
@@ -60,7 +62,9 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 ln -s ../%name/tcf/qa_subversion.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d \( -name CVS -or -name .svn \) -exec rm -rf {} \;
+chmod 755 $RPM_BUILD_ROOT/usr/share/qa/%name/svn.sh
+find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d \( -name CVS -or\
+ -name .svn \) -exec rm -rf {} \;
 
 %clean
 rm -rf $RPM_BUILD_ROOT
