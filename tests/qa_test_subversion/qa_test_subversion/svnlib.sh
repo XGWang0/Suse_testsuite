@@ -6,7 +6,7 @@ TMP_BASEDIR=
 # }}}
 
 # {{{ hardcoded config
-SVN_TEST_VERSION="0.1.0"
+SVN_TEST_VERSION="0.1.1"
 SVN_GRP="svn"
 SVN_USR="svn"
 SVN_HOME="/srv/svn"
