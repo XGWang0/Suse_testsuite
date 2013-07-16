@@ -25,9 +25,9 @@ export SRCDIR
 
 while getopts xVnvh name ; do
 	case $name in
-		x)	set -x; shift ;;
-		n) cleanup=false; shift;;
-		v) export LOGF="/dev/stdout"; shift;;
+		x) set -x;;
+		n) cleanup=false;;
+		v) export LOGF="/dev/stdout";;
 		h) usage; exit 0;;
 		V) echo $SVN_TEST_VERSION; exit 0;;
 		*) usage; exit $RES_FAIL_INT;;
