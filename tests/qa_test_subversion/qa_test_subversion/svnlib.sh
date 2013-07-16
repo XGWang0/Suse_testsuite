@@ -287,7 +287,7 @@ test_case() {
 
 svn_test_all() {
 	usage() {
-		echo "Usage: $0 <svn_server_fqdn> <local_dir> [<case>]"
+		echo "Usage: $0 <svn_server_fqdn> <local_dir> <case>"
 		echo ""
 		echo "<local_dir> is used for svn uploading"
 		echo "if <case> is not given, it runs all cases"
@@ -300,19 +300,13 @@ svn_test_all() {
 
 		svn_server="$1"
 		source_tree="$2"
-		cases="${3:-ssh dav dav_auth}"
 
 		reponame=$(basename $source_tree)
 
 		echo "===$svn_server==="
 
-		rc=0
-		for i in $cases; do
-			set +e
-			test_case $i
-			rc=$(($rc | $?))
-			set -e
-		done
+		test_case $3
+		rc=$?
 
 		echo ""
 		[ $rc -eq $RES_OK ] && echo "PASSED" || echo "FAILED"

@@ -23,6 +23,8 @@ fi
 export SRCDIR
 . $SRCDIR/svnlib.sh
 
+ARGV="$@"
+
 while getopts xVnvh name ; do
 	case $name in
 		x) set -x;;
@@ -36,9 +38,18 @@ done
 
 shift $((OPTIND - 1))
 
-$cleanup && trap svn_cleanup EXIT
+if [ -n "${1:-}" ]; then
+	$cleanup && trap svn_cleanup EXIT
 
-set -e
-svn_setup
-[ ! $? -eq 0 ] &&  exit $RES_FAIL_SETUP
-svn_test_all $(hostname -f) /usr/share/doc/packages/vim ${1:-}
+	svn_setup
+	[ ! $? -eq 0 ] &&  exit $RES_FAIL_SETUP
+	svn_test_all $(hostname -f) /usr/share/doc/packages/vim $1
+else
+	cases="ssh dav dav_auth"
+	rc=0
+	for i in $cases; do
+		$SRCDIR/svn.sh $ARGV $i
+		rc=$(($rc | $?))
+	done
+	exit $rc
+fi
