@@ -146,7 +146,7 @@ svn_setup() {
 		mkdir -p $svn_pwd_dir
 		chown ${SVN_CLI_USR} ${SVN_CLI_HOME}/.subversion -R
 		realm=`grep FQDN_HOSTNAME ${SRCDIR}/svn-auth | sed "s/FQDN_HOSTNAME/$(hostname -f)/"`
-		svn_pwd_file=`python -c "import hashlib; print hashlib.md5(\"${realm}\").hexdigest()"`
+		svn_pwd_file=$(echo "${realm}" | head -c-1 | md5sum | head -c 32)
 		cp ${SRCDIR}/svn-auth $svn_pwd_dir/$svn_pwd_file
 		sed -i "s/FQDN_HOSTNAME/$(hostname -f)/" $svn_pwd_dir/$svn_pwd_file
 		len=$(hostname -f | wc -c)
