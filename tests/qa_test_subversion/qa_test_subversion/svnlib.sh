@@ -87,6 +87,16 @@ svn_setup() {
 	# https://bugzilla.novell.com/tr_list_cases.cgi?tags_type=anyexact&tags=packagename_subversion
 	set -e
 
+	# set LC_ALL, or we get::
+	#
+	#     svnadmin: error: cannot set LC_ALL locale
+	#     svnadmin: error: environment variable LANG is not set
+	#     svnadmin: error: please check that your locale name is correct
+	#
+	# with LC_ALL="" on SLE10SP4
+
+	export LC_ALL="C"
+
 	local key keygen pubkey pubkey_f auth_keys cmd
 
 	is_grp $SVN_GRP || groupadd $SVN_GRP
