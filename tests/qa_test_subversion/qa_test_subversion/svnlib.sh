@@ -167,12 +167,31 @@ svn_setup() {
 	# }}}
 }
 
+_svn_version() {
+	svn --version | head -n1 | sed 's/.* version \([^\s]\+\) .*/\1/'
+}
+
+_version_gt() {
+	[ "$1" \> $2 ] && ! $(echo "$1" | grep "$2" -q)
+}
+
 _test() {
 	local cmd wdir expected _diff reponame msg
 	reponame=$(basename $CASE_URL) # beware
 
 	test_import() {
-		cmd="svn import $source_tree $CASE_URL -m \"import test\""
+		local import_tree
+		if _version_gt $(_svn_version) "1.3" || \
+		[ "${CASE_NAME}" = "SVN+SSH" ]; then
+			import_tree=$source_tree;
+		else
+			# SLE10SP4 subversion (currenlty 1.3.1) is making a temp
+			# file in the source path
+			import_tree="$SVN_CLI_HOME/import_src"
+			svn_cli_exe "mkdir $import_tree" || return $RES_FAIL_INT
+			svn_cli_exe "cp $source_tree/* -r $import_tree"
+		fi
+		cmd="svn import $import_tree $CASE_URL -m \"import test\""
 		svn_cli_exe "$cmd" || return $RES_FAIL;
 	}
 
