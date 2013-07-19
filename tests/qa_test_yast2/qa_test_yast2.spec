@@ -62,6 +62,7 @@ ln -s ../%name/tcf/qa_yast2.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cd $RPM_BUILD_DIR
 cp -rv %{name} $RPM_BUILD_ROOT/usr/share/qa/
+chmod +x $RPM_BUILD_ROOT/usr/share/qa/%{name}/online-update_default.sh
 
 %clean
 %{__rm} -rvf $RPM_BUILD_ROOT

@@ -76,6 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_cracklib.tcf
 /usr/share/qa/tools/test_cracklib-run
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/*.exp
 
 %changelog -n qa_test_cracklib
 * Tue Feb 06 2007 - ro@suse.de

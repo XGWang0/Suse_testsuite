@@ -104,6 +104,8 @@ ln -s ../%{name}/tcf/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicr
 #%files ctcs2-glue
 #%defattr(-,root,root)
 /usr/share/qa
+%attr(0755,root,root) /usr/share/qa/tools/test_libmicro-run
+%attr(0755,root,root) /usr/share/qa/tools/test_libmicro-bench-run
 
 %clean
 rm -rf $RPM_BUILD_ROOT

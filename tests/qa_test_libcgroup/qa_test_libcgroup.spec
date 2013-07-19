@@ -55,5 +55,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/qa/tools/libcgroup-run
 %dir %{_datadir}/qa/tcf
 %{_datadir}/qa/tcf/qa_test_libcgroup.tcf
+%attr(0755,root,root) /usr/share/qa/%name/common-test.sh
+%attr(0755,root,root) /usr/share/qa/%name/src/config.status
+%attr(0755,root,root) /usr/share/qa/%name/src/*.sh
 
 %changelog

@@ -74,6 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf
 /usr/share/qa/tools
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
+%attr(0755,root,root) /usr/share/qa/%name/*.py
 
 %changelog
 * Fri Aug 12 2011 - llipavsky@suse.cz

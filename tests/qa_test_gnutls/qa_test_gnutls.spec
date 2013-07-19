@@ -88,6 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 # /usr/share/qa/tcf/qa_gnutls.tcf
 # /usr/share/qa/tools/test_gnutls-run
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
 
 %changelog
 * Tue Jan 24 2012 - kgw@suse.de

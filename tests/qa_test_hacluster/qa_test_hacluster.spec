@@ -65,6 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/tcf/qa_hacluster.tcf
 /usr/share/qa/tools/test_hacluster-run
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
 
 %changelog
 * Fri Jun 01 2012 - vpelcak@suse.com

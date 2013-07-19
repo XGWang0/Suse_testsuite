@@ -79,6 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf
 /usr/share/qa/tools
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/*.pl 
 
 %changelog -n qa_test_cpio
 * Mon Jan 30 2006 - kmachalkova@suse.cz

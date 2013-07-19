@@ -62,6 +62,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp do_process_stress $RPM_BUILD_ROOT/usr/share/qa/tools
+chmod 755 $RPM_BUILD_ROOT/usr/share/qa/tools/do_process_stress
 cp process_stress.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf 
 cp %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 chmod 755 $RPM_BUILD_ROOT/usr/share/qa/tools/test_process_stress-run

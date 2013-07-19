@@ -63,6 +63,7 @@ install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_gnome.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+find $RPM_BUILD_ROOT/usr/share/qa/%name  -name "*.py" ! -name "gnome_config.py" | xargs chmod +x
 
 %clean
 rm -rf $RPM_BUILD_ROOT

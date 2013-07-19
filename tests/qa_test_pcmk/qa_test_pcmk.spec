@@ -50,6 +50,8 @@ install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
 
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 
+find $RPM_BUILD_ROOT/usr/share/qa/%name  -name "*.sh" ! -name "regression.core.sh" ! -name "gen_tests.sh" | xargs chmod +x
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 

@@ -98,6 +98,7 @@ find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name .svn -exec rm -rf {
 ( cd $RPM_BUILD_ROOT/usr/share/qa/%name/src/file-access/ && make install )
 ( cd $RPM_BUILD_ROOT/usr/share/qa/%name/src/file-access-acl/ && make install )
 rm -fr $RPM_BUILD_ROOT/usr/share/qa/%name/src
+find  $RPM_BUILD_ROOT/usr/share/qa/%name -type f ! -name "COPYING" | xargs chmod +x
 
 %clean
 rm -fr $RPM_BUILD_ROOT

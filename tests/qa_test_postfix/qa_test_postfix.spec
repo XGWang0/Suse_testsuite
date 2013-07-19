@@ -76,6 +76,7 @@ cp %{SOURCE1} $RPM_BUILD_ROOT/%{qa_location}/tcf
 ln -s ../%name/tcf/qa_postfix.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp %{SOURCE3} $RPM_BUILD_ROOT%{qa_location}/doc
+find $RPM_BUILD_ROOT/%{qa_location} -type f ! -name "README" ! -name "COPYING" ! -name "*.tcf" | xargs chmod +x
 
 %clean
 rm -rvf $RPM_BUILD_ROOT

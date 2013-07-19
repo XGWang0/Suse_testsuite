@@ -76,6 +76,7 @@ cp blockrdtst blockrdtst-info info_linux messages newburn-generator vmstat-wrapp
 cp dmesg kernel newburn timestamp $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
 cp print_disk_info flushb flushb.src/flushb.real $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
 cp loop.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn
+chmod +x  $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn/*
 ln -s blockrdtst $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn/sblockrdtst
 ln -s blockrdtst-info $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/qa_test_newburn/sblockrdtst-info
 cp %{S:4} $RPM_BUILD_ROOT/usr/lib/ctcs2/tools

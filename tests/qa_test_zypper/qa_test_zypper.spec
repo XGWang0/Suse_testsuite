@@ -63,6 +63,7 @@ install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tools
 cp %{SOURCE1} $RPM_BUILD_ROOT/%{qa_location}/tcf
 ln -s ../%name/tcf/qa_zypper.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
+find $RPM_BUILD_ROOT/%{qa_location} -name "*.sh" ! -name "testlib.sh" | xargs chmod +x
 
 %clean
 rm -rvf $RPM_BUILD_ROOT

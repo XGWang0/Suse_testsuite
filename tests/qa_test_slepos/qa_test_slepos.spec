@@ -76,6 +76,7 @@ ln -s ../tools/slepos-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_slepos-run
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/doc/packages/%name
 install -m 644 README $RPM_BUILD_ROOT/usr/share/doc/packages/%name
 cp -a usr $RPM_BUILD_ROOT/
+chmod +x $RPM_BUILD_ROOT/usr/share/qa/%name/slepos_lib.sh
 
 %clean
 rm -rf $RPM_BUILD_ROOT

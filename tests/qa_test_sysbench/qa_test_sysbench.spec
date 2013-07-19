@@ -98,6 +98,7 @@ cp ctcstools/sysbench-full.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp ctcstools/test_sysbench-bench-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 cp ctcstools/sysbench-bench.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp ctcstools/sysbench.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_sysbench-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_sysbench-bench-run
 
 %post 
 if [ -x /etc/init.d/mysql ] ; then
