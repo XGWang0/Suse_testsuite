@@ -21,7 +21,7 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-Source1:	qa_test_slepos.8
+#Source1:	qa_test_slepos.8
 #
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
