@@ -1,0 +1,32 @@
+--- a/client/tests/fio/Makefile.patch	2011-11-23 09:41:20.000000000 +0800
++++ b/client/tests/fio/Makefile.patch	2013-07-24 00:40:45.000000000 +0800
+@@ -1,20 +1,11 @@
+---- src/Makefile2	2007-03-29 16:40:23.000000000 +0200
+-+++ src/Makefile	2007-03-29 16:40:54.000000000 +0200
+-@@ -2,7 +2,7 @@
+- CC	= gcc -W
+- DEBUGFLAGS = -D_FORTIFY_SOURCE=2
+- OPTFLAGS= -O2 -g $(EXTFLAGS)
+--CFLAGS	= -Wwrite-strings -Wall -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 $(OPTFLAGS) $(DEBUGFLAGS) -rdynamic
+-+CFLAGS	+= -Wwrite-strings -Wall -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 $(OPTFLAGS) $(DEBUGFLAGS) -rdynamic
++--- a/Makefile	2013-07-19 23:30:46.000000000 +0800
+++++ b/Makefile	2013-07-19 23:43:26.000000000 +0800
++@@ -3,7 +3,7 @@ DEBUGFLAGS = -D_FORTIFY_SOURCE=2 -DFIO_I
++ CPPFLAGS= -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
++ 	$(DEBUGFLAGS)
++ OPTFLAGS= -O3 -fno-omit-frame-pointer -g $(EXTFLAGS)
++-CFLAGS	= -std=gnu99 -Wwrite-strings -Wall $(OPTFLAGS)
+++CFLAGS	+= -std=gnu99 -Wwrite-strings -Wall $(OPTFLAGS)
++ LIBS	= -lm $(EXTLIBS)
+  PROGS	= fio
+  SCRIPTS = fio_generate_plots
+- OBJS = gettime.o fio.o ioengines.o init.o stat.o log.o time.o md5.o crc32.o \
+-@@ -28,7 +28,7 @@ bindir = $(prefix)/bin
+- all: $(PROGS) $(SCRIPTS)
+- 
+- fio: $(OBJS)
+--	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(EXTLIBS) -lpthread -lm -ldl -laio -lrt
+-+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(filter %.o,$^) $(EXTLIBS) -lpthread -lm -ldl -laio -lrt
+- 
+- clean:
+- 	-rm -f *.o .depend cscope.out $(PROGS) engines/*.o core.* core

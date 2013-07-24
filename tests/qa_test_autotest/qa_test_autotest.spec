@@ -39,6 +39,7 @@ Source5:	qa_test_autotest-config
 Source6:	pre-kvm.sh
 Source7:	fio-2.0.3.tar.gz
 Patch0: 	fio.patch
+Patch1:		Makefile-patch.patch	
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -56,6 +57,7 @@ Authors:
 %setup -n autotest-autotest-2b0da9d
 
 %patch0 -p1
+%patch1 -p1
 %build
 
 %install
