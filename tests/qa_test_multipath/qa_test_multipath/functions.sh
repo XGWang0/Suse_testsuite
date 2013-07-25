@@ -116,6 +116,9 @@ fi
 }
 function iscsi_connect ()
 {
+        if [ ! -f /etc/iscsi/initiatorname.iscsi ];then
+		echo "InitiatorName=iqn.`date +%Y-%m`.de.suse.qam:`uname -n`" > /etc/iscsi/initiatorname.iscsi
+	fi
 	/etc/init.d/open-iscsi status
 	if [ $? -ne 0 ];then
 		/etc/init.d/open-iscsi start
