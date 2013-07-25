@@ -63,6 +63,7 @@ gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name .svn -exec rm -rf {} \;
+find $RPM_BUILD_ROOT/usr/share/qa/%name -name "libo*" ! -name "libo_conf" | xargs chmod +x
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -91,6 +91,9 @@ rm -rvf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_fetchmail.tcf
 %{qa_location}
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/bin/*.sh
+%attr(0755,root,root) /usr/share/qa/%name/*
+%attr(0644,root,root) /usr/share/qa/%name/COPYING
 
 %changelog
 * Wed Dec 30 2009 puzel@suse.cz

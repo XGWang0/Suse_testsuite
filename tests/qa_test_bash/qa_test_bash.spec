@@ -63,6 +63,7 @@ cp -rv %{name} $RPM_BUILD_ROOT/usr/share/qa/
 /usr/share/qa/%name
 /usr/share/qa/tcf
 /usr/share/qa/tools
+%attr(0755,root,root) /usr/share/qa/qa_test_bash/*.sh
 
 %changelog
 * Wed Aug 10 2011 - llipavsky@suse.cz

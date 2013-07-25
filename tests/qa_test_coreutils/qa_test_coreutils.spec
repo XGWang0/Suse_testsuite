@@ -88,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 #/usr/lib/ctcs2/tcf/qa_coreutils.tcf
 #%dir /usr/lib/ctcs2/tools
 #/usr/lib/ctcs2/tools/test_coreutils-run
+%attr(0755,root,root) /usr/share/qa/%name/*
+%attr(0644,root,root) /usr/share/qa/%name/orig_README
 
 %changelog
 * Wed Aug 17 2011 - llipavsky@suse.cz

@@ -84,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_cabextract.tcf
 /usr/share/qa/tools/test_cabextract-run
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
 
 %changelog -n qa_test_cabextract
 * Wed Aug 10 2011 - llipavsky@suse.cz

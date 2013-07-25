@@ -73,6 +73,7 @@ cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_HA_yast-cluster.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%name/tcf/qa_HA_yast-iplb.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%name/tcf/qa_HA_yast-drbd.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+find . -type f  -name "*.py" ! -name "*config.py" -o -name "*-run" -o -name "setup_config.py" | xargs chmod +x
 
 %clean
 rm -rf $RPM_BUILD_ROOT

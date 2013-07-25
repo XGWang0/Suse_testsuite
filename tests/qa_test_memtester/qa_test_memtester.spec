@@ -66,9 +66,11 @@ gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 cp -v memtester $RPM_BUILD_ROOT/usr/bin/
 ln -sf ../../../bin/memtester  $RPM_BUILD_ROOT/usr/share/qa/qa_test_memtester/memtester
 cp -v ctcstools/memtester.sh $RPM_BUILD_ROOT/usr/share/qa/qa_test_memtester/memtester.sh
+chmod +x $RPM_BUILD_ROOT/usr/share/qa/qa_test_memtester/memtester.sh
 ln -sf ../share/qa/qa_test_memtester/memtester.sh $RPM_BUILD_ROOT/usr/bin/memtester.sh
 cp -v ctcstools/memtester.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_memtester/tcf/
 cp -v ctcstools/test_memtester-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_memtester/tools/
+chmod +x  $RPM_BUILD_ROOT/usr/share/qa/qa_test_memtester/tools/test_memtester-run
 ln -s ../qa_test_memtester/tcf/memtester.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/memtester.tcf
 ln -s ../qa_test_memtester/tools/test_memtester-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_memtester-run
 

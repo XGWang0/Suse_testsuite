@@ -53,6 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)   
 /usr/share/qa
+%attr(0755,root,root) /usr/share/qa/%name/*.py
+%attr(0755,root,root) /usr/share/qa/%name/numbenchparser
 
 %changelog
 * Mon May 21 2012 - nobody@novell.com

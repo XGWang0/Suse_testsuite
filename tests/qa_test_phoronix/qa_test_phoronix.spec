@@ -109,6 +109,7 @@ ln -s ../%name/tcf/pts_iozone.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 #/usr/share/applications/phoronix-test-suite.desktop
 /usr/share/icons/phoronix-test-suite.png
 /usr/share/man/man1/phoronix-test-suite.1.gz
+%attr(0755,root,root) /usr/share/qa/tools/test_phoronix-run
 
 %clean
 rm -rf $RPM_BUILD_ROOT

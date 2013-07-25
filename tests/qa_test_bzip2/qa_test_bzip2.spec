@@ -83,6 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_bzip2.tcf
 /usr/share/qa/tools/test_bzip2-run
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/qa_test_bzip2/*.sh
 
 %changelog
 * Wed Aug 10 2011 - llipavsky@suse.cz

@@ -123,8 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa
 /usr/share/qa/%name
 /usr/share/qa/tcf/suse-cert.tcf
-/usr/share/qa/tools/test_suse-cert-run
-/usr/share/qa/qa_test_suse-cert/ftpload.sh
+%attr(0755,root,root) /usr/share/qa/tools/test_suse-cert-run
+%attr(0755,root,root) /usr/share/qa/qa_test_suse-cert/ftpload.sh
 
 %changelog
 * Tue Oct 25 2011 - cachen@suse.com

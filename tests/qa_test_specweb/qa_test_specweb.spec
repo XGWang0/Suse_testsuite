@@ -61,6 +61,7 @@ rm -rf test
 rm -f config* Makefile* tags
 mkdir $RPM_BUILD_ROOT/usr/share/qa/%name/specweb
 cp -a ctcstools/* $RPM_BUILD_ROOT/usr/share/qa/%name
+chmod +x $RPM_BUILD_ROOT/usr/share/qa/%name/do_specweb
 rm -fr ctcstools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name/specweb
 

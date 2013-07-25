@@ -40,6 +40,7 @@ Authors:
 pushd $RPM_BUILD_DIR/%{name}/lib
 cc harness.c -o harness
 cc not.c -o not
+chmod +x *
 ln -s not should  
 rm *.c
 popd
@@ -68,5 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/qa/tools/test_lvm2-run
 %dir %{_datadir}/qa/tcf
 %{_datadir}/qa/tcf/qa_lvm2.tcf
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
+
 
 %changelog

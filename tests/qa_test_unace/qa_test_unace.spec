@@ -79,6 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/tcf/qa_unace.tcf
 /usr/share/qa/tools/test_unace-run
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
 %doc COPYING
 
 %changelog -n qa_test_unace

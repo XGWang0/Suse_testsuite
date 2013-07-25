@@ -64,6 +64,10 @@ ln -s ../%{name}/tcf/qa_openssh.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 /usr/share/qa/%{name}/tcf/qa_openssh.tcf
 /usr/share/qa/tcf/qa_openssh.tcf
 /usr/share/qa/tools/test_openssh-run
+%attr(0755,root,root) /usr/share/qa/%name/prepare.sh
+%attr(0755,root,root) /usr/share/qa/%name/runtests.sh
+%attr(0755,root,root) /usr/share/qa/%name/scp-ssh-wrapper.sh
+%attr(0755,root,root) /usr/share/qa/%name/sshd-log-wrapper.sh
 
 %changelog
 * Wed Aug 17 2011 - llipavsky@suse.cz
