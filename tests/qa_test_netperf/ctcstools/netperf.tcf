@@ -1,7 +1,7 @@
 timer 3h
-fg 1 netperf-udp /usr/lib/netperf/bin/udp_stream_script  
+fg 1 netperf-udp /usr/lib/netperf/bin/udp_stream_script IP 
 wait
 
 timer 3h
-fg 1 netperf-tcp /usr/lib/netperf/bin/tcp_range_script  
+fg 1 netperf-tcp /usr/lib/netperf/bin/tcp_range_script IP
 wait

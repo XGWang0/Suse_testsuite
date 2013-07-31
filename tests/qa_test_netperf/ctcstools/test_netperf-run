@@ -54,7 +54,7 @@ if [ $? -gt 0  ];then
 	exit 1
 fi
 #modify the tcf file
-sed -i "/^fg.*$/s//&$ip/g" $basedir/netperf.tcf
+sed -i "s/IP/$ip/g" $basedir/netperf.tcf
 
 $ctcsdir/tools/run $basedir/netperf.tcf
 
