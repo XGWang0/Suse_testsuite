@@ -27,8 +27,13 @@ BuildRequires:  ctcs2
 License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple subversion tests for ctcs framework
-Requires:       subversion subversion-server ctcs2 grep apache2 vim-base
-Version:        0.1.0
+Requires:       subversion subversion-server ctcs2 grep apache2
+%if 0%{suse_version} >= 1100
+Requires:       vim-base
+%else
+Requires:       vim
+%endif
+Version:        0.1.1
 Release:        1
 Source0:        %name-%version.tar.bz2
 Source1:        qa_subversion.tcf
