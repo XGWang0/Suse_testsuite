@@ -131,6 +131,10 @@ svn_setup() {
 	auth_keys="command=\"svnserve -r ${SVN_HOME}/repos -t"
 	auth_keys="${auth_keys} --tunnel-user=$SVN_CLI_USR\" ${pubkey}"
 	echo "${auth_keys}" >> ${SVN_HOME}/.ssh/authorized_keys
+	# {{{ make sure it is owned by properly
+	# or get breakage when using umask 077
+	chown ${SVN_USR} ${SVN_HOME}/.ssh/authorized_keys
+	# }}}
 
 	# extended
 	# https://bugzilla.novell.com/tr_show_case.cgi?case_id=237918
