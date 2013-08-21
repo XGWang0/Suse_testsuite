@@ -33,7 +33,7 @@ Requires:       vim-base
 %else
 Requires:       vim
 %endif
-Version:        0.1.1
+Version:        0.1.2
 Release:        1
 Source0:        %name-%version.tar.bz2
 Source1:        qa_subversion.tcf
