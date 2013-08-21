@@ -168,6 +168,9 @@ svn_setup() {
 }
 
 _svn_version() {
+	# Note: this generates Broken Pipe error on subversion < 1.7, this
+	# is ok
+	# see http://unix.stackexchange.com/questions/60222/why-does-subversion-give-a-broken-pipe-error-when-piped-into-head
 	svn --version | head -n1 | sed 's/.* version \([^\s]\+\) .*/\1/'
 }
 
