@@ -24,7 +24,7 @@ License:        HP; Any Noncommercial; Any permissive
 Group:          System/Benchmark
 Summary:        network performance benchmark
 Url:            http://www.netperf.org/netperf/
-Version:        2.4.4
+Version:        2.6.0
 Release:        69
 Source0:        netperf-%{version}.tar.bz2
 Source1:        ctcstools-%version.tar.bz2
