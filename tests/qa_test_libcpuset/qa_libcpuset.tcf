@@ -22,5 +22,5 @@
 # ****************************************************************************
 
 timer 300
-fg 1 ssh /usr/share/qa/qa_test_libcpuset/dynamic_mountpoint.sh
+fg 1 dynamic_mountpoint /usr/share/qa/qa_test_libcpuset/test.sh
 wait

@@ -28,10 +28,10 @@ License:        SUSE Proprietary
 Group:          SuSE internal
 Summary:        Simple libcpuset tests for ctcs framework
 Requires:       libcpuset1 cpuset sed ctcs2 grep coreutils make
-                util-linux strace
+Requires:       util-linux strace
 BuildRequires:  gcc libcpuset-devel
 Version:        0.1.0
-Release:        1
+Release:        6
 Source0:        %name-%version.tar.bz2
 Source1:        qa_libcpuset.tcf
 Source2:        test_libcpuset-run
@@ -65,7 +65,7 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 ln -s ../%name/tcf/qa_libcpuset.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-chmod 755 $RPM_BUILD_ROOT/usr/share/qa/%name/svn.sh
+chmod 755 $RPM_BUILD_ROOT/usr/share/qa/%name/{test.sh,move_pid}
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d \( -name CVS -or\
  -name .svn \) -exec rm -rf {} \;
 
