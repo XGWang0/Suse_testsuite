@@ -29,8 +29,6 @@ Release:        69
 Source0:        netperf-%{version}.tar.bz2
 Source1:        ctcstools-%version.tar.bz2
 Source2:        qa_test_netperf.8
-Patch0:         cpu_setsize.patch
-Patch1:         shebang_arr_script.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	netperf netperf-ctcs2-glue
 Obsoletes:	netperf netperf-ctcs2-glue
@@ -63,8 +61,6 @@ Authors:
 
 %prep
 %setup -n netperf-%version -a1 
-%patch0
-%patch1 -p1
 
 %build
 ./configure --enable-burst
