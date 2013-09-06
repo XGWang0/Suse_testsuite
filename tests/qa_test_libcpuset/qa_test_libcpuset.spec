@@ -31,7 +31,7 @@ Requires:       libcpuset1 cpuset sed ctcs2 grep coreutils make
 Requires:       util-linux strace
 BuildRequires:  gcc libcpuset-devel
 Version:        0.1.0
-Release:        8
+Release:        9
 Source0:        %name-%version.tar.bz2
 Source1:        qa_libcpuset.tcf
 Source2:        test_libcpuset-run
