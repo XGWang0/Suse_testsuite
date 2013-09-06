@@ -6,8 +6,9 @@ CLEANUP=true
 LOGF=/dev/null
 # }}}
 
-RC_FAIL=11
-RC_FAIL_INT=22
+RC_FAIL=1
+RC_FAIL_INT=11
+RC_SKIP=22
 
 
 # {{{ terminators
