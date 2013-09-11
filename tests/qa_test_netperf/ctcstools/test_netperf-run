@@ -7,7 +7,24 @@ basedir="/usr/share/qa/tcf"
 # Source the variable settings
 source /usr/lib/ctcs2/config/netperf/qa_test_netperf-config
 
+choose_test_dev()
+{
+	for dev in `ls /sys/class/net/`
+	do
+        	default_dev=`ip route | grep default | awk '{print $5}'`
+        	if [ $dev == $default_dev -o $dev == lo ];then
+                	continue
+        	fi
+        	ethtool $dev | grep "Link detected: yes" >> /dev/null
+        	test_dev=$dev
+done
+
+}
+
+choose_test_dev
+
 ipinfo=`ifconfig |sed -n '/inet addr:/{s/ [BM].*//;s/.*://;p}'`
+
 
 if [ -z "$ipinfo" ];then
 	echo "Can't get ip address"
@@ -30,6 +47,9 @@ do
 		break
 	elif [ "$flag" == "$CN" ];then
 		ip=$CN_netperf_server
+		ip6=$CN_netperf_server_v6
+		ip address add 192.168.1.100/24 dev $test_dev
+		ip address add 2001::100/64 dev $test_dev
                 break
 	else
 		echo No server matched from $i
@@ -57,4 +77,9 @@ fi
 sed -i "s/IP/$ip/g" $basedir/netperf.tcf
 
 $ctcsdir/tools/run $basedir/netperf.tcf
+
+if [ $ip6 ];then
+	sed -i "s/IP/$ip6/g" $basedir/netperf6.tcf
+	$ctcsdir/tools/run $basedir/netperf6.tcf
+fi
 
