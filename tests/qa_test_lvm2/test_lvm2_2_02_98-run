@@ -1,0 +1,28 @@
+#!/bin/bash
+#sut_timeout 3600
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+path_dir=/usr/share/qa/qa_test_lvm2_2_02_98
+tcf_f=/usr/share/qa/tcf/qa_lvm2_2_02_98.tcf
+shell_p=/usr/share/qa/qa_test_lvm2_2_02_98/test/shell
+
+if [ ! -f $tcf_f ]; then
+        for file in `ls $shell_p | grep .sh`; do
+                if [ ! $file = lvconvert-mirror-basic.sh ];then
+                NAME=$(echo $file | cut -f 1 -d'.')
+                echo "fg 1 $NAME bash $shell_p/$file" >> $tcf_f
+                echo "wait" >> $tcf_f
+                echo -e "\n" >> $tcf_f
+		fi
+		
+		grep 'dirname $0' $shell_p/$file 1>/dev/null
+		if [ ! $? -eq 0 ]; then
+			sed -i '/. lib\/test/i\\ cd "`dirname $0`\/.."' $shell_p/$file
+			sed -i '/.\/shell/i\\ cd "`dirname $0`\/.."' $shell_p/$file
+		fi
+
+        done
+fi
+
+/usr/lib/ctcs2/tools/run $tcf_f

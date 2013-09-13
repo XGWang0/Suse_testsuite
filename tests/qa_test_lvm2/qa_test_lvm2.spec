@@ -24,6 +24,9 @@ Source0:        %{name}-%{version}.tar.bz2
 Source1:	qa_lvm2.tcf
 Source2:        test_lvm2-run
 Source3:	qa_test_lvm2.8
+Source4:	test_lvm2_2_02_98-run
+Source5:	test_lvm2_source-run
+Source6:	qa_test_lvm2-2_02_98.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -34,7 +37,8 @@ Authors:
     Dinar Valeev <dvaleev@novell.com>
 
 %prep
-%setup -q -n %{name}
+%define qa_location /usr/share/qa/%{name}
+%setup -n %{name} -a6
 
 %build
 pushd $RPM_BUILD_DIR/%{name}/lib
@@ -54,7 +58,12 @@ install -m 755 -d $RPM_BUILD_ROOT%{_docdir}/%{name}
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 ln -s ../%name/tcf/qa_lvm2.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -d $RPM_BUILD_ROOT/usr/share/qa/%name
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
+install -d $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2-2_02_98
+mv $RPM_BUILD_ROOT/usr/share/qa/%name/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,8 +73,11 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_lvm2.8.gz
 %dir %{_datadir}/qa
 %{_datadir}/qa/%name
+%{_datadir}/qa/qa_test_lvm2-2_02_98
 %dir %{_datadir}/qa/tools
 %{_datadir}/qa/tools/test_lvm2-run
+%{_datadir}/qa/tools/test_lvm2_2_02_98-run
+%{_datadir}/qa/tools/test_lvm2_source-run
 %dir %{_datadir}/qa/tcf
 %{_datadir}/qa/tcf/qa_lvm2.tcf
 

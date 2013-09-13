@@ -1,0 +1,55 @@
+#!/bin/bash
+#sut_timeout 3600
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+path_dir=/usr/share/qa/qa_test_lvm2
+log_dir=/var/log/qa/ctcs2
+
+# Backup the old tests
+if [ -d "$path_dir" ]; then
+	mv $path_dir $path_dir-old
+fi
+
+# Download LVM2 source and prepare test
+if [ ! -f "$path_dir/configure" ]; then
+	git clone git://git.fedorahosted.org/git/lvm2.git /usr/share/qa/qa_test_lvm2
+	cd $path_dir
+	./configure
+	make all
+fi
+
+# Create check_local script which will running "make check_local" test
+cat>$path_dir/check_local<<EOF
+#!/bin/bash
+if [ -d "$path_dir/test/results" ]; then
+	make -C /usr/share/qa/qa_test_lvm2/ -I test/ clean
+fi
+
+make -C /usr/share/qa/qa_test_lvm2 -I test/ check_local
+
+grep failed $path_dir/test/results/list
+if [ "\$?" -eq 0 ]; then
+	exit 1
+else
+	exit 0
+fi
+EOF
+chmod +x /usr/share/qa/qa_test_lvm2/check_local
+
+# Creat tcf with check_local test
+cat>/usr/share/qa/tcf/qa_lvm2_source.tcf<<EOF
+fg 1 check_local /usr/share/qa/qa_test_lvm2/check_local
+wait
+EOF
+
+# ctcs2 lauch LVM2 test with default harness
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_lvm2_source.tcf
+
+# Copy log to ctcs2 log directory
+log_p=`ls $log_dir |grep qa_lvm2_source- |tail -1`
+cp $path_dir/test/results/* $log_dir/$log_p/
+
+# revert the old tests
+mv -f $path_dir $path_dir-source
+mv -f $path_dir-old $path_dir
