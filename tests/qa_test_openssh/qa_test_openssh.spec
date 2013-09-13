@@ -1,7 +1,7 @@
 #
 # spec file for package qa_openssh (Version 0.1)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -64,6 +64,10 @@ ln -s ../%{name}/tcf/qa_openssh.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 /usr/share/qa/%{name}/tcf/qa_openssh.tcf
 /usr/share/qa/tcf/qa_openssh.tcf
 /usr/share/qa/tools/test_openssh-run
+%attr(0755,root,root) /usr/share/qa/%name/prepare.sh
+%attr(0755,root,root) /usr/share/qa/%name/runtests.sh
+%attr(0755,root,root) /usr/share/qa/%name/scp-ssh-wrapper.sh
+%attr(0755,root,root) /usr/share/qa/%name/sshd-log-wrapper.sh
 
 %changelog
 * Wed Aug 17 2011 - llipavsky@suse.cz

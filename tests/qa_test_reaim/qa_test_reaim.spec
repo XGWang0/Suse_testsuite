@@ -1,7 +1,7 @@
 #
 # spec file for package reaim (Version 7.0.1.13)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -109,8 +109,10 @@ cp -r data scripts $RPM_BUILD_ROOT/usr/lib/reaim
 cp src/reaim data/reaim.config $RPM_BUILD_ROOT/usr/lib/reaim
 cp data/workfile.alltests $RPM_BUILD_ROOT/usr/lib/reaim/workfile
 cp ctcstools/test_reaim-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
+chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_reaim-run
 cp ctcstools/reaim.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp ctcstools/prepare.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim
+chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/prepare.sh
 ln -s ../../../reaim/reaim.config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/reaim.config
 ln -s ../../../reaim/workfile $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/workfile
 ln -s ../../../reaim/reaim $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/reaim

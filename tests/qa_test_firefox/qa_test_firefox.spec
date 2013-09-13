@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -63,6 +63,7 @@ install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_firefox.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+find $RPM_BUILD_ROOT/usr/share/qa/%name -name "*.sh" -o -name "*.py" -a ! -name "firefox_config.py" | xargs chmod +x
 
 %clean
 rm -rf $RPM_BUILD_ROOT

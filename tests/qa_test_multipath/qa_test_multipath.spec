@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -67,7 +67,7 @@ Test cases for multipath software and hardware tests
 
 Authors:
 --------
-    Dinar Valeev <dvaleev@novell.com>
+    Dinar Valeev <dvaleev@suse.com>
 
 %prep
 %setup -q -n %{name}
@@ -79,6 +79,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:7} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/data
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT%{_docdir}/%{name}
@@ -91,7 +92,9 @@ ln -s ../%name/tcf/qa_hw_multipath.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 install -m 755 %{S:2} %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../tools/test_sw_multipath-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_multipath-run
-cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 755 *.sh $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 755 tcf/* $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 755 data/* $RPM_BUILD_ROOT/usr/share/qa/%name/data
 
 %clean
 rm -rf $RPM_BUILD_ROOT

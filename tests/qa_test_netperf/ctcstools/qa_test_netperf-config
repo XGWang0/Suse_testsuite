@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -29,7 +29,8 @@
 DE_netperf_server_1=10.122.0.9
 DE_netperf_server_2=10.122.0.9
 CZ_netperf_server=
-CN_netperf_server=10.122.0.9
+CN_netperf_server=192.168.1.1
+CN_netperf_server_v6=2001::1
 
 DE_1='10.121'
 DE_2='10.122'

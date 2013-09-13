@@ -1,7 +1,7 @@
 #
 # spec file for package qa_test_yast2 (Version 0.1)
 #
-# Copyright (c) 2007 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -62,6 +62,7 @@ ln -s ../%name/tcf/qa_yast2.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cd $RPM_BUILD_DIR
 cp -rv %{name} $RPM_BUILD_ROOT/usr/share/qa/
+chmod +x $RPM_BUILD_ROOT/usr/share/qa/%{name}/online-update_default.sh
 
 %clean
 %{__rm} -rvf $RPM_BUILD_ROOT

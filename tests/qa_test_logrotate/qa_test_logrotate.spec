@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -71,6 +71,7 @@ gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_logrotate_test.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
+find $RPM_BUILD_ROOT/usr/share/qa/%name -name "*.py" ! -name "logrotate.py" | xargs chmod +x
 
 %clean
 rm -rf $RPM_BUILD_ROOT

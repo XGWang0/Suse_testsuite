@@ -1,7 +1,7 @@
 #
 # spec file for package autotest (Version 0.12.0)
 #
-# Copyright (c) 2009 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -39,6 +39,7 @@ Source5:	qa_test_autotest-config
 Source6:	pre-kvm.sh
 Source7:	fio-2.0.3.tar.gz
 Patch0: 	fio.patch
+Patch1:		Makefile-patch.patch	
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -56,6 +57,7 @@ Authors:
 %setup -n autotest-autotest-2b0da9d
 
 %patch0 -p1
+%patch1 -p1
 %build
 
 %install

@@ -1,7 +1,7 @@
 #
 # spec file for package libmicro (Version 0.4.0)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -104,6 +104,8 @@ ln -s ../%{name}/tcf/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicr
 #%files ctcs2-glue
 #%defattr(-,root,root)
 /usr/share/qa
+%attr(0755,root,root) /usr/share/qa/tools/test_libmicro-run
+%attr(0755,root,root) /usr/share/qa/tools/test_libmicro-bench-run
 
 %clean
 rm -rf $RPM_BUILD_ROOT

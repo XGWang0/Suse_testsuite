@@ -91,6 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/tcf
 /usr/share/qa/tools
+%attr(0755,root,root) /usr/share/qa/%name/do_kernbench
 
 %changelog
 * Wed Aug 13 2008 - vpelcak@suse.cz

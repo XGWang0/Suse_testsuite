@@ -83,6 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/tcf
 /usr/share/qa/tools
+%attr(0755,root,root) /usr/share/qa/%name/do_interbench
 
 %changelog
 * Mon Aug 15 2011 - llipavsky@suse.cz

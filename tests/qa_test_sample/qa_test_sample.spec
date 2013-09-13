@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -71,6 +71,7 @@ gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_sample.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
+find  $RPM_BUILD_ROOT/usr/share/qa/%name -type f ! -name "COPYING" | xargs chmod +x
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -1,7 +1,7 @@
 #
 # spec file for package qa_lvm (Version 0.1)
 #
-# Copyright (c) 2007 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -44,6 +44,7 @@ Authors:
 pushd $RPM_BUILD_DIR/%{name}/lib
 cc harness.c -o harness
 cc not.c -o not
+chmod +x *
 ln -s not should  
 rm *.c
 popd
@@ -80,5 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/qa/tools/test_lvm2_source-run
 %dir %{_datadir}/qa/tcf
 %{_datadir}/qa/tcf/qa_lvm2.tcf
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
+
 
 %changelog

@@ -10,12 +10,3 @@
          tarball = utils.unmap_url(self.bindir, tarball, self.tmpdir)
          utils.extract_tarball_to_dir(tarball, self.srcdir)
  
-@@ -21,7 +20,7 @@
-         var_cflags  = 'CFLAGS="' + cflags + '"'
- 
-         os.chdir(self.srcdir)
--        utils.system('patch -p1 < ../Makefile.patch')
-+        #utils.system('patch -p1 < ../Makefile.patch')
-         utils.system('%s %s make' % (var_ldflags, var_cflags))
- 
- 

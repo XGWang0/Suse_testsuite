@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/tcf/
 /usr/share/qa/tools
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
+%attr(0755,root,root) /usr/share/qa/%name/regression/TEST
+%attr(0755,root,root) /usr/share/qa/%name/regression/TIME
 
 %changelog -n qa_test_indent
 * Tue Jul 25 2006 - mmrazik@suse.cz

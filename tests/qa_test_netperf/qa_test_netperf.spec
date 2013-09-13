@@ -2,7 +2,7 @@
 #
 # spec file for package netperf (Version 2.4.4)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -24,13 +24,11 @@ License:        HP; Any Noncommercial; Any permissive
 Group:          System/Benchmark
 Summary:        network performance benchmark
 Url:            http://www.netperf.org/netperf/
-Version:        2.4.4
+Version:        2.6.0
 Release:        69
 Source0:        netperf-%{version}.tar.bz2
 Source1:        ctcstools-%version.tar.bz2
 Source2:        qa_test_netperf.8
-Patch0:         cpu_setsize.patch
-Patch1:         shebang_arr_script.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	netperf netperf-ctcs2-glue
 Obsoletes:	netperf netperf-ctcs2-glue
@@ -63,8 +61,6 @@ Authors:
 
 %prep
 %setup -n netperf-%version -a1 
-%patch0
-%patch1 -p1
 
 %build
 ./configure --enable-burst
@@ -92,6 +88,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf
 install -D -m 755 ctcstools/test_netperf-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_netperf-run
 install -D -m 755 ctcstools/netperf.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf.tcf
+install -D -m 755 ctcstools/netperf6.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf6.tcf
 install -D -m 644 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/qa_test_netperf-config
 
 %files

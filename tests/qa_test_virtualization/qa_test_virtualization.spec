@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -70,6 +70,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 -d $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}
 
+chmod +x generate/*.sh
 # 1. generate testcases
 generate/_generate_install.sh -d /usr/share/qa/virtautolib/data/autoinstallation
 #./_generate_install.sh -d /usr/share/qa/virtautolib/data/autoinstallation -t "tap:aio"
@@ -87,6 +88,7 @@ generate/_generate_sles11sp1supported_tcf.sh network > $RPM_BUILD_ROOT/usr/share
 
 cp tools/* $RPM_BUILD_ROOT/usr/share/qa/tools
 rm -fr tools generate _install.template
+chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/test_virtualization*-run
 
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 
@@ -102,6 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_virtualization.8.gz
 /usr/share/qa
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/netinfo/*
+%attr(0755,root,root) /usr/share/qa/%name/loc/cleanup.*
+%attr(0755,root,root) /usr/share/qa/%name/loc/prepare.*
 
 %changelog
 

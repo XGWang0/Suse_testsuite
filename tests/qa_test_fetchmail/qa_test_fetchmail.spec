@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -24,7 +24,7 @@
 #
 # spec file for package qa_fetchmail (Version 0.2.1)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
@@ -91,6 +91,9 @@ rm -rvf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_fetchmail.tcf
 %{qa_location}
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/bin/*.sh
+%attr(0755,root,root) /usr/share/qa/%name/*
+%attr(0644,root,root) /usr/share/qa/%name/COPYING
 
 %changelog
 * Wed Dec 30 2009 puzel@suse.cz

@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -82,6 +82,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools/test_gzip-run
 /usr/share/man/man8/qa_test_gzip.8.gz
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
 
 %changelog -n qa_test_gzip
 * Tue Aug  9 2011 - llipavsky@suse.cz

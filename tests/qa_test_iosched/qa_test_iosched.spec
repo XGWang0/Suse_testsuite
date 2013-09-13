@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -74,7 +74,7 @@ cp -v qa_iosched_test.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf/
 ln -sf ../%{name}/tcf/qa_iosched_test.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iosched_test.tcf
 ln -sf ../../../share/qa/%{name}/tcf/qa_iosched_test.tcf  $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/qa_iosched_test.tcf
 cp -v %{S:2} $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/
-ln -sf $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_iosched-run /usr/share/qa/tools/test_iosched-run
+ln -sf /usr/lib/ctcs2/tools/test_iosched-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_iosched-run
 
 %clean
 rm -rvf $RPM_BUILD_ROOT
@@ -88,6 +88,8 @@ rm -rvf $RPM_BUILD_ROOT
 /usr/share/qa/qa_test_iosched
 /usr/share/qa/tcf/qa_iosched_test.tcf
 %doc COPYING
+%attr(0755,root,root) /usr/share/qa/%{name}/*.sh
+
 
 %changelog -n qa_test_iosched
 * Wed Feb 15 2006 - fseidel@suse.de
