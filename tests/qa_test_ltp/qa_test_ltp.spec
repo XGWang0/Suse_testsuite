@@ -42,19 +42,19 @@ BuildRequires: libattr-devel
 Url:            http://ltp.sf.net
 License:        GPL v2 or later
 Group:          System/Benchmark
-Provides:       runalltests.sh diskio.sh networktests.sh 
+Provides:       runalltests.sh diskio.sh networktests.sh
 Provides:	ltp ltp-ctcs2-glue
 Obsoletes:	ltp ltp-ctcs2-glue
 Requires:       bash
 Requires:       perl
-Requires:      	qa_lib_ctcs2 
+Requires:	qa_lib_ctcs2
 Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20130503
+Version:        20130904
 Release:        1
-Source:         ltp-full-%{version}.bz2
+Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:	qa_test_ltp.8
@@ -71,14 +71,12 @@ Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 #Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0001-openposix-Fix-generate-makefiles-and-speculative-tes.patch
-Patch701:	0001-openposix-.-sigaddset-1-3-Fix-uninitialized-variable.patch
-Patch702:	0001-openposix-.-sigaction-18-19-28-Regenerate.patch
-Patch703:	0001-openposix-generate-makefiles.sh-Fix-buildonly-tests.patch
+Patch700:	0001-runtest-mm-Fix-ksn-ksm-typo.patch
+Patch701:	0001-syscalls-syslog-Fix-daemon-restart-on-SUSE.patch
 # Patches 8xx CTCS2 related changes
-# Patches 9xx LTP runtest control file modifications 
+# Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
-Patch901:       enables_lvm_part_xfs.patch  
+Patch901:       enables_lvm_part_xfs.patch
 Patch903:       aiodio-runtest-modification-ctcs2.diff
 Patch904:	disable_aio_system_crushers.patch
 #Patch1001:      bnc458987_utimensat_tests.sh.diff
@@ -118,10 +116,8 @@ Authors:
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
 %patch701 -p1
-%patch702 -p1
-%patch703 -p1
 # Patches 8xx CTCS2 related changes
-# Patches 9xx LTP runtest control file modifications 
+# Patches 9xx LTP runtest control file modifications
 %patch900 -p1
 %patch901 -p0
 %patch903 -p1
@@ -137,6 +133,12 @@ find testcases | gzip --fast > TC_INDEX.gz
 
 make all %{?jobs:-j%jobs}
 make -C testcases/open_posix_testsuite all
+
+# Fix DEVICE and DEVICE_FS_TYPE
+for i in runtest/*; do
+	sed -i 's/DEVICE/${DEVICE}/' "$i";
+	sed -i 's/DEVICE_FS_TYPE/${DEVICE_FS_TYPE}/' "$i";
+done
 
 %install
 
@@ -207,6 +209,11 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Sep  9 2013 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20130904
+
+  Fixed bug #729880
+
 * Mon Jun  3 2013 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20130503
 
@@ -231,12 +238,12 @@ rm -rf $RPM_BUILD_ROOT
    condition)
 
 * Wed Apr 24 2013 Cyril Hrubis chrubis@suse.cz
-  
+
   Backport patch for proc01 for false possitive on
   xen proc files.
 
 * Wed Apr 17 2013 Cyril Hrubis chrubis@suse.cz
-  
+
   Backport several patches and fix openposix wrapper.
 
   * Remove lio_listio_11-1 as the test was wrong
@@ -250,7 +257,7 @@ rm -rf $RPM_BUILD_ROOT
     to the openposix interpretation.
 
 * Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
-  
+
   Silenced process_stress output (bug #810495).
 
   Turned off debug for FSX tests
@@ -275,7 +282,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Mar  4 2013 Cyril Hrubis chrubis@suse.cz
   Backported fixes for:
 
-  getrusage04 
+  getrusage04
   pthread_cond_timedwait/{2-2,2-3}
   readlink04
 
@@ -291,7 +298,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Jun 06 2012 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20120401
 
-* Fri Feb 02 2012 Cyril Hrubis chrubis@suse.cz
+* Thu Feb 02 2012 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20120104
 
 * Mon Aug 22 2011 - llipavsky@suse.cz
