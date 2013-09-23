@@ -1,7 +1,7 @@
 #
 # spec file for package qa_siege (Version 2.64)
 #
-# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -12,23 +12,20 @@
 
 
 Name:           qa_test_siege
-#BuildRequires:  ctcs2
 License:        GPL v2 or later
 Group:          System/Benchmark
 AutoReqProv:    on
-Version:        2.67
+Version:        3.0.4
 Release:        172
 Summary:        Apache testing tool
 Url:            http://www.joedog.org/index/siege-home
-Source0:         siege-%{version}.tar.bz2
+Source0:        siege-%{version}.tar.gz
 Source1:	ctcstools.tar.bz2
 Source2:	qa_test_siege.8
 Source3:	test_siege-run
 Patch0:         url-patch.dif
 Patch2:         config-patch.dif
 Patch3:         strncat-patch.dif
-#Patch4:	spinner-patch.dif
-#Patch4:         threads-locks-patch.dif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	qa_siege
 Obsoletes:	qa_siege
@@ -37,7 +34,7 @@ Provides:       qa-siege
 Obsoletes:      qa-siege
 #BuildArchitectures: noarch
 #ExclusiveArch: %ix86
-BuildRequires:	openssl-devel
+#BuildRequires:	openssl-devel
 
 %description
 This is a apache testing and benchmarking tool
@@ -50,7 +47,7 @@ This is a apache testing and benchmarking tool
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
-#%patch4 -p1
+
 %{?suse_update_config:%{suse_update_config -f}}
 
 %build
@@ -105,10 +102,10 @@ rm -fr $RPM_BUILD_ROOT
 %attr(0400,root,root) /etc/apache2/ssl.key/qa.key
 %attr(0400,root,root) /etc/apache2/ssl.crt/qa.crt
 /etc/apache2/vhosts.d/00_localhost_ssl.conf
-%dir /etc/apache2/ssl.crt
-%dir /etc/apache2/ssl.key
-%dir /etc/apache2/vhosts.d
-%dir /etc/apache2
+#%dir /etc/apache2/ssl.crt
+#%dir /etc/apache2/ssl.key
+#%dir /etc/apache2/vhosts.d
+#%dir /etc/apache2
 /usr/share/man/man8/qa_test_siege.8.gz
 
 %changelog
