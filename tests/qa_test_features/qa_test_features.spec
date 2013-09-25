@@ -42,6 +42,7 @@ Source0:        %name-%version.tar.bz2
 Source1:        features-sle12.tcf
 Source2:        test_features-run
 Source3:        qa_test_features.8
+Source4:        COPYING
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -66,11 +67,10 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-ln -s ../%name/tcf/qa_features-sle12.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
-find  $RPM_BUILD_ROOT/usr/share/qa/%name -type f ! -name "COPYING" | xargs chmod +x
+ln -s ../%name/tcf/features-sle12.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,9 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)   
 /usr/share/qa
 /usr/share/qa/%name
-/usr/share/qa/tcf/qa_features-sle12.tcf
+/usr/share/qa/tcf/features-sle12.tcf
 /usr/share/qa/tools/test_features-run
 /usr/share/man/man8/*
-%doc COPYING
+%doc /usr/share/qa/%name/COPYING
 
 %changelog
