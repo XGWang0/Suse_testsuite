@@ -1,0 +1,37 @@
+diff --git a/tiobench.pl b/tiobench.pl
+index 48176c3..36c0b4a 100755
+--- a/tiobench.pl
++++ b/tiobench.pl
+@@ -26,6 +26,7 @@ sub usage {
+             "[--dir TestDir]+\n\t",
+             "[--block BlkSizeInBytes]+\n\t",
+             "[--random NumberRandOpsPerThread]+\n\t",
++            "[--sync] (directly write to disk)\n\t",
+             "[--threads NumberOfThreads]+\n\n",
+    "+ means you can specify this option multiple times to cover multiple\n",
+    "cases, for instance: $0 --block 4096 --block 8192 will first run\n",
+@@ -66,7 +67,7 @@ my $rwrite_mbytes; my $rwrite_time; my $rwrite_utime; my $rwrite_stime;
+ my $read_mbytes;   my $read_time;   my $read_utime;   my $read_stime;
+ my $rread_mbytes;  my $rread_time;  my $rread_utime;  my $rread_stime;
+ my $num_runs;      my $run_number;  my $help;         my $nofrag;
+-my $identifier;
++my $identifier;    my $sync;
+ 
+ # option parsing
+ GetOptions("dir=s@",\@dirs,
+@@ -77,6 +78,7 @@ GetOptions("dir=s@",\@dirs,
+            "numruns=i",\$num_runs,
+            "help",\$help,
+            "nofrag",\$nofrag,
++           "sync",\$sync,
+            "threads=i@",\@threads);
+ 
+ &usage if $help || $Getopt::Long::error;
+@@ -139,6 +141,7 @@ foreach $dir (@dirs) {
+             my $run_string = "$tiotest -t $thread -f $thread_size ".
+                              "-r $thread_rand -b $block -d $dir -T";
+             $run_string .= " -W" if $nofrag;
++            $run_string .= " -S" if $sync;
+             foreach $run_number (1..$num_runs) {
+                my $prompt="Run #$run_number: $run_string";
+                print STDERR $prompt;
