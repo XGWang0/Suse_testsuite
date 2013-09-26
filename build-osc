@@ -1,21 +1,20 @@
 #!/bin/bash
 
+# env $BUILDARGS can be used to provide additional atguments to osc build
+# example BUILDARGS="--clean"
+
 this="`which "$0"`"
 cd "`dirname "$this"`"
 source shared.sh
 
 assert_command osc
 
-[ $# -lt 1 ] && echo "Usage: $0 <package> [target]" && exit
+[ $# -ne 1 ] && echo "Usage: $0 <package>" && exit
 [ ! -d "$1" ] && echo "Error: $1 is not a directory." && exit 1
 
 package="`basename "$1"`"
-
-if [[ -n $2 ]]; then
-	release_target="$2"
-else
-	release_target="SUSE_SLE-11-SP1_GA"
-fi
+[ -z "$REPOSITORY" ] && REPOSITORY="SUSE_SLE-11-SP2_GA"
+[ -z "$ARCH" ] && ARCH=`arch`
 
 # initialize dir as BS package (but keep current BS metadata)
 dir=`mktemp -d`
@@ -41,13 +40,20 @@ $iosc help repairwc > /dev/null 2>&1 &&  $iosc repairwc .
 echo
 echo '+-- RUNNING BUILD ----------------------------------------------------------------'
 echo
-echo "cmd: $iosc build --no-verify $release_target --root /var/tmp/build-$release_target"
-echo
-$iosc build --no-verify $release_target --root /var/tmp/build-$release_target
+$iosc build $BUILDARGS -k "$DESTDIR" --no-verify $REPOSITORY $ARCH
 res=$?
 echo
 echo '+-- BUILD FINISHED ---------------------------------------------------------------'
 echo
 rm -fr "$dir"
+
+# create directory structure
+cd "$DESTDIR"
+for p in *.rpm ; do
+	[ "$p" == '*.rpm' ] && continue
+	arch="`echo $p | sed 's/^.*\.\([^\.]\+\)\.rpm/\1/'`"
+	mkdir -p $arch
+	mv $p $arch
+done
 
 exit $res
