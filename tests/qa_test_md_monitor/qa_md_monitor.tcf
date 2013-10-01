@@ -1,6 +1,6 @@
 # ****************************************************************************
 # Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
-# 
+#
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
@@ -11,7 +11,7 @@
 # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
 # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
 # LIABILITY.
-# 
+#
 # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
 # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
@@ -61,7 +61,7 @@ timer 300
 fg 1 qa_md_monitor_test10 /usr/share/qa/qa_test_md_monitor/monitor_testcase_10.sh
 wait
 
-timer 300
+timer 600
 fg 1 qa_md_monitor_test11 /usr/share/qa/qa_test_md_monitor/monitor_testcase_11.sh
 wait
 
@@ -73,6 +73,14 @@ timer 300
 fg 1 qa_md_monitor_test13 /usr/share/qa/qa_test_md_monitor/monitor_testcase_13.sh
 wait
 
+timer 300
+fg 1 qa_md_monitor_test14 /usr/share/qa/qa_test_md_monitor/monitor_testcase_14.sh
+wait
+
 #timer 300
-#fg 1 qa_md_monitor_test14 /usr/share/qa/qa_test_md_monitor/monitor_testcase_11.sh
+#fg 1 qa_md_monitor_test15 /usr/share/qa/qa_test_md_monitor/monitor_testcase_15.sh
+#wait
+#
+#timer 300
+#fg 1 qa_md_monitor_test16 /usr/share/qa/qa_test_md_monitor/monitor_testcase_16.sh
 #wait

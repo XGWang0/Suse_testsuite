@@ -1,6 +1,6 @@
 # ****************************************************************************
 # Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
-# 
+#
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
@@ -11,7 +11,7 @@
 # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
 # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
 # LIABILITY.
-# 
+#
 # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
 # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
@@ -46,7 +46,7 @@ ExclusiveArch:	s390x
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	qa_md_monitor
 Obsoletes:	qa_md_monitor
-Requires:       ctcs2, s390tools, mdadm >= 4.27, bash
+Requires:       ctcs2, s390-tools, mdadm >= 3.2.2-0.46, bash
 
 %description
 This is an integration bit for md_monitor test suite.
@@ -77,7 +77,7 @@ find  $RPM_BUILD_ROOT/usr/share/qa/%name -type f ! -name "COPYING" | xargs chmod
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)   
+%defattr(-,root,root)
 /usr/share/qa
 /usr/share/qa/%name
 /usr/share/qa/tcf/qa_md_monitor.tcf
