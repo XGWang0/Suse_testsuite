@@ -22,6 +22,7 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+LANG=en_US.UTF-8
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
