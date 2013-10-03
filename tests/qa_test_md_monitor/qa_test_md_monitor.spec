@@ -46,7 +46,7 @@ ExclusiveArch:	s390x
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	qa_md_monitor
 Obsoletes:	qa_md_monitor
-Requires:       ctcs2, s390-tools, mdadm >= 3.2.2-0.46, bash
+Requires:       ctcs2, s390-tools, mdadm >= 3.2.2-0.39, bash
 
 %description
 This is an integration bit for md_monitor test suite.
