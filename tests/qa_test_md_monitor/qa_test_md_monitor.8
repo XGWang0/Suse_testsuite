@@ -1,0 +1,45 @@
+." Manpage for qa_test_md_monitor.
+." Contact Libor Pechacek <lpechacek@suse.cz> to correct errors or typos.
+.TH man 8 "25 Sep 2013" "1.0" "qa_test_md_monitor man page"
+.SH NAME
+qa_test_md_monitor
+.SH SYNOPSIS
+Set of scripts to test md_monitor on System z
+.br
+/usr/share/qa/qa_test_md_monitor/test_md_monitor-run
+.SH TYPE
+Functionality test.
+.SH DESCRIPTION
+This test set is used to verify md_monitor functionality in maintenance
+updates.  The tests are intended to be run solely on s390 with a custom storage
+subsystem configuration.
+.br
+monitor_testcase_*.sh scripts are writen in Bash.
+.SH README
+None.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+The test scripts simulate various storage system failures and verify md_monitor
+is able to reconstruct MD storage array.
+.SH COMMON PROBLEMS
+The scripts can render the underlying storage almost unusable.
+.SH WARNINGS
+The scripts require special hardware configuration.  This is only on LINUX021
+and LINUX026 as of today.  Also as the tests fiddle with the hardware settings
+a lot, system can be rendered unusable and expert knowledge may be needed to
+restore the host.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Public.
+.SH LICENSE
+GPLv2+
+.SH UPSTREAM
+https://github.com/hreinecke/md_monitor
+.SH AUTHOR
+Hannes Reinecke <hare@suse.de>
+.SH MAINTAINER
+Hannes Reinecke <hare@suse.de>
