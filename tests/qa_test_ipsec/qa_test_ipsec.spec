@@ -55,8 +55,11 @@ Requires:       ctcs2
 BuildRequires:  ctcs2
 
 %description
-    Author : lzheng
-test package
+strongSwan is an OpenSource IPsec implementation for the Linux operating system.
+
+Authors:
+--------
+	Andreas Steffen
 
 %prep
 %setup -q -n %{name}
