@@ -45,7 +45,7 @@ AutoReqProv:    on
 Version:        0.1
 Release:        1
 Summary:        qa_test_ipsec
-Url:            http://www.novell.com/
+Url:            http://www.strongswan.org/
 Source0:        %name-%version.tar.bz2
 Source1:        %name.tcf
 Source2:        test_ipsec-run
@@ -70,11 +70,13 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/doc/%name
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
+cp COPYING $RPM_BUILD_ROOT/usr/share/doc/%name
 ln -s ../%name/tcf/%name.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
 
