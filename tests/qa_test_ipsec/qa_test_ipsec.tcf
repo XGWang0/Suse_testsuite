@@ -1,0 +1,16 @@
+timer 300
+fg 1 1_stop-testing.sh /usr/share/qa/qa_test_ipsec/stop-testing.sh
+wait
+
+timer 300
+fg 1 2_start-testing.sh /usr/share/qa/qa_test_ipsec/start-testing.sh
+wait
+
+timer 300
+fg 1 3_do-tests.sh /usr/share/qa/qa_test_ipsec/do-tests.sh
+wait
+
+timer 300
+fg 1 4_make-testing.sh /usr/share/qa/qa_test_ipsec/make-testing.sh
+wait
+
