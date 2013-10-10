@@ -1,7 +1,8 @@
+#!/bin/bash 
 # ****************************************************************************
-# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
-# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
 # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
@@ -20,19 +21,6 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
+#sut_timeout 600
 
-#
-# This file contains default configuration for qa_test_netperf test
-#
-
-# Variables for netperf test
-DE_netperf_server_1=10.122.0.9
-DE_netperf_server_2=10.122.0.9
-CZ_netperf_server=
-CN_netperf_server=192.168.1.1
-CN_netperf_server_v6=2001::1
-
-DE_1='10.121'
-DE_2='10.122'
-CZ='10.20'
-CN='147.2'
+/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_libcpuset.tcf

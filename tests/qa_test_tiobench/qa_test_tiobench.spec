@@ -25,6 +25,8 @@ Source2:	qa_test_tiobench.8
 Patch1:         XEN-dom0-problem.patch
 Patch2:         invalid_results_format.patch
 Patch3:		eatmem.patch
+# bnc#835355 tiobench compiling conflict on aligned_alloc
+Patch4:     tiobench-remove-conflict-on-aligned_alloc.patch
 Provides:	tiobench tiobench-ctcs2-glue
 Obsoletes:	tiobench tiobench-ctcs2-glue
 Requires:	ctcs2
@@ -55,6 +57,7 @@ threads support library).
 %patch1 -p0
 %patch2 -p2
 %patch3
+%patch4 -p1
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS -DLARGEFILES" 

@@ -1,6 +1,2 @@
 #!/bin/bash
-
-CTCS2_DIR=/usr/lib/ctcs2
-TCF_DIR=/usr/lib/ctcs2/tcf/
-
-$CTCS2_DIR/tools/run $TCF_DIR/autotest_quick.tcf
+/usr/share/hamsta/testscript/autotest aio_dio_bugs aiostress bash_shared_mapping bonnie cyclictest dbench dbt2 disktest fio interbench iozone isic kernbench kernelbuild libhugetlbfs linus_stress lmbench pi_tests pktgen rmaptest scrashme signaltest sleeptest sparse spew stress tbench tiobench tsc unixbench xmtest sysbench barriertest btreplay dacapo cpu_hotplug

@@ -131,6 +131,10 @@ svn_setup() {
 	auth_keys="command=\"svnserve -r ${SVN_HOME}/repos -t"
 	auth_keys="${auth_keys} --tunnel-user=$SVN_CLI_USR\" ${pubkey}"
 	echo "${auth_keys}" >> ${SVN_HOME}/.ssh/authorized_keys
+	# {{{ make sure it is owned by properly
+	# or get breakage when using umask 077
+	chown ${SVN_USR} ${SVN_HOME}/.ssh/authorized_keys
+	# }}}
 
 	# extended
 	# https://bugzilla.novell.com/tr_show_case.cgi?case_id=237918
@@ -168,6 +172,9 @@ svn_setup() {
 }
 
 _svn_version() {
+	# Note: this generates Broken Pipe error on subversion < 1.7, this
+	# is ok
+	# see http://unix.stackexchange.com/questions/60222/why-does-subversion-give-a-broken-pipe-error-when-piped-into-head
 	svn --version | head -n1 | sed 's/.* version \([^\s]\+\) .*/\1/'
 }
 

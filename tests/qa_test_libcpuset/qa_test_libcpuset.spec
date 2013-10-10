@@ -22,28 +22,24 @@
 # ****************************************************************************
 # norootforbuild
 
-Name:           qa_test_subversion
+Name:           qa_test_libcpuset
 BuildRequires:  ctcs2
 License:        SUSE Proprietary
 Group:          SuSE internal
-Summary:        Simple subversion tests for ctcs framework
-Requires:       subversion subversion-server ctcs2 grep apache2
-%if 0%{suse_version} >= 1100
-Requires:       vim-base
-%else
-Requires:       vim
-%endif
-Version:        0.1.2
-Release:        1
+Summary:        Simple libcpuset tests for ctcs framework
+Requires:       libcpuset1 cpuset sed ctcs2 grep coreutils make
+Requires:       util-linux strace
+BuildRequires:  gcc libcpuset-devel
+Version:        0.1.0
+Release:        10
 Source0:        %name-%version.tar.bz2
-Source1:        qa_subversion.tcf
-Source2:        test_subversion-run
-Source3:        qa_test_subversion.8
+Source1:        qa_libcpuset.tcf
+Source2:        test_libcpuset-run
+Source3:        qa_test_libcpuset.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArchitectures: noarch
 
 %description
-Test cases for subversion
+Test cases for libcpuset
 
 
 Authors:
@@ -54,6 +50,7 @@ Authors:
 %setup -q -n %{name}
 
 %build
+make
 
 %install
 # TODO: make this work from the makefile
@@ -64,10 +61,10 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-ln -s ../%name/tcf/qa_subversion.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../%name/tcf/qa_libcpuset.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-chmod 755 $RPM_BUILD_ROOT/usr/share/qa/%name/svn.sh
+chmod 755 $RPM_BUILD_ROOT/usr/share/qa/%name/{test.sh,move_pid}
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d \( -name CVS -or\
  -name .svn \) -exec rm -rf {} \;
 
@@ -79,10 +76,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /usr/share/qa
 /usr/share/qa/%name
 %dir /usr/share/qa/tools
-/usr/share/qa/tools/test_subversion-run
+/usr/share/qa/tools/test_libcpuset-run
 %dir /usr/share/qa/tcf
-/usr/share/qa/tcf/qa_subversion.tcf
-/usr/share/man/man8/qa_test_subversion.8.gz
+/usr/share/qa/tcf/qa_libcpuset.tcf
+/usr/share/man/man8/qa_test_libcpuset.8.gz
 %doc LICENSE
 
 %changelog

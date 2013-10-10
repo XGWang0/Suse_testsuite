@@ -8,6 +8,21 @@ export LTPROOT="/opt/ltp/";
 export TMPDIR="/tmp"
 
 #
+# Look if test needs a device
+#
+if echo "$@" | grep -q '${DEVICE}'; then
+
+	echo "INFO: Preparing test device"
+
+	DEVICE_FILE=${TMPDIR}/ltp_test_$$.img
+	export DEVICE_FS_TYPE=ext3
+
+	dd if=/dev/zero of="${DEVICE_FILE}" bs=1kB count=20480
+	export DEVICE=$(losetup -f)
+	losetup "${DEVICE}" "${DEVICE_FILE}"
+fi
+
+#
 # The testcases bin directory must be in PATH so that
 # testcases could executed binaries from there
 #
@@ -25,11 +40,20 @@ export PATH="${PATH}:${LTPROOT}/testcases/bin/"
 eval "$@"
 rc=$?
 
+#
+# Device cleanup
+#
+if [ -n "${DEVICE_FILE}" ]; then
+	echo "INFO: Removing device ${DEVICE}"
+	losetup -d "${DEVICE}"
+	rm -f "${DEVICE_FILE}"
+fi
+
 if [ $rc -eq 0 ]; then
 	echo "INFO: Test PASSED"
 	exit 0
 fi
-  
+
 if [ "$(( $rc & 1 ))" -eq 1 ]; then
 	echo "INFO: Test FAILED"
 	exit 1

@@ -1,0 +1,6 @@
+timer 1h
+fg 1 netperf6_tcp /usr/bin/netperf -t TCP_STREAM -H IP
+wait
+
+timer 1h
+fg 1 netperf6_udp /usr/bin/netperf -t UDP_STREAM -H IP

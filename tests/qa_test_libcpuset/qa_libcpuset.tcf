@@ -1,7 +1,7 @@
 # ****************************************************************************
-# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
-# 
-# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
+#
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
 # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
@@ -11,7 +11,7 @@
 # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
 # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
 # LIABILITY.
-# 
+#
 # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
 # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
@@ -21,18 +21,11 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-#
-# This file contains default configuration for qa_test_netperf test
-#
+timer 20
+fg 1 dynamic_mountpoint /usr/share/qa/qa_test_libcpuset/test.sh dynamic_mp
+wait
 
-# Variables for netperf test
-DE_netperf_server_1=10.122.0.9
-DE_netperf_server_2=10.122.0.9
-CZ_netperf_server=
-CN_netperf_server=192.168.1.1
-CN_netperf_server_v6=2001::1
 
-DE_1='10.121'
-DE_2='10.122'
-CZ='10.20'
-CN='147.2'
+timer 20
+fg 1 dynamic_mountpoint_with_cpuset_path /usr/share/qa/qa_test_libcpuset/test.sh dynamic_mp_with_cpuset_mp
+wait
