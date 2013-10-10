@@ -23,5 +23,6 @@ fi
 
 if [ $ENABLE_BUILD_GUESTIMAGES = "yes" ]
 then
-	$DIR/scripts/build-guestimages $HOSTS || exit 1
+#	$DIR/scripts/build-guestimages $HOSTS || exit 1
+    $DIR/scripts/build-guestimages-SLE $HOSTS || exit 1
 fi

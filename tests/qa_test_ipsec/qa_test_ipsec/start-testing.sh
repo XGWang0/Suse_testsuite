@@ -6,23 +6,23 @@ DIR=$(dirname `readlink -f $0`)
 
 NETWORKS="vnet1 vnet2 vnet3"
 CONFDIR=$DIR/config/kvm
-KNLSRC=$BUILDDIR/$KERNEL/arch/x86/boot/bzImage
-KNLTARGET=/var/run/kvm-swan-kernel
-HOSTFSTARGET=/var/run/kvm-swan-hostfs
+#KNLSRC=$BUILDDIR/$KERNEL/arch/x86/boot/bzImage
+#KNLTARGET=/var/run/kvm-swan-kernel
+#HOSTFSTARGET=/var/run/kvm-swan-hostfs
 MCASTBRS="test-br0 test-br1"
 
 echo "Starting test environment"
 
 [ `id -u` -eq 0 ] || die "You must be root to run $0"
 
-check_commands kvm virsh
+check_commands qemu-kvm virsh
 
-log_action "Deploying kernel $KERNEL"
-execute "ln -fs $KNLSRC $KNLTARGET"
+#log_action "Deploying kernel $KERNEL"
+#execute "ln -fs $KNLSRC $KNLTARGET"
 
-log_action "Deploying $SHAREDDIR as hostfs"
-execute "chown -R $KVMUSER:$KVMGROUP $SHAREDDIR" 0
-execute "ln -Tfs $SHAREDDIR $HOSTFSTARGET"
+#log_action "Deploying $SHAREDDIR as hostfs"
+#execute "chown -R $KVMUSER:$KVMGROUP $SHAREDDIR" 0
+#execute "ln -Tfs $SHAREDDIR $HOSTFSTARGET"
 
 for net in $NETWORKS
 do
