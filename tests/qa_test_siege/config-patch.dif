@@ -1,16 +1,15 @@
-diff -pur siege-2.67.orig//doc/siegerc.in siege-2.67//doc/siegerc.in
---- siege-2.67.orig//doc/siegerc.in	2010-02-03 13:28:32.000000000 +0800
-+++ siege-2.67//doc/siegerc.in	2010-02-03 13:33:55.000000000 +0800
-@@ -19,7 +19,7 @@
+--- siege-3.0.3/doc/siegerc.in.old	2013-09-10 15:11:15.000000000 +0800
++++ siege-3.0.3/doc/siegerc.in	2013-09-10 15:24:02.000000000 +0800
+@@ -21,7 +21,7 @@
  # Signify verbose mode, true turns on verbose output
  # ex: verbose = true|false
  #
 -verbose = true
-+verbose = false 
++verbose = false
  
  #
- # CSV Verbose format: with this option, you can choose 
-@@ -121,7 +121,7 @@ connection = close
+ # Quiet mode
+@@ -159,7 +159,7 @@
  # Default number of simulated  concurrent users
  # ex: concurrent = 25
  #
@@ -19,31 +18,33 @@ diff -pur siege-2.67.orig//doc/siegerc.in siege-2.67//doc/siegerc.in
  
  #
  # Default duration of the siege.  The right hand argument has
-@@ -154,6 +154,7 @@ concurrent = 15
+@@ -192,7 +192,7 @@
  #     file = $URLSFILE
  #
  # file =
+-
 +file = /usr/share/qa/qa_test_siege/siege/etc/urls.txt
- 
  #
  # Default URL, this is a single URL that you want to test. This
-@@ -179,6 +180,7 @@ delay = 1
+ # is usually set at the command line with the -u option.  When
+@@ -222,6 +222,7 @@
  # ex: timeout = 30
  #
  # timeout = 
-+timeout = 45
++timeout = 40
  
  #
  # Session expiration: This directive allows you to delete all
-@@ -200,6 +202,7 @@ delay = 1
+@@ -252,7 +253,7 @@
  # ex: failures = 50
  #
  # failures = 
+-
 +failures = 10
- 
  #
  # Internet simulation. If true, siege clients will hit
-@@ -229,6 +232,7 @@ benchmark = false
+ # the URLs in the urls.txt file randomly, thereby simulating
+@@ -282,6 +283,7 @@
  # ex: user-agent = Limey The Bulldog
  # 
  # user-agent =

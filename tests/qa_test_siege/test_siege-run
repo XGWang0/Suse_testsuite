@@ -3,6 +3,7 @@
 
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
+LOG_DIR=/usr/share/qa/qa_test_siege/siege/var
 
 INITSCRIPT=/etc/init.d/apache2
 if [ ! -f $INITSCRIPT ]
@@ -34,6 +35,12 @@ if [ ! -f ~/.siegerc ]
 then
 	cp /usr/share/qa/qa_test_siege/.siegerc ~/
 fi
+
+if [ ! -d $LOG_DIR ]; then
+	mkdir $LOG_DIR
+fi
+
+ulimit -n 8192
 
 if echo $0 | grep https > /dev/null
 then
