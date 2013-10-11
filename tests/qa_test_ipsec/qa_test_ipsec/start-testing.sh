@@ -40,5 +40,4 @@ do
 	done
 done
 
-echo 0x08 > /sys/devices/virtual/net/test-br0/bridge/group_fwd_mask
-
+#echo 0x08 > /sys/devices/virtual/net/test-br0/bridge/group_fwd_mask
