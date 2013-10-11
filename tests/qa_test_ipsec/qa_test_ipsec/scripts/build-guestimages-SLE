@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#
+# should be called from make-testing
+#
+
+pushd $IMGDIR
+for image_url in ${SLE_IMAGEURLS[*]};do
+    log_action "Get image $image_url"
+    execute "curl -L -O $image_url"
+done
+popd
