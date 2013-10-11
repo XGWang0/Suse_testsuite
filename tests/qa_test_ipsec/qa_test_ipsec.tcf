@@ -1,0 +1,12 @@
+timer 300
+fg 1 make-testing.sh /usr/share/qa/qa_test_ipsec/make-testing.sh
+wait
+
+timer 300
+fg 1 start-testing.sh /usr/share/qa/qa_test_ipsec/start-testing.sh
+wait
+
+timer 300
+fg 1 do-tests.sh /usr/share/qa/qa_test_ipsec/do-tests.sh
+wait
+
