@@ -1,3 +1,4 @@
+BuildIgnore: post-build-checks
 # ****************************************************************************
 # Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
