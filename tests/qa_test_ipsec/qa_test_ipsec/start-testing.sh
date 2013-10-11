@@ -17,13 +17,6 @@ echo "Starting test environment"
 
 check_commands qemu-kvm virsh
 
-#log_action "Deploying kernel $KERNEL"
-#execute "ln -fs $KNLSRC $KNLTARGET"
-
-#log_action "Deploying $SHAREDDIR as hostfs"
-#execute "chown -R $KVMUSER:$KVMGROUP $SHAREDDIR" 0
-#execute "ln -Tfs $SHAREDDIR $HOSTFSTARGET"
-
 for net in $NETWORKS
 do
 	log_action "Network $net"
