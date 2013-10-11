@@ -42,9 +42,12 @@ fi
 
 ulimit -n 8192
 
-if echo $0 | grep https > /dev/null
+if echo $1 | grep https > /dev/null
 then
     $CTCS2_DIR/tools/run $TCF_DIR/qa_siege_https.tcf
+elif echo $1 | grep performance > /dev/null
+then
+    $CTCS2_DIR/tools/run $TCF_DIR/qa_siege_performance.tcf
 else
     $CTCS2_DIR/tools/run $TCF_DIR/qa_siege_http.tcf
 fi
