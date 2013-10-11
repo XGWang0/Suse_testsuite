@@ -102,8 +102,8 @@ rm -fr $RPM_BUILD_ROOT
 %attr(0400,root,root) /etc/apache2/ssl.key/qa.key
 %attr(0400,root,root) /etc/apache2/ssl.crt/qa.crt
 /etc/apache2/vhosts.d/00_localhost_ssl.conf
-%dir /etc/apache2/ssl.crt
-%dir /etc/apache2/ssl.key
+#%dir /etc/apache2/ssl.crt
+#%dir /etc/apache2/ssl.key
 %dir /etc/apache2/vhosts.d
 %dir /etc/apache2
 /usr/share/man/man8/qa_test_siege.8.gz
