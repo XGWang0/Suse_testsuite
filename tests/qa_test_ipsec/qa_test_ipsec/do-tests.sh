@@ -778,14 +778,15 @@ echo
 # copy the test results to the apache server
 #
 
-HTDOCS="/var/www"
+#HTDOCS="/var/www"
+HTDOCS="/srv/www/htdocs/test_result/ipsec"
 
-ssh $SSHCONF root@${ipv4_winnetou} mkdir -p $HTDOCS/testresults > /dev/null 2>&1
-scp $SSHCONF -r $TODAYDIR root@${ipv4_winnetou}:$HTDOCS/testresults > /dev/null 2>&1
-ssh $SSHCONF root@${ipv4_winnetou} ln -s $HTDOCS/images $HTDOCS/testresults/$TESTDATE/images > /dev/null 2>&1
+#ssh $SSHCONF root@${ipv4_winnetou} mkdir -p $HTDOCS/testresults > /dev/null 2>&1
+scp $SSHCONF -r $TODAYDIR root@147.2.207.149:$HTDOCS > /dev/null 2>&1
+#ssh $SSHCONF root@${ipv4_winnetou} ln -s $HTDOCS/images $HTDOCS/testresults/$TESTDATE/images > /dev/null 2>&1
 echo
 echo "The results are available in $TODAYDIR"
-echo "or via the link http://$ipv4_winnetou/testresults/$TESTDATE"
+echo "or via the link http://147.2.207.149/test_result/ipsec/$TESTDATE"
 
 ENDDATE=`date +%Y%m%d-%H%M`
 echo
