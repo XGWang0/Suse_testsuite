@@ -7,10 +7,6 @@ DIR=$(dirname `readlink -f $0`)
 echo "Stopping test environment"
 
 NETWORKS="vnet1 vnet2 vnet3"
-KNLTARGET=/var/run/kvm-swan-kernel
-HOSTFSTARGET=/var/run/kvm-swan-hostfs
-
-[ `id -u` -eq 0 ] || die "You must be root to run $0"
 
 check_commands virsh
 
@@ -24,11 +20,6 @@ for host in $STRONGSWANHOSTS
 do
 	log_action "Guest $host"
 	execute "virsh shutdown $host"
-	rm -f $VIRTIMGSTORE/$host.$IMGEXT
+#	rm -f $VIRTIMGSTORE/$host.$IMGEXT
 done
 
-log_action "Removing kernel $KERNEL"
-execute "rm $KNLTARGET"
-
-log_action "Removing link to hostfs"
-execute "rm $HOSTFSTARGET"
