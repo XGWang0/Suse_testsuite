@@ -41,19 +41,21 @@ comments="
 export LANG=C
 export DISPLAY=$display.0
 xhost +
-gnome-screensaver-command -d
 killall gnome-panel
-sleep 5
+sleep 2
+gnome-screensaver-command -d
 killall -9 -q /usr/lib/at-spi/at-spi-registryd nm-applet NetworkManager
 sleep 2
+eval \`dbus-launch --auto-syntax&\`
+sleep 10
+sh -c \"/usr/lib/at-spi/at-spi-registryd&\"
+sleep 3
+killall gnome-panel
+sleep 3
 NetworkManager&
 sleep 2
 nm-applet&
 sleep 5
-sh -c \"/usr/lib/at-spi/at-spi-registryd&\"
-sleep 3
-eval \`dbus-launch --sh-syntax&\`
-sleep 3
 /usr/lib/ctcs2/tools/run /usr/share/qa/tcf/qa_networkManager.tcf"
 
 if [ "$username" != "$USER" ]; then
