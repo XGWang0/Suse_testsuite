@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Test ext3 filesystem with 1 KB blocksize
+
+TEST_NAME="ext3_1KB"
+FSTYPE=ext3
+MKFS_OPTS="-b 1024"
+
+. /usr/share/qa/tools/run_xfstests.sh

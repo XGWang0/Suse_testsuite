@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Test standard ext3 filesystem
+
+TEST_NAME="ext3"
+FSTYPE=ext3
+
+. /usr/share/qa/tools/run_xfstests.sh

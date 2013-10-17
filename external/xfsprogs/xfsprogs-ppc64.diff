@@ -1,0 +1,21 @@
+---
+ include/platform_defs.h.in |    5 +++++
+ 1 file changed, 5 insertions(+)
+
+--- include/platform_defs.h.in.orig
++++ include/platform_defs.h.in
+@@ -44,9 +44,14 @@ typedef unsigned short		__u16;
+ typedef signed short		__s16;
+ typedef unsigned int		__u32;
+ typedef signed int		__s32;
++#ifdef __powerpc64__
++typedef unsigned long int	__u64;
++typedef signed long int		__s64;
++#else
+ typedef unsigned long long int	__u64;
+ typedef signed long long int	__s64;
+ #endif
++#endif
+ 
+ #ifdef __CHECKER__
+ #define __bitwise		__attribute__((bitwise))

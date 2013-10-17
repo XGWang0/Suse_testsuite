@@ -1,0 +1,18 @@
+--- ./repair/incore_ino.c.orig	2012-04-06 13:56:53.000000000 +0200
++++ ./repair/incore_ino.c	2012-07-26 16:50:30.350532762 +0200
+@@ -166,6 +166,7 @@ __uint32_t num_inode_references(struct i
+ 		return irec->ino_un.ex_data->counted_nlinks.un32[ino_offset];
+ 	default:
+ 		ASSERT(0);
++		abort();
+ 	}
+ }
+ 
+@@ -206,6 +207,7 @@ __uint32_t get_inode_disk_nlinks(struct
+ 		return irec->disk_nlinks.un32[ino_offset];
+ 	default:
+ 		ASSERT(0);
++		abort();
+ 	}
+ }
+ 
