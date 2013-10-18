@@ -5,4 +5,4 @@
 TEST_NAME="xfs"
 FSTYPE=xfs
 
-. /usr/share/qa/tools/run_xfstests.sh
+. /usr/share/qa/qa_test_xfstests/run_xfstests.sh

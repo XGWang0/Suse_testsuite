@@ -6,4 +6,4 @@ TEST_NAME="ext3_1KB"
 FSTYPE=ext3
 MKFS_OPTS="-b 1024"
 
-. /usr/share/qa/tools/run_xfstests.sh
+. /usr/share/qa/qa_test_xfstests/run_xfstests.sh

@@ -5,7 +5,7 @@
  # A bit of a hack; by rights only state should probably go here
  # But for now ...
 -PKG_LIB_DIR     = /var/lib/@pkg_name@
-+PKG_LIB_DIR     = @localstatedir@/lib/@pkg_name@
++PKG_LIB_DIR     = /usr/share/qa/qa_test_xfstests/@pkg_name@
  
  CC              = @cc@
  AWK             = @awk@

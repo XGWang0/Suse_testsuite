@@ -8,7 +8,7 @@ BuildRequires:  autoconf xfsprogs xfsprogs-devel xfsprogs-qa-devel e2fsprogs-dev
 BuildRequires:  libattr-devel libaio-devel libtool fdupes
 Requires:       bash xfsprogs xfsdump perl acl attr bind-utils bc indent quota
 Source0:        xfstests-%{version}_g%{git_version}.tar.bz2
-Source1:        automation.tar.bz2
+Source1:        automation-%{version}.tar.bz2
 License:        GPL2+
 Vendor:         Silicon Graphics, Inc.
 URL:            http://oss.sgi.com/projects/xfs/
@@ -22,12 +22,14 @@ acl, attr, dmapi, udf, reiserfs, nfs, btrfs testing.  Contains around 250+ speci
 for userspace & kernelspace.
 
 %prep
-%setup -q -a1
+%setup -n xfstests-%{version} -a1
 %patch1 -p1
 %patch3 -p1
 
 
 %build
+
+
 export OPTIMIZER="-fPIC"
 export CFLAGS="$RPM_OPT_FLAGS -Iinclude"
 INSTALL_USER=root
@@ -50,9 +52,23 @@ DIST_INSTALL=`pwd`/install.manifest
 export DIST_ROOT DIST_INSTALL
 %makeinstall DIST_ROOT=$RPM_BUILD_ROOT DIST_MANIFEST="$DIST_INSTALL"
 make -C build/rpm rpmfiles DESTDIR=$RPM_BUILD_ROOT DIST_MANIFEST="$DIST_INSTALL"
+#echo prefix=%{_prefix}
+#echo manifest
+#cat `pwd`/install.manifest
+#echo ---
 %fdupes %buildroot/%_prefix
+
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 automation/run_xfstests.sh $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 automation/test_*-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f build/rpm/rpmfiles
+#%files -f build/rpm/rpmfiles
+%files
+%defattr(-, root, root)
+/usr/share/qa
+
+%changelog
+

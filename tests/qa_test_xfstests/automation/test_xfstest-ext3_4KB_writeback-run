@@ -6,4 +6,4 @@ TEST_NAME="ext3"
 FSTYPE=ext3
 MOUNT_OPTS="data=writeback"
 
-. /usr/share/qa/tools/run_xfstests.sh
+. /usr/share/qa/qa_test_xfstests/run_xfstests.sh
