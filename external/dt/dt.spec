@@ -11,7 +11,7 @@ Name:           dt
 License:		Robin's Nest Software
 Group:          Hardware/Other
 AutoReqProv:    on
-Version:        16.20
+Version:        17.25
 Release:        1
 Summary:        Generic data test program
 Source:         http://home.comcast.net/~SCSIguy/SCSI_FAQ/RMiller_Tools/ftp/dt/dt-source.tar.gz
@@ -35,13 +35,13 @@ Authors:
 License:		SUSE Proprietary
 Group:          Documentation
 Summary:        Documentation for dt
-Requires:       dt = ${version}
+Requires:       dt = %{version}
 
 %description doc
-This package provide user documentation for dt
+This package provide user documentation for dt.
 
 %prep
-%setup -n dt.d
+%setup -n dt-%{version}
 
 %build
 make PORG="$RPM_OPT_FLAGS" -f Makefile.linux
