@@ -1,0 +1,4 @@
+timer 30s
+bg 1 eatmem eatmem.sh
+fg 1 tiobench tiobench.pl --size 2048 --block 4096 --block 32768 --dir /abuild --sync
+wait
