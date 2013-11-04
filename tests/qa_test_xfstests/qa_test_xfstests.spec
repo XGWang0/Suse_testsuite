@@ -5,7 +5,7 @@ Version:        1.1.1
 Release:        1
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires:  autoconf xfsprogs xfsprogs-devel xfsprogs-qa-devel e2fsprogs-devel libacl-devel
-BuildRequires:  libattr-devel libaio-devel libtool fdupes
+BuildRequires:  libattr-devel libaio-devel libtool fdupes automake make m4
 Requires:       bash xfsprogs xfsdump perl acl attr bind-utils bc indent quota
 Source0:        xfstests-%{version}_g%{git_version}.tar.bz2
 Source1:        automation-%{version}.tar.bz2
