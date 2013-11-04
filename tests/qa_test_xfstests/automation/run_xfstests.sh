@@ -7,7 +7,7 @@
 # MOUNT_OPTS - options for mount when mounting filesystem
 # TEST_NAME - name of the test used for output file name
 
-XFSTESTS_PATH=/var/lib/xfstests/
+XFSTESTS_PATH=/usr/share/qa/qa_test_xfstests/xfstests/
 TEST_DEV_SPACE=20GB
 SCRATCH_DEV_SPACE=20GB
 
