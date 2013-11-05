@@ -35,7 +35,7 @@ fi
 if [ ! -z "$BLACKLIST" ] ; then
 	exists=0
 	for d in $FSTYPE generic shared ; do
-		[ -r "$XFSTESTS_PATH/$d/$BLACKLIST" ] && exists=1
+		[ -r "$XFSTESTS_PATH/tests/$d/$BLACKLIST" ] && exists=1
 	done
 	if [ $exists = "0" ] ; then
 		echo "Blacklist file '$BLACKLIST' does not exist in searched locations!" >&2
