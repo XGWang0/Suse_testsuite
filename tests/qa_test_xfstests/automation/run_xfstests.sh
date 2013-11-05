@@ -6,6 +6,8 @@
 # MKFS_OPTS - options for mkfs when creating filesystem
 # MOUNT_OPTS - options for mount when mounting filesystem
 # TEST_NAME - name of the test used for output file name
+# BLACKLIST - name of the file that contain blacklisted testcases 
+#             (use as -X <file>)
 
 XFSTESTS_PATH=/usr/share/qa/qa_test_xfstests/xfstests/
 TEST_DEV_SPACE=20GB
@@ -28,6 +30,18 @@ SETUP_LOG="$RESULT_BASE/setup.log"
 
 if [ ! -d "$RESULT_BASE" ]; then
 	mkdir -p "$RESULT_BASE" || exit 1
+fi
+
+if [ ! -z "$BLACKLIST" ] ; then
+	exists=0
+	for d in $FSTYPE generic shared ; do
+		[ -r "$XFSTESTS_PATH/$d/$BLACKLIST" ] && exists=1
+	done
+	if [ $exists = "0" ] ; then
+		echo "Blacklist file '$BLACKLIST' does not exist in searched locations!" >&2
+		exit 1
+	fi
+	BLACKLIST="-X $BLACKLIST"
 fi
 
 echo "Starting setup for xfstests run." >$SETUP_LOG
@@ -200,7 +214,7 @@ mkfs.$FSTYP $MKFS_OPTS_SPECIAL $MKFS_OPTS $TEST_DEV >>$SETUP_LOG 2>&1 || exit 1
 mount -t $FSTYP $MOUNT_OPTS $TEST_DEV $TEST_DIR >>$SETUP_LOG 2>&1 || exit 1
 echo "Running xfstests..." >>$SETUP_LOG
 pushd $XFSTESTS_PATH >>$SETUP_LOG 2>&1
-./check -g auto &>$RESULT_BASE/xfstests_output
+./check $BLACKLIST -g auto &>$RESULT_BASE/xfstests_output
 popd >>$SETUP_LOG 2>&1
 echo "xfstests done" >>$SETUP_LOG
 umount $TEST_DIR >>$SETUP_LOG 2>&1

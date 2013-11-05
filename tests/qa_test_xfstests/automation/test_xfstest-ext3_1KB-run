@@ -6,4 +6,8 @@ TEST_NAME="ext3_1KB"
 FSTYPE=ext3
 MKFS_OPTS="-b 1024"
 
+if /usr/share/qa/tools/product.pl | grep -qi '^sle[sd]-11-sp3' ; then
+	BLACKLIST="blacklist_sle11sp3-ext3"
+fi
+
 . /usr/share/qa/qa_test_xfstests/run_xfstests.sh

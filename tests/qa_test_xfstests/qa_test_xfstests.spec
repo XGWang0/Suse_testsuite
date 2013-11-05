@@ -61,6 +61,7 @@ make -C build/rpm rpmfiles DESTDIR=$RPM_BUILD_ROOT DIST_MANIFEST="$DIST_INSTALL"
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 automation/run_xfstests.sh $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 automation/test_*-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+cp -r automation/blacklists/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/xfstests/tests/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
