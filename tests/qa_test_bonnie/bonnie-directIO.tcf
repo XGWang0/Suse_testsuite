@@ -1,0 +1,26 @@
+# currently only x86 x86_64 are supported
+
+fg 1 bonnie-directIO /usr/share/qa/qa_test_bonnie/do_bonnie -s 100 -v 1 -o_direct
+wait
+
+fg 1 bonnie-directIO /usr/share/qa/qa_test_bonnie/do_bonnie -s 256 -v 1 -o_direct
+wait
+
+fg 1 bonnie-directIO /usr/share/qa/qa_test_bonnie/do_bonnie -s 512 -v 1 -o_direct
+wait
+
+fg 1 bonnie-directIO /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 1 -o_direct
+wait
+
+fg 1 bonnie-directIO /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 2 -o_direct
+wait
+
+fg 1 bonnie-directIO /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 4 -o_direct
+wait
+
+fg 1 bonnie-directIO /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 8 -o_direct
+wait
+
+fg 1 bonnie-directIO /usr/share/qa/qa_test_bonnie/do_bonnie -s 1024 -v 16 -o_direct
+wait
+

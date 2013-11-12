@@ -1,0 +1,11 @@
+--- Bonnie.c.orig	2013-11-12 14:34:59.000000000 +0800
++++ Bonnie.c	2013-11-12 22:32:16.000000000 +0800
+@@ -108,7 +108,7 @@ unsigned SeekProcCount = 3;
+ 
+ #if defined(__linux__)
+ //# include <asm/fcntl.h>
+-# if !defined(O_DIRECT) && (defined(__alpha__) || defined(__i386__))
++# if !defined(O_DIRECT) && (defined(__alpha__) || defined(__i386__) || defined(__x86_64__))
+ #  define O_DIRECT 040000 /* direct disk access */
+ # endif
+ # ifdef O_DIRECT

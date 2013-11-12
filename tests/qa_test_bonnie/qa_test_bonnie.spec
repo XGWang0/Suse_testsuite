@@ -24,7 +24,10 @@ Source1:	do_bonnie
 Source2:	qa_test_bonnie.8
 Source3:	test_bonnie-run
 Source4:	bonnie-default.tcf
+Source5:    test_bonnie-directIO-run
+Source6:    bonnie-directIO.tcf
 Patch0:         bonnie-1.4.dif
+Patch1:     bonnie-enable-o-direct-for-x86_64.patch
 #Patch:  %{name}-%{version}.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	bonnie bonnie-ctcs2-glue
@@ -49,6 +52,7 @@ Authors:
 %prep
 %setup -n bonnie 
 %patch0 -p1
+%patch1
 
 %build
 make CC=gcc CFLAGS="$RPM_OPT_FLAGS"
@@ -63,8 +67,10 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie/
 install -m 644 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie/tcf/
+install -m 644 %{S:6} $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie/tcf/
 for A in `ls $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie/tcf/`; do ln -s ../qa_test_bonnie/tcf/$A $RPM_BUILD_ROOT/usr/share/qa/tcf/; done
-install -m 744 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tools/ 
+install -m 744 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -m 744 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools/
 
 %files
 %defattr(-, root, root)
