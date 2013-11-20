@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Test default btrfs options used on SLES11
+
+TEST_NAME="btrfs_default"
+FSTYPE=btrfs
+getconf_PAGE_SIZE=$(getconf PAGE_SIZE)
+MKFS_OPTS="-d single -m dup -n $getconf_PAGE_SIZE"
+
+if /usr/share/qa/tools/product.pl | grep -qi '^sle[sd]-11-sp3' ; then
+	BLACKLIST="blacklist_sle11sp3-btrfs"
+fi
+
+. /usr/share/qa/qa_test_xfstests/run_xfstests.sh

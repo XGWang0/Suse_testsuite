@@ -186,8 +186,8 @@ if [ ! -d "$SCRATCH_MNT" ]; then
 	mkdir -p "$SCRATCH_MNT" >>$SETUP_LOG 2>&1 || exit 1
 fi
 
-# XFS needs force to overwrite existing filesystems... 
-if [ "$FSTYP" == "xfs" ]; then
+# XFS and btrfs need force to overwrite existing filesystems...
+if [ "$FSTYP" == "xfs" -o "$FSTYP" == "btrfs" ]; then
 	MKFS_OPTS_SPECIAL="-f"
 fi
 
