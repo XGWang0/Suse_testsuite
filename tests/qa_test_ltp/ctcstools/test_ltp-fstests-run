@@ -21,7 +21,7 @@ mkdir -p /test/growfiles/ext3
 # /test/growfiles/jfs
 mkdir -p /test/growfiles/jfs
 # /test/growfiles/xfs
-mkdir -p/test/growfiles/xfs
+mkdir -p /test/growfiles/xfs
 
 # create the images, in /test, at least 1 GB
 
@@ -31,26 +31,34 @@ echo "y" | mkfs.ext2 fs-ext2.img
 mount fs-ext2.img /test/growfiles/ext2 -t ext2 -o loop
 
 # ext3, comlains thats no block device
+dd if=/dev/zero of=./fs-ext3.img bs=1024 count=1000000
 echo "y" | mkfs.ext3 fs-ext3.img
 mount fs-ext3.img /test/growfiles/ext3 -t ext3 -o loop
 
 # JFS, wants to have a ACK of formatting
+zypper -n in jfsutils
+dd if=/dev/zero of=./fs-jfs.img bs=1024 count=1000000
 echo "Y" | mkfs.jfs fs-jfs.img
 mount fs-jfs.img /test/growfiles/jfs -t jfs -o loop
 
 # msdos
+dd if=/dev/zero of=./fs-msdos.img bs=1024 count=1000000
 mkfs.msdos fs-msdos.img
 mount fs-msdos.img /test/growfiles/msdos -t msdos -o loop
 
 # vfat
+dd if=/dev/zero of=./fs-vfat.img bs=1024 count=1000000
 mkfs.vfat fs-vfat.img
 mount fs-vfat.img /test/growfiles/vfat -t vfat -o loop
 
 # reiserfs, wants a force and a ACK
+dd if=/dev/zero of=./fs-reiser.img bs=1024 count=1000000
 echo "y" | mkfs.reiserfs fs-reiser.img -f
 mount fs-reiser.img /test/growfiles/reiser -t reiserfs -o loop
 
 # XFS, needs force
+zypper -n in xfsprogs xfsdump xfsprogs-devel xfsprogs-qa-devel
+dd if=/dev/zero of=./fs-xfs.img bs=1024 count=1000000
 mkfs.xfs fs-xfs.img -f
 mount fs-xfs.img /test/growfiles/xfs -t xfs -o loop
 
@@ -59,7 +67,7 @@ do
         $ctcsdir/tools/run $tcfdir/tcf/$i
 done
 
-FAULT=`dmesg | grep -Ei 'oops|bug|unable to handle|assert|panic|\[<' | grep -v 'swap header version' | grep -v 'ilesystem panic'`
+FAULT=`dmesg | grep -Ei 'oops|bug|unable to handle|assert|panic|\[<' | grep -v 'swap header version' | grep -v 'filesystem panic'`
 if [ x"$FAULT" != "x" ] ; then
           echo "++ Something found while fs..."
         echo "$FAULT !"
