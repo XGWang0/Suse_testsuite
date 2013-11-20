@@ -13,7 +13,6 @@ License:        GPL2+
 Vendor:         Silicon Graphics, Inc.
 URL:            http://oss.sgi.com/projects/xfs/
 Group:          System/Filesystems
-Patch1:		0001-xfstests-enhance-ltp-fsx-with-a-timeout-option.patch
 Patch3:		no-ltinstall.diff
 
 %description
@@ -23,7 +22,6 @@ for userspace & kernelspace.
 
 %prep
 %setup -n xfstests-%{version} -a1
-%patch1 -p1
 %patch3 -p1
 
 

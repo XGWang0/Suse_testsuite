@@ -2,6 +2,7 @@
 Wed Nov 20 16:14:39 CET 2013 - dsterba@suse.cz
 
 - update to git 10298d30e55c
+- drop local patch to fsx adding timeout
 
 -------------------------------------------------------------------
 Thu Oct 17 15:17:52 CEST 2013 - llipavsky@suse.de
