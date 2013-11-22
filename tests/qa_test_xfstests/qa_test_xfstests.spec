@@ -1,7 +1,7 @@
 Name:           qa_test_xfstests
 Summary:        XFS regression test suite
 Version:        1.1.1
-%define         git_version f6406da
+%define         git_version 10298d30e55c
 Release:        1
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires:  autoconf xfsprogs xfsprogs-devel xfsprogs-qa-devel e2fsprogs-devel libacl-devel
@@ -13,7 +13,6 @@ License:        GPL2+
 Vendor:         Silicon Graphics, Inc.
 URL:            http://oss.sgi.com/projects/xfs/
 Group:          System/Filesystems
-Patch1:		0001-xfstests-enhance-ltp-fsx-with-a-timeout-option.patch
 Patch3:		no-ltinstall.diff
 
 %description
@@ -23,7 +22,6 @@ for userspace & kernelspace.
 
 %prep
 %setup -n xfstests-%{version} -a1
-%patch1 -p1
 %patch3 -p1
 
 

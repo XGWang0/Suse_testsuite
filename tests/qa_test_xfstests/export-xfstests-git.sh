@@ -22,21 +22,21 @@ out=xfstests-${PKG_VERSION}_g${gitsha}.tar.bz2
 
 [ -f "$pwd/$out" ] || force=true
 
-if ! $force && head $pwd/xfstests.changes | grep -q $gitsha; then
+if ! $force && head $pwd/qa_test_xfstests.changes | grep -q $gitsha; then
 	echo "already there"
 	exit 1
 fi
 
-( cd $pwd ; oosc rm -f xfstests-*.bz2 )
+( cd $pwd ; git rm -f xfstests-*.bz2 )
 
 git archive --format=tar --prefix=xfstests-$PKG_VERSION/ HEAD | bzip2 --best > $pwd/$out
 
 cd $pwd
-oosc add $out
+git add $out
 
-sed -i -e 's/^\(.*define.*git_version\s\+\).*/\1'$gitsha/ xfstests.spec
+sed -i -e 's/^\(.*define.*git_version\s\+\).*/\1'$gitsha/ qa_test_xfstests.spec
 
-ed xfstests.changes <<EOF
+ed qa_test_xfstests.changes <<EOF
 0a
 -------------------------------------------------------------------
 `date` - $LOGNAME@suse.cz
