@@ -36,7 +36,8 @@ Group:          SuSE internal
 Summary:        (rd-)qa virtualization automated tests
 Provides:	qa_virtualization
 Obsoletes:	qa_virtualization
-Requires:       virtautolib bridge-utils tftp dhcp-server syslinux bind apache2 awk ctcs2 qa_tools libqainternal wget
+Requires:       bridge-utils tftp dhcp-server syslinux bind apache2 awk ctcs2 qa_tools libqainternal wget
+Requires:       virtautolib >= 2.7.0
 BuildRequires:  ctcs2 virtautolib-data
 AutoReqProv:    on
 Version:        0.1.5
