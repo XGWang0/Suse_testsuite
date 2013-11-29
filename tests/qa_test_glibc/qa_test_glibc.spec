@@ -25,6 +25,7 @@ Source0:	glibc_testsuite-2.4.tar.gz
 Source0:	glibc_testsuite-2.11.tar.gz
 %endif
 Source2:	test_glibc-run
+Patch1:         glibc_testsuite-partial-fix-1.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -33,6 +34,7 @@ ripped out from the glibc sources
 
 %prep
 %setup -q -n glibc_testsuite
+%patch1 -p1
 
 %build
 make
@@ -42,6 +44,11 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT%{_docdir}/%{name}
+install -D -m 755 testfiles/gettext-data.mo.de_DE.ISO-8859-1 $RPM_BUILD_ROOT/usr/share/locale/de_DE.ISO-8859-1/LC_MESSAGES/gettext-data.mo
+install -D -m 755 testfiles/gettext-data.mo.fr_FR.ISO-8859-1 $RPM_BUILD_ROOT/usr/share/locale/fr_FR.ISO-8859-1/LC_MESSAGES/gettext-data.mo
+install -D -m 755 testfiles/tst-gettext-de.mo.de_DE.UTF-8 $RPM_BUILD_ROOT/usr/share/locale/de_DE.UTF-8/LC_MESSAGES/tst-gettext-de.mo
+install -D -m 755 testfiles/tst-gettext-de.mo.de_DE.ISO-8859-1 $RPM_BUILD_ROOT/usr/share/locale/de_DE.ISO-8859-1/LC_MESSAGES/tst-gettext-de.mo
+
 
 #ln -s ../%name/tcf/%name.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
@@ -61,5 +68,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/qa/tools/test_glibc-run
 %dir %{_datadir}/qa/tcf
 %{_datadir}/qa/tcf/qa_test_glibc.tcf
+%dir %{_datadir}/locale/fr_FR.ISO-8859-1/LC_MESSAGES
+%{_datadir}/locale/fr_FR.ISO-8859-1/LC_MESSAGES/gettext-data.mo
+%dir %{_datadir}/locale/de_DE.UTF-8/LC_MESSAGES
+%{_datadir}/locale/de_DE.UTF-8/LC_MESSAGES/tst-gettext-de.mo
+%dir %{_datadir}/locale/de_DE.ISO-8859-1/LC_MESSAGES
+%{_datadir}/locale/de_DE.ISO-8859-1/LC_MESSAGES/tst-gettext-de.mo
+%{_datadir}/locale/de_DE.ISO-8859-1/LC_MESSAGES/gettext-data.mo
 
 %changelog
