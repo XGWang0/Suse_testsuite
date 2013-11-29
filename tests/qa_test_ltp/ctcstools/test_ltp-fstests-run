@@ -3,11 +3,23 @@
 export ctcsdir="/usr/lib/ctcs2"
 export tcfdir="/usr/share/qa/qa_test_ltp"
 
+# / partition should have at least 20G availble space for all filesystems type testing
+av_space=`df -h / |awk '{print $4}' |tail -n 1 |cut -d'.' -f1`
+expr $av_space \> 20
+
+if [ $? -eq 1 ]; then
+	echo "/ partition only have $av_space space availble, it need at least 20GB free space"
+	exit 1
+fi
+
+# some FS packages not default installed
+zypper -n in xfsprogs xfsdump xfsprogs-devel xfsprogs-qa-devel jfsutils
+
 # I assume that following directory with the correspoding fs exists:
 # /test/growfiles/msdos
 mkdir -p /test/growfiles/msdos
 # /test/growfiles/reiser
-mkdir -p /test/growfiles/reiser
+mkdir -p /test/growfiles/reiserfs
 # /test/growfiles/ext2
 mkdir -p /test/growfiles/ext2
 # /test/growfiles/nfs
@@ -22,55 +34,64 @@ mkdir -p /test/growfiles/ext3
 mkdir -p /test/growfiles/jfs
 # /test/growfiles/xfs
 mkdir -p /test/growfiles/xfs
+# /test/growfiles/btrfs
+mkdir -p /test/growfiles/btrfs
 
-# create the images, in /test, at least 1 GB
+FTYPE='ext2 ext3 ext4 msdos vfat jfs xfs reiserfs btrfs'
 
-# ext2, comlains thats no block device
-dd if=/dev/zero of=./fs-ext2.img bs=1024 count=1000000
-echo "y" | mkfs.ext2 fs-ext2.img
-mount fs-ext2.img /test/growfiles/ext2 -t ext2 -o loop
+# create new fsx tcf for the testing
+new_fsx=$tcfdir/tcf/fsx_new.tcf
+cp $tcfdir/tcf/fsx.tcf $new_fsx
+sed -i '/fsx-reiserfs/d' $new_fsx
 
-# ext3, comlains thats no block device
-dd if=/dev/zero of=./fs-ext3.img bs=1024 count=1000000
-echo "y" | mkfs.ext3 fs-ext3.img
-mount fs-ext3.img /test/growfiles/ext3 -t ext3 -o loop
+# rewrite the testing directory TCtmp to the mounted filesystem
+sed -i '/^TCtmp/c TCtmp=$2' /opt/ltp/testcases/bin/fsxtest02
+sed -i '/^rm/d' /opt/ltp/testcases/bin/fsxtest02
 
-# JFS, wants to have a ACK of formatting
-zypper -n in jfsutils
-dd if=/dev/zero of=./fs-jfs.img bs=1024 count=1000000
-echo "Y" | mkfs.jfs fs-jfs.img
-mount fs-jfs.img /test/growfiles/jfs -t jfs -o loop
-
-# msdos
-dd if=/dev/zero of=./fs-msdos.img bs=1024 count=1000000
-mkfs.msdos fs-msdos.img
-mount fs-msdos.img /test/growfiles/msdos -t msdos -o loop
-
-# vfat
-dd if=/dev/zero of=./fs-vfat.img bs=1024 count=1000000
-mkfs.vfat fs-vfat.img
-mount fs-vfat.img /test/growfiles/vfat -t vfat -o loop
-
-# reiserfs, wants a force and a ACK
-dd if=/dev/zero of=./fs-reiser.img bs=1024 count=1000000
-echo "y" | mkfs.reiserfs fs-reiser.img -f
-mount fs-reiser.img /test/growfiles/reiser -t reiserfs -o loop
-
-# XFS, needs force
-zypper -n in xfsprogs xfsdump xfsprogs-devel xfsprogs-qa-devel
-dd if=/dev/zero of=./fs-xfs.img bs=1024 count=1000000
-mkfs.xfs fs-xfs.img -f
-mount fs-xfs.img /test/growfiles/xfs -t xfs -o loop
-
-for i in fs.tcf fsx.tcf
+# prepare FS device
+for i in $FTYPE
 do
-        $ctcsdir/tools/run $tcfdir/tcf/$i
+	echo "###Running fs on $i"
+	# create the images, at least 2 GB
+	dd if=/dev/zero of=./fs-$i.img bs=1M count=2000
+	if [ $i == "reiserfs" ]; then
+		echo "y" | mkfs.$i -f fs-$i.img
+	else
+		echo "y" | mkfs.$i fs-$i.img
+	fi
+	mount fs-$i.img /test/growfiles/$i -t $i -o loop
+
+	mount |tail -n 1
+
+	export TESTDIR=/test/growfiles/$i
+	export TCtmp=$TESTDIR
+	echo -e "fg 1 fsx-$i /usr/lib/ctcs2/tools/ltp_wrapper.sh 'export TCbin=\$LTPROOT/testcases/bin;fsxtest02 10000 $TCtmp'\n" >> $new_fsx
+
+	# run fs against each FS type
+	new_fs=$tcfdir/tcf/fs_$i.tcf
+	cp $tcfdir/tcf/fs.tcf $new_fs
+	sed -i '/\$TMPDIR/s/\$TMPDIR/\$TESTDIR/g' $new_fs
+	$ctcsdir/tools/run $new_fs
+
+done
+
+mount
+
+# run fsx
+echo "###Running fsx"
+$ctcsdir/tools/run $new_fsx
+
+# clean
+for i in $FTYPE
+do
+	umount /test/growfiles/$i
+	rm -fr /test/growfiles/
+	rm -fr ./fs-*
 done
 
 FAULT=`dmesg | grep -Ei 'oops|bug|unable to handle|assert|panic|\[<' | grep -v 'swap header version' | grep -v 'filesystem panic'`
 if [ x"$FAULT" != "x" ] ; then
-          echo "++ Something found while fs..."
-        echo "$FAULT !"
-          exit -1
+	echo "++ Something found while fs..."
+	echo "$FAULT !"
+	exit -1
 fi
-
