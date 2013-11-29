@@ -24,8 +24,8 @@ Url:            http://pyropus.ca/software/memtester
 License:        GPL v2
 Group:          SUSE internal
 AutoReqProv:    on
-Version:        4.0.5
-Release:        225
+Version:        4.3.0
+Release:        226
 Summary:        tiny but very intensive memory tester
 Source0:        memtester-%{version}.tar.gz
 Source1:        ctcstools-%version.tar.bz2
