@@ -50,7 +50,7 @@ sed -i '/^rm/d' /opt/ltp/testcases/bin/fsxtest02
 # prepare FS device
 for i in $FTYPE
 do
-	echo "###Running fs on $i"
+	echo -e "\n###Running fs on $i"
 	# create the images, at least 2 GB
 	dd if=/dev/zero of=./fs-$i.img bs=1M count=2000
 	if [ $i == "reiserfs" ]; then
@@ -60,7 +60,11 @@ do
 	fi
 	mount fs-$i.img /test/growfiles/$i -t $i -o loop
 
-	mount |tail -n 1
+        mount |grep "/test/growfiles/$i"
+        if [ $? == 1 ]; then
+                echo -e "\nSkip $i: failed to mount $i"
+                continue
+        fi
 
 	export TESTDIR=/test/growfiles/$i
 	export TCtmp=$TESTDIR
