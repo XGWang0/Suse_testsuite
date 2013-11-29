@@ -25,7 +25,7 @@ Source0:	glibc_testsuite-2.4.tar.gz
 Source0:	glibc_testsuite-2.11.tar.gz
 %endif
 Source2:	test_glibc-run
-Patch1:         glibc_testsuite-partial-fix.patch1 
+Patch1:         glibc_testsuite-partial-fix-1.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
