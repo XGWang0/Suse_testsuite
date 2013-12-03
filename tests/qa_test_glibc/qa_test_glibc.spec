@@ -68,6 +68,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/qa/tools/test_glibc-run
 %dir %{_datadir}/qa/tcf
 %{_datadir}/qa/tcf/qa_test_glibc.tcf
+%dir %{_datadir}/locale
+%dir %{_datadir}/locale/fr_FR.ISO-8859-1
+%dir %{_datadir}/locale/de_DE.UTF-8
+%dir %{_datadir}/locale/de_DE.ISO-8859-1
 %dir %{_datadir}/locale/fr_FR.ISO-8859-1/LC_MESSAGES
 %{_datadir}/locale/fr_FR.ISO-8859-1/LC_MESSAGES/gettext-data.mo
 %dir %{_datadir}/locale/de_DE.UTF-8/LC_MESSAGES
