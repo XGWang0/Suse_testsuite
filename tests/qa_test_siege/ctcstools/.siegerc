@@ -1,5 +1,5 @@
-# Updated by Siege 2.67, January-07-2009
-# Copyright 2000-2007 by Jeffrey Fulmer, et al.
+# Updated by Siege %_VERSION%, %_DATE%
+# Copyright 2000-2013 by %_AUTHOR%
 # 
 # Siege configuration file -- edit as necessary
 # For more information about configuring and running
@@ -16,10 +16,39 @@
 # logfile = $(HOME)/var/siege.log
 
 #
+# Verbose mode
+#
 # Signify verbose mode, true turns on verbose output
 # ex: verbose = true|false
 #
 verbose = false
+
+#
+# Quiet mode
+#
+# When true, this turns off verbose and standard output.
+# You'll still see the opening announcement and the final
+# stats if you're running a siege but -g/--get will be
+# extremely quiet. This was added primarily for scripting
+# ex: quiet = true|false
+#
+quiet = false
+
+#
+# Get method - select an HTTP method to use when siege 
+# is set to get mode, siege -g/--get URL. You may select
+# GET or HEAD.  The default method is HEAD. As expected
+# HEAD prints just the headers and GET prints the entire 
+# page. 
+#
+# NOTE: This only applies when siege is invoked with
+# -g/--get.  All other requests methods will be made
+# on the basis of the URL. 
+# 
+# example: gmethod = GET
+# 
+gmethod = HEAD
+
 
 #
 # CSV Verbose format: with this option, you can choose 
@@ -30,6 +59,15 @@ verbose = false
 # ex: csv = true|false (default false)
 #
 # csv = true
+
+#
+# Timestamp format: with this option, you can choose to
+# print a timestamp each line of output
+# example: timestamp = true|false (default false)
+#
+# sample: [Sat, 2010-11-20 10:39:13] HTTP/1.1 200   0.12 secs:    4003 bytes ==> / 
+# 
+# timestamp = true
 
 #
 # Full URL verbose format: By default siege displays
@@ -52,7 +90,7 @@ verbose = false
 # You can turn this message off with this directive.
 # ex: show-logfile = false
 #
-show-logfile = false
+show-logfile = true
 
 #
 # Default logging status, true turns logging on.
@@ -68,7 +106,7 @@ logging = true
 #     logfile = ${HOME}/var/log/siege.log
 #     logfile = ${LOGFILE}
 #
-logfile = /var/log/siege.log
+# logfile = 
 
 #
 # HTTP protocol.  Options HTTP/1.1 and HTTP/1.0.
@@ -121,7 +159,7 @@ connection = close
 # Default number of simulated  concurrent users
 # ex: concurrent = 25
 #
-concurrent = 100
+concurrent = 1000
 
 #
 # Default duration of the siege.  The right hand argument has
@@ -155,13 +193,17 @@ concurrent = 100
 #
 # file =
 file = /usr/share/qa/qa_test_siege/siege/etc/urls.txt
-
 #
 # Default URL, this is a single URL that you want to test. This
 # is usually set at the command line with the -u option.  When
 # used, this option overrides the urls.txt (-f FILE/--file=FILE)
 # option. You will HAVE to comment this out for in order to use
 # the urls.txt file option.
+#
+# NOTE: you may do the same thing by passing a URL to siege at 
+# the command line: siege -c10 -r10 "www.joedog.org/"
+# Generally, it's a good idea to wrap a command line URL in quotes
+#
 # ex: url = https://shemp.whoohoo.com/docs/index.jsp
 #
 # url =
@@ -180,7 +222,7 @@ delay = 1
 # ex: timeout = 30
 #
 # timeout = 
-#timeout = 45
+timeout = 40
 
 #
 # Session expiration: This directive allows you to delete all
@@ -190,6 +232,15 @@ delay = 1
 # ex: expire-session = true
 #
 # expire-session = 
+
+#
+# Cookie support: by default siege accepts cookies. This directive
+# is available to disable that support. Set cookies to 'false' to
+# refuse cookies. Set it to 'true' to accept them. The default value 
+# is true.
+# ex: cookies = false
+#
+# cookies = 
 
 #
 # Failures: This is the number of total connection failures allowed
@@ -202,8 +253,7 @@ delay = 1
 # ex: failures = 50
 #
 # failures = 
-#failures = 50
-
+failures = 10
 #
 # Internet simulation. If true, siege clients will hit
 # the URLs in the urls.txt file randomly, thereby simulating
@@ -220,7 +270,7 @@ internet = false
 # for load testing.
 # ex: benchmark = true
 # 
-benchmark = true
+benchmark = false
 
 #
 # Set the siege User-Agent to identify yourself at the
@@ -229,6 +279,7 @@ benchmark = true
 # to make it more interesting :-)  Since Limey is recovering
 # from minor surgery as I write this, I'll dedicate the 
 # example to him...
+#
 # ex: user-agent = Limey The Bulldog
 # 
 # user-agent =
@@ -246,13 +297,26 @@ user-agent = RD-QA Siege Testenvironment
 accept-encoding = gzip
 
 #
+# URL escaping was added in version 3.0.3. You may use this
+# directive to turn off this experimental feature. By default
+# this feature is active by default starting with v3.0.3
+#
+# http://www.joedog.org/jukebox.php?band=the days of new
+# becomes:
+# http://www.joedog.org/jukebox.php?band=the%20days%20of%20the%20new 
+#
+# ex: url-escaping = false
+#
+url-escaping = true
+
+#
 # TURN OFF THAT ANNOYING SPINNER!
 # Siege spawns a thread and runs a spinner to entertain you
 # as it collects and computes its stats. If you don't like 
 # this feature, you may turn it off here.
 # ex: spinner = false 
 #
-spinner = false
+spinner = true
 
 #
 # WWW-Authenticate login. When siege hits a webpage
@@ -271,16 +335,55 @@ spinner = false
 # login = 
 
 #
-# WWW-Authenticate username and password.  When siege
-# hits a webpage that requires authentication, it will
-# send this user name and password to the server.  Note
-# this is NOT form based authentication.  You will have
-# to construct URLs for that.
-# ex: username = jdfulmer
-#     password = whoohoo
+# Login URL. This is the first URL to be hit by every siege
+# client. This feature was designed to allow you to login to 
+# a server and establish a session. It will only be hit once
+# so if you need to hit this URL more then once, make sure it
+# also appears in your urls.txt file. 
 #
-# username = 
-# password =
+# ex: login-url = http://eos.haha.com/login.jsp POST name=jeff&pass=foo
+#
+# Siege versions after 2.69 support multi logins; you can configure 
+# them with multiple login-url directives. Place each one on a separate 
+# line. Siege loops through each login then starts again at the beginning 
+# after it uses the last one. If you have more users than login-urls, then 
+# siege starts reassigning ones that have already been used. 
+# 
+# ex: login-url = http://www.haha.com/login.php?name=homer&pass=whoohoo
+#     login-url = http://www.haha.com/login.php?name=marge&pass=ohhomie
+#     login-url = http://www.haha.com/login.php?name=bart&pass=eatMyShorts
+#
+# login-url = 
+
+#
+# FTP login - This directive provides one of two ways 
+# to login to an ftp server. You may also set credentials 
+# in RFC-1738 format: ftp://user:pass@host.com/ink.jpg
+#
+# The format is USER:PASS:HOST separated by colon ':'
+# The host field is optional. If you don't set a host,
+# then siege will send the same user:pass to every FTP
+# server. You may use this directive MULTIPLE times. 
+# Siege will store each instance in memory and send the
+# appropriate credentials at login time depending on the
+# hostname in the URL.
+#
+# ex: ftp-login: jdfulmer:whoohoo:ftp.joedog.org
+#     ftp-login: jdfulmer:password
+#
+# ftp-login = 
+
+# 
+# FTP unique - This directive determines whether siege 
+# will upload files with the same name (and therefore 
+# overwrite whatever is on disk) or upload files each with a
+# unique name. If true, siege will rewrite the file name with 
+# a timestamp in its name, i.e., p.jpg => p-3086060432.jpg
+# The default value is true.
+#
+# ex: unique = false
+# 
+unique = true
 
 #
 # ssl-cert
@@ -325,28 +428,6 @@ spinner = false
 # ex: ssl-ciphers = EXP-RC4-MD5
 #
 # ssl-ciphers = 
-
-#
-# Login URL. This is the first URL to be hit by every siege
-# client. This feature was designed to allow you to login to 
-# a server and establish a session. It will only be hit once
-# so if you need to hit this URL more then once, make sure it
-# also appears in your urls.txt file.
-#
-# ex: login-url = http://eos.haha.com/login.jsp POST name=jeff&pass=foo
-#
-# login-url = 
-
-#
-# Proxy protocol. This option allows you to select a proxy
-# server stress testing. The proxy will request the URL(s) 
-# specified by -u"my.url.org" OR from the urls.txt file.
-# 
-# ex: proxy-host = proxy.whoohoo.org
-#     proxy-port = 8080
-#
-# proxy-host = 
-# proxy-port = 
 
 #
 # Proxy-Authenticate. When scout hits a proxy server which

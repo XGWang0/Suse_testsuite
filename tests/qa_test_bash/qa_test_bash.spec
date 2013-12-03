@@ -1,7 +1,7 @@
 #
 # spec file for package qa_bash (Version 0.1)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -63,6 +63,7 @@ cp -rv %{name} $RPM_BUILD_ROOT/usr/share/qa/
 /usr/share/qa/%name
 /usr/share/qa/tcf
 /usr/share/qa/tools
+%attr(0755,root,root) /usr/share/qa/qa_test_bash/*.sh
 
 %changelog
 * Wed Aug 10 2011 - llipavsky@suse.cz

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -22,17 +22,39 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-if [ ! -d /abuild/ftpload_test ] ; then
-	mkdir -p /abuild/ftpload_test
-fi 
+ARCH=$HOSTTYPE
 
 FREE_SPACE=`df -m / | grep -e "/$" | awk '{print $4}'`
 if [ $FREE_SPACE -le 400 ]; then
-	echo "no enough space for this test! At least 400MB free space is required!"
-	exit 1
+        echo "no enough space for this test! At least 400MB free space is required!"
+        exit 1
 fi
 
 FTP_SOURCE=`grep ftp_source /usr/share/qa/qa_test_ftpload/qa_test_ftpload-config |cut -d= -f2`
 
-ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
+if [ "$ARCH" != "s390x" ]; then
+	ftpload -d /tmp -c 20 $FTP_SOURCE
+else
+	if [ ! -d /abuild/ftpload_test ] ; then
+		mkdir -p /abuild/ftpload_test
+	fi 
+
+	ftpload -d /abuild/ftpload_test -c 20 $FTP_SOURCE
+fi
+
+LOG_DIR=/var/opt/novell/NovellTestKits/ftpload/
+log=`ls $LOG_DIR |tail -n 1`
+
+if [ "${log##*.}" == "logerr" ]; then
+        echo "ftpload $FTP_SOURCE with failed, please check $LOG_DIR/$log"
+        exit 1
+elif [ "${log##*.}" == "all" ]; then
+        grep "Passed" $LOG_DIR/$log
+        if [ $? -eq 0 ]; then
+                echo "ftpload $FTP_SOURCE with passed, please check $LOG_DIR/$log"
+                exit 0
+        else
+                exit 1
+        fi
+fi
 

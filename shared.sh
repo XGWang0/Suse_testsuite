@@ -2,7 +2,16 @@
 
 export LANG=C
 
+FORCED_VERSION="$VERSION"
+
 [ -r PROJECT/config ] && source PROJECT/config
+
+# if version was defined externally, use that one
+[ -z "$FORCED_VERSION" ] || VERSION="$FORCED_VERSION"
+
+# Where to put built rpms
+[ -z "$DESTDIR" ] && DESTDIR="`pwd`/BUILT"
+mkdir -p "$DESTDIR" || exit 1
 
 project=QA:Huawei
 iosc="osc -A https://api.suse.de"

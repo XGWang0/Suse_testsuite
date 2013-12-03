@@ -1,6 +1,6 @@
 #!/bin/sh
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -22,42 +22,35 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+set -eu
+
 WORKPATH="/usr/share/qa/qa_test_bind"
-cd $WORKPATH
+. $WORKPATH/bind.rc
 
-. bind.rc
 
-backup_config
-install_config "forwarder"
+setup() {
+	backup_config
+	install_config "forwarder"
+}
 
-if [ ! -e $PID_FILE ]; then
-   $BINDCTRL start
-fi
-	
-sleep 10
+test_() {
+	[ ! -e $PID_FILE ] && bctl_ww start
 
-OLDPID=`cat $PID_FILE`
+	OLDPID=`cat $PID_FILE`
 
-$BINDCTRL restart
+	bctl_ww restart
 
-sleep 10
+	if [ -e $PID_FILE ]; then
+		NEWPID=`cat $PID_FILE`
 
-if [ -e $PID_FILE ]; then
-   NEWPID=`cat $PID_FILE`
+		if [ $OLDPID != $NEWPID ]; then
+			echo "PASSED: bind - Restart daemon"
+			return $RES_OK
+		fi
+	fi
 
-   if [ $OLDPID != $NEWPID ]; then
-       echo "PASSED: bind - Restart daemon"
-       RC=0
-   else
-       echo "FAILED: bind - Restart daemon"
-       RC=1
-   fi
-else
-   echo "FAILED: bind - Restart daemon"
-   RC=1
-fi
+	echo "FAILED: bind - Restart daemon"
+	return $RES_FAIL
+}
 
-restore_config
-
-exit $RC
-
+main $@

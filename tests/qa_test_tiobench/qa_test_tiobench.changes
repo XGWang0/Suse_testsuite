@@ -1,4 +1,14 @@
 -------------------------------------------------------------------
+Thu Sep 12 10:16:13 UTC 2013 - lzwang@suse.com
+
+- Add tiobench-add-sync-option.patch.  
+
+-------------------------------------------------------------------
+Mon Aug 19 08:19:46 UTC 2013 - lzwang@suse.com
+
+- Add tiobench-remove-conflict-on-aligned_alloc.patch. (bnc#835355) 
+
+-------------------------------------------------------------------
 Wed Aug 17 10:05:53 GMT 2011 - llipavsky@suse.cz
 
 - Remove qa_dummy dependency

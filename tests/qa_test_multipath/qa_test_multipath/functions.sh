@@ -1,6 +1,6 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -116,6 +116,9 @@ fi
 }
 function iscsi_connect ()
 {
+        if [ ! -f /etc/iscsi/initiatorname.iscsi ];then
+		echo "InitiatorName=iqn.`date +%Y-%m`.de.suse.qam:`uname -n`" > /etc/iscsi/initiatorname.iscsi
+	fi
 	/etc/init.d/open-iscsi status
 	if [ $? -ne 0 ];then
 		/etc/init.d/open-iscsi start

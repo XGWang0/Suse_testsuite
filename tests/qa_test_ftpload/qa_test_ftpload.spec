@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -90,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/ftpload.tcf
 /usr/share/qa/tools/test_ftpload-run
 /usr/share/man/man8/*
+%attr(0755,root,root) /usr/bin/ftpload
+%attr(0755,root,root) /usr/share/qa/tools/test_ftpload-run
+%attr(0755,root,root) /usr/share/qa/%name/ftpload.sh
 
 %changelog
 * Mon Oct 24 2011 - cachen@suse.com

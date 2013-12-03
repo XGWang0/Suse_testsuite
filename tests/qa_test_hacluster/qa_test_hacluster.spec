@@ -1,7 +1,7 @@
 #
 # spec file for package qa_sample (Version 0.1)
 #
-# Copyright (c) 2010 Novell, Inc.
+# Copyright (c) 2013 Novell, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -65,6 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name
 /usr/share/qa/tcf/qa_hacluster.tcf
 /usr/share/qa/tools/test_hacluster-run
+%attr(0755,root,root) /usr/share/qa/%name/*.sh
 
 %changelog
 * Fri Jun 01 2012 - vpelcak@suse.com

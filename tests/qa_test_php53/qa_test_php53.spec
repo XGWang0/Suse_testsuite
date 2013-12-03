@@ -1,7 +1,7 @@
 #
-# spec file for package qa_php5 (Version 5.3.8)
+# spec file for package qa_php5 (Version 5.3.26)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -14,7 +14,7 @@
 Name:           qa_test_php53
 %define qa_location /usr/share/qa/qa_test_php53
 %define qa_server_location /srv/www/htdocs/php53-tests
-Version:        5.3.8
+Version:        5.3.26
 Release:        1
 License:        PHP
 Group:          System/Packages
@@ -27,6 +27,8 @@ Source1:        test_php53-run
 Source2:	qa_test_php53.8
 Source3:	apache2-php5-prepare.sh
 Source4:	test_php53-server-run
+Source5:	expected_fail.list
+Source6:	source_skipped.list
 Patch0:		server-test-config.patch
 BuildArch:      noarch
 Provides:	qa_test_php5
@@ -119,7 +121,7 @@ cp $php_dir/php.gif $qa_dir
 rm -rf $php_dir/*
 
 find . -name *win32* | xargs rm
-find . -name *.phpt|sort > ./ctcs2_test_order
+find . -name *.phpt|grep -vf %{S:5}|grep -vf %{S:6}|sort > ./ctcs2_test_order
 
 %patch0 -p1
 
@@ -131,6 +133,8 @@ cd ..
 install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}
 install -m 755 %{S:3} $RPM_BUILD_ROOT%{qa_location}
 install -d -m 0755 $RPM_BUILD_ROOT%{qa_server_location}
+install -m 755 %{S:5} $RPM_BUILD_ROOT%{qa_location}
+install -m 755 %{S:6} $RPM_BUILD_ROOT%{qa_location}
 
 cp php.gif $RPM_BUILD_ROOT/%{qa_location}
 cp run-tests.php $RPM_BUILD_ROOT/%{qa_location}

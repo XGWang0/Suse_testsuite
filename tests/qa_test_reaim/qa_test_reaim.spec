@@ -1,7 +1,7 @@
 #
 # spec file for package reaim (Version 7.0.1.13)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -35,6 +35,7 @@ Patch6:         fix-diskdir.patch
 Patch7:         drop-aio.patch
 Patch8:         fix-pipe_test.patch
 Patch9:         c_macro_problem.patch
+Patch10:	diskdir_abuild.patch
 Requires:       ctcs2
 Provides: 	reaim reaim-ctcs2-glue
 Obsoletes:	reaim reaim-ctcs2-glue
@@ -89,7 +90,7 @@ Authors:
 %endif
 %patch8 -p1
 %patch9 -p1
-
+%patch10 -p1
 %build
 ./bootstrap
 ./configure
@@ -106,9 +107,12 @@ install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/qa_test_reaim.8
 cp -r data scripts $RPM_BUILD_ROOT/usr/lib/reaim
 cp src/reaim data/reaim.config $RPM_BUILD_ROOT/usr/lib/reaim
-cp data/workfile.alltests $RPM_BUILD_ROOT/usr/lib/reaim/workfile
+cp ctcstools/workfile $RPM_BUILD_ROOT/usr/lib/reaim/workfile
 cp ctcstools/test_reaim-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
+chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_reaim-run
 cp ctcstools/reaim.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+cp ctcstools/prepare.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim
+chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/prepare.sh
 ln -s ../../../reaim/reaim.config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/reaim.config
 ln -s ../../../reaim/workfile $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/workfile
 ln -s ../../../reaim/reaim $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/reaim

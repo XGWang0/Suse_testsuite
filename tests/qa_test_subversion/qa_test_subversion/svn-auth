@@ -1,0 +1,17 @@
+K 8
+passtype
+V 6
+simple
+K 8
+password
+V 7
+testing
+K 15
+svn:realmstring
+V REALM_LEN
+<http://FQDN_HOSTNAME:80> SVN Test Realm
+K 8
+username
+V 7
+svntest
+END

@@ -42,19 +42,19 @@ BuildRequires: libattr-devel
 Url:            http://ltp.sf.net
 License:        GPL v2 or later
 Group:          System/Benchmark
-Provides:       runalltests.sh diskio.sh networktests.sh 
+Provides:       runalltests.sh diskio.sh networktests.sh
 Provides:	ltp ltp-ctcs2-glue
 Obsoletes:	ltp ltp-ctcs2-glue
 Requires:       bash
 Requires:       perl
-Requires:      	qa_lib_ctcs2 
+Requires:	qa_lib_ctcs2
 Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20130109
+Version:        20130904
 Release:        1
-Source:         ltp-full-%{version}.bz2
+Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:	qa_test_ltp.8
@@ -63,8 +63,6 @@ Patch100:	sles9-workarounds.patch
 Patch102:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
-Patch300:	0001-Fix-realtime-build.patch
-Patch301:	0001-syscalls-mremap05-Fix-build.patch
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
 Patch408:       fix-sched_stress.patch
@@ -73,20 +71,12 @@ Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 #Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0001-syscalls-getrusage04-Try-guess-timer-granularity.patch
-Patch701:	0001-openposix-.-pthread_cond_timedwait-2-2-2-3.patch
-Patch702:	0001-syscalls-readlink04-Cleanup.patch
-Patch703:	0001-syscalls-readlink04-Simplify-the-code.patch
-Patch704:	0001-openposix-Remove-stubs.patch
-Patch705:	0001-syscalls-sysctl03-Change-TWARN-to-TINFO.patch
-Patch706:	0001-testcases-.-process_stress-Silence-the-output.patch
-Patch707:	0001-runtest-ltp-aiodio.part3-fsx-linux-turn-off-debug.patch
-Patch708:	0001-openposix-Fix-several-return-values.patch
-Patch709:	remove_lio_listio_11-1.patch
+Patch700:	0001-runtest-mm-Fix-ksn-ksm-typo.patch
+Patch701:	0001-syscalls-syslog-Fix-daemon-restart-on-SUSE.patch
 # Patches 8xx CTCS2 related changes
-# Patches 9xx LTP runtest control file modifications 
+# Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
-Patch901:       enables_lvm_part_xfs.patch  
+Patch901:       enables_lvm_part_xfs.patch
 Patch903:       aiodio-runtest-modification-ctcs2.diff
 Patch904:	disable_aio_system_crushers.patch
 #Patch1001:      bnc458987_utimensat_tests.sh.diff
@@ -118,8 +108,6 @@ Authors:
 %patch102 -p1
 # Patches 2xx Build Environment Patches
 # Patches 3xx RPMLinit Warning Fixes
-%patch300 -p1
-%patch301 -p1
 # Patches 4xx Real Bug Fixes
 %patch408 -p1
 # Patches 5xx Workarounds
@@ -128,16 +116,8 @@ Authors:
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
 %patch701 -p1
-%patch702 -p1
-%patch703 -p1
-%patch704 -p1
-%patch705 -p1
-%patch706 -p1
-%patch707 -p1
-%patch708 -p1
-%patch709 -p1
 # Patches 8xx CTCS2 related changes
-# Patches 9xx LTP runtest control file modifications 
+# Patches 9xx LTP runtest control file modifications
 %patch900 -p1
 %patch901 -p0
 %patch903 -p1
@@ -153,6 +133,12 @@ find testcases | gzip --fast > TC_INDEX.gz
 
 make all %{?jobs:-j%jobs}
 make -C testcases/open_posix_testsuite all
+
+# Fix DEVICE and DEVICE_FS_TYPE
+for i in runtest/*; do
+	sed -i 's/DEVICE/${DEVICE}/' "$i";
+	sed -i 's/DEVICE_FS_TYPE/${DEVICE_FS_TYPE}/' "$i";
+done
 
 %install
 
@@ -176,7 +162,9 @@ mkdir -p $RPM_BUILD_ROOT/opt/ltp/testcases/bin/openposix
 cd testcases/open_posix_testsuite
 # Exclude tests which are "build only"
 for i in `find conformance/interfaces/ -name '*.run-test' -a ! -name '*-buildonly*'` ; do
-	echo `echo $i|cut -d '/' -f 3- | sed -e 's/-/_/g' -e 's#/#_#g'` '${LTPROOT}/testcases/bin/openposix/'$i >> ../../runtest/openposix;
+	# create runtest openposix file
+	echo `basename "$i" .run-test | sed s/-/_/` '${LTPROOT}/testcases/bin/openposix/'$i >> ../../runtest/openposix;
+	# install binaries
 	mkdir -p $RPM_BUILD_ROOT/opt/ltp/testcases/bin/openposix/`dirname $i`;
 	cp $i $RPM_BUILD_ROOT/opt/ltp/testcases/bin/openposix/`dirname $i`;
 done
@@ -191,7 +179,7 @@ ln -s ../../../../../opt/ltp/runtest $RPM_BUILD_ROOT/usr/lib/ctcs2/config/ltp/ru
 ln -s ../../../../opt/ltp/testcases/bin $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/ltp
 
 # Generate ctcs2 tcf files from runtest files
-$RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 300 %{_libdir} $RPM_BUILD_ROOT
+$RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 720 %{_libdir} $RPM_BUILD_ROOT
 
 #Exclude tst_brk
 HARDLINKS="tst_brkm tst_res tst_resm tst_exit tst_flush tst_brkloop tst_brkloopm tst_kvercmp"
@@ -221,8 +209,41 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Sep  9 2013 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20130904
+
+  Fixed bug #729880
+
+* Mon Jun  3 2013 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20130503
+
+* Thu May  2 2013 Cyril Hrubis chrubis@suse.cz
+
+  Backported fixes for following testcases:
+
+  * accept4 - Return TCONF on ENOSYS
+
+  * ksm05 - Fix Segfault on ENOSYS
+
+  * thp03: Return TCONF on ENOSYS
+
+  * pthread_key_create_5-1: Fix.
+
+  * pthread_mutexattr_gettype: Return UNTESTED on unimplemented.
+
+* Mon Apr 29 2013 Cyril Hrubis chrubis@suse.cz
+
+  Backport fixes for aio_fsync_2-1 and aio_fsync_3-1
+  (the testcases Segfaulted randomly due to race
+   condition)
+
+* Wed Apr 24 2013 Cyril Hrubis chrubis@suse.cz
+
+  Backport patch for proc01 for false possitive on
+  xen proc files.
+
 * Wed Apr 17 2013 Cyril Hrubis chrubis@suse.cz
-  
+
   Backport several patches and fix openposix wrapper.
 
   * Remove lio_listio_11-1 as the test was wrong
@@ -236,7 +257,7 @@ rm -rf $RPM_BUILD_ROOT
     to the openposix interpretation.
 
 * Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
-  
+
   Silenced process_stress output (bug #810495).
 
   Turned off debug for FSX tests
@@ -261,7 +282,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Mar  4 2013 Cyril Hrubis chrubis@suse.cz
   Backported fixes for:
 
-  getrusage04 
+  getrusage04
   pthread_cond_timedwait/{2-2,2-3}
   readlink04
 
@@ -277,7 +298,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Jun 06 2012 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20120401
 
-* Fri Feb 02 2012 Cyril Hrubis chrubis@suse.cz
+* Thu Feb 02 2012 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20120104
 
 * Mon Aug 22 2011 - llipavsky@suse.cz

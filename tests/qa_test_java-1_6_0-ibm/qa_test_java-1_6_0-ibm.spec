@@ -1,7 +1,7 @@
 #
 # spec file for package qa_test_java-1_6_0-ibm (Version 1.0.2)
 #
-# Copyright (c) 2011 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #

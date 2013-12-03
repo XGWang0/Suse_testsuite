@@ -1,6 +1,6 @@
 #
 # spec file for package qa_test_numbench
-# Copyright (c) 2010 Novell, Inc.
+# Copyright (c) 2013 Novell, Inc.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -53,6 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)   
 /usr/share/qa
+%attr(0755,root,root) /usr/share/qa/%name/*.py
+%attr(0755,root,root) /usr/share/qa/%name/numbenchparser
 
 %changelog
 * Mon May 21 2012 - nobody@novell.com

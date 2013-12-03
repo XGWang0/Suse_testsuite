@@ -2,7 +2,7 @@
 #
 # spec file for package qa_test_iperf (Version 2.0.5)
 #
-# Copyright (c) 2012 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -24,7 +24,6 @@ Release:	1
 Source0:        iperf-%version.tar.bz2
 Source1:	%{name}.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArchitectures: noarch
 
 %description
 Iperf was developed as an alternative for measuring maximum TCP and UDP bandwidth performance. 

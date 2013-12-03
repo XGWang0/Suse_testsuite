@@ -1,7 +1,7 @@
 #
 # spec file for package tiobench (Version 0.3.3)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -25,6 +25,9 @@ Source2:	qa_test_tiobench.8
 Patch1:         XEN-dom0-problem.patch
 Patch2:         invalid_results_format.patch
 Patch3:		eatmem.patch
+# bnc#835355 tiobench compiling conflict on aligned_alloc
+Patch4:     tiobench-remove-conflict-on-aligned_alloc.patch
+Patch5:     tiobench-add-sync-option.patch
 Provides:	tiobench tiobench-ctcs2-glue
 Obsoletes:	tiobench tiobench-ctcs2-glue
 Requires:	ctcs2
@@ -55,6 +58,8 @@ threads support library).
 %patch1 -p0
 %patch2 -p2
 %patch3
+%patch4 -p1
+%patch5 -p1
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS -DLARGEFILES" 
@@ -93,6 +98,8 @@ ln -sf ../qa_test_tiobench/tiobench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/tiobenc
 ln -sf ../qa_test_tiobench/test_tiobench-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench-run
 ln -sf ../qa_test_tiobench/tiobench-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/tiobench-bench.tcf
 ln -sf ../qa_test_tiobench/test_tiobench-bench-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench-bench-run
+ln -sf ../qa_test_tiobench/tiobench-sync.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/tiobench-sync.tcf
+ln -sf ../qa_test_tiobench/test_tiobench-sync-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench-sync-run
 ln -sf ../share/qa/qa_test_tiobench/eatmem.sh $RPM_BUILD_ROOT/usr/bin/eatmem.sh
 ln -sf ../../../share/qa/qa_test_tiobench/tiobench.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/tiobench.tcf
 ln -sf ../../../share/qa/qa_test_tiobench/test_tiobench-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_tiobench-run

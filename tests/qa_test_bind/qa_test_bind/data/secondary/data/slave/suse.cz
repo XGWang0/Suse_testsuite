@@ -1,0 +1,9 @@
+$ttl 38400
+slave.suse.cz.		IN	SOA	tested.suse.cz. testing.suse.cz. (
+			994077097
+			10800
+			3600
+			432000
+			38400 )
+slave.suse.cz.		IN	NS	tested.suse.cz.
+felix.slave.suse.cz.	IN	A	10.20.1.89

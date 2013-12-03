@@ -1,7 +1,7 @@
 #
 # spec file for package qa_test_tiff (Version 0.1)
 #
-# Copyright (c) 2007 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -17,7 +17,7 @@ Group:          SuSE internal
 Summary:        Unittests for tiff
 Provides:	qa_tiff
 Obsoletes:	qa_tiff
-Requires:       bash tiff
+Requires:       bash tiff qa_lib_ctcs2
 BuildRequires:  bash tiff
 Version:        4.0.0beta7
 Release:        21

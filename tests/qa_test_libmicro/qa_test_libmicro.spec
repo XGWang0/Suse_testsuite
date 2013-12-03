@@ -1,7 +1,7 @@
 #
 # spec file for package libmicro (Version 0.4.0)
 #
-# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -88,11 +88,8 @@ install -m 755 *.sh $RPM_BUILD_ROOT/usr/lib/libMicro/bin
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
-cp ctcstools/test_libmicro-run $RPM_BUILD_ROOT/usr/share/qa/tools
-cp ctcstools/libmicro.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
 cp ctcstools/test_libmicro-bench-run $RPM_BUILD_ROOT/usr/share/qa/tools
 cp ctcstools/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
-ln -s ../%{name}/tcf/libmicro.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicro.tcf
 ln -s ../%{name}/tcf/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicro-bench.tcf
 
 %files
@@ -100,10 +97,10 @@ ln -s ../%{name}/tcf/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicr
 /usr/share/man/man8/qa_test_libmicro.8.gz
 /usr/lib/libMicro
 %doc README
-
 #%files ctcs2-glue
 #%defattr(-,root,root)
 /usr/share/qa
+%attr(0755,root,root) /usr/share/qa/tools/test_libmicro-bench-run
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -1,0 +1,11 @@
+$ttl 38400
+42.168.192.in-addr.arpa.	IN	SOA	tested.testing.foo. testing.suse.de. (
+			994077237
+			10800
+			3600
+			432000
+			38400 )
+42.168.192.in-addr.arpa.	IN	NS	tested.testing.foo.
+250.42.168.192.in-addr.arpa.	IN	PTR	probe1.testing.foo.
+251.42.168.192.in-addr.arpa.	IN	PTR	probe2.testing.foo.
+252.42.168.192.in-addr.arpa.	IN	PTR	probe3.testing.foo.

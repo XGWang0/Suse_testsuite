@@ -1,0 +1,86 @@
+# ****************************************************************************
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
+#
+# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+#
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+
+timer 300
+fg 1 qa_md_monitor_test1 /usr/share/qa/qa_test_md_monitor/monitor_testcase_1.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test2 /usr/share/qa/qa_test_md_monitor/monitor_testcase_2.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test3 /usr/share/qa/qa_test_md_monitor/monitor_testcase_3.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test4 /usr/share/qa/qa_test_md_monitor/monitor_testcase_4.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test5 /usr/share/qa/qa_test_md_monitor/monitor_testcase_5.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test6 /usr/share/qa/qa_test_md_monitor/monitor_testcase_6.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test7 /usr/share/qa/qa_test_md_monitor/monitor_testcase_7.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test8 /usr/share/qa/qa_test_md_monitor/monitor_testcase_8.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test9 /usr/share/qa/qa_test_md_monitor/monitor_testcase_9.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test10 /usr/share/qa/qa_test_md_monitor/monitor_testcase_10.sh
+wait
+
+timer 600
+fg 1 qa_md_monitor_test11 /usr/share/qa/qa_test_md_monitor/monitor_testcase_11.sh
+wait
+
+timer 1200
+fg 1 qa_md_monitor_test12 /usr/share/qa/qa_test_md_monitor/monitor_testcase_12.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test13 /usr/share/qa/qa_test_md_monitor/monitor_testcase_13.sh
+wait
+
+timer 300
+fg 1 qa_md_monitor_test14 /usr/share/qa/qa_test_md_monitor/monitor_testcase_14.sh
+wait
+
+#timer 300
+#fg 1 qa_md_monitor_test15 /usr/share/qa/qa_test_md_monitor/monitor_testcase_15.sh
+#wait
+#
+#timer 300
+#fg 1 qa_md_monitor_test16 /usr/share/qa/qa_test_md_monitor/monitor_testcase_16.sh
+#wait

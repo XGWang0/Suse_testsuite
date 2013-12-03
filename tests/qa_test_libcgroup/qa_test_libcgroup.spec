@@ -1,7 +1,7 @@
 #
 # spec file for package qa_sw_multipath (Version 0.1)
 #
-# Copyright (c) 2007 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -55,5 +55,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/qa/tools/libcgroup-run
 %dir %{_datadir}/qa/tcf
 %{_datadir}/qa/tcf/qa_test_libcgroup.tcf
+%attr(0755,root,root) /usr/share/qa/%name/common-test.sh
+%attr(0755,root,root) /usr/share/qa/%name/src/config.status
+%attr(0755,root,root) /usr/share/qa/%name/src/*.sh
 
 %changelog

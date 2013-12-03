@@ -1,7 +1,7 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright © 2011 Unpublished Work of SUSE, Inc. All Rights Reserved.
-# 
+# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
+#
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
 # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
@@ -12,7 +12,7 @@
 # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
 # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
 # LIABILITY.
-# 
+#
 # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
 # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
@@ -22,33 +22,25 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
+set -eu
+
 WORKPATH="/usr/share/qa/qa_test_bind"
-cd $WORKPATH
+. $WORKPATH/bind.rc
+TEST_DATA=forwarder
 
-. bind.rc
+test_() {
+	QUERY=`grep forwarder_query qa_test_bind-config |cut -d = -f2`
+	RESULT=$(dig @127.0.0.1 $QUERY | grep -E "^$QUERY")
 
-backup_config
-install_config "forwarder"
+	echo "query for '$QUERY' resulted in '$RESULT'"
 
-$BINDCTRL restart
+	if [ -n "$RESULT" ]; then
+		echo "PASSED: bind - Test forward config"
+		return $RES_OK
+	fi
 
-sleep 10
+	echo "FAILED: bind - Test forward config"
+	return $RES_FAIL
+}
 
-QUERY=`grep forwarder_query qa_test_bind-config |cut -d = -f2`
-RESULT=$(dig @127.0.0.1 $QUERY | grep -E "^$QUERY")
-
-echo "query for '$QUERY' resulted in '$RESULT'"
-
-if [ -n "$RESULT" ]; then
-   echo "PASSED: bind - Test forward config"
-   RC=0
-
-else
-   echo "FAILED: bind - Test forward config"
-   RC=1
-fi
-
-restore_config
-
-exit $RC
-
+main $@

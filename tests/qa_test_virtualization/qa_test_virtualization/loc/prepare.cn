@@ -1,6 +1,6 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -26,6 +26,7 @@
 
 MOUNT_DIR1="/MOUNT-VIRT"
 MOUNT_DIR2="/VIRT-ISO"
+MOUNT_DIR3="/VIRT-ISO2"
 
 for dir in $MOUNT_DIR1 $MOUNT_DIR2
 do
@@ -41,4 +42,5 @@ MOUNT2=`$getSettings MOUNT2.addr`
 
 mkdir -p $MOUNT_DIR1 && mount -t nfs $MOUNT1:/srv/ftp/dist/install $MOUNT_DIR1
 mkdir -p $MOUNT_DIR2 && mount -t nfs $MOUNT2:/mirror_a/VIRT-ISO $MOUNT_DIR2
+mkdir -p $MOUNT_DIR3 && mount -t nfs $MOUNT2:/mirror_a/iso $MOUNT_DIR3
 

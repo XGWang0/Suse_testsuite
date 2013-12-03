@@ -1,0 +1,11 @@
+#!/bin/sh
+#sut_timeout 600
+
+# bonnie dircectIO. currently only x86 x86_64 are supported
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/qa_test_bonnie"
+
+/etc/init.d/cron stop
+
+$ctcsdir/tools/run $basedir/tcf/bonnie-directIO.tcf

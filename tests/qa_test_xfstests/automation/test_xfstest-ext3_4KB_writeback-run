@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Test standard ext3 filesystem
+
+TEST_NAME="ext3"
+FSTYPE=ext3
+MOUNT_OPTS="data=writeback"
+
+if /usr/share/qa/tools/product.pl | grep -qi '^sle[sd]-11-sp3' ; then
+	LACKLIST="blacklist_sle11sp3-ext3"
+fi
+
+
+. /usr/share/qa/qa_test_xfstests/run_xfstests.sh

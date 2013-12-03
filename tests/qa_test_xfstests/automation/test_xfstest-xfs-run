@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Test standard xfs filesystem
+
+TEST_NAME="xfs"
+FSTYPE=xfs
+
+. /usr/share/qa/qa_test_xfstests/run_xfstests.sh

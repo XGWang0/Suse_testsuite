@@ -1,6 +1,6 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright (c) 2011 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -53,15 +53,16 @@ if sort --help &>/dev/null; then
 		N=`expr $N + 1`
 
                
-                if [ -e $TESTDATADIR/sort_$i.chk.$ostag ];then
-                        expect_file=$TESTDATADIR/sort_$i.chk.$ostag
+                if [ $i = "general-numeric-sort" ];then
+                        origin_file=$TESTDATADIR/origin.general-numeric-sort
                 else
-                        expect_file=$TESTDATADIR/sort_$i.chk
+                        origin_file=$TESTDATADIR/origin
                 fi 
+                expect_file=$TESTDATADIR/sort_$i.chk
                 
                 
-		cat $TESTDATADIR/origin | sort --$i > $TMPDIR/$i
-		
+		cat $origin_file | sort --$i > $TMPDIR/$i
+
 		if [ $? -eq 0 ]; then 
 			if ! diff $TMPDIR/$i $expect_file >/dev/null; then
 				echo "FAILED: Test #$N sorted file (sort --$i) is different from the reference "

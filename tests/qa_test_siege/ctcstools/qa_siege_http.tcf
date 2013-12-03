@@ -37,4 +37,3 @@ wait
 timer 1800
 fg 1 qa_siege /usr/share/qa/qa_test_siege/siege/bin/siege -b -c 500 -t 20M http://localhost/qa_test_siege/index.html
 wait
-

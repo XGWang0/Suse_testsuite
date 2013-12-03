@@ -1,7 +1,7 @@
 #
 # spec file for package qa_findutils (Version 0.1)
 #
-# Copyright (c) 2006 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -47,7 +47,7 @@ install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../%name/tcf/qa_findutils.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
-
+find $RPM_BUILD_ROOT/usr/share/qa/%name -type d -o -type f -a ! -name "*.tcf" | xargs chmod +x
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -60,6 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools/
 #/usr/share/qa/tcf/qa_findutils.tcf
 #/usr/share/qa/tools/test_findutils-run
+
 
 %changelog -n qa_test_findutils
 * Tue Aug 08 2006 - jdluhos@suse.cz
