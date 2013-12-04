@@ -24,6 +24,7 @@ Source2:	test_apache_testsuite-run
 Source3:	qa_test_apache_testsuite.8
 Patch0:         CVE-2004-0959.diff
 Patch1:		hash_attack.patch
+Patch2:         mod_perl-closeur-s390x.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 Provides:	qa_apache_testsuite
@@ -39,6 +40,7 @@ perl-framework.
 cd ..
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
 
 %install
 #
