@@ -8,13 +8,13 @@
 
 Url:            http://home.comcast.net/~SCSIguy/SCSI_FAQ/RMiller_Tools/dt.html
 Name:           dt
-License:		Robin's Nest Software
+License:	Robin's Nest Software
 Group:          Hardware/Other
 AutoReqProv:    on
 Version:        17.25
 Release:        1
 Summary:        Generic data test program
-Source:         http://home.comcast.net/~SCSIguy/SCSI_FAQ/RMiller_Tools/ftp/dt/dt-source.tar.gz
+Source:         dt-source.tar.bz2
 Source1:        dt.man
 Source2:	dt.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -55,7 +55,8 @@ install -m 755 dt $RPM_BUILD_ROOT/%{_bindir}
 install -d $RPM_BUILD_ROOT/%{_mandir}/man1
 install -m 644 %{S:1} $RPM_BUILD_ROOT/%{_mandir}/man1/dt.1
 install -d $RPM_BUILD_ROOT/%{_docdir}/%{name}/examples
-install -m 755 DiskTests.ksh $RPM_BUILD_ROOT%{_docdir}/%{name}/examples
+install -m 755 Scripts/DiskTests.ksh $RPM_BUILD_ROOT%{_docdir}/%{name}/examples
+install -m 644 Documentation/{dt-UsersGuide.htm,dt-UsersGuide.pdf,dt-UseCases.pdf} $RPM_BUILD_ROOT%{_docdir}/%{name}
 
 %files
 %defattr(-, root, root)
@@ -67,9 +68,9 @@ install -m 755 DiskTests.ksh $RPM_BUILD_ROOT%{_docdir}/%{name}/examples
 %defattr(-, root, root)
 %dir %{_docdir}/%{name}
 %dir %{_docdir}/%{name}/examples
-%doc dt-UsersGuide.htm dt-UsersGuide.pdf dt-UseCases.pdf
+%doc %{_docdir}/%{name}/dt-UsersGuide.htm
+%doc %{_docdir}/%{name}/dt-UsersGuide.pdf
+%doc %{_docdir}/%{name}/dt-UseCases.pdf
 %doc %{_docdir}/%{name}/examples/DiskTests.ksh
 
 %changelog
-
-
