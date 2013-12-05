@@ -1,0 +1,11 @@
+--- mod_perl/ModPerl-Registry/t/cgi-bin/closure.pl	2010-01-02 02:32:38.000000000 +0800
++++ mod_perl/ModPerl-Registry/t/cgi-bin/closure.pl	2013-12-04 18:55:17.954187336 +0800
+@@ -1,7 +1,7 @@
+ #!perl -w
+ 
+ BEGIN {
+-    use Apache::TestUtil;
++    use Apache::TestUtil qw/t_server_log_warn_is_expected/;
+     t_server_log_warn_is_expected();
+ }
+ 
