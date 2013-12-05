@@ -1,6 +1,5 @@
-diff --git a/qa_test_net-snmp/testing/eval_onescript.sh b/qa_test_net-snmp/testing/eval_onescript.sh
---- a/qa_test_net-snmp/testing/eval_onescript.sh
-+++ b/qa_test_net-snmp/testing/eval_onescript.sh
+--- qa_test_net-snmp/testing/eval_onescript.sh
++++ qa_test_net-snmp/testing/eval_onescript.sh
 @@ -22,9 +22,9 @@ if [ "x$3" = "xyes" ]; then
  fi
  export SNMP_HEADERONLY
@@ -13,9 +12,8 @@ diff --git a/qa_test_net-snmp/testing/eval_onescript.sh b/qa_test_net-snmp/testi
  
  cd tests
  
-diff --git a/qa_test_net-snmp/testing/eval_tools.sh b/qa_test_net-snmp/testing/eval_tools.sh
---- a/qa_test_net-snmp/testing/eval_tools.sh
-+++ b/qa_test_net-snmp/testing/eval_tools.sh
+--- qa_test_net-snmp/testing/eval_tools.sh
++++ qa_test_net-snmp/testing/eval_tools.sh
 @@ -22,7 +22,7 @@
  #
  if [ "x$EVAL_TOOLS_SH_EVALED" != "xyes" ]; then
