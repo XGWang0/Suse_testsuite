@@ -34,6 +34,7 @@ Source5:        run-test-wrapper.sh
 Source6:        generate_tcf.sh
 Source7:	qa_test_net-snmp.8
 Patch:		T141snmpv2cvacmgetfail.patch
+Patch:		add_source_file_path.patch
 Url:            http://sourceforge.net/projects/net-snmp
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Summary:        SNMP testsuite
