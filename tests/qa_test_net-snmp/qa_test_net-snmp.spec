@@ -63,7 +63,7 @@ Authors:
 %setup -n qa_test_net-snmp
 %define qa_location /usr/share/qa/qa_test_net-snmp
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
