@@ -1,0 +1,12 @@
+diff -Nura glibc_testsuite/src/tst-leaks2.c glibc_testsuite_change/src/tst-leaks2.c
+--- glibc_testsuite/src/tst-leaks2.c	2012-01-03 00:37:55.000000000 +0800
++++ glibc_testsuite_change/src/tst-leaks2.c	2013-12-06 15:14:14.587949043 +0800
+@@ -36,6 +36,7 @@
+ }
+ 
+ #define TEST_FUNCTION do_test ()
+-#define TIMEOUT 30
++/*Extend the timeout timer to be enough for large /etc/hosts file.*/
++#define TIMEOUT 120
+ /* This defines the `main' function and some more.  */
+ #include <test-skeleton.c>

@@ -26,6 +26,7 @@ Source0:	glibc_testsuite-2.11.tar.gz
 %endif
 Source2:	test_glibc-run
 Patch1:         glibc_testsuite-partial-fix-1.patch
+Patch2:         tst-leaks2-large-hosts-file-fix.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -35,6 +36,7 @@ ripped out from the glibc sources
 %prep
 %setup -q -n glibc_testsuite
 %patch1 -p1
+%patch2 -p1
 
 %build
 make
