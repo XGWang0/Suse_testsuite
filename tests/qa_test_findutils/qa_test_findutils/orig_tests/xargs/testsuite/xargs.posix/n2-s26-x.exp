@@ -1,1 +1,1 @@
-xargs_start f {-n2 -s26 -x} stairs.xi skip
+xargs_start p {-n2 -s26 -x} stairs.xi

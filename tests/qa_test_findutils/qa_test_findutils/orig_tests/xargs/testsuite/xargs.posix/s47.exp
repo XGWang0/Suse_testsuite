@@ -1,1 +1,1 @@
-xargs_start f {-s47} files.xi skip
+xargs_start p {-s47} files.xi
