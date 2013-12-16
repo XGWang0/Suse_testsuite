@@ -9,6 +9,7 @@ BuildRequires:  libattr-devel libaio-devel libtool fdupes automake make m4
 Requires:       bash xfsprogs xfsdump perl acl attr bind-utils bc indent quota
 Source0:        xfstests-%{version}_g%{git_version}.tar.bz2
 Source1:        automation-%{version}.tar.bz2
+Source2:        qa_test_xfstests.8
 License:        GPL2+
 Vendor:         Silicon Graphics, Inc.
 URL:            http://oss.sgi.com/projects/xfs/
@@ -59,6 +60,9 @@ make -C build/rpm rpmfiles DESTDIR=$RPM_BUILD_ROOT DIST_MANIFEST="$DIST_INSTALL"
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 automation/run_xfstests.sh $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 automation/test_*-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -m 755 -d $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{S:2} $RPM_BUILD_ROOT/%{_mandir}/man8/
+gzip $RPM_BUILD_ROOT/%{_mandir}/man8/qa_test_xfstests.8
 cp -r automation/blacklists/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/xfstests/tests/
 
 %clean
@@ -68,6 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /usr/share/qa
+%{_mandir}/man8/qa_test_xfstests.8*
 
 %changelog
 
