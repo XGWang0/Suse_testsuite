@@ -208,7 +208,7 @@ cat << EOF > $OBJ/sshd_config
 	Subsystem	sftp	$SFTPSERVER
 EOF
 
-grep '11 SP3' /etc/issue >/dev/null && echo "Protocol           1,2" >> $OBJ/sshd_config
+echo "Protocol           1,2" >> $OBJ/sshd_config
 
 if [ ! -z "$TEST_SSH_SSHD_CONFOPTS" ]; then
 	trace "adding sshd_config option $TEST_SSH_SSHD_CONFOPTS"
