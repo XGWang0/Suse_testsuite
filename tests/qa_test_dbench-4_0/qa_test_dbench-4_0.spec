@@ -29,6 +29,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	dbench dbench-ctcs2-glue
 Obsoletes:	dbench gbench-ctcs2-glue
 Requires:       ctcs2 >= 0.1.1 nfs-utils
+BuildRequires:       popt-devel
 
 %description
 Dbench is a file system benchmark that generates load patterns similar
