@@ -1,0 +1,20 @@
+#!/bin/bash
+
+tests_dir=/var/lib/tests/tar
+
+# Where to store logs
+if [ -z "$TESTS_LOGDIR" ]; then
+	TESTS_LOGDIR="/var/log/qa/"
+	[ "`whoami`" != 'root' ] && TESTS_LOGDIR="$HOME/var-log-qa/"
+fi
+logdir="$TESTS_LOGDIR/tar/tar-`date +"%Y-%m-%d-%H-%M-%S"`"
+
+echo "Writing logs to: $logdir"
+
+mkdir -p $logdir
+
+# run the tests
+cd $tests_dir
+./testsuite -C $logdir AUTOTEST_PATH=bin 
+
+
