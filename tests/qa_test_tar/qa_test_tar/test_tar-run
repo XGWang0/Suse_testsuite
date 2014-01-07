@@ -39,6 +39,6 @@ mkdir -p $logdir
 
 # run the tests
 cd $tests_dir
-./testsuite -C $logdir AUTOTEST_PATH=bin 
+./testsuite -C $logdir AUTOTEST_PATH=$tests_dir/bin
 
 
