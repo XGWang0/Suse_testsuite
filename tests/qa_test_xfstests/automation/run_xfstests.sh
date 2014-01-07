@@ -122,6 +122,7 @@ function create_partition
 			}
 			dev = $1
 			size = space_to_kb($2)
+			end = 0
 			partlabel = $6
 			seenextended = 0
 			next
