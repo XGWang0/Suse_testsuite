@@ -327,7 +327,7 @@ sub testsuite_open
 	# There should start the results
 	while (readline($self->{TCF})) {
 #		&log(LOG_INFO,"Skipping line: ".$_);
-		if (/^testsuite: starting at: '/) {
+		if (/^testsuite: starting at:/) {
 			return 1;
 		}
 	}
@@ -356,16 +356,18 @@ sub testsuite_next
 	$line = readline($self->{TCF});
 	&log(LOG_INFO,"Parsing line: ".$line);
 	# Are we done?
-	if ($line =~ /^testsuite: ending at: /) {
+	# FIXME TODO failed testcases not in list? try without genfile to see ;-)
+	if ($line =~ /^testsuite: ending at:/) {
 		return ();
 	}
 
-	($id, $testcase, $result, $time) = line =~ /^([0-9]+)\. .*\((.*)\.at:[0-9]+\): (\w.*\w)\s+\(([^()]+)\)\s*$/;
+	($id, $testcase, $result, $time) = $line =~ /^([0-9]+)\. .*\((.*)\.at:[0-9]+\): (\w.*\w)\s+\(([^()]+)\)\s*$/;
+
+	log(LOG_INFO, "ID: '$id', testcase: '$testcase', result: '$result', time: '$time'");
 
 	$self->{TC_NAME} = $id;
 	# Remove possible previous test result time
-	$rest =~ s/^-?[0-9]+s \.\.\. //;
-	if ($rest =~ /^FAIL/) {
+	if ($result =~ /^FAIL/) {
 #		&log(LOG_INFO,"Matched error return");
 		$ret->{failed} = 1;
 	} elsif ($result =~ /^skipped$/) {
@@ -410,10 +412,14 @@ sub testsuite_tc_output_rel_url
 {
 	my ($self) = @_;
 
-	my $dir "testsuite.dir/" . $self->{TC_NAME};
+	my $dir = "testsuite.dir/" . $self->{TC_NAME};
+
+
+#	log(LOG_INFO, "(-d ". $self->path . "/$self->{TCF_NAME}/$dir) ? $dir : \"testsuite.log\"");
+#	log(LOG_INFO, '-d $self->path . \'/\' . $self->{TCF_NAME} . \'/\' . $dir) ? $dir : "testsuite.log"');
 
 	# If test passed without issues, no custom logs -> return main logfile
-	return -d $self->{path} . '/' . $self->{TCF_NAME} . '/' . $dir ? $dir : "testsuite.log";
+	return (-d $self->path . '/' . $self->{TCF_NAME} . '/' . $dir) ? $dir : "testsuite.log";
 } 
 
 1;
