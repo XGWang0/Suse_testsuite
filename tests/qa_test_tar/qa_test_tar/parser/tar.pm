@@ -322,6 +322,14 @@ sub testsuite_open
 		return 0;
 	}
 	$self->{TCF_NAME} = $tcf;
+
+	# Logs are strange, first section of results does not contain failed testcases!!!
+	# They are in next section with different format. So, when we opne the logs, we 
+	# seek start of first section (stage1) and when we process it, we seek the section
+	# with failed tests (stage2). Since the format is different, different code to parse
+	# it must be used ;(
+	$self->{stage} = 1;
+
 	# Skip lines until line in following format:
 	# testsuite: starting at: Tue Jan  7 11:45:50 CET 2014
 	# There should start the results
@@ -355,38 +363,73 @@ sub testsuite_next
 
 	$line = readline($self->{TCF});
 	&log(LOG_INFO,"Parsing line: ".$line);
-	# Are we done?
-	# FIXME TODO failed testcases not in list? try without genfile to see ;-)
-	if ($line =~ /^testsuite: ending at:/) {
-		return ();
+	
+	if ($self->{stage} == 1) {
+		# now reading not failed testcases (see testsuite open for description)
+
+		# Are we done with this section
+		if ($line =~ /^testsuite: ending at:/) {
+			# seek to start of section with failed testcases
+			&log(LOG_INFO,"Seek failed tests section...");
+			# if section is not found -> it is not there -> return ()
+			do {
+				return () unless defined($line=readline($self->{TCF}));
+			&log(LOG_INFO,"Parsing line: ".$line);
+			} until ($line =~ /^Failed tests:/);
+
+			&log(LOG_INFO,"FOUND: ".$line);
+			
+			readline($self->{TCF}); # one more line - same line used to end the failed test section condition
+			$self->{stage} = 2;
+		} else {
+		
+			($id, $testcase, $result, $time) = $line =~ /^([0-9]+)\. .*\((.*)\.at:[0-9]+\): (\w.*\w)\s+\(([^()]+)\)\s*$/;
+		
+			log(LOG_INFO, "ID: '$id', testcase: '$testcase', result: '$result', time: '$time'");
+		
+			# Remove possible previous test result time
+			if ($result =~ /^FAIL/) {
+		#		&log(LOG_INFO,"Matched error return");
+				$ret->{failed} = 1;
+			} elsif ($result =~ /^skipped$/) {
+		#		&log(LOG_INFO,"Matched skipped return");
+				$ret->{skipped} = 1;
+			} elsif ($result =~ /^UNEXPECTED PASS|ok$/) {
+		#		&log(LOG_INFO,"Matched OK return");
+		
+				#count time in seconds (not exact but I cannot get better numbers)
+				my ($m1, $s1, $m2, $s2) = $time =~ /([0-9]+)m([0-9.]+)s ([0-9]+)m([0-9.]+)s/;
+				
+				
+				$ret->{succeeded} = 1;
+				$ret->{test_time} = ($m1+$m2)*60 + int($s1+$s1+0.5);  # int(float+0.5) -> round
+		
+			} else {
+				&log(LOG_ERR, "Wrong format of $id ($testcase) from testsuite ".$self->{TCF_NAME});
+				return ();
+			}
+		}
 	}
-
-	($id, $testcase, $result, $time) = $line =~ /^([0-9]+)\. .*\((.*)\.at:[0-9]+\): (\w.*\w)\s+\(([^()]+)\)\s*$/;
-
-	log(LOG_INFO, "ID: '$id', testcase: '$testcase', result: '$result', time: '$time'");
+	
+	if ($self->{stage} == 2) { 
+		# now reading failed testcases (see testsuite open for description)
+		
+		# seek to line containing testcase id and name
+		# skip other lines
+		# if end of section is found -> return ()
+		do {
+			return () unless defined($line=readline($self->{TCF}));
+			&log(LOG_INFO,"Finding failed record... " . $line);
+			return () if $line =~ /^## -+ ##/;
+			return () if $line =~ /^GNU tar /;
+		} until ($line =~ /^\s*([0-9]+): (\S+)\.at:[0-9]+\s+/);
+		&log(LOG_INFO,"FOUND: " . $line);
+		($id, $testcase) = ($1, $2);
+		&log(LOG_INFO,"FOUND: id=$id, name=$testcase");
+		$ret->{failed} = 1;
+	}
 
 	$self->{TC_NAME} = $id;
-	# Remove possible previous test result time
-	if ($result =~ /^FAIL/) {
-#		&log(LOG_INFO,"Matched error return");
-		$ret->{failed} = 1;
-	} elsif ($result =~ /^skipped$/) {
-#		&log(LOG_INFO,"Matched skipped return");
-		$ret->{skipped} = 1;
-	} elsif ($result =~ /^UNEXPECTED PASS|ok$/) {
-#		&log(LOG_INFO,"Matched OK return");
-
-		#count time in seconds (not exact but I cannot get better numbers)
-		my ($m1, $s1, $m2, $s2) = $time =~ /([0-9]+)m([0-9.]+)s ([0-9]+)m([0-9.]+)s/;
-		
-		
-		$ret->{succeeded} = 1;
-		$ret->{test_time} = ($m1+$m2)*60 + int($s1+$s1+0.5);  # int(float+0.5) -> round
-
-	} else {
-		&log(LOG_ERR, "Wrong format of $id ($testcase) from testsuite ".$self->{TCF_NAME});
-		return ();
-	}
 
 	return ("$id" . "_$testcase", $ret);
 }
