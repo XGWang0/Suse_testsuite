@@ -43,7 +43,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArchitectures: noarch
 
 %description
-QA Integrationcases for tar-tests package. Tar-tests is upstream testsuite (part of tar sources)
+QA Integration for tar-tests package. Tar-tests is upstream testsuite (part of tar sources)
 
 
 %package parser

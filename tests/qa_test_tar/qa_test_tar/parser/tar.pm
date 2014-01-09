@@ -317,6 +317,7 @@ sub testsuite_open
 {
 	my ($self, $tcf) = @_;
 
+	# All data I need are in testsuite.log
 	if (!open($self->{TCF}, $self->path."/$tcf/testsuite.log")) {
 		&log(LOG_ERR,"Cannot open file ".$self->path."/$tcf/testsuite.log: $!");
 		return 0;
@@ -332,7 +333,7 @@ sub testsuite_open
 
 	# Skip lines until line in following format:
 	# testsuite: starting at: Tue Jan  7 11:45:50 CET 2014
-	# There should start the results
+	# There should start the results (1st stage)
 	while (readline($self->{TCF})) {
 #		&log(LOG_INFO,"Skipping line: ".$_);
 		if (/^testsuite: starting at:/) {
@@ -362,22 +363,23 @@ sub testsuite_next
 	};
 
 	$line = readline($self->{TCF});
-	&log(LOG_INFO,"Parsing line: ".$line);
+#	&log(LOG_INFO,"Parsing line: ".$line);
 	
 	if ($self->{stage} == 1) {
-		# now reading not failed testcases (see testsuite open for description)
+		# now reading not failed testcases (see testsuite_open for description)
 
 		# Are we done with this section
 		if ($line =~ /^testsuite: ending at:/) {
 			# seek to start of section with failed testcases
-			&log(LOG_INFO,"Seek failed tests section...");
+#			&log(LOG_INFO,"Seek failed tests section...");
+
 			# if section is not found -> it is not there -> return ()
 			do {
 				return () unless defined($line=readline($self->{TCF}));
-			&log(LOG_INFO,"Parsing line: ".$line);
+#				&log(LOG_INFO,"Parsing line: ".$line);
 			} until ($line =~ /^Failed tests:/);
 
-			&log(LOG_INFO,"FOUND: ".$line);
+#			&log(LOG_INFO,"FOUND: ".$line);
 			
 			readline($self->{TCF}); # one more line - same line used to end the failed test section condition
 			$self->{stage} = 2;
@@ -385,11 +387,13 @@ sub testsuite_next
 		
 			($id, $testcase, $result, $time) = $line =~ /^([0-9]+)\. .*\((.*)\.at:[0-9]+\): (\w.*\w)\s+\(([^()]+)\)\s*$/;
 		
-			log(LOG_INFO, "ID: '$id', testcase: '$testcase', result: '$result', time: '$time'");
+#			log(LOG_INFO, "ID: '$id', testcase: '$testcase', result: '$result', time: '$time'");
 		
 			# Remove possible previous test result time
 			if ($result =~ /^FAIL/) {
 		#		&log(LOG_INFO,"Matched error return");
+		#		# This should actually never happen, since currently failed testcases are not in section 1!!!
+				&log(LOG_WARN, "Testcase $id ($testcase) failed and is present in section 1 of logs! Maybe testsuite log got fixed finally?");
 				$ret->{failed} = 1;
 			} elsif ($result =~ /^skipped$/) {
 		#		&log(LOG_INFO,"Matched skipped return");
@@ -412,20 +416,19 @@ sub testsuite_next
 	}
 	
 	if ($self->{stage} == 2) { 
-		# now reading failed testcases (see testsuite open for description)
+		# now reading failed testcases (see testsuite_open for description)
 		
 		# seek to line containing testcase id and name
 		# skip other lines
 		# if end of section is found -> return ()
 		do {
 			return () unless defined($line=readline($self->{TCF}));
-			&log(LOG_INFO,"Finding failed record... " . $line);
+#			&log(LOG_INFO,"Finding failed record... " . $line);
 			return () if $line =~ /^## -+ ##/;
 			return () if $line =~ /^GNU tar /;
 		} until ($line =~ /^\s*([0-9]+): (\S+)\.at:[0-9]+\s+/);
-		&log(LOG_INFO,"FOUND: " . $line);
+#		&log(LOG_INFO,"FOUND: " . $line);
 		($id, $testcase) = ($1, $2);
-		&log(LOG_INFO,"FOUND: id=$id, name=$testcase");
 		$ret->{failed} = 1;
 	}
 
@@ -457,11 +460,8 @@ sub testsuite_tc_output_rel_url
 
 	my $dir = "testsuite.dir/" . $self->{TC_NAME};
 
-
-#	log(LOG_INFO, "(-d ". $self->path . "/$self->{TCF_NAME}/$dir) ? $dir : \"testsuite.log\"");
-#	log(LOG_INFO, '-d $self->path . \'/\' . $self->{TCF_NAME} . \'/\' . $dir) ? $dir : "testsuite.log"');
-
 	# If test passed without issues, no custom logs -> return main logfile
+	# otherwise return relative path to subdir with detailed logs
 	return (-d $self->path . '/' . $self->{TCF_NAME} . '/' . $dir) ? $dir : "testsuite.log";
 } 
 
