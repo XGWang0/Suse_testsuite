@@ -19,24 +19,36 @@
 
 Name:           qa_test_ltp
 
-#
-# libcap-devel is not present on sles 9
-#
-%if 0%{?sles_version} == 9
 BuildRequires: flex gcc-c++ libaio-devel zip
-%else
-BuildRequires: flex gcc-c++ libaio-devel libcap-devel zip
+
+# Add libcap-devel on everything but SLES9
+%if 0%{?suse_version} >= 1000
+BuildRequires: libcap-devel
 %endif
 
-#
-# Attr library name is different on RedHat derivatives
-#
+# SUSE
+# Add attr
 %if 0%{?suse_version} >= 1000
 BuildRequires: attr-devel
 %endif
 
+# RedHat and derivates
+# Add attr
+# Add numactl (for RHEL5 and newer)
 %if 0%{?rhel_version} || 0%{?centos_version} || 0%{?fedora}
 BuildRequires: libattr-devel
+%if 0%{?rhel_version} && 0%{?rhel_version} >= 505
+BuildRequires: numactl-devel
+%endif
+%endif
+
+# SUSE
+# Add libnuma
+# Does not exists for x86, s390, s390x, arm, on SLES9 SLES10
+%ifnarch i386 i486 i586 i686 s390 s390x aarch64 armv7l
+%if 0%{?suse_version} >= 1020
+BuildRequires: libnuma-devel
+%endif
 %endif
 
 Url:            http://ltp.sf.net
@@ -52,7 +64,7 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20130904
+Version:        20140115
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
@@ -71,8 +83,6 @@ Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 #Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0001-runtest-mm-Fix-ksn-ksm-typo.patch
-Patch701:	0001-syscalls-syslog-Fix-daemon-restart-on-SUSE.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -114,8 +124,6 @@ Authors:
 %patch501 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-%patch700 -p1
-%patch701 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
@@ -209,6 +217,13 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jan 15 2014 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20140115
+
+  Add build dependency on numa devel library.
+
+  Add two more tcf files (controllers, numa) into default run.
+
 * Mon Sep  9 2013 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20130904
 
