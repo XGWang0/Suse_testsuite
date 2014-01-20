@@ -28,6 +28,7 @@ Source5:    test_bonnie-directIO-run
 Source6:    bonnie-directIO.tcf
 Patch0:         bonnie-1.4.dif
 Patch1:     bonnie-enable-o-direct-for-x86_64.patch
+Patch2:     bonnie-fix-overflow-on-large-mem-machines.patch
 #Patch:  %{name}-%{version}.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	bonnie bonnie-ctcs2-glue
@@ -53,6 +54,7 @@ Authors:
 %setup -n bonnie 
 %patch0 -p1
 %patch1
+%patch2 -p1
 
 %build
 make CC=gcc CFLAGS="$RPM_OPT_FLAGS"

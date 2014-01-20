@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Jan 20 11:00:30 UTC 2014 - lzwang@suse.com
+
+- Add bonnie-fix-overflow-on-large-mem-machines.patch
+  from bonnie 1.5. 
+
+-------------------------------------------------------------------
 Fri Aug 12 07:53:22 GMT 2011 - llipavsky@suse.cz
 
 - Package rename: bonnie -> qa_test_bonnie

@@ -1,0 +1,32 @@
+diff -Npur bonnie/Bonnie.c bonnie.new/Bonnie.c
+--- bonnie/Bonnie.c	2014-01-20 17:19:04.000000000 +0800
++++ bonnie.new/Bonnie.c	2014-01-20 16:59:20.000000000 +0800
+@@ -268,15 +268,21 @@ int main(
+ 
+ #if defined(_SC_PHYS_PAGES)
+   memsz = sysconf (_SC_PHYS_PAGES);
+-  memsz *= sysconf (_SC_PAGESIZE);
+-  if (1024*1024*size <= memsz)
++  memsz *= sysconf (_SC_PAGESIZE)/1024;
++  /* printf("RAM: %lu MiB, File: %lu MiB\n", memsz/1024, size); */
++  if (1024*size <= memsz)
+   {
+-	fprintf (stderr, "Bonnie: Warning: You have %iMB RAM, but you test with only %liMB datasize!\n",
+-		memsz/(1024*1024), size);
+-	fprintf (stderr, "Bonnie:          This might yield unrealistically good results,\n");
+-	fprintf (stderr, "Bonnie:          for reading and seeking%s.\n",
+-		 (dosync? "": " and writing"));
++    fprintf (stderr, "Bonnie: Warning: You have %luMiB RAM, but you test with only %uMiB datasize!\n",
++             memsz/1024, (unsigned)size);
++    fprintf (stderr, "Bonnie:          This might yield unrealistically good results,\n");
++    fprintf (stderr, "Bonnie:          for reading and seeking%s%s.\n",
++             (dosync? "": " and writing"), (o_direct? " for char I/O (putc/getc)": ""));
++    
+   }
++#else
++# ifdef __GNUC__
++#  warn Memorz size can not be determined
++# endif 
+ #endif
+   /* sanity check - 32-bit machines can't handle more than 2047 Mb */
+   if (sizeof(off_t) <= 4 && size > 2047)
