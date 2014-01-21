@@ -1,7 +1,7 @@
 Name:           qa_test_xfstests
 Summary:        XFS regression test suite
 Version:        1.1.1
-%define         git_version 10298d30e55c
+%define         git_version a93b1dd76cd6
 Release:        1
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires:  autoconf xfsprogs xfsprogs-devel xfsprogs-qa-devel e2fsprogs-devel libacl-devel
