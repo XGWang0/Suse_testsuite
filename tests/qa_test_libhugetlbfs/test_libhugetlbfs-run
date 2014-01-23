@@ -1,0 +1,18 @@
+#!/bin/bash
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+TEST_DIR=/usr/share/qa/qa_test_libhugetlbfs
+
+# Prepare the test sources
+mkdir -p /tmp/libhugetlbfs
+mount  -t hugetlbfs none /tmp/libhugetlbfs
+
+echo 128 > /proc/sys/vm/nr_hugepages
+
+$CTCS2_DIR/tools/run $TCF_DIR/qa_test_libhugetlbfs.tcf
+
+umount /tmp/libhugetlbfs
+
+
+
