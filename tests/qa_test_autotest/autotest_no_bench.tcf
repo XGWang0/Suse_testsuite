@@ -1,0 +1,218 @@
+timer 86400
+fg 1 autotest-aborttest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/aborttest/control
+wait
+timer 86400
+fg 1 autotest-aio_dio_bugs /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/aio_dio_bugs/control
+wait
+timer 86400
+fg 1 autotest-aiostress /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/aiostress/control
+wait
+timer 86400
+fg 1 autotest-barriertest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/barriertest/control
+wait
+timer 86400
+fg 1 autotest-bash_shared_mapping /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/bash_shared_mapping/control
+wait
+timer 86400
+fg 1 autotest-btreplay /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/btreplay/control
+wait
+timer 86400
+fg 1 autotest-cgroup /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cgroup/control
+wait
+timer 86400
+fg 1 autotest-connectathon /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/connectathon/control
+wait
+timer 86400
+fg 1 autotest-cpu_hotplug /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cpu_hotplug/control
+wait
+timer 86400
+fg 1 autotest-cyclictest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cyclictest/control
+wait
+timer 86400
+fg 1 autotest-dacapo /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/dacapo/control
+wait
+timer 86400
+fg 1 autotest-dbt2 /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/dbt2/control
+wait
+timer 86400
+fg 1 autotest-disktest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/disktest/control
+wait
+timer 86400
+fg 1 autotest-ebizzy /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/ebizzy/control
+wait
+timer 86400
+fg 1 autotest-error_cleanup /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/error_cleanup/control
+wait
+timer 86400
+fg 1 autotest-error_initialize /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/error_initialize/control
+wait
+timer 86400
+fg 1 autotest-error_setup /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/error_setup/control
+wait
+timer 86400
+fg 1 autotest-error_skip_step /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/error_skip_step/control
+wait
+timer 86400
+fg 1 autotest-error_test_bug /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/error_test_bug/control
+wait
+timer 86400
+fg 1 autotest-error_test_error /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/error_test_error/control
+wait
+timer 86400
+fg 1 autotest-error_test_fail /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/error_test_fail/control
+wait
+timer 86400
+fg 1 autotest-error_test_na /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/error_test_na/control
+wait
+timer 86400
+fg 1 autotest-ffsb /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/ffsb/control
+wait
+timer 86400
+fg 1 autotest-fio /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fio/control
+wait
+timer 86400
+fg 1 autotest-fsfuzzer /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fsfuzzer/control
+wait
+timer 86400
+fg 1 autotest-fs_mark /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fs_mark/control
+wait
+timer 86400
+fg 1 autotest-fsstress /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fsstress/control
+wait
+timer 86400
+fg 1 autotest-fsx /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fsx/control
+wait
+timer 86400
+fg 1 autotest-hwclock /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/hwclock/control
+wait
+timer 86400
+fg 1 autotest-iosched_bugs /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/iosched_bugs/control
+wait
+timer 86400
+fg 1 autotest-ipv6connect /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/ipv6connect/control
+wait
+timer 86400
+fg 1 autotest-isic /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/isic/control
+wait
+timer 86400
+fg 1 autotest-kernelbuild /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kernelbuild/control
+wait
+timer 86400
+fg 1 autotest-libhugetlbfs /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/libhugetlbfs/control
+wait
+timer 86400
+fg 1 autotest-linus_stress /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/linus_stress/control
+wait
+timer 86400
+fg 1 autotest-lsb_dtk /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/lsb_dtk/control
+wait
+timer 86400
+fg 1 autotest-memory_api /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/memory_api/control
+wait
+timer 86400
+fg 1 autotest-monotonic_time /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/monotonic_time/control
+wait
+timer 86400
+fg 1 autotest-npb /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/npb/control
+wait
+timer 86400
+fg 1 autotest-perfmon /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/perfmon/control
+wait
+timer 86400
+fg 1 autotest-pi_tests /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/pi_tests/control
+wait
+timer 86400
+fg 1 autotest-pktgen /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/pktgen/control
+wait
+timer 86400
+fg 1 autotest-posixtest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/posixtest/control
+wait
+timer 86400
+fg 1 autotest-profiler_test /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/profiler_test/control
+wait
+timer 86400
+fg 1 autotest-rmaptest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/rmaptest/control
+wait
+timer 86400
+fg 1 autotest-rtc /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/rtc/control
+wait
+timer 86400
+fg 1 autotest-rttester /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/rttester/control
+wait
+timer 86400
+fg 1 autotest-scrashme /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/scrashme/control
+wait
+timer 86400
+fg 1 autotest-selftest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/selftest/control
+wait
+timer 86400
+fg 1 autotest-signaltest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/signaltest/control
+wait
+timer 86400
+fg 1 autotest-sleeptest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/sleeptest/control
+wait
+timer 86400
+fg 1 autotest-sparse /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/sparse/control
+wait
+timer 86400
+fg 1 autotest-spew /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/spew/control
+wait
+timer 86400
+fg 1 autotest-stress /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/stress/control
+wait
+timer 86400
+fg 1 autotest-synctest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/synctest/control
+wait
+timer 86400
+fg 1 autotest-systemtap /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/systemtap/control
+wait
+timer 86400
+fg 1 autotest-tsc /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/tsc/control
+wait
+timer 86400
+fg 1 autotest-uptime /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/uptime/control
+wait
+timer 86400
+fg 1 autotest-wb_kupdate /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/wb_kupdate/control
+wait
+timer 86400
+fg 1 autotest-xfstests /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/xfstests/control
+wait
+timer 86400
+fg 1 autotest-xmtest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/xmtest/control
+wait
+### it is just for newburn which we already have in the default ctcs2 testsuites.
+#timer 86400
+#fg 1 autotest-ctcs /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/ctcs/control
+#wait
+#timer 86400
+#fg 1 autotest-ltp /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/ltp/control
+#wait
+#timer 86400 
+#fg 1 autotest-flail /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/flail/control
+#wait
+#timer 86400
+#fg 1 autotest-parallel_dd /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/parallel_dd/control
+#wait
+###### lot of time used
+timer 86400
+fg 1 autotest-fsdev /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fsdev/control
+wait
+timer 86400
+fg 1 autotest-kvm /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kvm/control
+wait
+timer 86400
+fg 1 autotest-libvirt /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/libvirt/control
+wait
+timer 86400
+fg 1 autotest-profiler_sync /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/profiler_sync/control
+wait
+#timer 86400
+#fg 1 autotest-qemu_iotests /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/qemu_iotests/control
+#wait
+#timer 86400
+#fg 1 autotest-dma_memtest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/dma_memtest/control
+#wait
+#timer 86400
+#fg 1 autotest-real_time_tests /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/real_time_tests/control
+#wait

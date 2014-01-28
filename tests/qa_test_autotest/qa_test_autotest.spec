@@ -38,8 +38,9 @@ Source4:        qa_test_autotest.8
 Source5:	qa_test_autotest-config
 Source6:	pre-kvm.sh
 Source7:	fio-2.0.3.tar.gz
+Source8:    autotest_bench.tcf
+Source9:    autotest_no_bench.tcf
 Patch0: 	fio.patch
-Patch1:		Makefile-patch.patch	
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -57,7 +58,6 @@ Authors:
 %setup -n autotest-autotest-2b0da9d
 
 %patch0 -p1
-%patch1 -p1
 %build
 
 %install
@@ -75,6 +75,8 @@ install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/lib/autotest
 cp -a client/* $RPM_BUILD_ROOT/usr/lib/autotest
 cp %{S:7} $RPM_BUILD_ROOT/usr/lib/autotest/tests/fio/
 cp %{S:1} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
+cp %{S:8} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
+cp %{S:9} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
 install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 
 %files
