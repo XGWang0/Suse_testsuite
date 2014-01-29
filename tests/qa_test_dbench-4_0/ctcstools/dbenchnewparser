@@ -67,7 +67,7 @@ while(<STDIN>)
             last;
 
    }
-    if( $_ =~ /^dbench\s+-t \d+ -D \/abuild\s+(\d+)/ )
+    if( $_ =~ /^dbench\s.*\/abuild\s+(\d+)/ )
     {
 	    $cn=$1;
     }
@@ -85,7 +85,7 @@ while(<STDIN>)
 
 while (<STDIN>)
 {
-    if( $_ =~ /^dbench\s+-t \d+ -D \/abuild\s+(\d+)/ )
+    if( $_ =~ /^dbench\s.*\/abuild\s+(\d+)/ )
     {
 	    $cn=$1;
     }
