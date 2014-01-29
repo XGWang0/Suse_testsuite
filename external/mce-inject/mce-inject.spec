@@ -15,37 +15,30 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
-# norootforbuild
-
-
 Name:           mce-inject
-
-Url:            http://git.kernel.org/pub/scm/utils/cpu/mce/mcelog.git
-License:        GPL v2
-Group:          System/Benchmark
-AutoReqProv:    on
-Summary:        MCE injection tool
 Version:        git_25_11_2009
 Release:        1
-Source0:         %{name}-%{version}.tar.bz2
-Source1:	mce-inject.8
-Patch001:	dont_compile_headers.patch
-Patch002:	pthread.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
-BuildRequires:	bison flex
+License:        GPL-2.0
+Summary:        MCE injection tool
+Url:            http://git.kernel.org/pub/scm/utils/cpu/mce/mcelog.git
+Group:          System/Benchmark
+Source0:        %{name}-%{version}.tar.bz2
+Source1:        mce-inject.8
+# PATCH-FIX-OPENSUSE fixes-makefile
+Patch001:       dont_compile_headers.patch
+# PATCH-FIX-OPENSUSE adds-pthread-flag
+Patch002:       pthread.patch
+BuildRequires:  bison
+BuildRequires:  flex
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
 Machine Check Exception injection tool for linux kernel. Requires a Linux
 2.6.31+ kernel with CONFIG_X86_MCE_INJECT enabled and the mce-inject module
 loaded (if not built in)
 
-Authors:
---------
-	Andi Kleen
-	Ying Huang
-
 %prep
-%setup
+%setup -q
 %patch001 -p1
 %patch002 -p1
 
@@ -53,10 +46,10 @@ Authors:
 make
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
-export destdir=$RPM_BUILD_ROOT
+install -m 755 -d %{buildroot}%{_mandir}/man8
+install -m 644 %{SOURCE1} %{buildroot}%{_mandir}/man8
+gzip %{buildroot}%{_mandir}/man8/%{name}.8
+export destdir=%{buildroot}
 make install
 
 %files
@@ -65,8 +58,8 @@ make install
 %{_sbindir}/mce-inject
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %changelog
 * Tue Feb 16 2010 chrubis@suse.cz
- Created initial package version.
+Created initial package version.

@@ -4,19 +4,17 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
-# norootforbuild
 
-Url:            http://home.comcast.net/~SCSIguy/SCSI_FAQ/RMiller_Tools/dt.html
 Name:           dt
-License:	Robin's Nest Software
-Group:          Hardware/Other
-AutoReqProv:    on
 Version:        17.25
 Release:        1
+License:        BSD-2-Clause
 Summary:        Generic data test program
+Url:            http://home.comcast.net/~SCSIguy/SCSI_FAQ/RMiller_Tools/dt.html
+Group:          Hardware/Other
 Source:         dt-source.tar.bz2
 Source1:        dt.man
-Source2:	dt.8
+Source2:        dt.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -27,14 +25,10 @@ and then verifys its default data pattern, then displays performance
 statisics and other test parameters before exiting.  Since verification
 of data is performed, dt can be thought of as a generic diagnostic tool.
 
-Authors:
---------
-    Robin Miller <Robin.Miller@netapp.com>
-
 %package doc
-License:		SUSE Proprietary
-Group:          Documentation
+License:        SUSE Proprietary
 Summary:        Documentation for dt
+Group:          Documentation
 Requires:       dt = %{version}
 
 %description doc
@@ -44,23 +38,23 @@ This package provide user documentation for dt.
 %setup -n dt-%{version}
 
 %build
-make PORG="$RPM_OPT_FLAGS" -f Makefile.linux
+make PORG="%{optflags}" -f Makefile.linux
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
-install -d $RPM_BUILD_ROOT/%{_bindir}
-install -m 755 dt $RPM_BUILD_ROOT/%{_bindir}
-install -d $RPM_BUILD_ROOT/%{_mandir}/man1
-install -m 644 %{S:1} $RPM_BUILD_ROOT/%{_mandir}/man1/dt.1
-install -d $RPM_BUILD_ROOT/%{_docdir}/%{name}/examples
-install -m 755 Scripts/DiskTests.ksh $RPM_BUILD_ROOT%{_docdir}/%{name}/examples
-install -m 644 Documentation/{dt-UsersGuide.htm,dt-UsersGuide.pdf,dt-UseCases.pdf} $RPM_BUILD_ROOT%{_docdir}/%{name}
+install -m 755 -d %{buildroot}%{_mandir}/man8
+install -m 644 %{SOURCE2} %{buildroot}%{_mandir}/man8
+gzip %{buildroot}%{_mandir}/man8/%{name}.8
+install -d %{buildroot}/%{_bindir}
+install -m 755 dt %{buildroot}/%{_bindir}
+install -d %{buildroot}/%{_mandir}/man1
+install -m 644 %{SOURCE1} %{buildroot}/%{_mandir}/man1/dt.1
+install -d %{buildroot}/%{_docdir}/%{name}/examples
+install -m 755 Scripts/DiskTests.ksh %{buildroot}%{_docdir}/%{name}/examples
+install -m 644 Documentation/{dt-UsersGuide.htm,dt-UsersGuide.pdf,dt-UseCases.pdf} %{buildroot}%{_docdir}/%{name}
 
 %files
 %defattr(-, root, root)
-/usr/share/man/man8/dt.8.gz
+%{_mandir}/man8/dt.8.gz
 %attr(755,root,root) %{_bindir}/dt
 %doc %{_mandir}/man1/dt.1.gz
 
