@@ -26,7 +26,7 @@ statisics and other test parameters before exiting.  Since verification
 of data is performed, dt can be thought of as a generic diagnostic tool.
 
 %package doc
-License:        SUSE Proprietary
+License:        SUSE-NonFree
 Summary:        Documentation for dt
 Group:          Documentation
 Requires:       dt = %{version}
