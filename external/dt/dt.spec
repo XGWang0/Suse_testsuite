@@ -26,7 +26,7 @@ statisics and other test parameters before exiting.  Since verification
 of data is performed, dt can be thought of as a generic diagnostic tool.
 
 %package doc
-License:        SUSE-NonFree
+License:        BSD-like
 Summary:        Documentation for dt
 Group:          Documentation
 Requires:       dt = %{version}
@@ -66,5 +66,3 @@ install -m 644 Documentation/{dt-UsersGuide.htm,dt-UsersGuide.pdf,dt-UseCases.pd
 %doc %{_docdir}/%{name}/dt-UsersGuide.pdf
 %doc %{_docdir}/%{name}/dt-UseCases.pdf
 %doc %{_docdir}/%{name}/examples/DiskTests.ksh
-
-%changelog
