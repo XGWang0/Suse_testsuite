@@ -74,11 +74,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
-/usr/share/qa
+%dir /usr/share/qa
+%dir /usr/share/qa/tools
 /usr/share/qa/tools/test_tar-run
 /usr/share/man/man8/qa_test_tar.8.gz
 
 %files parser
 %defattr(-, root, root)
+%dir /usr/share/qa
+/usr/share/qa/lib
 /usr/share/qa/lib/results/tar.pm
 
