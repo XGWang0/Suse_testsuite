@@ -36,7 +36,14 @@ Version:        0.1
 Release:        1
 Provides:	qa_ftpload
 Obsoletes:	qa_ftpload
-Requires:       wget pure-ftpd ctcs2
+Requires:       wget ctcs2
+%if %sles_version >= 12
+Requires:       vsftpd
+%else
+Requires:       pure-ftpd
+%endif
+
+
 Group:          Development/Tools/Other
 License:        SUSE Proprietary
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
