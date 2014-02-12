@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Feb 12 03:00:31 UTC 2014 - lzwang@suse.com
+
+- Fixed errors of missing file. 
+
+-------------------------------------------------------------------
 Thu Sep 12 10:16:13 UTC 2013 - lzwang@suse.com
 
 - Add tiobench-add-sync-option.patch.  
