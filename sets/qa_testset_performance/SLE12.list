@@ -1,0 +1,629 @@
+#!/bin/bash
+
+SQ_TEST_RUN_PERF_LIST=(
+    tiobench_sync_ext3
+    tiobench_sync_btrfs
+    tiobench_sync_xfs
+)
+
+# the list is not used by the script
+# it is just a note
+SQ_PERF_ALL=(
+    reaim_btrfs  #ready
+    reaim_ext3   #ready
+    reaim_xfs    #ready
+
+    tiobench_btrfs  #ready
+    tiobench_ext3   #ready
+    tiobench_xfs    #ready
+
+    tiobench_sync_ext3  #ready
+    tiobench_sync_btrfs #ready
+    tiobench_sync_xfs   #ready
+
+    dbench_btrfs     #ready
+    dbench_ext3      #ready
+    dbench_xfs       #ready
+
+    dbench_direct_btrfs   #TODO
+    dbench_direct_ext3    #TODO
+    dbench_direct_xfs     #TODO
+
+    bonnie_btrfs  #ready
+    bonnie_ext3   #ready
+    bonnie_xfs    #ready
+
+    bonnie_direct_btrfs  #ready
+    bonnie_direct_ext3   #ready
+    bonnie_direct_xfs    #ready
+
+    iozone_btrfs  #ready
+    iozone_ext3   #ready
+    iozone_xfs    #ready
+
+    kernbench     #ready
+    lmbench       #ready
+    siege         #ready
+    libmicro      #ready
+    libmicro-bench #ready
+    sysbench      #ready
+)
+
+function sq_abuild_open {
+    sq_debug "[abuild] check /etc/fstab for /abuild."
+    if egrep '^[^#].*/abuild' /etc/fstab;then
+        sq_debug "[abuild] found a record in /etc/fstab for /abuild."
+        SQ_ABUILD_DEFAULT_FS=$(grep '/abuild' /etc/fstab | awk '{print $3}')
+        SQ_ABUILD_PARTITION=$(egrep -o '^/dev/.* *\/abuild' /proc/mounts | cut -d" " -f1)
+        if test "X${SQ_ABUILD_PARTITION}" == "X";then
+            sq_error "[abuild] but currently there is no partition mounted under /abuild"
+            return 1
+        fi
+    else # there is partition default mounted under /abuild
+        sq_debug "[abuild] NO record for /abuild in /etc/fstab ."
+        SQ_ABUILD_DEFAULT_FS=""
+        SQ_ABUILD_PARTITION="/dev/sdb1"
+    fi
+    if test -b ${SQ_ABUILD_PARTITION};then
+        sq_info "[abuild] the target partition: ${SQ_ABUILD_PARTITION}"
+    else
+        sq_error "[abuild] there is no target partition will be used."
+        return 2
+    fi
+}
+
+function sq_abuild_close {
+    if test "X${SQ_ABUILD_DEFAULT_FS}" != "X";then
+        sq_debug "[abuild] SQ_ABUILD_DEFAULT_FS is ${SQ_ABUILD_DEFAULT_FS}." \
+            "[abuild] RESTORE the filesystem to ${SQ_ABUILD_DEFAULT_FS}." \
+            "[abuild] then mount ${SQ_ABUILD_PARTITION} /abuild."
+        sq_abuild_set_fs ${SQ_ABUILD_DEFAULT_FS}
+    fi
+}
+
+function sq_abuild_set_fs {
+    local _fs_type=$1
+    local _fs_options=$2
+    local _part
+    _part=${SQ_ABUILD_PARTITION}
+
+    if test "X${_part}" == "X";then
+        sq_warn "[abuild] trying to mount NODEV /abuild." \
+            "Check the system."
+        return 1
+    fi
+
+    if egrep -o "^${_part}" /proc/mounts;then
+        sq_debug "[abuild] ${_part} is already used"
+        umount ${_part}
+        if test $? -ne 0; then
+            sq_error "[abuild] Failed to umount ${_part}." \
+                "/abuild is supposed to be free." \
+                "There is a BUG!!!"
+            return 2
+        else
+            sq_debug "[abuild] umount ${_part} successfully."
+        fi
+    fi
+
+    case ${_fs_type} in
+        ext3)
+            ${SQ_DEBUG_ECHO} /sbin/mkfs.ext3 ${_fs_options} ${_part} > /dev/null;;
+        xfs)
+            ${SQ_DEBUG_ECHO} /sbin/mkfs.xfs -f ${_fs_options} ${_part} > /dev/null ;;
+        btrfs) ${SQ_DEBUG_ECHO} /sbin/mkfs.btrfs -f ${_fs_options} ${_part} > /dev/null ;;
+        *) sq_warn "[abuild] ${_fs_type} is not supportted!!!"; true;;
+    esac
+
+    if test $? -ne 0; then
+        sq_error "[abuild] format ${_part} to ${_fs_type} failed!!!"
+        return 3
+    else
+        sq_info "[abuild] format ${_part} to ${_fs_type} successfully."
+    fi
+
+    mount ${_part} /abuild
+    if test $? -ne 0; then
+        sq_error "[abuild] mount ${_part} /abuild failed!!!"
+        return 4
+    else
+        sq_info "[abuild] mount ${_part} /abuild successfully."
+    fi
+}
+
+### reaim
+reaim_btrfs_run="/usr/lib/ctcs2/tools/test_reaim-run"
+function reaim_btrfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs btrfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function reaim_btrfs_close {
+    sq_abuild_close
+}
+
+reaim_ext3_run="/usr/lib/ctcs2/tools/test_reaim-run"
+function reaim_ext3_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs ext3
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+function reaim_ext3_close {
+    sq_abuild_close
+}
+
+reaim_xfs_run="/usr/lib/ctcs2/tools/test_reaim-run"
+function reaim_xfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs xfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+function reaim_xfs_close {
+    sq_abuild_close
+}
+
+### tiobench
+function tiobench_set_tcf {
+    local _arch
+    local _tcf
+    _arch=$1
+    _tcf=$2
+    case ${_arch} in
+        x86_64)
+            # TODO why this could no be done in qa_test_tiobench ???
+            cp /usr/share/qa/tcf/${_tcf} /usr/share/qa/tcf/${_tcf}.orig 2>/dev/null
+            sed -i "s/--size [0-9]\+/--size 32768/" /usr/share/qa/tcf/${_tcf}
+            sq_debug "[tiobench] ${_tcf} has been changed."
+cat <<EOF > /usr/lib/ctcs2/tools/sq-tiobench-bench-run
+#!/bin/sh
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+
+\$CTCS2_DIR/tools/run \$TCF_DIR/${_tcf}
+EOF
+            chmod +x /usr/lib/ctcs2/tools/sq-tiobench-bench-run
+            ;;
+    esac
+}
+function tiobench_reset_tcf {
+    local _tcf
+    _tcf=$1
+    if test "X${SQ_DEBUG_ON}" == "XYES";then
+        cp /usr/share/qa/tcf/${_tcf} /usr/share/qa/tcf/${_tcf}.sq
+        mv /usr/share/qa/tcf/${_tcf}.orig /usr/share/qa/tcf/${_tcf} 2>/dev/null
+        return
+    fi
+    mv /usr/share/qa/tcf/${_tcf}.orig /usr/share/qa/tcf/${_tcf} 2>/dev/null
+    rm /usr/lib/ctcs2/tools/sq-tiobench-bench-run
+}
+function tiobench_general_open {
+    local _arch=$1
+    local _fs=$2
+    local _tcf=$3
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs ${_fs}
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+    tiobench_set_tcf ${_arch} ${_tcf}
+    if test $? -ne 0;then
+        return 3
+    fi
+}
+function tiobench_general_close {
+    tiobench_reset_tcf $1
+    sq_abuild_close
+}
+
+## TODO make them use the generals
+tiobench_ext3_run="/usr/lib/ctcs2/tools/sq-tiobench-bench-run"
+function tiobench_ext3_open {
+    local _arch=$1
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs ext3
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+    tiobench_set_tcf ${_arch} tiobench-bench.tcf
+    if test $? -ne 0;then
+        return 3
+    fi
+}
+
+function tiobench_ext3_close {
+    tiobench_reset_tcf tiobench-bench.tcf
+    sq_abuild_close
+}
+
+tiobench_xfs_run="/usr/lib/ctcs2/tools/sq-tiobench-bench-run"
+function tiobench_xfs_open {
+    local _arch=$1
+
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs xfs 
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+    tiobench_set_tcf ${_arch} tiobench-bench.tcf
+    if test $? -ne 0;then
+        return 3
+    fi
+}
+function tiobench_xfs_close {
+    tiobench_reset_tcf tiobench-bench.tcf
+    sq_abuild_close
+}
+
+tiobench_btrfs_run="/usr/lib/ctcs2/tools/sq-tiobench-bench-run"
+function tiobench_btrfs_open {
+    local _arch=$1
+
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs btrfs 
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+    tiobench_set_tcf ${_arch} tiobench-bench.tcf
+    if test $? -ne 0;then
+        return 3
+    fi
+
+}
+
+function tiobench_btrfs_close {
+    tiobench_reset_tcf tiobench-bench.tcf
+    sq_abuild_close
+}
+
+
+### tiobench sync
+tiobench_sync_ext3_run="/usr/share/qa/tools/test_tiobench-sync-run"
+function tiobench_sync_ext3_open {
+    local _arch=$1
+    tiobench_general_open ${_arch} ext3 tiobench-sync.tcf
+    return $?
+}
+function tiobench_sync_ext3_close {
+    tiobench_general_close tiobench-sync.tcf
+}
+
+tiobench_sync_xfs_run="/usr/share/qa/tools/test_tiobench-sync-run"
+function tiobench_sync_xfs_open {
+    tiobench_general_open "$1" xfs tiobench-sync.tcf
+    return $?
+}
+function tiobench_sync_xfs_close {
+    tiobench_general_close tiobench-sync.tcf
+}
+
+tiobench_sync_btrfs_run="/usr/share/qa/tools/test_tiobench-sync-run"
+function tiobench_sync_btrfs_open {
+    tiobench_general_open "$1" btrfs tiobench-sync.tcf
+    return $?
+}
+function tiobench_sync_btrfs_close {
+    tiobench_general_close tiobench-sync.tcf
+}
+
+### bonnie
+bonnie_ext3_run="/usr/share/qa/tools/test_bonnie-run"
+function bonnie_ext3_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs ext3
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function bonnie_ext3_close {
+    sq_abuild_close
+}
+
+bonnie_xfs_run="/usr/share/qa/tools/test_bonnie-run"
+function bonnie_xfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs xfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function bonnie_xfs_close {
+    sq_abuild_close
+}
+
+bonnie_btrfs_run="/usr/share/qa/tools/test_bonnie-run"
+function bonnie_btrfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs btrfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function bonnie_btrfs_close {
+    sq_abuild_close
+}
+
+### bonnie direct
+bonnie_direct_ext3_run="/usr/share/qa/tools/test_bonnie-directIO-run"
+function bonnie_direct_ext3_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs ext3
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function bonnie_direct_ext3_close {
+    sq_abuild_close
+}
+
+bonnie_direct_xfs_run="/usr/share/qa/tools/test_bonnie-directIO-run"
+function bonnie_direct_xfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs xfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function bonnie_direct_xfs_close {
+    sq_abuild_close
+}
+
+bonnie_direct_btrfs_run="/usr/share/qa/tools/test_bonnie-directIO-run"
+function bonnie_direct_btrfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs btrfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function bonnie_direct_btrfs_close {
+    sq_abuild_close
+}
+
+### TODO iozone
+iozone_ext3_run="/usr/share/qa/tools/test_iozone-run"
+function iozone_ext3_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs ext3
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function iozone_ext3_close {
+    sq_abuild_close
+}
+
+iozone_xfs_run="/usr/share/qa/tools/test_iozone-run"
+function iozone_xfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs xfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+function iozone_xfs_close {
+    sq_abuild_close
+}
+
+iozone_btrfs_run="/usr/share/qa/tools/test_iozone-run"
+function iozone_btrfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs btrfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+function iozone_btrfs_close {
+    sq_abuild_close
+}
+
+### dbench
+dbench4_ext3_run="/usr/share/qa/tools/test_dbench-4_0-run"
+function dbench4_ext3_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs ext3
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+function dbench4_ext3_close {
+    sq_abuild_close
+}
+
+function dbench4_ext3_open {
+    sq_abuild_set_fs ext3
+}
+
+dbench4_xfs_run="/usr/share/qa/tools/test_dbench-4_0-run"
+function dbench4_xfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs xfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+function dbench4_xfs_close {
+    sq_abuild_close
+}
+
+dbench4_btrfs_run="/usr/share/qa/tools/test_dbench-4_0-run"
+function dbench4_btrfs_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs btrfs
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+function dbench4_xfs_close {
+    sq_abuild_close
+}
+
+### dbench nfs
+dbench4_nfs_ext3="/usr/share/qa/tools/test_dbench-4_0-nfs-run"
+dbench4_nfs_xfs="/usr/share/qa/tools/test_dbench-4_0-nfs-run"
+dbench4_nfs_btrfs="/usr/share/qa/tools/test_dbench-4_0-nfs-run"
+
+### dbench nfs4
+dbench4_nfs4_ext3="/usr/share/qa/tools/test_dbench-4_0-nfs4-run"
+dbench4_nfs4_xfs="/usr/share/qa/tools/test_dbench-4_0-nfs4-run"
+dbench4_nfs4_btrfs="/usr/share/qa/tools/test_dbench-4_0-nfs4-run"
+
+### libmicro
+libmicro_run="/usr/share/qa/tools/test_libmicro-bench-run"
+libmicro_bench_run="/usr/share/qa/tools/test_libmicro-bench-run"
+
+### sysbench TODO start mysql
+sysbench_run="/usr/lib/ctcs2/tools/test_sysbench-run"
+
+### siege
+siege_run="/usr/share/qa/tools/test_siege-run"
+
+### lmbench
+lmbench_run="/usr/share/qa/tools/test_lmbench-run"
+
+kernbench_run="/usr/share/qa/tools/test_kernbench-run"
+### kernbench TODO
+function kernbench_open {
+    #TODO put the kernel-2.6.tar.bz to the server
+    #need to be test
+    cd /usr/src
+    mv linux linux.sq_orig 2>/dev/null
+    wget http://147.2.207.100/kernels/linux-2.6.14.tar.bz2 && \
+        tar xf linux-2.6.14.tar.bz2 && mv linux-2.6.14 linux
+    if test $? -ne 0;then
+        return 1
+    fi
+}
+
+function kernbench_close {
+    cd /usr/src
+    rm -rf linux 2 > /dev/null
+    mv linux.sq_orig linux 2>/dev/null
+}
+
+
+#############FOR DEBUG####################
+delay60s_01_run="/root/lzperf/common/delay60s.sh"
+function delay60s_01_get_args {
+    echo '01'
+}
+delay60s_02_run="/root/lzperf/common/delay60s.sh"
+function delay60s_02_get_args {
+    echo '02'
+}
+delay60s_03_run="/root/lzperf/common/delay60s.sh"
+function delay60s_03_get_args {
+    echo '03'
+}
+
+delay60s_ext3_run="/root/lzperf/common/delay60s.sh"
+function delay60s_ext3_get_args {
+    echo 'ext3'
+}
+function delay60s_ext3_open {
+    sq_abuild_set_fs ext3
+}
+delay60s_xfs_run="/root/lzperf/common/delay60s.sh"
+function delay60s_xfs_open {
+    sq_abuild_set_fs xfs
+}
+function delay60s_xfs_get_args {
+    echo 'xfs'
+}
+delay60s_btrfs_run="/root/lzperf/common/delay60s.sh"
+function delay60s_btrfs_open {
+    sq_abuild_set_fs btrfs
+}
+function delay60s_btrfs_get_args {
+    echo 'btrfs'
+}
