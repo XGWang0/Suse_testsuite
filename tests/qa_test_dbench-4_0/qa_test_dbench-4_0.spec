@@ -106,7 +106,7 @@ done
 install -m 744 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
-
+install -m 744 %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools
 find $RPM_BUILD_ROOT/usr/share/dbench-4_0 -name "*.txt" -type f -print0 | xargs -r -0 chmod a-x
 
 %clean
