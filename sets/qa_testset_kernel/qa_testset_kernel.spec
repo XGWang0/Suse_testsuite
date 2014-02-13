@@ -29,7 +29,7 @@ Authors:
     
 
 %prep
-%setup -q
+#%setup -q
 
 
 %build
