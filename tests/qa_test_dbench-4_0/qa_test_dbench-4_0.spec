@@ -24,6 +24,7 @@ Source2:        qa_test_dbench-4_0.8
 Source3:        test_dbench-4_0-nfs-run
 Source4:        test_dbench-4_0-nfs4-run
 Source5:        test_dbench-4_0-run
+Source6:        test_dbench-4_0-syncIO-run
 Patch0:		fileio_leak_repair.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	dbench dbench-ctcs2-glue
