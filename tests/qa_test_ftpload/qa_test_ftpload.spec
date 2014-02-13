@@ -30,14 +30,14 @@
 
 
 Name:           qa_test_ftpload
-BuildRequires:  ctcs2
+#BuildRequires:  ctcs2
 Summary:        ftp download test
 Version:        0.1
 Release:        1
 Provides:	qa_ftpload
 Obsoletes:	qa_ftpload
 Requires:       wget ctcs2
-%if 0%suse_version >= 1320
+%if 0%suse_version >= 1310
 Requires:       vsftpd
 %else
 Requires:       pure-ftpd
