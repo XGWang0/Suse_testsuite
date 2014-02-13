@@ -93,6 +93,8 @@ install -D -m 755 ctcstools/tiobench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_ti
 install -D -m 755 ctcstools/test_tiobench-bench-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/test_tiobench-bench-run
 install -D -m 755 ctcstools/tiobench-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/tiobench-bench.tcf
 install -D -m 755 ctcstools/eatmem.sh $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/eatmem.sh
+install -D -m 755 ctcstools/tiobench-sync.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/tiobench-sync.tcf
+install -D -m 755 ctcstools/test_tiobench-sync-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/test_tiobench-sync-run
 ln -sf ../qa_test_tiobench/eatmem.sh $RPM_BUILD_ROOT/usr/share/qa/tools/eatmem.sh
 ln -sf ../qa_test_tiobench/tiobench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/tiobench.tcf
 ln -sf ../qa_test_tiobench/test_tiobench-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench-run
