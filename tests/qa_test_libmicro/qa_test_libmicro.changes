@@ -1,0 +1,6 @@
+-------------------------------------------------------------------
+Thu Feb 13 08:55:56 UTC 2014 - lzwang@suse.com
+
+- Added test_libmicro-run back for being compatible with hamsta.
+  currently both libmicro-bench.tcf and libmicro.tcf do the same.
+

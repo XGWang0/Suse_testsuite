@@ -64,14 +64,14 @@ Authors:
 %setup -n libmicro-%{version}
 %setup -D -a 1 -n libmicro-%{version}
 %patch0 -p1
-%patch1 
+%patch1
 %patch2 -p1
 
 %build
 # This package failed when testing with -Wl,-as-needed being default.
 # So we disable it here, if you want to retest, just delete this comment and the line below.
 export SUSE_ASNEEDED=0
-  	make 
+  	make
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
@@ -84,13 +84,16 @@ cp bin/* $RPM_BUILD_ROOT/usr/lib/libMicro/bin
 cp bin-*/* $RPM_BUILD_ROOT/usr/lib/libMicro/bin
 install -m 755 *.sh $RPM_BUILD_ROOT/usr/lib/libMicro/bin
 #the sequence is important!
-#install -m 755 runtests.sh $RPM_BUILD_ROOT/usr/lib/libMicro	
+#install -m 755 runtests.sh $RPM_BUILD_ROOT/usr/lib/libMicro
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
 cp ctcstools/test_libmicro-bench-run $RPM_BUILD_ROOT/usr/share/qa/tools
+cp ctcstools/test_libmicro-run $RPM_BUILD_ROOT/usr/share/qa/tools
 cp ctcstools/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
+cp ctcstools/libmicro.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
 ln -s ../%{name}/tcf/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicro-bench.tcf
+ln -s ../%{name}/tcf/libmicro.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicro.tcf
 
 %files
 %defattr(-,root,root)
@@ -101,6 +104,7 @@ ln -s ../%{name}/tcf/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicr
 #%defattr(-,root,root)
 /usr/share/qa
 %attr(0755,root,root) /usr/share/qa/tools/test_libmicro-bench-run
+%attr(0755,root,root) /usr/share/qa/tools/test_libmicro-run
 
 %clean
 rm -rf $RPM_BUILD_ROOT
