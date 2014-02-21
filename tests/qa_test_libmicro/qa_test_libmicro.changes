@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Feb 21 09:47:56 UTC 2014 - lzwang@suse.com
+
+- Added tattle-pthread.patch to fix a makefile error. 
+
+-------------------------------------------------------------------
 Thu Feb 13 08:55:56 UTC 2014 - lzwang@suse.com
 
 - Added test_libmicro-run back for being compatible with hamsta.

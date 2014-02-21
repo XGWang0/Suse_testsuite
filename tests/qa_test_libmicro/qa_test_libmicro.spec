@@ -26,6 +26,7 @@ Source2:	qa_test_libmicro.8
 Patch0:         find_binary.patch
 Patch1:         removed_undefined_warning.patch
 Patch2:		free_histo.patch
+Patch3:         tattle-pthread.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	libmicro libmicro-ctcs2-glue
 Obsoletes:	libmicro libmicro-ctcs2-glue
@@ -66,6 +67,7 @@ Authors:
 %patch0 -p1
 %patch1
 %patch2 -p1
+%patch3 -p1
 
 %build
 # This package failed when testing with -Wl,-as-needed being default.
