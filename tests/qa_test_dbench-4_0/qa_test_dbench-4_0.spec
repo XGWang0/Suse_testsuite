@@ -92,6 +92,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 ctcstools/do_dbench $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
 install -m 744 ctcstools/do_dbench_nfs $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
 install -m 744 ctcstools/dbenchnewparser $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
+install -m 744 ctcstools/dbenchnfsparser $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
 
 install -m 644 ctcstools/dbench-*.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/tcf/
 for A in ctcstools/dbench-*.tcf
@@ -123,6 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man1/tbench_srv.1.gz
 /usr/share/dbench-4_0
 /usr/share/qa/%name/dbenchnewparser
+/usr/share/qa/%name/dbenchnfsparser
 %doc /usr/share/doc/qa_test_dbench-4_0
 
 #%files ctcs2-glue
