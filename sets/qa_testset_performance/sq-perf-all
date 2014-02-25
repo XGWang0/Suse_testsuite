@@ -76,12 +76,18 @@ function sq_qadb_submit_result {
     _sq_run=$1
     #if grep bej\.suse\.com /etc/HOSTNAME > /dev/null
     if ip -4 addr | grep "inet 147\.2\." > /dev/null;then
-        SQ_HOSTNAME=${HOSTNAME}.bej.suse.com
+        SQ_HOSTNAME=${HOSTNAME}.apac.novell.com
     else
         SQ_HOSTNAME=${HOSTNAME}
     fi
     sq_info "[qadb] TODO submit result!!!"
     sq_info "[qadb] currently backup /var/log/qa/ctcs2"
+
+    /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "Performance ${_sq_run}"
+    if test $? -ne 0;then
+        sq_warn "[qadb] Submit qa_db_report failed!"
+	sq_info "[qadb] Than Backup it!"
+
     _serial=$(date '+%Y-%m-%d-%H-%M-%S')
     pushd /var/log/qa/ctcs2 > /dev/null
 
@@ -102,11 +108,8 @@ function sq_qadb_submit_result {
         rm -rf *
     fi
     popd > /dev/null
-    # TODO Reminder through emails ???
 
-    sq_debug '[qadb] TODO /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "ctcs2-2.5 performance ${_sq_run}" '
-    if test $? -ne 0;then
-        sq_warn "Submit qa_db_report failed!"
+
     fi
 }
 
@@ -135,6 +138,13 @@ function sq_call_run {
     if test $? -ne 0;then
         sq_error "[RUN] ${sq_run}: ${sq_run}_open failed!!!" \
             "Skip ${sq_run}"
+        if test "X$(type -t ${sq_run}_close)" == "Xfunction";then
+            sq_debug "[RUN] ${sq_run}: ${sq_run}_close ing..."
+            ${sq_run}_close ${ARCH} ${SLE_BUILD}
+        else
+            sq_debug "[RUN] ${sq_run}: closing"
+        fi
+        return 1
     fi
 
     if eval "test \"X\${${sq_run}_run}\" == X";then
@@ -156,16 +166,14 @@ function sq_call_run {
         return 1
     fi
 
-    if test "X$(type -t ${sq+run}_get_args)" == "Xfunction";then
-        sq_debug "[RUN] ${sq_run}: ${sq_run}_get_args ing..."
-    fi
-
     pushd ${SQ_TEST_RUN_DIR} > /dev/null #make sure it runs at /root
     rm screenlog.0 2>/dev/null
     _run_start=$(date '+%Y-%m-%d-%H-%M-%S')
     _run_start_s=$(date '+%s')
     sq_info "[RUN] ${sq_run}: Begin: ${_run_start}"
+    # TODO backgroud call
     if test "X$(type -t ${sq_run}_get_args)" == "Xfunction";then
+        sq_debug "[RUN] ${sq_run}: ${sq_run}_get_args ing..."
         if test $SQ_DEBUG_ON == YES;then
             screen -L -S ${sq_run} -D -m "${SQ_FAKE_RUN}" $(${sq_run}_get_args)
         else
@@ -212,25 +220,27 @@ function sq_call_run {
     fi
 }
 
-function sq_control_init {
-    SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=YES
-    SQ_TEST_CONTROL_MAKE_SYSTEM_PURE=NO
-}
 
 function sq_control_get_next_run {
     ### the control policy
+
+    if test -f ${SQ_TEST_CONTROL_FILE_STOP};then
+        sq_info "[CONTROL]: this run is manually stopped!"
+        return 1
+    fi
+
     if test -f ${SQ_TEST_CONTROL_FILE_SYSTEM_DIRTY};then
         SQ_TEST_CONTROL_MAKE_SYSTEM_PURE=YES
         sq_debug "[CONTROL]: This system is dirty."
         # TODO test reboot needed
         if test "X$SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY" == "XNO";then
-            return 1
+            return 2
         fi
     fi
 
     if test -f ${SQ_TEST_CONTROL_FILE_DONE};then
-        sq_info "[CONTROL]: This round of runs have been done."
-        return 2
+        sq_info "[CONTROL]: This round of runs was already finished at $(cat ${SQ_TEST_CONTROL_FILE_DONE})"
+        return 3
     fi
 
     ### the operation of run lists
@@ -290,8 +300,18 @@ function sq_control_get_run_status {
     fi
 
     if test $(($SQ_THIS_RUN_INDEX + 1)) -ge ${#SQ_TEST_RUN_PERF_LIST[*]};then
-        echo > ${SQ_TEST_CONTROL_FILE_DONE}
+        echo "$(date '+%Y-%m-%d-%H-%M-%S')" > ${SQ_TEST_CONTROL_FILE_DONE}
     fi
+}
+
+function sq_system_reboot {
+    local _release=$1
+
+    case ${_release} in
+        SLE11SP3) sq_info "[CONTROL] Do not reboot in SLE11SP3";;
+        SLE12) (/usr/bin/systemctl reboot) & ;;
+        *) sq_info "[CONTROL] Not implement rebooting in ${_release}";;
+    esac
 }
 
 function sq_control_try_reboot_system {
@@ -300,7 +320,7 @@ function sq_control_try_reboot_system {
         return
     fi
     if test -f ${SQ_TEST_CONTROL_FILE_DONE};then
-        sq_info "[CONTROL]: runs done"
+        sq_info "[CONTROL]: runs done. NO reboot"
         return
     fi
     if test "X{SQ_TEST_CONTROL_MAKE_SYSTEM_PURE}" == "YES";then
@@ -308,9 +328,10 @@ function sq_control_try_reboot_system {
         # set reboot at the exit of the script
         #TODU
     fi
-    sq_error "TODO TODO REBOOT the system!!!!!!"
+    sq_info "[CONTROL] call reboot"
+    sq_system_reboot ${SLE_RELEASE}
+    exit
 }
-
 
 if test "x${SQ_TEST_DIR}" == "x";then
     sq_error "SQ_TEST_DIR is none." \
@@ -328,7 +349,8 @@ fi
 
 sq_prep_all ${ARCH} ${SLE_BUILD} ${REPO_MIRROR}
 
-sq_control_init
+SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=YES
+SQ_TEST_CONTROL_MAKE_SYSTEM_PURE=NO
 
 while sq_control_get_next_run;do
     sq_call_run ${SQ_THIS_RUN}

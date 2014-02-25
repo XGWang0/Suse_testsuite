@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_RELEASE=
+TARGET_RELEASE=SLE12
 
 CMDABSPATH=$(which $0)
 if [ -L $CMDABSPATH ];then
@@ -31,4 +31,7 @@ if test "X${TARGET_RELEASE}" == "X";then
     exit 1
 fi
 
+cur_time=$(date '+%Y-%m-%d-%H-%M-%S')
+pushd ${SQ_TEST_CALL_DIR} >/dev/null
+mv screenlog.0 screenlog.sq-perf-all.${cur_time}
 screen -L -S SQ_PERL_ALL -d -m "${PERF_ALL_BIN}" ${TARGET_RELEASE}

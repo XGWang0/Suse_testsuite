@@ -42,20 +42,38 @@ Authors:
 
 %install
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}
-install -m 700 %{S:0} $RPM_BUILD_ROOT/usr/share/qa/%{name}
-install -m 700 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%{name}
-install -m 600 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/%{name}
-install -m 600 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/%{name}
-install -m 700 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%{name}
-%if %suse_version < 1320
+install -m 744 %{S:0} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 744 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 744 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+%if %suse_version < 1315
     sed -i '/^TARGET_RELEASE=$/s/TARGET_RELEASE=/TARGET_RELEASE=SLE11SP3/' $RPM_BUILD_ROOT/usr/share/qa/%{name}/testset_performance-run
-    install -m 600 %{S:1101} $RPM_BUILD_ROOT/usr/share/qa/%{name}
-    install -m 600 %{S:1102} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+    install -m 644 %{S:1101} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+    install -m 644 %{S:1102} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 %endif
-%if %suse_version == 1320
+%if %suse_version == 1315
     sed -i '/^TARGET_RELEASE=$/s/TARGET_RELEASE=/TARGET_RELEASE=SLE12/' $RPM_BUILD_ROOT/usr/share/qa/%{name}/testset_performance-run
-    install -m 600 %{S:1201} $RPM_BUILD_ROOT/usr/share/qa/%{name}
-    install -m 600 %{S:1202} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+    install -m 644 %{S:1201} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+    install -m 644 %{S:1202} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+    mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/system
+cat <<EOF > $RPM_BUILD_ROOT/usr/lib/systemd/system/sqperf.service
+[Unit]
+Description=testset_performance-run
+ConditionFileIsExecutable=/usr/share/qa/tools/testset_performance-run
+After=getty.target
+
+[Service]
+Type=idle
+ExecStart=/usr/share/qa/tools/testset_performance-run
+TimeoutSec=0
+RemainAfterExit=yes
+
+[Install]
+Alias=sqperf
+
+EOF
+   chmod 644 $RPM_BUILD_ROOT/usr/lib/systemd/system/sqperf.service
 %endif
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../%{name}/testset_performance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
@@ -67,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 /usr/share/qa/%{name}
 /usr/share/qa/tools
+%if %suse_version == 1320
+/usr/lib/systemd/system/sqperf.service
+%endif
 
 %changelog
 * Fri Jan 17 2014 cachen@suse.de

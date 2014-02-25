@@ -2,7 +2,6 @@
 
 SQ_TEST_RUN_PERF_LIST=(
     tiobench_sync_ext3
-    tiobench_sync_btrfs
     tiobench_sync_xfs
 )
 
@@ -21,13 +20,13 @@ SQ_PERF_ALL=(
     tiobench_sync_btrfs #ready
     tiobench_sync_xfs   #ready
 
-    dbench_btrfs     #ready
-    dbench_ext3      #ready
-    dbench_xfs       #ready
+    dbench4_btrfs     #ready
+    dbench4_ext3      #ready
+    dbench4_xfs       #ready
 
-    dbench_direct_btrfs   #TODO
-    dbench_direct_ext3    #TODO
-    dbench_direct_xfs     #TODO
+    dbench4_syncIO_btrfs   #TODO
+    dbench4_syncIO_ext3    #TODO
+    dbench4_syncIO_xfs     #TODO
 
     bonnie_btrfs  #ready
     bonnie_ext3   #ready
@@ -44,13 +43,17 @@ SQ_PERF_ALL=(
     kernbench     #ready
     lmbench       #ready
     siege         #ready
-    libmicro      #ready
-    libmicro-bench #ready
-    sysbench      #ready
+    libmicro_bench #ready
+    sysbench_bench      #ready
 )
 
 function sq_abuild_open {
     sq_debug "[abuild] check /etc/fstab for /abuild."
+    if test "X${SQ_ABUILD_JUST_DIR}" == "XYES"; then
+        sq_debug "[abuild] just use /abuild"
+        mkdir /abuild 2>/dev/null
+        return 0
+    fi
     if egrep '^[^#].*/abuild' /etc/fstab;then
         sq_debug "[abuild] found a record in /etc/fstab for /abuild."
         SQ_ABUILD_DEFAULT_FS=$(grep '/abuild' /etc/fstab | awk '{print $3}')
@@ -73,6 +76,9 @@ function sq_abuild_open {
 }
 
 function sq_abuild_close {
+    if test "X${SQ_ABUILD_JUST_DIR}" == "XYES";then
+        return 0
+    fi
     if test "X${SQ_ABUILD_DEFAULT_FS}" != "X";then
         sq_debug "[abuild] SQ_ABUILD_DEFAULT_FS is ${SQ_ABUILD_DEFAULT_FS}." \
             "[abuild] RESTORE the filesystem to ${SQ_ABUILD_DEFAULT_FS}." \
@@ -86,6 +92,10 @@ function sq_abuild_set_fs {
     local _fs_options=$2
     local _part
     _part=${SQ_ABUILD_PARTITION}
+
+    if test "X${SQ_ABUILD_JUST_DIR}" == "XYES";then
+        return 0
+    fi
 
     if test "X${_part}" == "X";then
         sq_warn "[abuild] trying to mount NODEV /abuild." \
@@ -129,6 +139,22 @@ function sq_abuild_set_fs {
     else
         sq_info "[abuild] mount ${_part} /abuild successfully."
     fi
+}
+
+function sq_abuild_general_open {
+    sq_abuild_open
+    if test $? -ne 0;then
+        return 1
+    fi
+    sq_abuild_set_fs $1
+    if test $? -ne 0;then
+        sq_abuild_close
+        return 2
+    fi
+}
+
+function sq_abuild_general_close {
+    sq_abuild_close
 }
 
 ### reaim
@@ -313,7 +339,7 @@ function tiobench_btrfs_close {
 
 
 ### tiobench sync
-tiobench_sync_ext3_run="/usr/share/qa/tools/test_tiobench-sync-run"
+tiobench_sync_ext3_run="/usr/lib/ctcs2/tools/sq-tiobench-bench-run"
 function tiobench_sync_ext3_open {
     local _arch=$1
     tiobench_general_open ${_arch} ext3 tiobench-sync.tcf
@@ -323,7 +349,7 @@ function tiobench_sync_ext3_close {
     tiobench_general_close tiobench-sync.tcf
 }
 
-tiobench_sync_xfs_run="/usr/share/qa/tools/test_tiobench-sync-run"
+tiobench_sync_xfs_run="/usr/lib/ctcs2/tools/sq-tiobench-bench-run"
 function tiobench_sync_xfs_open {
     tiobench_general_open "$1" xfs tiobench-sync.tcf
     return $?
@@ -332,7 +358,7 @@ function tiobench_sync_xfs_close {
     tiobench_general_close tiobench-sync.tcf
 }
 
-tiobench_sync_btrfs_run="/usr/share/qa/tools/test_tiobench-sync-run"
+tiobench_sync_btrfs_run="/usr/lib/ctcs2/tools/sq-tiobench-bench-run"
 function tiobench_sync_btrfs_open {
     tiobench_general_open "$1" btrfs tiobench-sync.tcf
     return $?
@@ -498,54 +524,50 @@ function iozone_btrfs_close {
 ### dbench
 dbench4_ext3_run="/usr/share/qa/tools/test_dbench-4_0-run"
 function dbench4_ext3_open {
-    sq_abuild_open
-    if test $? -ne 0;then
-        return 1
-    fi
-    sq_abuild_set_fs ext3
-    if test $? -ne 0;then
-        sq_abuild_close
-        return 2
-    fi
+    sq_abuild_general_open ext3
 }
 function dbench4_ext3_close {
-    sq_abuild_close
-}
-
-function dbench4_ext3_open {
-    sq_abuild_set_fs ext3
+    sq_abuild_general_close
 }
 
 dbench4_xfs_run="/usr/share/qa/tools/test_dbench-4_0-run"
 function dbench4_xfs_open {
-    sq_abuild_open
-    if test $? -ne 0;then
-        return 1
-    fi
-    sq_abuild_set_fs xfs
-    if test $? -ne 0;then
-        sq_abuild_close
-        return 2
-    fi
+    sq_abuild_general_open xfs
 }
 function dbench4_xfs_close {
-    sq_abuild_close
+    sq_abuild_general_close
 }
 
 dbench4_btrfs_run="/usr/share/qa/tools/test_dbench-4_0-run"
 function dbench4_btrfs_open {
-    sq_abuild_open
-    if test $? -ne 0;then
-        return 1
-    fi
-    sq_abuild_set_fs btrfs
-    if test $? -ne 0;then
-        sq_abuild_close
-        return 2
-    fi
+    sq_abuild_general_open btrfs
 }
-function dbench4_xfs_close {
-    sq_abuild_close
+function dbench4_btrfs_close {
+    sq_abuild_general_close
+}
+
+dbench4_syncIO_ext3_run="/usr/share/qa/tools/test_dbench-4_0-syncIO-run"
+function dbench4_syncIO_ext3_open {
+    sq_abuild_general_open ext3
+}
+function dbench4_syncIO_ext3_close {
+    sq_abuild_general_close
+}
+
+dbench4_syncIO_btrfs_run="/usr/share/qa/tools/test_dbench-4_0-syncIO-run"
+function dbench4_syncIO_btrfs_open {
+    sq_abuild_general_open btrfs
+}
+function dbench4_syncIO_btrfs_close {
+    sq_abuild_general_close
+}
+
+dbench4_syncIO_xfs_run="/usr/share/qa/tools/test_dbench-4_0-syncIO-run"
+function dbench4_syncIO_xfs_open {
+    sq_abuild_general_open xfs
+}
+function dbench4_syncIO_xfs_close {
+    sq_abuild_general_close
 }
 
 ### dbench nfs
@@ -559,14 +581,28 @@ dbench4_nfs4_xfs="/usr/share/qa/tools/test_dbench-4_0-nfs4-run"
 dbench4_nfs4_btrfs="/usr/share/qa/tools/test_dbench-4_0-nfs4-run"
 
 ### libmicro
-libmicro_run="/usr/share/qa/tools/test_libmicro-bench-run"
 libmicro_bench_run="/usr/share/qa/tools/test_libmicro-bench-run"
 
-### sysbench TODO start mysql
-sysbench_run="/usr/lib/ctcs2/tools/test_sysbench-run"
-
+### sysbench bench
+sysbench_bench_run="/usr/lib/ctcs2/tools/test_sysbench-bench-run"
+function sysbench_bench_open {
+    # In sysbench-bench.tcf mysql is started. and a connection is to be set.
+    # But if it is the first time that mysql run in the system
+    # there is a race condiction which causes the connection to be failed.
+    # this should be fixed in the tcf.
+    /etc/init.d/mysql start
+}
+function sysbench_bench_close {
+    # In sysbench-bench.tcf mysql is not stop after the runs.
+    # So stop mysql here.
+    # this should be fixed in the tcf.
+    /etc/init.d/mysql stop
+}
 ### siege
 siege_run="/usr/share/qa/tools/test_siege-run"
+function siege_get_args {
+    echo performance
+}
 
 ### lmbench
 lmbench_run="/usr/share/qa/tools/test_lmbench-run"
