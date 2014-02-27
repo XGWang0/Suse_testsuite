@@ -70,7 +70,8 @@ screen -L -S tests -m /bin/bash -c '(
 	)'
 
 screen -L -S other_test -m /bin/bash -c '(
-                ./test_ltp-fstests-run                                                             
+                ./test_ltp-fstests-run
+		./test_lvm2_2_02_98-run                                                      
 		/usr/lib/ctcs2/tools/ltp-stress.py
         /usr/lib/ctcs2/tools/test_newburn-memtst-run		
         /usr/lib/ctcs2/tools/test_libhugetlbfs-run
