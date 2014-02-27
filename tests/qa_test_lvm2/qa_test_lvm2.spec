@@ -26,7 +26,7 @@ Source2:        test_lvm2-run
 Source3:	qa_test_lvm2.8
 Source4:	test_lvm2_2_02_98-run
 Source5:	test_lvm2_source-run
-Source6:	qa_test_lvm2-2_02_98.tar.bz2
+Source6:	qa_test_lvm2_shell.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description

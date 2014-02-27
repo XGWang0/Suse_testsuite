@@ -3,9 +3,9 @@
 
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
-path_dir=/usr/share/qa/qa_test_lvm2_2_02_98
-tcf_f=/usr/share/qa/tcf/qa_lvm2_2_02_98.tcf
-shell_p=/usr/share/qa/qa_test_lvm2_2_02_98/test/shell
+path_dir=/usr/share/qa/qa_test_lvm2_shell
+tcf_f=/usr/share/qa/tcf/qa_lvm2-2_02_98.tcf
+shell_p=/usr/share/qa/qa_test_lvm2_shell/test/shell
 
 if [ ! -f $tcf_f ]; then
         for file in `ls $shell_p | grep .sh`; do
