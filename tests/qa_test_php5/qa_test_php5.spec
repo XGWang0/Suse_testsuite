@@ -32,10 +32,10 @@ Patch1:		syntax_fix.patch
 BuildArch:      noarch
 Provides:	qa_php5
 Obsoletes:	qa_php5
-Requires:       php5 >= 5.0.0 php5-wddx php5-ctype php5-mbstring php5-bz2 php5-bcmath php5-ctype php5-dbase php5-exif php5-gd php5-gettext php5-gmp php5-mcrypt php5-shmop php5-sysvshm php5-sysvsem php5-zlib php5-calendar php5-iconv php5-sqlite php5-tokenizer php5-dom php5-soap mysql php5-sysvmsg php5-xsl php5-mysql 
+Requires:       php5 >= 5.0.0 php5-wddx php5-ctype php5-mbstring php5-bz2 php5-bcmath php5-ctype php5-exif php5-gd php5-gettext php5-gmp php5-mcrypt php5-shmop php5-sysvshm php5-sysvsem php5-zlib php5-calendar php5-iconv php5-sqlite php5-tokenizer php5-dom php5-soap mysql php5-sysvmsg php5-xsl php5-mysql 
 Requires:       ctcs2
 %if %suse_version <= 1030
-Requires:       php5-mhash
+Requires:       php5-mhash php5-dbase
 %endif
 
 %description
