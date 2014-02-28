@@ -63,8 +63,8 @@ install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -d $RPM_BUILD_ROOT/usr/share/qa/%name
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-install -d $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2-2_02_98
-mv $RPM_BUILD_ROOT/usr/share/qa/%name/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa/
+cp -a $RPM_BUILD_ROOT/usr/share/qa/%name/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa
+mv $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2_shell
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_lvm2.8.gz
 %dir %{_datadir}/qa
 %{_datadir}/qa/%name
-%{_datadir}/qa/qa_test_lvm2-2_02_98
+%{_datadir}/qa/qa_test_lvm2_shell
 %dir %{_datadir}/qa/tools
 %{_datadir}/qa/tools/test_lvm2-run
 %{_datadir}/qa/tools/test_lvm2_2_02_98-run
