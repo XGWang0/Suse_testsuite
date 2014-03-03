@@ -79,9 +79,6 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/%name/*
 
 %changelog 
-* Thu Feb 25 2014 - bwliu@suse.com
-- add iozoneparser
-- eatmem to 512M
 * Thu Nov 15 2012 - yxu@suse.de
 - package created, version 3_300
 

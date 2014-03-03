@@ -22,7 +22,9 @@
 # ****************************************************************************
 #
 
-timer 2h 
+timer 1h 
+bg 1 eatmem /usr/share/qa/qa_test_iozone/eatmem.sh
+benchparser /usr/share/qa/qa_test_iozone/iozoneparser
 fg 1 qa_iozone /usr/bin/iozone -a
 wait
 
