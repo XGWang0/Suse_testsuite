@@ -58,6 +58,7 @@ echo -e "========== Starting Testing ==========\n"
 
 ln -s /usr/lib/ctcs2/tools/test_ltp-run /usr/share/qa/tools/test_ltp-run
 ln -s /usr/lib/ctcs2/tools/test_newburn-run /usr/share/qa/tools/test_newburn-run
+ln -s /usr/lib/ctcs2/tools/test_ltp-fstests-run /usr/share/qa/tools/test_ltp-fstests-run
 
 cd /usr/share/qa/tools
 screen -L -S tests -m /bin/bash -c '(
@@ -71,10 +72,10 @@ screen -L -S tests -m /bin/bash -c '(
 
 screen -L -S other_test -m /bin/bash -c '(
                 ./test_ltp-fstests-run
-		./test_lvm2_2_02_98-run                                                      
+		./test_lvm2_2_02_98-run
+		./test_libhugetlbfs-run                                                      
 		/usr/lib/ctcs2/tools/ltp-stress.py
         /usr/lib/ctcs2/tools/test_newburn-memtst-run		
-        /usr/lib/ctcs2/tools/test_libhugetlbfs-run
         )'
 
 rm /tmp/test_*
