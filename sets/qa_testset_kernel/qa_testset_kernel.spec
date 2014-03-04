@@ -18,6 +18,10 @@ Version:        1.0
 Release:        0
 Summary:        Setup for Kernel tests running
 Source0:        testset_kernel-run
+Source1:	install.sh
+Source2:	test_run.sh
+Source3:	kernel_test_packages
+Source4:	regression_test_packages
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -35,8 +39,12 @@ Authors:
 %build
 
 %install
-mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 %{S:0} $RPM_BUILD_ROOT/usr/share/qa/tools
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 744 %{S:0} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 744 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 744 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
