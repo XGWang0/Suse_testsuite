@@ -23,9 +23,9 @@
 #
 
 timer 1h 
-bg 1 eatmem /usr/share/qa/qa_test_iozone/eatmem.sh
+bg 1 eatmem_iozone /usr/share/qa/qa_test_iozone/eatmem_iozone.sh
 benchparser /usr/share/qa/qa_test_iozone/iozoneparser
-fg 1 qa_iozone /usr/bin/iozone -a
+fg 1 qa_iozone /usr/bin/iozone -a -f /abuild/iozone
 wait
 
 
