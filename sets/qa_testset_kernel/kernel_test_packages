@@ -9,7 +9,8 @@ qa_test_memeat		test_memeat-run		/usr/share/qa/tools
 qa_test_memtester	test_memtester-run	/usr/share/qa/tools
 qa_test_libhugetlbfs	test_libhugetlbfs-run	/usr/share/qa/tools
 qa_test_autotest	test_autotest-run	/usr/share/qa/tools
-qa_test_newburn		test_newburn-memtst-run	/usr/lib/ctcs2/tools
+qa_test_newburn		test_newburn-run	/usr/lib/ctcs2/tools
+qa_test_newburn-memtst 	test_newburn-memtst-run	/usr/lib/ctcs2/tools
 qa_test_ltp		test_ltp-run		/usr/lib/ctcs2/tools
 fstest			test_ltp-fstests-run	/usr/lib/ctcs2/tools
 system_stress		ltp-stress.py		/usr/lib/ctcs2/tools
