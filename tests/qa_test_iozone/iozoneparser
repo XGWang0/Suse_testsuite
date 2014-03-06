@@ -40,84 +40,84 @@ $bench_results->{attrs} = {
                                                 desc => 'write',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                rewrite_ => {
                                                 id => 'rewrite',
                                                 label => 'rewrite',
                                                 desc => 'rewrite',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                read_ => {
                                                 id => 'read',
                                                 label => 'read',
                                                 desc => 'read',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                reread_ => {
                                                 id => 'reread',
                                                 label => 'reread',
                                                 desc => 'reread',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                random_read_ => {
                                                 id => 'random_read',
                                                 label => 'random_read',
                                                 desc => 'random_read',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                random_write_ => {
                                                 id => 'random_write',
                                                 label => 'random_write',
                                                 desc => 'random_write',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                bkwd_read_ => {
                                                 id => 'bkwd_read',
                                                 label => 'bkwd_read',
                                                 desc => 'bkwd_read',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                record_rewrite_ => {
                                                 id => 'record_rewrite',
                                                 label => 'record_rewrite',
                                                 desc => 'record_rewrite',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                stride_read_ => {
                                                 id => 'stride_read',
                                                 label => 'stride_read',
                                                 desc => 'stride_read',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                fwrite_ => {
                                                 id => 'fwrite',
                                                 label => 'fwrite',
                                                 desc => 'fwrite',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                frewrite_ => {
                                                 id => 'frewrite',
                                                 label => 'frewrite',
                                                 desc => 'frewrite',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                fread_ => {
                                                 id => 'fread',
                                                 label => 'fread',
                                                 desc => 'fread',
                                                 type => 'linear',
                                                 unit => 'KB'
-                                        }
+                                        },
                                freread_ => {
                                                 id => 'freread',
                                                 label => 'freread',
