@@ -14,19 +14,9 @@ echo -e "All tests starts now, see screen -r tests for details\n"
 
 echo -e "========== Starting Testing ==========\n"
 
-kernel_run=`awk '{print $2}' kernel_test_packages`
-regression_run=`awk '{print $2}' regression_test_packages`
-
-export kernel_run regression_run
 
 screen -L -S tests -m /bin/bash -c '(
-	i=1
-	for test_name in $kernel_run $regression_run;do
-		echo -e "========================================= Testing ${test_name} [$i] ======================================\n"
-		run_path=`grep $test_run *test_packages | awk '{print $3}'`
-		/bin/bash $run_path/$test_name
-		let i=i+1
-	done
+	/usr/share/qa/qa_testset_kernel/run.sh
 	)'
 
 
