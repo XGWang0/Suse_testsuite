@@ -20,8 +20,8 @@ zypper --no-gpg-checks -n ar http://dist.suse.de/ibs/SUSE:/SLE-12:/GA/standard/ 
 zypper --gpg-auto-import-keys ref
 
 QA_LIB_PACKAGES="qa_lib_ctcs2 qa_lib_keys qa_lib_perl qa_lib_config qa_tools qa_db_report"
-KERNEL_PACKAGES=`awk '{print $1}' kernel_test_packages`
-REGRESSION_PACKAGES=`awk '{print $1}' regression_test_packages`
+KERNEL_PACKAGES=`awk '{print $1}' /usr/share/qa/qa_testset_kernel/kernel_test_packages`
+REGRESSION_PACKAGES=`awk '{print $1}' /usr/share/qa/qa_testset_kernel/regression_test_packages`
 for pkg in $QA_LIB_PACKAGES $REGRESSION_PACKAGES $KERNEL_PACKAGES ; do
         if rpm -q $pkg > /dev/null 2>&1 ; then
                 echo -e "$pkg has already been installed\n"
