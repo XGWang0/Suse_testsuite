@@ -22,7 +22,7 @@ regression_run=`awk '{print $2}' regression_test_packages`
 
 for test_run in $kernel_run $regression_run;do
 	run_path=`grep $test_run *test_packages | awk '{print $3}'`
-	export $test_run $run_path
+	export test_run run_path
 	screen -L -S $test_run -m /bin/bash -c '(
 		echo -e "================================= Testing ${test_run} ================================\n"
 		/bin/bash $run_path/$test_run

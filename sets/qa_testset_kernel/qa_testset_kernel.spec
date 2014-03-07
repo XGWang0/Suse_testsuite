@@ -41,7 +41,7 @@ Authors:
 %install
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 %{S:0} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 744 %{S:0} $RPM_BUILD_ROOT/usr/share/qa/tools/
 install -m 744 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 744 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/%{name}
