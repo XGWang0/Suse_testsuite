@@ -26,8 +26,8 @@ Source1:        qa_iozone.tcf
 Source2:        test_iozone-run
 Source3:	qa_test_iozone.8
 Source4:	iozoneparser
-Source5:	eatmem.sh
-Source6:	eatmem
+Source5:	eatmem_iozone.sh
+Source6:	eatmem_iozone
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -74,11 +74,14 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/%{name}.8.gz
 /usr/bin/iozone
 /usr/bin/fileop
-/usr/bin/eatmem
+/usr/bin/eatmem_iozone
 /usr/share/qa
 /usr/share/qa/%name/*
 
 %changelog 
+* Thu Mar 05 2014 - bwliu@suse.com
+- just change the name of /usr/bin/eatmem to /usr/bin/eatmem_iozone to avoid conflict with qa_test_tiobench.
+- just change the name of /usr/share/qa/%name/eatmen.sh to /usr/share/qa/%name/eatmen_iozone.sh to avoid conflict with qa_test_tiobench.
 * Thu Feb 25 2014 - bwliu@suse.com
 - add iozoneparser
 - eatmem to 512M

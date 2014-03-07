@@ -76,7 +76,7 @@ cp -a client/* $RPM_BUILD_ROOT/usr/lib/autotest
 cp %{S:7} $RPM_BUILD_ROOT/usr/lib/autotest/tests/fio/
 cp %{S:1} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
 cp %{S:8} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
-cp %{S:9} $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/
+cp %{S:9} $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 
 %files

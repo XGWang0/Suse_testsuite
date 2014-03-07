@@ -1,6 +1,6 @@
-qa_test_process_stress	test_process_stress-run	/usr/share/qa/tools
-qa_test_sched_stress	test_sched_stress-run	/usr/share/qa/tools
-qa_test_fs_stress	test_fs_stress-run	/usr/share/qa/tools
+qa_test_process_stress	test_process_stress-run	/usr/share/qa/tools	1h10s
+qa_test_sched_stress	test_sched_stress-run	/usr/share/qa/tools	1h36m56s
+qa_test_fs_stress	test_fs_stress-run	/usr/share/qa/tools	1h29m27s
 qa_test_ftpload		test_ftpload-run	/usr/share/qa/tools
 qa_test_lmbench		test_lmbench-run	/usr/share/qa/tools
 qa_test_lvm2		test_lvm2_2_02_98-run	/usr/share/qa/tools
@@ -9,7 +9,8 @@ qa_test_memeat		test_memeat-run		/usr/share/qa/tools
 qa_test_memtester	test_memtester-run	/usr/share/qa/tools
 qa_test_libhugetlbfs	test_libhugetlbfs-run	/usr/share/qa/tools
 qa_test_autotest	test_autotest-run	/usr/share/qa/tools
-qa_test_newburn		test_newburn-memtst-run	/usr/lib/ctcs2/tools
+qa_test_newburn		test_newburn-run	/usr/lib/ctcs2/tools
+qa_test_newburn-memtst 	test_newburn-memtst-run	/usr/lib/ctcs2/tools
 qa_test_ltp		test_ltp-run		/usr/lib/ctcs2/tools
 fstest			test_ltp-fstests-run	/usr/lib/ctcs2/tools
 system_stress		ltp-stress.py		/usr/lib/ctcs2/tools
