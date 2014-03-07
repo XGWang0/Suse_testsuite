@@ -41,7 +41,7 @@ if [ ! -d $LOG_DIR ]; then
 fi
 
 # Fixed the issue of socket cannot assign requested address
-tw_reuse_default = `cat /proc/sys/net/ipv4/tcp_tw_reuse`
+tw_reuse_default=`cat /proc/sys/net/ipv4/tcp_tw_reuse`
 if [ $tw_reuse_default -eq 0 ]; then
 	echo 1 >/proc/sys/net/ipv4/tcp_tw_reuse
 fi
