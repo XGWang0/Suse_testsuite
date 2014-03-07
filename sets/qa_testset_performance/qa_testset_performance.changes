@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Fri Mar  7 14:57:24 CST 2014 - lzwang@suse.com
+
+- refactor the code. 
+
+  currently simple list is supported.
+  different test sets can be merged.
+
+-------------------------------------------------------------------
 Wed Feb 12 10:42:50 UTC 2014 - lzwang@suse.com
 
 - Initially added the performance testsuits. 
