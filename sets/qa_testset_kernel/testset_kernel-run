@@ -15,7 +15,7 @@ echo -e "All tests starts now, see screen -r tests for details\n"
 echo -e "========== Starting Testing ==========\n"
 
 
-screen -L -S tests -m /bin/bash -c '(
+screen -d -L -S tests -m /bin/bash -c '(
 	/usr/share/qa/qa_testset_kernel/run.sh
 	)'
 
