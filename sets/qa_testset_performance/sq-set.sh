@@ -12,7 +12,7 @@ CMDPATH=$(which $0)
 if [ -L $CMDPATH ];then
     pushd $(dirname $CMDPATH) > /dev/null
     CMDTARGET=$(readlink $CMDPATH)
-    pushd $(dirname $CMDTARGET)
+    pushd $(dirname $CMDTARGET) > /dev/null
     readonly __IMPORT_ROOT=$(pwd)
     popd > /dev/null
     popd > /dev/null
@@ -47,16 +47,11 @@ if test $# -lt 1;then
     usage
 fi
 
-sq_global_init
-
 if test "X${SQ_SET_CALL_BY_WRAP}" == "XYES";then
-    export SQ_SET_CALL_BY_WRAP=NO
-    cd ${SQ_TEST_CALL_DIR}
-    echo 'logfile %t.%Y-%m-%d.%c.%H.screenlog' > screenrc
-    exec screen -L -S SQ_PERF_ALL -t SQ_PERF_ALL -c screenrc -d -m \
-    ${SQ_TEST_INVOKE_PATH} $@
+    SQ_SET_ARGV="$@"
 fi
 
+sq_global_init
 sq_info "[GLOBAL] Start at $(date)"
 sq_info "[GLOBAL] /proc/uptime: $(cat /proc/uptime)"
 
@@ -107,6 +102,20 @@ function sq_set_cmd_run_parse {
         test "X{SQ_TEST_RUN_SET_FILE}" == "X"
         then
         usage
+    fi
+}
+
+function sq_set_cmd_run_list {
+    if test "X${SQ_SET_CALL_BY_WRAP}" == "XYES";then
+        export SQ_SET_CALL_BY_WRAP=NO
+        cd ${SQ_TEST_CALL_DIR}
+        echo 'logfile %t.%Y-%m-%d.%c.%H.screenlog' > screenrc
+        exec screen -L -S ${SQ_TEST_RUN_LIST_FILE}-${SQ_TEST_RUN_SET_FILE} \
+            -t ${SQ_TEST_RUN_LIST_FILE}-${SQ_TEST_RUN_SET_FILE} -c screenrc -d -m \
+            ${SQ_TEST_INVOKE_NAME} ${SQ_SET_ARGV}
+
+    else
+        sq_mach_run
     fi
 }
 
@@ -163,7 +172,7 @@ function sq_set_cmd_resume_list {
 
 case $1 in
     run*) shift; sq_set_cmd_run_parse "$@"
-        sq_mach_run
+        sq_set_cmd_run_list
         ;;
     reset*) shift; sq_set_cmd_reset
         ;;

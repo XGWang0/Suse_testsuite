@@ -13,7 +13,7 @@ CMDPATH=$(which $0)
 if [ -L $CMDPATH ];then
     pushd $(dirname $CMDPATH) > /dev/null
     CMDTARGET=$(readlink $CMDPATH)
-    pushd $(dirname $CMDTARGET)
+    pushd $(dirname $CMDTARGET) > /dev/null
     readonly __IMPORT_ROOT=$(pwd)
     popd > /dev/null
     popd > /dev/null
