@@ -7,16 +7,20 @@ fi
 
 SQ_TEST_INVOKE_DIR=$(pwd)
 SQ_TEST_INVOKE_NAME=$0
-CMDABSPATH=$(which $0)
-if [ -L $CMDABSPATH ];then
-    pushd $(dirname $CMDABSPATH) > /dev/null
-    CMDABSPATH=$(readlink $CMDABSPATH)
+
+CMDPATH=$(which $0)
+if [ -L $CMDPATH ];then
+    pushd $(dirname $CMDPATH) > /dev/null
+    CMDTARGET=$(readlink $CMDPATH)
+    pushd $(dirname $CMDTARGET)
+    readonly __IMPORT_ROOT=$(pwd)
+    popd > /dev/null
+    popd > /dev/null
+else
+    pushd $(dirname $CMDPATH) > /dev/null
+    readonly __IMPORT_ROOT=$(pwd)
     popd > /dev/null
 fi
-SQ_TEST_INVOKE_PATH=${CMDABSPATH}
-pushd $(dirname $CMDABSPATH) > /dev/null
-readonly __IMPORT_ROOT=$(pwd)
-popd > /dev/null
 
 function __import {
     # TODO check $1 is *.sh

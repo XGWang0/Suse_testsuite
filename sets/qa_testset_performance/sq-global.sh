@@ -1,4 +1,4 @@
-SQ_DEBUG_ON=YES
+SQ_DEBUG_ON=NO
 
 if test "X${SQ_DEBUG_ON}" == "XYES";then
     SQ_TEST_DIR=/var/log/qaset/debug

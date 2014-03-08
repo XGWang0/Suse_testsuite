@@ -9,15 +9,19 @@ fi
 
 #use the same name for RUN_LIST
 RUN_LIST=${TARGET_RELEASE}
-CMDABSPATH=$(which $0)
-if [ -L $CMDABSPATH ];then
-    pushd $(dirname $CMDABSPATH) > /dev/null
-    CMDABSPATH=$(readlink $CMDABSPATH)
+CMDPATH=$(which $0)
+if [ -L $CMDPATH ];then
+    pushd $(dirname $CMDPATH) > /dev/null
+    CMDTARGET=$(readlink $CMDPATH)
+    pushd $(dirname $CMDTARGET)
+    readonly __IMPORT_ROOT=$(pwd)
+    popd > /dev/null
+    popd > /dev/null
+else
+    pushd $(dirname $CMDPATH) > /dev/null
+    readonly __IMPORT_ROOT=$(pwd)
     popd > /dev/null
 fi
-pushd $(dirname $CMDABSPATH) > /dev/null
-readonly __IMPORT_ROOT=$(pwd)
-popd > /dev/null
 
 SQ_SET_BIN=${__IMPORT_ROOT}/sq-set.sh
 export SQ_SET_CALL_BY_WRAP=YES

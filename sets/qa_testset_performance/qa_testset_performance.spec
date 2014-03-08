@@ -31,6 +31,7 @@ Source1101:     SLE11SP3.conf
 Source1102:     SLE11SP3.list
 Source1201:     SLE12.conf
 Source1202:     SLE12.list
+BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
