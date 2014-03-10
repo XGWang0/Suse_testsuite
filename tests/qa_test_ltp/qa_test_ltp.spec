@@ -83,6 +83,8 @@ Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 #Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+Patch700:	0001-safe_macros.h-Add-SAFE_STAT-and-SAFE_LSTAT.patch
+Patch701:	0002-syscalls-swapon-Cleanup.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -124,6 +126,8 @@ Authors:
 %patch501 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+%patch700 -p1
+%patch701 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
@@ -217,6 +221,10 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Mar 10 2014 Cyril Hrubis chrubis@suse.cz
+  Backport fixes for link() failures due to enabled protected_hardlinks
+  Backport fixes for swapon() and swapoff() testcases on Btrfs
+
 * Wed Jan 15 2014 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20140115
 
