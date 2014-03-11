@@ -154,7 +154,6 @@ rm -rvf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_apparmor.8.gz
 /usr/share/qa
 /usr/share/qa/tcf/qa_apparmor.tcf
-/usr/share/qa/tcf/qa_apparmor_profiles.tcf
 #/usr/share/qa/tools/
 %exclude %{qa_location}/tcf/qa_apparmor_*.tcf
 %exclude /usr/share/qa/tcf/qa_apparmor_*.tcf
@@ -167,13 +166,14 @@ rm -rvf $RPM_BUILD_ROOT
 %{qa_location}/bin/profiles
 /usr/share/qa/tcf/qa_apparmor_profiles.tcf
 /usr/share/qa/tools/test_apparmor-profiles-run
-/usr/share/qa/tcf/qa_apparmor_*.tcf
 %{qa_location}/localaccess.sh
 %{qa_location}/ping02
 %{qa_location}/expect.ex
 %{qa_location}/traceroute_tests1.sh
 %{qa_location}/remoteaccess.sh
 %{qa_location}/expect.ex
+%exclude /usr/share/qa/tcf/qa_apparmor.tcf
+
 %changelog
 * Wed Aug 10 2011 - llipavsky@suse.cz
 - Package rename: qa_apparmor -> qa_test_apparmor
