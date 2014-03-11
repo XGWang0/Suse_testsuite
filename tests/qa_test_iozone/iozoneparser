@@ -134,10 +134,12 @@ my $v=0;
 my $g=0;
 my $depth;
 my $name;
+my $reclen;
 #my $x;
 #my $y;
 
 @labellist = ("write", "rewrite", "read", "reread", "random_read", "random_write", "bkwd_read", "record_rewrite", "stride_read", "fwrite", "frewrite", "fread", "freread");
+@filesize = ("64","512","2048","4096","8192","65536","524288");
 
 foreach my $label (@labellist)
 {
@@ -151,28 +153,50 @@ foreach my $label (@labellist)
 }
     foreach my $row (<STDIN>)
     {
-
-
-
-
              if( $row =~ /([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)/ )
-
         {
-            $val->[$v]->{"KB"} = $1.$2;
+		if (grep /^$1$/i, @filesize) {
+	    $reclen = sprintf "%05d", $2;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"write"} = $3;
+	    $v++;
+	    $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"rewrite"} = $4;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"read"} = $5;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"reread"} = $6;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"random_read"} = $7;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"random_write"} = $8;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"bkwd_read"} = $9;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"record_rewrite"} = $10;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"stride_read"} = $11;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"fwrite"} = $12;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"frewrite"} = $13;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"fread"} = $14;
+            $v++;
+            $val->[$v]->{"KB"} = $1.$reclen;
             $val->[$v]->{"freread"} = $15;
             $v++;
+		}
         }
     }
 
