@@ -79,6 +79,8 @@ function sq_abuild_open {
         sq_debug "[abuild] NO record for /abuild in /etc/fstab ."
         SQ_ABUILD_DEFAULT_FS=""
         SQ_ABUILD_PARTITION="/dev/sdb1"
+        #make sure /abuild is there
+        mkdir /abuild > /dev/null 2>&1
     fi
     if test -b ${SQ_ABUILD_PARTITION};then
         sq_info "[abuild] the target partition: ${SQ_ABUILD_PARTITION}"
