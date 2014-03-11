@@ -65,6 +65,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/autotest
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/config/autotest
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/autotest
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
