@@ -1,4 +1,5 @@
-#
+#!BuildIgnore: post-build-checks
+
 # spec file for package qa_apparmor (Version 1325)
 #
 # Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
@@ -143,8 +144,8 @@ echo "wait" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor.tcf
 echo >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor.tcf
 #add stress test
 #
-%define ltp_tcp_cmds_tcf /usr/share/qa/qa_test_ltp/tcf/.tcf
-%define ltp_commands_tcf /usr/share/qa/qa_test_ltp/tcf/comtcp_cmdsmands.tcf
+#%define ltp_tcp_cmds_tcf /usr/share/qa/qa_test_ltp/tcf/.tcf
+#%define ltp_commands_tcf /usr/share/qa/qa_test_ltp/tcf/comtcp_cmdsmands.tcf
 
 %clean
 rm -rvf $RPM_BUILD_ROOT
