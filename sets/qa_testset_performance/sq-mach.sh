@@ -30,6 +30,8 @@ function sq_mach_open {
             sq_error "[MACH] preparation: failed!"
             return 1
         fi
+        sq_info "[MACH] Preparation: disable snapper for btrfs"
+        snapper set-config TIMELINE_CREATE=NO
         echo "$(date)" > ${SQ_TEST_CONTROL_FILE_PREPARED}
     fi
     SQ_TEST_MACH_FLAG_REBOOT=NO
