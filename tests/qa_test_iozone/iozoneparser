@@ -135,6 +135,8 @@ my $g=0;
 my $depth;
 my $name;
 my $reclen;
+my $filesize;
+my $line;
 #my $x;
 #my $y;
 
@@ -151,49 +153,53 @@ foreach my $label (@labellist)
             $graphs->[$g]->{result} = $label;
             $g++;
 }
+
+$line = "1";
     foreach my $row (<STDIN>)
     {
              if( $row =~ /([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)/ )
         {
 		if (grep /^$1$/i, @filesize) {
 	    $reclen = sprintf "%05d", $2;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $filesize = $line.".".$1;
+	    $line++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"write"} = $3;
 	    $v++;
-	    $val->[$v]->{"KB"} = $1.$reclen;
+	    $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"rewrite"} = $4;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"read"} = $5;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"reread"} = $6;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"random_read"} = $7;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"random_write"} = $8;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"bkwd_read"} = $9;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"record_rewrite"} = $10;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"stride_read"} = $11;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"fwrite"} = $12;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"frewrite"} = $13;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"fread"} = $14;
             $v++;
-            $val->[$v]->{"KB"} = $1.$reclen;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
             $val->[$v]->{"freread"} = $15;
             $v++;
 		}
