@@ -1,0 +1,99 @@
+#!/usr/bin/perl -w
+# ****************************************************************************
+# # Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# # 
+# # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# # THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# # TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# # PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# # LIABILITY.
+# # 
+# # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# # AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# # LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# # ****************************************************************************
+BEGIN {
+        push (@INC,"/usr/share/qa/lib");
+}
+use benchxml;
+my $bench_results = {};
+$bench_results->{attrs} = {
+                               Runs => {
+                                                id => 'runs',
+                                                label => 'runs',
+                                                desc => 'runs',
+                                                type => 'liner',
+                                                unit => 'times'
+                                        },
+                               TransactionRate => {
+                                                id => 'TransactionRate',
+                                                label => 'Transaction Rate',
+                                                desc => 'Transaction Rate.',
+                                                type => 'liner',
+                                                unit => 'trans/sec'
+                                        },
+                               Throughput => {
+                                                id => 'Throughput',
+                                                label => 'Throughput',
+                                                desc => 'Throughput',
+                                                type => 'liner',
+                                                unit => 'MB/sec'
+                                        },
+
+};
+$bench_result->{values}=[];
+$bench_result->{graphs}=[];
+my $val;
+my $graphs;
+my $v=0;
+my $x=1;
+my $x1=1;
+my $num=0;
+my $ave;
+my $g=0;
+
+foreach my $row (<STDIN>)
+{
+    if( $row =~ /qa_siege_performance/ )
+    {
+        $graphs->[0]->{label} = "Transaction Rate";
+        $graphs->[0]->{desc} = "Transaction Rate" ;
+        $graphs->[0]->{result} = 'TransactionRate';
+        $graphs->[0]->{axis_1} = 'Runs';
+        $graphs->[1]->{label} = "Throughput";
+        $graphs->[1]->{desc} = "Throughput" ;
+        $graphs->[1]->{result} = 'Throughput';
+        $graphs->[1]->{axis_1} = 'Runs';
+    }
+    if( $row =~ /^Transaction rate:\s+([\d\.]+)/)
+    {
+        $sum += $1;
+	$num++;
+        $ave = $sum/$num;
+        $val->[0]->{Runs} = $x;
+	$val->[0]->{TransactionRate} = $ave;
+    }
+
+    if( $row =~ /^Throughput:\s+([\d\.]+)/)
+    {
+        $sum1 += $1;
+        $ave = $sum1/$num;
+        $val->[1]->{Runs} = $x1;
+	$val->[1]->{Throughput} = $ave;
+    }
+}
+
+$bench_results->{values} = $val;
+$bench_results->{graphs} = $graphs;
+
+print bench_data_to_xml($bench_results);
+

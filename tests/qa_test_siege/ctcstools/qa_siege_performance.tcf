@@ -1,2 +1,3 @@
+benchparser /usr/share/qa/qa_test_siege/siegeparser
 fg 10 qa_siege_performance /usr/share/qa/qa_test_siege/siege/bin/siege -c 200 -r 150 http://localhost/qa_test_siege/index.html -i -b
 wait
