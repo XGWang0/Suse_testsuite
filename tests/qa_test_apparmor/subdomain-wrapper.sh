@@ -5,7 +5,7 @@
 #from anywhere
 
 pushd . > /dev/null
-cd /usr/share/qa/qa_test_apparmor/bin/subdomain
+cd /usr/share/qa/qa_test_apparmor/tests
 sh $1
 RESULT=$?
 popd > /dev/null
