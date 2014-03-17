@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Mar 17 15:42:54 CST 2014 - lzwang@suse.com
+
+- Added tiobench to the default list for SLE12
+
+-------------------------------------------------------------------
 Fri Mar  7 14:57:24 CST 2014 - lzwang@suse.com
 
 - refactor the code. 
