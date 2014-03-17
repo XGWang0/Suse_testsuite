@@ -70,6 +70,7 @@ make install prefix=$RPM_BUILD_ROOT%{qa_location}/siege
 install -m 755 -v ctcstools/qa_siege_defaultrun.sh $RPM_BUILD_ROOT%{qa_location}
 cp -v ctcstools/*.tcf $RPM_BUILD_ROOT/%{qa_location}/tcf
 cp -v ctcstools/qa_siege_old.tcf $RPM_BUILD_ROOT/%{qa_location}/tcf
+cp -v ctcstools/siegeparser $RPM_BUILD_ROOT/usr/share/qa/qa_test_siege/siegeparser
 ln -s ../%{name}/tcf/qa_siege_http.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/tcf/qa_siege_https.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/tcf/qa_siege_performance.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
@@ -101,6 +102,7 @@ rm -fr $RPM_BUILD_ROOT
 %attr(0755,root,root) /usr/share/qa/tools/test_siege-run
 /usr/share/qa/tools/test_siege-run-http
 /usr/share/qa/tools/test_siege-run-https
+/usr/share/qa/qa_test_siege/siegeparser
 %attr(0400,root,root) /etc/apache2/ssl.key/qa.key
 %attr(0400,root,root) /etc/apache2/ssl.crt/qa.crt
 /etc/apache2/vhosts.d/00_localhost_ssl.conf
