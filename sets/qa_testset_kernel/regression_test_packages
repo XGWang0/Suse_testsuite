@@ -1,5 +1,6 @@
 qa_test_apache_testsuite	test_apache_testsuite-run	/usr/share/qa/tools	2m52s
 qa_test_apparmor		test_apparmor-run		/usr/share/qa/tools
+qa_test_apparmor-profiles	test_apparmor-profiles-run	/usr/share/qa/tools
 qa_test_bind			test_bind-run			/usr/share/qa/tools	1m24s
 qa_test_bzip2			test_bzip2-run			/usr/share/qa/tools	5s
 qa_test_cabextract		test_cabextract-run		/usr/share/qa/tools	1s
