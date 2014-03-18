@@ -103,6 +103,15 @@ install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/bin/subdomain
 #copy the helper script
 install -m 0755 %{SOURCE5} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 0755 %{SOURCE7} $RPM_BUILD_ROOT/usr/share/qa/tools
+
+#copy profile scripts
+install -m 0755 %{SOURCE9} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE10} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE11} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE12} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE13} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE14} $RPM_BUILD_ROOT/%{qa_location}
+
 #copy  tests
 find regression/apparmor/ -maxdepth 2 \( -perm /+x -o -name '*.sh' -o -name '*.inc' \) -exec cp '{}' $RPM_BUILD_ROOT%{qa_location}/tests/ \;
 #copy  documentation
@@ -118,12 +127,12 @@ cp parser/Makefile parser/tst/uservars.conf parser/tst/simple.pl $RPM_BUILD_ROOT
 #copy tcf files
 cp %{SOURCE3} $RPM_BUILD_ROOT/%{qa_location}/tcf
 cp %{SOURCE1} $RPM_BUILD_ROOT/%{qa_location}/tcf
-cp %{SOURCE9} $RPM_BUILD_ROOT/%{qa_location}
-cp %{SOURCE10} $RPM_BUILD_ROOT/%{qa_location}
-cp %{SOURCE11} $RPM_BUILD_ROOT/%{qa_location}
-cp %{SOURCE12} $RPM_BUILD_ROOT/%{qa_location}
-cp %{SOURCE13} $RPM_BUILD_ROOT/%{qa_location}
-cp %{SOURCE14} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE9} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE10} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE11} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE12} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE13} $RPM_BUILD_ROOT/%{qa_location}
+install -m 0755 %{SOURCE14} $RPM_BUILD_ROOT/%{qa_location}
 
 ln -s ../qa_test_apparmor/tcf/qa_apparmor.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_apparmor.tcf
 ln -s ../qa_test_apparmor/tcf/qa_apparmor_profiles.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_apparmor_profiles.tcf
