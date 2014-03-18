@@ -25,6 +25,15 @@ SQ_TEST_RUN_LIST=(
     reaim_xfs
     reaim_xfs
     reaim_xfs
+    iozone_btrfs
+    iozone_ext3
+    iozone_xfs
+    iozone_btrfs
+    iozone_ext3
+    iozone_xfs
+    iozone_btrfs
+    iozone_ext3
+    iozone_xfs
     tiobench_btrfs
     tiobench_btrfs
     tiobench_btrfs
