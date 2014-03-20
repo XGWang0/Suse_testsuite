@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Mar 20 18:29:53 HKT 2014 CST - lzwang@suse.com
+
+- Changed prepo to just call qa_mach_open.
+
+-------------------------------------------------------------------
 Mon Mar 17 15:42:54 CST 2014 - lzwang@suse.com
 
 - Added tiobench to the default list for SLE12
