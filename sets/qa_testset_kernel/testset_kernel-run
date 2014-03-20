@@ -16,6 +16,7 @@ echo -e "========== Starting Testing ==========\n"
 
 
 screen -d -L -S tests -m /bin/bash -c '(
+	/bin/bash /usr/share/qa/qa_testset_kernel/validation.sh
 	/bin/bash /usr/share/qa/qa_testset_kernel/run.sh
 	)'
 
