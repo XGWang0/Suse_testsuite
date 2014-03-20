@@ -1,6 +1,6 @@
 #! /bin/bash
 
-export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
+#export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
 
 kernel_run=`awk '{print $2}' /usr/share/qa/qa_testset_kernel/kernel_test_packages`
 regression_run=`awk '{print $2}' /usr/share/qa/qa_testset_kernel/regression_test_packages`
