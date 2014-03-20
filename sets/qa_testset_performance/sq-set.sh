@@ -150,13 +150,7 @@ function sq_set_cmd_prepo_parse {
 }
 
 function sq_set_cmd_prepo {
-    sq_info "[PREPO] Preparation: is doing"
-    sq_prep_repos_and_packages ${ARCH} ${SLE_BUILD} ${REPO_MIRROR}
-    if test $? -ne 0;then
-        sq_error "[PREPO] preparation: failed!"
-        return 1
-    fi
-    echo "$(date)" > ${SQ_TEST_CONTROL_FILE_PREPARED}
+    sq_mach_open
 }
 
 function sq_set_cmd_stop_list {

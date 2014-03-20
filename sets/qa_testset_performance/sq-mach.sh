@@ -31,7 +31,7 @@ function sq_mach_open {
             return 1
         fi
         sq_info "[MACH] Preparation: disable snapper for btrfs"
-        snapper set-config TIMELINE_CREATE=NO
+        snapper set-config TIMELINE_CREATE=no
         echo "$(date)" > ${SQ_TEST_CONTROL_FILE_PREPARED}
     fi
     SQ_TEST_MACH_FLAG_REBOOT=NO
