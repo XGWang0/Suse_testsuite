@@ -1,0 +1,10 @@
+qa_test_dovecot
+==========
+
+Author:  Peter Varkoly <varkoly@suse.de>
+Summary: (rd-)qa internal package for testing dovecot
+
+Test coverage:
+- start/stop/restart daemon and check the result
+- test POP3 connection
+- test IMAP connection
