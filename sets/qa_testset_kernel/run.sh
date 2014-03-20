@@ -7,7 +7,8 @@ regression_run=`awk '{print $2}' /usr/share/qa/qa_testset_kernel/regression_test
 
 mkdir -p /root/submission_log
 for test_case in test_sched_stress-run test_fs_stress-run test_process_stress-run;do
-	/bin/bash $test_case
+	zypper -n in -l $test_case > /dev/null 2>&1
+	/bin/bash $test_case &
 done
 remote_qa_db_report.pl -T lzheng > /root/submission_log/3_stress 2>&1	
 
