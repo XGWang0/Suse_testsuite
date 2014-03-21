@@ -11,9 +11,6 @@ timer 86400
 fg 1 autotest-barriertest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/barriertest/control
 wait
 timer 86400
-fg 1 autotest-bash_shared_mapping /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/bash_shared_mapping/control
-wait
-timer 86400
 fg 1 autotest-btreplay /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/btreplay/control
 wait
 timer 86400
