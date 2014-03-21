@@ -1,5 +1,6 @@
---- a/Makefile	2011-12-27 22:38:27.000000000 +0800
-+++ b/Makefile	2013-03-28 12:43:48.704366184 +0800
+diff -urN qa_test_openssl-1.0.1f.old/test/Makefile qa_test_openssl-1.0.1f/test/Makefile
+--- qa_test_openssl-1.0.1f.old/test/Makefile	2014-03-21 14:20:47.532941572 +0100
++++ qa_test_openssl-1.0.1f/test/Makefile	2014-03-21 14:22:21.158932892 +0100
 @@ -23,10 +23,10 @@
  	tpkcs7.com tpkcs7d.com tverify.com testgen.com testss.com testssl.com \
  	testca.com VMSca-response.1 VMSca-response.2
