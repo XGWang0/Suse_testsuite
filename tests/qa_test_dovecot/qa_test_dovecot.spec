@@ -1,5 +1,5 @@
 # ****************************************************************************
-# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2014 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -32,8 +32,7 @@
 
 
 Name:           qa_test_dovecot
-#BuildRequires:  libqainternal
-License:        SUSE Proprietary
+License:        GPL v2 or later
 Group:          System/Packages
 Summary:        Basic dovecot tests for ctcs framework
 Provides:	qa_dovecot
