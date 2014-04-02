@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Apr  2 13:00:45 UTC 2014 - schwab@suse.de
+
+- Update URL
+- find_binary.patch: Remove unknown option from arch
+
+-------------------------------------------------------------------
 Fri Feb 21 09:47:56 UTC 2014 - lzwang@suse.com
 
 - Added tattle-pthread.patch to fix a makefile error. 
