@@ -1,5 +1,10 @@
 -------------------------------------------------------------------
-Thu Mar 20 18:29:53 HKT 2014 CST - lzwang@suse.com
+Wed Apr  2 16:33:38 CST 2014 - lzwang@suse.com
+
+- Added code to add an entry into /etc/hosts for reaim
+
+-------------------------------------------------------------------
+Thu Mar 20 18:29:53 CST 2014 - lzwang@suse.com
 
 - Changed prepo to just call qa_mach_open.
 

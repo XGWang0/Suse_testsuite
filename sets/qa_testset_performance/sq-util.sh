@@ -247,6 +247,5 @@ function sq_os_get_sysinfo {
 function sq_os_reboot {
     wall "REBOOT by sqset!!!!!!"
     # TODO why env
-    env /usr/bin/systemctl reboot
+    env /usr/bin/systemctl -f reboot
 }
-

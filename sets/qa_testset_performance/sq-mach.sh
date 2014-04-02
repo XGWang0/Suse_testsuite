@@ -32,6 +32,9 @@ function sq_mach_open {
         fi
         sq_info "[MACH] Preparation: disable snapper for btrfs"
         snapper set-config TIMELINE_CREATE=no
+        #reaim needs hostname entry in /etc/hosts
+        sq_info "[MACH] Preparation: set hostname in /etc/hosts"
+        echo "127.0.0.100    $(hostname)" >> /etc/hosts
         echo "$(date)" > ${SQ_TEST_CONTROL_FILE_PREPARED}
     fi
     SQ_TEST_MACH_FLAG_REBOOT=NO
