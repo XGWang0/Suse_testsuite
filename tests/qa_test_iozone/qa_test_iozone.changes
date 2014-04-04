@@ -1,0 +1,5 @@
+-------------------------------------------------------------------
+Fri Apr  4 02:48:28 UTC 2014 - jli@suse.com
+
+- Add new test run and tcf for testing  twice the amount of RAM
+
