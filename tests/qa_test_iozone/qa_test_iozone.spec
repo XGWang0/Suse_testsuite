@@ -28,6 +28,10 @@ Source3:	qa_test_iozone.8
 Source4:	iozoneparser
 Source5:	eatmem_iozone.sh
 Source6:	eatmem_iozone
+Source7:        test_iozone_new_run
+Source8:        qa_iozone_512M.tcf
+Source9:        qa_iozone_2G.tcf
+Source10:       qa_iozone_4-32G.tcf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -53,9 +57,13 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/bin
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/bin
+install -m 644 %{S:8} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 644 %{S:9} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 744 src/current/iozone $RPM_BUILD_ROOT/usr/bin
 install -m 744 src/current/fileop $RPM_BUILD_ROOT/usr/bin
 install -m 744 src/current/Generate_Graphs $RPM_BUILD_ROOT/usr/share/qa/%name
