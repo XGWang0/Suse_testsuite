@@ -32,8 +32,8 @@
 
 
 Name:           qa_test_dovecot
-License:        GPL v2 or later
-Group:          System/Packages
+License:        SUSE Proprietary
+Group:          SuSE internal
 Summary:        Basic dovecot tests for ctcs framework
 Provides:	qa_dovecot
 Obsoletes:	qa_dovecot
