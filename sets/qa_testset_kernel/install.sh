@@ -15,6 +15,7 @@ else
         echo "This is release is $release"
 fi
 
+snapper set-config TIMELINE_CREATE=no
 zypper --no-gpg-checks -n ar http://dist.ext.suse.de/ibs/QA:/Head/SUSE_SLE-12_GA/ hamsta
 #zypper --no-gpg-checks -n ar http://dist.suse.de/ibs/SUSE:/SLE-12:/GA/standard/ sle12-sdk
 zypper --no-gpg-checks -n ar http://dist.suse.de/install/SLP/SLE-12-SDK-$release/$ARCH/DVD1/ sle12-sdk
