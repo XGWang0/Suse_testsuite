@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Apr 11 18:04:06 CST 2014 - lzwang@suse.com
+
+- Changed to a new run of iozone
+
+
+-------------------------------------------------------------------
 Wed Apr  2 16:33:38 CST 2014 - lzwang@suse.com
 
 - Added code to add an entry into /etc/hosts for reaim

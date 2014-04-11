@@ -251,7 +251,7 @@ function bonnie_direct_btrfs_close {
 }
 
 ##iozone
-_iozone_run="/usr/share/qa/tools/test_iozone-run"
+_iozone_run="/usr/share/qa/tools/test_iozone_new_run"
 iozone_ext3_run=${_iozone_run}
 function iozone_ext3_open {
     sq_abuild_general_open ext3
