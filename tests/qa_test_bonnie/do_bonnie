@@ -13,7 +13,7 @@ done
 SIZE=100
 NUM=1
 
-while getopts s:v: OPT
+while getopts :s:v: OPT
 do
     case "$OPT" in
 	s) SIZE=$OPTARG ;;

@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Apr 11 16:48:12 CST 2014 - lzwang@suse.com
+
+- fixed warning of do_bonnie
+
+-------------------------------------------------------------------
 Mon Jan 20 11:00:30 UTC 2014 - lzwang@suse.com
 
 - Add bonnie-fix-overflow-on-large-mem-machines.patch
