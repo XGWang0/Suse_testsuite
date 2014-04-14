@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Apr 14 15:37:57 CST 2014 - lzwang@suse.com
+
+- Added /abuild info to stdout.
+
+-------------------------------------------------------------------
 Fri Apr 11 16:48:12 CST 2014 - lzwang@suse.com
 
 - fixed warning of do_bonnie

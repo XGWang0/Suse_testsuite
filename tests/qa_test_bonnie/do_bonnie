@@ -35,6 +35,9 @@ then
         exit -1
 fi
 
+ABUILD_FILESYSTEM=$(mount | grep '/abuild')
+echo "ABUILD_FILESYSTEM : ${ABUILD_FILESYSTEM}"
+
 echo "Needing $[$SIZE*$NUM] MB, having $FREE MB";
 
 bonnie -d $DIR -html $@
