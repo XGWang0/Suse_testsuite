@@ -64,8 +64,11 @@ install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/bin
 install -m 644 %{S:8} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+ls -s ../%name/tcf/%{S:8} $RPM_BUILD_ROOT/usr/share/qa/tcf/%{S:8}
 install -m 644 %{S:9} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+ls -s ../%name/tcf/%{S:9} $RPM_BUILD_ROOT/usr/share/qa/tcf/%{S:9}
 install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+ls -s ../%name/tcf/%{S:10} $RPM_BUILD_ROOT/usr/share/qa/tcf/%{S:10}
 install -m 744 src/current/iozone $RPM_BUILD_ROOT/usr/bin
 install -m 744 src/current/fileop $RPM_BUILD_ROOT/usr/bin
 install -m 744 src/current/Generate_Graphs $RPM_BUILD_ROOT/usr/share/qa/%name

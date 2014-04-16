@@ -1,5 +1,10 @@
 -------------------------------------------------------------------
-Fri Apr  4 02:48:28 UTC 2014 - jli@suse.com
+Wed Apr 16 17:52:15 CST 2014 - lzwang@suse.com
+
+-  Added the missing sym files.
+
+-------------------------------------------------------------------
+Wed Apr 16 16:48:25 CST 2014 - lzwang@suse.com
 
 -  Cleaned tcfs. Added abuildinfo.
 
