@@ -1,0 +1,3 @@
+#!/bin/bash
+ABUILD_INFO=$(grep '/abuild' /proc/mounts)
+echo "ABUILD_INFO : $ABUILD_INFO"

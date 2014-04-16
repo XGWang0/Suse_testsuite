@@ -22,7 +22,6 @@
 # ****************************************************************************
 #
 
-timer 1h
-benchparser /usr/share/qa/qa_test_iozone/iozoneparser
+fg 1 qa_iozone_2G /usr/share/qa/qa_test_iozone/abuildinfo
 fg 1 qa_iozone_2G /usr/bin/iozone -a -g 2g -n 2g -f /abuild/iozone
-
+wait
