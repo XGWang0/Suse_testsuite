@@ -32,7 +32,7 @@
 
 
 Name:           qa_test_dovecot
-License:        SUSE Proprietary
+License:        SUSE-NonFree
 Group:          SuSE internal
 Summary:        Basic dovecot tests for ctcs framework
 Provides:	qa_dovecot
