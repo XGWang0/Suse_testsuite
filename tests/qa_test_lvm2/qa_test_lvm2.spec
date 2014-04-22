@@ -11,13 +11,12 @@
 # norootforbuild
 
 Name:           qa_test_lvm2
-BuildRequires:  ctcs2
 License:        GPL v2
 Group:          SuSE internal
 Summary:        lvm2 regression tests for ctcs framework
 Provides:	qa_lvm2
 Obsoletes:	qa_lvm2
-Requires:       lvm2 ctcs2 grep
+Requires:       lvm2 ctcs2 grep git
 Version:        0.1
 Release:        1
 Source0:        %{name}-%{version}.tar.bz2
@@ -27,6 +26,8 @@ Source3:	qa_test_lvm2.8
 Source4:	test_lvm2_2_02_98-run
 Source5:	test_lvm2_source-run
 Source6:	qa_test_lvm2_shell.tar.bz2
+Patch1:		dmeventd_lvmetad_test.path
+Patch2:         lvchange-raid_none_writemostly.path
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -39,6 +40,8 @@ Authors:
 %prep
 %define qa_location /usr/share/qa/%{name}
 %setup -n %{name} -a6
+%patch1 -p0
+%patch2 -p0
 
 %build
 pushd $RPM_BUILD_DIR/%{name}/lib
