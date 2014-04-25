@@ -6,6 +6,13 @@ do
     if [ -d "$D" -a -w "$D" ]
     then
 	DIR="$D"
+	ABUILD_INFO=$(grep '/abuild' /proc/mounts)
+	if "X${ABUILD_INFO}" == "X"
+            echo "ABUILD_INFO : There is NO partition on /abuild"
+	then
+            echo "ABUILD_INFO : ${ABUILD_INFO}
+	else
+	fi
 	break
     fi
 done
@@ -34,9 +41,6 @@ then
         echo "'df' shows less than the needed $NEED MB available under '$DIR'. Aborting."
         exit -1
 fi
-
-ABUILD_FILESYSTEM=$(mount | grep '/abuild')
-echo "ABUILD_FILESYSTEM : ${ABUILD_FILESYSTEM}"
 
 echo "Needing $[$SIZE*$NUM] MB, having $FREE MB";
 
