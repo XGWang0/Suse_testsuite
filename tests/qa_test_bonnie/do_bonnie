@@ -5,15 +5,15 @@ for D in /abuild/bonnie /abuild
 do
     if [ -d "$D" -a -w "$D" ]
     then
-	DIR="$D"
-	ABUILD_INFO=$(grep '/abuild' /proc/mounts)
-	if "X${ABUILD_INFO}" == "X"
+	    DIR="$D"
+	    ABUILD_INFO=$(grep '/abuild' /proc/mounts)
+	    if [ "X${ABUILD_INFO}" == "X" ]
+	    then
             echo "ABUILD_INFO : There is NO partition on /abuild"
-	then
-            echo "ABUILD_INFO : ${ABUILD_INFO}
-	else
-	fi
-	break
+	    else
+            echo "ABUILD_INFO : ${ABUILD_INFO}"
+	    fi
+	    break
     fi
 done
 
