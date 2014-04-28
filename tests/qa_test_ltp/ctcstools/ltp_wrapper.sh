@@ -10,16 +10,16 @@ export TMPDIR="/tmp"
 #
 # Look if test needs a device
 #
-if echo "$@" | grep -q '${DEVICE}'; then
+if echo "$@" | grep -q '$LTP_DEV'; then
 
 	echo "INFO: Preparing test device"
 
 	DEVICE_FILE=${TMPDIR}/ltp_test_$$.img
-	export DEVICE_FS_TYPE=ext3
+	export LTP_DEV_FS_TYPE=ext3
 
 	dd if=/dev/zero of="${DEVICE_FILE}" bs=1kB count=20480
-	export DEVICE=$(losetup -f)
-	losetup "${DEVICE}" "${DEVICE_FILE}"
+	export LTP_DEV=$(losetup -f)
+	losetup "${LTP_DEV}" "${DEVICE_FILE}"
 fi
 
 #
@@ -45,7 +45,7 @@ rc=$?
 #
 if [ -n "${DEVICE_FILE}" ]; then
 	echo "INFO: Removing device ${DEVICE}"
-	losetup -d "${DEVICE}"
+	losetup -d "${LTP_DEV}"
 	rm -f "${DEVICE_FILE}"
 fi
 

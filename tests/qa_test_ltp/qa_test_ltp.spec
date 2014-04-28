@@ -51,7 +51,7 @@ BuildRequires: libnuma-devel
 %endif
 %endif
 
-Url:            http://ltp.sf.net
+Url:            http://linux-test-project.github.io
 License:        GPL v2 or later
 Group:          System/Benchmark
 Provides:       runalltests.sh diskio.sh networktests.sh
@@ -64,14 +64,13 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20140115
+Version:        20140422
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:	qa_test_ltp.8
 # Compiler warnings and workarounds
-Patch100:	sles9-workarounds.patch
 Patch102:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
@@ -83,9 +82,6 @@ Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 #Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0001-safe_macros.h-Add-SAFE_STAT-and-SAFE_LSTAT.patch
-Patch701:	0002-syscalls-swapon-Cleanup.patch
-Patch702:	0001-openposix-Fix-shm_open-shm_unlink-ENAMETOOLONG.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -115,9 +111,6 @@ Authors:
 %prep
 %setup -q -n ltp-full-%{version} -a1
 # Compiler warnings and workarounds
-%if 0%{?sles_version} == 9
-%patch100 -p1
-%endif
 %patch102 -p1
 # Patches 2xx Build Environment Patches
 # Patches 3xx RPMLinit Warning Fixes
@@ -127,9 +120,6 @@ Authors:
 %patch501 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-%patch700 -p1
-%patch701 -p1
-%patch702 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
@@ -147,12 +137,6 @@ find testcases | gzip --fast > TC_INDEX.gz
 
 make all %{?jobs:-j%jobs}
 make -C testcases/open_posix_testsuite all
-
-# Fix DEVICE and DEVICE_FS_TYPE
-for i in runtest/*; do
-	sed -i 's/DEVICE/${DEVICE}/' "$i";
-	sed -i 's/DEVICE_FS_TYPE/${DEVICE_FS_TYPE}/' "$i";
-done
 
 %install
 
@@ -205,7 +189,7 @@ done
 %files
 %defattr(-,root,root)
 %doc %{_mandir}/man8/qa_test_ltp.8.*
-%doc README INSTALL COPYING CREDITS
+%doc README INSTALL COPYING
 /opt/ltp/
 %{_mandir}/man1/*
 %{_mandir}/man3/*
@@ -223,6 +207,9 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Apr 28 2014 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20140422
+
 * Tue Mar 25 2014 Cyril Hrubis chrubis@suse.cz
   Backport fix for shm_open, shm_unlink ENAMETOOLONG testcases.
 
