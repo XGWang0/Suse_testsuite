@@ -1,8 +1,12 @@
 -------------------------------------------------------------------
+Thu May  8 13:43:03 CST 2014 - lzwang@suse.com
+
+- Default disable the sqperf service.
+
+-------------------------------------------------------------------
 Fri Apr 11 18:04:06 CST 2014 - lzwang@suse.com
 
 - Changed to a new run of iozone
-
 
 -------------------------------------------------------------------
 Wed Apr  2 16:33:38 CST 2014 - lzwang@suse.com

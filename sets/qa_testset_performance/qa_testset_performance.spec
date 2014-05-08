@@ -84,10 +84,11 @@ RemainAfterExit=yes
 
 [Install]
 Alias=sqperf
+WantedBy=multi-user.target
 
 EOF
    chmod 644 $RPM_BUILD_ROOT/usr/lib/systemd/system/sqperf.service
-   ln -sf ../sqperf.service $RPM_BUILD_ROOT/usr/lib/systemd/system/multi-user.target.wants/sqperf.service
+   #ln -sf ../sqperf.service $RPM_BUILD_ROOT/usr/lib/systemd/system/multi-user.target.wants/sqperf.service
 %endif
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../%{name}/testset_performance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
