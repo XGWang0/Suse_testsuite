@@ -104,7 +104,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %suse_version == 1315
 /usr/lib/systemd/system
 /usr/lib/systemd/system/sqperf.service
-/usr/lib/systemd/system/multi-user.target.wants/sqperf.service
+#/usr/lib/systemd/system/multi-user.target.wants/sqperf.service
 %endif
 
 %changelog

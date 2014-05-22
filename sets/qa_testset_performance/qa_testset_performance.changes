@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu May 22 16:02:57 CST 2014 - lzwang@suse.com
+
+- Removed the sqperf.service from the file list.
+
+-------------------------------------------------------------------
 Thu May  8 13:43:03 CST 2014 - lzwang@suse.com
 
 - Default disable the sqperf service.
