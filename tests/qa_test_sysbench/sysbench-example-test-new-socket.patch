@@ -1,0 +1,21 @@
+diff --git a/sysbench-example-tests/sysbench-example-test b/sysbench-example-tests/sysbench-example-test
+index ee8ef63..0666cbc 100755
+--- a/sysbench-example-tests/sysbench-example-test
++++ b/sysbench-example-tests/sysbench-example-test
+@@ -56,13 +56,13 @@ fi
+ 
+ case $TEST in
+     oltp)
+-	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/var/lib/mysql/mysql.sock \
++	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/run/mysql/mysql.sock          \
+ 	    --mysql-db=test --mysql-port=3306  cleanup >/dev/null 1>&2
+-	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/var/lib/mysql/mysql.sock \
++	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/run/mysql/mysql.sock \
+ 	    --mysql-db=test --mysql-port=3306 \
+ 	    --oltp-dist-type=uniform --oltp-read-only --oltp-order-ranges=0 \
+ 	    --oltp-table-size=1000000 --oltp-range-size=1000 prepare
+-	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/var/lib/mysql/mysql.sock \
++	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/run/mysql/mysql.sock \
+ 	    --mysql-db=test --mysql-port=3306 --mysql-table-engine=myisam \
+ 	    --oltp-dist-type=uniform --oltp-read-only --oltp-order-ranges=0 \
+ 	    --oltp-table-size=1000000 --oltp-range-size=1000 --num-threads=$THREADS run
