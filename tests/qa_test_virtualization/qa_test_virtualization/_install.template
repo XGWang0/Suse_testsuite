@@ -97,7 +97,10 @@ function test_action
 		# This might break if some other argumetns are specified (so if added new features, this should be checked)
 		SPECIAL_ARGS="$SPECIAL_ARGS -d 8192"
 	fi
-
+        if [ "$OPERATING_SYSTEM" == "rhel" -a "$RELEASE" == "7" ] ; then
+                # RHEL 7 requires 1024 MB of memory.
+                SPECIAL_ARGS="$SPECIAL_ARGS -e 1024"
+        fi
 
 	/usr/share/qa/virtautolib/lib/vm-install.sh -y $IP -b $BR $SETTINGS -C $SPECIAL_ARGS @VMINST_ARGS@
 }
