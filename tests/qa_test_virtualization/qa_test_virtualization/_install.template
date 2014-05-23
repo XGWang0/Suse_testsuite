@@ -46,6 +46,10 @@ fi
 
 # Format: os-rel-sp-arch-vtype-scenario-method
 DEFINITION=@DEFINITION@
+# Depending on how the test is started, MY_NAME may need to be set
+if [ -z $MY_NAME ]; then
+    MY_NAME=$(basename $0)
+fi
 # After replacement this should contain the same value as above.
 NAME_DEF=${MY_NAME/install_/}
 
