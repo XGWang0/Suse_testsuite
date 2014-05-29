@@ -20,7 +20,7 @@
 %if 0%{?suse_version} < 1220
 %define Ver 1.0.0l
 %else
-%define Ver 1.0.1f
+%define Ver 1.0.1g
 %endif
 Name:           qa_test_openssl
 Version:        %{Ver}
