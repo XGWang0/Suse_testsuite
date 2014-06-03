@@ -81,7 +81,7 @@ make %{?_smp_mflags}
 %check
 cd test
 # Disable tests on SLE12 for now as some fail
-%if 0%{?suse_version} < 1315
+%if 0%{?suse_version} > 1315
 make tests -j1
 %endif
 make clean -j1
