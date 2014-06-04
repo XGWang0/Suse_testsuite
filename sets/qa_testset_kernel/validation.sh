@@ -9,4 +9,4 @@ url=`tail -n1 /root/submission_log/3_stress |awk '{print $7}'`
 
 
 echo "The three stress tests(sched,fs,process) have been completed.\n The submission url is $url" | mail -s "Please review the stress test
-s result. " lzheng@suse.com
+s result. " bwliu@suse.com
