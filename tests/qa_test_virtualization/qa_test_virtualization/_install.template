@@ -46,6 +46,10 @@ fi
 
 # Format: os-rel-sp-arch-vtype-scenario-method
 DEFINITION=@DEFINITION@
+# Depending on how the test is started, MY_NAME may need to be set
+if [ -z $MY_NAME ]; then
+    MY_NAME=$(basename $0)
+fi
 # After replacement this should contain the same value as above.
 NAME_DEF=${MY_NAME/install_/}
 
@@ -93,7 +97,10 @@ function test_action
 		# This might break if some other argumetns are specified (so if added new features, this should be checked)
 		SPECIAL_ARGS="$SPECIAL_ARGS -d 8192"
 	fi
-
+        if [ "$OPERATING_SYSTEM" == "rhel" -a "$RELEASE" == "7" ] ; then
+                # RHEL 7 requires 1024 MB of memory.
+                SPECIAL_ARGS="$SPECIAL_ARGS -e 1024"
+        fi
 
 	/usr/share/qa/virtautolib/lib/vm-install.sh -y $IP -b $BR $SETTINGS -C $SPECIAL_ARGS @VMINST_ARGS@
 }
