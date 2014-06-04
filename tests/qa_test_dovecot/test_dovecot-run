@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # ****************************************************************************
 # Copyright (c) 2014 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -21,13 +21,11 @@
 # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
-#
+#sut_timeout 600
 
 
-#Simple wrapper program which can be executed from any location
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
 
-TEST=$1
-cd /usr/share/qa/qa_test_postfix
-./$TEST
-exit $?
+$CTCS2_DIR/tools/run $TCF_DIR/qa_dovecot.tcf
 

@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 # ****************************************************************************
-# Copyright (c) 2014 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -24,10 +24,27 @@
 #
 
 
-#Simple wrapper program which can be executed from any location
+source libqainternal.lib.sh
 
-TEST=$1
-cd /usr/share/qa/qa_test_postfix
-./$TEST
+function test01() {
+    RESULT=$FAILED
+    
+    if checkService "dovecot"; then
+        if restartService "dovecot" && checkService "dovecot"; then
+            printMessage $MSG_PASSED "Dovecot - restart the service"
+            RESULT=$PASSED
+        fi
+    else
+        printMessage $MSG_ERROR "Dovecot is not running."
+    fi
+
+    if [ "$RESULT" = "$FAILED" ]; then
+        printMessage $MSG_FAILED "Dovecot - restart the service"
+    fi
+    return $RESULT
+}
+
+
+test01
 exit $?
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 # ****************************************************************************
-# Copyright (c) 2014 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -27,7 +27,7 @@
 #Simple wrapper program which can be executed from any location
 
 TEST=$1
-cd /usr/share/qa/qa_test_postfix
+cd /usr/share/qa/qa_test_dovecot
 ./$TEST
 exit $?
 

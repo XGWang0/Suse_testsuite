@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 # ****************************************************************************
-# Copyright (c) 2014 Unpublished Work of SUSE. All Rights Reserved.
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -24,10 +24,25 @@
 #
 
 
-#Simple wrapper program which can be executed from any location
+source libqainternal.lib.sh
 
-TEST=$1
-cd /usr/share/qa/qa_test_postfix
-./$TEST
+function test01() {
+
+    exec 3<>/dev/tcp/localhost/143
+    if [ $? != 0 ]; then
+      printMessage $MSG_FAILED "Failed to open connection dovecot via IMAP"
+      return $FAILED
+    fi
+    HEAD=$( head -n1 <&3 | grep 'IMAP4' )
+    if [ -z "$HEAD" ]; then
+      printMessage $MSG_FAILED "Failed to connect IMAP4 on dovecot."
+      return $FAILED
+    fi
+    
+    return $PASSED
+}
+
+
+test01
 exit $?
 

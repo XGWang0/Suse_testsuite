@@ -1,4 +1,3 @@
-#!/bin/sh
 # ****************************************************************************
 # Copyright (c) 2014 Unpublished Work of SUSE. All Rights Reserved.
 # 
@@ -22,12 +21,28 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
+timer 300
+fg 1 start  /usr/share/qa/qa_test_dovecot/run-wrapper.sh 0001_start.sh
+wait
 
+timer 300
+fg 1 stop  /usr/share/qa/qa_test_dovecot/run-wrapper.sh 0002_stop.sh
+wait
 
-#Simple wrapper program which can be executed from any location
+timer 300
+fg 1 start2  /usr/share/qa/qa_test_dovecot/run-wrapper.sh 0001_start.sh
+wait
 
-TEST=$1
-cd /usr/share/qa/qa_test_postfix
-./$TEST
-exit $?
+timer 300
+fg 1 restart  /usr/share/qa/qa_test_dovecot/run-wrapper.sh 0003_restart.sh
+wait
+
+timer 300
+fg 1 restart  /usr/share/qa/qa_test_dovecot/run-wrapper.sh 0004_testpop3.sh
+wait
+
+timer 300
+fg 1 restart  /usr/share/qa/qa_test_dovecot/run-wrapper.sh 0005_testimap.sh
+wait
+
 
