@@ -1,0 +1,71 @@
+Test Cases:
+
+1. mdadm --create: Create a new array from unused devices.
+1.1 Create raid0 with chunk size 32k or 64k
+1.2 Create raid1 with chunk size 32k or 64k
+1.3 Create raid4 with chunk size 32k or 64k
+1.4 Create raid5 with chunk size 32k or 64k
+1.5 Create raid6 with chunk size 32k or 64k
+1.6 Create raid10 with chunk size 32k or 64k
+1.7 Create raid linear with chunk size 32k or 64k
+1.8 Create raid multipath with chunk size 32k or 64k
+1.9 Create raid synonyms with chunk size 32k or 64k
+
+2. mdadm --assemble: Assemble a previously created array.
+2.1 Assemble raid0
+2.2 Assemble raid1
+2.3 Assemble raid4
+2.4 Assemble raid5
+2.5 Assemble raid6
+2.6 Assemble raid10
+2.7 Assemble raid linear
+2.8 Assemble raid multipath
+2.9 Assemble raid synonyms
+2.10 Assemble array by uuid
+2.11 Assemble array by name
+2.12 Mark the array as read-only.
+
+3. mdadm --build: Create or assemble an array without metadata.
+3.1 Create Raid0 without metadata
+3.2 Assemble Raid0 without metadata
+3.3 Create Raid1 without metadata
+3.4 Assemble Raid1 without metadata
+
+4. mdadm --misc
+4.1 Display details of an array. raid0,1,4,5,6,10,linear,multipath and synonyms
+4.2 Examine superblock on an array componerase the MD superblock from a device.ent.
+4.3 Erase the MD superblock from a device.
+
+5. mdadm --manage : make changes to an existing array.
+5.1 hotadd subsequent devices to the array
+5.2 subsequent devices are re-added if there were recent members of the array
+5.3 remove subsequent devices, which must not be active 
+5.4 mark subsequent devices a faulty
+5.5 mark device(s) to be replaced by spares.
+5.6 deactivate array, releasing all resources.raid0,1,4,5,6,10,linear,multipath and synonyms
+5.7 Mark array as readonly.
+5.8 Mark array as readwrite
+
+6.mdadm --grow : resize/reshape an active array 
+6.1 convert the array to level 0,1,4,5,6,10,linear,multipath and synonyms
+6.2 Change the active size of devices in an array.
+6.3 Change the chunksize of the array
+6.4 Change the number of active devices in an array.
+6.5 Add listed devices as part of reshape.
+6.6 Add or remove a write-intent bitmap.
+
+7. mdadm --incremental : add/remove a device to/from an array as appropriate
+7.1 Run arrays as soon as a minimal number of devices are present rather than waiting for all expected.
+7.2 Don't print any information messages, just errors.
+7.3 Rebuild the 'map' file that mdadm uses for tracking partial arrays.
+7.4 First fail (if needed) and then remove device from any array that it is a member of
+
+8. mdadm --monitor : Monitor one or more array for significant changes.
+8.1 Address to mail alerts of failure to
+8.2 Program to run when an event is detected
+8.3 Report alerts via syslog
+8.4 specify a different config file
+8.5 Fork and continue in child, parent exits
+8.6 In daemon mode write pid to specified file instead of stdout
+8.7 Check for degraded arrays, then exit
+8.8 Generate a TestMessage event against each array at startup
