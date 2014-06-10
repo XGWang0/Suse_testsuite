@@ -25,4 +25,9 @@ if [ ! -f $tcf_f ]; then
         done
 fi
 
+# disable thin, dmeventd, clvmd testcases
+sed -i '/thin/s/^/#/g' $tcf_f
+sed -i '/clvmd/s/^/#/g' $tcf_f
+sed -i '/dmeventd/s/^/#/g' $tcf_f
+
 /usr/lib/ctcs2/tools/run $tcf_f
