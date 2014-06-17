@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Tue Jun 17 18:59:28 CST 2014 - lzwang@suse.com
+
+-  Added a run for big memory.
+
+-------------------------------------------------------------------
 Wed Apr 16 17:52:15 CST 2014 - lzwang@suse.com
 
 -  Added the missing sym files.

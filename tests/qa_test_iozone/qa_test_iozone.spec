@@ -32,6 +32,7 @@ Source7:        test_iozone_new_run
 Source8:        qa_iozone_512M.tcf
 Source9:        qa_iozone_2G.tcf
 Source10:       qa_iozone_4-32G.tcf
+Source11:   test_iozone_bigmem-run
 Source20:   abuildinfo
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
@@ -59,6 +60,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/bin
 install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%name
