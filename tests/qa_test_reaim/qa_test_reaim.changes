@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Jun 18 11:54:58 CST 2014 - lzwang@suse.com
+
+- Added abuildinfo.
+
+-------------------------------------------------------------------
 Fri Feb 28 06:54:35 UTC 2014 - lzwang@suse.com
 
 - Added libtool as a buildrequire fixing the build error in SLE12 
