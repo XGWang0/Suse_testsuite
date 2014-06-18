@@ -40,6 +40,13 @@ getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
 MOUNT1=`$getSettings MOUNT1.addr`
 MOUNT2=`$getSettings MOUNT2.addr`
 
+if grep -E "SUSE Linux Enterprise (Server|Desktop) 12" /etc/issue >/dev/null;then
+        if ! systemctl status rpcbind | grep "active (running)" >/dev/null;then
+                echo "rpcbind is not started, now starting it!"
+                systemctl start rpcbind
+        fi
+fi
+
 mkdir -p $MOUNT_DIR1 && mount -t nfs $MOUNT1:/srv/ftp/dist/install $MOUNT_DIR1
 mkdir -p $MOUNT_DIR2 && mount -t nfs $MOUNT2:/mirror_a/VIRT-ISO $MOUNT_DIR2
 mkdir -p $MOUNT_DIR3 && mount -t nfs $MOUNT2:/mirror_a/iso $MOUNT_DIR3
