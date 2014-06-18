@@ -24,7 +24,7 @@ Source1:	qa_test_bonnie++.8
 Source2:	test_bonnie++-run
 Source3:	do_bonnie++
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-
+BuildRequires: gcc-c++
 
 %description
 Bonnie++ is a popular performance benchmark that targets various aspects
@@ -63,6 +63,7 @@ install -m 744 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools/
 /usr/share/man/man8/qa_test_bonnie++.8.gz
 /usr/share/qa/qa_test_bonnie++
 /usr/share/qa/tools/test_bonnie++-run
+/usr/share/qa
 /usr/sbin/bonnie++
 /usr/bin/bon_csv2html
 /usr/bin/bon_csv2txt
