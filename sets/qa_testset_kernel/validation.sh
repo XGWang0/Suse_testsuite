@@ -1,4 +1,13 @@
 #! /bin/bash
+
+# Install the test suites packages
+/usr/share/qa/qa_testset_kernel/install.sh
+
+echo -e "You can run stress validation tests now.\n"
+
+# Start tests
+export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
+
 mkdir -p /root/submission_log
 for test_case in test_sched_stress-run test_fs_stress-run test_process_stress-run;do
         /bin/bash $test_case
