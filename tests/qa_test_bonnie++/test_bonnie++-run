@@ -3,7 +3,7 @@
 
 ctcsdir="/usr/lib/ctcs2"
 basedir="/usr/share/qa/qa_test_bonnie"
-tcf_f="/usr/share/qa/tcf/bonnie-2xRAM.tcf"
+tcf_f="/usr/share/qa/tcf/bonnie++-default.tcf"
 ram_size=`cat /proc/meminfo |grep MemTotal |awk '{print $2}'`
 test_size=$(($ram_size/1024*2))
 
@@ -12,12 +12,14 @@ if [ ! -d /abuild ]; then
 fi
 
 if [ ! -f $tcf_f ]; then
-	echo "fg 1 bonnie++-default bonnie++ -s $test_size -x 1 -u root -d /abuild/ -n 1024 
-" >> $tcf_f
+	echo "fg 1 bonnie++-default bonnie++ -s $test_size -x 1 -u root -d /abuild/ -n 1024 " >> $tcf_f
 	echo "wait" >> $tcf_f
 
-	echo "fg 1 bonnie-fsync bonnie++ -s $test_size -x 1 -u root -d /abuild/ -n 1024 -b" >> $tcf_f
+	echo "fg 1 bonnie++-fsync bonnie++ -s $test_size -x 1 -u root -d /abuild/ -n 1024 -b" >> $tcf_f
 	echo "wait" >> $tcf_f
+
+        echo "fg 1 bonnie++-direct_io bonnie++ -s $test_size -x 1 -u root -d /abuild/ -n 1024 -D" >> $tcf_f
+        echo "wait" >> $tcf_f
 fi
 
 
