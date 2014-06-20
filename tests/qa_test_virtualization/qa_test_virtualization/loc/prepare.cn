@@ -30,10 +30,10 @@ MOUNT_DIR3="/VIRT-ISO2"
 
 for dir in $MOUNT_DIR1 $MOUNT_DIR2
 do
-	if [ -e $dir -a "`ls $dir 2>/dev/null | wc -l`" -gt 0 ] ; then
-		echo "Error: Directory $dir already exist and is nonempty. Terminating..."
-		exit 11
-	fi
+    if [ -e $dir -a "`ls $dir 2>/dev/null | wc -l`" -gt 0 ] ; then
+        echo "Error: Directory $dir already exist and is nonempty. Terminating..."
+        exit 11
+    fi
 done
 
 getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
