@@ -36,11 +36,12 @@ getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
 MOUNT1=`$getSettings MOUNT1.addr`
 MOUNT2=`$getSettings MOUNT2.addr`
 
-if grep -E "SUSE Linux Enterprise (Server|Desktop) 12" /etc/os-release >/dev/null;then
-        if ! systemctl status rpcbind | grep "active (running)" >/dev/null;then
-                echo "rpcbind is not started, now starting it!"
-                systemctl start rpcbind
-        fi
+test -r /etc/os-release && . /etc/os-release
+if [[ $NAME =~ SLE[SD] && $VERSION -gt 11 ]]; then
+    if ! systemctl status rpcbind | grep "active (running)" >/dev/null;then
+        echo "rpcbind is not started, now starting it!"
+        systemctl start rpcbind
+    fi
 fi
 
 mkdir -p $MOUNT_DIR && mount -t nfs -oro $MOUNT1:/schnell $MOUNT_DIR
