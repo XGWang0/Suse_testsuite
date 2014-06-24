@@ -27,7 +27,7 @@
 MOUNT_DIR="/MOUNT-VIRT"
 MOUNT_DIR2="/MOUNT-VIRT2"
 
-if [ -e $MOUNT_DIR -a "`ls $MOUNT_DIR 2>/dev/null | wc -l`" -gt 0 ] ||  [ -e $MOUNT_DIR2 -a "`ls $MOUNT_DIR2 2>/dev/null | wc -l`" -gt 0 ] ; then
+if [ -d "$MOUNT_DIR" -a -n "`ls -A $MOUNT_DIR`" ] ||  [ -d "$MOUNT_DIR2" -a -n "`ls -A $MOUNT_DIR2`" ] ; then
 	echo "Error: Directory $MOUNT_DIR or $MOUNT_DIR2 already exist and is nonempty. Terminating..."
 	exit 11
 fi
@@ -35,6 +35,14 @@ fi
 getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
 MOUNT1=`$getSettings MOUNT1.addr`
 #MOUNT2=`$getSettings MOUNT2.addr`
+
+test -r /etc/os-release && . /etc/os-release
+if [[ $NAME =~ SLE[SD] && $VERSION -gt 11 ]]; then
+    if ! systemctl status rpcbind | grep "active (running)" >/dev/null;then
+        echo "rpcbind is not started, now starting it!"
+        systemctl start rpcbind
+    fi
+fi
 
 mkdir -p $MOUNT_DIR && mount -t nfs -oro $MOUNT1:/srv/storage $MOUNT_DIR
 #mkdir -p $MOUNT_DIR2 && mount -t nfs -oro $MOUNT2:/storage $MOUNT_DIR2
