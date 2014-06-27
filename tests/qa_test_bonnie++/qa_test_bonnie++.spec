@@ -23,6 +23,7 @@ Source0:        bonnie++-%{version}.tgz
 Source1:	qa_test_bonnie++.8
 Source2:	test_bonnie++-run
 Source3:	do_bonnie++
+Source4:	bonnie++-default.tcf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires: gcc-c++
 
@@ -57,12 +58,14 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie++
 install -m 744 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie++/
 install -m 744 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 %files
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_bonnie++.8.gz
 /usr/share/qa/qa_test_bonnie++
 /usr/share/qa/tools/test_bonnie++-run
+/usr/share/qa/tcf
 /usr/share/qa
 /usr/sbin/bonnie++
 /usr/bin/bon_csv2html
