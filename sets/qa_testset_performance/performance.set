@@ -59,6 +59,17 @@
 # __import sq-util.sh
 # __import sq-global.sh
 
+nothing_run="${__IMPORT_ROOT}/sq-fake.sh"
+function nothing_open {
+    sq_debug "[Nothing] open"
+}
+function nothing_close {
+    sq_debug "[Nothing] close"
+}
+function nothing_get_args {
+    echo 'nothing args'
+}
+
 # File system test runs for btrfs, ext3, xfs
 function sq_abuild_open {
     sq_debug "[abuild] check /etc/fstab for /abuild."

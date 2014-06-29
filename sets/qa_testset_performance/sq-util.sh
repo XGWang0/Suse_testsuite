@@ -199,16 +199,14 @@ function sq_qadb_submit_result {
 
         _serial=$(date '+%Y-%m-%d-%H-%M-%S')
         pushd /var/log/qa/ctcs2 > /dev/null
-        tar -c * | xz > ${SQ_TEST_LOG_DIR}/${_sq_run}-${_serial}.tar.xz
+        if test $? -eq 0;then
+            tar -c * | xz > ${SQ_TEST_LOG_DIR}/${_sq_run}-${_serial}.tar.xz
+        fi
         if test $? -ne 0;then
             sq_error "[qadb] tar ${_sq_run}-${_serial}.tar.xz FAILED."
-            pushd /var/log/qa/ > /dev/null
-            mv ctcs2 ctcs2.${run}
-            mkdir ctcs2
-            popd
         else
             sq_debug "[qadb] tar ${_sq_run}-${_serial}.tar.xz successfully."
-            rm -rf *
+            rm -rf /var/log/qa/ctcs2/*
         fi
         popd > /dev/null
     fi

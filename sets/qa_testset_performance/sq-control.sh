@@ -34,10 +34,10 @@ function sq_control_open {
     SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=NO
     SQ_TEST_CONTROL_MAKE_SYSTEM_PURE=NO
 
-    if test "X${SQ_CONTROL_PARALELL}" == "XYES";then
-        SQ_CONTROL_PARALELL_NOWAIT=nowait
+    if test "X${SQ_TEST_CONTROL_PARALELL}" == "XYES";then
+        SQ_TEST_CONTROL_PARALELL_NOWAIT=nowait
     else
-        SQ_CONTROL_PARALELL_NOWAIT=""
+        SQ_TEST_CONTROL_PARALELL_NOWAIT=""
     fi
     # import the run list
     __import ${SQ_TEST_RUN_SET_FILE}.set
@@ -138,17 +138,45 @@ function sq_control_get_run_status {
         # TODO save a list of all the failed runs
         # TODO more
     fi
+}
 
+function sq_control_check_run_queue {
     if test $(($SQ_THIS_RUN_INDEX + 1)) -ge ${#SQ_TEST_RUN_LIST[*]};then
         echo "$(date '+%Y-%m-%d-%H-%M-%S')" > ${SQ_TEST_CONTROL_FILE_DONE}
     fi
 }
 
+function sq_control_special_form_reboot_off {
+    #_continue
+    SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=YES
+    sq_info "[CONTROL] reboot is disable"
+}
+
+function sq_control_special_form_reboot_on {
+    SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=NO
+    sq_info "[CONTROL] reboot is enable"
+}
+
 function sq_control_run {
     sq_control_open ${ARCH} ${SLE_BUILD} ${REPO_MIRROR}
     while sq_control_get_next_run;do
-        sq_execute_run ${SQ_THIS_RUN} ${SQ_CONTROL_PARALELL_NOWAIT}
-        sq_control_get_run_status $?
+        # _* special form
+        case ${SQ_THIS_RUN} in
+            _reboot_off)
+                sq_control_special_form_reboot_off
+                ;;
+            _reboot_on)
+                sq_control_special_form_reboot_on
+                ;;
+            _*)
+                sq_debug '[CONTROL] Unknown special form ${SQ_THIS_RUN}'
+                ;;
+            *)
+                sq_execute_run ${SQ_THIS_RUN} ${SQ_CONTROL_PARALELL_NOWAIT}
+                sq_control_get_run_status $?
+                ;;
+        esac
+        sq_control_check_run_queue
     done
     sq_control_close
 }

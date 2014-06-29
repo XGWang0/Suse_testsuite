@@ -57,7 +57,7 @@ sq_info "[GLOBAL] /proc/uptime: $(cat /proc/uptime)"
 
 # program initialization
 function usage {
-    echo "Usage $0 subcmd options"
+    echo "Usage $0 [-t RELEASE] subcmd [OPTIONS]"
     exit 1
 }
 
@@ -69,14 +69,6 @@ function sq_set_cmd_run_parse {
         _opt=$1
         shift
         case $_opt in
-            '-t') #target SLE_RELEASE
-                if test $# -gt 0;then
-                    SLE_RELEASE=$1
-                    shift
-                else
-                    usage
-                fi
-                ;;
             '-l')
                 if test $# -gt 0;then
                     SQ_TEST_RUN_LIST_FILE=$1
@@ -97,10 +89,12 @@ function sq_set_cmd_run_parse {
                 usage;;
         esac
     done
-    if test "X${SLE_RELEASE}" == "X" && \
-        test "X${SQ_TEST_RUN_LIST_FILE}" == "X" && \
-        test "X{SQ_TEST_RUN_SET_FILE}" == "X"
-        then
+    if test "X${SQ_TEST_RUN_LIST_FILE}" == "X";then
+        # use the same name as the release
+        SQ_TEST_RUN_LIST_FILE=${SLE_RELEASE}
+    fi
+    if test "X${SQ_TEST_RUN_SET_FILE}" == "X";then
+        sq_error "[CMDLINE] SQ_TEST_RUN_SET_FILE is not set"
         usage
     fi
 }
@@ -132,21 +126,12 @@ function sq_set_cmd_prepo_parse {
         _opt=$1
         shift
         case $_opt in
-            '-t') #target SLE_RELEASE
-                if test $# -gt 0;then
-                    SLE_RELEASE=$1
-                    shift
-                else
-                    usage
-                fi
-                ;;
+            -*)
+                usage;;
             *)
                 usage;;
         esac
     done
-    if test "X${SLE_RELEASE}" == "X";then
-        usage
-    fi
 }
 
 function sq_set_cmd_prepo {
@@ -164,14 +149,46 @@ function sq_set_cmd_resume_list {
         "You need manually run the list again!!!"
 }
 
+# global_cmd_parse
+while test $# -gt 0;do
+    _opt=$1
+    case $_opt in
+        '-t') #target SLE_RELEASE
+            shift
+            if test $# -gt 0;then
+                SLE_RELEASE=$1
+                shift
+            else
+                usage
+            fi
+            ;;
+        -*)
+            sq_error "[CMDLINE] unkown global option ${_opt}"
+            usage;;
+        *) # sub command and its options
+            break #the while
+    esac
+done
+unset _opt
+
 case $1 in
-    run*) shift; sq_set_cmd_run_parse "$@"
+    run*) shift
+        if test "X${SLE_RELEASE}" == "X";then
+            sq_error "[CMDLINE] SLE_RELEASE is not set"
+            usage
+        fi
+        sq_set_cmd_run_parse "$@"
         sq_set_cmd_run_list
         ;;
     reset*) shift; sq_set_cmd_reset
         ;;
     prepo*)
-        shift; sq_set_cmd_prepo_parse "$@"
+        if test "X${SLE_RELEASE}" == "X";then
+            sq_error "[CMDLINE] SLE_RELEASE is not set"
+            usage
+        fi
+        shift
+        sq_set_cmd_prepo_parse "$@"
         sq_set_cmd_prepo
         ;;
     stop*)
@@ -180,6 +197,8 @@ case $1 in
     resume*)
         shift; sq_set_cmd_resume_list
         ;;
-    *) usage
+    *)
+        sq_error "[CMDLINE] unknow subcmd ${1}"
+        usage
         ;;
 esac

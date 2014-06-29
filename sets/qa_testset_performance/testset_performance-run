@@ -7,8 +7,6 @@ if test "X${TARGET_RELEASE}" == "X";then
     exit 1
 fi
 
-#use the same name for RUN_LIST
-RUN_LIST=${TARGET_RELEASE}
 CMDPATH=$(which $0)
 if [ -L $CMDPATH ];then
     pushd $(dirname $CMDPATH) > /dev/null
@@ -25,4 +23,4 @@ fi
 
 SQ_SET_BIN=${__IMPORT_ROOT}/sq-set.sh
 export SQ_SET_CALL_BY_WRAP=YES
-${SQ_SET_BIN} run -t ${TARGET_RELEASE} -s performance -l ${RUN_LIST}
+${SQ_SET_BIN} -t ${TARGET_RELEASE} run -s performance
