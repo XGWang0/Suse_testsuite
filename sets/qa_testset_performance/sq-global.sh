@@ -17,16 +17,6 @@ SQ_TEST_CONTROL_FILE_DONE=${SQ_TEST_CONTROL_DIR}/DONE
 SQ_TEST_CONTROL_FILE_NEXT_RUN=${SQ_TEST_CONTROL_DIR}/NEXT_RUN
 SQ_TEST_CONTROL_FILE_SYSTEM_DIRTY=${SQ_TEST_CONTROL_DIR}/SYSTEM_DIRTY
 
-function sq_global_init {
-    if test ! -d ${SQ_TEST_DIR};then
-        mkdir -p ${SQ_TEST_DIR}
-        mkdir -p ${SQ_TEST_RUN_DIR}
-        mkdir -p ${SQ_TEST_CALL_DIR}
-        mkdir -p ${SQ_TEST_CONTROL_DIR}
-        mkdir -p ${SQ_TEST_LOG_DIR}
-    fi
-}
-
 #default run list
 SQ_TEST_RUN_LIST=()
 SQ_TEST_RUN_LIST_FILE=""
@@ -38,3 +28,21 @@ SQ_TEST_INVOKE_DIR=""
 #SLE_RELEASE
 
 SQ_TEST_MACH_FLAG_REBOOT=NO
+
+# user configuration
+SQ_USER_CONFIG_DIR=/root/qaset
+SQ_USER_CONFIG_FILE=${SQ_USER_CONFIG_DIR}/config
+
+function sq_global_init {
+    if test ! -d ${SQ_TEST_DIR};then
+        mkdir -p ${SQ_TEST_DIR}
+        mkdir -p ${SQ_TEST_RUN_DIR}
+        mkdir -p ${SQ_TEST_CALL_DIR}
+        mkdir -p ${SQ_TEST_CONTROL_DIR}
+        mkdir -p ${SQ_TEST_LOG_DIR}
+    fi
+    if test ! -d ${SQ_USER_CONFIG_DIR};then
+        mkdir -p ${SQ_USER_CONFIG_DIR}
+        touch ${SQ_USER_CONFIG_FILE}
+    fi
+}

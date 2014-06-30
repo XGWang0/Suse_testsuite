@@ -39,11 +39,16 @@ function sq_control_open {
     else
         SQ_TEST_CONTROL_PARALELL_NOWAIT=""
     fi
-    # import the run list
+    # import the run cases
     __import ${SQ_TEST_RUN_SET_FILE}.set
     # TODO make the list as a absolute path
     # SQ_TEST_INVOKE_DIR
-    __import ${SQ_TEST_RUN_LIST_FILE}.list
+    if test ${#SQ_TEST_RUN_LIST[@]} -gt 0;then
+        sq_info "[CONTROL] use customized run list"
+    else
+        sq_info "[CONTROL] use default run list from ${SQ_TEST_RUN_LIST_FILE}"
+        __import ${SQ_TEST_RUN_LIST_FILE}.list
+    fi
 }
 
 function sq_control_close {

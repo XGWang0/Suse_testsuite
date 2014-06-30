@@ -63,6 +63,11 @@ function usage {
 
 sq_os_get_sysinfo
 
+# read user configuration
+if test -f ${SQ_USER_CONFIG_FILE};then
+    source ${SQ_USER_CONFIG_FILE}
+fi
+
 function sq_set_cmd_run_parse {
     local _opt
     while test $# -gt 0;do
