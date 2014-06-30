@@ -34,7 +34,9 @@ fi
 
 getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
 MOUNT1=`$getSettings MOUNT1.addr`
+MOUNT1_DIR=`$getSettings MOUNT1.dir`
 #MOUNT2=`$getSettings MOUNT2.addr`
+#MOUNT2_DIR=`$getSettings MOUNT2.dir`
 
 test -r /etc/os-release && . /etc/os-release
 if [[ $NAME =~ SLE[SD] && $VERSION -gt 11 ]]; then
@@ -44,5 +46,5 @@ if [[ $NAME =~ SLE[SD] && $VERSION -gt 11 ]]; then
     fi
 fi
 
-mkdir -p $MOUNT_DIR && mount -t nfs -oro $MOUNT1:/srv/storage $MOUNT_DIR
-#mkdir -p $MOUNT_DIR2 && mount -t nfs -oro $MOUNT2:/storage $MOUNT_DIR2
+mkdir -p $MOUNT_DIR && mount -t nfs -oro $MOUNT1:$MOUNT1_DIR $MOUNT_DIR
+#mkdir -p $MOUNT_DIR2 && mount -t nfs -oro $MOUNT2:$MOUNT2_DIR $MOUNT_DIR2
