@@ -41,12 +41,14 @@ function sq_msg {
             prefix="\033[0;31m${lv}\033[0m"
             ;;
     esac
-    echo -e "[SLE-QA] ${prefix}\t$1"
-    shift
-    while test $# -gt 0; do
-        echo -e "\t\t$1"
+    (
+        echo -e "[SLE-QA] ${prefix}\t$1"
         shift
-    done
+        while test $# -gt 0; do
+            echo -e "\t\t$1"
+            shift
+        done
+    ) >&2
 }
 
 function sq_debug {
