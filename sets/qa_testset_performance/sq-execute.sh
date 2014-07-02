@@ -98,6 +98,8 @@ function sq_execute_call {
     else
         _o='-D'
     fi
+    # save info into /var/log/message for debuging within the whole system context.
+    logger "[QA_SET] starting ${SQ_EXE_RUN_NAME}"
     if test "X$(type -t ${_n}_get_args)" == "Xfunction";then
         sq_debug "[EXE] ${_n}: ${_n}_get_args ing..."
         sq_info "[EXE] ${_n}: running"
@@ -106,7 +108,15 @@ function sq_execute_call {
         sq_info "[EXE] ${_n}: running"
         screen -L -S ${_n} -t ${_n} -c screenrc ${_o} -m "${_s}"
     fi
-    sq_info "[EXE] ${_n}: finished"
+
+    if test "X${SQ_EXE_RUN_NOWAIT}" == "XYES";then
+        logger "[QA_SET] started ${SQ_EXE_RUN_NAME}"
+        sq_info "[EXE] ${_n}: started"
+    else
+        logger "[QA_SET] finished ${SQ_EXE_RUN_NAME}"
+        sq_info "[EXE] ${_n}: finished"
+    fi
+
     popd > /dev/null
 }
 
