@@ -78,7 +78,13 @@ function sq_abuild_open {
         mkdir /abuild 2>/dev/null
         return 0
     fi
-    if egrep '^[^#].*/abuild' /etc/fstab;then
+
+    if test "X${SQ_ABUILD_PARTITION}" != "X";then
+        sq_debug "[abuild] predefined SQ_ABUILD_PARTITION ."
+        SQ_ABUILD_DEFAULT_FS=""
+        #make sure /abuild is there
+        test -d /abuild || mkdir /abuild > /dev/null 2>&1
+    elif egrep '^[^#].*/abuild' /etc/fstab;then
         sq_debug "[abuild] found a record in /etc/fstab for /abuild."
         SQ_ABUILD_DEFAULT_FS=$(grep '/abuild' /etc/fstab | awk '{print $3}')
         SQ_ABUILD_PARTITION=$(egrep -o '^/dev/.* *\/abuild' /proc/mounts | cut -d" " -f1)
@@ -91,7 +97,7 @@ function sq_abuild_open {
         SQ_ABUILD_DEFAULT_FS=""
         SQ_ABUILD_PARTITION="/dev/sdb1"
         #make sure /abuild is there
-        mkdir /abuild > /dev/null 2>&1
+        test -d /abuild || mkdir /abuild > /dev/null 2>&1
     fi
     if test -b ${SQ_ABUILD_PARTITION};then
         sq_info "[abuild] the target partition: ${SQ_ABUILD_PARTITION}"
