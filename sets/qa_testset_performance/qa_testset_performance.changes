@@ -1,4 +1,18 @@
 -------------------------------------------------------------------
+Thu Jul  3 18:02:40 CST 2014 - lzwang@suse.com
+
+- Added some useful changes and the statistics tool.
+
+   Added statistics tools.
+   Added support of customized qadb comment.
+   Small change of the log function.
+   Added the logger for debuging within the whole system context.
+   Changed abuild to use customized partition first.
+   Added customized configuration.
+   Added special forms reboot_off reboot_on.
+
+
+-------------------------------------------------------------------
 Thu May 22 16:02:57 CST 2014 - lzwang@suse.com
 
 - Removed the sqperf.service from the file list.
