@@ -33,6 +33,10 @@ SQ_TEST_MACH_FLAG_REBOOT=NO
 SQ_USER_CONFIG_DIR=/root/qaset
 SQ_USER_CONFIG_FILE=${SQ_USER_CONFIG_DIR}/config
 
+# qadb
+SQ_TEST_QADB_COMMENT_TEMPLATE="%s"
+
+
 function sq_global_init {
     if test ! -d ${SQ_TEST_DIR};then
         mkdir -p ${SQ_TEST_DIR}

@@ -174,11 +174,23 @@ function sq_prep_repos_and_packages {
 
 #
 # QADB tools
-#
+#  In global.sh
+#  SQ_TEST_QADB_COMMENT
+#  SQ_TEST_QADB_COMMENT_TEMPLATE=${1:-"%s"}
+
+function sq_qadb_reset_comment {
+    SQ_QADB_COMMENT=
+}
+
+function sq_qadb_add_comment {
+    printf -v SQ_QADB_COMMENT "${SQ_TEST_QADB_COMMENT_TEMPLATE}" "$@"
+}
+
 function sq_qadb_submit_result {
     local _sq_run
     local _serial
     local _db_echo
+    local _comment
     _sq_run=$1
     #if grep bej\.suse\.com /etc/HOSTNAME > /dev/null
     if ip -4 addr | grep "inet 147\.2\." > /dev/null;then
@@ -193,10 +205,13 @@ function sq_qadb_submit_result {
     else
         _db_echo=""
     fi
-    ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "Performance ${_sq_run}"
+
+    _comment=${SQ_QADB_COMMENT:-${_sq_run}}
+    ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "${_comment}"
 
     if test $? -ne 0;then
         sq_warn "[qadb] Submit qa_db_report failed!"
+        sq_warn "[qadb] comment is ${_comment}"
 	    sq_info "[qadb] Than Backup it!"
 
         _serial=$(date '+%Y-%m-%d-%H-%M-%S')

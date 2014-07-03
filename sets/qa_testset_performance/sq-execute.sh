@@ -28,6 +28,9 @@ SQ_EXE_DEBUG_SCRIPT=${__IMPORT_ROOT}/sq-fake.sh
 function sq_execute_open {
     local _n=${SQ_EXE_RUN_NAME}
 
+    #reset the qadb comment
+    sq_qadb_reset_comment
+
     sq_info "[EXE] ${_n}: starting ..."
     if test "X$(type -t ${_n}_open)" == "Xfunction";then
         sq_debug "[EXE] ${_n}: ${_n}_open ing..."
