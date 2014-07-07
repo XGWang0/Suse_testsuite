@@ -28,8 +28,6 @@ CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
 cd $CTCS2_DIR
-tools/run $TCF_DIR/qa_iozone_512M.tcf
-tools/run $TCF_DIR/qa_iozone_2G.tcf
 tools/run $TCF_DIR/qa_iozone_4-32G.tcf
 
 
