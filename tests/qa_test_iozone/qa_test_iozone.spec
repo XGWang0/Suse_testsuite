@@ -29,8 +29,6 @@ Source4:	iozoneparser
 Source5:	eatmem_iozone.sh
 Source6:	eatmem_iozone
 Source7:        test_iozone_new_run
-Source8:        qa_iozone_512M.tcf
-Source9:        qa_iozone_2G.tcf
 Source10:       qa_iozone_4-32G.tcf
 Source11:   	test_iozone_bigmem-run
 Source20:   	abuildinfo
@@ -67,10 +65,6 @@ install -m 755 %{S:21} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/bin
-install -m 644 %{S:8} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-ln -s ../%name/tcf/qa_iozone_512M.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iozone_512M.tcf
-install -m 644 %{S:9} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-ln -s ../%name/tcf/qa_iozone_2G.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iozone_2G.tcf
 install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 ln -s ../%name/tcf/qa_iozone_4-32G.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iozone_4-32G.tcf
 install -m 744 src/current/iozone $RPM_BUILD_ROOT/usr/bin
