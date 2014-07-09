@@ -1,3 +1,4 @@
-fg 1 tiobench tiobench.pl --size 2048 --block 4096 --block 32768 --dir /abuild --sync
+fg 1 tiobench-sync /usr/share/qa/qa_test_tiobench/abuildinfo
+fg 1 tiobench-sync tiobench.pl --size 2048 --block 4096 --block 32768 --dir /abuild --sync
 timer 30s
 wait

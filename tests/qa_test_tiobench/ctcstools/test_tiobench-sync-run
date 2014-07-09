@@ -1,8 +1,31 @@
-#!/bin/sh
-#sut_timeout 3600
+#!/bin/bash
 
-# run tiobench.pl with some good standard parameters
+#size in kiB
+memtotal_array=($(grep MemTotal: /proc/meminfo))
+memtotal=${memtotal_array[1]}
+echo "Memtotal: $memtotal Kib"
+
+memtotal2=$(expr ${memtotal} '*' 2)
+
+LAST=$(expr 1024 '*' 1024)
+STEP=${LAST}
+SIZE[0]=${LAST}
+for i in $(seq 1 255);do
+    LAST=$(expr ${LAST} + ${STEP})
+    SIZE[$i]=${LAST}
+done
+
+for size in ${SIZE[@]};do
+    if test ${size} -ge ${memtotal2};then
+        break
+    fi
+done
+
+size_MB=$(expr ${size} / 1024)
+
+
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
+sed -i "s/--size [0-9]\+/--size ${size_MB}/" $TCF_DIR/tiobench-bench.tcf
 $CTCS2_DIR/tools/run $TCF_DIR/tiobench-sync.tcf
