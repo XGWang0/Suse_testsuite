@@ -22,6 +22,7 @@ Release:        165
 Source0:        tiobench-%{version}.tar.bz2
 Source1:        ctcstools-%version.tar.bz2
 Source2:	qa_test_tiobench.8
+Source20:    abuildinfo
 Patch1:         XEN-dom0-problem.patch
 Patch2:         invalid_results_format.patch
 Patch3:		eatmem.patch
@@ -95,6 +96,7 @@ install -D -m 755 ctcstools/tiobench-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_t
 install -D -m 755 ctcstools/eatmem.sh $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/eatmem.sh
 install -D -m 755 ctcstools/tiobench-sync.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/tiobench-sync.tcf
 install -D -m 755 ctcstools/test_tiobench-sync-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/test_tiobench-sync-run
+install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench
 ln -sf ../qa_test_tiobench/eatmem.sh $RPM_BUILD_ROOT/usr/share/qa/tools/eatmem.sh
 ln -sf ../qa_test_tiobench/tiobench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/tiobench.tcf
 ln -sf ../qa_test_tiobench/test_tiobench-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench-run
