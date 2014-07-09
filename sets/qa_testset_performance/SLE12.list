@@ -41,16 +41,6 @@ SQ_TEST_RUN_LIST=(
     iozone_ext3
     iozone_xfs
 
-    tiobench_btrfs
-    tiobench_ext3
-    tiobench_xfs
-    tiobench_btrfs
-    tiobench_ext3
-    tiobench_xfs
-    tiobench_btrfs
-    tiobench_ext3
-    tiobench_xfs
-
     bonnie_btrfs
     bonnie_ext3
     bonnie_xfs
