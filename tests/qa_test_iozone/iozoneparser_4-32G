@@ -1,0 +1,212 @@
+#!/usr/bin/perl -w
+# ****************************************************************************
+# # Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# # 
+# # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
+# # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# # RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# # THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# # THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# # TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# # PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# # PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# # AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# # LIABILITY.
+# # 
+# # SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# # WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# # AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# # LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# # OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# # ****************************************************************************
+BEGIN {
+        push (@INC,"/usr/share/qa/lib");
+}
+use benchxml;
+my $bench_results = {};
+$bench_results->{attrs} = {
+                                KB_ => {
+                                                id => 'KB',
+                                                label => 'KB',
+                                                desc => 'Iterative Depth',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               write_ => {
+                                                id => 'write',
+                                                label => 'write',
+                                                desc => 'write',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               rewrite_ => {
+                                                id => 'rewrite',
+                                                label => 'rewrite',
+                                                desc => 'rewrite',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               read_ => {
+                                                id => 'read',
+                                                label => 'read',
+                                                desc => 'read',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               reread_ => {
+                                                id => 'reread',
+                                                label => 'reread',
+                                                desc => 'reread',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               random_read_ => {
+                                                id => 'random_read',
+                                                label => 'random_read',
+                                                desc => 'random_read',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               random_write_ => {
+                                                id => 'random_write',
+                                                label => 'random_write',
+                                                desc => 'random_write',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               bkwd_read_ => {
+                                                id => 'bkwd_read',
+                                                label => 'bkwd_read',
+                                                desc => 'bkwd_read',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               record_rewrite_ => {
+                                                id => 'record_rewrite',
+                                                label => 'record_rewrite',
+                                                desc => 'record_rewrite',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               stride_read_ => {
+                                                id => 'stride_read',
+                                                label => 'stride_read',
+                                                desc => 'stride_read',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               fwrite_ => {
+                                                id => 'fwrite',
+                                                label => 'fwrite',
+                                                desc => 'fwrite',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               frewrite_ => {
+                                                id => 'frewrite',
+                                                label => 'frewrite',
+                                                desc => 'frewrite',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               fread_ => {
+                                                id => 'fread',
+                                                label => 'fread',
+                                                desc => 'fread',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        },
+                               freread_ => {
+                                                id => 'freread',
+                                                label => 'freread',
+                                                desc => 'freread',
+                                                type => 'linear',
+                                                unit => 'KB'
+                                        }
+};
+$bench_result->{values}=[];
+$bench_result->{graphs}=[];
+my $val;
+my $graphs;
+my $v=0;
+my $g=0;
+my $depth;
+my $name;
+my $reclen;
+my $filesize;
+my $line;
+#my $x;
+#my $y;
+
+@labellist = ("write", "rewrite", "read", "reread", "random_read", "random_write", "bkwd_read", "record_rewrite", "stride_read", "fwrite", "frewrite", "fread", "freread");
+#@filesize = ("64","512","2048","4096","8192","65536","524288");
+
+foreach my $label (@labellist)
+{
+
+            $name = $label;
+            $graphs->[$g]->{label} = $label;
+            $graphs->[$g]->{desc}  = $label;
+            $graphs->[$g]->{axis_1} = 'KB';
+            $graphs->[$g]->{result} = $label;
+            $g++;
+}
+
+$line = "1";
+    foreach my $row (<STDIN>)
+    {
+             if( $row =~ /([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)\s+([\d]+)/ )
+        {
+#		if (grep /^$1$/i, @filesize) {
+	    $reclen = sprintf "%05d", $2;
+            $filesize = $line.".".$1;
+	    $line++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"write"} = $3;
+	    $v++;
+	    $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"rewrite"} = $4;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"read"} = $5;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"reread"} = $6;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"random_read"} = $7;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"random_write"} = $8;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"bkwd_read"} = $9;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"record_rewrite"} = $10;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"stride_read"} = $11;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"fwrite"} = $12;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"frewrite"} = $13;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"fread"} = $14;
+            $v++;
+            $val->[$v]->{"KB"} = $filesize.$reclen;
+            $val->[$v]->{"freread"} = $15;
+            $v++;
+#		}
+        }
+    }
+
+$bench_results->{values} = $val;
+$bench_results->{graphs} = $graphs;
+print bench_data_to_xml($bench_results);
+

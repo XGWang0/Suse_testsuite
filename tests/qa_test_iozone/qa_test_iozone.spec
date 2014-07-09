@@ -32,8 +32,9 @@ Source7:        test_iozone_new_run
 Source8:        qa_iozone_512M.tcf
 Source9:        qa_iozone_2G.tcf
 Source10:       qa_iozone_4-32G.tcf
-Source11:   test_iozone_bigmem-run
-Source20:   abuildinfo
+Source11:   	test_iozone_bigmem-run
+Source20:   	abuildinfo
+Source21: 	iozoneparser_4-32G
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -62,6 +63,7 @@ install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
+install -m 755 %{S:21} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/bin
@@ -93,7 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa
 /usr/share/qa/%name/*
 
-%changelog 
+%changelog
+* Wed July 09 2014 - bwliu@suse.com
+- add new parser 'iozoneparser_4-32G' for tcf 'qa_iozone_4-32G.tcf'
 * Thu Mar 05 2014 - bwliu@suse.com
 - just change the name of /usr/bin/eatmem to /usr/bin/eatmem_iozone to avoid conflict with qa_test_tiobench.
 - just change the name of /usr/share/qa/%name/eatmen.sh to /usr/share/qa/%name/eatmen_iozone.sh to avoid conflict with qa_test_tiobench.
