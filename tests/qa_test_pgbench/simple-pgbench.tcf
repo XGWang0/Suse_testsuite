@@ -1,0 +1,3 @@
+fg 1 simple-pgbench /usr/share/qa/tools/simple-pgbench.sh
+wait
+
