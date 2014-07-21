@@ -29,6 +29,14 @@ mkdir($tcfdir);
 
 print "Using $libdir as libdir\n";
 
+# Testcases to be skipped
+%skiplist = (
+	# See bug #66013
+	'openposix' => ['pthread_rwlock_unlock_3_1',
+	                'pthread_rwlock_rdlock_2_1',
+	                'pthread_rwlock_rdlock_2_2'],
+);
+
 while ($all[$count]) {
 	$incount = 0;
 	$all[$count] =~ m/^.*\/([\w\.-]+)$/;
@@ -57,7 +65,11 @@ while ($all[$count]) {
 			$actual =~ s/^(\S+)\s//;
 			chomp $actual;
 
-			print TCF "timer $timeout\nfg 1 $tcname /usr/lib/ctcs2/tools/$wrapper '$actual'\nwait\n\n";
+			if (/$tcname/i ~~ @{$skiplist{$group}}) {
+				print " skipping $tcname (known problem)\n";
+			} else {
+				print TCF "timer $timeout\nfg 1 $tcname /usr/lib/ctcs2/tools/$wrapper '$actual'\n\n";
+			}
 		}
 		$incount++;
 	}	
