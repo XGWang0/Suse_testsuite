@@ -8,7 +8,8 @@ else
         exit 1
 fi
 
-release=`egrep -o '[aA]lpha[1-9]|[bB]eta[1-9]|RC[1-9]' /etc/issue`
+#release=`egrep -o '[aA]lpha[1-9]|[bB]eta[1-9]|RC[1-9]' /etc/issue`
+release=`egrep -o '[aA]lpha[0-9]+|[bB]eta[0-9]+|RC[0-9]+|GMC|GMC[0-9]+|GM' /etc/issue`
 if [ -z "$release" ]; then
         release="GMC"
 else
