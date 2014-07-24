@@ -61,6 +61,8 @@ do
         wicked*) continue;;
         # services about installation
         YaST2*) continue;;
+        # firewall related, they would block the ssh conection.
+        SuSEfirewall*) continue;;
         # reboot power related
         systemd-reboot.service) continue;;
         systemd-remount-fs.service) continue;;
