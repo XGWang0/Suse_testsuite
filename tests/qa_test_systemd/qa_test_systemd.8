@@ -1,0 +1,42 @@
+." Manpage for qa_test_systemd.
+." Contact Yi Xu <yxu@suse.com> to correct errors or typos.
+.TH man 8 "25 Jul 2014" "1.0" "qa_test_systemd man page"
+.SH NAME
+qa_test_systemd
+.SH SYNOPSIS
+None.
+.SH TYPE
+test
+.SH DESCRIPTION
+During Beta7 and Beta8 regression testing, we noticed that systemd upgrade easier to cause system service regression issue(specially relate to sysvinit), such as kdump in #bnc882395 and #bnc869608, postfix in #bnc879960, nfs in #bnc860246. So do a basic service activity testing is necessarily. We designed 2 test point for systemd service as first step, the automation is implementing.
+Test1:Checking the active service unit listed by systemctl
+# systemctl --failed
+Test2:Checking all service unit listed by systemctl(190 service unit) with started|stopped|status
+# systemctl list-unit-files |grep service
+-For inactive unit: start unit -> check status -> stop unit
+.br
+.SH README
+None.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+check-unit.sh:Test1:Checking the active service unit listed by systemctl
+check-service.sh:Test2:Checking all service unit listed by systemctl(190 service unit) with started|stopped|status
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+None.
+.SH SEE ALSO
+None.
+.SH BUGS
+None.
+.SH DISTRIBUTION
+External, no patches.
+.SH LICENSE
+Freeware
+.SH UPSTREAM
+http://www.freedesktop.org/wiki/Software/systemd/
+.SH AUTHOR
+Lance Wang <lzwang@suse.com>
+.SH MAINTAINER
+Lance Wang <lzwang@suse.com>
