@@ -47,7 +47,7 @@ Source1:        qa_coreutils.tcf
 Source2:        test_coreutils-run
 Source3:	qa_test_coreutils.8
 Patch0:		run_orig_test.diff
-Patch1:		sle12_symbol_patch.patch
+Patch1:		sle12_symbol.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 
@@ -60,8 +60,8 @@ sort, touch, tr, tty, uniq, wc
 %prep
 %setup -q -n %{name}
 %patch0 -p0
-%if 0%{?sles_version} > 11
-%patch0 -p1
+%if 0%{?suse_version} >= 1310
+%patch1 -p1
 %endif
 
 %build
@@ -86,7 +86,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_coreutils.8.gz
 %dir /usr/share/qa
-/usr/share/qa/%name
 /usr/share/qa/tcf
 /usr/share/qa/tools
 #/usr/lib/ctcs2/tcf/qa_coreutils.tcf
