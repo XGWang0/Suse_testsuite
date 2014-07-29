@@ -86,6 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_coreutils.8.gz
 %dir /usr/share/qa
+%dir /usr/share/qa/%name
 /usr/share/qa/tcf
 /usr/share/qa/tools
 #/usr/lib/ctcs2/tcf/qa_coreutils.tcf
