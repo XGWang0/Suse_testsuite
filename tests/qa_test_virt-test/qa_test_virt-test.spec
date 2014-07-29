@@ -33,8 +33,7 @@ License:     GPL-2.0+
 Url:         https://github.com/autotest/virt-test
 Group:       Applications/System
 Source0:     %{name}-run
-Source1:     %{name}.tcf
-Source2:     %{name}.8
+Source1:     %{name}.8
 BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:    virt-test
 
@@ -58,10 +57,10 @@ repository (e.g. register your SLES product).
 
 %install
 install -d %{buildroot}%{_mandir}/man8
-install -m 644 %{SOURCE2} %{buildroot}%{_mandir}/man8
+install -m 644 %{SOURCE1} %{buildroot}%{_mandir}/man8
 gzip %{buildroot}%{_mandir}/man8/%{name}.8
 install -d %{buildroot}%{_datadir}/qa/%{name}/bin/
-install -m 755 %{name}-run %{buildroot}%{_datadir}/qa/%{name}/bin/
+install -m 755 %{SOURCE0} %{buildroot}%{_datadir}/qa/%{name}/bin/
 
 %clean
 rm -rf %{buildroot}
@@ -69,7 +68,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %dir %{_datadir}/qa/%{name}
-%{_datadir}/qa/tcf/%{name}.tcf
 %{_datadir}/qa/tools/%{name}-run
 %{_mandir}/man8/%{name}.8.gz
 %doc
