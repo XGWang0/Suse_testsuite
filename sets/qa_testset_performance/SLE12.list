@@ -51,6 +51,16 @@ SQ_TEST_RUN_LIST=(
     bonnie_ext3
     bonnie_xfs
 
+    pgbench_btrfs
+    pgbench_ext3
+    pgbench_xfs
+    pgbench_btrfs
+    pgbench_ext3
+    pgbench_xfs
+    pgbench_btrfs
+    pgbench_ext3
+    pgbench_xfs
+
     dbench4_ext3
     dbench4_xfs
     dbench4_ext3
