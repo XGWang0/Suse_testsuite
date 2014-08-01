@@ -49,6 +49,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/simple-pgbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/simple-pgbench-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+ln -s ../%{name}/simple-pgbench.sh $RPM_BUILD_ROOT/usr/share/qa/tools/
 
 %post 
 

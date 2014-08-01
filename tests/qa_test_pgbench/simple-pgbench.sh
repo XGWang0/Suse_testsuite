@@ -18,7 +18,7 @@ else
 fi
 
 
-sudo -u postgres -g postgres mkdir -p ${PG_DB_ROOT}
+mkdir -p ${PG_DB_ROOT} && chown postgres:postgres ${PG_DB_ROOT}
 if test $? -ne 0;then
     _exit 1 "[SYSTEM] create dir ${PG_DB_ROOT} failed!"
 else
