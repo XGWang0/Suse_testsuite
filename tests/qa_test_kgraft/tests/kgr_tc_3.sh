@@ -26,6 +26,9 @@ push_recovery_fn "kill $!"
 
 kgr_tc_milestone "Inserting getpid patch"
 insmod "$PATCH_DIR"/kgraft_patch_getpid.ko
+if [ ! -e /sys/kernel/kgraft/qa_getpid_patcher ]; then
+   kgr_tc_abort "don't see qa_getpid_patcher in kGraft sys directory"
+fi
 
 kgr_tc_milestone "STOP/CONT processes"
 kgr_kick_processes
