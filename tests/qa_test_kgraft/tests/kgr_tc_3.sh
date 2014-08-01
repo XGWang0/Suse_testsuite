@@ -38,7 +38,7 @@ fi
 # test passed if execution reached this line
 # failures beyond this point are not test case failures
 kgr_tc_milestone "Terminating call_getpid"
-kill % call_getpid || true
+kill %?call_getpid || true
 
 trap - EXIT
 kgr_tc_milestone "TEST PASSED, reboot to remove the kGraft patch"
