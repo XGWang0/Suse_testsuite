@@ -58,6 +58,7 @@ ln -s ../%{name}/simple-pgbench-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 
 %files
 %defattr(-, root, root)
+/usr/share/qa
 /usr/share/qa/%{name}
 /usr/share/qa/tcf
 /usr/share/qa/tools
