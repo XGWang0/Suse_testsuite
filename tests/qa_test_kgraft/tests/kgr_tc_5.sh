@@ -32,7 +32,7 @@ for N in $(seq 1 $N_PATCHES); do
     kgr_kick_processes
 
     kgr_tc_milestone "Wait for completion (patch $N)"
-    if ! kgr_wait_complete 31; then
+    if ! kgr_wait_complete 61; then
 	kgr_tc_abort "patching didn't finish in time (patch $N)"
     fi
 done
