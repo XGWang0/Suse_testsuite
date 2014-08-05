@@ -81,7 +81,7 @@ while ($all[$count]) {
 			if (skip_test($group, $tcname)) {
 				print " skipping $tcname (known problem)\n";
 			} else {
-				print TCF "timer $timeout\nfg 1 $tcname /usr/lib/ctcs2/tools/$wrapper '$actual'\n\n";
+				print TCF "timer $timeout\nfg 1 $tcname /usr/lib/ctcs2/tools/$wrapper '$actual'\nwait\n\n";
 			}
 		}
 		$incount++;
