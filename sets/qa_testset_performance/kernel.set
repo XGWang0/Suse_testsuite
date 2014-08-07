@@ -1,0 +1,13 @@
+libhugetlbfs_run='/usr/share/qa/tools/test_libhugetlbfs-run'
+ftpload_run='/usr/share/qa/tools/test_ftpload-run'
+lmbench_run='/usr/share/qa/tools/test_lmbench-run'
+memeat_run='/usr/share/qa/tools/test_memeat-run'
+memtester_run='/usr/share/qa/tools/test_memtester-run'
+lvm2_run='/usr/share/qa/tools/test_lvm2_2_02_98-run'
+autotest_run='/usr/share/qa/tools/test_autotest-run'
+ltp_run='/usr/lib/ctcs2/tools/test_ltp-run'
+#qa_test_fs_stree
+file_copy_run='/usr/share/qa/tools/file_copy'
+ltp_fstests_run='/usr/lib/ctcs2/tools/test_ltp-fstests-run'
+ltp_stress='/usr/lib/ctcs2/tools/ltp-stress.py'
+#newburn_run
