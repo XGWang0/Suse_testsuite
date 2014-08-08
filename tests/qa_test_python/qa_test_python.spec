@@ -23,7 +23,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Requires:	python >= 2.6
 Requires:	python-curses
 Requires:	python-gdbm
-Requires:	python-opengl
 Requires:	python-httplib2
 Requires:	python-openssl
 Requires:	ctcs2
