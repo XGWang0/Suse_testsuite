@@ -20,7 +20,14 @@ Source0:	testsuite-python2.6.tar.gz
 Source2:	test_python-run
 BuildArch:	noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Requires:	python >= 2.6, python-curses, python-gdbm, python-opengl, python-httplib2, python-openssl, ctcs2, python-devel
+Requires:	python >= 2.6
+Requires:	python-curses
+Requires:	python-gdbm
+Requires:	python-opengl
+Requires:	python-httplib2
+Requires:	python-openssl
+Requires:	ctcs2
+Requires:	python-devel
 
 %description
 python testsuite
