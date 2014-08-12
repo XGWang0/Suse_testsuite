@@ -30,15 +30,16 @@ function sq_control_open {
     sq_debug "[CONTROL] Preparation: tag system clean."
     rm -f ${SQ_TEST_CONTROL_FILE_SYSTEM_DIRTY} 2>/dev/null
 
-    #TODO make this option cmdlined
-    SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=NO
-    SQ_TEST_CONTROL_MAKE_SYSTEM_PURE=NO
-
     if test "X${SQ_TEST_CONTROL_PARALELL}" == "XYES";then
         SQ_TEST_CONTROL_PARALELL_NOWAIT=nowait
+        SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=YES
     else
         SQ_TEST_CONTROL_PARALELL_NOWAIT=""
+        SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=NO
     fi
+
+    SQ_TEST_CONTROL_MAKE_SYSTEM_PURE=NO
+
     # import the run cases
     __import ${SQ_TEST_RUN_SET_FILE}.set
     # TODO make the list as a absolute path
@@ -47,11 +48,18 @@ function sq_control_open {
         sq_info "[CONTROL] use customized run list"
     else
         sq_info "[CONTROL] use default run list from ${SQ_TEST_RUN_LIST_FILE}"
-        __import ${SQ_TEST_RUN_LIST_FILE}.list
+        __import ${SQ_TEST_RUN_LIST_FILE}-${SLE_RELEASE}.list
     fi
 }
 
 function sq_control_close {
+
+    if test "X${SQ_TEST_CONTROL_PARALELL}" == "XYES";then
+        jobs -p
+        sq_info "[CONTROL] TODO submit the log for PARALELL running"
+        wait
+    fi
+
     if test -f ${SQ_TEST_CONTROL_FILE_STOP};then
         sq_info "[CONTROL]: runs stopped"
         return
@@ -90,7 +98,7 @@ function sq_control_get_next_run {
     ### the operation of run lists
     if test ${#SQ_TEST_RUN_LIST[*]} -le 0;then
         sq_error "SQ_TEST_RUN_LIST is none" \
-            "Plase check the ${SLE_RELEASE}.list file."
+            "Plase check the list file."
          return 4
     fi
 
@@ -158,6 +166,10 @@ function sq_control_special_form_reboot_off {
 }
 
 function sq_control_special_form_reboot_on {
+    if test "X${SQ_TEST_CONTROL_PARALELL}" == "XYES";then
+        sq_info "[CONTROL] It is meaningless to enable reboot with PARALELL"
+        return
+    fi
     SQ_TEST_CONTROL_IGNORE_SYSTEM_DIRTY=NO
     sq_info "[CONTROL] reboot is enable"
 }
@@ -177,7 +189,7 @@ function sq_control_run {
                 sq_debug '[CONTROL] Unknown special form ${SQ_THIS_RUN}'
                 ;;
             *)
-                sq_execute_run ${SQ_THIS_RUN} ${SQ_CONTROL_PARALELL_NOWAIT}
+                sq_execute_run ${SQ_THIS_RUN} ${SQ_TEST_CONTROL_PARALELL_NOWAIT}
                 sq_control_get_run_status $?
                 ;;
         esac

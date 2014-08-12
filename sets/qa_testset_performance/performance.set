@@ -513,9 +513,32 @@ function kernbench_open {
         return 1
     fi
 }
-
 function kernbench_close {
     cd /usr/src
     rm -rf linux 2 > /dev/null
     mv linux.sq_orig linux 2>/dev/null
 }
+
+#pgbench
+pgbench_btrfs_run="/usr/share/qa/tools/simple-pgbench-run"
+function pgbench_btrfs_open {
+    sq_abuild_general_open btrfs
+}
+function pgbench_btrfs_close {
+    sq_abuild_general_close
+}
+pgbench_ext3_run="/usr/share/qa/tools/simple-pgbench-run"
+function pgbench_btrfs_open {
+    sq_abuild_general_open ext3
+}
+function pgbench_btrfs_close {
+    sq_abuild_general_close
+}
+pgbench_xfs_run="/usr/share/qa/tools/simple-pgbench-run"
+function pgbench_btrfs_open {
+    sq_abuild_general_open xfs
+}
+function pgbench_btrfs_close {
+    sq_abuild_general_close
+}
+

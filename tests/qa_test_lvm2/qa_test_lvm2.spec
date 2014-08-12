@@ -51,6 +51,7 @@ chmod +x *
 ln -s not should  
 rm *.c
 popd
+
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
@@ -66,8 +67,12 @@ install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -d $RPM_BUILD_ROOT/usr/share/qa/%name
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-cp -a $RPM_BUILD_ROOT/usr/share/qa/%name/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa
-mv $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2_shell
+mv $RPM_BUILD_ROOT/usr/share/qa/%name/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2_shell
+
+cd $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2_shell/test/lib
+cc harness.c -o harness
+cc not.c -o not
+chmod +x *
 
 %clean
 rm -rf $RPM_BUILD_ROOT

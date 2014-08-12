@@ -78,7 +78,12 @@ function sq_execute_close {
 
 function sq_execute_close_and_submit_log {
     sq_execute_close
-    sq_qadb_submit_result ${SQ_EXE_RUN_NAME}
+    if test "X${SQ_EXE_RUN_NOWAIT}" == "XYES";then
+        sq_info "[EXE] ignore the submition of qadb log"
+        sq_info "[EXE] please submit the log manully"
+    else
+        sq_qadb_submit_result ${SQ_EXE_RUN_NAME}
+    fi
 }
 
 function sq_execute_failed {

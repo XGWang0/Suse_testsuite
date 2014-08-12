@@ -159,11 +159,10 @@ function sq_prep_repos_and_packages {
     
     sq_prep_repos ${_arch} ${_SLE_build} ${_repo_mirror} && \
         sq_prep_install_packages_qa_libs && \
-        sq_prep_install_packages_component performance
-#        sq_prep_install_packages_component performance && \
+        sq_prep_install_packages_component performance && \
+        sq_prep_install_packages_component acceptance && \
+        sq_prep_install_packages_component kernel
 #        sq_prep_install_packages_component regression && \
-#        sq_prep_install_packages_component acceptance && \
-#        sq_prep_install_packages_component kernel && \
 
 
     if test $? -ne 0;then
