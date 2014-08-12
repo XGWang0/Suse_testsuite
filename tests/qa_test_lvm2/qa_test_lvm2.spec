@@ -73,6 +73,7 @@ cd $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2_shell/test/lib
 cc harness.c -o harness
 cc not.c -o not
 chmod +x *
+ln -s not should
 
 %clean
 rm -rf $RPM_BUILD_ROOT
