@@ -34,7 +34,8 @@ kgr_tc_milestone "STOP/CONT processes"
 kgr_kick_processes
 
 kgr_tc_milestone "Wait for completion"
-if ! kgr_wait_complete 31; then
+if ! kgr_wait_complete 61; then
+    kgr_dump_blocking_processes
     kgr_tc_abort "patching didn't finish in time"
 fi
 

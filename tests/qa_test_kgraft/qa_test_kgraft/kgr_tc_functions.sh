@@ -27,6 +27,27 @@ function kgr_kick_processes() {
     done
 }
 
+function kgr_dump_blocking_processes() {
+    unset PIDS
+    echo "global kGraft in_progress flag:" $(cat /sys/kernel/kgraft/in_progress)
+
+    for PROC in /proc/[0-9]*; do
+        if [ "$(cat $PROC/kgr_in_progress)" -ne 0 ]; then
+	    DIR=${PROC%/kgr_in_progress}
+	    PID=${DIR#/proc/}
+	    COMM="$(cat $DIR/comm)"
+
+	    echo "$COMM ($PID) still in progress:"
+	    cat $DIR/stack
+	    echo -e '=============\n'
+	    PIDS="$PIDS $PID"
+	fi
+    done
+    if [ -z "$PIDS" ]; then
+        echo "no processes with kgr_in_progress set"
+    fi
+}
+
 declare -a RECOVERY_HOOKS
 
 function push_recovery_fn() {
