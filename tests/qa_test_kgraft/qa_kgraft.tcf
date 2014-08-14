@@ -22,9 +22,17 @@
 # ****************************************************************************
 
 timer 300
-fg 1 qa_kgraft_test3 /usr/share/qa/qa_test_kgraft/kgr_tc_3.sh
+fg 1 qa_kgraft_syscall /usr/share/qa/qa_test_kgraft/kgr_tc_3.sh
+wait
+
+timer 960
+fg 1 qa_kgraft_succesion /usr/share/qa/qa_test_kgraft/kgr_tc_5.sh
 wait
 
 timer 300
-fg 1 qa_kgraft_test5 /usr/share/qa/qa_test_kgraft/kgr_tc_5.sh
+fg 1 qa_kgraft_cpu /usr/share/qa/qa_test_kgraft/kgr_tc_6.sh
+wait
+
+timer 300
+fg 1 qa_kgraft_mem /usr/share/qa/qa_test_kgraft/kgr_tc_7.sh
 wait

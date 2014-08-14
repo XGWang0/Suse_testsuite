@@ -28,6 +28,7 @@
 #
 
 # norootforbuild
+%define hiworkload hiworkload-0.1
 
 Name:           qa_test_kgraft
 BuildRequires:  ctcs2
@@ -41,6 +42,7 @@ Source0:        %name-%version.tar.bz2
 Source1:        qa_kgraft.tcf
 Source2:        test_kgraft-run
 Source3:        qa_test_kgraft.8
+Source4:        hiworkload-0.1.tar.gz
 ExclusiveArch:	x86_64 s390x ppc64le
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	qa_kgraft
@@ -55,7 +57,13 @@ Authors:
     Libor Pechacek <lpechacek@suse.cz>
 
 %prep
-%setup -q -n %{name}
+%setup -T -b 4 -q -n %{hiworkload}
+%setup -T -b 0 -q -n %{name}
+
+%build
+pushd ../%{hiworkload}
+./configure --prefix=/usr/share/qa/%name
+popd
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
@@ -68,6 +76,9 @@ install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
+pushd ../%{hiworkload}
+%make_install
+popd
 ln -s ../%name/tcf/qa_kgraft.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 find $RPM_BUILD_ROOT/usr/share/qa/%name -depth -type d -name CVS -exec rm -rf {} \;
 find  $RPM_BUILD_ROOT/usr/share/qa/%name -type f ! -name "COPYING" | xargs chmod +x
