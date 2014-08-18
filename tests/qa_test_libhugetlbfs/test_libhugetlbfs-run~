@@ -9,8 +9,6 @@ mkdir -p /tmp/libhugetlbfs
 mount  -t hugetlbfs none /tmp/libhugetlbfs
 
 echo 128 > /proc/sys/vm/nr_hugepages
-ulimit -l 4096
-ulimit -s unlimited
 
 $CTCS2_DIR/tools/run $TCF_DIR/qa_test_libhugetlbfs.tcf
 
