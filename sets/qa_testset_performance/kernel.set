@@ -9,5 +9,5 @@ ltp_run='/usr/lib/ctcs2/tools/test_ltp-run'
 #qa_test_fs_stree
 file_copy_run='/usr/share/qa/tools/file_copy'
 ltp_fstests_run='/usr/lib/ctcs2/tools/test_ltp-fstests-run'
-ltp_stress='/usr/lib/ctcs2/tools/ltp-stress.py'
+ltp_stress_run='/usr/lib/ctcs2/tools/ltp-stress.py'
 #newburn_run
