@@ -21,6 +21,6 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 
-timer 300
+timer 1800
 fg 1 ftpload /usr/share/qa/qa_test_ftpload/ftpload.sh
 wait

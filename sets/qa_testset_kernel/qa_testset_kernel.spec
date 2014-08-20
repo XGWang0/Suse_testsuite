@@ -24,6 +24,7 @@ Source3:	kernel_test_packages
 Source4:	regression_test_packages
 Source5:	run.sh
 Source6:	validation.sh
+Source7:	validation_test_packages
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -32,7 +33,7 @@ testset_kernel-run is a script to launch a serials of tests related kernel testi
 
 Authors:
 --------
-    Liang Zheng <lzheng@suse.com>
+    Bin Wei Liu <bwliu@suse.com>
 
 %prep
 #%setup -q
@@ -50,6 +51,7 @@ install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 644 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 744 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 744 %{S:6} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+install -m 644 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -60,5 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools
 
 %changelog
+* Wed Aug 20 2014 bwliu@suse.de
+- update install.sh, validatioin.sh. 
 * Fri Jan 17 2014 cachen@suse.de
 - initial package
