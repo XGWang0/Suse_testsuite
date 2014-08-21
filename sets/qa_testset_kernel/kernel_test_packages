@@ -1,11 +1,11 @@
-qa_test_lmbench		test_lmbench-run	/usr/share/qa/tools
-qa_test_lvm2		test_lvm2_2_02_98-run	/usr/share/qa/tools
-qa_test_lynis		test_lynis-run		/usr/share/qa/tools
-qa_test_memeat		test_memeat-run		/usr/share/qa/tools
-qa_test_memtester	test_memtester-run	/usr/share/qa/tools
-qa_test_libhugetlbfs	test_libhugetlbfs-run	/usr/share/qa/tools
-qa_test_autotest	test_autotest-run	/usr/share/qa/tools
-qa_test_ftpload		test_ftpload-run	/usr/share/qa/tools
-qa_test_ltp             test_ltp-run            /usr/lib/ctcs2/tools
-qa_test_newburn-memtst  test_newburn-memtst-run /usr/lib/ctcs2/tools    2m14s
-qa_test_newburn		test_newburn-run	/usr/lib/ctcs2/tools
+qa_test_lmbench		test_lmbench-run;btrfs filesystem balance /		/usr/share/qa/tools
+qa_test_lvm2		test_lvm2_2_02_98-run;btrfs filesystem balance /	/usr/share/qa/tools
+qa_test_lynis		test_lynis-run						/usr/share/qa/tools
+qa_test_memeat		test_memeat-run						/usr/share/qa/tools
+qa_test_memtester	test_memtester-run					/usr/share/qa/tools
+qa_test_libhugetlbfs	test_libhugetlbfs-run;btrfs filesystem balance /	/usr/share/qa/tools
+qa_test_autotest	test_autotest-run;btrfs filesystem balance /		/usr/share/qa/tools
+qa_test_ftpload		test_ftpload-run					/usr/share/qa/tools
+qa_test_ltp             test_ltp-run;btrfs filesystem balance /            	/usr/lib/ctcs2/tools
+qa_test_newburn-memtst  test_newburn-memtst-run;btrfs filesystem balance / 	/usr/lib/ctcs2/tools    2m14s
+qa_test_newburn		test_newburn-run;btrfs filesystem balance /		/usr/lib/ctcs2/tools
