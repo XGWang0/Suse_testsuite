@@ -55,10 +55,10 @@ repository (e.g. register your SLES product).
 
 %install
 install -d %{buildroot}%{_mandir}/man8
-install -m 644 %{SOURCE1} %{buildroot}%{_mandir}/man8
+install -m 644 %{S:1} %{buildroot}%{_mandir}/man8
 gzip %{buildroot}%{_mandir}/man8/%{name}.8
 install -d %{buildroot}%{_datadir}/qa/%{name}/bin/
-install -m 755 %{SOURCE0} %{buildroot}%{_datadir}/qa/%{name}/bin/
+install -m 755 %{S:0} %{buildroot}%{_datadir}/qa/%{name}/bin/
 
 %clean
 rm -rf %{buildroot}
@@ -67,7 +67,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %dir %{_datadir}/qa/%{name}
 %dir %{_datadir}/qa/%{name}/bin
-%{_datadir}/qa/tools/bin/%{name}-run
+%{_datadir}/qa/%{name}/bin/%{name}-run
 %{_mandir}/man8/%{name}.8.gz
 %doc
 
