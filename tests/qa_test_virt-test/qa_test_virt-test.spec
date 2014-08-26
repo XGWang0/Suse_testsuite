@@ -49,9 +49,7 @@ Note that in order to install this testsuite you need to add the
 virtualization team's package repository, the SLES SDK and Updates
 repository (e.g. register your SLES product).
 
-
 %prep
-%setup -q
 
 %build
 
