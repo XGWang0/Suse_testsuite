@@ -65,7 +65,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%dir %{_datadir}
+%dir %{_datadir}/qa
 %dir %{_datadir}/qa/%{name}
 %dir %{_datadir}/qa/%{name}/bin
 %{_datadir}/qa/%{name}/bin/%{name}-run
