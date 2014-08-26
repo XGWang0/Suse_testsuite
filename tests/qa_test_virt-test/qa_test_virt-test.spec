@@ -66,9 +66,9 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %dir %{_datadir}/qa/%{name}
-%{_datadir}/qa/tools/%{name}-run
+%dir %{_datadir}/qa/%{name}/bin
+%{_datadir}/qa/tools/bin/%{name}-run
 %{_mandir}/man8/%{name}.8.gz
 %doc
-
 
 %changelog
