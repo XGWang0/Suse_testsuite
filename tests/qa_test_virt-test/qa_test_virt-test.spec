@@ -49,28 +49,27 @@ Note that in order to install this testsuite you need to add the
 virtualization team's package repository, the SLES SDK and Updates
 repository (e.g. register your SLES product).
 
-
 %prep
-%setup -q
 
 %build
 
 %install
 install -d %{buildroot}%{_mandir}/man8
-install -m 644 %{SOURCE1} %{buildroot}%{_mandir}/man8
+install -m 644 %{S:1} %{buildroot}%{_mandir}/man8
 gzip %{buildroot}%{_mandir}/man8/%{name}.8
 install -d %{buildroot}%{_datadir}/qa/%{name}/bin/
-install -m 755 %{SOURCE0} %{buildroot}%{_datadir}/qa/%{name}/bin/
+install -m 755 %{S:0} %{buildroot}%{_datadir}/qa/%{name}/bin/
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%dir %{_datadir}/qa
 %dir %{_datadir}/qa/%{name}
-%{_datadir}/qa/tools/%{name}-run
+%dir %{_datadir}/qa/%{name}/bin
+%{_datadir}/qa/%{name}/bin/%{name}-run
 %{_mandir}/man8/%{name}.8.gz
 %doc
-
 
 %changelog
