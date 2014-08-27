@@ -2,17 +2,17 @@
 
 # Install the test suites packages
 
-/usr/share/qa/qa_testset_kernel/install.sh
+#/usr/share/qa/qa_testset_kernel/install.sh
 
-echo -e "You can run acceptance/kernel/regression tests now.\n"
+#echo -e "You can run acceptance/kernel/regression tests now.\n"
 
 #start all tests
 
-echo -e "\nBEWARE: ALL TESTS are running, Please see screen -r tests\n" > /etc/motd
-
+echo -e "\nBEWARE: ALL TESTS are running, Please see screen -r tests\n" > /etc/motdlogger
+logger "All tests starts now, see screen -r tests for details"
 echo -e "All tests starts now, see screen -r tests for details\n"
 
-echo -e "========== Starting Testing ==========\n"
+#echo -e "========== Starting Testing ==========\n"
 
 export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
 screen -d -L -S tests -m /bin/bash -c '(

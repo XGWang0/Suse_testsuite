@@ -22,7 +22,7 @@ zypper --no-gpg-checks -n ar http://dist.suse.de/install/SLP/SLE-12-SDK-$release
 zypper --no-gpg-checks -n ar http://download.suse.de/install/SLP/SLE-12-Module-Web-Scripting-$release/$ARCH/CD1/ Web_Scripting
 zypper --gpg-auto-import-keys ref
 
-QA_LIB_PACKAGES="qa_lib_ctcs2 qa_lib_keys qa_lib_perl qa_lib_config qa_tools qa_db_report"
+QA_LIB_PACKAGES="qa_lib_ctcs2 qa_lib_keys qa_lib_config qa_lib_perl qa_tools qa_db_report"
 VALIDATION_PACKAGES="qa_test_process_stress qa_test_sched_stress qa_test_fs_stress"
 KERNEL_PACKAGES=`awk '{print $1}' /usr/share/qa/qa_testset_kernel/kernel_test_packages`
 REGRESSION_PACKAGES=`awk '{print $1}' /usr/share/qa/qa_testset_kernel/regression_test_packages`
@@ -58,13 +58,16 @@ fi
 install_package () {
 for pkg in "$@" ; do
         if rpm -q $pkg > /dev/null 2>&1 ; then
-                echo -e "$pkg has already been installed\n"
+                echo -e "$pkg has already been installed.\n"
+		logger "$pkg has already been installed."
         else
                 zypper -n in -l $pkg > /dev/null 2>&1
                 if rpm -q $pkg > /dev/null 2>&1 ;then
-                        echo -e "$pkg is installed\n"
+                        echo -e "$pkg is installed.\n"
+			logger "$pkg is installed."
                 else                                                                                    
-                        echo -e "$pkg is not installed. Please install needed packages manually."       
+                        echo -e "$pkg is not installed. Please install needed packages manually."
+			logger "$pkg is not installed. Please install needed packages manually."
                 fi                                                                                      
                                                                                                         
         fi                                                                                              
