@@ -51,6 +51,30 @@ BuildRequires: libnuma-devel
 %endif
 %endif
 
+#
+# For quotactl tests
+#
+# libuuid exists only for SLES11 and newer
+%if 0%{?suse_version}
+BuildRequires: xfsprogs-devel
+%if 0%{?suse_version} >= 1100
+BuildRequires: libuuid-devel
+%endif
+%endif
+
+#
+# For tirpc testcases
+#
+# Enable once errors are fixed
+#
+%if 0%{?suse_version} >= 1100
+BuildRequires: libtirpc-devel
+%endif
+
+%if 0%{?suse_version} >= 1100
+BuildRequires: kernel-syms modutils
+%endif
+
 Url:            http://linux-test-project.github.io
 License:        GPL v2 or later
 Group:          System/Benchmark
@@ -64,7 +88,7 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20140422
+Version:        20140828
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
@@ -76,12 +100,12 @@ Patch102:	disable-min_free_kbytes.patch
 # Waiting for upstream approval
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
-Patch408:       fix-sched_stress.patch
 # Patches 5xx Workarounds
 Patch501:	change_ltp_prog_install_dir.patch
+Patch502:	0001-Disable-tpci-and-tbio-for-kernels-older-than-3.0.patch
 # Patches 6xx Realtime related changes
-#Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+Patch700:	0001-tirpc-Fix-numerous-errors-and-warnings.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -115,11 +139,12 @@ Authors:
 # Patches 2xx Build Environment Patches
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes
-%patch408 -p1
 # Patches 5xx Workarounds
 %patch501 -p1
+%patch502 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+%patch700 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
@@ -169,12 +194,9 @@ done
 cp ../../runtest/openposix $RPM_BUILD_ROOT/opt/ltp/runtest/
 cd ../..
 
-
 # Install ctcstools with excutable bit
 install -m 755 ctcstools/* $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
-ln -s ../../../../usr/lib/ctcs2/tools/ltp_wrapper.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/openposix_wrapper.sh
 ln -s ../../../../../opt/ltp/runtest $RPM_BUILD_ROOT/usr/lib/ctcs2/config/ltp/runtest
-ln -s ../../../../opt/ltp/testcases/bin $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/ltp
 
 # Generate ctcs2 tcf files from runtest files
 $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 720 %{_libdir} $RPM_BUILD_ROOT
@@ -201,12 +223,14 @@ done
 %defattr(-,root,root)
 /usr/lib/ctcs2
 %{_datadir}/qa
-#%{_datadir}/qa/qa_test_ltp
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Sep 01 2014 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20140828
+
 * Mon Apr 28 2014 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20140422
 
