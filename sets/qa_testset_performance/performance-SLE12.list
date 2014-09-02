@@ -41,15 +41,15 @@ SQ_TEST_RUN_LIST=(
     iozone_ext3
     iozone_xfs
 
-    bonnie_btrfs
-    bonnie_ext3
-    bonnie_xfs
-    bonnie_btrfs
-    bonnie_ext3
-    bonnie_xfs
-    bonnie_btrfs
-    bonnie_ext3
-    bonnie_xfs
+    #bonnie_btrfs
+    #bonnie_ext3
+    #bonnie_xfs
+    #bonnie_btrfs
+    #bonnie_ext3
+    #bonnie_xfs
+    #bonnie_btrfs
+    #bonnie_ext3
+    #bonnie_xfs
 
     pgbench_btrfs
     pgbench_ext3
@@ -82,4 +82,14 @@ SQ_TEST_RUN_LIST=(
     dbench4_syncIO_btrfs
     dbench4_syncIO_btrfs
     dbench4_syncIO_btrfs
+
+    tiobench_xfs
+    tiobench_ext3
+    tiobench_btrfs
+    tiobench_xfs
+    tiobench_ext3
+    tiobench_btrfs
+    tiobench_xfs
+    tiobench_ext3
+    tiobench_btrfs
 )
