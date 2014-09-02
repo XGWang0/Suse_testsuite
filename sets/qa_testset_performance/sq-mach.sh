@@ -36,6 +36,12 @@ function sq_mach_open {
         sq_info "[MACH] Preparation: set hostname in /etc/hosts"
         echo "127.0.0.100    $(hostname)" >> /etc/hosts
         echo "$(date)" > ${SQ_TEST_CONTROL_FILE_PREPARED}
+        # more kernel logs
+        # TODO finally add to /etc/defautl/grub
+        # kernel args : ignore_loglevel
+        # xen kernel : multiboot args : loglvl=all guest_loglvl=all
+        #              module line args : ignore_loglevel
+        echo 8 >/proc/sys/kernel/printk
     fi
     SQ_TEST_MACH_FLAG_REBOOT=NO
 }
