@@ -126,4 +126,6 @@ for each running.
 TODO
 ====
   * more fined run lists.
+  * extract the global preparation.
+  * setup each preparation for each set.
 
