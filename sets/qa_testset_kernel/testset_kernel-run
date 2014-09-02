@@ -8,13 +8,13 @@
 
 #start all tests
 
-echo -e "\nBEWARE: ALL TESTS are running, Please see screen -r tests\n" > /etc/motdlogger
+echo -e "\nBEWARE: ALL TESTS are running, Please see screen -r tests\n" > /etc/motd
 logger "All tests starts now, see screen -r tests for details"
 echo -e "All tests starts now, see screen -r tests for details\n"
 
 #echo -e "========== Starting Testing ==========\n"
 
-export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
+#export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
 screen -d -L -S tests -m /bin/bash -c '(
 	/bin/bash /usr/share/qa/qa_testset_kernel/validation.sh
 	/bin/bash /usr/share/qa/qa_testset_kernel/run.sh

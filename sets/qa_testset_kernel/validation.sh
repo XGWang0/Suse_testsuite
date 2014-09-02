@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Set log level
+echo 8 >/proc/sys/kernel/printk
+
 # Install the test suites packages for validation testing.
 /usr/share/qa/qa_testset_kernel/install.sh -v
 
