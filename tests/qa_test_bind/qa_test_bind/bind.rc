@@ -43,7 +43,7 @@ if [ ! -d "$DATADIR" ]; then exit $RES_FAIL_INT; fi
 
 backup_config(){
 	local BACKUP_PATHS
-	if [ $OSVERSION -eq '10' ]; then
+	if [ x$OSVERSION == 'x10' ]; then
 		BACKUP_PATHS="/etc/named.conf /etc/named.conf.include /etc/named.d /etc/sysconfig/named $DATADIR"
 	else
 		BACKUP_PATHS="/etc/named.conf /etc/named.d /etc/sysconfig/named $DATADIR"
