@@ -1,0 +1,27 @@
+function regen_initrd() {
+    # the name of the kernel image file for which the patch should be removed
+    KERNEL_IMAGE_NAME=$1
+    if test ! -f /boot/${KERNEL_IMAGE_NAME}; then
+        echo "the kernel image ${KERNEL_IMAGE_NAME} dose not exits"
+        return 1
+    fi
+    mkdir -p /var/run/regenerate-initrd
+    touch /var/run/regenerate-initrd/${KERNEL_IMAGE_NAME}
+    /usr/lib/module-init-tools/regenerate-initrd-posttrans
+}
+
+if test $# -lt 1; then
+    echo <<EOF
+Usage: $1 kernel_image_file_name
+EOF
+    exit 1
+fi
+
+echo '########################################'
+echo Please uninstall the patch package first
+echo I just regenerate the initrd
+echo '########################################'
+
+regen_initrd $1
+
+exit $?
