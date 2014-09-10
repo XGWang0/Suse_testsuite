@@ -1,0 +1,4 @@
+# find better way to do this
+__import kernel.set
+
+kgraft_run='/usr/share/qa/tools/test_kgraft-run'
