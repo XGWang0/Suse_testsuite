@@ -38,16 +38,16 @@ reseterr
 prepare
 checkerror
 
-/etc/init.d/multipathd stop
+service multipathd stop
 checkerror
 
-/etc/init.d/multipathd start
+service multipathd start
 checkerror
 
-/etc/init.d/multipathd restart
+service multipathd restart
 checkerror
 
-/etc/init.d/multipathd status
+service multipathd status
 checkerror
 
 createresult

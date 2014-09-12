@@ -104,11 +104,11 @@ chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_sysbench-run $RPM_BUILD_ROOT/u
 %post 
 if [ -x /etc/init.d/mysql ] ; then
 #    grep max_connections /etc/init.d/mysql || sed -i 's/--skip-networking/--max_connections=1000 \\\n\t\t\t\t--skip-networking/g' /etc/init.d/mysql
-    sed -i '/--max_connections=/d' /etc/init.d/mysql
+    sed -i '/--max_connections=/d' /etc/initd./mysql
     sed -i '/connections_setting_arg/d' /etc/init.d/mysql
     sed -i 's/^\([ \t]*\)\(debug_flags=""\)$/\1\2\n\1connections_setting_arg="--max_connections=1000"/' /etc/init.d/mysql
-    sed -i 's/^\([ \t]*\)\(\$debug_flags\) \\/\1\2 \\\n\1\$connections_setting_arg \\/' /etc/init.d/mysql
-    /etc/init.d/mysql restart
+    sed -i 's/^\([ \t]*\)\(\$debug_flags\) \\/\1\2 \\\n\1\$connections_setting_arg \\/' /etc/initd./mysql
+    service mysql restart
 fi
 
 %preun

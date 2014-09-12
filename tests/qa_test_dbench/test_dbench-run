@@ -4,7 +4,7 @@
 ctcsdir="/usr/lib/ctcs2"
 basedir="/usr/share/qa/qa_test_dbench"
 
-/etc/init.d/cron stop
+service cron stop
 
 $ctcsdir/tools/run $basedir/tcf/dbench-default.tcf
 sleep 120

@@ -179,7 +179,7 @@ fg 1 sysbench-mutex sysbench-example-test -t mutex -T 256
 wait
 
 timer 120
-fg 1 mysql-start /etc/init.d/mysql start
+fg 1 mysql-start service mysql start
 wait
 
 timer 120

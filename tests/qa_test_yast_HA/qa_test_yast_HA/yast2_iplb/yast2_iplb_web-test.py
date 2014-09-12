@@ -71,7 +71,7 @@ print web_info
 # Stop web service on real server1
 procedurelogger.action("Stop web service on real server1")
 rs1 = remoteSetting(node_ip=real_server1_ip, node_pwd=real_server1_pwd)
-rs1.act_service(service="/etc/init.d/apache2", status="stop")
+rs1.act_service(service="service apache2", status="stop")
 sleep(5)
 
 # index.html on real server2 can be visited by virtual server ip
@@ -86,12 +86,12 @@ if web_info.find("real_server2") == -1:
 procedurelogger.action("Start web service on real server1")
 rs1 = remoteSetting(node_ip=real_server1_ip, node_pwd=real_server1_pwd)
 
-rs1.act_service(service="/etc/init.d/apache2", status="start", check=True, process="httpd2")
+rs1.act_service(service="service apache2", status="start", check=True, process="httpd2")
 
 # Stop web service on real server2
 procedurelogger.action("Stop web service on real server2")
 rs1 = remoteSetting(node_ip=real_server2_ip, node_pwd=real_server2_pwd)
-rs1.act_service(service="/etc/init.d/apache2", status="stop")
+rs1.act_service(service="service apache2", status="stop")
 sleep(5)
 
 # index.html on real server1 can be visited by virtual server ip
@@ -105,5 +105,5 @@ if web_info.find("real_server1") == -1:
 # Start web service on real server2
 procedurelogger.action("Start web service on real server1")
 rs2 = remoteSetting(node_ip=real_server2_ip, node_pwd=real_server2_pwd)
-rs2.act_service(service="/etc/init.d/apache2", status="start", check=True, process="httpd2")
+rs2.act_service(service="service apache2", status="start", check=True, process="httpd2")
 

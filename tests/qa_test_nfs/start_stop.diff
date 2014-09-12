@@ -5,9 +5,9 @@ diff -uNpr qa_test_nfs/nfs_start_stop.sh qa_nfs_/nfs_start_stop.sh
  	return 0
      fi
  
--    if [ -n "`/etc/init.d/$SERVICE status | grep -e mountd -e statd -e nfsd | grep running`" ]; then
+-    if [ -n "`service $SERVICE status | grep -e mountd -e statd -e nfsd | grep running`" ]; then
 -	printMessage $MSG_FAILED "Still running (mountd, statd, or nfsd)"
-+    if [ -n "`/etc/init.d/$SERVICE status | grep -e mountd  -e nfsd | grep running`" ]; then
++    if [ -n "`service $SERVICE status | grep -e mountd  -e nfsd | grep running`" ]; then
 +	printMessage $MSG_FAILED "Still running (mountd or nfsd)"
  	return 1
      fi
