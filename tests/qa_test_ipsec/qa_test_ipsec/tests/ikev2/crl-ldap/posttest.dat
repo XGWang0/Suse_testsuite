@@ -1,6 +1,6 @@
 moon::ipsec stop
 carol::ipsec stop
-winnetou::service slapd stop
+winnetou::/etc/init.d/slapd stop
 moon::iptables-restore < /etc/iptables.flush
 carol::iptables-restore < /etc/iptables.flush
 moon::rm /etc/ipsec.d/crls/*

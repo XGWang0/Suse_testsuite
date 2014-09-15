@@ -59,7 +59,7 @@ rs1 = remoteSetting(node_ip=real_server1_ip, node_pwd=real_server1_pwd)
 procedurelogger.action("SSH connect to real server 1 %s, install lamp_server pattern" % real_server1_ip)
 rs1.install_Patterns(patterns=["lamp_server"], setup_x=False)
 
-# Start up http process: service apache2 start
+# Start up http process: /etc/init.d/apache2 start
 rs1.act_service(service="service apache2", status="start", check=True, process="httpd2")
 
 # Create index.html
@@ -83,7 +83,7 @@ rs1 = remoteSetting(node_ip=real_server2_ip, node_pwd=real_server2_pwd)
 procedurelogger.action("SSH connect to real server 2 %s, install lamp_server pattern" % real_server2_ip)
 rs1.install_Patterns(patterns=["lamp_server"], setup_x=False)
 
-# Start up http process: service apache2 start
+# Start up http process: /etc/init.d/apache2 start
 rs1.act_service(service="service apache2", status="start", check=True, process="httpd2")
 
 # Create index.html
