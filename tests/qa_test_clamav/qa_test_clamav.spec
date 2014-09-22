@@ -29,10 +29,11 @@
 #
 
 # norootforbuild
+#!BuildIgnore: post-build-checks-malwarescan
 
 
 Name:           qa_test_clamav
-#BuildRequires:  ctcs2 
+#BuildRequires: ctcs2 
 License:        SUSE Proprietary
 Group:          SUSE internal
 AutoReqProv:    on
@@ -44,10 +45,10 @@ Source0:        %name-%version.tar.bz2
 Source1:        qa_clamav.tcf
 Source2:        test_clamav-run
 Source3:        README
-Source4:	qa_test_clamav.8
+Source4:	    qa_test_clamav.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Provides:	qa_clamav
-Obsoletes:	qa_clamav
+Provides:	    qa_clamav
+Obsoletes:	    qa_clamav
 Requires:       ctcs2 clamav
 BuildArch:      noarch
 #ExclusiveArch: %ix86
@@ -59,7 +60,7 @@ test suite for clamav and freshclam testing
 
 Authors:
 --------
-    Andrej Semen asemen@suse.de
+Andrej Semen asemen@suse.de
 
 %prep
 %setup -q -n %{name}
