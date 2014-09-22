@@ -1,0 +1,378 @@
+--- tests/qa_test_bash/qa_test_bash/data/tests/arith.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/arith.right
+@@ -83,7 +83,7 @@
+ 0
+ ./arith.tests: line 149: 7 = 43 : attempted assignment to non-variable (error token is "= 43 ")
+ ./arith.tests: line 150: 2#44: value too great for base (error token is "2#44")
+-./arith.tests: line 151: 44 / 0 : division by 0 (error token is " ")
++./arith.tests: line 151: 44 / 0 : division by 0 (error token is "0 ")
+ ./arith.tests: line 152: let: jv += $iv: syntax error: operand expected (error token is "$iv")
+ ./arith.tests: line 153: jv += $iv : syntax error: operand expected (error token is "$iv ")
+ ./arith.tests: line 154: let: rv = 7 + (43 * 6: missing `)' (error token is "6")
+@@ -96,11 +96,11 @@ ok
+ 6
+ 1
+ 0
+-./arith.tests: line 177: 4 + : syntax error: operand expected (error token is " ")
++./arith.tests: line 177: 4 + : syntax error: operand expected (error token is "+ ")
+ 16
+ ./arith.tests: line 182: 4 ? : 3 + 5 : expression expected (error token is ": 3 + 5 ")
+-./arith.tests: line 183: 1 ? 20 : `:' expected for conditional expression (error token is " ")
+-./arith.tests: line 184: 4 ? 20 : : expression expected (error token is " ")
++./arith.tests: line 183: 1 ? 20 : `:' expected for conditional expression (error token is "20 ")
++./arith.tests: line 184: 4 ? 20 : : expression expected (error token is ": ")
+ 9
+ ./arith.tests: line 190: 0 && B=42 : attempted assignment to non-variable (error token is "=42 ")
+ 9
+@@ -130,7 +130,7 @@ ok
+ 4
+ 4
+ 7
+-./arith.tests: line 241: 7-- : syntax error: operand expected (error token is " ")
++./arith.tests: line 241: 7-- : syntax error: operand expected (error token is "- ")
+ ./arith.tests: line 243: --x=7 : attempted assignment to non-variable (error token is "=7 ")
+ ./arith.tests: line 244: ++x=7 : attempted assignment to non-variable (error token is "=7 ")
+ ./arith.tests: line 246: x++=7 : attempted assignment to non-variable (error token is "=7 ")
+@@ -140,10 +140,10 @@ ok
+ -7
+ 7
+ 7
+-./arith1.sub: line 2: 4-- : syntax error: operand expected (error token is " ")
+-./arith1.sub: line 3: 4++ : syntax error: operand expected (error token is " ")
+-./arith1.sub: line 4: 4 -- : syntax error: operand expected (error token is " ")
+-./arith1.sub: line 5: 4 ++ : syntax error: operand expected (error token is " ")
++./arith1.sub: line 2: 4-- : syntax error: operand expected (error token is "- ")
++./arith1.sub: line 3: 4++ : syntax error: operand expected (error token is "+ ")
++./arith1.sub: line 4: 4 -- : syntax error: operand expected (error token is "- ")
++./arith1.sub: line 5: 4 ++ : syntax error: operand expected (error token is "+ ")
+ 1
+ 2
+ 1
+@@ -158,10 +158,10 @@ ok
+ 2
+ -2
+ 1
+-./arith1.sub: line 35: ((: ++ : syntax error: operand expected (error token is " ")
++./arith1.sub: line 35: ((: ++ : syntax error: operand expected (error token is "+ ")
+ 7
+ 7
+-./arith1.sub: line 38: ((: -- : syntax error: operand expected (error token is " ")
++./arith1.sub: line 38: ((: -- : syntax error: operand expected (error token is "- ")
+ 7
+ 7
+ 7
+@@ -180,10 +180,10 @@ ok
+ 1
+ 4
+ 0
+-./arith2.sub: line 33: ((: -- : syntax error: operand expected (error token is " ")
++./arith2.sub: line 33: ((: -- : syntax error: operand expected (error token is "- ")
+ -7
+ -7
+-./arith2.sub: line 37: ((: ++ : syntax error: operand expected (error token is " ")
++./arith2.sub: line 37: ((: ++ : syntax error: operand expected (error token is "+ ")
+ 7
+ 7
+ -7
+--- tests/qa_test_bash/qa_test_bash/data/tests/dbg-support.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/dbg-support.right
+@@ -19,7 +19,7 @@ debug lineno: 24 fn1
+ debug lineno: 24 fn1
+ debug lineno: 25 fn1
+ ./dbg-support.tests: line 25: caller: foo: invalid number
+-caller: usage: caller [EXPR]
++caller: usage: caller [expr]
+ debug lineno: 25 fn1
+ debug lineno: 17 fn1
+ debug lineno: 12 print_return_trap
+@@ -48,7 +48,7 @@ debug lineno: 24 fn1
+ debug lineno: 24 fn1 71 main ./dbg-support.tests
+ debug lineno: 25 fn1
+ ./dbg-support.tests: line 25: caller: foo: invalid number
+-caller: usage: caller [EXPR]
++caller: usage: caller [expr]
+ debug lineno: 25 fn1
+ debug lineno: 17 fn1
+ debug lineno: 12 print_return_trap
+@@ -190,7 +190,7 @@ FUNCNAME[0] fn1
+ 79 main ./dbg-support.tests
+ 
+ ./dbg-support.tests: line 25: caller: foo: invalid number
+-caller: usage: caller [EXPR]
++caller: usage: caller [expr]
+ 
+ debug lineno: 80 main
+ fn2 here. Calling fn1...
+@@ -202,7 +202,7 @@ FUNCNAME[0] fn1
+ 30 fn2 ./dbg-support.tests
+ 80 main ./dbg-support.tests
+ ./dbg-support.tests: line 25: caller: foo: invalid number
+-caller: usage: caller [EXPR]
++caller: usage: caller [expr]
+ 
+ debug lineno: 81 main
+ LINENO 34
+--- tests/qa_test_bash/qa_test_bash/data/tests/dstack.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/dstack.right
+@@ -2,9 +2,9 @@
+ ./dstack.tests: line 9: pushd: no other directory
+ ./dstack.tests: line 10: popd: directory stack empty
+ ./dstack.tests: line 13: pushd: -m: invalid number
+-pushd: usage: pushd [dir | +N | -N] [-n]
++pushd: usage: pushd [-n] [+N | -N | dir]
+ ./dstack.tests: line 14: popd: -m: invalid number
+-popd: usage: popd [+N | -N] [-n]
++popd: usage: popd [-n] [+N | -N]
+ ./dstack.tests: line 15: dirs: -m: invalid number
+ dirs: usage: dirs [-clpv] [+N] [-N]
+ ./dstack.tests: line 16: dirs: 7: invalid option
+--- tests/qa_test_bash/qa_test_bash/data/tests/errors.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/errors.right
+@@ -15,12 +15,12 @@ unset: usage: unset [-f] [-v] [name ...]
+ ./errors.tests: line 52: unset: `/bin/sh': not a valid identifier
+ ./errors.tests: line 55: unset: cannot simultaneously unset a function and a variable
+ ./errors.tests: line 58: declare: -z: invalid option
+-declare: usage: declare [-afFirtx] [-p] [name[=value] ...]
++declare: usage: declare [-aAfFgilrtux] [-p] [name[=value] ...]
+ ./errors.tests: line 60: declare: `-z': not a valid identifier
+ ./errors.tests: line 61: declare: `/bin/sh': not a valid identifier
+ ./errors.tests: line 65: declare: cannot use `-f' to make functions
+ ./errors.tests: line 68: exec: -i: invalid option
+-exec: usage: exec [-cl] [-a name] file [redirection ...]
++exec: usage: exec [-cl] [-a name] [command [arguments ...]] [redirection ...]
+ ./errors.tests: line 72: export: XPATH: not a function
+ ./errors.tests: line 75: break: only meaningful in a `for', `while', or `until' loop
+ ./errors.tests: line 76: continue: only meaningful in a `for', `while', or `until' loop
+@@ -53,9 +53,10 @@ umask: usage: umask [-p] [-S] [mode]
+ ./errors.tests: line 159: declare: VAR: readonly variable
+ ./errors.tests: line 161: declare: unset: not found
+ ./errors.tests: line 164: VAR: readonly variable
+-./errors.tests: command substitution: line 168: syntax error: unexpected end of file
+-./errors.tests: command substitution: line 168: syntax error near unexpected token `done'
+-./errors.tests: command substitution: line 168: ` for z in 1 2 3; done '
++./errors.tests: command substitution: line 168: syntax error near unexpected token `)'
++./errors.tests: command substitution: line 168: ` for z in 1 2 3; do )'
++./errors.tests: command substitution: line 169: syntax error near unexpected token `done'
++./errors.tests: command substitution: line 169: ` for z in 1 2 3; done )'
+ ./errors.tests: line 171: cd: HOME not set
+ ./errors.tests: line 172: cd: /tmp/xyz.bash: No such file or directory
+ ./errors.tests: line 174: cd: OLDPWD not set
+@@ -68,7 +69,7 @@ source: usage: source filename [arguments]
+ ./errors.tests: line 184: .: -i: invalid option
+ .: usage: . filename [arguments]
+ ./errors.tests: line 187: set: -q: invalid option
+-set: usage: set [--abefhkmnptuvxBCHP] [-o option] [arg ...]
++set: usage: set [-abefhkmnptuvxBCHP] [-o option-name] [--] [arg ...]
+ ./errors.tests: line 190: enable: sh: not a shell builtin
+ ./errors.tests: line 190: enable: bash: not a shell builtin
+ ./errors.tests: line 193: shopt: cannot set and unset shell options simultaneously
+@@ -76,7 +77,7 @@ set: usage: set [--abefhkmnptuvxBCHP] [-o option] [arg ...]
+ ./errors.tests: line 199: read: `/bin/sh': not a valid identifier
+ ./errors.tests: line 202: VAR: readonly variable
+ ./errors.tests: line 205: readonly: -x: invalid option
+-readonly: usage: readonly [-af] [name[=value] ...] or readonly -p
++readonly: usage: readonly [-aAf] [name[=value] ...] or readonly -p
+ ./errors.tests: line 208: eval: -i: invalid option
+ eval: usage: eval [arg ...]
+ ./errors.tests: line 209: command: -i: invalid option
+@@ -85,7 +86,7 @@ command: usage: command [-pVv] command [arg ...]
+ ./errors.tests: line 213: /bin/sh + 0: syntax error: operand expected (error token is "/bin/sh + 0")
+ ./errors.tests: line 216: trap: NOSIG: invalid signal specification
+ ./errors.tests: line 219: trap: -s: invalid option
+-trap: usage: trap [-lp] [arg signal_spec ...]
++trap: usage: trap [-lp] [[arg] signal_spec ...]
+ ./errors.tests: line 225: return: can only `return' from a function or sourced script
+ ./errors.tests: line 229: break: 0: loop count out of range
+ ./errors.tests: line 233: continue: 0: loop count out of range
+--- tests/qa_test_bash/qa_test_bash/data/tests/exec.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/exec.right
+@@ -10,23 +10,22 @@ after exec1.sub without args: 0
+ 127
+ /bin/sh: /bin/sh: cannot execute binary file
+ 126
+-./execscript: line 39: /: is a directory
++./execscript: line 39: /: Is a directory
+ 126
+ /: /: is a directory
+ 126
+ ./execscript: line 46: .: /: is a directory
+ 1
+-127
++126
+ 0
+ this is bashenv
+ ./exec3.sub: line 3: /tmp/bash-notthere: No such file or directory
+-./exec3.sub: line 3: exec: /tmp/bash-notthere: cannot execute: No such file or directory
+-126
++127
+ ./execscript: line 68: notthere: No such file or directory
+ 127
+ ./execscript: line 71: notthere: No such file or directory
+ 127
+-./execscript: line 74: notthere: No such file or directory
++./execscript: line 74: notthere: command not found
+ 127
+ this is sh
+ this is sh
+--- tests/qa_test_bash/qa_test_bash/data/tests/func.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/func.right
+@@ -27,7 +27,7 @@ f1 ()
+     return $status
+ }
+ before: try to assign to FUNCNAME
+-outside: FUNCNAME = main
++outside: FUNCNAME =
+ before: FUNCNAME = func
+ FUNCNAME = func2
+ after: FUNCNAME = func
+--- tests/qa_test_bash/qa_test_bash/data/tests/heredoc.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/heredoc.right
+@@ -39,5 +39,6 @@ ENDOFINPUT
+ 
+     aa=1
+ }
++./heredoc.tests: line 94: warning: here-document at line 92 delimited by end-of-file (wanted `EOF')
+ hi
+ there
+--- tests/qa_test_bash/qa_test_bash/data/tests/history.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/history.right
+@@ -1,8 +1,8 @@
+ ./history.tests: line 4: history: -x: invalid option
+-history: usage: history [-c] [-d offset] [n] or history -awrn [filename] or history -ps arg [arg...]
++history: usage: history [-c] [-d offset] [n] or history -anrw [filename] or history -ps arg [arg...]
+ ./history.tests: line 6: history: cannot use more than one of -anrw
+ ./history.tests: line 9: fc: -v: invalid option
+-fc: usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]
++fc: usage: fc [-e ename] [-lnr] [first] [last] or fc -s [pat=rep] [command]
+     1  for i in one two three; do echo $i; done
+     2  /bin/sh -c 'echo this is $0'
+     3  ls
+--- tests/qa_test_bash/qa_test_bash/data/tests/new-exp.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/new-exp.right
+@@ -233,7 +233,6 @@ argv[1] = <oneonetwo>
+ argv[1] = <onetwo>
+ argv[1] = <two>
+ argv[1] = <oneonetwo>
+-./new-exp.tests: line 421: -2: substring expression < 0
+ argv[1] = <defghi>
+ argv[1] = <efghi>
+ argv[1] = <e*docrine>
+--- tests/qa_test_bash/qa_test_bash/data/tests/nquote.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/nquote.right
+@@ -33,5 +33,5 @@ argv[1] = <hello, $world>
+ 1
+ 1
+ ;foo
+-argv[1] = <'^I'>
++argv[1] = <^I>
+ argv[1] = <'A^IB'>
+--- tests/qa_test_bash/qa_test_bash/data/tests/rsh.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/rsh.right
+@@ -7,7 +7,7 @@
+ ./rsh.tests: line 21: /tmp/restricted: restricted: cannot redirect output
+ ./rsh.tests: line 26: command: -p: restricted
+ ./rsh.tests: line 28: set: +r: invalid option
+-set: usage: set [--abefhkmnptuvxBCHP] [-o option] [arg ...]
++set: usage: set [-abefhkmnptuvxBCHP] [-o option-name] [--] [arg ...]
+ ./rsh.tests: line 29: set: restricted: invalid option name
+ ./rsh.tests: line 31: exec: restricted
+ ./rsh.tests: after exec
+--- tests/qa_test_bash/qa_test_bash/data/tests/shopt.right
++++ tests/qa_test_bash/qa_test_bash/data/tests/shopt.right
+@@ -1,12 +1,19 @@
+ ./shopt.tests: line 2: shopt: -z: invalid option
+-shopt: usage: shopt [-pqsu] [-o long-option] optname [optname...]
++shopt: usage: shopt [-pqsu] [-o] [optname ...]
+ --
++shopt -u autocd
+ shopt -u cdable_vars
+ shopt -s cdspell
+ shopt -u checkhash
++shopt -u checkjobs
+ shopt -u checkwinsize
+ shopt -s cmdhist
+ shopt -u compat31
++shopt -u compat32
++shopt -u compat40
++shopt -u compat41
++shopt -u direxpand
++shopt -u dirspell
+ shopt -u dotglob
+ shopt -u execfail
+ shopt -s expand_aliases
+@@ -15,6 +22,7 @@ shopt -u extglob
+ shopt -s extquote
+ shopt -u failglob
+ shopt -s force_fignore
++shopt -u globstar
+ shopt -u gnu_errfmt
+ shopt -u histappend
+ shopt -u histreedit
+@@ -22,6 +30,7 @@ shopt -u histverify
+ shopt -s hostcomplete
+ shopt -u huponexit
+ shopt -s interactive_comments
++shopt -u lastpipe
+ shopt -u lithist
+ shopt -u login_shell
+ shopt -u mailwarn
+@@ -51,20 +60,29 @@ shopt -s progcomp
+ shopt -s promptvars
+ shopt -s sourcepath
+ --
++shopt -u autocd
+ shopt -u cdable_vars
+ shopt -u checkhash
++shopt -u checkjobs
+ shopt -u checkwinsize
+ shopt -u compat31
++shopt -u compat32
++shopt -u compat40
++shopt -u compat41
++shopt -u direxpand
++shopt -u dirspell
+ shopt -u dotglob
+ shopt -u execfail
+ shopt -u extdebug
+ shopt -u extglob
+ shopt -u failglob
++shopt -u globstar
+ shopt -u gnu_errfmt
+ shopt -u histappend
+ shopt -u histreedit
+ shopt -u histverify
+ shopt -u huponexit
++shopt -u lastpipe
+ shopt -u lithist
+ shopt -u login_shell
+ shopt -u mailwarn
+@@ -76,20 +94,29 @@ shopt -u restricted_shell
+ shopt -u shift_verbose
+ shopt -u xpg_echo
+ --
++autocd         	off
+ cdable_vars    	off
+ checkhash      	off
++checkjobs      	off
+ checkwinsize   	off
+ compat31       	off
++compat32       	off
++compat40       	off
++compat41       	off
++direxpand      	off
++dirspell       	off
+ dotglob        	off
+ execfail       	off
+ extdebug       	off
+ extglob        	off
+ failglob       	off
++globstar       	off
+ gnu_errfmt     	off
+ histappend     	off
+ histreedit     	off
+ histverify     	off
+ huponexit      	off
++lastpipe       	off
+ lithist        	off
+ login_shell    	off
+ mailwarn       	off
