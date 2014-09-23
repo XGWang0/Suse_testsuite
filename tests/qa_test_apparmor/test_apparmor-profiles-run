@@ -7,4 +7,16 @@ shopt -s sourcepath
 
 #restart appamor to be sure its running
 /sbin/rcapparmor restart
-$CTCS2_DIR/tools/run $TCF_DIR/qa_apparmor_profiles.tcf
+
+#start apache2 for testing apparmor profile
+
+systemctl stop apache2  > /dev/null 2>&1
+
+systemctl start apache2  > /dev/null 2>&1
+
+RC=$?
+if [ $RC -eq 0 ]
+    then
+    $CTCS2_DIR/tools/run $TCF_DIR/qa_apparmor_profiles.tcf
+fi
+
