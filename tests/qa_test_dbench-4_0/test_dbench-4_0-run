@@ -9,7 +9,7 @@ newtag=12
 flag=`expr $ostag \> $newtag`
 if [ $flag -ne 1 ]
 then
-service cron stop
+/etc/init.d/cron stop
 else
 systemctl stop cron
 fi

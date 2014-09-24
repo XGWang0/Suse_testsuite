@@ -3,5 +3,5 @@ source /usr/share/qa/qa_test_php53/apache2-php5-prepare.sh
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
-service apache2 restart
+/etc/init.d/apache2 restart
 $CTCS2_DIR/tools/run $TCF_DIR/qa_php53-server.tcf

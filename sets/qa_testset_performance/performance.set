@@ -475,13 +475,13 @@ function sysbench_bench_open {
     # But if it is the first time that mysql run in the system
     # there is a race condiction which causes the connection to be failed.
     # this should be fixed in the tcf.
-    service mysql start
+    /etc/init.d/mysql start
 }
 function sysbench_bench_close {
     # In sysbench-bench.tcf mysql is not stop after the runs.
     # So stop mysql here.
     # this should be fixed in the tcf.
-    service mysql stop
+    /etc/init.d/mysql stop
 }
 ### siege
 siege_run="/usr/share/qa/tools/test_siege-run"

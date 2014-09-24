@@ -6,6 +6,6 @@
 ctcsdir="/usr/lib/ctcs2"
 basedir="/usr/share/qa/qa_test_bonnie"
 
-service cron stop
+/etc/init.d/cron stop
 
 $ctcsdir/tools/run $basedir/tcf/bonnie-directIO.tcf

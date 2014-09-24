@@ -119,9 +119,9 @@ function iscsi_connect ()
         if [ ! -f /etc/iscsi/initiatorname.iscsi ];then
 		echo "InitiatorName=iqn.`date +%Y-%m`.de.suse.qam:`uname -n`" > /etc/iscsi/initiatorname.iscsi
 	fi
-	service open-iscsi status
+	/etc/init.d/open-iscsi status
 	if [ $? -ne 0 ];then
-		service open-iscsi start
+		/etc/init.d/open-iscsi start
 	fi
 	echo "reset already discovered target"
 	iscsiadm -m node | grep $TARGET_DISK 
@@ -209,9 +209,9 @@ function prepare ()
 			cp $CONFIG /etc/multipath.conf
 		fi
 	fi
-	service multipathd status
+	/etc/init.d/multipathd status
 	if [ $? -ne 0 ];then
-		service multipathd restart
+		/etc/init.d/multipathd restart
 		check_error "multipathd start FAILED" 1
 	fi
 	#we need to reread configuration file here

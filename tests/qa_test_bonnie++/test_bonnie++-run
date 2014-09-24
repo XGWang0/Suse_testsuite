@@ -9,6 +9,6 @@ if [ ! -d /abuild ]; then
 	mkdir -p /abuild
 fi
 
-service cron stop
+/etc/init.d/cron stop
 
 $ctcsdir/tools/run $tcf_f

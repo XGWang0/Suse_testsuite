@@ -32,7 +32,7 @@ function cleanup() {
         echo "Keep HTTP daemon running..."
     elif [ $HTTPRAN -eq 0 ]; then
         echo "Stop HTTP daemon..."
-        service apache2 stop
+        /etc/init.d/apache2 stop
     fi
 
     rm -rf "$HTDOCS"
@@ -64,13 +64,13 @@ fi
 echo "Copy specweb99-cgi.pl into cgi-bin..."
 cp "$SPECWEBDIR/server-docs/specweb99-cgi.pl" "$CGIBIN/specweb99-cgi.pl"
 
-if [ -n "`service apache2 status | grep running`" ]; then
+if [ -n "`/etc/init.d/apache2 status | grep running`" ]; then
     HTTPRAN=1
     echo "HTTP daemon is already running..."
 else
     HTTPRAN=0
     echo "Start the HTTP daemon..."
-    service apache2 start
+    /etc/init.d/apache2 start
 fi
 
 echo "Start specweb client on localhost..."

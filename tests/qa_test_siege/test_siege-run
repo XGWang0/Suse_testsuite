@@ -51,7 +51,7 @@ else
 fi 
 
 
-service cron stop
+/etc/init.d/cron stop
 
 if [ $HOSTTYPE = i386 ]; then
     ulimit -s 128

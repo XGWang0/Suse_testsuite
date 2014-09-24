@@ -32,9 +32,9 @@ function init() {
     if [ "$NFSVER" = "nfs4" ]; then
         cp /etc/exports /etc/exports.nfs_dbench_$$
         echo "/ localhost(rw,no_subtree_check,fsid=0)" > /etc/exports
-        service nfsserver stop > /dev/null 2>&1
+        /etc/init.d/nfsserver stop > /dev/null 2>&1
     fi
-    service nfsserver start > /dev/null 2>&1
+    /etc/init.d/nfsserver start > /dev/null 2>&1
     if ! exportfs -o "rw,$EXPORTFS_PARAMS" "localhost:$LOCALDIR"
     then
 	echo "Cannot export '$EXPORTFS_PARAMS' to 'localhost:$LOCALDIR'"
@@ -50,7 +50,7 @@ function init() {
 function cleanup() {
     umount "localhost:$LOCALDIR"
     exportfs -u "localhost:$LOCALDIR"
-    service nfsserver stop > /dev/null
+    /etc/init.d/nfsserver stop > /dev/null
     rm -rf "$LOCALDIR"
     rm -rf "$MOUNTDIR"
     if [ "$NFSVER" = "nfs4" ]; then
