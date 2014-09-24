@@ -36,7 +36,7 @@ from yast2_iplb_frame import *
 doc="""
 Actions:
 
-STEP1: On server, enable ldirectord (#/etc/init.d/ldirectord start)
+STEP1: On server, enable ldirectord (#service ldirectord start)
 
 Expected:
 
