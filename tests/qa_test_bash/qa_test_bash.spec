@@ -35,7 +35,7 @@ Test of Bash
 %prep
 rm -rvf $RPM_BUILD_DIR/%{name}-%{version}
 tar -xjvf %SOURCE0 -C $RPM_BUILD_DIR
-%if 0%{?sles_version} > 11
+%if 0%{?suse_version} > 1110
 %patch0 -p2
 %endif
 
