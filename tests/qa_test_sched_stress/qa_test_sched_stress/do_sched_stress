@@ -23,12 +23,7 @@
 # ****************************************************************************
 #
 
-
-#if [ -d /usr/lib/ltp ]; then 
-#	cd /usr/lib/ltp/testcases/bin
-#elif [ -d /usr/lib64/ltp/ ] ; then
-#	cd /usr/lib64/ltp/testcases/bin 
-#fi 
+PATH="$PATH:/opt/ltp/testcases/bin/"
 cd /opt/ltp/testcases/bin
-./sched_stress.sh 
+./sched_stress.sh
 
