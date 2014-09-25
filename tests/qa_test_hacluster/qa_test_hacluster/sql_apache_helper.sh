@@ -4,7 +4,7 @@ if [ ! -e /usr/bin/mysqld_safe ]; then
   zypper in -y mysql
 fi
 
-if [ ! -e /etc/init.d/apache2 ]; then
+if [ ! -e /etc/init.d/apache2 ] || [ ! -e /etc/systemd/system/apache2.service.d ]; then
   zypper in -y apache2
 fi
 
