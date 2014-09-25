@@ -89,7 +89,7 @@ w
 		ssh -l root $ip "sed  -i 's/disable[ \t]\+= .*/disable \t = yes/' /etc/xinetd.d/rsh"
 		ssh -l root $ip "echo >/etc/hosts.equiv"
 		ssh -l root $ip "echo >/root/.rhosts"
-		ssh -l root $ip "/etc/init.d/xinetd stop"
+		ssh -l root $ip "service xinetd stop"
 		ssh -l root $ip "chkconfig -s xinetd off"
 		ssh -l root $ip "sed -i '/$old_hostname/d' /root/.ssh/authorized_keys"
 		echo "clean up (done)"
