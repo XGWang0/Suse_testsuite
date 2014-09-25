@@ -1,4 +1,4 @@
-winnetou::/etc/init.d/slapd start
+winnetou::service slapd start
 moon::iptables-restore < /etc/iptables.rules
 carol::ipsec start
 dave::ipsec start
