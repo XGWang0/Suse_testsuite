@@ -137,7 +137,7 @@ source s_tcp { tcp(port(15789) max-connections(512)); }; #qa_cts_auto-server_tag
 destination     d_ha  { file("/var/log/ha-log-daemon"); }; #qa_cts_auto-server_tag
 log { source(s_tcp); destination(d_ha); }; #qa_cts_auto-server_tag
 eof
-/etc/init.d/syslog restart
+service syslog restart
 }
 
 function nodes_log_init {
@@ -155,7 +155,7 @@ destination ha_tcp { tcp($server_ip port(15789));}; #qa_cts_auto-nodes_tag
 log { source(src); filter(f_ha_tcp); destination(ha_tcp); }; #qa_cts_auto-nodes_tag
 log { source(src); source(s_tcp); filter(f_ha); destination(ha_local); }; #qa_cts_auto-nodes_tag
 eof
-/etc/init.d/syslog restart
+service syslog restart
 logger -p daemon.info "syslogd_initial succeed"
 }
 
@@ -276,7 +276,7 @@ return 1
 
 
 function corosync_init {
-	/etc/init.d/openais stop
+	service openais stop
 	rm -rf /var/lib/heartbeat/hostcache
 	rm -rf /var/lib/heartbeat/crm/cib*
 	logger -p daemon.info "corosync_shutdown_cleanup succeed"
@@ -286,7 +286,7 @@ function corosync_init {
 
 	if check_ctl_keywords "corosync_shutdown_cleanup";then
 		echo >/etc/sysconfig/sbd
-		/etc/init.d/openais start
+		service openais start
 		chkconfig --level 35 openais on
 		if [ $? != 0 ];then
 		echo "can not start openais (corosync)"
