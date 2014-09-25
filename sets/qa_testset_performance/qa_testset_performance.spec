@@ -103,7 +103,7 @@ install -m 644 %{S:403} $RPM_BUILD_ROOT/usr/share/qa/%{name}
     install -m 644 %{S:1201} $RPM_BUILD_ROOT/usr/share/qa/%{name}
     mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/system
     mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/system/multi-user.target.wants
-    install -m 644 %{S:200} $RPM_BUILD_ROOT/usr/lib/systemd/system/sqperf.service
+    install -m 644 %{S:200} $RPM_BUILD_ROOT/usr/lib/systemd/system/qaperf.service
 %endif
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../%{name}/testset_performance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
@@ -122,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools
 %if %suse_version == 1315
 /usr/lib/systemd/system
-/usr/lib/systemd/system/sqperf.service
+/usr/lib/systemd/system/qaperf.service
 %endif
 
 %changelog
