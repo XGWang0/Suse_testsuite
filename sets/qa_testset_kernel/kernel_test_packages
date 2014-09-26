@@ -1,5 +1,5 @@
 qa_test_lmbench		test_lmbench-run;btrfs filesystem balance /		/usr/share/qa/tools
-qa_test_lvm2		test_lvm2_2_02_98-run;btrfs filesystem balance /	/usr/share/qa/tools
+qa_test_lvm2		test_lvm2_source-run;btrfs filesystem balance /		/usr/share/qa/tools
 qa_test_lynis		test_lynis-run						/usr/share/qa/tools
 qa_test_memeat		test_memeat-run						/usr/share/qa/tools
 qa_test_memtester	test_memtester-run					/usr/share/qa/tools
