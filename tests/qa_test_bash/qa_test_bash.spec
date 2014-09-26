@@ -23,6 +23,7 @@ Source0:        %name-%version.tar.bz2
 Source1:        qa_bash.tcf
 Source2:        test_bash-run	
 Source3:	qa_test_bash.8
+Patch0:         sles12.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	qa_bash
 Obsoletes:	qa_bash
@@ -34,6 +35,9 @@ Test of Bash
 %prep
 rm -rvf $RPM_BUILD_DIR/%{name}-%{version}
 tar -xjvf %SOURCE0 -C $RPM_BUILD_DIR
+%if 0%{?suse_version} > 1110
+%patch0 -p2
+%endif
 
 %build
 gcc $RPM_BUILD_DIR/%name/data/zecho.c -o $RPM_BUILD_DIR/%name/data/zecho
