@@ -97,7 +97,7 @@ fg 1 heapshrink4 /usr/lib64/libhugetlbfs/tests/obj64/heapshrink LD_PRELOAD=libhe
 
 fg 1 heapshrink5 /usr/lib64/libhugetlbfs/tests/obj64/heapshrink LD_PRELOAD=libhugetlbfs.so libheapshrink.so HUGETLB_MORECORE_SHRINK=yes HUGETLB_MORECORE=yes
 
-fg 1 heap-overflow /usr/lib64/libhugetlbfs/tests/obj64/heap-overflow HUGETLB_VERBOSE=1 HUGETLB_MORECORE=yes
+fg 1 heap-overflow 'export HUGETLB_MORECORE=yes;/usr/lib64/libhugetlbfs/tests/obj64/heap-overflow HUGETLB_VERBOSE=1 HUGETLB_MORECORE=yes'
 
 fg 1 linkhuge_nofd /usr/lib64/libhugetlbfs/tests/obj64/linkhuge_nofd HUGETLB_VERBOSE=0
 
