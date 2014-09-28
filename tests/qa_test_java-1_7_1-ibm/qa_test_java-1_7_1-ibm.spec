@@ -41,6 +41,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 BuildRequires:  qa_lib_ibmjava
 Requires:       qa_lib_ibmjava
+Requires:       java-1_7_1-ibm 
 
 %description
 QA test for %{tpname} - check if package matches the original tarball
