@@ -23,5 +23,12 @@
 # ****************************************************************************
 #sut_timeout 7200
 
+# modifed by bwliu@suse.com to fix bug 895967 at 2014-09-28.
+# change /opt/ltp/testcases/bin/sched_stress.sh for this stress test. 
+filename='/opt/ltp/testcases/bin/sched_stress.sh'
+oldline=$(grep ^sched_driver $filename)
+# replace the command line. 
+sed -i 's/sched_driver.*/sched_driver -s 0.9 -p 2 > \/tmp\/tmp\$\$/' $filename
 /usr/lib/ctcs2/tools/run /usr/share/qa/tcf/sched_stress.tcf
-
+# restore the command line.
+sed -i 's/sched_driver.*/sched_driver -s 0.9 -t 0.02 -p 2 > \/tmp\/tmp\$\$/' $filename
