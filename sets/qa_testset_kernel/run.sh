@@ -5,6 +5,11 @@ echo 8 >/proc/sys/kernel/printk
 
 # Install the test suites packages for validation testing.
 /usr/share/qa/qa_testset_kernel/install.sh -r -k
+# qa_test_openssl: fix bug 869794 to change shlib_wrap.sh
+filename='/usr/share/qa/qa_test_openssl/util/shlib_wrap.sh'
+sed -i 's/cmd="\$1\${EXE_EXT}"/cmd="\/usr\/bin\/openssl"/' $filename
+# fix end.
+
 echo -e "You can run kernel and regression tests now.\n"
 # Set Env
 echo $PATH | grep '/usr/share/qa/tools:/usr/lib/ctcs2/tools' > /dev/null || export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
