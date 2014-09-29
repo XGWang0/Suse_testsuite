@@ -35,5 +35,7 @@ for dir in $wlist;do
 done > /usr/share/qa/qa_test_apache_testsuite/tcf/qa_apache_testsuite.tcf
 
 export LC_ALL=C
-
-$CTCS2_DIR/tools/run $TCF_DIR/qa_apache_testsuite.tcf
+#Fix Bug 897006 qa_test_apache_testsuite:Apache cannot spawn child processes as root.
+export TESTS_LOGDIR="/var/log/qa"
+chmod 777 "$TESTS_LOGDIR/ctcs2"
+su -m nobody -c "$CTCS2_DIR/tools/run $TCF_DIR/qa_apache_testsuite.tcf"
