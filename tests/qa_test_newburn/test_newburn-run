@@ -9,6 +9,8 @@ if [ ! -d "$basedir" ]; then
 fi
 cd $ctcsdir
 $ctcsdir/bin/qa_test_newburn/newburn-generator 36h > $basedir/newburn.tcf
+#Remove 'DMESG' in tcf file, becase it will occupy the whole disk spaces.
+sed -i '/DMESG/d' $basedir/newburn.tcf
 $ctcsdir/tools/run $basedir/newburn.tcf
 
 # After it finished, it should pack the BBsd* logfiles.
