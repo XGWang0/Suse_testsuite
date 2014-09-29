@@ -25,8 +25,8 @@
 
 # modifed by bwliu@suse.com to fix bug 895967 at 2014-09-28.
 # copy the content of /opt/ltp/testcases/bin/sched_stress.sh to local.
-#-PATH="$PATH:/opt/ltp/testcases/bin/"
-#-cd /opt/ltp/testcases/bin
+PATH="$PATH:/opt/ltp/testcases/bin/"
+cd /opt/ltp/testcases/bin
 #-./sched_stress.sh
 
 # The content of sched_stress.sh and remove the "-t 0.02"
