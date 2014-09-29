@@ -45,9 +45,9 @@ Source0:        %name-%version.tar.bz2
 Source1:        qa_clamav.tcf
 Source2:        test_clamav-run
 Source3:        README
-Source4:	    qa_test_clamav.8
+Source4:	      qa_test_clamav.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Provides:	    qa_clamav
+Provides:	      qa_clamav
 Obsoletes:	    qa_clamav
 Requires:       ctcs2 clamav
 BuildArch:      noarch
