@@ -811,6 +811,15 @@ diff -uNr qa_test_coreutils/orig_test_suite/tsort/basic-1 new/orig_test_suite/ts
 diff -uNr qa_test_coreutils/orig_test_suite/unexpand/basic-1 new/orig_test_suite/unexpand/basic-1
 --- qa_test_coreutils/orig_test_suite/unexpand/basic-1	2013-09-22 14:33:17.484171292 +0800
 +++ new/orig_test_suite/unexpand/basic-1	2014-07-29 11:36:23.269393105 +0800
+@@ -47,7 +47,7 @@
+ 
+      ['infloop-1', '-t', '1,2', {IN=> " \t\t .\n"}, {OUT=>"\t\t\t .\n"}],
+      ['infloop-2', '-t', '4,5', {IN=> ' 'x4 . "\t\t \n"}, {OUT=>"\t\t\t \n"}],
+-     ['infloop-3', '-t', '2,3', {IN=> "x \t\t \n"}, {OUT=>"x \t\t \n"}],
++     ['infloop-3', '-t', '2,3', {IN=> "x \t\t \n"}, {OUT=>"x\t\t\t \n"}],
+      ['infloop-4', '-t', '1,2', {IN=> " \t\t   \n"}, {OUT=>"\t\t\t   \n"}],
+      ['c-1', '-t', '1,2', {IN=> "x\t\t .\n"}, {OUT=>"x\t\t .\n"}],
+ 
 @@ -65,7 +65,7 @@
       ['blanks-6', qw(-t 1), {IN=> "a  "}, {OUT=> "a\t\t"}],
       ['blanks-7', qw(-t 1), {IN=> "a   "}, {OUT=> "a\t\t\t"}],
