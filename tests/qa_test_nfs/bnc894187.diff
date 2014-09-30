@@ -1,0 +1,36 @@
+diff -uNpr qa_test_nfs/nfs_usermapping_allsquash.sh qa_test_nfs_new/nfs_usermapping_allsquash.sh
+--- qa_test_nfs/nfs_usermapping_allsquash.sh	2008-06-05 21:41:14.000000000 +0800
++++ qa_test_nfs_new/nfs_usermapping_allsquash.sh	2014-09-30 15:25:48.871049549 +0800
+@@ -20,7 +20,7 @@ function testAllsquash() {
+         mkdir -p "$EXPORT"
+         mkdir -p "$MOUNT"
+         MOUNTEDNOW=$MOUNT
+-        mount -t $NFSVER localhost:"$EXPORT" "$MOUNT"
++        mount -t $NFSVER -o noac localhost:"$EXPORT" "$MOUNT"
+ 
+         printMessage $MSG_INFO "Trying write or read&write with root and user on directory $EXPORT.."
+ 
+diff -uNpr qa_test_nfs/nfs_usermapping_norootsquash.sh qa_test_nfs_new/nfs_usermapping_norootsquash.sh
+--- qa_test_nfs/nfs_usermapping_norootsquash.sh	2008-06-05 21:44:37.000000000 +0800
++++ qa_test_nfs_new/nfs_usermapping_norootsquash.sh	2014-09-30 15:25:53.227049251 +0800
+@@ -20,7 +20,7 @@ function testNorootsquash() {
+         mkdir -p "$EXPORT"
+         mkdir -p "$MOUNT"
+         MOUNTEDNOW=$MOUNT
+-        mount -t $NFSVER localhost:"$EXPORT" "$MOUNT"
++        mount -t $NFSVER -o noac localhost:"$EXPORT" "$MOUNT"
+ 
+         printMessage $MSG_INFO "Trying write or read&write with root and user on directory $EXPORT.."
+ 
+diff -uNpr qa_test_nfs/nfs_usermapping_rootsquash.sh qa_test_nfs_new/nfs_usermapping_rootsquash.sh
+--- qa_test_nfs/nfs_usermapping_rootsquash.sh	2014-09-30 15:16:10.190089119 +0800
++++ qa_test_nfs_new/nfs_usermapping_rootsquash.sh	2014-09-30 15:26:00.760048736 +0800
+@@ -20,7 +20,7 @@ function testRootsquash() {
+         mkdir -p "$EXPORT"
+         mkdir -p "$MOUNT"
+         MOUNTEDNOW=$MOUNT
+-        mount -t $NFSVER localhost:"$EXPORT" "$MOUNT"
++        mount -t $NFSVER -o noac localhost:"$EXPORT" "$MOUNT"
+ 
+         printMessage $MSG_INFO "Trying write or read&write with root and user on directory $EXPORT.."
+ 
