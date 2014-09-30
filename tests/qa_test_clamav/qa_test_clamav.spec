@@ -29,10 +29,11 @@
 #
 
 # norootforbuild
+#!BuildIgnore: post-build-checks-malwarescan
 
 
 Name:           qa_test_clamav
-#BuildRequires:  ctcs2 
+#BuildRequires: ctcs2 
 License:        SUSE Proprietary
 Group:          SUSE internal
 AutoReqProv:    on
@@ -59,7 +60,7 @@ test suite for clamav and freshclam testing
 
 Authors:
 --------
-    Andrej Semen asemen@suse.de
+Andrej Semen asemen@suse.de
 
 %prep
 %setup -q -n %{name}
