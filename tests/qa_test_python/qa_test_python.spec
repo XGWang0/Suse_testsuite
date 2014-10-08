@@ -14,9 +14,13 @@ Name:		qa_test_python
 License:	GPL v2 or later
 Group:		SuSE internal
 Summary:	python testsuite
-Version:	2.6.0
+Version:	2.7.7
 Release:	2
-Source0:	testsuite-python2.6.tar.gz
+%if 0%{?suse_version} <= 1110
+Source0:    testsuite-python2.6.tar.gz
+%else
+Source0:    testsuite-python2.7.tar.gz
+%endif
 Source2:	test_python-run
 BuildArch:	noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -24,10 +28,14 @@ Requires:	python >= 2.6, python-curses, python-gdbm, python-opengl, python-httpl
 
 %description
 python testsuite
-ripped out from the python 2.6 (SLE11 SP2 GM) sources
+ripped out from the python 2.6 (SLE11 SP2 GM) and python 2.7 (SLE12)sources
 
 %prep
+%if 0%{?suse_version} <= 1110
 %setup -q -n testsuite-python2.6
+%else
+%setup -q -n testsuite-python2.7
+%endif
 
 %build
 
