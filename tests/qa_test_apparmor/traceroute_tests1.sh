@@ -98,7 +98,7 @@ init()
  
     # Create expected file.
     cat > $LTPTMP/tst_traceroute.exp <<-EOF || RC=$?
-    traceroute to www.suse.com (130.57.66.10), 4 hops max, 40 byte packets using UDP
+traceroute to www.suse.com (130.57.66.10), 4 hops max, 60 byte packets
 	EOF
 
     if [ $RC -ne 0 ]
