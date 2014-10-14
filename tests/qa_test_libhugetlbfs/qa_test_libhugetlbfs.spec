@@ -8,7 +8,7 @@ License:      GPL v2 or later
 # Group:        SuSE internal
 Group:        Kernel/Function
 Summary:      Kernel, libhugetlbfs
-Requires:     ctcs2 glibc glibc-devel glibc-32bit glibc-devel-32bit libhugetlbfs
+Requires:     ctcs2 glibc glibc-devel libhugetlbfs
 Version:      2.17
 Release:      1
 Source0:      libhugetlbfs-%version.tar.gz
@@ -16,6 +16,7 @@ Source1:      test_libhugetlbfs-run
 Source2:      qa_test_libhugetlbfs.8
 Source3:      qa_test_libhugetlbfs.tcf
 Patch0:       err_output.patch
+Patch1:       ppc64le.patch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -24,6 +25,7 @@ The testsuite contains tests both for the library's features and for the underly
 %prep
 %setup -q -n libhugetlbfs-%{version}
 %patch0 -p1
+%patch1 -p0
 
 %build
 make clean
