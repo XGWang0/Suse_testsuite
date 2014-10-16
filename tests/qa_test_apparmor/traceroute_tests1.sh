@@ -39,7 +39,7 @@
 # Return:       - zero on success.
 #               - non-zero on failure.
 
-address=www.suse.com
+address=130.57.66.10
 chk_ifexists()
 {
     RC=0
@@ -98,7 +98,7 @@ init()
  
     # Create expected file.
     cat > $LTPTMP/tst_traceroute.exp <<-EOF || RC=$?
-traceroute to www.suse.com (130.57.66.10), 4 hops max, 60 byte packets
+traceroute to 130.57.66.10 (130.57.66.10), 4 hops max, 60 byte packets
 	EOF
 
     if [ $RC -ne 0 ]
@@ -203,7 +203,7 @@ setiptables()
       return $RC
   fi
 
-  iptables -A INPUT -p udp -j DROP
+  iptables -A OUTPUT -p udp -j DROP
   if [ $RC -ne 0 ]
   then
       tst_res TFAIL $LTPTMP/tst_traceroute.out \
