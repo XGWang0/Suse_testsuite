@@ -1,0 +1,9 @@
+#!/bin/bash
+
+PATCH_NAME=qa-kgr-patch-sys-fsync
+
+modprobe ${PATCH_NAME} --allow-unsupported
+
+if test $? -ne 0; then
+    exit 1
+fi

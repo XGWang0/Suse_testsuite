@@ -10,18 +10,13 @@ function regen_initrd() {
     /usr/lib/module-init-tools/regenerate-initrd-posttrans
 }
 
-if test $# -lt 1; then
-    echo <<EOF
-Usage: $1 kernel_image_file_name
-EOF
-    exit 1
-fi
-
 echo '########################################'
 echo Please uninstall the patch package first
 echo I just regenerate the initrd
 echo '########################################'
 
-regen_initrd $1
+for krel in $(ls /lib/modules/); do
+    regen_initrd vmlinuz-${krel}
+done
 
 exit $?
