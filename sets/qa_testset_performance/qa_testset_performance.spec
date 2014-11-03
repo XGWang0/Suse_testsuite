@@ -43,6 +43,7 @@ Source400:      performance.set
 Source401:      acceptance.set
 Source402:      kernel.set
 Source403:      kgraft-kernel.set
+Source501:      stat.tar.gz 
 Source1101:     SLE11SP3.conf
 Source1201:     SLE12.conf
 BuildArch:      noarch
