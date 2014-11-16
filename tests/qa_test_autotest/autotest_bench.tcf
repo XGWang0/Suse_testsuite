@@ -1,0 +1,54 @@
+timer 86400
+fg 1 autotest-compilebench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/compilebench/control
+wait
+timer 86400
+fg 1 autotest-hackbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/hackbench/control
+wait
+timer 86400
+fg 1 autotest-tbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/tbench/control
+wait
+timer 86400
+fg 1 autotest-tracing_microbenchmark /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/tracing_microbenchmark/control
+wait
+timer 86400
+fg 1 autotest-unixbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/unixbench/control
+wait
+timer 86400
+fg 1 autotest-unixbench5 /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/unixbench5/control
+wait
+#timer 86400
+#fg 1 autotest-bonnie /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/bonnie/control
+#wait
+#timer 86400
+#fg 1 autotest-dbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/dbench/control
+#wait
+#timer 86400
+#fg 1 autotest-interbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/interbench/control
+#wait
+#timer 86400
+#fg 1 autotest-iozone /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/iozone/control
+#wait
+#timer 86400
+#fg 1 autotest-kernbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kernbench/control
+#wait
+#timer 86400
+#fg 1 autotest-lmbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/lmbench/control
+#wait
+#timer 86400
+#fg 1 autotest-reaim /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/reaim/control
+#wait
+#timer 86400
+#fg 1 autotest-sysbench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/sysbench/control
+#wait
+#timer 86400
+#fg 1 autotest-tiobench /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/tiobench/control
+#wait
+#timer 86400
+#fg 1 autotest-netperf2 /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/netperf2/control
+#wait
+#timer 86400
+#fg 1 autotest-netpipe /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/netpipe/control
+#wait
+#timer 86400
+#fg 1 autotest-iperf /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/iperf/control
+#wait

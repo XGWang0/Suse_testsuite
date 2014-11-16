@@ -5,6 +5,7 @@
 qa_test_apparmor
 .SH SYNOPSIS
 /usr/share/qa/tools/test_apparmor-run
+/usr/share/qa/tools/test_apparmor-profiles-run
 .SH TYPE
 function test
 .SH DESCRIPTION
@@ -12,7 +13,7 @@ This suite can be devided into two parts: apparmor and apparmor-profile.
 .br
 "apparmor" focuses on regression tests for apparmor_parser and kernel module.
 .br
-"apparmor-profile" focuses on profile testing, like: postfix, bind, ldd, tcp commands (ping, netstat, traceroute).
+"apparmor-profile" focuses on profile testing, like: apache, tcp commands (ping, traceroute).
 .SH README
 None.
 .SH OPTIONS
@@ -36,4 +37,4 @@ None.
 .SH AUTHOR
 Jone Doe <john.doe@novell.com>
 .SH MAINTAINER
-Arthur Guo <aguo@novell.com>
+Jia Li <jli@suse.com>

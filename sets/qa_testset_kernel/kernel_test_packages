@@ -1,0 +1,15 @@
+qa_test_lmbench		test_lmbench-run;btrfs filesystem balance /		/usr/share/qa/tools
+qa_test_lvm2		test_lvm2_source-run;btrfs filesystem balance /		/usr/share/qa/tools
+qa_test_lynis		test_lynis-run						/usr/share/qa/tools
+qa_test_memeat		test_memeat-run						/usr/share/qa/tools
+qa_test_memtester	test_memtester-run					/usr/share/qa/tools
+qa_test_libhugetlbfs	test_libhugetlbfs-run;btrfs filesystem balance /	/usr/share/qa/tools
+qa_test_ftpload		test_ftpload-run					/usr/share/qa/tools
+qa_test_newburn-memtst	test_newburn-memtst-run;btrfs filesystem balance / 	/usr/lib/ctcs2/tools    2m14s
+qa_test_ltp		test_ltp-run;btrfs filesystem balance /            	/usr/lib/ctcs2/tools
+qa_db_report		remote_qa_db_report.pl -b -T bwliu			/usr/share/qa/tools
+qa_test_ltp		test_ltp-fstests-run;btrfs filesystem balance /		/usr/lib/ctcs2/tools
+qa_test_ltp		ltp-stress.py -t 5h -l /opt/ltp -d /var/log/qa/ctcs2/ltplog -r quickhit,dio,fs,fsx,ipc,math,mm,pty,sched,syscalls --syslog	/usr/lib/ctcs2/tools
+qa_test_autotest	test_autotest-run;btrfs filesystem balance /		/usr/share/qa/tools
+qa_test_newburn		test_newburn-run;btrfs filesystem balance /		/usr/lib/ctcs2/tools
+qa_db_report		remote_qa_db_report.pl -b -T bwliu			/usr/share/qa/tools

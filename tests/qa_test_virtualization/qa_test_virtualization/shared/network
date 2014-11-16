@@ -73,7 +73,7 @@ function _test_init
 			elif [ "$ARCHITECTURE" == "64" ] ; then
 				arch="x86_64"
 			fi
-			if [ "$OPERATING_SYSTEM" == "sles" ] || [ "$OPERATING_SYSTEM" == "sled" ] ; then
+			if [ "$OPERATING_SYSTEM" == "sles" ] || [ "$OPERATING_SYSTEM" == "sled" ] || [ "$OPERATING_SYSTEM" == "oes" ] ; then
 				pxe_os="$OPERATING_SYSTEM"
 				os_type=suse
 			elif [ "$OPERATING_SYSTEM" == "os" ] ; then

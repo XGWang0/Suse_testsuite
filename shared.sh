@@ -4,7 +4,7 @@ export LANG=C
 
 FORCED_VERSION="$VERSION"
 
-[ -r PROJECT/config ] && source PROJECT/config
+[ -r ./config ] && source ./config
 
 # if version was defined externally, use that one
 [ -z "$FORCED_VERSION" ] || VERSION="$FORCED_VERSION"

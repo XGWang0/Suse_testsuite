@@ -1,0 +1,9 @@
+-------------------------------------------------------------------
+Mon Dec 23 17:06:43 UTC 2013 - jli@suse.com
+
+- Create a package of dbench4.0,because 4.0 include two of methods to calculate latency.
+- Add dbenchnewparser to generate image in QADB.
+- Delete a patch of verbose.diff 
+- Add a Version test for SLES12
+-------------------------------------------------------------------
+

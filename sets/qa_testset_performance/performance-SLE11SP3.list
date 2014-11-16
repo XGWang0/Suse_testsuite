@@ -1,0 +1,40 @@
+#!/bin/bash
+
+SQ_TEST_RUN_LIST=(
+    kernbench
+    lmbench
+    siege
+    libmicro_bench
+    sysbench_bench
+    kernbench
+    lmbench
+    siege
+    libmicro_bench
+    sysbench_bench
+    kernbench
+    lmbench
+    siege
+    libmicro_bench
+    sysbench_bench
+    reaim_btrfs
+    reaim_ext3
+    reaim_xfs
+    reaim_btrfs
+    reaim_ext3
+    reaim_xfs
+    reaim_btrfs
+    reaim_ext3
+    reaim_xfs
+    bonnie_btrfs
+    bonnie_ext3
+    bonnie_xfs
+    dbench4_btrfs
+    dbench4_ext3
+    dbench4_xfs
+    dbench4_btrfs
+    dbench4_ext3
+    dbench4_xfs
+    dbench4_btrfs
+    dbench4_ext3
+    dbench4_xfs
+)

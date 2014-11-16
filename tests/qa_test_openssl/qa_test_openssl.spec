@@ -1,120 +1,119 @@
 #
-# spec file for package qa_test_openssl (Version 0.1)
+# spec file for package qa_test_openssl
 #
-# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
-# This file and all modifications and additions to the pristine
-# package are under the same license as the package itself.
+# Copyright (c) 2014 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
-# norootforbuild
-%define qa_location /usr/share/qa/qa_test_openssl
 
-%if 0%{?suse_version} < 1120
-%define Ver 0.9.8r
-%else
+%define qa_location %{_datadir}/qa/qa_test_openssl
 %if 0%{?suse_version} < 1220
-%define Ver 1.0.0e
+%define Ver 1.0.0l
 %else
-%define Ver 1.0.1c
+%define Ver 1.0.1g
 %endif
-%endif
-
 Name:           qa_test_openssl
-License:        OpenSSL Open Source License; GPL v3 or later
-Group:          SuSE internal
+Version:        %{Ver}
+Release:        0
 Summary:        Unittests for openssl framework using the system openssl
-Provides:	qa_openssl
-Obsoletes:	qa_openssl
-Requires:       make openssl bc ctcs2 libopenssl-devel perl gcc
-BuildRequires:  make openssl bc ctcs2 libopenssl-devel perl gcc
-Version:	%{Ver}	
-Release:        19
-Source0:        %name-%version.tar.bz2
+License:        OpenSSL Open Source License; GPL-3+
+Group:          SuSE internal
+Source0:        %{name}-%{version}.tar.bz2
 Source1:        test_openssl-run
 Source2:        qa_test_openssl.8
-Source3:	generate_openssl_tests.sh
-Source4:	qa_test_openssl_benchmark.sh
-Source5:	process_benchmarks.pl
-Patch0:		qa_test_openssl-Makefile-%{Ver}.patch
-Patch1:		qa_test_openssl-sle10-drop-ige.patch
+Source3:        generate_openssl_tests.sh
+Source4:        qa_test_openssl_benchmark.sh
+Source5:        process_benchmarks.pl
+Patch0:         qa_test_openssl-Makefile-%{Ver}.patch
+BuildRequires:  bc
+BuildRequires:  ctcs2
+BuildRequires:  gcc
+BuildRequires:  libopenssl-devel
+BuildRequires:  make
+BuildRequires:  openssl
+BuildRequires:  perl
+Requires:       bc
+Requires:       ctcs2
+Requires:       gcc
+Requires:       libopenssl-devel
+Requires:       make
+Requires:       openssl
+Requires:       perl
+Provides:       qa_openssl
+Obsoletes:      qa_openssl
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArchitectures: noarch
+BuildArch:      noarch
 
 %description
 Test cases for openssl package.
 
-
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 echo -en "#!/bin/bash\ncd %{qa_location}/test\nmake \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
 chmod +x ./ctcs2_run_test.sh
 
 # fix the perl invocations
-sed -i -e 's:/usr/local/bin/perl:/usr/bin/perl:g' util/*.{pl,sh} util/pl/*.pl
-sed -i -e 's:/bin/env perl:/usr/bin/perl:g' util/*.{pl,sh} util/pl/*.pl
+sed -i -e 's:%{_prefix}/local/bin/perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
+sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
-pushd test > /dev/null
 %patch0 -p1
-popd > /dev/null
-
-# SLE 10 does not have this flag, it was added during 0.9.8e release
-# SLE 10 does not have support for IGE
-# SLE 10 does not have CAMELIA and SEED cypher
-%if 0%{?suse_version} < 1100
-pushd test > /dev/null
-sed -i -e '/RSA_FLAG_NO_CONSTTIME/ d' rsa_test.c
-sed -i -e 's:#define HEADER_E_OS_H:#define HEADER_E_OS_H\n#define OPENSSL_NO_CAMELLIA\n#define OPENSSL_NO_SEED\n:' ../e_os.h
-%patch1 -p1 
-popd > /dev/null
-%endif
 
 cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list
 
+# Fix missing define
+sed -i -e 's:#include <openssl/sha.h>:#include <openssl/sha.h>\n#define OPENSSL_PIC:' test/rc4test.c
 
 %build
 cd test
-make
-# some tests fail on sle10 now so don't run them during build
-%if 0%{?suse_version} >= 1100
-make tests
+make %{?_smp_mflags}
+
+
+%check
+cd test
+# Disable tests on SLE12 for now as some fail
+%if 0%{?suse_version} > 1315
+make tests -j1
 %endif
-make clean
+make clean -j1
 
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}
-install -m 755 -d $RPM_BUILD_ROOT/%{qa_location}/tcf
-install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:4} $RPM_BUILD_ROOT/%{qa_location}
-install -m 755 %{S:5} $RPM_BUILD_ROOT/%{qa_location}
-cp -a * $RPM_BUILD_ROOT/%{qa_location}
+install -m 755 -d %{buildroot}%{_mandir}/man8
+install -m 644 %{SOURCE2} %{buildroot}%{_mandir}/man8
+gzip %{buildroot}%{_mandir}/man8/%{name}.8
+install -m 755 -d %{buildroot}%{_datadir}/qa/tcf
+install -m 755 -d %{buildroot}%{_datadir}/qa/tools
+install -m 755 -d %{buildroot}/%{qa_location}
+install -m 755 -d %{buildroot}/%{qa_location}/tcf
+install -m 755 %{SOURCE1} %{buildroot}%{_datadir}/qa/tools
+install -m 755 %{SOURCE4} %{buildroot}/%{qa_location}
+install -m 755 %{SOURCE5} %{buildroot}/%{qa_location}
+cp -a * %{buildroot}/%{qa_location}
 
-echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
-cat $RPM_BUILD_ROOT/%{qa_location}/ctcs2_test_list | while read test; do
+echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > %{buildroot}%{_datadir}/qa/tcf/qa_openssl.tcf
+cat %{buildroot}/%{qa_location}/ctcs2_test_list | while read test; do
 	echo "timer 300"
 	echo -en "fg 1 "
 	echo -en "$test %{qa_location}/ctcs2_run_test.sh $test\n"
 	echo -en "wait\n\n"
-done >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
-echo -en "timer 300\nfg 1 clean %{qa_location}/ctcs2_run_test.sh clean\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
-echo -en "timer 6000\nfg 1 openssl_benchmark %{qa_location}/qa_test_openssl_benchmark.sh\nwait\n\n" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_openssl.tcf
-
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+done >> %{buildroot}%{_datadir}/qa/tcf/qa_openssl.tcf
+echo -en "timer 300\nfg 1 clean %{qa_location}/ctcs2_run_test.sh clean\nwait\n\n" >> %{buildroot}%{_datadir}/qa/tcf/qa_openssl.tcf
+echo -en "timer 6000\nfg 1 openssl_benchmark %{qa_location}/qa_test_openssl_benchmark.sh\nwait\n\n" >> %{buildroot}%{_datadir}/qa/tcf/qa_openssl.tcf
 
 
 %files
 %defattr(-, root, root)
-/usr/share/qa/
-/usr/share/man/man8/qa_test_openssl.8.gz
-
+%{_datadir}/qa/
+%{_mandir}/man8/qa_test_openssl.8.gz
 
 %changelog

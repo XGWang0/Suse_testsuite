@@ -1,0 +1,12 @@
+Tue Aug 12 16:54:53 CST 2014 - lzwang@suse.com
+
+- Add two test cases.
+
+  One of them is with cpu busy, the other is with low memory.
+
+
+-------------------------------------------------------------------
+Wed Jul 30 07:14:11 UTC 2014 - lpechacek@suse.com
+
+- initial packaging
+

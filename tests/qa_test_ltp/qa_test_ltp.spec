@@ -19,27 +19,63 @@
 
 Name:           qa_test_ltp
 
-#
-# libcap-devel is not present on sles 9
-#
-%if 0%{?sles_version} == 9
 BuildRequires: flex gcc-c++ libaio-devel zip
-%else
-BuildRequires: flex gcc-c++ libaio-devel libcap-devel zip
+
+# Add libcap-devel on everything but SLES9
+%if 0%{?suse_version} >= 1000
+BuildRequires: libcap-devel
 %endif
 
-#
-# Attr library name is different on RedHat derivatives
-#
+# SUSE
+# Add attr
 %if 0%{?suse_version} >= 1000
 BuildRequires: attr-devel
 %endif
 
+# RedHat and derivates
+# Add attr
+# Add numactl (for RHEL5 and newer)
 %if 0%{?rhel_version} || 0%{?centos_version} || 0%{?fedora}
 BuildRequires: libattr-devel
+%if 0%{?rhel_version} && 0%{?rhel_version} >= 505
+BuildRequires: numactl-devel
+%endif
 %endif
 
-Url:            http://ltp.sf.net
+# SUSE
+# Add libnuma
+# Does not exists for x86, s390, s390x, arm, on SLES9 SLES10
+%ifnarch i386 i486 i586 i686 s390 s390x aarch64 armv7l
+%if 0%{?suse_version} >= 1020
+BuildRequires: libnuma-devel
+%endif
+%endif
+
+#
+# For quotactl tests
+#
+# libuuid exists only for SLES11 and newer
+%if 0%{?suse_version}
+BuildRequires: xfsprogs-devel
+%if 0%{?suse_version} >= 1100
+BuildRequires: libuuid-devel
+%endif
+%endif
+
+#
+# For tirpc testcases
+#
+# Enable once errors are fixed
+#
+%if 0%{?suse_version} >= 1100
+BuildRequires: libtirpc-devel
+%endif
+
+%if 0%{?suse_version} >= 1100
+BuildRequires: kernel-syms modutils
+%endif
+
+Url:            http://linux-test-project.github.io
 License:        GPL v2 or later
 Group:          System/Benchmark
 Provides:       runalltests.sh diskio.sh networktests.sh
@@ -52,27 +88,24 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20130904
+Version:        20140828
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:	qa_test_ltp.8
 # Compiler warnings and workarounds
-Patch100:	sles9-workarounds.patch
 Patch102:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
-Patch408:       fix-sched_stress.patch
 # Patches 5xx Workarounds
 Patch501:	change_ltp_prog_install_dir.patch
+Patch502:	0001-Disable-tpci-and-tbio-for-kernels-older-than-3.0.patch
 # Patches 6xx Realtime related changes
-#Patch601:       fix-sched_setparam_10_1.patch
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0001-runtest-mm-Fix-ksn-ksm-typo.patch
-Patch701:	0001-syscalls-syslog-Fix-daemon-restart-on-SUSE.patch
+Patch700:	0001-tirpc-Fix-numerous-errors-and-warnings.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -102,20 +135,16 @@ Authors:
 %prep
 %setup -q -n ltp-full-%{version} -a1
 # Compiler warnings and workarounds
-%if 0%{?sles_version} == 9
-%patch100 -p1
-%endif
 %patch102 -p1
 # Patches 2xx Build Environment Patches
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes
-%patch408 -p1
 # Patches 5xx Workarounds
 %patch501 -p1
+%patch502 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
-%patch701 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
@@ -133,12 +162,6 @@ find testcases | gzip --fast > TC_INDEX.gz
 
 make all %{?jobs:-j%jobs}
 make -C testcases/open_posix_testsuite all
-
-# Fix DEVICE and DEVICE_FS_TYPE
-for i in runtest/*; do
-	sed -i 's/DEVICE/${DEVICE}/' "$i";
-	sed -i 's/DEVICE_FS_TYPE/${DEVICE_FS_TYPE}/' "$i";
-done
 
 %install
 
@@ -171,12 +194,9 @@ done
 cp ../../runtest/openposix $RPM_BUILD_ROOT/opt/ltp/runtest/
 cd ../..
 
-
 # Install ctcstools with excutable bit
 install -m 755 ctcstools/* $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
-ln -s ../../../../usr/lib/ctcs2/tools/ltp_wrapper.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/openposix_wrapper.sh
 ln -s ../../../../../opt/ltp/runtest $RPM_BUILD_ROOT/usr/lib/ctcs2/config/ltp/runtest
-ln -s ../../../../opt/ltp/testcases/bin $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/ltp
 
 # Generate ctcs2 tcf files from runtest files
 $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 720 %{_libdir} $RPM_BUILD_ROOT
@@ -191,7 +211,7 @@ done
 %files
 %defattr(-,root,root)
 %doc %{_mandir}/man8/qa_test_ltp.8.*
-%doc README INSTALL COPYING CREDITS
+%doc README INSTALL COPYING
 /opt/ltp/
 %{_mandir}/man1/*
 %{_mandir}/man3/*
@@ -203,12 +223,31 @@ done
 %defattr(-,root,root)
 /usr/lib/ctcs2
 %{_datadir}/qa
-#%{_datadir}/qa/qa_test_ltp
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Sep 01 2014 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20140828
+
+* Mon Apr 28 2014 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20140422
+
+* Tue Mar 25 2014 Cyril Hrubis chrubis@suse.cz
+  Backport fix for shm_open, shm_unlink ENAMETOOLONG testcases.
+
+* Mon Mar 10 2014 Cyril Hrubis chrubis@suse.cz
+  Backport fixes for link() failures due to enabled protected_hardlinks
+  Backport fixes for swapon() and swapoff() testcases on Btrfs
+
+* Wed Jan 15 2014 Cyril Hrubis chrubis@suse.cz
+  Update to ltp-full-20140115
+
+  Add build dependency on numa devel library.
+
+  Add two more tcf files (controllers, numa) into default run.
+
 * Mon Sep  9 2013 Cyril Hrubis chrubis@suse.cz
   Update to ltp-full-20130904
 

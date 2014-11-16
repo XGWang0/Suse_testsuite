@@ -1,0 +1,18 @@
+#!/bin/bash
+# the conresponding set is performance.set
+SQ_TEST_RUN_LIST=(
+	tiobench_btrfs
+    libmicro_bench
+    pgbench_btrfs
+    dbench4_btrfs
+
+	tiobench_btrfs
+    tiobench_btrfs
+	libmicro_bench
+	libmicro_bench
+	pgbench_btrfs
+	pgbench_btrfs
+#    dbench4_btrfs
+#    dbench4_btrfs
+)
+

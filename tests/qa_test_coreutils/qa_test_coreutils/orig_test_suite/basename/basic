@@ -1,5 +1,5 @@
 #!/bin/sh
-
+. /tmp/qa_test_coreutils/detect.sh
 # -*-perl-*-
 
 : ${PERL=perl}
@@ -12,6 +12,15 @@ $PERL -e 1 > /dev/null 2>&1 || {
 }
 
 d=$srcdir/..
+
+if [ $ostag == "13.1" ];then
+        export a="Try '$PROG --help' for more information."
+        export b="$PROG: extra operand 'c'"
+else
+	export a="Try \`$PROG --help' for more information."	
+	export b="$PROG: extra operand \`c'"
+fi
+
 exec $PERL -w -I$d -MCoreutils -- - << \EOF
 require 5.003;
 use strict;
@@ -26,9 +35,9 @@ my $prog = $ENV{PROG} || die "$0: \$PROG not specified in environment\n";
 my @Tests =
     (
      ['fail-1', {ERR => "$prog: missing operand\n"
-       . "Try `$prog --help' for more information.\n"}, {EXIT => '1'}],
-     ['fail-2', qw(a b c), {ERR => "$prog: extra operand `c'\n"
-       . "Try `$prog --help' for more information.\n"}, {EXIT => '1'}],
+       . "$ENV{a}\n"}, {EXIT => '1'}],
+     ['fail-2', qw(a b c), {ERR => "$ENV{b}\n"
+       . "$ENV{a}\n"}, {EXIT => '1'}],
 
      ['a', qw(d/f),        {OUT => 'f'}],
      ['b', qw(/d/f),       {OUT => 'f'}],

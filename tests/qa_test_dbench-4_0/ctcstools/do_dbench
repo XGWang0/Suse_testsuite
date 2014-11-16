@@ -1,0 +1,209 @@
+#!/bin/bash
+#
+#
+# Feature request:
+# - Check whether a sufficient amount of disk space is available
+#   (~22 MB/client * 1000 clients)
+#   +  yes: launch dbench test
+#   +  no: exit 2 (= internal error in ctcs2)
+#
+#   Note: default workingdirectory is /abuild/dbench (when existing)
+#	otherwise fallback to /abuild and then to /tmp
+#   
+#
+#   Script is intended to be invoked from within ctcs2 which captures
+#   stdout in its logfile --> no need for an extra log
+#
+#
+#
+#
+set +x
+exitcode=11 #  (= internal error in ctcs2) 
+
+# dbench test constants
+dbench_pid=""            # for the time being
+diskspace_per_client=22  # MByte
+number_clients=64
+runtime=600             # seconds
+dbench_bin=dbench-4_0
+# find an usable working directory
+for A in /abuild/dbench /abuild /tmp
+do
+	if [ -d $A ]
+	then
+		default_workdir=$A
+		break
+	fi
+done
+
+
+#  ============   START  aux functions  ==============
+#
+
+function usage() {
+        echo "
+Usage:   $0 [-h] [-D workdir] [-n nprocs] [-o dbench_options]
+        	 [-t #secs] [-v]
+
+            to run the \"dbench-4_0\" Benchmark on this host
+            and to create a nice log.
+
+Options:
+         -D   Specify the working directory (and thus, implicitly,
+              the device) for dbench (default: $default_workdir)
+         -h   Print this help text and exit successfully
+         -n   Number of processes dbench should start
+              (must be >=10 to avoid bad input; default: $number_clients)
+         -o   Specify a string of options to pass through to qa_test_dbench
+              Default: -s (do synchronous file IO only)
+         -t   specify dbench runtime of #secs (default: $runtime) seconds.
+         -v   be verbose (currently a no-op)
+"    
+	return 0
+}
+
+
+invoked_tidy_up=""
+function tidy_up() {
+
+        if [ -z "$invoked_tidy_up" ]
+	then
+		# Guard against re-entrancy -- yes, it may cause a race
+		invoked_tidy_up="yes"
+		echo "$(date): Caught signal; waiting 15s for dbench-4_0 childs..."
+		sleep 15
+		echo "                              Overall runtime: $SECONDS seconds."
+		# This should be unnecessary: dbench itself will
+		# remove $workdir upon termination...
+		#
+		# echo "Backgrounding removal of $workdir and terminating..."
+		# rm -rf "$workdir" &
+		popd  >/dev/null 2>&1
+		exit "$exitcode"
+	fi  # $invoked_tidy_up
+}
+#
+#  ============    END   aux functions  ==============
+
+# Runtime measurement
+SECONDS=0
+
+trap tidy_up 1 2 3 15
+
+timestamp="$(date '+%y%m%d.%H%M%S')"
+basename=dbench-"${timestamp}"
+workdir="$default_workdir"
+dbench_opts=""
+
+# usage: dbench [OPTIONS] nprocs
+# options:
+#   -v               show version
+#   -t timelimit     run time in seconds (default 600)
+#   -D directory     base directory to run in
+#   -c loadfile      set location of the loadfile
+#   -s               synchronous file IO
+#   -S               synchronous directories (mkdir, unlink...)
+#   -x               enable EA support
+#   -T options       set socket options for tbench
+
+#   =====   Evaluate and check the commandline  =========
+#                                                       #
+while getopts hD:n:o:t:v:R:F optchar ; do
+
+    case "$optchar" in
+
+      h)      usage
+              exit 0                                 ;;
+      D)      workdir=$OPTARG                        ;;
+      n)      number_clients="$OPTARG"               ;;
+      o)      dbench_opts="$dbench_opts $OPTARG"     ;;
+      t)      runtime=$OPTARG                        ;;
+      v)      verbose=yes                            ;;
+      *)      usage
+              exit "$exitcode" ;; 
+    esac
+done
+shift $((OPTIND - 1))
+#                                                       #
+#   ====  END: Evaluate and check the commandline  ======
+
+
+#   ====  Preparation: Create the working directory =====
+#
+# Make the path absolute
+[ "$workdir" = "${workdir#/}" ] && workdir="${PWD}"/"$workdir"
+if  [ -e "$workdir" ] 
+then
+    [ -d "$workdir" ]      || {
+	echo "\$workdir: ${workdir} is not a directory. Aborting..."
+	exit "$exitcode"
+	}
+else
+    "$MKDIR" -p "$workdir" || {
+         echo "Could not create working directory $workdir. Aborting..."
+	kill $$  # invokes tidy_up
+	}
+fi
+
+[ -r "$workdir" -a -w "$workdir" -a -x "$workdir" ]  || {
+	echo "\
+prepare_workdir: Working directory $workdir:
+Needed access rights rwx not all set. Aborting..."
+	kill $$  # invokes tidy_up
+	}
+
+wtestfile="${workdir}/prepare_workdir.$$.$$"
+echo "$wtestfile" > "$wtestfile" ; rm "$wtestfile" || {
+     echo "\
+Working directory $workdir:
+Cannot create or remove files there (maybe filesystem full or read-only?)
+Aborting..."
+	kill $$  # invokes tidy_up
+	}
+
+#   ====  Preparation: Check disk space below $workdir, =
+#                      abort in case of shortage                     
+#
+minfree="$((diskspace_per_client * number_clients))"  # MByte
+freespace="$(df -m "$workdir" | awk '/^\//{ print $4 }')"
+# if empty, need to consult next line.
+[ -n "$freespace" ] || freespace="$(df "$workdir" |\
+    awk '/^\/dev/{ getline ; print $3 }')" 
+if [ "$?" -ne 0 -o -z "$freespace" ]
+then
+	echo "\
+Unable to determine free space (needed: $minfree MByte)
+available under $workdir . Non-local filesystem, maybe?
+Aborting..." 
+	kill $$  # invokes tidy_up
+fi
+if [ "$freespace" -lt "$minfree" ]
+then
+	echo "\
+\"df\" shows less than the needed $minfree MByte
+available under $workdir . Aborting..."
+	kill $$  # invokes tidy_up
+fi
+
+#
+#   ====  END Preparation ===============================
+
+
+# Now DO IT.
+# Script will be terminated by signal, as I don't know
+# about how/whether dbench will terminate by itself.
+#
+exitcode=0
+echo "$(date): Launching command:
+dbench  $dbench_opts -t $runtime -D $workdir  $number_clients 
+Working directory and device:
+$(df $workdir)
+"
+"$dbench_bin"  $dbench_opts -t "$runtime" -D "$workdir" "$number_clients" 
+# This code is reached only if dbench runs to termination rather
+# than gets signalled
+exitcode="$?"
+echo "dbench run completed; SIGTERMing myself for tidyup..."
+kill $$
+
+

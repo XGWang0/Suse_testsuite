@@ -1,6 +1,7 @@
-diff -pur libmicro-0.4.0/bench.sh libmicro-0.4.0-fixed/bench.sh
---- libmicro-0.4.0/bench.sh	2007-07-02 23:17:45.000000000 +0200
-+++ libmicro-0.4.0-fixed/bench.sh	2008-03-17 12:25:00.000000000 +0100
+Index: libmicro-0.4.0/bench.sh
+===================================================================
+--- libmicro-0.4.0.orig/bench.sh
++++ libmicro-0.4.0/bench.sh
 @@ -30,8 +30,9 @@
  # Use is subject to license terms.
  #
@@ -12,6 +13,15 @@ diff -pur libmicro-0.4.0/bench.sh libmicro-0.4.0-fixed/bench.sh
  
  case $libmicro_version in
  $bench_version)
+@@ -65,7 +66,7 @@ mkdir -p $VDIR1 $VDIR2
+
+ touch $IFILE
+
+-ARCH=`arch -k`
++ARCH=`arch`
+
+ # produce benchmark header for easier comparisons
+
 @@ -96,14 +97,14 @@ printf "!CPU_NAME:     %30s\n" "$p_type"
  printf "!IP_address:   %30s\n" `getent hosts $hostname | awk '{print $1}'`
  printf "!Run_by:       %30s\n" $LOGNAME

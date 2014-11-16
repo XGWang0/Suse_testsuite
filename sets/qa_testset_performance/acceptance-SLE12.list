@@ -1,0 +1,6 @@
+SQ_TEST_RUN_LIST=(
+#    _reboot_off
+    process_stress
+    fs_stress
+    sched_stress
+)

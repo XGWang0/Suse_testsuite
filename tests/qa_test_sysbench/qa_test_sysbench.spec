@@ -35,6 +35,7 @@ Patch1:         sysbench-check_return_value.diff
 Patch2:         rdrw_mutex.patch
 Patch3: 		sysbench-wrong-option-mysql_table.diff
 Patch4: 		modify_thread-num_all-tests.diff
+Patch21:        sysbench-example-test-new-socket.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 #BuildArchitectures: noarch
 
@@ -76,7 +77,7 @@ Authors:
 %setup -n sysbench-%version -T -D -a 1
 %patch3 -p 1
 %patch4 -p 1
-
+%patch21 -p1
 %build
 CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{buildroot}/usr  --libdir=%_libdir --mandir=%_mandir --infodir=%{buildroot}/usr
 make -e CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS -fno-exceptions" 'VERSION_NO="\"%version\""'

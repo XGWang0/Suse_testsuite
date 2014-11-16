@@ -1,0 +1,831 @@
+diff -uNr qa_test_coreutils/orig_test_suite/basename/basic new/orig_test_suite/basename/basic
+--- qa_test_coreutils/orig_test_suite/basename/basic	2013-12-19 14:44:05.291375130 +0800
++++ new/orig_test_suite/basename/basic	2014-07-29 11:36:23.289393345 +0800
+@@ -17,8 +17,8 @@
+         export a="Try '$PROG --help' for more information."
+         export b="$PROG: extra operand 'c'"
+ else
+-	export a="Try \`$PROG --help' for more information."	
+-	export b="$PROG: extra operand \`c'"
++	export a="Try '$PROG --help' for more information."	
++	export b="$PROG: extra operand 'c'"
+ fi
+ 
+ exec $PERL -w -I$d -MCoreutils -- - << \EOF
+@@ -55,7 +55,7 @@
+      ['5', qw(dir/file.suf .suf),      {OUT => 'file'}],
+     );
+ 
+-# Append a newline to end of each expected `OUT' string.
++# Append a newline to end of each expected 'OUT' string.
+ my $t;
+ foreach $t (@Tests)
+   {
+diff -uNr qa_test_coreutils/orig_test_suite/chgrp/basic new/orig_test_suite/chgrp/basic
+--- qa_test_coreutils/orig_test_suite/chgrp/basic	2013-09-22 14:33:17.420171290 +0800
++++ new/orig_test_suite/chgrp/basic	2014-07-29 11:36:23.249392863 +0800
+@@ -66,7 +66,7 @@
+ 
+   # This *should* change the group of f.
+   # Though note that the diagnostic is misleading in that
+-  # it says the `group of `symlink'' has been changed.
++  # it says the `group of 'symlink'' has been changed.
+   chgrp -c $g1 symlink
+   chown --from=:$g1 -c :$g2 f
+ 
+@@ -97,25 +97,25 @@
+ " > actual
+ 
+ cat <<\EOF > expected
+-changed group of `f' to G1
+-changed group of `f' to G2
+-ownership of `f' retained
+-changed group of `f' to G1
+-group of `f' retained as G1
+-changed group of `f' to SOMENAME
+-changed group of `d/f3' to G2
+-changed group of `d' to G2
+-changed group of `d/f3' to G1
+-changed group of `d' to G1
+-changed group of `d/f3' to G2
+-changed group of `d' to G2
+-changed group of `d/f3' to G1
+-changed group of `d' to G1
+-changed group of `d' to G2
+-changed ownership of `f' to :G2
+-changed group of `symlink' to G1
+-changed ownership of `f' to :G2
+-changed ownership of `f' to :G2
++changed group of 'f' from nobody to G1
++changed group of 'f' from nogroup to G2
++ownership of 'f' retained
++changed group of 'f' from nobody to G1
++group of 'f' retained as nogroup
++changed group of 'f' from nogroup to nobody
++changed group of 'd/f3' from nogroup to G2
++changed group of 'd' from nogroup to G2
++changed group of 'd/f3' from nobody to G1
++changed group of 'd' from nobody to G1
++changed group of 'd/f3' from nogroup to G2
++changed group of 'd' from nogroup to G2
++changed group of 'd/f3' from nobody to G1
++changed group of 'd' from nobody to G1
++changed group of 'd' from nogroup to G2
++changed ownership of 'f' from root:nogroup to :G2
++changed group of 'symlink' from nobody to G1
++changed ownership of 'f' from root:nogroup to :G2
++changed ownership of 'f' from root:nogroup to :G2
+ f
+ g
+ EOF
+diff -uNr qa_test_coreutils/orig_test_suite/chmod/c-option new/orig_test_suite/chmod/c-option
+--- qa_test_coreutils/orig_test_suite/chmod/c-option	2013-09-22 14:33:17.420171290 +0800
++++ new/orig_test_suite/chmod/c-option	2014-07-29 11:36:23.269393105 +0800
+@@ -44,7 +44,8 @@
+ 
+ test -s empty && fail=1
+ case "`cat out`" in
+-  "mode of \`f' changed to 0774 "?rwxrwxr--?) ;;
++#  "mode of \'f' changed to 0774 "?rwxrwxr--?) ;;
++  "mode of 'f' changed from 0744 (rwxr--r--) to 0774 (rwxrwxr--)");;
+   *) fail=1 ;;
+ esac
+ 
+diff -uNr qa_test_coreutils/orig_test_suite/cp/backup-is-src new/orig_test_suite/cp/backup-is-src
+--- qa_test_coreutils/orig_test_suite/cp/backup-is-src	2013-09-22 14:33:17.420171290 +0800
++++ new/orig_test_suite/cp/backup-is-src	2014-07-29 11:36:23.301393490 +0800
+@@ -29,9 +29,8 @@
+ cp --b=simple a~ a > out 2>&1 && fail=1
+ 
+ sed "s,cp:,XXX:," out > out2
+-
+ cat > exp <<\EOF
+-XXX: backing up `a' would destroy source;  `a~' not copied
++XXX: backing up 'a' would destroy source;  'a~' not copied
+ EOF
+ 
+ cmp out2 exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/cp/fail-perm new/orig_test_suite/cp/fail-perm
+--- qa_test_coreutils/orig_test_suite/cp/fail-perm	2013-09-22 14:33:17.424171290 +0800
++++ new/orig_test_suite/cp/fail-perm	2014-07-29 11:36:23.301393490 +0800
+@@ -42,7 +42,7 @@
+ ln -s D/D symlink
+ touch F
+ cat > exp <<\EOF
+-cp: accessing `symlink': Permission denied
++cp: failed to access 'symlink': Permission denied
+ EOF
+ 
+ cp F symlink 2> out && fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/cp/into-self new/orig_test_suite/cp/into-self
+--- qa_test_coreutils/orig_test_suite/cp/into-self	2013-09-22 14:33:17.424171290 +0800
++++ new/orig_test_suite/cp/into-self	2014-07-29 11:36:23.301393490 +0800
+@@ -36,7 +36,7 @@
+ cp -R dir dir 2> out && fail=1
+ 
+ cat > exp <<\EOF
+-cp: cannot copy a directory, `dir', into itself, `dir/dir'
++cp: cannot copy a directory, 'dir', into itself, 'dir/dir'
+ EOF
+ #'
+ 
+diff -uNr qa_test_coreutils/orig_test_suite/cp/link-preserve new/orig_test_suite/cp/link-preserve
+--- qa_test_coreutils/orig_test_suite/cp/link-preserve	2013-09-22 14:33:17.424171290 +0800
++++ new/orig_test_suite/cp/link-preserve	2014-07-29 11:36:23.301393490 +0800
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ 
+-# ensure that `cp -d' preserves hard-links between command line arguments
++# ensure that 'cp -d' preserves hard-links between command line arguments
+ # ensure that --preserve=links works with -RH and -RL
+ 
+ if test "$VERBOSE" = yes; then
+diff -uNr qa_test_coreutils/orig_test_suite/du/files0-from new/orig_test_suite/du/files0-from
+--- qa_test_coreutils/orig_test_suite/du/files0-from	2013-09-22 14:33:17.428171290 +0800
++++ new/orig_test_suite/du/files0-from	2014-07-29 11:36:23.289393345 +0800
+@@ -34,14 +34,14 @@
+   (
+    # invalid extra command line argument
+    ['f-extra-arg', '--files0-from=- no-such', {IN=>"a"}, {EXIT=>1},
+-    {ERR => "du: extra operand `no-such'\n"
++    {ERR => "du: extra operand 'no-such'\n"
+ 	. "file operands cannot be combined with --files0-from\n"
+-	. "Try `du --help' for more information.\n"}
++	. "Try 'du --help' for more information.\n"}
+     ],
+ 
+    # missing input file
+    ['missing', '--files0-from=missing', {EXIT=>1},
+-    {ERR => "du: cannot open `missing' for reading: "
++    {ERR => "du: cannot open 'missing' for reading: "
+      . "No such file or directory\n"}],
+ 
+    # empty input
+@@ -111,14 +111,14 @@
+   (
+    # invalid extra command line argument
+    ['f-extra-arg', '--files0-from=- no-such', {IN=>"a"}, {EXIT=>1},
+-    {ERR => "du: extra operand `no-such'\n"
++    {ERR => "du: extra operand 'no-such'\n"
+ 	. "File operands cannot be combined with --files0-from.\n"
+-	. "Try `du --help' for more information.\n"}
++	. "Try 'du --help' for more information.\n"}
+     ],
+ 
+    # missing input file
+    ['missing', '--files0-from=missing', {EXIT=>1},
+-    {ERR => "du: cannot open `missing' for reading: "
++    {ERR => "du: cannot open 'missing' for reading: "
+      . "No such file or directory\n"}],
+ 
+    # empty input
+diff -uNr qa_test_coreutils/orig_test_suite/du/slink new/orig_test_suite/du/slink
+--- qa_test_coreutils/orig_test_suite/du/slink	2013-09-22 14:33:17.428171290 +0800
++++ new/orig_test_suite/du/slink	2014-07-29 11:36:23.289393345 +0800
+@@ -30,7 +30,7 @@
+ df --type=xfs . | tail -n +2 > tmp
+ if test -s tmp; then
+   # At least on Irix-6.5.19, when using an xfs file system,
+-  # each created symlink (name lengths up to 255) would have a size of `0'.
++  # each created symlink (name lengths up to 255) would have a size of '0'.
+   echo "$0: skipping this test, since \`.' is on an XFS file system" 1>&2
+   (exit 77); exit 77
+ fi
+diff -uNr qa_test_coreutils/orig_test_suite/expr/basic new/orig_test_suite/expr/basic
+--- qa_test_coreutils/orig_test_suite/expr/basic	2013-09-22 14:33:17.428171290 +0800
++++ new/orig_test_suite/expr/basic	2014-07-29 11:36:23.277393200 +0800
+@@ -44,7 +44,7 @@
+      ['paren4', '9 / \( \( 100 % 6 \) - 8 \)', {OUT => '-2'}],
+      ['paren5', '9 + \( 100 % 6 \)', {OUT => '13'}],
+ 
+-     # Before 2.0.12, this would output `1'.
++     # Before 2.0.12, this would output '1'.
+      ['0bang', '00 \< 0!', {OUT => '0'}, {EXIT => 1}],
+ 
+      # In 5.1.3 and earlier, these would exit with status 0.
+@@ -61,7 +61,7 @@
+      # This evoked a syntax error diagnostic before 2.0.12.
+      ['minus2', '-- 2 + 2', {OUT => '4'}],
+ 
+-     # Now This erroneously succeeded and output is `2' previously it is 3.
++     # Now This erroneously succeeded and output is '2' previously it is 3.
+      ['fail-a', '2 + -', {ERR => "$prog: non-integer argument\n"},
+       {EXIT => 2}],
+ 
+@@ -72,11 +72,11 @@
+      ['fail-b', '9 9', {ERR => "$prog: syntax error\n"},
+       {EXIT => 2}],
+      ['fail-c', {ERR => "$prog: missing operand\n"
+-		 . "Try `$prog --help' for more information.\n"},
++		 . "Try '$prog --help' for more information.\n"},
+       {EXIT => 2}],
+     );
+ 
+-# Append a newline to end of each expected `OUT' string.
++# Append a newline to end of each expected 'OUT' string.
+ my $t;
+ foreach $t (@Tests)
+   {
+@@ -131,7 +131,7 @@
+      ['paren4', '9 / \( \( 100 % 6 \) - 8 \)', {OUT => '-2'}],
+      ['paren5', '9 + \( 100 % 6 \)', {OUT => '13'}],
+ 
+-     # Before 2.0.12, this would output `1'.
++     # Before 2.0.12, this would output '1'.
+      ['0bang', '00 \< 0!', {OUT => '0'}, {EXIT => 1}],
+ 
+      # In 5.1.3 and earlier, these would exit with status 0.
+@@ -148,7 +148,7 @@
+      # This evoked a syntax error diagnostic before 2.0.12.
+      ['minus2', '-- 2 + 2', {OUT => '4'}],
+ 
+-     # Now This erroneously succeeded and output is `2' previously it is 3.
++     # Now This erroneously succeeded and output is '2' previously it is 3.
+      ['fail-a', '2 + -', {ERR => "$prog: non-numeric argument\n"},
+       {EXIT => 2}],
+ 
+@@ -159,11 +159,11 @@
+      ['fail-b', '9 9', {ERR => "$prog: syntax error\n"},
+       {EXIT => 2}],
+      ['fail-c', {ERR => "$prog: missing operand\n"
+-		 . "Try `$prog --help' for more information.\n"},
++		 . "Try '$prog --help' for more information.\n"},
+       {EXIT => 2}],
+     );
+ 
+-# Append a newline to end of each expected `OUT' string.
++# Append a newline to end of each expected 'OUT' string.
+ my $t;
+ foreach $t (@Tests)
+   {
+diff -uNr qa_test_coreutils/orig_test_suite/factor/basic new/orig_test_suite/factor/basic
+--- qa_test_coreutils/orig_test_suite/factor/basic	2013-09-22 14:33:17.428171290 +0800
++++ new/orig_test_suite/factor/basic	2014-07-29 11:36:23.265393056 +0800
+@@ -57,16 +57,16 @@
+      ['y', '4294966998', {OUT => '2 3 7 3917 26107'}],
+      ['z', '-1',
+       {ERR => "$prog: invalid option -- '1'\n"
+-       . "Try `$prog --help' for more information.\n"},
++       . "Try '$prog --help' for more information.\n"},
+       {EXIT => 1}],
+      ['cont', 'a 4',
+       {OUT => "4: 2 2\n"},
+-      {ERR => "$prog: `a' is not a valid positive integer\n"},
++      {ERR => "$prog: 'a' is not a valid positive integer\n"},
+       {EXIT => 1}],
+     );
+ 
+ # Prepend the command line argument and append a newline to end
+-# of each expected `OUT' string.
++# of each expected 'OUT' string.
+ my $t;
+ 
+ Test:
+diff -uNr qa_test_coreutils/orig_test_suite/fmt/basic new/orig_test_suite/fmt/basic
+--- qa_test_coreutils/orig_test_suite/fmt/basic	2013-09-22 14:33:17.428171290 +0800
++++ new/orig_test_suite/fmt/basic	2014-07-29 11:36:23.269393105 +0800
+@@ -29,18 +29,18 @@
+       {IN=> "ça\nçb\n"},
+       {OUT=>"ça b\n"}],
+      ['wide-1', '-w 32768',
+-      {ERR => "fmt: invalid width: `32768'\n"}, {EXIT => 1}],
++      {ERR => "fmt: invalid width: '32768'\n"}, {EXIT => 1}],
+      ['wide-2', '-w 2147483647',
+-      {ERR => "fmt: invalid width: `2147483647'\n"}, {EXIT => 1}],
++      {ERR => "fmt: invalid width: '2147483647'\n"}, {EXIT => 1}],
+      ['bad-suffix', '-72x',	{IN=> ''},
+-      {ERR => "fmt: invalid width: `72x'\n"}, {EXIT => 1}],
++      {ERR => "fmt: invalid width: '72x'\n"}, {EXIT => 1}],
+      ['no-file', 'no-such-file',
+-      {ERR => "fmt: cannot open `no-such-file' for reading:"
++      {ERR => "fmt: cannot open 'no-such-file' for reading:"
+        . " No such file or directory\n"}, {EXIT => 1}],
+      ['obs-1', '-c -72',
+       {ERR => "fmt: invalid option -- 7; -WIDTH is recognized only when it"
+        . " is the first\noption; use -w N instead\n"
+-       . "Try `fmt --help' for more information.\n" }, {EXIT => 1}],
++       . "Try 'fmt --help' for more information.\n" }, {EXIT => 1}],
+     );
+ 
+ my $save_temps = $ENV{DEBUG};
+diff -uNr qa_test_coreutils/orig_test_suite/misc/csplit new/orig_test_suite/misc/csplit
+--- qa_test_coreutils/orig_test_suite/misc/csplit	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/misc/csplit	2014-07-29 11:36:23.321393731 +0800
+@@ -67,7 +67,7 @@
+ cmp out exp || fail=1
+ test $fail = 1 && diff out exp 2> /dev/null
+ cat <<\EOF > experr
+-csplit: warning: line number `1' is the same as preceding line number
++csplit: warning: line number '1' is the same as preceding line number
+ EOF
+ cmp err experr || fail=1
+ test $fail = 1 && diff err experr 2> /dev/null
+@@ -80,9 +80,9 @@
+ csplit in 3 3 > out 2>> err && fail=1
+ cat <<\EOF > experr
+ csplit: 0: line number must be greater than zero
+-csplit: line number `1' is smaller than preceding line number, 2
+-csplit: warning: line number `3' is the same as preceding line number
+-csplit: `3': line number out of range
++csplit: line number '1' is smaller than preceding line number, 2
++csplit: warning: line number '3' is the same as preceding line number
++csplit: '3': line number out of range
+ EOF
+ cmp err experr || fail=1
+ test $fail = 1 && diff err experr 2> /dev/null
+diff -uNr qa_test_coreutils/orig_test_suite/misc/stat-printf new/orig_test_suite/misc/stat-printf
+--- qa_test_coreutils/orig_test_suite/misc/stat-printf	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/misc/stat-printf	2014-07-29 11:36:23.321393731 +0800
+@@ -35,7 +35,7 @@
+      ['hex-1',   q!--printf='\x34\xf' .!,      {OUT=>"\x34\xf"}],
+      ['hex-2',   q!--printf='.\x18p\xfq' .!,   {OUT=>".\x18p\x0fq"}],
+      ['hex-3',   q!--printf='\x' .!,           {OUT=>'x'},
+-	 {ERR=>"$prog: warning: unrecognized escape `\\x'\n"}],
++	 {ERR=>"$prog: warning: unrecognized escape '\\x'\n"}],
+ 
+      # With --format, there *is* a trailing newline.
+      ['f-nl', "--format=%n .",          {OUT=>".\n"}],
+diff -uNr qa_test_coreutils/orig_test_suite/mv/backup-is-src new/orig_test_suite/mv/backup-is-src
+--- qa_test_coreutils/orig_test_suite/mv/backup-is-src	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/backup-is-src	2014-07-29 11:36:23.305393539 +0800
+@@ -41,7 +41,7 @@
+   out > out2
+ 
+ cat > exp <<\EOF
+-XXX: backing up `YYY' would destroy source;  `ZZZ' not moved
++XXX: backing up 'YYY' would destroy source;  'ZZZ' not moved
+ EOF
+ 
+ cmp out2 exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/mv/diag new/orig_test_suite/mv/diag
+--- qa_test_coreutils/orig_test_suite/mv/diag	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/diag	2014-07-29 11:36:23.305393539 +0800
+@@ -42,11 +42,11 @@
+ 
+ cat > exp <<\EOF
+ mv: missing file operand
+-Try `mv --help' for more information.
+-mv: missing destination file operand after `no-file'
+-Try `mv --help' for more information.
+-mv: target `f1' is not a directory
+-mv: target `f2' is not a directory
++Try 'mv --help' for more information.
++mv: missing destination file operand after 'no-file'
++Try 'mv --help' for more information.
++mv: target 'f1' is not a directory
++mv: target 'f2' is not a directory
+ EOF
+ 
+ cmp out exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/mv/dup-source new/orig_test_suite/mv/dup-source
+--- qa_test_coreutils/orig_test_suite/mv/dup-source	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/dup-source	2014-07-29 11:36:23.305393539 +0800
+@@ -49,9 +49,9 @@
+   rm -fr a d; touch a; mkdir d
+   $i --backup a a d/ 2>> out && fail=1
+   cat <<EOF > exp
+-$i: warning: source file \`a' specified more than once
+-$i: warning: source file \`a' specified more than once
+-$i: will not overwrite just-created \`d/a' with \`a'
++$i: warning: source file 'a' specified more than once
++$i: warning: source file 'a' specified more than once
++$i: will not overwrite just-created 'd/a' with 'a'
+ EOF
+   cmp out exp || fail=1
+   test $fail = 1 && diff out exp 2> /dev/null
+@@ -65,8 +65,8 @@
+   rm -fr a d; touch a; mkdir d
+   $i ./a a d/ 2>> out && fail=1
+   cat <<EOF > exp
+-$i: cannot stat \`a': No such file or directory
+-$i: cannot stat \`a': No such file or directory
++$i: cannot stat 'a': No such file or directory
++$i: cannot stat 'a': No such file or directory
+ EOF
+   cmp out exp || fail=1
+   test $fail = 1 && diff out exp 2> /dev/null
+diff -uNr qa_test_coreutils/orig_test_suite/mv/force new/orig_test_suite/mv/force
+--- qa_test_coreutils/orig_test_suite/mv/force	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/force	2014-07-29 11:36:23.305393539 +0800
+@@ -28,7 +28,7 @@
+ mv $ff $ff > out 2>&1 && fail=1
+ 
+ cat > exp <<EOF
+-mv: \`$ff' and \`$ff' are the same file
++mv: '$ff' and '$ff' are the same file
+ EOF
+ 
+ cmp out exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/mv/i-1 new/orig_test_suite/mv/i-1
+--- qa_test_coreutils/orig_test_suite/mv/i-1	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/i-1	2014-07-29 11:36:23.305393539 +0800
+@@ -24,10 +24,10 @@
+ 
+ my @Tests =
+     (
+-     # Make sure a `n' reply to `mv -i...' aborts the move operation.
++     # Make sure a 'n' reply to `mv -i...' aborts the move operation.
+      [$test_a, '-i',
+       {IN => {src => "a\n"}}, {IN => {dst => "b\n"}}, '<', {IN => "n\n"},
+-      {ERR => "mv: overwrite `dst'? "},
++      {ERR => "mv: overwrite 'dst'? "},
+       {POST => sub { -r 'src' or die "test $test_a failed\n"}},
+       {EXIT => 0},
+      ],
+diff -uNr qa_test_coreutils/orig_test_suite/mv/into-self new/orig_test_suite/mv/into-self
+--- qa_test_coreutils/orig_test_suite/mv/into-self	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/into-self	2014-07-29 11:36:23.305393539 +0800
+@@ -37,7 +37,7 @@
+   out > out2
+ 
+ cat > exp <<\EOF
+-XXX: cannot move `SRC' to a subdirectory of itself, `DEST'
++XXX: cannot move 'SRC' to a subdirectory of itself, 'DEST'
+ EOF
+ 
+ cmp out2 exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/mv/into-self-2 new/orig_test_suite/mv/into-self-2
+--- qa_test_coreutils/orig_test_suite/mv/into-self-2	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/into-self-2	2014-07-29 11:36:23.305393539 +0800
+@@ -51,7 +51,7 @@
+   out > out2
+ 
+ cat > exp <<\EOF
+-XXX: `ZZZ' and `YYY' are the same file
++XXX: 'ZZZ' and 'YYY' are the same file
+ EOF
+ #'
+ 
+diff -uNr qa_test_coreutils/orig_test_suite/mv/into-self-3 new/orig_test_suite/mv/into-self-3
+--- qa_test_coreutils/orig_test_suite/mv/into-self-3	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/into-self-3	2014-07-29 11:36:23.305393539 +0800
+@@ -32,7 +32,7 @@
+   out > out2
+ 
+ cat > exp <<\EOF
+-XXX: cannot move `ZZZ' to a subdirectory of itself, `ZZZ/ZZZ'
++XXX: cannot move 'ZZZ' to a subdirectory of itself, 'ZZZ/ZZZ'
+ EOF
+ 
+ cmp out2 exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/mv/mv-special-1 new/orig_test_suite/mv/mv-special-1
+--- qa_test_coreutils/orig_test_suite/mv/mv-special-1	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/mv-special-1	2014-07-29 11:36:23.305393539 +0800
+@@ -60,16 +60,16 @@
+ " out | sort > out2
+ 
+ cat <<EOF | sort > exp
+-\`$null' -> \`XXX/$null'
+-\`$dir' -> \`XXX/$dir'
+-\`$dir/a' -> \`XXX/$dir/a'
+-\`$dir/a/b' -> \`XXX/$dir/a/b'
+-\`$dir/a/b/c' -> \`XXX/$dir/a/b/c'
+-\`$dir/a/b/c/file1' -> \`XXX/$dir/a/b/c/file1'
+-\`$dir/d' -> \`XXX/$dir/d'
+-\`$dir/d/e' -> \`XXX/$dir/d/e'
+-\`$dir/d/e/f' -> \`XXX/$dir/d/e/f'
+-\`$dir/d/e/f/file2' -> \`XXX/$dir/d/e/f/file2'
++'$null' -> 'XXX/$null'
++'$dir' -> 'XXX/$dir'
++'$dir/a' -> 'XXX/$dir/a'
++'$dir/a/b' -> 'XXX/$dir/a/b'
++'$dir/a/b/c' -> 'XXX/$dir/a/b/c'
++'$dir/a/b/c/file1' -> 'XXX/$dir/a/b/c/file1'
++'$dir/d' -> 'XXX/$dir/d'
++'$dir/d/e' -> 'XXX/$dir/d/e'
++'$dir/d/e/f' -> 'XXX/$dir/d/e/f'
++'$dir/d/e/f/file2' -> 'XXX/$dir/d/e/f/file2'
+ EOF
+ 
+ cmp out2 exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/mv/part-fail new/orig_test_suite/mv/part-fail
+--- qa_test_coreutils/orig_test_suite/mv/part-fail	2013-09-22 14:33:17.440171291 +0800
++++ new/orig_test_suite/mv/part-fail	2014-07-29 11:36:23.305393539 +0800
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ 
+ 
+-# Make sure we give a sensible diagnostic when a cross-device `mv'
++# Make sure we give a sensible diagnostic when a cross-device 'mv'
+ # fails, e.g., because the destination cannot be unlinked.
+ # This is a bit fragile since it relies on the string used
+ # for EPERM: `permission denied'.
+@@ -40,13 +40,13 @@
+ 
+ mv -f k $other_partition_tmpdir 2> out && fail=1
+ cat <<EOF > exp
+-mv: inter-device move failed: \`k' to \`$other_partition_tmpdir/k'; unable to remove target: Permission denied
++mv: inter-device move failed: 'k' to '$other_partition_tmpdir/k'; unable to remove target: Permission denied
+ EOF
+ 
+ # On some (less-compliant) systems, we get EPERM in this case.
+ # Accept either diagnostic.
+ cat <<EOF > exp2
+-mv: cannot move \`k' to \`$other_partition_tmpdir/k': Permission denied
++mv: cannot move \'k' to \`$other_partition_tmpdir/k': Permission denied
+ EOF
+ 
+ if cmp out exp >/dev/null 2>&1; then
+diff -uNr qa_test_coreutils/orig_test_suite/mv/part-symlink new/orig_test_suite/mv/part-symlink
+--- qa_test_coreutils/orig_test_suite/mv/part-symlink	2013-09-22 14:33:17.444171291 +0800
++++ new/orig_test_suite/mv/part-symlink	2014-07-29 11:36:23.305393539 +0800
+@@ -22,7 +22,7 @@
+ # Make sure the programs use C-locale formats/translations.
+ . $srcdir/../lang-default
+ 
+-# Unset CDPATH.  Otherwise, output from the `cd dir' command
++# Unset CDPATH.  Otherwise, output from the 'cd dir' command
+ # can make this test fail.
+ (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
+ 
+@@ -161,45 +161,45 @@
+   { (exit 1); exit; }
+ 
+ cat <<\EOF > $expected
+-1 cp loc_reg rem_sl [cp: `loc_reg' and `rem_sl' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 cp loc_reg rem_sl [cp: 'loc_reg' and 'rem_sl' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+ 0 cp --rem loc_reg rem_sl (loc_reg) (rem_sl)
+ 0 cp --rem -d loc_reg rem_sl (loc_reg) (rem_sl)
+ 0 cp --rem -b loc_reg rem_sl (loc_reg) (rem_sl rem_sl~ -> dir/loc_reg)
+ 0 cp -b loc_reg rem_sl (loc_reg) (rem_sl rem_sl~ -> dir/loc_reg)
+ 0 cp -bd loc_reg rem_sl (loc_reg) (rem_sl rem_sl~ -> dir/loc_reg)
+-1 cp -d loc_reg rem_sl [cp: `loc_reg' and `rem_sl' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 cp -d loc_reg rem_sl [cp: 'loc_reg' and 'rem_sl' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+ 
+-1 cp rem_sl loc_reg [cp: `rem_sl' and `loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+-1 cp --rem rem_sl loc_reg [cp: `rem_sl' and `loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+-1 cp --rem -d rem_sl loc_reg [cp: `rem_sl' and `loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+-1 cp --rem -b rem_sl loc_reg [cp: `rem_sl' and `loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+-1 cp -b rem_sl loc_reg [cp: `rem_sl' and `loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 cp rem_sl loc_reg [cp: 'rem_sl' and 'loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 cp --rem rem_sl loc_reg [cp: 'rem_sl' and 'loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 cp --rem -d rem_sl loc_reg [cp: 'rem_sl' and 'loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 cp --rem -b rem_sl loc_reg [cp: 'rem_sl' and 'loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 cp -b rem_sl loc_reg [cp: 'rem_sl' and 'loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+ 0 cp -bd rem_sl loc_reg (loc_reg -> dir/loc_reg loc_reg~) (rem_sl -> dir/loc_reg) symlink-loop symlink-loop
+-1 cp -d rem_sl loc_reg [cp: `rem_sl' and `loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 cp -d rem_sl loc_reg [cp: 'rem_sl' and 'loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+ 
+-1 cp loc_sl rem_reg [cp: `loc_sl' and `rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
+-1 cp --rem loc_sl rem_reg [cp: `loc_sl' and `rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
+-1 cp --rem -d loc_sl rem_reg [cp: `loc_sl' and `rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
+-1 cp --rem -b loc_sl rem_reg [cp: `loc_sl' and `rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
+-1 cp -b loc_sl rem_reg [cp: `loc_sl' and `rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 cp loc_sl rem_reg [cp: 'loc_sl' and 'rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 cp --rem loc_sl rem_reg [cp: 'loc_sl' and 'rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 cp --rem -d loc_sl rem_reg [cp: 'loc_sl' and 'rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 cp --rem -b loc_sl rem_reg [cp: 'loc_sl' and 'rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 cp -b loc_sl rem_reg [cp: 'loc_sl' and 'rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
+ 0 cp -bd loc_sl rem_reg (loc_sl -> rem_reg) (rem_reg -> rem_reg rem_reg~) symlink-loop symlink-loop
+-1 cp -d loc_sl rem_reg [cp: `loc_sl' and `rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 cp -d loc_sl rem_reg [cp: 'loc_sl' and 'rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
+ 
+-1 cp rem_reg loc_sl [cp: `rem_reg' and `loc_sl' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 cp rem_reg loc_sl [cp: 'rem_reg' and 'loc_sl' are the same file ](loc_sl -> rem_reg) (rem_reg)
+ 0 cp --rem rem_reg loc_sl (loc_sl) (rem_reg)
+ 0 cp --rem -d rem_reg loc_sl (loc_sl) (rem_reg)
+ 0 cp --rem -b rem_reg loc_sl (loc_sl loc_sl~ -> rem_reg) (rem_reg)
+ 0 cp -b rem_reg loc_sl (loc_sl loc_sl~ -> rem_reg) (rem_reg)
+ 0 cp -bd rem_reg loc_sl (loc_sl loc_sl~ -> rem_reg) (rem_reg)
+-1 cp -d rem_reg loc_sl [cp: `rem_reg' and `loc_sl' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 cp -d rem_reg loc_sl [cp: 'rem_reg' and 'loc_sl' are the same file ](loc_sl -> rem_reg) (rem_reg)
+ 
+ 0 mv loc_reg rem_sl () (rem_sl)
+ 0 mv -b loc_reg rem_sl () (rem_sl rem_sl~ -> dir/loc_reg)
+ 
+-1 mv rem_sl loc_reg [mv: `rem_sl' and `loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
++1 mv rem_sl loc_reg [mv: 'rem_sl' and 'loc_reg' are the same file ](loc_reg) (rem_sl -> dir/loc_reg)
+ 0 mv -b rem_sl loc_reg (loc_reg -> dir/loc_reg loc_reg~) ()
+ 
+-1 mv loc_sl rem_reg [mv: `loc_sl' and `rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
++1 mv loc_sl rem_reg [mv: 'loc_sl' and 'rem_reg' are the same file ](loc_sl -> rem_reg) (rem_reg)
+ 0 mv -b loc_sl rem_reg () (rem_reg -> rem_reg rem_reg~)
+ 
+ 0 mv rem_reg loc_sl (loc_sl) ()
+diff -uNr qa_test_coreutils/orig_test_suite/mv/perm-1 new/orig_test_suite/mv/perm-1
+--- qa_test_coreutils/orig_test_suite/mv/perm-1	2013-09-22 14:33:17.444171291 +0800
++++ new/orig_test_suite/mv/perm-1	2014-07-29 11:36:23.305393539 +0800
+@@ -33,7 +33,7 @@
+ 
+ mv no-write/dir . > out 2>&1 && fail=1
+ cat <<\EOF > exp
+-mv: cannot move `no-write/dir' to `./dir': Permission denied
++mv: cannot move 'no-write/dir' to './dir': Permission denied
+ EOF
+ 
+ cmp out exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/rm/cycle new/orig_test_suite/rm/cycle
+--- qa_test_coreutils/orig_test_suite/rm/cycle	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/cycle	2014-07-29 11:36:23.269393105 +0800
+@@ -32,8 +32,8 @@
+ 
+ rm -rf a a 2>&1 | sed 's/:[^:]*$//' > out || fail=1
+ cat <<\EOF > exp
+-rm: cannot remove `a/b/file'
+-rm: cannot remove `a/b/file'
++rm: cannot remove 'a/b/file'
++rm: cannot remove 'a/b/file'
+ EOF
+ 
+ cmp out exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/rm/fail-2eperm new/orig_test_suite/rm/fail-2eperm
+--- qa_test_coreutils/orig_test_suite/rm/fail-2eperm	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/fail-2eperm	2014-07-29 11:36:23.269393105 +0800
+@@ -43,7 +43,7 @@
+ sed "s/Not owner/$onp/;s/Permission denied/$onp/" out-t > out
+ 
+ cat <<\EOF > exp
+-rm: cannot remove `a/b': Operation not permitted
++rm: cannot remove 'a/b': Operation not permitted
+ EOF
+ 
+ cmp out exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/rm/fail-eperm new/orig_test_suite/rm/fail-eperm
+--- qa_test_coreutils/orig_test_suite/rm/fail-eperm	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/fail-eperm	2014-07-29 11:36:23.269393105 +0800
+@@ -83,7 +83,7 @@
+ 	      or die "$ME: unexpected exit status from `$cmd';\n"
+ 		. "  got $status, expected 1\n";
+ 
+-	    my $exp = "rm: cannot remove `$target_file':";
++	    my $exp = "rm: cannot remove '$target_file':";
+ 	    $line
+ 	      or die "$ME: no output from `$cmd';\n"
+ 		. "expected something like `$exp ...'\n";
+diff -uNr qa_test_coreutils/orig_test_suite/rm/inaccessible new/orig_test_suite/rm/inaccessible
+--- qa_test_coreutils/orig_test_suite/rm/inaccessible	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/inaccessible	2014-07-29 11:36:23.269393105 +0800
+@@ -37,7 +37,7 @@
+ test -d $p/abs2 && fail=1
+ 
+ cat <<\EOF > exp || fail=1
+-rm: cannot remove `rel': Permission denied
++rm: cannot remove 'rel': Permission denied
+ EOF
+ 
+ # AIX 4.3.3 fails with a different diagnostic.
+diff -uNr qa_test_coreutils/orig_test_suite/rm/r-1 new/orig_test_suite/rm/r-1
+--- qa_test_coreutils/orig_test_suite/rm/r-1	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/r-1	2014-07-29 11:36:23.269393105 +0800
+@@ -24,9 +24,9 @@
+ > b || framework_failure=1
+ 
+ cat <<\EOF > $test.E || framework_failure=1
+-removed directory: `a/a'
+-removed directory: `a'
+-removed `b'
++removed directory: 'a/a'
++removed directory: 'a'
++removed 'b'
+ EOF
+ 
+ if test $framework_failure = 1; then
+diff -uNr qa_test_coreutils/orig_test_suite/rm/r-2 new/orig_test_suite/rm/r-2
+--- qa_test_coreutils/orig_test_suite/rm/r-2	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/r-2	2014-07-29 11:36:23.269393105 +0800
+@@ -24,10 +24,10 @@
+ 
+ # FIXME: if this fails, it's a framework failure
+ cat <<\EOF | sort > t/E || framework_failure=1
+-removed directory: `t/a'
+-removed directory: `t/a/b'
+-removed `t/a/b/g'
+-removed `t/a/f'
++removed directory: 't/a'
++removed directory: 't/a/b'
++removed 't/a/b/g'
++removed 't/a/f'
+ EOF
+ 
+ if test $framework_failure = 1; then
+diff -uNr qa_test_coreutils/orig_test_suite/rm/rm1 new/orig_test_suite/rm/rm1
+--- qa_test_coreutils/orig_test_suite/rm/rm1	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/rm1	2014-07-29 11:36:23.269393105 +0800
+@@ -33,13 +33,13 @@
+ # This should fail.
+ rm -rf b > out 2>&1 && fail=1
+ cat <<\EOF > exp
+-rm: cannot remove directory `b/a/p': Permission denied
++rm: cannot remove directory 'b/a/p': Permission denied
+ EOF
+ 
+ # On some systems, rm doesn't have enough information to
+ # say it's a directory.
+ cat <<\EOF > exp2
+-rm: cannot remove `b/a/p': Permission denied
++rm: cannot remove 'b/a/p': Permission denied
+ EOF
+ 
+ cmp out exp > /dev/null 2>&1 || {
+diff -uNr qa_test_coreutils/orig_test_suite/rm/rm3 new/orig_test_suite/rm/rm3
+--- qa_test_coreutils/orig_test_suite/rm/rm3	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/rm3	2014-07-29 11:36:23.269393105 +0800
+@@ -61,15 +61,15 @@
+ mv o2 out
+ 
+ sort <<EOF > exp || fail=1
+-rm: descend into directory \`z'
+-rm: remove regular empty file \`z/empty'
+-rm: remove write-protected regular file \`z/fu'
+-rm: remove write-protected regular empty file \`z/empty-u'
+-rm: remove symbolic link \`z/slink'
+-rm: remove symbolic link \`z/slinkdot'
+-rm: remove directory \`z/d'
+-rm: remove write-protected directory \`z/du'
+-rm: remove directory \`z'
++rm: descend into directory 'z'
++rm: remove regular empty file 'z/empty'
++rm: remove write-protected regular file 'z/fu'
++rm: remove write-protected regular empty file 'z/empty-u'
++rm: remove symbolic link 'z/slink'
++rm: remove symbolic link 'z/slinkdot'
++rm: remove directory 'z/d'
++rm: remove write-protected directory 'z/du'
++rm: remove directory 'z'
+ EOF
+ 
+ cmp out exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/rm/rm5 new/orig_test_suite/rm/rm5
+--- qa_test_coreutils/orig_test_suite/rm/rm5	2013-09-22 14:33:17.452171291 +0800
++++ new/orig_test_suite/rm/rm5	2014-07-29 11:36:23.269393105 +0800
+@@ -28,9 +28,9 @@
+ EOF
+ 
+ cat <<\EOF > exp || framework_failure=1
+-rm: descend into directory `d'
+-rm: remove directory `d/e'
+-rm: remove directory `d'
++rm: descend into directory 'd'
++rm: remove directory 'd/e'
++rm: remove directory 'd'
+ EOF
+ 
+ if test $framework_failure = 1; then
+diff -uNr qa_test_coreutils/orig_test_suite/touch/fail-diag new/orig_test_suite/touch/fail-diag
+--- qa_test_coreutils/orig_test_suite/touch/fail-diag	2013-09-22 14:33:17.480171292 +0800
++++ new/orig_test_suite/touch/fail-diag	2014-07-29 11:36:23.269393105 +0800
+@@ -35,7 +35,7 @@
+ 
+ touch $dir > out 2>&1 && fail=1
+ cat <<EOF > exp
+-touch: cannot touch \`$dir': No such file or directory
++touch: cannot touch '$dir': No such file or directory
+ EOF
+ 
+ cmp out exp || fail=1
+diff -uNr qa_test_coreutils/orig_test_suite/touch/not-owner new/orig_test_suite/touch/not-owner
+--- qa_test_coreutils/orig_test_suite/touch/not-owner	2013-09-22 14:33:17.480171292 +0800
++++ new/orig_test_suite/touch/not-owner	2014-07-29 11:36:23.269393105 +0800
+@@ -42,14 +42,14 @@
+ 
+ # Before fileutils-4.1, we'd get the following misleading
+ # diagnostic instead of `...: Permission denied'.
+-# touch: creating `/': Is a directory
++# touch: creating '/': Is a directory
+ touch / > out 2>&1 && fail=1
+ 
+-# On SunOS4, EPERM is `Not owner'.
++# On SunOS4, EPERM is 'Not owner'.
+ # On some *BSD systems it's `Operation not permitted'.
+ for msg in 'Not owner' 'Operation not permitted' 'Permission denied'; do
+   cat > exp <<EOF
+-touch: setting times of \`/': $msg
++touch: setting times of '/': $msg
+ EOF
+ 
+   cmp out exp > /dev/null 2>&1 && { match=1; break; }
+diff -uNr qa_test_coreutils/orig_test_suite/tsort/basic-1 new/orig_test_suite/tsort/basic-1
+--- qa_test_coreutils/orig_test_suite/tsort/basic-1	2013-09-22 14:33:17.484171292 +0800
++++ new/orig_test_suite/tsort/basic-1	2014-07-29 11:36:23.265393056 +0800
+@@ -53,8 +53,8 @@
+ 
+    ['only-one', {IN => {f => ""}}, {IN => {g => ""}},
+     {EXIT => 1},
+-    {ERR => "tsort: extra operand `g'\n"
+-     . "Try `tsort --help' for more information.\n"}],
++    {ERR => "tsort: extra operand 'g'\n"
++     . "Try 'tsort --help' for more information.\n"}],
+   );
+ 
+ my $save_temps = $ENV{DEBUG};
+diff -uNr qa_test_coreutils/orig_test_suite/unexpand/basic-1 new/orig_test_suite/unexpand/basic-1
+--- qa_test_coreutils/orig_test_suite/unexpand/basic-1	2013-09-22 14:33:17.484171292 +0800
++++ new/orig_test_suite/unexpand/basic-1	2014-07-29 11:36:23.269393105 +0800
+@@ -47,7 +47,7 @@
+ 
+      ['infloop-1', '-t', '1,2', {IN=> " \t\t .\n"}, {OUT=>"\t\t\t .\n"}],
+      ['infloop-2', '-t', '4,5', {IN=> ' 'x4 . "\t\t \n"}, {OUT=>"\t\t\t \n"}],
+-     ['infloop-3', '-t', '2,3', {IN=> "x \t\t \n"}, {OUT=>"x \t\t \n"}],
++     ['infloop-3', '-t', '2,3', {IN=> "x \t\t \n"}, {OUT=>"x\t\t\t \n"}],
+      ['infloop-4', '-t', '1,2', {IN=> " \t\t   \n"}, {OUT=>"\t\t\t   \n"}],
+      ['c-1', '-t', '1,2', {IN=> "x\t\t .\n"}, {OUT=>"x\t\t .\n"}],
+ 
+@@ -65,7 +65,7 @@
+      ['blanks-6', qw(-t 1), {IN=> "a  "}, {OUT=> "a\t\t"}],
+      ['blanks-7', qw(-t 1), {IN=> "a   "}, {OUT=> "a\t\t\t"}],
+      ['blanks-8', qw(-t 1), {IN=> " a a  a\n"}, {OUT=> "\ta a\t\ta\n"}],
+-     ['blanks-9', qw(-t 2), {IN=> "   a  a  a\n"}, {OUT=> "\t a\ta  a\n"}],
++     ['blanks-9', qw(-t 2), {IN=> "   a  a  a\n"}, {OUT=> "\t a\ta\t a\n"}],
+      ['blanks-10', '-t', '3,4', {IN=> "0 2 4 6\t8\n"}, {OUT=> "0 2 4 6\t8\n"}],
+      ['blanks-11', '-t', '3,4', {IN=> "    4\n"}, {OUT=> "\t\t4\n"}],
+      ['blanks-12', '-t', '3,4', {IN=> "01  4\n"}, {OUT=> "01\t\t4\n"}],

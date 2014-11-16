@@ -1,0 +1,43 @@
+." Manpage for qa_lib_ibmjava.
+." Contact Michal Vyskocil <mvyskocil@suse.cz> to correct errors or typos.
+.TH man 8 "26 Aug 2011" "1.0" "qa_lib_ibmjava man page"
+.SH NAME
+qa_lib_ibmjava
+.SH SYNOPSIS
+Common scripts for checking IBM Java packages.
+.SH TYPE
+lib
+.SH DESCRIPTION
+Various scripts checking the IBM Java packages - if the files are not modified, etc.
+.SH README
+.SH OPTIONS
+See appropritate qa_test_java-$FOO-ibm packages.
+.SH WHAT IT DOES
+ - check-modified-files.sh
+.br
+Script will read the .qa_filelist.${arch} located in the jre directory
+($LIBDIR/jvm/$JAVADIR/jre/), which is the csv file with format
+md5sum;orig-path;installed-path;package. It reformats it to form usable by
+md5sum -c and then checks if all files matches. In case some subpackage is not
+installed and all files are missing, it prints a warning on stderr only.
+
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+Test result will pass even if not all subpackages are installed.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH TODO
+Enhance tests for other aspects - for example update-alternatives.
+.SH DISTRIBUTION
+Internal, Our code.
+.SH LICENSE
+License: n/a. Spec file license: GPL v2 or later.
+.SH UPSTREAM
+http://qit.suse.de/ibmjava/ibmjava/blobs/master/qa/
+.SH AUTHOR
+Michal Vyskocil <mvyskocil@suse.cz>
+.SH MAINTAINER
+Michal Vyskocil <mvyskocil@suse.cz>

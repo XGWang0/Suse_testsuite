@@ -13,7 +13,7 @@ assert_command osc
 [ ! -d "$1" ] && echo "Error: $1 is not a directory." && exit 1
 
 package="`basename "$1"`"
-[ -z "$REPOSITORY" ] && REPOSITORY="SUSE_SLE-11-SP2_GA"
+[ -z "$REPOSITORY" ] && REPOSITORY="SUSE_SLE-12_GA"
 [ -z "$ARCH" ] && ARCH=`arch`
 
 # initialize dir as BS package (but keep current BS metadata)

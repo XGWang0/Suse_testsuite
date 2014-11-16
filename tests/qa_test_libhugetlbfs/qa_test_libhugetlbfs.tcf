@@ -1,0 +1,171 @@
+
+fg 1 zero_filesize_segment /usr/lib64/libhugetlbfs/tests/obj64/zero_filesize_segment
+
+fg 1 test_root /usr/lib64/libhugetlbfs/tests/obj64/test_root
+
+fg 1 meminfo_nohuge /usr/lib64/libhugetlbfs/tests/obj64/meminfo_nohuge
+
+fg 1 gethugepagesize /usr/lib64/libhugetlbfs/tests/obj64/gethugepagesize
+
+fg 1 gethugepagesizes /usr/lib64/libhugetlbfs/tests/obj64/gethugepagesizes
+
+fg 1 empty_mounts /usr/lib64/libhugetlbfs/tests/obj64/empty_mounts HUGETLB_VERBOSE=1
+
+fg 1 large_mounts /usr/lib64/libhugetlbfs/tests/obj64/large_mounts HUGETLB_VERBOSE=1
+
+fg 1 find_path /usr/lib64/libhugetlbfs/tests/obj64/find_path
+
+fg 1 unlinked_fd /usr/lib64/libhugetlbfs/tests/obj64/unlinked_fd
+
+fg 1 readback /usr/lib64/libhugetlbfs/tests/obj64/readback
+
+fg 1 truncate /usr/lib64/libhugetlbfs/tests/obj64/truncate
+
+fg 1 shared /usr/lib64/libhugetlbfs/tests/obj64/shared
+
+fg 1 mprotect /usr/lib64/libhugetlbfs/tests/obj64/mprotect
+
+fg 1 mlock /usr/lib64/libhugetlbfs/tests/obj64/mlock
+
+fg 1 misalign /usr/lib64/libhugetlbfs/tests/obj64/misalign
+
+fg 1 mremap-expand-slice-collision /usr/lib64/libhugetlbfs/tests/obj64/mremap-expand-slice-collision
+
+fg 1 mremap-fixed-huge-near-normal /usr/lib64/libhugetlbfs/tests/obj64/mremap-fixed-huge-near-normal
+
+fg 1 mremap-fixed-normal-near-huge /usr/lib64/libhugetlbfs/tests/obj64/mremap-fixed-normal-near-huge
+
+fg 1 ptrace-write-hugepage /usr/lib64/libhugetlbfs/tests/obj64/ptrace-write-hugepage
+
+fg 1 icache-hygiene /usr/lib64/libhugetlbfs/tests/obj64/icache-hygiene
+
+fg 1 slbpacaflush /usr/lib64/libhugetlbfs/tests/obj64/slbpacaflush
+
+fg 1 map_high_truncate_2 /usr/lib64/libhugetlbfs/tests/obj64/map_high_truncate_2
+
+fg 1 misaligned_offset /usr/lib64/libhugetlbfs/tests/obj64/misaligned_offset
+
+fg 1 truncate_above_4GB /usr/lib64/libhugetlbfs/tests/obj64/truncate_above_4GB
+
+fg 1 brk_near_huge /usr/lib64/libhugetlbfs/tests/obj64/brk_near_huge
+
+fg 1 task-size-overrun /usr/lib64/libhugetlbfs/tests/obj64/task-size-overrun
+
+fg 1 stack_grow_into_huge /usr/lib64/libhugetlbfs/tests/obj64/stack_grow_into_huge
+
+fg 1 readahead_reserve /usr/lib64/libhugetlbfs/tests/obj64/readahead_reserve
+
+fg 1 madvise_reserve /usr/lib64/libhugetlbfs/tests/obj64/madvise_reserve
+
+fg 1 fadvise_reserve /usr/lib64/libhugetlbfs/tests/obj64/fadvise_reserve
+
+fg 1 mremap-expand-slice-collision /usr/lib64/libhugetlbfs/tests/obj64/mremap-expand-slice-collision
+
+fg 1 mremap-fixed-normal-near-huge /usr/lib64/libhugetlbfs/tests/obj64/mremap-fixed-normal-near-huge
+
+fg 1 mremap-fixed-huge-near-normal /usr/lib64/libhugetlbfs/tests/obj64/mremap-fixed-huge-near-normal
+
+fg 1 shm-perms /usr/lib64/libhugetlbfs/tests/obj64/shm-perms
+
+fg 1 private /usr/lib64/libhugetlbfs/tests/obj64/private
+
+fg 1 fork-cow /usr/lib64/libhugetlbfs/tests/obj64/fork-cow
+
+fg 1 direct /usr/lib64/libhugetlbfs/tests/obj64/direct
+
+fg 1 malloc /usr/lib64/libhugetlbfs/tests/obj64/malloc
+
+fg 1 malloc1 /usr/lib64/libhugetlbfs/tests/obj64/malloc LD_PRELOAD=libhugetlbfs.so HUGETLB_MORECORE=yes
+
+fg 1 malloc2 /usr/lib64/libhugetlbfs/tests/obj64/malloc LD_PRELOAD=libhugetlbfs.so HUGETLB_RESTRICT_EXE=unknown:none HUGETLB_MORECORE=yes
+
+fg 1 malloc3 /usr/lib64/libhugetlbfs/tests/obj64/malloc LD_PRELOAD=libhugetlbfs.so HUGETLB_RESTRICT_EXE=unknown:malloc HUGETLB_MORECORE=yes
+
+fg 1 malloc_manysmall /usr/lib64/libhugetlbfs/tests/obj64/malloc_manysmall
+
+fg 1 malloc_manysmall1 /usr/lib64/libhugetlbfs/tests/obj64/malloc_manysmall LD_PRELOAD=libhugetlbfs.so HUGETLB_MORECORE=yes
+
+fg 1 heapshrink /usr/lib64/libhugetlbfs/tests/obj64/heapshrink
+
+fg 1 heapshrink1 /usr/lib64/libhugetlbfs/tests/obj64/heapshrink LD_PRELOAD=libheapshrink.so
+
+fg 1 heapshrink2 /usr/lib64/libhugetlbfs/tests/obj64/heapshrink LD_PRELOAD=libhugetlbfs.so HUGETLB_MORECORE=yes
+
+fg 1 heapshrink3 /usr/lib64/libhugetlbfs/tests/obj64/heapshrink LD_PRELOAD=libhugetlbfs.so libheapshrink.so HUGETLB_MORECORE=yes
+
+fg 1 heapshrink4 /usr/lib64/libhugetlbfs/tests/obj64/heapshrink LD_PRELOAD=libheapshrink.so HUGETLB_MORECORE_SHRINK=yes HUGETLB_MORECORE=yes
+
+fg 1 heapshrink5 /usr/lib64/libhugetlbfs/tests/obj64/heapshrink LD_PRELOAD=libhugetlbfs.so libheapshrink.so HUGETLB_MORECORE_SHRINK=yes HUGETLB_MORECORE=yes
+
+fg 1 heap-overflow 'export HUGETLB_MORECORE=yes;/usr/lib64/libhugetlbfs/tests/obj64/heap-overflow HUGETLB_VERBOSE=1 HUGETLB_MORECORE=yes'
+
+fg 1 linkhuge_nofd /usr/lib64/libhugetlbfs/tests/obj64/linkhuge_nofd HUGETLB_VERBOSE=0
+
+fg 1 linkhuge_nofd1 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge_nofd LD_PRELOAD=libhugetlbfs.so HUGETLB_VERBOSE=0
+
+fg 1 linkhuge /usr/lib64/libhugetlbfs/tests/obj64/linkhuge
+
+fg 1 linkhuge1 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge LD_PRELOAD=libhugetlbfs.so
+
+fg 1 linkhuge2 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_ELFMAP=R
+
+fg 1 linkhuge3 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_ELFMAP=W
+
+fg 1 linkhuge4 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_ELFMAP=RW
+
+fg 1 linkhuge5 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_ELFMAP=no
+
+fg 1 linkhuge6 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_ELFMAP= HUGETLB_MINIMAL_COPY=no
+
+fg 1 linkhuge7 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_ELFMAP=W HUGETLB_MINIMAL_COPY=no
+
+fg 1 linkhuge8 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_ELFMAP=RW HUGETLB_MINIMAL_COPY=no
+
+fg 1 linkhuge9 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_SHARE=0 HUGETLB_ELFMAP=R
+
+fg 1 linkhuge10 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_SHARE=1 HUGETLB_ELFMAP=R
+
+fg 1 linkhuge11 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_SHARE=0 HUGETLB_ELFMAP=W
+
+fg 1 linkhuge12 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_SHARE=1 HUGETLB_ELFMAP=W
+
+fg 1 linkhuge13 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_SHARE=0 HUGETLB_ELFMAP=RW
+
+fg 1 linkhuge14 /usr/lib64/libhugetlbfs/tests/obj64/linkhuge HUGETLB_SHARE=1 HUGETLB_ELFMAP=RW
+
+fg 1 chunk-overcommit /usr/lib64/libhugetlbfs/tests/obj64/chunk-overcommit
+
+fg 1 alloc-instantiate-race_shared /usr/lib64/libhugetlbfs/tests/obj64/alloc-instantiate-race shared
+
+fg 1 alloc-instantiate-race_private /usr/lib64/libhugetlbfs/tests/obj64/alloc-instantiate-race private
+
+fg 1 truncate_reserve_wraparound /usr/lib64/libhugetlbfs/tests/obj64/truncate_reserve_wraparound
+
+fg 1 truncate_sigbus_versus_oom /usr/lib64/libhugetlbfs/tests/obj64/truncate_sigbus_versus_oom
+
+fg 1 get_huge_pages /usr/lib64/libhugetlbfs/tests/obj64/get_huge_pages
+
+fg 1 shmoverride_linked /usr/lib64/libhugetlbfs/tests/obj64/shmoverride_linked
+
+fg 1 shmoverride_linked /usr/lib64/libhugetlbfs/tests/obj64/shmoverride_linked HUGETLB_SHM=yes
+
+fg 1 shmoverride_unlinked /usr/lib64/libhugetlbfs/tests/obj64/shmoverride_unlinked LD_PRELOAD=libhugetlbfs.so
+
+fg 1 shmoverride_unlinked1 /usr/lib64/libhugetlbfs/tests/obj64/shmoverride_unlinked LD_PRELOAD=libhugetlbfs.so HUGETLB_SHM=yes
+
+fg 1 quota /usr/lib64/libhugetlbfs/tests/obj64/quota
+
+fg 1 counters /usr/lib64/libhugetlbfs/tests/obj64/counters
+
+# Stress
+fg 1 mmap-gettest /usr/lib64/libhugetlbfs/tests/obj64/mmap-gettest 10 128
+
+fg 1 mmap-cow /usr/lib64/libhugetlbfs/tests/obj64/mmap-cow 127 128
+
+#fg 1 set_limit 'echo 268435456 >/proc/sys/kernel/shmmax; echo 268435456 >/proc/sys/kernel/shmall'
+
+fg 1 shm-fork-64 /usr/lib64/libhugetlbfs/tests/obj64/shm-fork 10 64
+
+fg 1 shm-fork-128 /usr/lib64/libhugetlbfs/tests/obj64/shm-fork 10 128
+
+fg 1 shm-getraw /usr/lib64/libhugetlbfs/tests/obj64/shm-getraw 128 /dev/full

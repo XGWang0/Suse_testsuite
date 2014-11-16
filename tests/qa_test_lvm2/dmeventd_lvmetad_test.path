@@ -1,0 +1,42 @@
+diff -ru qa_test_lvm2-2_02_98-bak/test/lib/aux qa_test_lvm2-2_02_98/test/lib/aux
+--- qa_test_lvm2-2_02_98-bak/test/lib/aux	2014-04-21 13:57:33.000000000 +0800
++++ qa_test_lvm2-2_02_98/test/lib/aux	2014-04-21 14:00:08.000000000 +0800
+@@ -54,8 +54,8 @@
+ 		skip
+ 	fi
+ 
+-	# skip if we don't have our own dmeventd...
+-	(which dmeventd 2>/dev/null | grep "$abs_builddir") || skip
++	# if we don't have our own dmeventd...
++	(which dmeventd 2>/dev/null | grep "$abs_builddir") || ln -s /sbin/dmeventd $abs_builddir/lib/dmeventd
+ 
+ 	lvmconf "activation/monitoring = 1"
+ 
+@@ -67,8 +67,8 @@
+ }
+ 
+ prepare_lvmetad() {
+-	# skip if we don't have our own lvmetad...
+-	(which lvmetad 2>/dev/null | grep "$abs_builddir") || skip
++	# if we don't have our own lvmetad...
++	(which lvmetad 2>/dev/null | grep "$abs_builddir") || ln -s /sbin/lvmetad $abs_builddir/lib/lvmetad
+ 
+ 	lvmconf "global/use_lvmetad = 1"
+ 	lvmconf "devices/md_component_detection = 0"
+diff -ru qa_test_lvm2-2_02_98-bak/test/lib/test qa_test_lvm2-2_02_98/test/lib/test
+--- qa_test_lvm2-2_02_98-bak/test/lib/test	2014-04-21 13:57:33.000000000 +0800
++++ qa_test_lvm2-2_02_98/test/lib/test	2014-04-21 14:02:25.000000000 +0800
+@@ -81,10 +81,9 @@
+ 
+ aux lvmconf
+ aux prepare_clvmd
+-test -n "$LVM_TEST_LVMETAD" && {
+-	aux prepare_lvmetad
+-	export LVM_LVMETAD_SOCKET="$TESTDIR/lvmetad.socket"
+-}
++aux prepare_lvmetad
++export LVM_LVMETAD_SOCKET="$TESTDIR/lvmetad.socket"
++export LVM_LVMETAD_PIDFILE="$TESTDIR/lvmetad.pid"
+ echo "@TESTDIR=$TESTDIR"
+ echo "@PREFIX=$PREFIX"
+ 

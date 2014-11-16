@@ -82,13 +82,13 @@ rm -rvf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_iosched.8.gz
-/usr/lib/ctcs2/tools/test_iosched-run
 /usr/lib/ctcs2/tcf/qa_iosched_test.tcf
 /usr/share/qa
 /usr/share/qa/qa_test_iosched
 /usr/share/qa/tcf/qa_iosched_test.tcf
 %doc COPYING
 %attr(0755,root,root) /usr/share/qa/%{name}/*.sh
+%attr(0755,root,root) /usr/lib/ctcs2/tools/test_iosched-run
 
 
 %changelog -n qa_test_iosched

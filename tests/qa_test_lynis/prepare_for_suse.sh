@@ -3,8 +3,7 @@
 umask 0077
 
 OSVERS=$(grep VERSION /etc/SuSE-release |  sed "s/VERSION = //")
-OS=$(head -n 1 /etc/SuSE-release | sed "s/[()]//g" | sed "s/ /_/g"
-openSUSE_12.2_x86_64)
+OS=$(head -n 1 /etc/SuSE-release | sed "s/[()]//g" | sed "s/ /_/g")
 
 function fileperms()
 {

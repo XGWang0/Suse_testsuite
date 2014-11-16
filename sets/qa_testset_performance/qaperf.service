@@ -1,0 +1,15 @@
+[Unit]
+Description=testset_performance-run
+ConditionFileIsExecutable=/usr/share/qa/tools/testset_performance-run
+After=getty.target
+
+[Service]
+Type=idle
+ExecStart=/usr/share/qa/tools/testset_performance-run
+TimeoutSec=0
+RemainAfterExit=yes
+
+[Install]
+Alias=sqperf
+WantedBy=multi-user.target
+

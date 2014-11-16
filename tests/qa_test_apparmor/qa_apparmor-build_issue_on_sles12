@@ -1,0 +1,20 @@
+--- tests/regression/apparmor/Makefile	2014-03-09 22:21:11.414288970 -0400
++++ tests/regression/apparmor/Makefile	2014-03-09 22:23:29.606283594 -0400
+@@ -95,12 +95,11 @@
+ 	       				fi ) \
+ 	  			fi ;\
+ 			fi )
+-
+-LIBIMMUNIX:=$(shell	if [ -f /usr/lib/libapparmor.so -o -f /usr/lib64/libapparmor.so ] ; then \
+-				echo -lapparmor ; \
+-			elif [ -f /lib/libimmunix.so.1 -o -f /lib64/libimmunix.so ] ; then \
+-				echo -limmunix ; \
+-			fi )
++LIBIMMUNIX:=$(shell    if [ -f /lib/libapparmor.so -o -f /lib/libapparmor.so.1 -o -f /lib64/libapparmor.so -o -f /lib64/libapparmor.so.1 ] ; then \
++                                echo -lapparmor ; \
++                       elif [ -f /lib/libimmunix.so -o -f /lib/libimmunix.so.1 -o -f /lib64/libimmunix.so -o -f /lib64/libimmunix.so.so.1 ] ; then \
++                                echo -limmunix ; \
++		       fi )
+ 
+ CFLAGS+=$(CHANGEHAT_FLAGS) -Wall -Wstrict-prototypes
+ LDLIBS+=$(LIBIMMUNIX)

@@ -87,6 +87,16 @@ generate/_generate_sles10sp4supported_tcf.sh network > $RPM_BUILD_ROOT/usr/share
 generate/_generate_sles11sp1supported_tcf.sh standalone > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp1supported-standalone.tcf
 generate/_generate_sles11sp1supported_tcf.sh network > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp1supported-network.tcf
 
+generate/_generate_sles11sp3supported_tcf.sh standalone > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp3supported-standalone.tcf
+generate/_generate_sles11sp3supported_tcf.sh network > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp3supported-network.tcf
+generate/_generate_sles11sp3stage_tcf.sh standalone > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp3stage-standalone.tcf
+generate/_generate_sles11sp3stage_tcf.sh network > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp3stage-network.tcf
+
+generate/_generate_sles12fcssupported_tcf.sh standalone > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles12fcssupported-standalone.tcf
+generate/_generate_sles12fcssupported_tcf.sh network > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles12fcssupported-network.tcf
+generate/_generate_sles12fcsstage_tcf.sh standalone > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles12fcsstage-standalone.tcf
+generate/_generate_sles12fcsstage_tcf.sh network > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles12fcsstage-network.tcf
+
 cp tools/* $RPM_BUILD_ROOT/usr/share/qa/tools
 rm -fr tools generate _install.template
 chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/test_virtualization*-run

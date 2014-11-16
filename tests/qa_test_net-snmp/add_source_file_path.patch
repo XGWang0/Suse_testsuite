@@ -1,0 +1,25 @@
+--- qa_test_net-snmp/testing/eval_onescript.sh
++++ qa_test_net-snmp/testing/eval_onescript.sh
+@@ -22,9 +22,9 @@ if [ "x$3" = "xyes" ]; then
+ fi
+ export SNMP_HEADERONLY
+ 
+-. TESTCONF-suse.sh
++. ./TESTCONF-suse.sh
+ 
+-. eval_tools.sh
++. ./eval_tools.sh
+ 
+ cd tests
+ 
+--- qa_test_net-snmp/testing/eval_tools.sh
++++ qa_test_net-snmp/testing/eval_tools.sh
+@@ -22,7 +22,7 @@
+ #
+ if [ "x$EVAL_TOOLS_SH_EVALED" != "xyes" ]; then
+     EVAL_TOOLS_SH_EVALED=yes
+-    . TESTCONF.sh
++    . ./TESTCONF.sh
+ 
+ #
+ # Variables used in global environment of calling script.

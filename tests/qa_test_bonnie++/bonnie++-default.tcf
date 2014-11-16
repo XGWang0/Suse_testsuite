@@ -1,0 +1,12 @@
+timer 5400
+fg 1 bonnie++-async bonnie++ -x 1 -u root -d /abuild/ -n 1024 |bon_csv2txt 
+wait
+
+#timer 5400
+#fg 1 bonnie++-fsync bonnie++ -x 1 -u root -d /abuild/ -n 1024 -b |bon_csv2txt
+#wait
+
+timer 3h
+fg 1 bonnie++-direct_io bonnie++ -x 1 -u root -d /abuild/ -n 1024 -D |bon_csv2txt
+wait
+

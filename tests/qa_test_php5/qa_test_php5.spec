@@ -12,9 +12,19 @@
 
 
 Name:           qa_test_php5
+
+%if 0%{?suse_version} < 1130
+%define php php5
+%define ver 5.2.14
+%else
+%define php php
+%define ver 5.5.9
+%endif
+
 %define qa_location /usr/share/qa/qa_test_php5
 %define qa_server_location /srv/www/htdocs/php5-tests
-Version:        5.2.14
+
+Version:        %{ver}
 Release:        1
 License:        PHP
 Group:          System/Packages
@@ -27,15 +37,18 @@ Source1:        test_php5-run
 Source2:	qa_test_php5.8
 Source3:	apache2-php5-prepare.sh
 Source4:	test_php5-server-run
-Patch0:		server-test-config.patch
+Patch0:		server-test-config-%{ver}.patch
 Patch1:		syntax_fix.patch
 BuildArch:      noarch
 Provides:	qa_php5
 Obsoletes:	qa_php5
-Requires:       php5 >= 5.0.0 php5-wddx php5-ctype php5-mbstring php5-bz2 php5-bcmath php5-ctype php5-dbase php5-exif php5-gd php5-gettext php5-gmp php5-mcrypt php5-shmop php5-sysvshm php5-sysvsem php5-zlib php5-calendar php5-iconv php5-sqlite php5-tokenizer php5-dom php5-soap mysql php5-sysvmsg php5-xsl php5-mysql 
+Requires:       php5 >= 5.0.0 php5-wddx php5-ctype php5-mbstring php5-bz2 php5-bcmath php5-ctype php5-exif php5-gd php5-gettext php5-gmp php5-mcrypt php5-shmop php5-sysvshm php5-sysvsem php5-zlib php5-calendar php5-iconv php5-tokenizer php5-dom php5-soap mysql php5-sysvmsg php5-xsl php5-mysql 
 Requires:       ctcs2
 %if %suse_version <= 1030
-Requires:       php5-mhash
+Requires:       php5-mhash php5-dbase
+%endif
+%if %suse_version <= 1130
+Requires:       php5-sqlite
 %endif
 
 %description
@@ -90,7 +103,10 @@ Authors:
 
 %prep
 %setup -n php-%{version} -q
+
+%if %suse_version <= 1130
 %patch1 -p1
+%endif
 cd ..
 
 search_for_tests() {
@@ -156,13 +172,13 @@ install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 rm -rvf $RPM_BUILD_ROOT
 
 %post
-TEST_ENV="TEST_PHP_EXECUTABLE=%{_bindir}/php5 REPORT_EXIT_STATUS=1 TEST_PHP_SRCDIR=%{qa_location} TEST_PHP_DETAILED=1 NO_INTERACTION=1"
+TEST_ENV="TEST_PHP_EXECUTABLE=%{_bindir}/%{php} REPORT_EXIT_STATUS=1 TEST_PHP_SRCDIR=%{qa_location} TEST_PHP_DETAILED=1 NO_INTERACTION=1"
 
 cat -n %{qa_location}/ctcs2_test_order | grep -v '[0-9]*[ ]*#' | while read test_num line; do
     echo "timer 300"
     echo -en "fg 1 "
     printf PHPTEST%%0.4d $test_num 
-    echo -en " env $TEST_ENV %{_bindir}/php5 -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/run-tests.php %{qa_location}/$line \n"
+    echo -en " env $TEST_ENV %{_bindir}/%{php} -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/run-tests.php %{qa_location}/$line \n"
     echo -en "wait\n\n"
 done > %{qa_location}/tcf/qa_php5.tcf
 
@@ -171,7 +187,7 @@ cat -n %{qa_location}/ctcs2_test_order | grep -v '[0-9]*[ ]*#' | while read test
     echo "timer 300"
     echo -en "fg 1 "
     printf PHPSERVER%%0.4d $test_num 
-    echo -en " %{_bindir}/php5 -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/server-tests.php -c %{qa_location}/server-tests-config.php -d %{qa_location}/$line \n"
+    echo -en " %{_bindir}/%{php} -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/server-tests.php -c %{qa_location}/server-tests-config.php -d %{qa_location}/$line \n"
     echo -en "wait\n\n"
 done > %{qa_location}/tcf/qa_php5-server.tcf
 

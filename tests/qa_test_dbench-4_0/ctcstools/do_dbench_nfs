@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Usage: do_nfs_dbench <nfs | nfs4> "<nfs params without rw>" <dbench params without -D>
+
+LOCALDIR=/tmp/nfs_bench
+MOUNTDIR=/mnt/nfs_bench
+NFSVER=$1
+EXPORTFS_PARAMS=$2
+dbench_bin=dbench-4_0
+shift 2
+
+if [ "$NFSVER" != "nfs4" -a "$NFSVER" != "nfs" ]; then
+    echo "I will use \"$NFSVER\" as type of mount, are you sure? Usual are nfs and nfs4."
+fi
+
+#source libqainternal.lib.sh
+PASSED=0
+FAILED=1
+set -u
+trap "cleanup; exit $FAILED" TERM INT
+
+function usage() {
+    echo "usage: $0 <nfs | nfs4> \"<nfs params without rw>\" <dbench params without -D>"
+    echo "example: $0 nfs \"sync, no_wdelay\" 4 -t 60"
+    exit $FAILED
+}
+
+function init() {
+    mkdir -p "$LOCALDIR"
+    mkdir -p "$MOUNTDIR"
+    chmod 777 "$LOCALDIR"
+    if [ "$NFSVER" = "nfs4" ]; then
+        cp /etc/exports /etc/exports.nfs_dbench_$$
+        echo "/ localhost(rw,no_subtree_check,fsid=0)" > /etc/exports
+        /etc/init.d/nfsserver stop > /dev/null 2>&1
+    fi
+    /etc/init.d/nfsserver start > /dev/null 2>&1
+    if ! exportfs -o "rw,$EXPORTFS_PARAMS" "localhost:$LOCALDIR"
+    then
+	echo "Cannot export '$EXPORTFS_PARAMS' to 'localhost:$LOCALDIR'"
+	exit $FAILED
+    fi
+    if ! mount -t $NFSVER "localhost:$LOCALDIR" "$MOUNTDIR"
+    then
+	echo "Cannot mount NFS directory"
+	exit $FAILED
+    fi
+}
+
+function cleanup() {
+    umount "localhost:$LOCALDIR"
+    exportfs -u "localhost:$LOCALDIR"
+    /etc/init.d/nfsserver stop > /dev/null
+    rm -rf "$LOCALDIR"
+    rm -rf "$MOUNTDIR"
+    if [ "$NFSVER" = "nfs4" ]; then
+        mv /etc/exports.nfs_dbench_$$ /etc/exports
+    fi
+}
+
+if [ $# -lt 1 ]; then
+    usage
+fi
+
+init
+echo "Starting dbench on nfs filesystem mounted with params:"
+echo "NFS params: $EXPORTFS_PARAMS"
+echo "NFS version: $NFSVER"
+$dbench_bin -D "$MOUNTDIR" $@
+cleanup
+
+exit $PASSED

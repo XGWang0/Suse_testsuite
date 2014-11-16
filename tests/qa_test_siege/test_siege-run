@@ -14,15 +14,42 @@ fi
 if [ ! -f $INITSCRIPT ]
 then
     echo "Cannot find Apache initscript"
-    exit 1
+    echo "use systemctl"
+    SYSTEMD_ON=YES
 fi
 
-if $INITSCRIPT status > /dev/null
+if [ "X${SYSTEMD_ON}" == "XYES" ]
 then
-    $INITSCRIPT stop
-fi
+   # stop it anyway and ignore the error
+   systemctl stop apache2
+   mv /usr/lib/systemd/system/apache2.service /usr/lib/systemd/system/apache2.service.bk
+cat <<EOF > /usr/lib/systemd/system/apache2.service
+[Unit]
+Description=The Apache Webserver
+Wants=network.target nss-lookup.target
+After=network.target nss-lookup.target
+Before=getty@tty1.service
 
-$INITSCRIPT start -D SSL -D SSL_DEFAULT_VHOST
+[Service]
+Type=notify
+PrivateTmp=true
+EnvironmentFile=/etc/sysconfig/apache2
+ExecStart=/usr/sbin/start_apache2 -D SYSTEMD -DFOREGROUND -D SSL -D SSL_DEFAULT_VHOST -k start
+ExecReload=/usr/sbin/start_apache2 -D SYSTEMD -DFOREGROUND -D SSL -D SSL_DEFAULT_VHOST -k graceful
+ExecStop=/usr/sbin/start_apache2 -D SYSTEMD -DFOREGROUND -D SSL -D SSL_DEFAULT_VHOST -k graceful-stop
+
+[Install]
+WantedBy=multi-user.target
+EOF
+   systemctl start apache2
+else
+   if $INITSCRIPT status > /dev/null
+   then
+      $INITSCRIPT stop
+   fi
+   $INITSCRIPT start -D SSL -D SSL_DEFAULT_VHOST
+fi 
+
 
 /etc/init.d/cron stop
 
@@ -40,8 +67,13 @@ if [ ! -d $LOG_DIR ]; then
 	mkdir $LOG_DIR
 fi
 
-ulimit -n 8192
+# Fixed the issue of socket cannot assign requested address
+tw_reuse_default=`cat /proc/sys/net/ipv4/tcp_tw_reuse`
+if [ $tw_reuse_default -eq 0 ]; then
+	echo 1 >/proc/sys/net/ipv4/tcp_tw_reuse
+fi
 
+# Run test
 if echo $1 | grep https > /dev/null
 then
     $CTCS2_DIR/tools/run $TCF_DIR/qa_siege_https.tcf
@@ -50,4 +82,11 @@ then
     $CTCS2_DIR/tools/run $TCF_DIR/qa_siege_performance.tcf
 else
     $CTCS2_DIR/tools/run $TCF_DIR/qa_siege_http.tcf
+fi
+
+# Clean setup
+echo $tw_reuse_default >/proc/sys/net/ipv4/tcp_tw_reuse
+if [ "X${SYSTEMD_ON}" == "XYES" ]
+then
+    mv /usr/lib/systemd/system/apache2.service.bk /usr/lib/systemd/system/apache2.service
 fi

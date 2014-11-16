@@ -1,0 +1,95 @@
+#!/bin/bash
+
+SQ_TEST_RUN_LIST=(
+    siege
+    siege
+    siege
+
+    libmicro_bench
+    libmicro_bench
+    libmicro_bench
+
+    lmbench
+    lmbench
+    lmbench
+
+    kernbench
+    kernbench
+    kernbench
+
+    sysbench_bench
+    sysbench_bench
+    sysbench_bench
+
+    reaim_btrfs
+    reaim_ext3
+    reaim_xfs
+    reaim_btrfs
+    reaim_ext3
+    reaim_xfs
+    reaim_btrfs
+    reaim_ext3
+    reaim_xfs
+
+    iozone_btrfs
+    iozone_ext3
+    iozone_xfs
+    iozone_btrfs
+    iozone_ext3
+    iozone_xfs
+    iozone_btrfs
+    iozone_ext3
+    iozone_xfs
+
+    #bonnie_btrfs
+    #bonnie_ext3
+    #bonnie_xfs
+    #bonnie_btrfs
+    #bonnie_ext3
+    #bonnie_xfs
+    #bonnie_btrfs
+    #bonnie_ext3
+    #bonnie_xfs
+
+    pgbench_btrfs
+    pgbench_ext3
+    pgbench_xfs
+    pgbench_btrfs
+    pgbench_ext3
+    pgbench_xfs
+    pgbench_btrfs
+    pgbench_ext3
+    pgbench_xfs
+
+    dbench4_ext3
+    dbench4_xfs
+    dbench4_ext3
+    dbench4_xfs
+    dbench4_ext3
+    dbench4_xfs
+
+    dbench4_syncIO_ext3
+    dbench4_syncIO_xfs
+    dbench4_syncIO_ext3
+    dbench4_syncIO_xfs
+    dbench4_syncIO_ext3
+    dbench4_syncIO_xfs
+
+    #for an issue delay all tests on btrfs
+    dbench4_btrfs
+    dbench4_btrfs
+    dbench4_btrfs
+    dbench4_syncIO_btrfs
+    dbench4_syncIO_btrfs
+    dbench4_syncIO_btrfs
+
+    tiobench_xfs
+    tiobench_ext3
+    tiobench_btrfs
+    tiobench_xfs
+    tiobench_ext3
+    tiobench_btrfs
+    tiobench_xfs
+    tiobench_ext3
+    tiobench_btrfs
+)

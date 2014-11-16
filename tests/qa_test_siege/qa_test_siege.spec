@@ -16,7 +16,7 @@ License:        GPL v2 or later
 Group:          System/Benchmark
 AutoReqProv:    on
 Version:        3.0.4
-Release:        172
+Release:        1
 Summary:        Apache testing tool
 Url:            http://www.joedog.org/index/siege-home
 Source0:        siege-%{version}.tar.gz
@@ -34,7 +34,7 @@ Provides:       qa-siege
 Obsoletes:      qa-siege
 #BuildArchitectures: noarch
 #ExclusiveArch: %ix86
-#BuildRequires:	openssl-devel
+BuildRequires:	openssl-devel
 
 %description
 This is a apache testing and benchmarking tool
@@ -70,6 +70,7 @@ make install prefix=$RPM_BUILD_ROOT%{qa_location}/siege
 install -m 755 -v ctcstools/qa_siege_defaultrun.sh $RPM_BUILD_ROOT%{qa_location}
 cp -v ctcstools/*.tcf $RPM_BUILD_ROOT/%{qa_location}/tcf
 cp -v ctcstools/qa_siege_old.tcf $RPM_BUILD_ROOT/%{qa_location}/tcf
+cp -v ctcstools/siegeparser $RPM_BUILD_ROOT/usr/share/qa/qa_test_siege/siegeparser
 ln -s ../%{name}/tcf/qa_siege_http.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/tcf/qa_siege_https.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/tcf/qa_siege_performance.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
@@ -101,13 +102,14 @@ rm -fr $RPM_BUILD_ROOT
 %attr(0755,root,root) /usr/share/qa/tools/test_siege-run
 /usr/share/qa/tools/test_siege-run-http
 /usr/share/qa/tools/test_siege-run-https
+/usr/share/qa/qa_test_siege/siegeparser
 %attr(0400,root,root) /etc/apache2/ssl.key/qa.key
 %attr(0400,root,root) /etc/apache2/ssl.crt/qa.crt
 /etc/apache2/vhosts.d/00_localhost_ssl.conf
-#%dir /etc/apache2/ssl.crt
-#%dir /etc/apache2/ssl.key
-#%dir /etc/apache2/vhosts.d
-#%dir /etc/apache2
+%dir /etc/apache2/ssl.crt
+%dir /etc/apache2/ssl.key
+%dir /etc/apache2/vhosts.d
+%dir /etc/apache2
 /usr/share/man/man8/qa_test_siege.8.gz
 
 %changelog

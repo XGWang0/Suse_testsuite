@@ -1,0 +1,14 @@
+--- libhugetlbfs-2.17/tests/run_tests-old.py	2013-11-11 17:16:04.000000000 +0800
++++ libhugetlbfs-2.17/tests/run_tests.py	2013-11-11 17:16:19.000000000 +0800
+@@ -321,6 +321,11 @@
+     (rc, out) = run_test_prog(bits, pagesize, cmd, **env)
+     print out
+ 
++    if rc == 2:
++        err = open('err.log','a+')
++        err.write("%s (%s: %i):\t%s\n" % (cmd, pretty_page_size(pagesize), bits, out))
++        err.close
++
+     R["total"][pagesize][bits] += 1
+     if rc == 0:    R["pass"][pagesize][bits] += 1
+     elif rc == 1:  R["config"][pagesize][bits] += 1

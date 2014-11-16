@@ -4,11 +4,19 @@ CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
 shopt -s sourcepath
-export PATH=/usr/share/qa/qa_bind:$PATH
 
 #restart appamor to be sure its running
 /sbin/rcapparmor restart
-$CTCS2_DIR/tools/run $TCF_DIR/qa_apparmor-ldd.tcf
-$CTCS2_DIR/tools/run $TCF_DIR/qa_apparmor-bind.tcf
-$CTCS2_DIR/tools/run $TCF_DIR/qa_apparmor-postfix.tcf
-$CTCS2_DIR/tools/run $TCF_DIR/qa_apparmor-ltp.tcf
+
+#start apache2 for testing apparmor profile
+
+systemctl stop apache2  > /dev/null 2>&1
+
+systemctl start apache2  > /dev/null 2>&1
+
+RC=$?
+if [ $RC -eq 0 ]
+    then
+    $CTCS2_DIR/tools/run $TCF_DIR/qa_apparmor_profiles.tcf
+fi
+

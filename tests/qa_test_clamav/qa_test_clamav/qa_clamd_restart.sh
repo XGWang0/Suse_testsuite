@@ -65,6 +65,7 @@ RET=$?
         fi
 
 rcclamd restart
+sleep 5
 # 1st check if cladm is running after restart
 rcclamd status 
 RET=$?

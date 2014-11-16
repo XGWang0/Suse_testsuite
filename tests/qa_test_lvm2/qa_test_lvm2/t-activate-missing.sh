@@ -28,7 +28,7 @@ lvcreate -l2 -n linear12 $vg $dev1:4 $dev2:4
 lvcreate -l1 -n origin1 $vg $dev1
 lvcreate -s $vg/origin1 -l1 -n s_napshot2 $dev2
 
-lvcreate -l1 -m1 -n mirror12 --mirrorlog core $vg $dev1 $dev2
+lvcreate -l1 --type mirror -m1 -n mirror12 --mirrorlog core $vg $dev1 $dev2
 lvcreate -l1 -m1 -n mirror123 $vg $dev1 $dev2 $dev3
 
 vgchange -a n $vg

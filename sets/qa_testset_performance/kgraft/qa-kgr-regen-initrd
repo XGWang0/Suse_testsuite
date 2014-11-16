@@ -1,0 +1,22 @@
+function regen_initrd() {
+    # the name of the kernel image file for which the patch should be removed
+    KERNEL_IMAGE_NAME=$1
+    if test ! -f /boot/${KERNEL_IMAGE_NAME}; then
+        echo "the kernel image ${KERNEL_IMAGE_NAME} dose not exits"
+        return 1
+    fi
+    mkdir -p /var/run/regenerate-initrd
+    touch /var/run/regenerate-initrd/${KERNEL_IMAGE_NAME}
+    /usr/lib/module-init-tools/regenerate-initrd-posttrans
+}
+
+echo '########################################'
+echo Please uninstall the patch package first
+echo I just regenerate the initrd
+echo '########################################'
+
+for krel in $(ls /lib/modules/); do
+    regen_initrd vmlinuz-${krel}
+done
+
+exit $?

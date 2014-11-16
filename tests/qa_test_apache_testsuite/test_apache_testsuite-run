@@ -35,5 +35,11 @@ for dir in $wlist;do
 done > /usr/share/qa/qa_test_apache_testsuite/tcf/qa_apache_testsuite.tcf
 
 export LC_ALL=C
+#Fix Bug 897006 qa_test_apache_testsuite:Apache cannot spawn child processes as root.
+export TESTS_LOGDIR="/var/log/qa"
+chmod 777 "$TESTS_LOGDIR/ctcs2"
+chmod 777 -R /usr/share/qa/qa_test_apache_testsuite
+#Fix Bug 901708 qa_test_apache_testsuite：DefaultRuntimeDir must be a valid directory, absolute or relative to ServerRoot in extra.conf. 
+sed -i "s/DefaultRuntimeDir\ run\//DefaultRuntimeDir\ \/run\//g" /usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/t/conf/extra.conf
 
-$CTCS2_DIR/tools/run $TCF_DIR/qa_apache_testsuite.tcf
+su -m nobody -c "$CTCS2_DIR/tools/run $TCF_DIR/qa_apache_testsuite.tcf"

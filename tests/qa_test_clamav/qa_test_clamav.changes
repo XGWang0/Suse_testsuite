@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Sep 19 16:55:52 CEST 2014 - asemen@suse.de
+
+- adding #!BuildIgnore: post-build-checks-malwarescan to spec file
+  bnc#897508 to disable scanning on build prevent build fail.
+
+-------------------------------------------------------------------
 Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
 
 - Remove qa_dummy dependency

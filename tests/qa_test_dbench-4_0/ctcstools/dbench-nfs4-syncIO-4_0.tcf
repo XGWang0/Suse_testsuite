@@ -1,0 +1,40 @@
+# run the dbench test on mounted nfs directory
+
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "sync,wdelay,subtree_check" -o "-s" 1
+wait
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "sync,wdelay,subtree_check" -o "-s" 8
+wait
+
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "sync,wdelay,no_subtree_check" -o "-s" 1
+wait
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "sync,wdelay,no_subtree_check" -o "-s" 8
+wait
+
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "sync,no_wdelay,subtree_check" -o "-s" 1
+wait
+
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "sync,no_wdelay,subtree_check" -o "-s" 8
+wait
+
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "sync,no_wdelay,no_subtree_check" -o "-s" 1
+wait
+
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "sync,no_wdelay,no_subtree_check" -o "-s" 8
+wait
+
+timer 1h
+fg 1 dbench-nfs4 /usr/share/qa/qqa_test_dbench-4_0/do_dbench_nfs nfs4 "async" -o "-s" 1
+wait
+
+timer 1h
+benchparser /usr/share/qa/qa_test_dbench-4_0/dbenchnfsparser
+fg 1 dbench-nfs4 /usr/share/qa/qa_test_dbench-4_0/do_dbench_nfs nfs4 "async" -o "-s" 8
+wait

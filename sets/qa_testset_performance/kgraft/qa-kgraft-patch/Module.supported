@@ -1,0 +1,5 @@
+qa-kgr-patch-sys-getpid.ko
+qa-kgr-patch-sys-read.ko
+qa-kgr-patch-sys-write.ko
+qa-kgr-patch-sys-fsync.ko
+

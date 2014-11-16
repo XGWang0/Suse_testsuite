@@ -1,0 +1,26 @@
+#!/bin/bash
+
+TARGET_RELEASE=
+if test "X${TARGET_RELEASE}" == "X";then
+    echo "TARGET_RELEASE is NONE!"
+    echo "DO NOTHING then EXIT!!!"
+    exit 1
+fi
+
+CMDPATH=$(which $0)
+if [ -L $CMDPATH ];then
+    pushd $(dirname $CMDPATH) > /dev/null
+    CMDTARGET=$(readlink $CMDPATH)
+    pushd $(dirname $CMDTARGET) > /dev/null
+    readonly __IMPORT_ROOT=$(pwd)
+    popd > /dev/null
+    popd > /dev/null
+else
+    pushd $(dirname $CMDPATH) > /dev/null
+    readonly __IMPORT_ROOT=$(pwd)
+    popd > /dev/null
+fi
+
+SQ_SET_BIN=${__IMPORT_ROOT}/sq-set.sh
+export SQ_SET_CALL_BY_WRAP=YES
+${SQ_SET_BIN} -t ${TARGET_RELEASE} run -s acceptance -l acceptance

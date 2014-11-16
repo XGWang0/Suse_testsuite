@@ -1,0 +1,5 @@
+-------------------------------------------------------------------
+Tue Jul 26 18:49:05 CEST 2011 - dsterba@suse.cz
+
+- initial import of 3.3
+- add -R option to randomize data

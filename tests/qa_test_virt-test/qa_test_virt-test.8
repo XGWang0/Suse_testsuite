@@ -1,0 +1,69 @@
+." Manpage for qa_test_virt-test.
+." Contact Pavel Kacer <pkacer@suse.com> to correct errors or typos.
+.TH man 8 "23 Apr 2014" "1.0" "qa_test_virt-test man page"
+.SH NAME
+qa_test_virt-test
+.SH SYNOPSIS
+/usr/share/qa/tools/qa_test_virt-test-run
+.SH TYPE
+Wrapper for virt-test execution.
+.SH DESCRIPTION
+This package provides the wrapper for running the virt-test testsuite
+automatically.
+
+virt-test is a Linux virtualization test suite, intended to be used in
+conjunction with the autotest framework, although it can be also used
+separately, on a virt developer's machine, to run tests quicker and
+smaller in scope, as an auxiliary tool of the development process.
+
+This test suite aims to have test tools for a wide range of testing
+scenarios.
+.IP
+Guest OS install, for both Windows (WinXP - Win7) and Linux (RHEL,
+Fedora, OpenSUSE) and any generic one, through a 'step engine'
+mechanism.
+.IP
+Serial output for Linux guests
+.IP
+Migration, networking, timedrift and other types of tests
+.IP
+Monitor control for both human and QMP protocols
+.IP
+Build and use qemu using various methods (source tarball, git repo, rpm)
+.IP
+Performance testing
+.IP
+Call other kvm test projects, such as kvm-unit-tests
+.P
+We support x86_64 hosts with hardware virtualization support (AMD and Intel)
+and Intel 32 and 64 bit guest operating systems, and work is underway to
+support PPC hosts.
+.SH README
+None.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+Creates a virtual host from provided images and executes series of tests on it.
+.SH COMMON PROBLEMS
+No known problems.
+.SH WARNINGS
+You need to have a bridge set-up and named
+.B 'br0'
+in before running the
+testsuite. You also have to download the OS image to specified
+location.
+.SH SEE ALSO
+qa_test_virtualization(8), virt-test(1)
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+This package is distributed internally for use in QA department. It
+might be also distributed as a part of some contract.
+.SH LICENSE
+GNU General Public License Version 2 or higher
+.SH UPSTREAM
+https://github.com/autotest/virt-test
+.SH AUTHOR
+Pavel Kacer <pkacer@suse.com>
+.SH MAINTAINER
+Pavel Kacer <pkacer@suse.com>

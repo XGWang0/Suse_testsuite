@@ -11,13 +11,12 @@
 # norootforbuild
 
 Name:           qa_test_lvm2
-BuildRequires:  ctcs2
 License:        GPL v2
 Group:          SuSE internal
 Summary:        lvm2 regression tests for ctcs framework
 Provides:	qa_lvm2
 Obsoletes:	qa_lvm2
-Requires:       lvm2 ctcs2 grep
+Requires:       lvm2 ctcs2 grep git
 Version:        0.1
 Release:        1
 Source0:        %{name}-%{version}.tar.bz2
@@ -26,7 +25,9 @@ Source2:        test_lvm2-run
 Source3:	qa_test_lvm2.8
 Source4:	test_lvm2_2_02_98-run
 Source5:	test_lvm2_source-run
-Source6:	qa_test_lvm2-2_02_98.tar.bz2
+Source6:	qa_test_lvm2_shell.tar.bz2
+Patch1:		dmeventd_lvmetad_test.path
+Patch2:         lvchange-raid_none_writemostly.path
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -39,6 +40,8 @@ Authors:
 %prep
 %define qa_location /usr/share/qa/%{name}
 %setup -n %{name} -a6
+%patch1 -p0
+%patch2 -p0
 
 %build
 pushd $RPM_BUILD_DIR/%{name}/lib
@@ -48,6 +51,7 @@ chmod +x *
 ln -s not should  
 rm *.c
 popd
+
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
@@ -63,8 +67,13 @@ install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -d $RPM_BUILD_ROOT/usr/share/qa/%name
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-install -d $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2-2_02_98
-mv $RPM_BUILD_ROOT/usr/share/qa/%name/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa/
+mv $RPM_BUILD_ROOT/usr/share/qa/%name/qa_test_lvm2-2_02_98 $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2_shell
+
+cd $RPM_BUILD_ROOT/usr/share/qa/qa_test_lvm2_shell/test/lib
+cc harness.c -o harness
+cc not.c -o not
+chmod +x *
+ln -s not should
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_lvm2.8.gz
 %dir %{_datadir}/qa
 %{_datadir}/qa/%name
-%{_datadir}/qa/qa_test_lvm2-2_02_98
+%{_datadir}/qa/qa_test_lvm2_shell
 %dir %{_datadir}/qa/tools
 %{_datadir}/qa/tools/test_lvm2-run
 %{_datadir}/qa/tools/test_lvm2_2_02_98-run

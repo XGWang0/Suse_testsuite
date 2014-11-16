@@ -1,0 +1,14 @@
+#!/bin/sh
+#sut_timeout 600
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/qa_test_bonnie"
+tcf_f="/usr/share/qa/tcf/bonnie++-default.tcf"
+
+if [ ! -d /abuild ]; then
+	mkdir -p /abuild
+fi
+
+/etc/init.d/cron stop
+
+$ctcsdir/tools/run $tcf_f

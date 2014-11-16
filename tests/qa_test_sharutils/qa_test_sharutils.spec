@@ -21,7 +21,7 @@ Provides:	qa_sharutils
 Obsoletes:	qa_sharutils
 Requires:       sharutils ctcs2
 Version:        4.6.2
-Release:        1
+Release:        2
 Source0:        sharutils-%version.tar.bz2
 Source1:        qa_sharutils.tcf
 Source2:        test_sharutils-run

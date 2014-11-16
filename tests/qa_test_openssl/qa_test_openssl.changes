@@ -1,4 +1,16 @@
 -------------------------------------------------------------------
+Thu May 29 12:20:00 UTC 2014 - vpelcak@suse.com
+
+- Version bump to the 1.0.1g.
+
+-------------------------------------------------------------------
+Fri Mar 21 13:25:54 UTC 2014 - tchvatal@suse.com
+
+- Version bump to the 1.0.0l and 1.0.1f to build again for SLE-12
+  releases. Drop support for the SLE10 as we already have branched
+  version and we do not plan with it for future.
+
+-------------------------------------------------------------------
 Thu Jan 05 16:00:00 CET 2012 - tchvatal@suse.cz
 
 - remove split between the hwcrypto and swcrypto test, try to load

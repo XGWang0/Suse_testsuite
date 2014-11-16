@@ -14,16 +14,18 @@ Name:           qa_test_apache_testsuite
 License:        Apache 2.0
 Group:          SUSE internal
 AutoReqProv:    on
-Version:        894558
+Version:        1554166
 Release:        1
 Summary:        (rd-)qa internal package for testing apache and apache2
 Url:            http://httpd.apache.org/test/
 Source0:        %{name}-%{version}.tar.bz2
-Source1:        mod_perl-2.0.4.tar.bz2
+# Copy from opensuse factory
+Source1:        libapache2-mod-perl2_2.0.8+httpd24-r1449661.orig.tar.gz
 Source2:	test_apache_testsuite-run
 Source3:	qa_test_apache_testsuite.8
 Patch0:         CVE-2004-0959.diff
-Patch1:		hash_attack.patch
+#Patch1:		hash_attack.patch
+#Patch2:         mod_perl-closeur-s390x.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 Provides:	qa_apache_testsuite
@@ -38,7 +40,8 @@ perl-framework.
 %setup -b 1 -n %{name}
 cd ..
 %patch0 -p0
-%patch1 -p0
+#%patch1 -p0
+#%patch2 -p0
 
 %install
 #
@@ -68,7 +71,8 @@ rm -f t/php/umask.t
 #
 #
 cp -r * $RPM_BUILD_ROOT/usr/share/qa/%{name}/httpd-test
-cp -r ../mod_perl/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/mod_perl-tests
+#copy mod-perl test files
+cp -r ../httpd24/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/mod_perl-tests
 find $RPM_BUILD_ROOT/usr/share/qa -type f -name "*.html" -print0 | xargs -0 -r chmod a-x
 
 %build
@@ -83,7 +87,7 @@ rm -rvf $RPM_BUILD_ROOT
 #/usr/share/qa/qa_test_apache_testsuite/
 #/usr/lib/ctcs2/tcf/
 /usr/share/qa/tcf/qa_apache_testsuite.tcf
-%attr(777, root, root) /usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/lib/Apache/TestConfigData.pm
+#%attr(777, root, root) /usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/lib/Apache/TestConfigData.pm
 
 %changelog
 * Wed Aug 17 2011 - llipavsky@suse.cz

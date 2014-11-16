@@ -261,7 +261,7 @@ Index: ltp-full-20130109/runtest/ltp-aiodio.part1
 +# testrun to perform with CTCS2 inside a simple .tcf file. Without
 +# using LTP's testscripts/ltp-aiodio.sh
 +ADPREP0 mkdir -p /tmp/aiodio/ /tmp/aiodio/junkdir
-+ADPREP1 dd if=/proc/kcore of=/tmp/aiodio/junkfile bs=1024 count=30000
++ADPREP1 dd if=/proc/kcore of=/tmp/aiodio/junkfile bs=1024 count=3000
 +ADPREP2 touch /tmp/aiodio/ff2 /tmp/aiodio/fff /tmp/aiodio/ff1 /tmp/aiodio/ff3
 +
 +AD001 time aiocp -b 1k -n 1 -f DIRECT /tmp/aiodio/junkfile /tmp/aiodio/ff2

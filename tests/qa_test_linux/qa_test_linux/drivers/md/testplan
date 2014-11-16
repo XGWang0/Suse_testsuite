@@ -1,0 +1,42 @@
+MD Test Plan
+
+1. Introduction 
+
+1) Background
+  For free Test about MD
+
+2) Objectives
+  MD function can work well on SLES12. And the test cases would cover all functional points.
+  Version: mdadm - v3.3 - 3rd September 2013
+
+
+3) Scope 
+  Test all the functional points of MD via mdadm command.
+  
+4) Out of Scope
+  None.
+  
+2. System Overview
+Linux MD RAID, as a software RAID implementation, makes data consistency checks available and provides automated repairing of detected data inconsistencies. Such procedures are usually performed by setting up a weekly cron job. Maintenance is performed by issuing operations check, repair or idle to each of the examined MD devices. Statuses of all performed operations, as well as general RAID statuses, are always available.
+mdadm is a Linux utility used to manage software RAID devices.
+  
+3. Test Environment
+        OS: SLES12
+  Platform: X86_64 and s390x
+  
+4. Test Approach
+  1) Test Type
+    Function Test: Manual test & Automated test
+      
+  2) Test Scenario
+    Do the MD test via mdadm command. Include manual test and automated test.
+    1. Create a new array from unused devices.
+      raid level: 0,1,4,5,6,10,linear,multipath and synonyms
+    2. Assemble a previously created array.
+    3. Create or assemble an array without metadata.
+    4. make changes to an existing array.
+    5. report on or modify various md related devices.
+    6. resize/reshape an active array
+    7. add/remove a device to/from an array as appropriate
+    8. Monitor one or more array for significant changes.
+

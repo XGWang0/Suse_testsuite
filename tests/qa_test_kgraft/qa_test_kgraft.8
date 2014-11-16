@@ -1,0 +1,41 @@
+." Manpage for qa_test_kgraft.
+." Contact Libor Pechacek <lpechacek@suse.cz> to correct errors or typos.
+.TH man 8 "30 Jul 2014" "1.0" "qa_test_kgraft man page"
+.SH NAME
+qa_test_kgraft
+.SH SYNOPSIS
+Set of scripts to test kgraft on System z
+.br
+/usr/share/qa/qa_test_kgraft/test_kgraft-run
+.SH TYPE
+Functionality test.
+.SH DESCRIPTION
+This test set is used to verify kgraft functionality using kGraft
+patches built at run time.
+.br
+The test scripts are writen in Bash, auxiliary programs in C.
+.SH README
+None.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+The test scripts verify kgraft reliability under different conditions.
+.SH COMMON PROBLEMS
+Due to missing kernel ability to remove kGraft patches, reboot is required
+befor the tests can be run again.
+.SH WARNINGS
+None at the moment.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Public.
+.SH LICENSE
+GPLv2+
+.SH UPSTREAM
+N/A
+.SH AUTHOR
+Libor Pechacek <lpechacek@suse.cz>
+.SH MAINTAINER
+Libor Pechacek <lpechacek@suse.cz>

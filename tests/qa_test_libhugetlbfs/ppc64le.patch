@@ -1,0 +1,20 @@
+--- libhugetlbfs-2.17/Makefile-old	2013-10-22 09:07:56.000000000 +0800
++++ libhugetlbfs-2.17/Makefile	2014-09-18 13:28:36.725291134 +0800
+@@ -98,10 +98,17 @@
+ TMPLIB32 = lib
+ CUSTOM_LDSCRIPTS = no
+ else
++ifeq ($(ARCH),ppc64le)
++CC64 = $(CC) -m64
++ELF64 = elf64ppc
++TMPLIB64 = lib64
++TMPLIB32 = lib
++else
+ $(error "Unrecognized architecture ($(ARCH))")
+ endif
+ endif
+ endif
++endif
+ endif
+ endif
+ endif

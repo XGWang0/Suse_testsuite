@@ -23,6 +23,7 @@ Source2:	libcgroup-run
 Obsoletes:	qa_libcgroup
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
+Requires:       gcc-c++
 
 %description
 libcgroup automated testsuite

@@ -16,3 +16,7 @@
 /src/gnu/autoconf-1.11/mkinstalldirs
 /src/gnu/autoconf-1.11/install.sh
 /src/gnu/autoconf-1.11/autoconf.info
+/src/gnu/autoconf-1.11/standards.texi
+/src/gnu/autoconf-1.11/make-stds.texi
+/src/gnu/autoconf-1.11/standards.info
+/src/gnu/autoconf-1.11/texinfo.tex

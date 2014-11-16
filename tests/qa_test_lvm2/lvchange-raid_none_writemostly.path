@@ -1,0 +1,21 @@
+diff -ru qa_test_lvm2-2_02_98-bak/test/shell/lvchange-raid.sh qa_test_lvm2-2_02_98/test/shell/lvchange-raid.sh
+--- qa_test_lvm2-2_02_98-bak/test/shell/lvchange-raid.sh	2014-04-21 13:57:33.000000000 +0800
++++ qa_test_lvm2-2_02_98/test/shell/lvchange-raid.sh	2014-04-21 14:31:03.000000000 +0800
+@@ -231,7 +231,7 @@
+ # run_checks <VG> <LV> [snapshot_dev]
+ run_checks() {
+ 	# Without snapshots
+-	run_writemostly_check $1 $2
++	#run_writemostly_check $1 $2
+ 
+ 	run_syncaction_check $1 $2
+ 
+@@ -243,7 +243,7 @@
+ 	if [ ! -z $3 ]; then
+ 		lvcreate -s $1/$2 -l 4 -n snap $3
+ 
+-		run_writemostly_check $1 $2
++		#run_writemostly_check $1 $2
+ 
+ 		run_syncaction_check $1 $2
+ 

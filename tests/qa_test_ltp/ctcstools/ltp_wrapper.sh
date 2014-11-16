@@ -8,21 +8,6 @@ export LTPROOT="/opt/ltp/";
 export TMPDIR="/tmp"
 
 #
-# Look if test needs a device
-#
-if echo "$@" | grep -q '${DEVICE}'; then
-
-	echo "INFO: Preparing test device"
-
-	DEVICE_FILE=${TMPDIR}/ltp_test_$$.img
-	export DEVICE_FS_TYPE=ext3
-
-	dd if=/dev/zero of="${DEVICE_FILE}" bs=1kB count=20480
-	export DEVICE=$(losetup -f)
-	losetup "${DEVICE}" "${DEVICE_FILE}"
-fi
-
-#
 # The testcases bin directory must be in PATH so that
 # testcases could executed binaries from there
 #
@@ -35,19 +20,11 @@ export PATH="${PATH}:${LTPROOT}/testcases/bin/"
 # TFAIL 1   The test case produced unexpected results.
 # TBROK 2   A resource needed to execute the test case was not available  (e.g.  a  temporary  file  could  not  be
 #           opened).
+# TCONF 32  Test skipped
 #
 
 eval "$@"
 rc=$?
-
-#
-# Device cleanup
-#
-if [ -n "${DEVICE_FILE}" ]; then
-	echo "INFO: Removing device ${DEVICE}"
-	losetup -d "${DEVICE}"
-	rm -f "${DEVICE_FILE}"
-fi
 
 if [ $rc -eq 0 ]; then
 	echo "INFO: Test PASSED"
@@ -59,9 +36,14 @@ if [ "$(( $rc & 1 ))" -eq 1 ]; then
 	exit 1
 fi
 
-if [ "$(( $rc & 2))" -eq 2 ]; then
+if [ "$(( $rc & 2 ))" -eq 2 ]; then
 	echo "INFO: Test INTERNAL ERROR"
 	exit 11
+fi
+
+if [ "$(( $rc & 32 ))" -eq 32 ]; then
+	echo "INFO: Test SKIPPED"
+	exit 22
 fi
 
 # Test was killed, signaled etc..

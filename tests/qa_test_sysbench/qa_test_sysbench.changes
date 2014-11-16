@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu May 22 17:59:58 CST 2014 - lzwang@suse.com
+
+- changed the socket path to /run/mysql/mysql.sock
+
+-------------------------------------------------------------------
 Mon Aug 15 11:45:43 GMT 2011 - llipavsky@suse.cz
 
 - Package rename: sysbench -> qa_test_sysbench
