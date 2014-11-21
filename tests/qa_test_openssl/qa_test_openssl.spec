@@ -35,6 +35,7 @@ Source3:        generate_openssl_tests.sh
 Source4:        qa_test_openssl_benchmark.sh
 Source5:        process_benchmarks.pl
 Patch0:         qa_test_openssl-Makefile-%{Ver}.patch
+Patch1:		qa_test_openssl-shlib_wrap-%{Ver}.patch
 BuildRequires:  bc
 BuildRequires:  ctcs2
 BuildRequires:  gcc
@@ -67,6 +68,7 @@ sed -i -e 's:%{_prefix}/local/bin/perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl
 sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %patch0 -p1
+%patch1 -p1
 
 cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list
 

@@ -1,0 +1,11 @@
+--- qa_test_openssl-1.0.1g-old/util/shlib_wrap.sh	2014-11-21 16:50:12.574242050 +0800
++++ qa_test_openssl-1.0.1g/util/shlib_wrap.sh	2014-11-21 16:50:33.424243059 +0800
+@@ -88,7 +88,7 @@
+ 	export LD_PRELOAD _RLD_LIST DYLD_INSERT_LIBRARIES
+ fi
+ 
+-cmd="$1${EXE_EXT}"
++cmd="/usr/bin/openssl"
+ shift
+ if [ $# -eq 0 ]; then
+ 	exec "$cmd"	# old sh, such as Tru64 4.x, fails to expand empty "$@"
