@@ -25,7 +25,7 @@ The testsuite contains tests both for the library's features and for the underly
 %prep
 %setup -q -n libhugetlbfs-%{version}
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 
 %build
 make clean
