@@ -42,8 +42,8 @@ Requires:       fs_mark
 Version:        0.1
 Release:        2
 Source0:        %{name}-%{version}.tar.bz2
-Source1:        fs_enospc.tcf
-Source2:        test_fs_enospc-run
+Source1:        fs_enospc-btrfs.tcf
+Source2:        test_fs_enospc-btrfs-run
 Source3:        qa_test_fs_enospc.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
@@ -65,7 +65,7 @@ install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tcf
 cp %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
-ln -s ../../../share/qa/tcf/fs_enospc.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+ln -s ../../../share/qa/tcf/fs_enospc-btrfs.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 
@@ -75,5 +75,5 @@ cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 /usr/share/qa
 /usr/share/qa/%name/*
 /usr/lib/ctcs2
-%attr (0755, root, root) /usr/share/qa/tools/test_fs_enospc-run
+%attr (0755, root, root) /usr/share/qa/tools/test_fs_enospc-btrfs-run
 %doc COPYING
