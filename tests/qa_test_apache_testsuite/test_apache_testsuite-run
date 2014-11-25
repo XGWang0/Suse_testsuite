@@ -40,6 +40,15 @@ export TESTS_LOGDIR="/var/log/qa"
 chmod 777 "$TESTS_LOGDIR/ctcs2"
 chmod 777 -R /usr/share/qa/qa_test_apache_testsuite
 #Fix Bug 901708 qa_test_apache_testsuite：DefaultRuntimeDir must be a valid directory, absolute or relative to ServerRoot in extra.conf. 
+#generate the extra.conf and httpd.conf. 
+#/usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/t/conf/httpd.conf 
+#/usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/t/conf/extra.conf
+/usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/t/TEST 
+#change DefaultRuntimeDir
 sed -i "s/DefaultRuntimeDir\ run\//DefaultRuntimeDir\ \/run\//g" /usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/t/conf/extra.conf
+#Bug 901704 - qa_test_apache_testsuite：Invalid command 'Allow' in mod_perl-tests/t/conf/httpd.conf 
+#add LoadModule mod_access_compat
+echo -ne '\n<IfModule !mod_access_compat.c>\n    LoadModule access_compat_module "/usr/lib64/apache2-prefork/mod_access_compat.so"\n</IfModule>\n' >> /usr/share/qa/qa_test_apache_testsuite/mod_perl-tests/t/conf/httpd.conf
 
+#as nobody use to run the test.
 su -m nobody -c "$CTCS2_DIR/tools/run $TCF_DIR/qa_apache_testsuite.tcf"
