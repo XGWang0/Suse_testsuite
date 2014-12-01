@@ -36,3 +36,7 @@ wait
 timer 300
 fg 1 qa_kgraft_mem /usr/share/qa/qa_test_kgraft/kgr_tc_7.sh
 wait
+
+timer 900
+fg 1 qa_kgraft_replace_all /usr/share/qa/qa_test_kgraft/kgr_tc_8.sh
+wait
