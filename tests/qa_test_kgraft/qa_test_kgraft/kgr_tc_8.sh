@@ -47,8 +47,8 @@ for N in $(seq 1 $N_PATCHES); do
 done
 
 kgr_tc_milestone "Try to remove getpid patch final"
-rmmod kgraft_patch_getpid-replace-all_final
-if test $? -eq 0;then
+
+if rmmod kgraft_patch_getpid-replace-all_final; then
     kgr_tc_abort "It should not be possible to remove the kernel module kgraft_patch_getpid_8_final"
 fi
 

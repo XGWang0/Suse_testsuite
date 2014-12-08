@@ -19,10 +19,9 @@ function kgr_wait_complete() {
 
 function kgr_kick_processes() {
     for PROC in /proc/[0-9]*; do
-        if [ "$(cat $PROC/kgr_in_progress)" -ne 0 ]; then
+        if [ "X$(cat $PROC/kgr_in_progress)" == "X1" ]; then
             PID=$(echo $PROC | cut -d/ -f3)
-            kill -STOP $PID
-            kill -CONT $PID
+            kill -STOP $PID && kill -CONT $PID || true
         fi
     done
 }

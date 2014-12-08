@@ -12,7 +12,7 @@ function add_workload {
 function start_workload {
     for w in "${WORKLOAD_LIST[@]}"; do
         echo "start ${w}"
-        eval workload_$w
+        eval "workload_$w > /dev/null"
     done
 }
 
