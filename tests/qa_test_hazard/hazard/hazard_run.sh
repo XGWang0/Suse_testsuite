@@ -207,7 +207,7 @@ do
 	ssh -l root $ip "sed  -i 's/disable[ \t]\+= .*/disable \t = no/' /etc/xinetd.d/rsh"
 	ssh -l root $ip "echo -e \"$local_ips\" >/etc/hosts.equiv"
 	ssh -l root $ip "echo $local_ips	root >/root/.rhosts"
-	ssh -l root $ip "/etc/init.d/xinetd restart"
+	ssh -l root $ip "service xinetd restart"
 
 	#get the hardware info and rpm list
 

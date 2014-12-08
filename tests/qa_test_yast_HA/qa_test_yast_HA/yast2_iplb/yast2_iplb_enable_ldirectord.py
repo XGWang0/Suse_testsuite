@@ -36,7 +36,7 @@ from yast2_iplb_frame import *
 doc="""
 Actions:
 
-STEP1: On server, enable ldirectord (#/etc/init.d/ldirectord start)
+STEP1: On server, enable ldirectord (#service ldirectord start)
 
 Expected:
 
@@ -50,5 +50,5 @@ print doc
 ##### On director server
 ds = remoteSetting(node_ip=director_ip, node_pwd=director_pwd)
 
-ds.act_service(service="/etc/init.d/ldirectord", status="start", check=True, process="ldirectord")
+ds.act_service(service="service ldirectord", status="start", check=True, process="ldirectord")
 
