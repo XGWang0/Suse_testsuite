@@ -26,7 +26,7 @@ statisics and other test parameters before exiting.  Since verification
 of data is performed, dt can be thought of as a generic diagnostic tool.
 
 %package doc
-License:        BSD-like
+License:        BSD-2-Clause
 Summary:        Documentation for dt
 Group:          Documentation
 Requires:       dt = %{version}
