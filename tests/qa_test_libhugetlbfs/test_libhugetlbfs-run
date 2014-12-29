@@ -4,6 +4,16 @@ CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 TEST_DIR=/usr/share/qa/qa_test_libhugetlbfs
 
+# Check processor type 
+TESTLIBHUGETLBFS=`uname -m`
+if [ "$TESTLIBHUGETLBFS" = "X86_64" ]
+then
+LIBHUGETLBFSTCF=qa_test_libhugetlbfs
+elif [ "$TESTLIBHUGETLBFS" = "i686" ]
+then
+LIBHUGETLBFSTCF=qa_test_libhugetlbfs_32
+fi
+
 # Prepare the test sources
 mkdir -p /tmp/libhugetlbfs
 mount  -t hugetlbfs none /tmp/libhugetlbfs
@@ -12,7 +22,7 @@ echo 128 > /proc/sys/vm/nr_hugepages
 ulimit -l 4096
 ulimit -s unlimited
 
-$CTCS2_DIR/tools/run $TCF_DIR/qa_test_libhugetlbfs.tcf
+$CTCS2_DIR/tools/run $TCF_DIR/$LIBHUGETLBFSTCF.tcf
 
 umount /tmp/libhugetlbfs
 
