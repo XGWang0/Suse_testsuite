@@ -1,0 +1,8 @@
+#!/bin/bash
+PATH='/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin'
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/tcf"
+
+$ctcsdir/tools/run $basedir/netperf-peer-5354.tcf
+

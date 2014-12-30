@@ -1,0 +1,73 @@
+#!/bin/bash
+
+IP=127.0.0.1
+BRD=127.0.0.255
+MASK=24
+PEER_IP=127.0.0.1
+INTERFACE=eth0
+STREAM_TYPE=TCP_STREAM
+
+function usage
+{
+    echo 'usage'
+    exit 2
+}
+
+while test $# -gt 0; do
+    opt=$1
+    echo $opt | grep '^-' > /dev/null
+    if test $? -ne 0; then
+        break
+    fi
+    case $opt in
+        '-a') if test $# -lt 2;then usage; else shift; fi
+            IP=$1;;
+        '-b') if test $# -lt 2;then usage; else shift; fi
+            BRD=$1;;
+        '-m') if test $# -lt 2;then usage; else shift; fi
+            MASK=$1;;
+        '-i') if test $# -lt 2;then usage; else shift; fi
+            INTERFACE=$1;;
+        '-p') if test $# -lt 2;then usage; else shift; fi
+            PEER_IP=$1;;
+        '-T') STREAM_TYPE=TCP_STREAM;;
+        '-U') STREAM_TYPE=UDP_STREAM;;
+    esac
+    shift
+done
+
+echo "IP $IP"
+echo "INTERFACE $INTERFACE"
+echo "PEER_IP $PEER_IP"
+echo "MASK $MASK"
+echo "BRD $BRD"
+echo "STREAM_TYPE ${STREAM_TYPE}"
+
+if test ! -d /sys/class/net/${INTERFACE};then
+    echo "E interface ${INTERFACE} dose not exist!!!"
+    exit 3
+fi
+
+if ip addr show dev ${INTERFACE} | grep ${IP} > /dev/null; then
+    echo "I ${INTERFACE} already have ${IP}"
+else
+    ip addr add ${IP}/${MASK} brd ${BRD} dev ${INTERFACE}
+    if $? -ne $0; then
+        echo "E failed to add the ip"
+        exit 3
+    fi
+fi
+
+# make sure link is up
+ip link set ${INTERFACE} up
+
+# check the connection
+ping ${PEER_IP} -q -c 8 > /dev/null
+if test $? -ne 0; then
+    echo "E connection to ${PEER_IP} has problem"
+    exit 3
+fi
+
+echo "netperf -l 60 -H ${PEER_IP} -t ${STREAM_TYPE} -i 20,2 -I 99,3"
+netperf -l 60 -H ${PEER_IP} -t ${STREAM_TYPE} -i 20,2 -I 99,3
+exit $?
