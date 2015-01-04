@@ -32,6 +32,10 @@ fi
 
 FTP_SOURCE=`grep ftp_source /usr/share/qa/qa_test_ftpload/qa_test_ftpload-config |cut -d= -f2`
 
+if [ ! -d /abuild ] ; then
+	mkdir /abuild
+fi
+
 if [ "$ARCH" != "s390x" ]; then
 	ftpload -d /tmp -c 20 $FTP_SOURCE
 else
