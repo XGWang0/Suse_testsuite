@@ -1,0 +1,7 @@
+timer 25m
+fg 1 netperf-loop-tcp  /usr/lib/ctcs2/config/netperf/netperf-client -T -a 127.0.0.1 -i lo -m 24 -b 127.0.0.255
+wait
+
+timer 25m
+fg 1 netperf-loop-udp /usr/lib/ctcs2/config/netperf/netperf-client -U -a 127.0.0.1 -i lo -m 24 -b 127.0.0.255
+wait
