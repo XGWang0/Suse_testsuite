@@ -26,4 +26,4 @@
 #
 
 # FTP source for ftpload test
-ftp_source=ftp://10.122.0.9/400MB
+ftp_source=ftp://10.162.0.9/400MB
