@@ -11,37 +11,37 @@ timer 1h
 fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 1
 wait
 
-timer 1h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 2
-wait
+#timer 1h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 2
+#wait
 
-timer 1h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 4
-wait
+#timer 1h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 6
+#wait
+#
+##timer 1h
+##fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 8
+##wait
+#
+#timer 2h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 12
+#wait
+#
+#timer 2h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 16
+#wait
 
-timer 1h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 8
-wait
+#timer 2h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 20
+#wait
 
-timer 2h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 12
-wait
+#timer 2h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 24
+#wait
 
-timer 2h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 16
-wait
-
-timer 2h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 20
-wait
-
-timer 2h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 24
-wait
-
-timer 4h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 32
-wait
+#timer 4h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 32
+#wait
 
 #timer 4h
 #fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 40 
@@ -55,13 +55,13 @@ wait
 #fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 56 
 #wait
 
-timer 8h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 64
-wait
+#timer 8h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 64
+#wait
 
-timer 8h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 96
-wait
+#timer 8h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 96
+#wait
 
 timer 8h
 fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 128
@@ -75,9 +75,9 @@ timer 8h
 fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 256
 wait
 
-timer 8h
-fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 384
-wait
+#timer 8h
+#fg 1 dbench-syncIO /usr/share/qa/qa_test_dbench-4_0/do_dbench -o "-s" -n 384
+#wait
 
 timer 8h
 benchparser /usr/share/qa/qa_test_dbench-4_0/dbenchnewparser
