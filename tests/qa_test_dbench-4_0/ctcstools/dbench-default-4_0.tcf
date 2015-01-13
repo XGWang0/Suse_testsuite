@@ -12,37 +12,37 @@ benchparser /usr/share/qa/qa_test_dbench-4_0/dbenchnewparser
 fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 1
 wait
 
-timer 1h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 2
-wait
+#timer 1h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 2
+#wait
 
-timer 1h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 4
-wait
+#timer 1h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 6
+#wait
 
-timer 1h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 8
-wait
+#timer 1h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 8
+#wait
 
-timer 2h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 12
-wait
+#timer 2h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 12
+#wait
 
-timer 2h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 16
-wait
+#timer 2h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 16
+#wait
 
 #timer 2h
 #fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 20 
 #wait
 
-timer 2h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 24
-wait
+#timer 2h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 24
+#wait
 
-timer 4h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 32
-wait
+#timer 4h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 32
+#wait
 
 #timer 4h
 #fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 40 
@@ -56,13 +56,13 @@ wait
 #fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 56 
 #wait
 
-timer 8h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 64
-wait
+#timer 8h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 64
+#wait
 
-timer 8h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 96
-wait
+#timer 8h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 96
+#wait
 
 timer 8h
 fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 128
@@ -76,9 +76,9 @@ timer 8h
 fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 256
 wait
 
-timer 8h
-fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 384
-wait
+#timer 8h
+#fg 1 dbench-default /usr/share/qa/qa_test_dbench-4_0/do_dbench -n 384
+#wait
 
 timer 8h
 benchparser /usr/share/qa/qa_test_dbench-4_0/dbenchnewparser
