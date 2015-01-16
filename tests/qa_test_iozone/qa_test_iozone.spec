@@ -31,6 +31,8 @@ Source6:	eatmem_iozone
 Source7:        test_iozone_new_run
 Source10:       qa_iozone_4-32G.tcf
 Source11:   	test_iozone_bigmem-run
+Source12:       qa_iozone_bigmem_basic.tcf.tpl
+Source13:       test_iozone_bigmem_basic-run
 Source20:   	abuildinfo
 Source21: 	iozoneparser_4-32G
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -60,12 +62,14 @@ install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:13} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:21} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/bin
 install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
+install -m 644 %{S:12} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 ln -s ../%name/tcf/qa_iozone_4-32G.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iozone_4-32G.tcf
 install -m 744 src/current/iozone $RPM_BUILD_ROOT/usr/bin
 install -m 744 src/current/fileop $RPM_BUILD_ROOT/usr/bin
