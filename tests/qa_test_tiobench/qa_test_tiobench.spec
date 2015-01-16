@@ -96,17 +96,20 @@ install -D -m 755 ctcstools/tiobench-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_t
 install -D -m 755 ctcstools/eatmem.sh $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/eatmem.sh
 install -D -m 755 ctcstools/tiobench-sync.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/tiobench-sync.tcf
 install -D -m 755 ctcstools/test_tiobench-sync-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/test_tiobench-sync-run
+install -D -m 755 ctcstools/test_tiobench_basic-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench/test_tiobench_basic-run
 install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/qa_test_tiobench
 ln -sf ../qa_test_tiobench/eatmem.sh $RPM_BUILD_ROOT/usr/share/qa/tools/eatmem.sh
 ln -sf ../qa_test_tiobench/tiobench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/tiobench.tcf
 ln -sf ../qa_test_tiobench/test_tiobench-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench-run
 ln -sf ../qa_test_tiobench/tiobench-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/tiobench-bench.tcf
 ln -sf ../qa_test_tiobench/test_tiobench-bench-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench-bench-run
+ln -sf ../qa_test_tiobench/test_tiobench_basic-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench_basic-run
 ln -sf ../qa_test_tiobench/tiobench-sync.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/tiobench-sync.tcf
 ln -sf ../qa_test_tiobench/test_tiobench-sync-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_tiobench-sync-run
 ln -sf ../share/qa/qa_test_tiobench/eatmem.sh $RPM_BUILD_ROOT/usr/bin/eatmem.sh
 ln -sf ../../../share/qa/qa_test_tiobench/tiobench.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/tiobench.tcf
 ln -sf ../../../share/qa/qa_test_tiobench/test_tiobench-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_tiobench-run
+ln -sf ../../../share/qa/qa_test_tiobench/test_tiobench_basic-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_tiobench_basic-run
 ln -sf ../../../share/qa/qa_test_tiobench/tiobench-bench.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf/tiobench-bench.tcf
 ln -sf ../../../share/qa/qa_test_tiobench/test_tiobench-bench-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_tiobench-bench-run
 find $RPM_BUILD_ROOT -type f -print0 | xargs -0 chmod -c o-w,u-s
@@ -130,6 +133,7 @@ find $RPM_BUILD_ROOT -type f -print0 | xargs -0 chmod -c o-w,u-s
 /usr/lib/ctcs2/tools/test_tiobench-run
 /usr/lib/ctcs2/tcf/tiobench-bench.tcf
 /usr/lib/ctcs2/tools/test_tiobench-bench-run
+/usr/lib/ctcs2/tools/test_tiobench_basic-run
 %dir /usr/share/qa
 %dir /usr/share/qa/tcf
 %dir /usr/share/qa/tools
@@ -139,6 +143,7 @@ find $RPM_BUILD_ROOT -type f -print0 | xargs -0 chmod -c o-w,u-s
 /usr/share/qa/tools/test_tiobench-run
 /usr/share/qa/tcf/tiobench-bench.tcf
 /usr/share/qa/tools/test_tiobench-bench-run
+/usr/share/qa/tools/test_tiobench_basic-run
 /usr/share/qa/tools/eatmem.sh
 
 %clean
