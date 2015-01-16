@@ -110,6 +110,7 @@ cp src/reaim data/reaim.config $RPM_BUILD_ROOT/usr/lib/reaim
 cp ctcstools/workfile $RPM_BUILD_ROOT/usr/lib/reaim/workfile
 cp ctcstools/test_reaim-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_reaim-run
+install -m 755 ctcstools/test_reaim_ioperf-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 cp ctcstools/reaim.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp ctcstools/prepare.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim
 chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/prepare.sh
