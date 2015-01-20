@@ -15,7 +15,7 @@ for block in 4096 32768; do
         NR_THREAD=$((${NR_CPU} * ${num}))
         FILE_SIZE=$((${MEM_SIZE} * 2 / ${NR_THREAD} / 1024)) #in MiB
         cat <<EOF >> ${TCF}
-fg 1 tiobench-basic-{block}-${num} tiobench.pl --size ${FILE_SIZE} --block ${block} --threads ${NR_THREAD} --dir /abuild
+fg 1 tiobench-basic-${block}-${num} tiobench.pl --size ${FILE_SIZE} --block ${block} --threads ${NR_THREAD} --dir /abuild
 EOF
     done
 done
