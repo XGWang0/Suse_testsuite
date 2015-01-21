@@ -11,7 +11,7 @@ NR_CPU=$(grep -c '^processor' /proc/cpuinfo)
 MEM_SIZE=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
 
 for block in 4096 32768; do
-    for num in 1 2;do
+    for num in 1 2 4;do
         NR_THREAD=$((${NR_CPU} * ${num}))
         FILE_SIZE=$((${MEM_SIZE} * 2 / ${NR_THREAD} / 1024)) #in MiB
         cat <<EOF >> ${TCF}
