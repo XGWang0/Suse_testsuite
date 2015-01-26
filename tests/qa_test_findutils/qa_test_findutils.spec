@@ -20,7 +20,11 @@ Obsoletes:	qa_findutils
 Requires:       findutils-locate findutils dejagnu coreutils ctcs2 grep diffutils mktemp
 Version:        0.1
 Release:        15
-Source0:        %name-%version.tar.bz2
+%if 0%{?suse_version} >= 1315
+Source0:        qa_test_findutils_SLE12.tar.gz
+%else
+Source0:        qa_test_findutils_SLE11.tar.gz
+%endif
 Source1:        qa_findutils.tcf
 Source2:        test_findutils-run
 Source3:	qa_test_findutils.8
