@@ -14,16 +14,20 @@
 Name:           qa_test_pgbench
 Summary:        Using pgbench to test the IO performance
 Version:        1.0.0
-Release:        1
+Release:        5.1
 License:        GPL v2
 Group:          System/Benchmark
-#Url:            
-Requires:       postgresql93 postgresql93-contrib postgresql-init postgresql93-server
+#Url:
+Requires:       gcc readline-devel zlib-devel            
+#Requires:       postgresql93 postgresql93-contrib postgresql-init postgresql93-server
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source10:       simple-pgbench.sh
 Source11:       simple-pgbench.tcf
 Source12:       test_pgbench-run
 Source13:       simple-pgbench-run
+Source14:       simple-pgbench-new.sh
+Source15:       install-pgbench.sh
+Source16:       postgresql-9.3.4.tar.bz2
 #Patch0:
 #BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 #BuildArchitectures: noarch
@@ -47,12 +51,16 @@ install -m 755 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 600 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:12} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:13} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 %{S:14} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 %{S:15} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/simple-pgbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+cp %{SOURCE16} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 
 %post 
+/usr/share/qa/%{name}/install-pgbench.sh
 
 %preun
 
