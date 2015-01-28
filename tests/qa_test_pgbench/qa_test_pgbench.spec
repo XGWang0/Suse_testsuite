@@ -24,7 +24,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source10:       simple-pgbench.sh
 Source11:       simple-pgbench.tcf
 Source12:       test_pgbench-run
-Source13:       simple-pgbench-run
+#Source13:       simple-pgbench-run
 Source14:       simple-pgbench-new.sh
 Source15:       install-pgbench.sh
 Source16:       postgresql-9.3.4.tar.bz2
@@ -50,7 +50,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 755 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 600 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:12} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 755 %{S:13} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+#install -m 755 %{S:13} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:14} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:15} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf/
