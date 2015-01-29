@@ -1,0 +1,39 @@
+." Manpage for qa_test_apparmor.
+." Contact David Mulder <dmulder@novell.com> to correct errors or typos.
+.TH man 8 "21 Oct 2011" "1.0" "qa_test_apparmor man page"
+.SH NAME
+qa_test_apparmor
+.SH SYNOPSIS
+/usr/share/qa/tools/test_apparmor-run
+.SH TYPE
+function test
+.SH DESCRIPTION
+This suite can be devided into two parts: apparmor and apparmor-profile.
+.br
+"apparmor" focuses on regression tests for apparmor_parser and kernel module.
+.br
+"apparmor-profile" focuses on profile testing, like: postfix, bind, ldd, tcp commands (ping, netstat, traceroute).
+.SH README
+None.
+.SH OPTIONS
+None.
+.SH WHAT IT DOES
+Various functions will be tested, include: NET_RAW ENVIRON READDIR OPEN NAMED_PIPE CLONE LINK UNLINK REGEX RENAME PIPE CAPABILITIES EXEC_QUAL FORK LONGPATH SD_FLAGS FCHDIR MMAP I18N MKDIR MULT_MOUNT RW CHDIR UNIX_FD_SERVER MOUNT SYMLINK PARSER_REGRESSION SWAP CHANGEHAT_FORK EXEC LINK_SUBSET OPENAT PWRITE.
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+Make sure "Novell AppArmor" pattern has already be installed in SUT.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Looks like this was written internally, but it's got GPL written throughout and I found the source published out on apparmor.sourcearchive.com, so keeping GPL v2 for now. The source is packaged and there are 7 patches added.
+.SH LICENSE
+GPL v2
+.SH UPSTREAM
+None.
+.SH AUTHOR
+Jone Doe <john.doe@novell.com>
+.SH MAINTAINER
+Arthur Guo <aguo@novell.com>
