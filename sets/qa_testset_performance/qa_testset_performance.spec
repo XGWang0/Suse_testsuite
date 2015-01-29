@@ -43,7 +43,7 @@ Source400:      performance.set
 Source401:      acceptance.set
 Source402:      kernel.set
 Source403:      kgraft-kernel.set
-Source501:      stat.tar.xz
+#Source501:      stat.tar.xz
 Source1101:     SLE11SP3.conf
 Source1201:     SLE12.conf
 BuildArch:      noarch
@@ -116,13 +116,13 @@ ln -s ../%{name}/testset_kgraft-kernel-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/testset_kgraft-performance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 %endif
 
-%post
-cd /usr/share/qa/%{name}
-tar xf stat.tar.xz
+#%post
+#cd /usr/share/qa/%{name}
+#tar xf stat.tar.xz
 
-%preun
-cd /usr/share/qa/%{name}
-rm -rf stat
+#%preun
+#cd /usr/share/qa/%{name}
+#rm -rf stat
 
 %clean
 rm -rf $RPM_BUILD_ROOT
