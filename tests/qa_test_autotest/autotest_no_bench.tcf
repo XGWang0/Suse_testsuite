@@ -1,4 +1,7 @@
 timer 86400
+fg 1 autotest-cpu_hotplug /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cpu_hotplug/control
+wait
+timer 86400
 fg 1 autotest-aborttest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/aborttest/control
 wait
 timer 86400
@@ -18,9 +21,6 @@ fg 1 autotest-cgroup /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cgro
 wait
 timer 86400
 fg 1 autotest-connectathon /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/connectathon/control
-wait
-timer 86400
-fg 1 autotest-cpu_hotplug /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cpu_hotplug/control
 wait
 timer 86400
 fg 1 autotest-cyclictest /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/cyclictest/control
