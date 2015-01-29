@@ -1,24 +1,24 @@
 timer 3h
-fg 1 simple-pgbench /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r ro -s small
+fg 1 simple-pgbench-small-ro /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r ro -s small
 wait
 
 timer 3h
-fg 1 simple-pgbench /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r rw -s small
+fg 1 simple-pgbench-small-rw /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r rw -s small
 wait
 
 timer 3h
-fg 1 simple-pgbench /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r ro -s medium
+fg 1 simple-pgbench-medium-ro /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r ro -s medium
 wait
 
 timer 3h
-fg 1 simple-pgbench /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r rw -s medium
+fg 1 simple-pgbench-medium-rw /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r rw -s medium
 wait
 
 timer 3h
-fg 1 simple-pgbench /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r ro -s large
+fg 1 simple-pgbench-large-ro /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r ro -s large
 wait
 
 timer 3h
-fg 1 simple-pgbench /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r rw -s large
+fg 1 simple-pgbench-large-rw /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r rw -s large
 wait
 
