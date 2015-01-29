@@ -111,8 +111,10 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../%{name}/testset_performance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/testset_kernel-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/testset_acceptance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+%if %suse_version == 1315
 ln -s ../%{name}/testset_kgraft-kernel-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/testset_kgraft-performance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+%endif
 
 %post
 cd /usr/share/qa/%{name}
