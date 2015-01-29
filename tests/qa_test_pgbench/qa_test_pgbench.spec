@@ -1,3 +1,5 @@
+#!BuildIgnore: post-build-checks
+
 #
 # spec file for package sysbench (Version 0.4.8)
 #
