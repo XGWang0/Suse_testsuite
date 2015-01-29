@@ -18,7 +18,7 @@
 # norootforbuild
 
 
-Name:           qa_test_apparmor-2.5.1
+Name:           qa_test_apparmor
 BuildRequires:  apparmor-parser bzip2 gcc libapparmor-devel libapparmor-devel ltp-ctcs2-glue qa_bind qa_postfix
 Version:        1325
 Release:        3
