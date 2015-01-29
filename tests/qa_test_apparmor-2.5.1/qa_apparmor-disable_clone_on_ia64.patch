@@ -1,0 +1,11 @@
+diff -Naur tests.old/regression/subdomain/Makefile tests/regression/subdomain/Makefile
+--- tests.old/regression/subdomain/Makefile	2007-03-24 02:59:27.000000000 +0100
++++ tests/regression/subdomain/Makefile	2007-03-26 17:30:32.000000000 +0200
+@@ -20,7 +20,6 @@
+     chgrp.c \
+     chmod.c \
+     chown.c \
+-    clone.c \
+     deleted.c \
+     environ.c \
+     env_check.c \

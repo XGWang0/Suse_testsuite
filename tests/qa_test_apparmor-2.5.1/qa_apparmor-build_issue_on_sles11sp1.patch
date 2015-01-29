@@ -1,0 +1,36 @@
+Index: tests/regression/subdomain/Makefile
+===================================================================
+--- tests.orig/regression/subdomain/Makefile
++++ tests/regression/subdomain/Makefile
+@@ -94,9 +94,9 @@ CHANGEHAT_FLAGS=$(shell if [ ! -f /usr/i
+ 	  			fi ;\
+ 			fi )
+ 
+-LIBIMMUNIX:=$(shell	if [ -f /lib/libapparmor.so -o -f /lib64/libapparmor.so ] ; then \
++LIBIMMUNIX:=$(shell	if [ -f /lib/libapparmor.so -o -f /lib/libapparmor.so.1 -o -f /lib64/libapparmor.so -o -f /lib64/libapparmor.so.1 ] ; then \
+ 				echo -lapparmor ; \
+-			elif [ -f /lib/libimmunix.so.1 -o -f /lib64/libimmunix.so ] ; then \
++			elif [ -f /lib/libimmunix.so -o -f /lib/libimmunix.so.1 -o -f /lib64/libimmunix.so -o -f /lib64/libimmunix.so.so.1 ] ; then \
+ 				echo -limmunix ; \
+ 			fi )
+ 
+Index: tests/regression/subdomain/uservars.inc
+===================================================================
+--- tests.orig/regression/subdomain/uservars.inc
++++ tests/regression/subdomain/uservars.inc
+@@ -4,7 +4,14 @@ subdomain=/sbin/apparmor_parser
+ #subdomain=/home/tonyj/subdomain_parser
+ 
+ # 2. additional arguments to the apparmor parser
+-parser_args="-q -K"
++APPARMOR_VERSION=3
++min_ver=`rpm -qa | grep 'apparmor-parser' | cut -d '-' -f3 | cut -d '.' -f2`
++min_ver=${min_ver-'3'}
++if [ $min_ver -lt $APPARMOR_VERSION -o $min_ver -eq $APPARMOR_VERSION ]; then
++    parser_args="-q "
++else
++    parser_args="-q -K"
++fi
+ 
+ # 3. directory to be used for temp files
+ # Need to be able to access this directory by the root and nobody users.
