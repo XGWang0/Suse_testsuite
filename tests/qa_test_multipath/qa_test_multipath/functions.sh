@@ -35,8 +35,8 @@ function get_paths ()
 function get_paths_cmd ()
 {
 	case $CODE in
-		11) do_cmd "list map $map topology"|sed -n '/[0-9]:[0-9]/ p'|cut -c 2- | awk -F " " '{print $3}' ;;
-		10) do_cmd "list map $map topology"|sed -n '/[0-9]:[0-9]/ p'| cut -d " " -f 4;;
+		11|12) do_cmd "list map $map topology"|sed -n '/[0-9]:[0-9]/ p'|cut -c 2- | awk -F " " '{print $3}' ;;
+		10)    do_cmd "list map $map topology"|sed -n '/[0-9]:[0-9]/ p'| cut -d " " -f 4;;
 	esac
 }
 
@@ -68,7 +68,11 @@ function trigger_path ()
 function copy_data ()
 {
 	echo "do I/O"
-	startproc -q /usr/bin/dt of=/dev/disk/by-id/scsi-$map pattern=iot $DTOPT
+	#
+	# Typical command line (-q option added):
+	#  startproc -q /usr/bin/dt of=/dev/disk/by-id/scsi-multipath-test pattern=iot iotype=random capacity=2g flags=sync,rsync limit=1g enable=lbdata,raw min=b max=256k incr=var dlimit=512 oncerr=abort dtype=disk passes=inf
+	#
+	startproc /usr/bin/dt of=/dev/disk/by-id/scsi-$map pattern=iot $DTOPT
 	DATA_PID=$(checkproc -v /usr/bin/dt)
 }
 
@@ -82,6 +86,7 @@ function check_data ()
 	        echo "PASSED: data flow is ok"
 	        return 0;
 	else
+		echo "ERROR: I/O load: no /usr/bin/dt process exists"
 		return 1;
         fi
 }
@@ -119,9 +124,12 @@ function iscsi_connect ()
         if [ ! -f /etc/iscsi/initiatorname.iscsi ];then
 		echo "InitiatorName=iqn.`date +%Y-%m`.de.suse.qam:`uname -n`" > /etc/iscsi/initiatorname.iscsi
 	fi
-	/etc/init.d/open-iscsi status
+	# $MULTIPATHD_CMD_STATUS
+	eval $MULTIPATHD_CMD_STATUS_V
 	if [ $? -ne 0 ];then
-		/etc/init.d/open-iscsi start
+		# $ISCSI_CMD_START
+		eval $ISCSI_CMD_START_V
+		check_error "iscsid start FAILED" 1
 	fi
 	echo "reset already discovered target"
 	iscsiadm -m node | grep $TARGET_DISK 
@@ -209,17 +217,19 @@ function prepare ()
 			cp $CONFIG /etc/multipath.conf
 		fi
 	fi
-	/etc/init.d/multipathd status
+	# $MULTIPATHD_CMD_STATUS
+	eval $MULTIPATHD_CMD_STATUS_V
 	if [ $? -ne 0 ];then
-		/etc/init.d/multipathd restart
-		check_error "multipathd start FAILED" 1
+		# $MULTIPATHD_CMD_RESTART
+		eval $MULTIPATHD_CMD_RESTART_V
+		check_error "multipathd restart FAILED" 1
 	fi
 	#we need to reread configuration file here
 	reread_paths
 	echo "probe multipath maps"
-	if [ -b /dev/disk/by-id/scsi-$map ];then
-		check_error "$map creation fails" 1
-	fi
+	# uh, dirty: waiting a bit might well be enough to recover (udev slowness?)
+	[ -b /dev/disk/by-id/scsi-$map ] || { sleep 10 ; [ -b /dev/disk/by-id/scsi-$map ] ; }
+	check_error "$map creation fails" 1
 	echo "Initial setup done"
 }
 
@@ -282,10 +292,56 @@ function createresult ()
 function udevwait ()
 {
 case $CODE in
-	11) udevadm settle --timeout=30;;
+	11|12) udevadm settle --timeout=30;;
 	10) udevsettle --timeout=30;;
 esac
 }
+
+# figure out needed service control commands (type: systemd, resp., SysVinit)
+#
+if [ -f /bin/systemctl -a -x /bin/systemctl ] ; then
+	if [ -f /usr/lib/systemd/system/multipathd.service ] ; then
+		MULTIPATHD_CMD_STATUS="systemctl is-active multipathd"
+		MULTIPATHD_CMD_START="systemctl start multipathd"
+		MULTIPATHD_CMD_STOP="systemctl stop multipathd"
+		MULTIPATHD_CMD_RESTART="systemctl restart multipathd"
+		MULTIPATHD_CMD_STATUS_V="echo \"Executing: $MULTIPATHD_CMD_STATUS\" ; $MULTIPATHD_CMD_STATUS"
+		MULTIPATHD_CMD_START_V="echo \"Executing: $MULTIPATHD_CMD_START\" ; $MULTIPATHD_CMD_START"
+		MULTIPATHD_CMD_STOP_V="echo \"Executing: $MULTIPATHD_CMD_STOP\" ; $MULTIPATHD_CMD_STOP"
+		MULTIPATHD_CMD_RESTART_V="echo \"Executing: $MULTIPATHD_CMD_RESTART\" ; $MULTIPATHD_CMD_RESTART"
+	else
+		check_error "/usr/lib/systemd/system/multipathd.service: file not found" 1
+	fi
+	if [ -f /usr/lib/systemd/system/iscsid.service ] ; then
+		ISCSI_CMD_STATUS="systemctl is-active iscsid"
+		ISCSI_CMD_START="systemctl start iscsid"
+		ISCSI_CMD_STATUS_V="echo \"Executing: $ISCSI_CMD_STATUS\" ; $ISCSI_CMD_STATUS"
+		ISCSI_CMD_START_V="echo \"Executing: $ISCSI_CMD_START\" ; $ISCSI_CMD_START"
+	else
+		check_error "/usr/lib/systemd/system/iscsid.service: file not found" 1
+	fi
+else
+	if [ -f /etc/init.d/multipathd -a -x /etc/init.d/multipathd ] ; then
+		MULTIPATHD_CMD_STATUS="/etc/init.d/multipathd status"
+		MULTIPATHD_CMD_START="/etc/init.d/multipathd start"
+		MULTIPATHD_CMD_STOP="/etc/init.d/multipathd stop"
+		MULTIPATHD_CMD_RESTART="/etc/init.d/multipathd restart"
+		MULTIPATHD_CMD_STATUS_V="echo \"Executing: $MULTIPATHD_CMD_STATUS\" ; $MULTIPATHD_CMD_STATUS"
+		MULTIPATHD_CMD_START_V="echo \"Executing: $MULTIPATHD_CMD_START\" ; $MULTIPATHD_CMD_START"
+		MULTIPATHD_CMD_STOP_V="echo \"Executing: $MULTIPATHD_CMD_STOP\" ; $MULTIPATHD_CMD_STOP"
+		MULTIPATHD_CMD_RESTART_V="echo \"Executing: $MULTIPATHD_CMD_RESTART\" ; $MULTIPATHD_CMD_RESTART"
+	else
+		check_error "Unable to detect service control command for multipathd" 1
+	fi
+	if [ -f /etc/init.d/open-iscsi -a -x /etc/init.d/open-iscsi ] ; then
+		ISCSI_CMD_STATUS="/etc/init.d/open-iscsi status"
+		ISCSI_CMD_START="/etc/init.d/open-iscsi start"
+		ISCSI_CMD_STATUS_V="echo \"Executing: $ISCSI_CMD_STATUS\" ; $ISCSI_CMD_STATUS"
+		ISCSI_CMD_START_V="echo \"Executing: $ISCSI_CMD_START\" ; $ISCSI_CMD_START"
+	else
+		check_error "Unable to detect service control command for iSCSI client" 1
+	fi
+fi
 
 DATA_DIR="/usr/share/qa/qa_test_multipath/data"
 DTOPT="iotype=random capacity=2g flags=sync,rsync limit=1g enable=lbdata,raw min=b max=256k incr=var dlimit=512 oncerr=abort dtype=disk passes=inf"

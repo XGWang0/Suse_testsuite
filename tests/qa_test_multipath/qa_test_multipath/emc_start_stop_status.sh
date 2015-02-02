@@ -38,16 +38,20 @@ reseterr
 prepare
 checkerror
 
-/etc/init.d/multipathd stop
+# $MULTIPATHD_CMD_STOP
+eval $MULTIPATHD_CMD_STOP_V
 checkerror
 
-/etc/init.d/multipathd start
+# $MULTIPATHD_CMD_START
+eval $MULTIPATHD_CMD_START_V
 checkerror
 
-/etc/init.d/multipathd restart
+# $MULTIPATHD_CMD_RESTART
+eval $MULTIPATHD_CMD_RESTART_V
 checkerror
 
-/etc/init.d/multipathd status
+# $MULTIPATHD_CMD_STATUS
+eval $MULTIPATHD_CMD_STATUS_V
 checkerror
 
 createresult
