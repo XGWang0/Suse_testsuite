@@ -26,8 +26,6 @@ Source1:        qa_iozone.tcf
 Source2:        test_iozone-run
 Source3:	qa_test_iozone.8
 Source4:	iozoneparser
-Source5:	eatmem_iozone.sh
-Source6:	eatmem_iozone
 Source7:        test_iozone_new_run
 Source10:       qa_iozone_4-32G.tcf
 Source11:   	test_iozone_bigmem-run
@@ -89,7 +87,6 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/%{name}.8.gz
 /usr/bin/iozone
 /usr/bin/fileop
-/usr/bin/eatmem_iozone
 /usr/share/qa
 /usr/share/qa/%name/*
 
