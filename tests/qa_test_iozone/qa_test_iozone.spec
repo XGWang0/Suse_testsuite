@@ -63,9 +63,7 @@ install -m 755 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:13} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:21} $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/bin
 install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 644 %{S:12} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 ln -s ../%name/tcf/qa_iozone_4-32G.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iozone_4-32G.tcf
