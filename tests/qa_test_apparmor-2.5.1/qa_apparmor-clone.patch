@@ -1,0 +1,12 @@
+diff -Naur tests.old/regression/subdomain/clone.c tests/regression/subdomain/clone.c
+--- tests.old/regression/subdomain/clone.c	2007-03-14 21:53:10.000000000 +0100
++++ tests/regression/subdomain/clone.c	2007-03-26 17:03:56.000000000 +0200
+@@ -67,7 +67,7 @@
+ 	int waitstatus;
+ 	int c;
+ 	char buf[BUFSIZ];
+-	void *child_stack = malloc(PAGE_SIZE << 4);
++	void *child_stack = malloc(getpagesize() << 4);
+ 	int clone_flags = 0;
+ 
+ 	while ((c = getopt_long (argc, argv, "+hn", long_options, NULL)) != -1) {

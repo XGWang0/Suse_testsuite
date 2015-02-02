@@ -24,6 +24,7 @@ Source1:	qa_test_bonnie++.8
 Source2:	test_bonnie++-run
 Source3:	do_bonnie++
 Source4:	bonnie++-default.tcf
+Source5:        abuildinfo
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires: gcc-c++
 
@@ -59,6 +60,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie++
 install -m 744 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie++/
 install -m 744 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools/
 install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tcf/
+install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie++/
 
 %files
 %defattr(-, root, root)

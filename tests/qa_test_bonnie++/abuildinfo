@@ -1,0 +1,12 @@
+#!/bin/bash
+while read line;do
+    words=($line)
+    if test "X${words[1]}" == "X/" -a "X${words[0]}" != "Xrootfs";then
+        ROOTFS_INFO=${words[*]}
+    elif test "X${words[1]}" == "X/abuild";then
+        ABUILD_INFO=${words[*]}
+    fi
+done < /proc/mounts
+echo "ROOTFS_INFO : $ROOTFS_INFO"
+echo "ABUILD_INFO : $ABUILD_INFO"
+

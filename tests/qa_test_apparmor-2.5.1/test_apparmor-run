@@ -1,0 +1,10 @@
+#!/bin/bash
+#sut_timeout 3600
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+
+$CTCS2_DIR/tools/run $TCF_DIR/qa_apparmor.tcf
+#restart the default configuration so we are sure failed apparmor testcases
+#didn't break the whole system
+/sbin/rcapparmor restart

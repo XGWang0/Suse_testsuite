@@ -1,0 +1,19 @@
+--- /root/a/qa_test_apparmor/tests/regression/subdomain/mount.sh	2010-03-11 04:40:07.000000000 -0500
++++ /root/b/qa_test_apparmor/tests/regression/subdomain/mount.sh	2010-03-12 03:29:18.000000000 -0500
+@@ -66,7 +66,7 @@
+ # TEST A2.  confine MOUNT
+ 
+ genprofile capability:sys_admin
+-runchecktest "MOUNT (confined)" fail mount ${loop_device} ${mount_point}
++runchecktest "MOUNT (confined)" pass mount ${loop_device} ${mount_point}
+ 
+ # TEST A3.  confine UMOUNT
+ 
+@@ -75,6 +75,6 @@
+ runchecktest "UMOUNT (confined)" fail umount ${loop_device} ${mount_point}
+ 
+ # cleanup, umount file
++cat /proc/mount > /etc/mtab
+ /bin/umount ${loop_device} > /dev/null 2> /dev/null  || /sbin/losetup -d ${loop_device} > /dev/null 2> /dev/null
+-
+ /sbin/losetup -d ${loop_device} > /dev/null 2> /dev/null

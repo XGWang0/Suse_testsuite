@@ -43,7 +43,7 @@ Source400:      performance.set
 Source401:      acceptance.set
 Source402:      kernel.set
 Source403:      kgraft-kernel.set
-Source501:      stat.tar.xz
+#Source501:      stat.tar.xz
 Source1101:     SLE11SP3.conf
 Source1201:     SLE12.conf
 BuildArch:      noarch
@@ -88,7 +88,7 @@ install -m 644 %{S:400} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 644 %{S:401} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 644 %{S:402} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 install -m 644 %{S:403} $RPM_BUILD_ROOT/usr/share/qa/%{name}
-install -m 644 %{S:501} $RPM_BUILD_ROOT/usr/share/qa/%{name}
+#install -m 644 %{S:501} $RPM_BUILD_ROOT/usr/share/qa/%{name}
 
 %if %suse_version < 1315
     sed -i '/^TARGET_RELEASE=$/s/TARGET_RELEASE=/TARGET_RELEASE=SLE11SP3/' $RPM_BUILD_ROOT/usr/share/qa/%{name}/testset_performance-run
@@ -111,16 +111,18 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../%{name}/testset_performance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/testset_kernel-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/testset_acceptance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+%if %suse_version == 1315
 ln -s ../%{name}/testset_kgraft-kernel-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/testset_kgraft-performance-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+%endif
 
-%post
-cd /usr/share/qa/%{name}
-tar xf stat.tar.xz
+#%post
+#cd /usr/share/qa/%{name}
+#tar xf stat.tar.xz
 
-%preun
-cd /usr/share/qa/%{name}
-rm -rf stat
+#%preun
+#cd /usr/share/qa/%{name}
+#rm -rf stat
 
 %clean
 rm -rf $RPM_BUILD_ROOT

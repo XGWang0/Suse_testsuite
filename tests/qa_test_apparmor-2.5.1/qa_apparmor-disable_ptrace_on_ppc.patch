@@ -1,0 +1,11 @@
+diff -Naur tests.old/regression/subdomain/Makefile tests/regression/subdomain/Makefile
+--- tests.old/regression/subdomain/Makefile	2007-03-24 02:59:27.000000000 +0100
++++ tests/regression/subdomain/Makefile	2007-03-26 16:48:20.000000000 +0200
+@@ -40,7 +40,6 @@
+     open.c \
+     openat.c \
+     pipe.c \
+-    ptrace.c \
+     ptrace_helper.c \
+     pwrite.c \
+     rename.c \
