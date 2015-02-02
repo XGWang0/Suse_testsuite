@@ -26,8 +26,6 @@ Source1:        qa_iozone.tcf
 Source2:        test_iozone-run
 Source3:	qa_test_iozone.8
 Source4:	iozoneparser
-Source5:	eatmem_iozone.sh
-Source6:	eatmem_iozone
 Source7:        test_iozone_new_run
 Source10:       qa_iozone_4-32G.tcf
 Source11:   	test_iozone_bigmem-run
@@ -65,9 +63,7 @@ install -m 755 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:13} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:21} $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/bin
 install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 644 %{S:12} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 ln -s ../%name/tcf/qa_iozone_4-32G.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iozone_4-32G.tcf
@@ -89,7 +85,6 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/%{name}.8.gz
 /usr/bin/iozone
 /usr/bin/fileop
-/usr/bin/eatmem_iozone
 /usr/share/qa
 /usr/share/qa/%name/*
 
