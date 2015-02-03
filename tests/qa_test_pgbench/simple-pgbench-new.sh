@@ -197,7 +197,7 @@ echo $TOTALBUFFER_SIZE > /proc/sys/kernel/shmmax
 echo $(($TOTALBUFFER_SIZE*2/$PAGESIZE)) > /proc/sys/kernel/shmall
 ulimit -l $TOTALBUFFER_SIZE
 
-if [ "$READONLY" = "yes" ]; then
+if [ "$READONLY" = "y" ]; then
         READONLY_ARG=-S
 fi
 
@@ -232,7 +232,21 @@ if [ `echo $THREADS | awk '{print $NF}'` -ne $END_THREAD ]; then
         THREADS="$THREADS $END_THREAD"
 fi
 
+if id postgres ;then
+   _exit 1  "[SYSTEM] user already exist!"
+else
+    if groupadd postgres;then
+       echo "[SYSTEM] create group successful!"
+    fi
+    if useradd postgres -g postgres ;then
+    echo  "[SYSTEM] create dir user successful!"
+    fi
+fi
+
 chown -R postgres:postgres ${PG_DB_ROOT}
+if test $? -ne 0;then
+    _exit 1 "[SYSTEM]  change the owner and group of dir failed!"
+fi
 
 # su postgres /usr/bin/psql -c 'createdb pgbench;'
 #createdb -U postgres pgbench
@@ -303,6 +317,7 @@ for NR_THREADS in $THREADS; do
         echo "[pg] dropping the db pgbench"
         su postgres -c '/usr/share/qa/qa_test_pgbench/postgres/bin/dropdb -U postgres pgbench'
         service_stop
-
+        userdel -r postgres
+        groupdel postgres
 done
 

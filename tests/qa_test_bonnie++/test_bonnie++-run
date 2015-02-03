@@ -11,7 +11,7 @@ fi
 
 service cron stop
 
-echo 'fg 1 bonnie++-basic /usr/share/qa/qa_test_bonnie++/abuildinfo' > ${TCF}
+echo 'fg 1 bonnie++-abuildinfo /usr/share/qa/qa_test_bonnie++/abuildinfo' > ${TCF}
 echo >> ${TCF}
 
 NR_CPU=$(grep -c '^processor' /proc/cpuinfo)
