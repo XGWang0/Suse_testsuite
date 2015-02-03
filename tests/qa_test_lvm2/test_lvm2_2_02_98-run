@@ -30,6 +30,9 @@ sed -i '/thin/s/^/#/g' $tcf_f
 sed -i '/clvmd/s/^/#/g' $tcf_f
 sed -i '/dmeventd/s/^/#/g' $tcf_f
 
+# disable lvmetad testcases.
+sed -i '/lvmetad/s/^/#/g' /usr/share/qa/tcf/qa_lvm2-2_02_98.tcf
+
 # disable prepare_lvmetad prepare_clvmd, which are not in SLES11SP4. /sbin/lvmetad and /usr/sbin/clvmd
 sed -i "s/^aux\ prepare_lvmetad/#aux prepare_lvmetad/g" /usr/share/qa/qa_test_lvm2_shell/test/lib/test
 sed -i "s/^aux\ prepare_clvmd/#aux prepare_clvmd/g" /usr/share/qa/qa_test_lvm2_shell/test/lib/test
