@@ -17,11 +17,16 @@
 
 
 %define qa_location %{_datadir}/qa/qa_test_openssl
+%if 0%{?suse_version} < 1120
+%define Ver 0.9.8r
+%else
 %if 0%{?suse_version} < 1220
 %define Ver 1.0.0l
 %else
 %define Ver 1.0.1g
 %endif
+%endif
+
 Name:           qa_test_openssl
 Version:        %{Ver}
 Release:        0
@@ -35,7 +40,7 @@ Source3:        generate_openssl_tests.sh
 Source4:        qa_test_openssl_benchmark.sh
 Source5:        process_benchmarks.pl
 Patch0:         qa_test_openssl-Makefile-%{Ver}.patch
-Patch1:		qa_test_openssl-shlib_wrap-%{Ver}.patch
+Patch1:		qa_test_openssl-shlib_wrap-1.0.1g.patch
 BuildRequires:  bc
 BuildRequires:  ctcs2
 BuildRequires:  gcc
@@ -68,7 +73,10 @@ sed -i -e 's:%{_prefix}/local/bin/perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl
 sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %patch0 -p1
+
+%if 0%{?suse_version} >= 1220
 %patch1 -p1
+%endif
 
 cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list
 
