@@ -42,6 +42,8 @@ PATHS_NUMBER=$[${#PATHS[*]}-1]
 paths_status
 
 copy_data
+check_data
+Checkerror
 
 for n in `seq 1 $PATHS_NUMBER`;do
 	trigger_path $n fail
