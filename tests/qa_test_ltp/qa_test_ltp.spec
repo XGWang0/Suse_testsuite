@@ -1,7 +1,7 @@
 #
 # spec file for package qa_test_ltp
 #
-# Copyright (c) 2009-2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2009-2015 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -71,10 +71,6 @@ BuildRequires: libuuid-devel
 BuildRequires: libtirpc-devel
 %endif
 
-%if 0%{?suse_version} >= 1100
-BuildRequires: kernel-syms modutils
-%endif
-
 Url:            http://linux-test-project.github.io
 License:        GPL v2 or later
 Group:          System/Benchmark
@@ -88,12 +84,13 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20140828
+Version:        20150119
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:	qa_test_ltp.8
+
 # Compiler warnings and workarounds
 Patch102:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
@@ -102,10 +99,8 @@ Patch102:	disable-min_free_kbytes.patch
 # Patches 4xx Real Bug Fixes (from internal)
 # Patches 5xx Workarounds
 Patch501:	change_ltp_prog_install_dir.patch
-Patch502:	0001-Disable-tpci-and-tbio-for-kernels-older-than-3.0.patch
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0001-tirpc-Fix-numerous-errors-and-warnings.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -141,10 +136,8 @@ Authors:
 # Patches 4xx Real Bug Fixes
 # Patches 5xx Workarounds
 %patch501 -p1
-%patch502 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-%patch700 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
@@ -159,7 +152,7 @@ Authors:
 
 %configure --prefix=/opt/ltp --with-openposix-testsuite --with-realtime-testsuite
 find testcases | gzip --fast > TC_INDEX.gz
-
+cat /usr/include/linux/version.h
 make all %{?jobs:-j%jobs}
 make -C testcases/open_posix_testsuite all
 
@@ -219,6 +212,7 @@ done
 %{_bindir}/ltp-pan
 %{_bindir}/ltp-scanner
 %{_bindir}/execltp
+%{_bindir}/ffsb
 
 %defattr(-,root,root)
 /usr/lib/ctcs2
