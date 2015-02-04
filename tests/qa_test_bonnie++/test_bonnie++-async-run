@@ -1,0 +1,42 @@
+#!/bin/sh
+#sut_timeout 600
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/qa_test_bonnie++"
+TCF="/usr/share/qa/tcf/bonnie++-async.tcf"
+
+if [ ! -d /abuild ]; then
+	mkdir -p /abuild
+fi
+
+service cron stop
+
+echo 'fg 1 bonnie++-abuildinfo /usr/share/qa/qa_test_bonnie++/abuildinfo' > ${TCF}
+echo >> ${TCF}
+
+NR_CPU=$(grep -c '^processor' /proc/cpuinfo)
+MEM_SIZE=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
+
+NR_DIRECTORIES=1
+NR_FILES=1
+
+DATASET_SIZE=$((MEM_SIZE*2))
+
+DIRECTORY_SIZE=$((DATASET_SIZE/NR_FILES))
+NR_FILES=$((NR_FILES/1024))
+DATASET_SIZE=$((DATASET_SIZE/1048576))
+
+if [ $NR_FILES -eq 0 ]; then
+        NR_FILES=1
+fi
+
+echo 'timer 2h' >>${TCF}
+
+cat <<EOF >>${TCF}
+fg 1 bonnie++-async bonnie++ -u root -d /abuild/  -n $NR_FILES:$DIRECTORY_SIZE:$DIRECTORY_SIZE:$NR_DIRECTORIES
+EOF
+echo 'wait' >> ${TCF}
+echo >> ${TCF}
+
+$ctcsdir/tools/run ${TCF}
+
