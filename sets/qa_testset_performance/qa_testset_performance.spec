@@ -61,6 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /etc/init.d/qaset
+/usr/share/qa
 /usr/share/qa/qaset
 
 %changelog
