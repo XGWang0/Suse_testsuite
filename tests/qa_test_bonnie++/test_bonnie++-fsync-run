@@ -17,10 +17,19 @@ echo >> ${TCF}
 NR_CPU=$(grep -c '^processor' /proc/cpuinfo)
 MEM_SIZE=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
 
+MEM_SIZE_DOUBLE=$((${MEM_SIZE} * 2))
+MEM_1GiB=$((1024 * 1024))
+MEM_SIZE_DOUBLE_MOD=$((${MEM_SIZE_DOUBLE} % ${MEM_1GiB}))
+if test ${MEM_SIZE_DOUBLE_MOD} -ne 0;then
+    MEM_SIZE_DOUBLE_GiB=$((${MEM_SIZE_DOUBLE} / ${MEM_1GiB}))
+    let MEM_SIZE_DOUBLE_GiB++
+    MEM_SIZE_DOUBLE=$((${MEM_SIZE_DOUBLE_GiB} * ${MEM_1GiB}))
+fi
+
 NR_DIRECTORIES=1
 NR_FILES=1
 
-DATASET_SIZE=$((MEM_SIZE*2))
+DATASET_SIZE=${MEM_SIZE_DOUBLE}
 
 DIRECTORY_SIZE=$((DATASET_SIZE/NR_FILES))
 NR_FILES=$((NR_FILES/1024))

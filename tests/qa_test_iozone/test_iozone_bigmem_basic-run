@@ -28,11 +28,19 @@ CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
 # all size are in KiB
-MEMTOTAL_KiB=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
-MEMTOTAL=${MEMTOTAL_KiB}
+MEM_SIZE=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
+
+MEM_SIZE_DOUBLE=$((${MEM_SIZE} * 2))
+MEM_1GiB=$((1024 * 1024))
+MEM_SIZE_DOUBLE_MOD=$((${MEM_SIZE_DOUBLE} % ${MEM_1GiB}))
+if test ${MEM_SIZE_DOUBLE_MOD} -ne 0;then
+    MEM_SIZE_DOUBLE_GiB=$((${MEM_SIZE_DOUBLE} / ${MEM_1GiB}))
+    let MEM_SIZE_DOUBLE_GiB++
+    MEM_SIZE_DOUBLE=$((${MEM_SIZE_DOUBLE_GiB} * ${MEM_1GiB}))
+fi
 
 if [ -z "$IOZONE_MAX_SIZE" ]; then
-    IOZONE_MAX_SIZE=$((MEMTOTAL * 2))
+    IOZONE_MAX_SIZE=${MEM_SIZE_DOUBLE}
 fi
 
 if [ -z "$IOZONE_MIN_SIZE" ]; then
