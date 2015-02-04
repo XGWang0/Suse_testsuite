@@ -21,10 +21,6 @@ Url:            http://samba.org/ftp/tridge/dbench
 Source0:        dbench-%{version}.tar.bz2
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:        qa_test_dbench-4_0.8
-Source3:        test_dbench-4_0-nfs-run
-Source4:        test_dbench-4_0-nfs4-run
-Source5:        test_dbench-4_0-run
-Source6:        test_dbench-4_0-syncIO-run
 Patch0:		fileio_leak_repair.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	dbench dbench-ctcs2-glue
@@ -101,13 +97,8 @@ do
 	ln -s ../qa_test_dbench-4_0/tcf/$B $RPM_BUILD_ROOT/usr/share/qa/tcf/
 done
 
+install -m 744 ctcstools/test_dbench*-run $RPM_BUILD_ROOT/usr/share/qa/tools
 
-
-
-install -m 744 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools
 find $RPM_BUILD_ROOT/usr/share/dbench-4_0 -name "*.txt" -type f -print0 | xargs -r -0 chmod a-x
 
 %clean

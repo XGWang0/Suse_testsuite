@@ -14,5 +14,5 @@ else
 systemctl stop cron
 fi
 
-$ctcsdir/tools/run $basedir/tcf/dbench-syncIO-4_0.tcf
+$ctcsdir/tools/run $basedir/tcf/dbench-o_sync-4_0.tcf
 
