@@ -62,7 +62,7 @@ install -m 755 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:8} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:9} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 600 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+#install -m 600 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 #install -m 755 %{S:12} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 #install -m 755 %{S:13} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:14} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
