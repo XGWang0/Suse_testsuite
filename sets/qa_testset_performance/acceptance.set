@@ -1,3 +1,0 @@
-process_stress_run='/usr/share/qa/tools/test_process_stress-run'
-fs_stress_run='/usr/share/qa/tools/test_fs_stress-run'
-sched_stress_run='/usr/share/qa/tools/test_sched_stress-run'

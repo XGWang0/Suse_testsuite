@@ -1,0 +1,14 @@
+[Unit]
+Description=qaset-service
+After=getty.target
+
+[Service]
+Type=idle
+ExecStart=/usr/share/qa/qaset/qaset-service
+TimeoutSec=0
+RemainAfterExit=yes
+
+[Install]
+Alias=sqperf
+WantedBy=multi-user.target
+

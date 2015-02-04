@@ -1,0 +1,32 @@
+#!/bin/bash
+
+SQ_TEST_RUN_SET=kgraft-performance
+TARGET_RELEASE=
+if test "X${TARGET_RELEASE}" == "X";then
+    echo "TARGET_RELEASE is NONE!"
+    echo "DO NOTHING then EXIT!!!"
+    exit 1
+fi
+QASET_ROOT=
+if test "X${QASET_ROOT}" == "X";then
+    echo "QASET_ROOT is NONE!"
+    echo "DO NOTHING then EXIT!!!"
+    exit 1
+fi
+SQ_SET_BIN=${QASET_ROOT}/qaset
+# user configuration
+SQ_USER_CONFIG_DIR=/root/qaset
+SQ_USER_CONFIG_FILE=${SQ_USER_CONFIG_DIR}/config
+if ! test -d ${SQ_USER_CONFIG_DIR};then
+    mkdir -p ${SQ_USER_CONFIG_DIR}
+fi
+if ! test -f ${SQ_USER_CONFIG_FILE};then
+    touch ${SQ_USER_CONFIG_FILE}
+fi
+if egrep -q '^SQ_TEST_RUN_SET=' ${SQ_USER_CONFIG_FILE};then
+    sed -i "/^SQ_TEST_RUN_SET=/s#^.*\$#SQ_TEST_RUN_SET=${SQ_TEST_RUN_SET}#" ${SQ_USER_CONFIG_FILE}
+else
+    echo "SQ_TEST_RUN_SET=${SQ_TEST_RUN_SET}" >> ${SQ_USER_CONFIG_FILE}
+fi
+export SQ_SET_CALL_BY_WRAP=YES
+${SQ_SET_BIN} -t ${TARGET_RELEASE} run

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+TARGET_RELEASE=
+if test "X${TARGET_RELEASE}" == "X";then
+    echo "TARGET_RELEASE is NONE!"
+    echo "DO NOTHING then EXIT!!!"
+    exit 1
+fi
+QASET_ROOT=
+if test "X${QASET_ROOT}" == "X";then
+    echo "QASET_ROOT is NONE!"
+    echo "DO NOTHING then EXIT!!!"
+    exit 1
+fi
+SQ_SET_BIN=${QASET_ROOT}/qaset
+export SQ_SET_CALL_BY_WRAP=YES
+${SQ_SET_BIN} -t ${TARGET_RELEASE} run
