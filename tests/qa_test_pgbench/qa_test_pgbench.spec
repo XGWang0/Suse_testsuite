@@ -30,7 +30,7 @@ Source7:       test_pgbench_medium-run
 Source8:       test_pgbench_large-run
 Source9:       test_pgbench_small-run
 Source10:       simple-pgbench.sh
-Source11:       simple-pgbench.tcf
+#Source11:       simple-pgbench.tcf
 #Source12:       test_pgbench_small-run
 #Source13:       simple-pgbench-run
 Source14:       simple-pgbench-new.sh
@@ -68,7 +68,7 @@ install -m 600 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:14} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 %{S:15} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf/
-ln -s ../%{name}/simple-pgbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+#ln -s ../%{name}/simple-pgbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/qa_test_pgbench-small.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/qa_test_pgbench-medium.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/qa_test_pgbench-large.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
