@@ -1,0 +1,28 @@
+From e259defb0d97c6b0d2b2600ef32a12a23c24cad5 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Wed, 4 Feb 2015 15:31:09 +0100
+Subject: [PATCH] proc01: Change TWARN for /proc/xen/xenbus to TINFO
+
+This is known issue and the TWARN made the test fail on XEN.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ testcases/kernel/fs/proc/proc01.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/testcases/kernel/fs/proc/proc01.c b/testcases/kernel/fs/proc/proc01.c
+index 1fde080..e98c636 100644
+--- a/testcases/kernel/fs/proc/proc01.c
++++ b/testcases/kernel/fs/proc/proc01.c
+@@ -364,7 +364,7 @@ static long readproc(const char *obj)
+ 		/* Skip files does not honor O_NONBLOCK. */
+ 		for (i = 0; error_nonblock[i][0] != '\0'; i++) {
+ 			if (!strcmp(obj, error_nonblock[i])) {
+-				tst_resm(TWARN, "%s: does not honor "
++				tst_resm(TINFO, "%s: does not honor "
+ 					 "O_NONBLOCK", obj);
+ 				return 0;
+ 			}
+-- 
+2.0.5
+
