@@ -16,6 +16,7 @@ else
 fi
 
 snapper set-config TIMELINE_CREATE=no
+#TODO Hard code
 zypper --no-gpg-checks -n ar http://dist.nue.suse.com/ibs/QA:/Head/SLE-11-SP4/ hamsta
 zypper --no-gpg-checks -n ar http://dist.suse.de/install/SLP/SLE-11-SP4-SDK-$release/$ARCH/DVD1/ sle11sp4-sdk
 #zypper --no-gpg-checks -n ar http://dist.ext.suse.de/ibs/QA:/Head/SUSE_SLE-12_GA/ hamsta
