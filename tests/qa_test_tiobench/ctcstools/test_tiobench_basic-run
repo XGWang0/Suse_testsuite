@@ -10,10 +10,20 @@ echo 'fg 1 tiobench-basic /usr/share/qa/qa_test_tiobench/abuildinfo' > ${TCF}
 NR_CPU=$(grep -c '^processor' /proc/cpuinfo)
 MEM_SIZE=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
 
+MEM_SIZE_DOUBLE=$((${MEM_SIZE} * 2))
+MEM_1GiB=$((1024 * 1024))
+MEM_SIZE_DOUBLE_MOD=$((${MEM_SIZE_DOUBLE} % ${MEM_1GiB}))
+if test ${MEM_SIZE_DOUBLE_MOD} -ne 0;then
+    MEM_SIZE_DOUBLE_GiB=$((${MEM_SIZE_DOUBLE} / ${MEM_1GiB}))
+    let MEM_SIZE_DOUBLE_GiB++
+    MEM_SIZE_DOUBLE=$((${MEM_SIZE_DOUBLE_GiB} * ${MEM_1GiB}))
+fi
+
 for block in 4096 32768; do
     for num in 1 2 4;do
         NR_THREAD=$((${NR_CPU} * ${num}))
-        FILE_SIZE=$((${MEM_SIZE} * 2 / ${NR_THREAD} / 1024)) #in MiB
+        # FILE_SIZE for tiobench.pl is the sum of size of files for each thread
+        FILE_SIZE=$((${MEM_SIZE_DOUBLE} / 1024)) #in MiB
         cat <<EOF >> ${TCF}
 fg 1 tiobench-basic-${block}-${num} tiobench.pl --size ${FILE_SIZE} --block ${block} --threads ${NR_THREAD} --dir /abuild
 EOF
