@@ -28,5 +28,5 @@ CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
 cd $CTCS2_DIR
-tools/run $TCF_DIR/simple-pgbench.tcf
+tools/run $TCF_DIR/qa_test_pgbench-small.tcf
 
