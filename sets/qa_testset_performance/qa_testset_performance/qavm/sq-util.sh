@@ -283,13 +283,16 @@ function sq_qadb_submit_result {
     fi
     sq_debug "[qadb] comment is ${_comment}"
 
+    sq_result_save_locally "${_result}"
+
     ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "${_comment}" -T "${_run_id}"
 
     if test $? -ne 0;then
         sq_warn "[qadb] Submit qa_db_report failed!"
+        # the result has been already backed
+        # clean for the next run.
+        rm -rf /var/log/qa/ctcs2/* 
     fi
-    
-    sq_result_save_locally "${_result}" && rm -rf /var/log/qa/ctcs2/*
 }
 
 #
