@@ -17,7 +17,7 @@ AutoReqProv:    on
 Version:        1.0
 Release:        0
 Summary:        A test Framework for QCAPII
-Source0:        qa_testset_performance-%{version}.tar.bz2
+Source0:        qa_testset_automation-%{version}.tar.bz2
 #Source501:      stat.tar.xz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -32,16 +32,37 @@ Authors:
     Lance Wang <lzwang@suse.com>
 
 %prep
-%setup
+%setup -n qa_testset_automation-%{version}
 
 %build
 
 %install
-%if %suse_version < 1315
-make TARGET_RELEASE=SLE11SP4 DEST=$RPM_BUILD_ROOT install
+%if %suse_version == 1110
+if grep -q SP4 /etc/issue;then
+    SLE_RELEASE=SLE11SP4
+elif grep -q SP3 /etc/issue; then
+    SLE_RELEASE=SLE11SP3
+elif grep -q SP5 /etc/issue; then
+    SLE_RELEASE=SLE11SP5
+else
+    SLE_RELEASE=SLE11
+fi
 %elseif %suse_version == 1315
-make TARGET_RELEASE=SLE12 DEST=$RPM_BUILD_ROOT install
+if grep -q SP4 /etc/issue;then
+    SLE_RELEASE=SLE12SP4
+elif grep -q SP3 /etc/issue; then
+    SLE_RELEASE=SLE12SP3
+elif grep -q SP5 /etc/issue; then
+    SLE_RELEASE=SLE12SP5
+elif grep -q SP1 /etc/issue; then
+    SLE_RELEASE=SLE12SP1
+elif grep -q SP2 /etc/issue; then
+    SLE_RELEASE=SLE12SP2
+else
+    SLE_RELEASE=SLE12
+fi
 %endif
+make TARGET_RELEASE=${SLE_RELEASE} DEST=$RPM_BUILD_ROOT install
 
 #%post
 #%if %suse_version < 1315
@@ -60,7 +81,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
+%if %suse_version == 1110
 /etc/init.d/qaset
+%elseif %suse_version == 1315
+/usr/lib/systemd/system/multi-user.target.wants
+/usr/lib/systemd/system/qaperf.service
+%endif
 /usr/share/qa
 /usr/share/qa/qaset
 
