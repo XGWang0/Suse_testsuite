@@ -1,5 +1,13 @@
 #!/bin/bash
 
+kernel_args=($(cat /proc/cmdline))
+for karg in ${kernel_args[@]};do
+    if test "$karg" == 'qaset=off'; then
+        echo "[qaset-service] Disable from /proc/cmdline"
+        exit
+    fi
+done
+
 TARGET_RELEASE=
 if test "X${TARGET_RELEASE}" == "X";then
     echo "TARGET_RELEASE is NONE!"
