@@ -40,8 +40,7 @@ Source3:        generate_openssl_tests.sh
 Source4:        qa_test_openssl_benchmark.sh
 Source5:        process_benchmarks.pl
 Patch0:         qa_test_openssl-Makefile-%{Ver}.patch
-Patch1:         qa_test_openssl-shlib_wrap-1.0.1g.patch
-Patch2:         qa_test_openssl-fips_test.patch
+Patch1:		qa_test_openssl-shlib_wrap-1.0.1g.patch
 BuildRequires:  bc
 BuildRequires:  ctcs2
 BuildRequires:  gcc
@@ -78,8 +77,6 @@ sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 %if 0%{?suse_version} >= 1220
 %patch1 -p1
 %endif
-
-%patch2 -p1
 
 cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list
 
