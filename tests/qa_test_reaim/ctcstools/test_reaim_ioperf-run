@@ -13,7 +13,7 @@ ALL_WORKFILES="workfile.compute workfile.new_dbase workfile.new_fserver workfile
 
 REAIM_WORKFILE=
 
-cp ${TCF_DIR}/reaim-ioperf.tcf.tpl ${TCF_DIR}/reaim-ioperf.tcf
+echo > ${TCF_DIR}/reaim-ioperf.tcf
 
 for workfile in ${ALL_WORKFILES}; do
     name=${workfile#workfile.}
