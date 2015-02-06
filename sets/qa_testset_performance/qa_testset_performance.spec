@@ -37,7 +37,12 @@ Authors:
 %build
 
 %install
-make DEST=$RPM_BUILD_ROOT install
+%if %suse_version == 1110
+SLE_RELEASE=SLE11
+%elseif %suse_version == 1315
+SLE_RELEASE=SLE12
+%endif
+make TARGET_RELEASE=${SLE_RELEASE} DEST=$RPM_BUILD_ROOT install
 
 #%post
 #%if %suse_version < 1315
