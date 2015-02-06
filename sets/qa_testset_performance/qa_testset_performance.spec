@@ -17,7 +17,7 @@ AutoReqProv:    on
 Version:        1.0
 Release:        0
 Summary:        A test Framework for QCAPII
-Source0:        qa_testset_automation-%{version}.tar.bz2
+Source0:        qaset-%{version}.tar.bz2
 #Source501:      stat.tar.xz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -32,37 +32,12 @@ Authors:
     Lance Wang <lzwang@suse.com>
 
 %prep
-%setup -n qa_testset_automation-%{version}
+%setup -n qaset-%{version}
 
 %build
 
 %install
-%if %suse_version == 1110
-if grep -q SP4 /etc/issue;then
-    SLE_RELEASE=SLE11SP4
-elif grep -q SP3 /etc/issue; then
-    SLE_RELEASE=SLE11SP3
-elif grep -q SP5 /etc/issue; then
-    SLE_RELEASE=SLE11SP5
-else
-    SLE_RELEASE=SLE11
-fi
-%elseif %suse_version == 1315
-if grep -q SP4 /etc/issue;then
-    SLE_RELEASE=SLE12SP4
-elif grep -q SP3 /etc/issue; then
-    SLE_RELEASE=SLE12SP3
-elif grep -q SP5 /etc/issue; then
-    SLE_RELEASE=SLE12SP5
-elif grep -q SP1 /etc/issue; then
-    SLE_RELEASE=SLE12SP1
-elif grep -q SP2 /etc/issue; then
-    SLE_RELEASE=SLE12SP2
-else
-    SLE_RELEASE=SLE12
-fi
-%endif
-make TARGET_RELEASE=${SLE_RELEASE} DEST=$RPM_BUILD_ROOT install
+make DEST=$RPM_BUILD_ROOT install
 
 #%post
 #%if %suse_version < 1315
