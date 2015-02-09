@@ -1,0 +1,46 @@
+#!/bin/bash
+
+kernel_args=($(cat /proc/cmdline))
+for karg in ${kernel_args[@]};do
+    if test "$karg" == 'qaset=off'; then
+        echo "[qaset-service] Disable from /proc/cmdline"
+        exit
+    fi
+done
+
+TARGET_RELEASE=
+if test "X${TARGET_RELEASE}" == "X";then
+    echo "TARGET_RELEASE is NONE!"
+    echo "Try my best to guess the RELEASE"
+    if grep -q "SUSE Linux Enterprise Server 11" /etc/issue;then
+        TARGET_RELEASE=SLE11
+    elif grep -q "SUSE Linux Enterprise Server 12" /etc/issue;then
+        TARGET_RELEASE=SLE12
+    else
+        echo "Failed to get current SLE_RELEASE"
+        exit 1
+    fi
+    if egrep -q "SP[0-9]+" /etc/issue;then
+        TARGET_RELEASE="${TARGET_RELEASE}$(egrep -o "SP[0-9]+" /etc/issue)"
+    fi
+fi
+
+QASET_ROOT=
+if test "X${QASET_ROOT}" == "X";then
+    echo "SET_ROOT is NONE!"
+    echo "Try my best to guess the QASET_ROOT"
+    dirpart=$(dirname $0)
+    if test -f ${dirpart}/qaset && test -d ${dirpart}/qavm;then
+        pushd ${dirpart} > /dev/null
+        QASET_ROOT=${PWD}
+        popd > /dev/null
+    elif test -f ${PWD}/qaset && test -d ${PWD}/qavm;then
+        QASET_ROOT=${PWD}
+    else
+        echo "Failed to get current QASET_ROOT"
+        exit 1
+    fi
+fi
+SQ_SET_BIN=${QASET_ROOT}/qaset
+export SQ_SET_CALL_BY_WRAP=YES
+${SQ_SET_BIN} -t ${TARGET_RELEASE} run

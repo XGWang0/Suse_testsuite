@@ -1,0 +1,5 @@
+# find better way to do this
+__import set/kernel.set
+
+kgraft_run='/usr/share/qa/tools/test_kgraft-run'
+kgraft_packages=(qa_test_kgraft)

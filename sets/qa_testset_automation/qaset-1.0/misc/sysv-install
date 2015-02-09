@@ -1,0 +1,5 @@
+#!/bin/bash
+
+level=$(runlevel | awk '{print $2}')
+
+ln -s ../qaset /etc/init.d/rc${level}.d/S99qaset
