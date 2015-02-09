@@ -41,6 +41,7 @@ Source4:        qa_test_openssl_benchmark.sh
 Source5:        process_benchmarks.pl
 Patch0:         qa_test_openssl-Makefile-%{Ver}.patch
 Patch1:		qa_test_openssl-shlib_wrap-1.0.1g.patch
+Patch2:         qa_test_openssl-fips_test.patch
 BuildRequires:  bc
 BuildRequires:  ctcs2
 BuildRequires:  gcc
