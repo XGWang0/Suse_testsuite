@@ -1,0 +1,28 @@
+function def_simple_run {
+    local name=$1
+    local run=$2
+    shift 2
+    eval "${name}_run=${run}"
+    eval "${name}_packages=($@)"
+}
+
+def_simple_run apache '/usr/share/qa/tools/test_apache_testsuite-run' qa_test_apache_testsuite
+def_simple_run apparmor '/usr/share/qa/tools/test_apparmor-run' qa_test_apparmor
+def_simple_run apparmor_profiles '/usr/share/qa/tools/test_apparmor-profiles-run' qa_test_apparmor-profiles
+def_simple_run bind '/usr/share/qa/tools/test_bind-run' qa_test_bind
+def_simple_run bzip2 '/usr/share/qa/tools/test_bzip2-run' qa_test_bzip2
+def_simple_run cabextract '/usr/share/qa/tools/test_cabextract-run' qa_test_cabextract
+def_simple_run postfix '/usr/share/qa/tools/test_postfix-run' qa_test_postfix
+def_simple_run sharutils '/usr/share/qa/tools/test_sharutils-run' qa_test_sharutils
+def_simple_run coreutils '/usr/share/qa/tools/test_coreutils-run' qa_test_coreutils
+def_simple_run cpio '/usr/share/qa/tools/test_cpio-run' qa_test_cpio
+def_simple_run cracklib '/usr/share/qa/tools/test_cracklib-run'qa_test_cracklib
+def_simple_run findutils '/usr/share/qa/tools/test_findutils-run' qa_test_findutils
+def_simple_run gzip '/usr/share/qa/tools/test_gzip-run' qa_test_gzip
+def_simple_run indent '/usr/share/qa/tools/test_indent-run' qa_test_indent
+def_simple_run net_snmp_run='/usr/share/qa/tools/test_net-snmp-run' qa_test_net-snmp
+def_simple_run nfs '/usr/share/qa/tools/test_nfs-run' qa_test_nfs
+def_simple_run openssh '/usr/share/qa/tools/test_openssh-run' qa_test_openssh
+def_simple_run openssl '/usr/share/qa/tools/test_openssl-run' qa_test_openssl
+def_simple_run php53 '/usr/share/qa/tools/test_php53-run' qa_test_php53
+def_simple_run fetchmail '/usr/share/qa/tools/test_fetchmail-run' qa_test_fetchmail

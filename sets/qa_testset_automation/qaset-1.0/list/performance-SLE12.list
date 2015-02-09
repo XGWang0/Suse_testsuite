@@ -1,0 +1,73 @@
+#!/bin/bash
+
+SQ_TEST_RUN_LIST=(
+    siege
+    siege
+    siege
+
+    libmicro_bench
+    libmicro_bench
+    libmicro_bench
+
+#   lmbench todo
+
+    kernbench
+    kernbench
+    kernbench
+
+    sysbench_bench
+    sysbench_bench
+    sysbench_bench
+
+    reaim_ioperf_ext3
+    reaim_ioperf_xfs
+    reaim_ioperf_btrfs
+    reaim_ioperf_ext3
+    reaim_ioperf_xfs
+    reaim_ioperf_btrfs
+    reaim_ioperf_ext3
+    reaim_ioperf_xfs
+    reaim_ioperf_btrfs
+
+    iozone_bigmem_basic_ext3
+    iozone_bigmem_basic_xfs
+    iozone_bigmem_basic_btrfs
+    iozone_bigmem_basic_ext3
+    iozone_bigmem_basic_xfs
+    iozone_bigmem_basic_btrfs
+    iozone_bigmem_basic_ext3
+    iozone_bigmem_basic_xfs
+    iozone_bigmem_basic_btrfs
+
+    tiobench_basic_xfs
+    tiobench_basic_ext3
+    tiobench_basic_btrfs
+    tiobench_basic_xfs
+    tiobench_basic_ext3
+    tiobench_basic_btrfs
+    tiobench_basic_xfs
+    tiobench_basic_ext3
+    tiobench_basic_btrfs
+
+    pgbench_basic_ext3
+    pgbench_basic_xfs
+    pgbench_basic_btrfs
+    pgbench_basic_ext3
+    pgbench_basic_xfs
+    pgbench_basic_btrfs
+    pgbench_basic_ext3
+    pgbench_basic_xfs
+    pgbench_basic_btrfs
+
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_btrfs
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_btrfs
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_btrfs
+
+# dbench todo
+)

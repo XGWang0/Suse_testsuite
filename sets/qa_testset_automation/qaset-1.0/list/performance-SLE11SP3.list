@@ -1,0 +1,86 @@
+#!/bin/bash
+
+SQ_TEST_RUN_LIST=(
+    siege
+    siege
+    siege
+
+    libmicro_bench
+    libmicro_bench
+    libmicro_bench
+
+#   lmbench todo
+
+    kernbench
+    kernbench
+    kernbench
+
+    sysbench_bench
+    sysbench_bench
+    sysbench_bench
+
+    reaim_ioperf_ext3
+    reaim_ioperf_xfs
+    reaim_ioperf_ext3
+    reaim_ioperf_xfs
+    reaim_ioperf_ext3
+    reaim_ioperf_xfs
+
+    iozone_bigmem_basic_ext3
+    iozone_bigmem_basic_xfs
+    iozone_bigmem_basic_ext3
+    iozone_bigmem_basic_xfs
+    iozone_bigmem_basic_ext3
+    iozone_bigmem_basic_xfs
+
+    tiobench_basic_xfs
+    tiobench_basic_ext3
+    tiobench_basic_xfs
+    tiobench_basic_ext3
+    tiobench_basic_xfs
+    tiobench_basic_ext3
+
+    pgbench_small_ext3
+    pgbench_small_xfs
+    pgbench_small_ext3
+    pgbench_small_xfs
+    pgbench_small_ext3
+    pgbench_small_xfs
+
+    pgbench_medium_ext3
+    pgbench_medium_xfs
+    pgbench_medium_ext3
+    pgbench_medium_xfs
+    pgbench_medium_ext3
+    pgbench_medium_xfs
+
+    pgbench_large_ext3
+    pgbench_large_xfs
+    pgbench_large_ext3
+    pgbench_large_xfs
+    pgbench_large_ext3
+    pgbench_large_xfs
+
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_ext3
+    bonniepp_xfs
+
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_ext3
+    bonniepp_xfs
+
+    bonniepp_fsync_ext3
+    bonniepp_fsync_xfs
+    bonniepp_fsync_ext3
+    bonniepp_fsync_xfs
+    bonniepp_fsync_ext3
+    bonniepp_fsync_xfs
+
+# dbench todo
+)

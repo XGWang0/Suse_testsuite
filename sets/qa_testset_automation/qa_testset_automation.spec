@@ -10,7 +10,7 @@
 
 # norootforbuild
 
-Name:           qa_testset_performance
+Name:           qa_testset_automation
 License:        GPL v2 or later
 Group:          testset
 AutoReqProv:    on
@@ -23,7 +23,7 @@ BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
-testset_performance-run is a framework to launch a serial of tests.
+qa_testset_automation is a framework to launch a serial of tests.
 All of the tests run in the same system.
 
 
