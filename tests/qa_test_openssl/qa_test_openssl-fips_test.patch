@@ -1,0 +1,41 @@
+--- qa_test_openssl-1.0.1g.orig/test/CAss.cnf
++++ qa_test_openssl-1.0.1g/test/CAss.cnf
+@@ -52,7 +52,7 @@ cert_opt 	= ca_default		# Certificate fi
+ 
+ default_days	= 365			# how long to certify for
+ default_crl_days= 30			# how long before next CRL
+-default_md	= md5			# which md to use.
++default_md	= sha256		# which md to use.
+ preserve	= no			# keep passed DN ordering
+ 
+ policy		= policy_anything
+--- qa_test_openssl-1.0.1g.orig/test/test.cnf
++++ qa_test_openssl-1.0.1g/test/test.cnf
+@@ -26,7 +26,7 @@ RANDFILE	= $dir/private/.rand	# private
+ 
+ default_days	= 365			# how long to certify for
+ default_crl_days= 30			# how long before next CRL
+-default_md	= md5			# which md to use.
++default_md	= sha1			# which md to use.
+ 
+ # A few difference way of specifying how similar the request should look
+ # For type CA, the listed attributes must be the same, and the optional
+--- qa_test_openssl-1.0.1g.orig/test/CAtsa.cnf
++++ qa_test_openssl-1.0.1g/test/CAtsa.cnf
+@@ -136,7 +136,7 @@ signer_key	= $dir/tsa_key1.pem	# The TSA
+ default_policy	= tsa_policy1		# Policy if request did not specify it
+ 					# (optional)
+ other_policies	= tsa_policy2, tsa_policy3	# acceptable policies (optional)
+-digests		= md5, sha1		# Acceptable message digests (mandatory)
++digests		= sha1,sha256		# Acceptable message digests (mandatory)
+ accuracy	= secs:1, millisecs:500, microsecs:100	# (optional)
+ ordering		= yes	# Is ordering defined for timestamps?
+ 				# (optional, default: no)
+@@ -160,4 +160,4 @@ signer_key	= $dir/tsa_key2.pem	# The TSA
+ default_policy	= tsa_policy1		# Policy if request did not specify it
+ 					# (optional)
+ other_policies	= tsa_policy2, tsa_policy3	# acceptable policies (optional)
+-digests		= md5, sha1		# Acceptable message digests (mandatory)
++digests		= sha1,sha256		# Acceptable message digests (mandatory)
+
+
