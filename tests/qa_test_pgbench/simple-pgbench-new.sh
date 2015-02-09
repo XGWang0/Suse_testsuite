@@ -69,7 +69,7 @@ function _exit {
 }
 
 function service_stop {
-    sudo -u postgres -g postgres $PGPATH/pg_ctl stop -D ${PG_DB_ROOT}
+    sudo -u postgres $PGPATH/pg_ctl stop -D ${PG_DB_ROOT}
     if test $? -ne 0;then
        _exit 1 "[pg] stop service on ${PG_DB_ROOT} failed!"
     else
@@ -80,7 +80,7 @@ function service_stop {
 
 function service_start {
     # Start the database
-    sudo -u postgres -g postgres $PGPATH/pg_ctl start -D ${PG_DB_ROOT}
+    sudo -u postgres $PGPATH/pg_ctl start -D ${PG_DB_ROOT}
     if test $? -ne 0;then
        _exit 1 "[pg] start service on ${PG_DB_ROOT} failed!"
     else
@@ -104,7 +104,7 @@ echo "[SYSTEM] clearing the dir ${PG_DB_ROOT}"
 cd ${PG_DB_ROOT} && rm -rf ./*
 
 #Init database
-sudo -u postgres -g postgres $PGPATH/initdb -D ${PG_DB_ROOT}
+sudo -u postgres $PGPATH/initdb -D ${PG_DB_ROOT}
 if test $? -ne 0;then
     _exit 1 "[pg] initdb ${PG_DB_ROOT} failed!"
 else
