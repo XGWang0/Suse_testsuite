@@ -1,5 +1,10 @@
 #!/bin/bash
 
 level=$(runlevel | awk '{print $2}')
-
-ln -s ../qaset /etc/init.d/rc${level}.d/S99qaset
+run_dir="/etc/init.d/rc${level}.d"
+if test -d ${run_dir}; then
+    ln -sf ../qaset ${run_dir}/S99qaset
+else #runlevel unknown
+    ln -sf qaset /etc/init.d/after.local
+    ln -sf qaset /etc/init.d/after.local
+fi
