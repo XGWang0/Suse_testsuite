@@ -28,17 +28,6 @@ Options:
         return 0
 }
 
-#make sure the user and groud
-if ! groupadd -g 26 -o -r postgres >/dev/null 2>/dev/null;then
-   echo "E Failed to add group postgres"
-   exit 1
-fi
-if ! useradd -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
-   -c "PostgreSQL Server" -u 26 postgres 2>/dev/null; then
-   echo "E Failed to add user postgres"
-   exit 1
-fi
-
 NUMCPUS=`grep processor /proc/cpuinfo | wc -l`
 MEMTOTAL_BYTES=`free -b | grep Mem: | awk '{print $2}'`
 
@@ -242,14 +231,11 @@ if [ `echo $THREADS | awk '{print $NF}'` -ne $END_THREAD ]; then
         THREADS="$THREADS $END_THREAD"
 fi
 
-if id postgres ;then
-   _exit 1  "[SYSTEM] user already exist!"
-else
-    if groupadd postgres;then
-       echo "[SYSTEM] create group successful!"
-    fi
-    if useradd postgres -g postgres ;then
-    echo  "[SYSTEM] create dir user successful!"
+if ! id postgres ;then
+    groupadd -g 26 -o -r postgres >/dev/null 2>/dev/null && useradd -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
+        -c "PostgreSQL Server" -u 26 postgres 2>/dev/null
+    if test $? -ne 0;then
+        _exit 1 "[SYSTEM] Failed to add group and user"
     fi
 fi
 
