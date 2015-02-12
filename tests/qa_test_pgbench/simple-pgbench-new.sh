@@ -28,6 +28,16 @@ Options:
         return 0
 }
 
+#make sure the user and groud
+if ! groupadd -g 26 -o -r postgres >/dev/null 2>/dev/null;then
+   echo "E Failed to add group postgres"
+   exit 1
+fi
+if ! useradd -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
+   -c "PostgreSQL Server" -u 26 postgres 2>/dev/null; then
+   echo "E Failed to add user postgres"
+   exit 1
+fi
 
 NUMCPUS=`grep processor /proc/cpuinfo | wc -l`
 MEMTOTAL_BYTES=`free -b | grep Mem: | awk '{print $2}'`
