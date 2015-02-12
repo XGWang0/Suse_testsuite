@@ -76,6 +76,7 @@ install -m 744 src/current/iozone_visualizer.pl $RPM_BUILD_ROOT/usr/share/qa/%na
 install -m 744 src/current/report.pl $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 644 src/current/Gnuplot.txt $RPM_BUILD_ROOT/usr/share/qa/%name
 ln -s ../%name/tcf/qa_iozone.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../$name/tcf/qa_iozone_bigmem_basic.tcf.tpl $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
