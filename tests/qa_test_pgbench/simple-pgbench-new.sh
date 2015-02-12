@@ -28,6 +28,14 @@ Options:
         return 0
 }
 
+if ! id postgres ;then
+    groupadd -g 26 -o -r postgres >/dev/null 2>/dev/null && useradd -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
+        -c "PostgreSQL Server" -u 26 postgres 2>/dev/null
+    if test $? -ne 0;then
+        _exit 1 "[SYSTEM] Failed to add group and user"
+    fi
+fi
+
 NUMCPUS=`grep processor /proc/cpuinfo | wc -l`
 MEMTOTAL_BYTES=`free -b | grep Mem: | awk '{print $2}'`
 
@@ -229,14 +237,6 @@ else
 fi
 if [ `echo $THREADS | awk '{print $NF}'` -ne $END_THREAD ]; then
         THREADS="$THREADS $END_THREAD"
-fi
-
-if ! id postgres ;then
-    groupadd -g 26 -o -r postgres >/dev/null 2>/dev/null && useradd -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
-        -c "PostgreSQL Server" -u 26 postgres 2>/dev/null
-    if test $? -ne 0;then
-        _exit 1 "[SYSTEM] Failed to add group and user"
-    fi
 fi
 
 chown -R postgres:postgres ${PG_DB_ROOT}
