@@ -244,6 +244,8 @@ if test $? -ne 0;then
     _exit 1 "[SYSTEM]  change the owner and group of dir failed!"
 fi
 
+PGBENCH_BIN="/usr/share/qa/qa_test_pgbench/postgres/bin/pgbench"
+
 # su postgres /usr/bin/psql -c 'createdb pgbench;'
 #createdb -U postgres pgbench
 for NR_THREADS in $THREADS; do
@@ -270,7 +272,7 @@ for NR_THREADS in $THREADS; do
 	
 	 echo Initialising database for pgbench: Scale factor $SCALE_FACTOR
 	/usr/bin/time -f 'STAT_LOAD %Uuser %Ssystem %Eelapsed' \
-	pgbench -U postgres -h $PGHOST -p $PGPORT -i $VACUUM_ARG -s $SCALE_FACTOR pgbench
+	${PGBENCH_BIN} -U postgres -h $PGHOST -p $PGPORT -i $VACUUM_ARG -s $SCALE_FACTOR pgbench
 	if test $? -ne 0;then
 	    _exit 1 "pgbench failed to execute!"
 	else
@@ -302,7 +304,7 @@ for NR_THREADS in $THREADS; do
 	
 	echo "[pg] starting test cache_hot"
 	/usr/bin/time -f 'STAT_LOAD %Uuser %Ssystem %Eelapsed'  \
-	  pgbench -U postgres -v -h $PGHOST -p $PGPORT -r -l --aggregate-interval=1  $VACUUM_ARG $READONLY_ARG -c $NR_THREADS \
+	  ${PGBENCH_BIN} -U postgres -v -h $PGHOST -p $PGPORT -r -l --aggregate-interval=1  $VACUUM_ARG $READONLY_ARG -c $NR_THREADS \
 	                        $MAX_TRANSACTIONS_COMMAND $MAX_TIME_COMMAND pgbench
 	if test $? -ne 0;then
 	    _exit 1 "pgbench failed to execute cache hot test!"

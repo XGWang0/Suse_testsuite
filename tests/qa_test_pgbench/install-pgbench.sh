@@ -41,7 +41,7 @@ else
     echo "[SYSTEM] configure postgres completely "
 fi
 
-make
+make && make install
 if test $? -ne 0;then
     rm -rf $INSTALL_ROOT
     rm -rf $TAR_DIR
@@ -50,14 +50,14 @@ else
     echo "[SYSTEM] build postgres completely "
 fi
 
-
-make install
+make -C contrib/pgbench/ && make -C contrib/pgbench/ install
 if test $? -ne 0;then
     rm -rf $INSTALL_ROOT
     rm -rf $TAR_DIR
-    _exit 1 "[SYSTEM] make install postgres failed!"
+    _exit 1 "[SYSTEM] build pgbench failed!"
 else
-    echo "[SYSTEM] make install postgres completely "
+    echo "[SYSTEM] build pgbench completely "
 fi
+
 
 
