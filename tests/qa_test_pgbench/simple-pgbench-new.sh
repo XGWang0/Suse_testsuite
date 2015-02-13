@@ -148,7 +148,7 @@ SHARED_BUFFERS=$((32*1048576))
 WORK_MEM=$((32*1048576))
 MAX_TIME=
 MAX_TRANSACTIONS=auto
-SCALE_FACTOR=1
+test -z ${SCALE_FACTOR} && SCALE_FACTOR=1
 VACUUM_ARG=-n
 CACHE_HOT=no
 READONLY_ARG=
@@ -197,7 +197,6 @@ update_entry_cnf synchronous_commit on
 if [ "$PAGESIZE"="default" ] ; then
         PAGESIZE=4096
 fi
-
 
 # Configure shmem parameters
 echo $TOTALBUFFER_SIZE > /proc/sys/kernel/shmmax
