@@ -35,7 +35,7 @@ function siege_get_args {
     echo performance
 }
 def_simple_run libmicro_bench "/usr/share/qa/tools/test_libmicro-bench-run" qa_test_libmicro
-def_simple_run lmbench_run "/share/qa/tools/test_lmbench-run" qa_test_lmbench
+def_simple_run lmbench_bench "/share/qa/tools/test_lmbench-run" qa_test_lmbench
 def_simple_run sysbench_bench "/usr/lib/ctcs2/tools/test_sysbench-bench-run" qa_test_sysbench mysql
 function sysbench_bench_open {
     # In sysbench-bench.tcf mysql is started. and a connection is to be set.
