@@ -60,10 +60,8 @@ fi
 
 cat <<EOF > $TCF_DIR/qa_iozone_bigmem_basic.tcf
 fg 1 iozone-bigmem-abuildinfo /usr/share/qa/qa_test_iozone/abuildinfo
-fg 1 iozone-bigmem-default /usr/bin/iozone -a -n ${IOZONE_MIN_SIZE} -g ${IOZONE_MAX_SIZE} -y  ${IOZONE_MIN_BLK_SIZE} -
-q ${IOZONE_MAX_BLK_SIZE} -i 0 -i 1 -i 2 -i 3 -f /abuild/iozone -R
-fg 1 iozone-bigmem-fsync /usr/bin/iozone -e -a -n ${IOZONE_MIN_SIZE} -g ${IOZONE_MAX_SIZE} -y  ${IOZONE_MIN_BLK_SIZE} 
--q ${IOZONE_MAX_BLK_SIZE} -i 0 -i 1 -i 2 -i 3 -f /abuild/iozone -R
+fg 1 iozone-bigmem-default /usr/bin/iozone -a -n ${IOZONE_MIN_SIZE} -g ${IOZONE_MAX_SIZE} -y  ${IOZONE_MIN_BLK_SIZE} -q ${IOZONE_MAX_BLK_SIZE} -i 0 -i 1 -i 2 -i 3 -f /abuild/iozone -R
+fg 1 iozone-bigmem-fsync /usr/bin/iozone -e -a -n ${IOZONE_MIN_SIZE} -g ${IOZONE_MAX_SIZE} -y  ${IOZONE_MIN_BLK_SIZE} -q ${IOZONE_MAX_BLK_SIZE} -i 0 -i 1 -i 2 -i 3 -f /abuild/iozone -R
 EOF
 
 cd $CTCS2_DIR
