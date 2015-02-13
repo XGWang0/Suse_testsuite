@@ -68,13 +68,6 @@ SQ_TEST_RUN_LIST=(
     bonniepp_ext3
     bonniepp_xfs
 
-    bonniepp_ext3
-    bonniepp_xfs
-    bonniepp_ext3
-    bonniepp_xfs
-    bonniepp_ext3
-    bonniepp_xfs
-
     bonniepp_fsync_ext3
     bonniepp_fsync_xfs
     bonniepp_fsync_ext3
