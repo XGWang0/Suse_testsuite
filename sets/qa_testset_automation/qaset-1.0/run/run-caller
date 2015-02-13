@@ -45,13 +45,20 @@ if test "X${SQ_TEST_RUN_SET}" == "X"; then
     arg0=$(basename $0)
     if test -z ${arg0}; then
         echo "impossible"
-        echo 1
+        exit 1
     fi
     SQ_TEST_RUN_SET=$(echo $arg0 | sed 's/-run//')
     if test -z ${SQ_TEST_RUN_SET}; then
         echo "Failed to get SQ_TEST_RUN_SET"
         exit 1
     fi
+fi
+
+if test ${SQ_TEST_RUN_SET} == performance; then
+    case ${TARGET_RELEASE} in
+        SLE11*) ${QASET_ROOT}/sysv-install;;
+        *) systemctl enable qaperf.service;;
+    esac
 fi
 
 SQ_SET_BIN=${QASET_ROOT}/qaset
