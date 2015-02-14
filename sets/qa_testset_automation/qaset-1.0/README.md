@@ -1,33 +1,20 @@
 HOW to run the set
 ==================
-Because the set needs reboot so the calling is implemented as a service.
-There are still methods to disable rebooting and enable it.
+All the scripts in under /usr/share/qa/qaset
+There are server simple run scripts which are in run/.
+A calling of /usr/share/qa/qaset/run/*-run starts the run.
+For performance the run scipts is run/performance-run.
+And a service used to start the run after each rebooting
+is installed automatically.
 
-the systemd service
+the service
 -------------------
-The name of the service named sqperf.
-Bt default sqperf is disable.
-So you need to enable it by
-
-    # systemctl enable sqperf
-
-And then you can start it by
-
-    # systemctl start sqperf
-
-After that the set starts running.
+For systemd the service is qaset.service
+For sysv the service is qaset
 
 The stages of the running of the set
 ===================================
-Currently, the running of the whole set has two basic stage.
-The first stage is preparation, and the second one is runing the list.
-
-In the first stage what should be done includes adding repos, installing packages and
-some initial works for the framework of the program. If there is some problem heppens,
-you should mannual fix it, then resume the running.
-
-In the second stage the factual running of cases happen there.
-And the system could be rebooted in this stage.
+TODO
 
 Files of directoris
 ===================
@@ -42,16 +29,15 @@ global ones
 custom ones
 -----------
 /root/qaset/config
+/root/qaset/list is the cunstom list
 
 the case run list
 =================
-Each release has its own default run list.
-For example SLE12.list is the default run list for SLE12.
-A custom run list can also be defined.
+TODO
 
 Define a custom run list
 ------------------------
-Essentially, it is to define a list varible of bash in /root/qaset/config before running.
+Essentially, it is to define a list varible of bash in /root/qaset/list before running.
 Each element of it is the name of a case run.
 The name of it is SQ_TEST_RUN_LIST.
 
@@ -100,26 +86,17 @@ By defautl the comment is the name of the case run.
 
 Customize the comment of the submittion of QADB
 -----------------------------------------------
-You can define variable SQ_TEST_QADB_COMMENT_TEMPLATE to customize the comment.
-It is a template of the printf function in bash. Be default its value is just "%s"
-Customize comment is designe with different cases run needs different comments in mind.
-So in additon the varibale SQ_TEST_QADB_COMMENT_TEMPLATE, for each case run the function
-sq_qadb_add_comment should be called in the _open functions.
-
-TODO an example
+TODO 
 
 Useful tips
 ===========
 When you find some issue during the runing, you call stop it by
-
-    # ./sq-set.sh stop
+   TODO
 
 then the running will stop after the curren case run finishes.
 
 When the issue fixed you restart the running.
-    # ./sq-set.sh reset
-    # reboot
-
+TODO
 NOTE: Actually running can not be resumed. So please take case of the run list
 for each running.
 
@@ -127,5 +104,4 @@ TODO
 ====
   * more fined run lists.
   * extract the global preparation.
-  * setup each preparation for each set.
   * backup /var/log/message
