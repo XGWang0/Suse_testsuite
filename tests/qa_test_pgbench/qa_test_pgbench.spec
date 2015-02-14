@@ -33,7 +33,7 @@ Source10:       simple-pgbench.sh
 #Source11:       simple-pgbench.tcf
 #Source12:       test_pgbench_small-run
 #Source13:       simple-pgbench-run
-Source14:       simple-pgbench-new.sh
+Source14:       basic-pgbench.sh
 Source15:       install-pgbench.sh
 Source16:       postgresql-9.3.4.tar.bz2
 #Patch0:
