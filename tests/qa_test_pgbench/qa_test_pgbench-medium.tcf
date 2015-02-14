@@ -1,8 +1,8 @@
 timer 3h
-fg 1 simple-pgbench-medium-ro /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -s medium
+fg 1 simple-pgbench-medium-ro /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -s medium
 wait
 
 timer 3h
-fg 1 simple-pgbench-medium-rw /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r y -s medium
+fg 1 simple-pgbench-medium-rw /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -r -s medium
 wait
 

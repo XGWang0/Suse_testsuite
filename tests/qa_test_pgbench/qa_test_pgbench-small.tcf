@@ -1,8 +1,8 @@
 timer 3h
-fg 1 simple-pgbench-small-ro /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -s small
+fg 1 simple-pgbench-small-ro /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -s small
 wait
 
 timer 3h
-fg 1 simple-pgbench-small-rw /usr/share/qa/qa_test_pgbench/simple-pgbench-new.sh -r y -s small
+fg 1 simple-pgbench-small-rw /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -r -s small
 wait
 
