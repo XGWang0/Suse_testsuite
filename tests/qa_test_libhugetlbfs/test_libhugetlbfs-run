@@ -6,7 +6,7 @@ TEST_DIR=/usr/share/qa/qa_test_libhugetlbfs
 
 # Check processor type 
 TESTLIBHUGETLBFS=`uname -m`
-if [ "$TESTLIBHUGETLBFS" = "X86_64" ]
+if [ "$TESTLIBHUGETLBFS" = "x86_64" ]
 then
 LIBHUGETLBFSTCF=qa_test_libhugetlbfs
 elif [ "$TESTLIBHUGETLBFS" = "i686" ]
