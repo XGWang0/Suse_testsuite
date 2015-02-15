@@ -17,6 +17,7 @@ Source2:      qa_test_libhugetlbfs.8
 Source3:      qa_test_libhugetlbfs.tcf
 Patch0:       err_output.patch
 Patch1:       ppc64le.patch
+Patch2:	      s390ppc64.patch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -26,6 +27,7 @@ The testsuite contains tests both for the library's features and for the underly
 %setup -q -n libhugetlbfs-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 make clean

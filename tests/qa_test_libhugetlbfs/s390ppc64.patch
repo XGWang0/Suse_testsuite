@@ -1,0 +1,30 @@
+--- libhugetlbfs-2.17/Makefile.bac	2015-02-15 16:52:12.279489760 +0800
++++ libhugetlbfs-2.17/Makefile	2015-02-15 16:54:00.444496792 +0800
+@@ -98,10 +98,27 @@
+ TMPLIB32 = lib
+ CUSTOM_LDSCRIPTS = no
+ else
++ifeq ($(ARCH),s390)
++CC64 = $(CC) -m64
++CC32 = $(CC) -m31
++ELF32 = elf_s390
++ELF64 = elf64_s390
++TMPLIB64 = lib64
++TMPLIB32 = lib
++CUSTOM_LDSCRIPTS = no
++else
++ifeq ($(ARCH),ppc64)
++CC64 = $(CC) -m64
++ELF64 = elf64ppc
++TMPLIB64 = lib64
++TMPLIB32 = lib
++else
+ $(error "Unrecognized architecture ($(ARCH))")
+ endif
+ endif
+ endif
++endif
++endif
+ endif
+ endif
+ endif
