@@ -177,7 +177,7 @@ function service_stop {
     else
        echo "[pg] stop the service on ${PG_DB_ROOT}"
     fi
-    rm ${PG_DB_ROOT}/postmaster.pid
+    rm ${PG_DB_ROOT}/postmaster.pid || true
 }
 
 # pgbench
