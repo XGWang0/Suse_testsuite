@@ -89,9 +89,9 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf
 install -D -m 755 ctcstools/test_netperf-run $RPM_BUILD_ROOT/usr/share/qa/tools/test_netperf-run
 install -D -m 755 ctcstools/netperf.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf.tcf
 install -D -m 755 ctcstools/netperf6.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf6.tcf
-install -D -m 644 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/qa_test_netperf-config
-install -D -m 644 ctcstools/netperf-client $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/netperf-client
-install -D -m 644 ctcstools/netperf-server $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/netperf-server
+install -D -m 755 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/qa_test_netperf-config
+install -D -m 755 ctcstools/netperf-client $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/netperf-client
+install -D -m 755 ctcstools/netperf-server $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/netperf-server
 install -D -m 755 ctcstools/netperf_peer_loop-run $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop-run
 install -D -m 755 ctcstools/netperf_peer_5354-run $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_5354-run
 install -D -m 755 ctcstools/netperf-peer-5354.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf-peer-5354.tcf
