@@ -94,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 
 %changelog
+* Mon Feb 16 15:03:52 CET 2015 - asemen@suse.de
+- increase time out in qa_clamav.tcf for update test cases
 * Wed Aug 10 2011 - llipavsky@suse.cz
 - Package rename: qa_clamav -> qa_test_clamav
 * Thu Apr 23 2009 asemen@suse.de
