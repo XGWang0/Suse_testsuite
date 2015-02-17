@@ -1,0 +1,7 @@
+#!/bin/sh
+
+BASEDIR="/usr/lib/ctcs2/"
+$BASEDIR/tools/run $BASEDIR/tcf/sysbench-oltp.tcf
+
+
+

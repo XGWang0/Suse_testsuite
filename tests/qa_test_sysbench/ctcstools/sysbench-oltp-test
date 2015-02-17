@@ -1,0 +1,121 @@
+#!/bin/bash
+
+declare -i THREADS
+CPUNUM=$(grep -c processor /proc/cpuinfo)
+MAX_THREADS=$(($CPUNUM*4))
+
+SB_MYSQL_DATADIR=/abuild/mysql-sysbench
+SB_MYSQL_SOCKET="${SB_MYSQL_DATADIR}/sysbench-mysql.sock"
+SB_MYSQL_DEFAULTS_FILE="${SB_MYSQL_DATADIR}/sysbench-mysql-defaults"
+function die {
+    echo "$@"
+    exit 1
+}
+
+function sysbench_init {
+    mkdir -p ${SB_MYSQL_DATADIR}
+    cat <<EOF > ${SB_MYSQL_DEFAULTS_FILE}
+[mysqld]
+port = 3306
+datadir=${SB_MYSQL_DATADIR}
+socket=${SB_MYSQL_SOCKET}
+EOF
+}
+
+function sysbench_fini {
+    rm -rf ${SB_DB_ROOT}
+}
+
+function mysql_service_init {
+    sysbench_init
+    if test -x /etc/init.d/mysql;then
+        #sysv
+        #settings via the way
+        export defaults="--defaults-file=${SB_MYSQL_DEFAULTS_FILE}"
+        /etc/init.d/mysql start
+        sleep 3
+        /etc/init.d/mysql status
+    else
+        #systemd
+        #NOT tested yet
+        export defaults="--defaults-file=${SB_MYSQL_DEFAULTS_FILE}"
+        systemctl start mysql
+        sleep 3
+        systemctl status mysql
+    fi
+    if test $? -ne 0; then
+            die "Failed to start mysql service"
+    fi
+}
+
+function mysql_service_fini {
+    if test -x /etc/init.d/mysql;then
+        service mysql stop
+    else
+        #not tested ye
+        systemctl stop mysql
+    fi
+    echo "debug"
+    ps -ef | grep mysql
+    sysbench_fini
+}
+
+function sysbench_db_init {
+    mysql_service_init
+	sysbench --test=oltp --mysql-user=mysql --mysql-socket=${SB_MYSQL_SOCKET} \
+	         --mysql-db=test --mysql-port=3306 \
+	         --oltp-dist-type=uniform --oltp-read-only --oltp-order-ranges=0 \
+	         --oltp-table-size=1000000 --oltp-range-size=1000 prepare
+    if test $? -ne 0;then
+        die "Failed to init the database"
+    fi
+}
+
+function sysbench_db_fini {
+    sysbench --test=oltp --mysql-user=mysql --mysql-socket=${SB_MYSQL_SOCKET} \
+	         --mysql-db=test --mysql-port=3306  cleanup >/dev/null 1>&2
+    mysql_service_fini
+}
+
+function sysbench_run {
+	sysbench --test=oltp --mysql-user=mysql --mysql-socket=${SB_MYSQL_SOCKET} \
+	         --mysql-db=test --mysql-port=3306 \
+	         --oltp-dist-type=uniform --oltp-read-only --oltp-order-ranges=0 \
+	         --oltp-table-size=1000000 --oltp-range-size=1000 --num-threads=$NR_THREADS run
+    if test $? -ne 0;then
+        die "Failed to run sysbench oltp run"
+    fi
+}
+set -x
+THREADS=() #array
+function list_append {
+    local _l=$1
+    shift
+    for n in $@; do
+       eval "${_l}[\${#${_l}[@]}]=${n}"
+    done
+}
+START_THREAD=1
+END_THREAD=$MAX_THREADS
+if [ $END_THREAD -ge 32 ]; then
+    list_append THREADS $(seq $START_THREAD 4 8)
+    list_append THREADS $(seq 12 9 32)
+    list_append THREADS $(seq 48 31 $END_THREAD)
+elif [ $END_THREAD -ge 8 ]; then
+    list_append THREADS $(seq $START_THREAD 3 8)
+    list_append THREADS $(seq 12 6 $END_THREAD)
+else
+    list_append THREADS $(seq $START_THREAD 2 $END_THREAD)
+fi
+if [ $(echo $THREADS | awk '{print $NF}') -ne $END_THREAD ]; then
+    list_append THREADS $END_THREAD
+fi
+set +x
+sysbench_db_fini
+for NR_THREADS in ${THREADS[@]}; do
+    echo "THREADS ${NR_THREADS}"
+    sysbench_db_init
+    sysbench_run
+    sysbench_db_fini
+done
+true #make ctcs2 happy

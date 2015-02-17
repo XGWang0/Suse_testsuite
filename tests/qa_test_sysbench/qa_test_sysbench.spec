@@ -91,6 +91,7 @@ make install
 #pushd %{name}-example-tests
 install -D -m 755 sysbench-example-tests/sysbench-example-test %{buildroot}/usr/bin/sysbench-example-test 
 install -D -m 755 sysbench-example-tests/sysbench-example-all-tests  %{buildroot}/usr/bin/sysbench-example-all-tests
+install -D -m 755 ctcstools/sysbench-oltp-test %{buildroot}/usr/bin/sysbench-oltp-test
 #popd
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
@@ -99,6 +100,10 @@ cp ctcstools/sysbench-full.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp ctcstools/test_sysbench-bench-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 cp ctcstools/sysbench-bench.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp ctcstools/sysbench.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+install -D ctcstools/sysbench-sys.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+install -D ctcstools/sysbench-oltp.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+install -D -m 755 ctcstools/test_sysbench_sys-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
+install -D -m 755 ctcstools/test_sysbench_oltp-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_sysbench-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_sysbench-bench-run
 
 %post 

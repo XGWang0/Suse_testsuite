@@ -1,0 +1,3 @@
+timer 6h
+fg 1 sysbench-oltp sysbench-oltp-test
+wait
