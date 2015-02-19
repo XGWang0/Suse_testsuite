@@ -35,23 +35,9 @@ function siege_get_args {
     echo performance
 }
 def_simple_run libmicro_bench "/usr/share/qa/tools/test_libmicro-bench-run" qa_test_libmicro
-def_simple_run lmbench_bench "/share/qa/tools/test_lmbench-run" qa_test_lmbench
-def_simple_run sysbench_bench "/usr/lib/ctcs2/tools/test_sysbench-bench-run" qa_test_sysbench mysql
-function sysbench_bench_open {
-    # In sysbench-bench.tcf mysql is started. and a connection is to be set.
-    # But if it is the first time that mysql run in the system
-    # there is a race condiction which causes the connection to be failed.
-    # this should be fixed in the tcf.
-    service mysql start
-    sleep 5 #wait mysql
-}
-function sysbench_bench_close {
-    # In sysbench-bench.tcf mysql is not stop after the runs.
-    # So stop mysql here.
-    # this should be fixed in the tcf.
-    service mysql stop
-}
-
+def_simple_run lmbench_bench "/usr/share/qa/tools/test_lmbench-run" qa_test_lmbench
+def_simple_run sysbench_sys "/usr/lib/ctcs2/tools/test_sysbench_sys-run" qa_test_sysbench mysql
+def_simple_run sysbench_oltp "/usr/lib/ctcs2/tools/test_sysbench_oltp-run" qa_test_sysbench mysql
 ##kernbench a server is need to store the kernel-package
 def_simple_run kernbench "/usr/share/qa/tools/test_kernbench-run" qa_test_kernbench
 kernbench_run=
