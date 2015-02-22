@@ -40,7 +40,6 @@ def_simple_run sysbench_sys "/usr/lib/ctcs2/tools/test_sysbench_sys-run" qa_test
 def_simple_run sysbench_oltp "/usr/lib/ctcs2/tools/test_sysbench_oltp-run" qa_test_sysbench mysql
 ##kernbench a server is need to store the kernel-package
 def_simple_run kernbench "/usr/share/qa/tools/test_kernbench-run" qa_test_kernbench
-kernbench_run=
 function kernbench_open {
     local _kernel_source=linux-2.6.14
     local _kernel_package=${_kernel_source}.tar.bz2
