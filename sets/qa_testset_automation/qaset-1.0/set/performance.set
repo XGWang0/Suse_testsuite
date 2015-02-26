@@ -37,7 +37,7 @@ function siege_get_args {
 def_simple_run libmicro_bench "/usr/share/qa/tools/test_libmicro-bench-run" qa_test_libmicro
 def_simple_run lmbench_bench "/usr/share/qa/tools/test_lmbench-run" qa_test_lmbench
 def_simple_run sysbench_sys "/usr/lib/ctcs2/tools/test_sysbench_sys-run" qa_test_sysbench mysql
-def_simple_run sysbench_oltp "/usr/lib/ctcs2/tools/test_sysbench_oltp-run" qa_test_sysbench mysql
+
 ##kernbench a server is need to store the kernel-package
 def_simple_run kernbench "/usr/share/qa/tools/test_kernbench-run" qa_test_kernbench
 function kernbench_open {
@@ -230,4 +230,5 @@ def_unit_fs pgbench "/usr/share/qa/tools/simple-pgbench-run" qa_test_pgbench
 def_unit_fs pgbench_small  "/usr/share/qa/tools/test_pgbench_small-run" qa_test_pgbench
 def_unit_fs pgbench_medium  "/usr/share/qa/tools/test_pgbench_medium-run" qa_test_pgbench
 def_unit_fs pgbench_large  "/usr/share/qa/tools/test_pgbench_large-run" qa_test_pgbench
+def_unit_fs sysbench_oltp "/usr/lib/ctcs2/tools/test_sysbench_oltp-run" qa_test_sysbench mysql
 
