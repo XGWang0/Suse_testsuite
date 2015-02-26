@@ -5,6 +5,10 @@ __import qavm/sq-global.sh
 __import qavm/sq-util.sh
 
 function sq_mach_open {
+    if ! mkdir ${SQ_TEST_RUN_LOCK};then
+        sq_error "There is already a qaset running"
+        return 1
+    fi
     __import conf/${SLE_RELEASE}.conf
     if test -f ${SQ_TEST_CONTROL_FILE_PREPARED};then
         sq_info "[MACH] Preparation: NOT NEED."
@@ -35,6 +39,9 @@ function sq_mach_open {
 
 
 function sq_mach_close {
+    if test -d ${SQ_TEST_RUN_LOCK}; then
+        rmdir ${SQ_TEST_RUN_LOCK}
+    fi
     if test "X${SQ_TEST_MACH_FLAG_REBOOT}" == "XYES";then
         case ${SLE_RELEASE} in
             SLE11*) sq_os_reboot_2
