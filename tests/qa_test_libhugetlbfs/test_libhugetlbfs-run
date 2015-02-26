@@ -9,17 +9,13 @@ LIBHUGETLBFSTCF=qa_test_libhugetlbfs
 
 # Check processor type 
 TESTLIBHUGETLBFS=`uname -m`
-if [ "$TESTLIBHUGETLBFS" = "i686" ]
+if [ "$TESTLIBHUGETLBFS" = "ia64" ]
+then
+LIBHUGETLBFSTCF=qa_test_libhugetlbfs_ia64
+elif [ "$TESTLIBHUGETLBFS" = "i686" ]
 then
 LIBHUGETLBFSTCF=qa_test_libhugetlbfs_32
 fi
-#if [ "$TESTLIBHUGETLBFS" = "x86_64" ]
-#then
-#LIBHUGETLBFSTCF=qa_test_libhugetlbfs
-#elif [ "$TESTLIBHUGETLBFS" = "i686" ]
-#then
-#LIBHUGETLBFSTCF=qa_test_libhugetlbfs_32
-#fi
 
 # Prepare the test sources
 mkdir -p /tmp/libhugetlbfs
