@@ -4,5 +4,12 @@
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
+# Bug 919680, autotest-libhugetlbfs cause timeout issue. so disable it firstly.
+ARCH=$HOSTTYPE
+if [ "$ARCH" = "s390x" ]
+then
+sed -i 's/^fg 1 autotest-libhugetlbfs/#fg 1 autotest-libhugetlbfs/' $TCF_DIR/autotest_no_bench.tcf
+fi
+
 cd $CTCS2_DIR
 tools/run $TCF_DIR/autotest_no_bench.tcf
