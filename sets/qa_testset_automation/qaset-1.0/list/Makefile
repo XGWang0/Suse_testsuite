@@ -8,7 +8,9 @@ default_list_sle12 += acceptance-SLE12.list kernel-SLE12.list regression-SLE12.l
 
 kgraft_list += kgraft-kernel-SLE12.list kgraft-performance-SLE12.list
 
-all_list := $(default_list_sle11) $(default_list_sle12) $(kgraft_list)
+dynamic_list += performance-IO.sh performance-SYS.sh
+
+all_list := $(default_list_sle11) $(default_list_sle12) $(kgraft_list) $(dynamic_list)
 
 LIST_DEST := $(dest)/list
 
