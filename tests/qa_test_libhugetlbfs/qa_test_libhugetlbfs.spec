@@ -15,6 +15,8 @@ Source0:      libhugetlbfs-%version.tar.gz
 Source1:      test_libhugetlbfs-run
 Source2:      qa_test_libhugetlbfs.8
 Source3:      qa_test_libhugetlbfs.tcf
+Source4:      qa_test_libhugetlbfs_32.tcf
+Source5:      qa_test_libhugetlbfs_ia64.tcf
 Patch0:       err_output.patch
 Patch1:       ppc64le.patch
 Patch2:	      s390ppc64.patch
@@ -39,6 +41,8 @@ install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
 install -d $RPM_BUILD_ROOT/usr/share/qa/%name

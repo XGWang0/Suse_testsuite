@@ -4,11 +4,14 @@ CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 TEST_DIR=/usr/share/qa/qa_test_libhugetlbfs
 
+#The default value can be suitable for other 64bit platforms. 
+LIBHUGETLBFSTCF=qa_test_libhugetlbfs
+
 # Check processor type 
 TESTLIBHUGETLBFS=`uname -m`
-if [ "$TESTLIBHUGETLBFS" = "x86_64" ]
+if [ "$TESTLIBHUGETLBFS" = "ia64" ]
 then
-LIBHUGETLBFSTCF=qa_test_libhugetlbfs
+LIBHUGETLBFSTCF=qa_test_libhugetlbfs_ia64
 elif [ "$TESTLIBHUGETLBFS" = "i686" ]
 then
 LIBHUGETLBFSTCF=qa_test_libhugetlbfs_32
