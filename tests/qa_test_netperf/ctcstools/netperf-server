@@ -66,5 +66,9 @@ ip link set ${INTERFACE} up
 for pid in $(pidof netserver);do
     kill -9 $pid
 done
-netserver
+if test $IPV6 == YES; then
+    netserver -6
+else
+    netserver
+fi
 exit $?
