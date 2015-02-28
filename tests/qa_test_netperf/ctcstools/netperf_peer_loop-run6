@@ -1,0 +1,22 @@
+#!/bin/bash
+PATH='/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin'
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/tcf"
+
+#dynamic generate tcf
+cat <<EOF > $basedir/netperf-peer-loop6.tcf
+timer 10m
+fg 1 netserver-start /usr/bin/netserver
+wait
+
+timer 25m
+fg 1 netperf-loop-tcp  /usr/lib/ctcs2/config/netperf/netperf-client -6 -T -a ::1 -i lo -m 128 -p ::1
+wait
+
+timer 25m
+fg 1 netperf-loop-udp /usr/lib/ctcs2/config/netperf/netperf-client -6 -U -a ::1 -i lo -m 128 -p ::1
+wait
+EOF
+
+$ctcsdir/tools/run $basedir/netperf-peer-loop6.tcf

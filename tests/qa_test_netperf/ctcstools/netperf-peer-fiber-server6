@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/lib/ctcs2/config/netperf/netperf-server -6 -a ::ffff:192.168.10.53 -m 64 -i eth5

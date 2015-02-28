@@ -96,6 +96,11 @@ install -D -m 755 ctcstools/netperf_peer_loop-run $RPM_BUILD_ROOT/usr/share/qa/t
 install -D -m 755 ctcstools/netperf_peer_5354-run $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_5354-run
 install -D -m 755 ctcstools/netperf-peer-5354.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf-peer-5354.tcf
 install -D -m 755 ctcstools/netperf-peer-loop.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf-peer-loop.tcf
+install -D -m 755 ctcstools/netperf-peer-fiber-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -D -m 755 ctcstools/netperf-peer-fiber-server $RPM_BUILD_ROOT/usr/share/qa/tools
+install -D -m 755 ctcstools/netperf-peer-fiber-server6 $RPM_BUILD_ROOT/usr/share/qa/tools
+install -D -m 755 ctcstools/netperf-peer-fiber6-run $RPM_BUILD_ROOT/usr/share/qa/tools
+install -D -m 755 ctcstools/netperf_peer_loop-run6 $RPM_BUILD_ROOT/usr/share/qa/tools
 
 %files
 %defattr(-, root, root)

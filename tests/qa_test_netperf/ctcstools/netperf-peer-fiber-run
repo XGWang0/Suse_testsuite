@@ -1,0 +1,18 @@
+#!/bin/bash
+PATH='/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin'
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/tcf"
+TCF_FILE="$basedir/netperf-peer-fiber.tcf"
+cat <<EOF >${TCF_FILE}
+timer 25m
+fg 1 netperf-fiber-tcp  /usr/lib/ctcs2/config/netperf/netperf-client -T -a 192.168.10.54 -m 64 -i eth5 -p 192.168.10.53 -b 192.168.10.255
+wait
+
+timer 25m
+fg 1 netperf-fiber-udp /usr/lib/ctcs2/config/netperf/netperf-client -U -a 192.168.10.54 -m 64 -i eth5 -p 192.168.19.53 -b 192.168.10.255
+wait
+EOF
+
+$ctcsdir/tools/run ${TCF_FILE}
+

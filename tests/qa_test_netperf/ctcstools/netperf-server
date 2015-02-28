@@ -5,6 +5,7 @@ BRD=127.0.0.255
 MASK=24
 PEER_IP=127.0.0.1
 INTERFACE=eth0
+IPV6=NO
 
 function usage
 {
@@ -28,7 +29,8 @@ while test $# -gt 0; do
         '-i') if test $# -lt 2;then usage; else shift; fi
             INTERFACE=$1;;
         '-p') if test $# -lt 2;then usage; else shift; fi
-            PEER_IP=$1;;
+              PEER_IP=$1;;
+        '-6') IPV6=YES;;
     esac
     shift
 done
@@ -47,8 +49,12 @@ fi
 if ip addr show dev ${INTERFACE} | grep ${IP} > /dev/null; then
     echo "I ${INTERFACE} already have ${IP}"
 else
-    ip addr add ${IP}/${MASK} brd ${BRD} dev ${INTERFACE}
-    if $? -ne $0; then
+    if test $IPV6 == YES; then
+        ip addr add ${IP}/${MASK} dev ${INTERFACE}
+    else
+        ip addr add ${IP}/${MASK} brd ${BRD} dev ${INTERFACE}
+    fi
+    if test $? -ne 0; then
         echo "E failed to add the ip"
         exit 3
     fi

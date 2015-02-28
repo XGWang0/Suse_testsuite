@@ -6,7 +6,7 @@ MASK=24
 PEER_IP=127.0.0.1
 INTERFACE=eth0
 STREAM_TYPE=TCP_STREAM
-
+IPV6=NO
 function usage
 {
     echo 'usage'
@@ -32,6 +32,7 @@ while test $# -gt 0; do
             PEER_IP=$1;;
         '-T') STREAM_TYPE=TCP_STREAM;;
         '-U') STREAM_TYPE=UDP_STREAM;;
+        '-6') IPV6=YES;;
     esac
     shift
 done
@@ -51,8 +52,12 @@ fi
 if ip addr show dev ${INTERFACE} | grep ${IP} > /dev/null; then
     echo "I ${INTERFACE} already have ${IP}"
 else
-    ip addr add ${IP}/${MASK} brd ${BRD} dev ${INTERFACE}
-    if $? -ne $0; then
+    if test $IPV6 == YES;then
+        ip addr add ${IP}/${MASK} dev ${INTERFACE}
+    else
+        ip addr add ${IP}/${MASK} brd ${BRD} dev ${INTERFACE}
+    fi
+    if test $? -ne 0; then
         echo "E failed to add the ip"
         exit 3
     fi
@@ -62,7 +67,11 @@ fi
 ip link set ${INTERFACE} up
 
 # check the connection
-ping ${PEER_IP} -q -c 8 > /dev/null
+PING_CMD=ping
+if test $IPV6 == YES;then
+    PING_CMD=ping6
+fi
+${PING_CMD} ${PEER_IP} -q -c 8 > /dev/null
 if test $? -ne 0; then
     echo "E connection to ${PEER_IP} has problem"
     exit 3
