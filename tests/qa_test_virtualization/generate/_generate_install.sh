@@ -45,7 +45,7 @@ EOF
 	exit 1
 }
 
-while getopts "t:h:d:" OPTIONS
+while getopts "t:h:d:m:" OPTIONS
 do
 	case $OPTIONS in
 		t) case "$OPTARG" in
@@ -54,14 +54,15 @@ do
 			*) usage;;
 		   esac;;
 		d) [ -z $OPTARG ] && dir="/usr/share/qa/virtautolib/data/autoinstallation" || dir=$OPTARG;;
+		m) [ -z $OPTARG ] && type="standalone" || type=$OPTARG;;
 		h) usage;;
 		*) usage;;
 	esac
 done
 
 cd "$dir" || exit 1
-
 tmpf=`mktemp`
+
 find \( -name .svn -prune \) -o \( -not -name .svn -type f -print \) > $tmpf
 
 cd - > /dev/null
@@ -109,8 +110,16 @@ do
 		# FIXME enable this again - opensuse are highly unreliable and unsupported, work to fix them
 		[ "$os" == "os" ] && continue
 
-		cat _install.template | sed "s/@VMINST_ARGS@/$VMINST_ARGS/g" | sed "s/@DEFINITION@/$DEFINITION/g" > install_$NAME
-		chmod 755 install_$NAME
+		#we are going to generate tcf directly
+		timer=6000
+		cat << EOF
+timer $timer
+fg 1 $NAME /usr/share/qa/qa_test_virtualization/installos $type $DEFINITION "$VMINST_ARGS"
+wait
+
+EOF
+		#cat _install.template | sed "s/@VMINST_ARGS@/$VMINST_ARGS/g" | sed "s/@DEFINITION@/$DEFINITION/g" > install_$NAME
+		#chmod 755 install_$NAME
 	done
 done
 
