@@ -6,11 +6,11 @@ basedir="/usr/share/qa/tcf"
 TCF_FILE="$basedir/netperf-peer-fiber6.tcf"
 cat <<EOF >${TCF_FILE}
 timer 25m
-fg 1 netperf-fiber-tcp6  /usr/lib/ctcs2/config/netperf/netperf-client -6 -T -a ::ffff:192.168.10.54 -m 64 -i eth5 -p ::ffff:192.168.10.53
+fg 1 netperf-fiber-tcp6  /usr/lib/ctcs2/config/netperf/netperf-client -6 -T -a ::efff:0:1054 -m 96 -i eth5 -p ::efff:0:1053
 wait
 
 timer 25m
-fg 1 netperf-fiber-udp6 /usr/lib/ctcs2/config/netperf/netperf-client -6 -U -a ::ffff:192.168.10.54 -m 64 -i eth5 -p ::ffff:192.168.10.53
+fg 1 netperf-fiber-udp6 /usr/lib/ctcs2/config/netperf/netperf-client -6 -U -a ::efff:0:1054 -m 96 -i eth5 -p ::efff:0:1053
 wait
 EOF
 
