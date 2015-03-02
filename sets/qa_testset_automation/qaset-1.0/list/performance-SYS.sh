@@ -21,4 +21,12 @@ SQ_TEST_RUN_LIST=(
     kernbench
     kernbench
     kernbench
+
+    #one time is OK because netperf has a good statitics process.
+    netperf_loop4
+    netperf_loop6
+
+    #manual seting up of server is needed.
+    #netperf_fiber4
+    #netperf_fiber6
 )
