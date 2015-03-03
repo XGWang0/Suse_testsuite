@@ -92,22 +92,14 @@ function sq_set_cmd_run_list {
             -t ${SQ_TEST_RUN_LIST_FILE}-${SQ_TEST_RUN_SET} -c screenrc -d -m \
             ${SQ_TEST_INVOKE_NAME} ${SQ_SET_ARGV}
     else
-        #check the lock
-        if mkdir ${SQ_TEST_RUN_LOCK}; then
-            sq_mach_run
-        else
-            echo "There is already a qaset running"
-            return
-        fi
-        rmdir ${SQ_TEST_RUN_LOCK}
-    fi
+        sq_mach_run    fi
 }
 
 function sq_set_cmd_reset {
     rm -f ${SQ_TEST_CONTROL_FILE_STOP} 1> /dev/null 2>&1
     rm -f ${SQ_TEST_CONTROL_FILE_DONE} 1> /dev/null 2>&1
     rm -f ${SQ_TEST_CONTROL_FILE_SYSTEM_DIRTY} 1> /dev/null 2>&1
-    rmdir ${SQ_TEST_RUN_LOCK}
+    rmdir ${SQ_TEST_RUN_LOCK} 1>/dev/null 2>&1
     echo > ${SQ_TEST_CONTROL_FILE_NEXT_RUN}
 }
 
