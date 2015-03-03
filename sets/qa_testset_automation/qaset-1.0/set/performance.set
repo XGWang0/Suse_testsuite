@@ -41,7 +41,7 @@ def_simple_run netperf_loop4 "/usr/share/qa/tools/netperf_peer_loop-run" qa_test
 def_simple_run netperf_loop6 "/usr/share/qa/tools/netperf_peer_loop-run6" qa_test_netperf
 #the fiber tests need two machines. The server parts need to be set mannually.
 def_simple_run netperf_fiber4 "/usr/share/qa/tools/netperf-peer-fiber-run" qa_test_netperf
-def_simple_run netperf_fiber6 "/usr/share/qa/tools/netperf-peer-fiber6-run" qa_test_netperf
+def_simple_run netperf_fiber6 "/usr/share/qa/tools/netperf-peer-fiber-run6" qa_test_netperf
 
 ##kernbench a server is need to store the kernel-package
 def_simple_run kernbench "/usr/share/qa/tools/test_kernbench-run" qa_test_kernbench
