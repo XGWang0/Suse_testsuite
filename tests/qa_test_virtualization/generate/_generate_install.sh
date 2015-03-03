@@ -89,12 +89,10 @@ do
 		if [ -z $disktype ]; then
 			NAME="$os-$rel-$sp-$arch-$vtype-$scenario-$method"
 			DEFINITION="$os-$rel-$sp-$arch-$vtype-$scenario-$method"
-			VMINST_ARGS="-o $os -r $rel -p $sp -c $arch -t $vtype -n $scenario -m $method"
 		else
 			tmpdisktype=`echo $disktype|cut -d: -f2`
 			NAME="$os-$rel-$sp-$arch-$vtype-$scenario-$method-$tmpdisktype"
 			DEFINITION="$os-$rel-$sp-$arch-$vtype-$scenario-$method-$tmpdisktype"
-			VMINST_ARGS="-o $os -r $rel -p $sp -c $arch -t $vtype -n $scenario -m $method -D $disktype"
 		fi
 
 		# meaningless cases
@@ -114,12 +112,10 @@ do
 		timer=6000
 		cat << EOF
 timer $timer
-fg 1 $NAME /usr/share/qa/qa_test_virtualization/installos $type $DEFINITION "$VMINST_ARGS"
+fg 1 $NAME /usr/share/qa/qa_test_virtualization/installos $type $DEFINITION
 wait
 
 EOF
-		#cat _install.template | sed "s/@VMINST_ARGS@/$VMINST_ARGS/g" | sed "s/@DEFINITION@/$DEFINITION/g" > install_$NAME
-		#chmod 755 install_$NAME
 	done
 done
 

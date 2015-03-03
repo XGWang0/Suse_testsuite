@@ -30,17 +30,14 @@ source /usr/share/qa/qa_internalapi/sh/libqainternal.lib.sh
 
 # Possible values: 'standalone' or 'network', the standalone being
 # default
-if [ $# -ne 3 ]; then
-	echo "require 3 argument"
+if [ $# -ne 2 ]; then
+	echo "require 2 argument"
 	exit $ERROR
 fi
 TEST_TYPE=$1
 
 # Format: os-rel-sp-arch-vtype-scenario-method
 DEFINITION=$2
-
-#vm install arguments
-VMINST_ARGS=$3
 
 TEST_ROOT="/usr/share/qa/qa_test_virtualization"
 
@@ -98,7 +95,7 @@ function test_action
                 SPECIAL_ARGS="$SPECIAL_ARGS -e 1024"
         fi
 
-	/usr/share/qa/virtautolib/lib/vm-install.sh -y $IP -b $BR $SETTINGS -C $SPECIAL_ARGS $VMINST_ARGS
+	/usr/share/qa/virtautolib/lib/vm-install.sh -y $IP -b $BR $SETTINGS -C $SPECIAL_ARGS -o $OPERATING_SYSTEM -r $RELEASE -p $SERVICE_PACK -c $ARCHITECTURE -t $VIRT_TYPE -n $SCENARIO -m $INSTALL_METHOD
 }
 
 run_test
