@@ -10,7 +10,7 @@ fg 1 netperf-fiber-tcp  /usr/lib/ctcs2/config/netperf/netperf-client -T -a 192.1
 wait
 
 timer 25m
-fg 1 netperf-fiber-udp /usr/lib/ctcs2/config/netperf/netperf-client -U -a 192.168.10.54 -m 24 -i eth5 -p 192.168.19.53 -b 192.168.10.255
+fg 1 netperf-fiber-udp /usr/lib/ctcs2/config/netperf/netperf-client -U -a 192.168.10.54 -m 24 -i eth5 -p 192.168.10.53 -b 192.168.10.255
 wait
 EOF
 
