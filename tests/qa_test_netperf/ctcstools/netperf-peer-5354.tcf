@@ -1,8 +1,0 @@
-# for test in 10.162.2.53 and 10.162.2.53
-timer 25m
-fg 1 netperf-fiber-tcp  /usr/lib/ctcs2/config/netperf/netperf-client -T -a 192.168.10.54 -i eth5 -m 24 -b 192.168.10.255
-wait
-
-timer 25m
-fg 1 netperf-fiber-udp /usr/lib/ctcs2/config/netperf/netperf-client -U -a 192.168.10.54 -i eth5 -m 24 -b 192.168.10.255
-wait
