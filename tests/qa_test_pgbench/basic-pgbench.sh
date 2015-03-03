@@ -233,8 +233,6 @@ function refresh_profile {
         READONLY_ARG=
         MAX_TRANSACTIONS=1500000
     fi
-    echo "ARG MAX_TRANSACTIONS ${MAX_TRANSACTIONS}"
-    echo "ARG READONLY_ARG ${READONLY_ARG}"
     case ${DATABASE_SIZE} in
         medium) WORKLOAD_SIZE=$(($MEMTOTAL_BYTES*3/5))
                 if test -z "${READONLY_ARG}"; then
@@ -254,6 +252,8 @@ function refresh_profile {
         small) WORKLOAD_SIZE=$(($SHARED_BUFFERS*4/5)) ;;
         *) _exit 1 "NOT be reached here";;
     esac
+    echo "ARG MAX_TRANSACTIONS ${MAX_TRANSACTIONS}"
+    echo "ARG READONLY_ARG ${READONLY_ARG}"
     echo "ARG DATABASE_SIZE ${DATABASE_SIZE}"
     THREADS=
     START_THREAD=1
