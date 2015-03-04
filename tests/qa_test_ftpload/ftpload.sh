@@ -30,8 +30,8 @@ if [ $FREE_SPACE -le 400 ]; then
         exit 1
 fi
 
-FTP_SOURCE=`grep ftp_source /usr/share/qa/qa_test_ftpload/qa_test_ftpload-config |cut -d= -f2`
-
+#FTP_SOURCE=`grep ftp_source /usr/share/qa/qa_test_ftpload/qa_test_ftpload-config |cut -d= -f2`
+FTP_SOURCE=`bash /usr/share/qa/qa_test_ftpload/qa_test_ftpload-config`
 if [ ! -d /abuild ] ; then
 	mkdir /abuild
 fi

@@ -26,4 +26,10 @@
 #
 
 # FTP source for ftpload test
-ftp_source=ftp://10.162.0.9/400MB
+#ftp_source=ftp://10.162.0.9/400MB
+if [ `ifconfig | grep "inet addr" | cut -d":" -f 2 | cut -d " " -f 1 | grep "147\.2\."` ] ; then
+    echo 'ftp://147.2.207.100/400MB'
+else
+    echo 'ftp://10.162.0.9/400MB'
+fi
+
