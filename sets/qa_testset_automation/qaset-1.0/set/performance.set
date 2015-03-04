@@ -46,7 +46,7 @@ def_simple_run netperf_fiber6 "/usr/share/qa/tools/netperf-peer-fiber-run6" qa_t
 ##kernbench a server is need to store the kernel-package
 def_simple_run kernbench "/usr/share/qa/tools/test_kernbench-run" qa_test_kernbench
 function kernbench_open {
-    local _kernel_source=linux-2.6.14
+    local _kernel_source=linux-3.2.67
     local _kernel_package=${_kernel_source}.tar.bz2
     local _kernel_package_URL=http://147.2.207.100/kernels/${_kernel_package}
     cd /usr/src
