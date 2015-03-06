@@ -30,34 +30,27 @@ source /usr/share/qa/qa_internalapi/sh/libqainternal.lib.sh
 
 # Possible values: 'standalone' or 'network', the standalone being
 # default
-test -z $1 && TEST_TYPE=standalone || TEST_TYPE="$1"
-
-# the 2nd param is the optional path to the root directory of tests
-if [ "$2x" == "x" ]; then
-	TEST_ROOT="/usr/share/qa/qa_test_virtualization"
-else
-	TEST_ROOT="$2"
+if [ $# -ne 2 ]; then
+	echo "require 2 argument"
+	exit $ERROR
 fi
+TEST_TYPE=$1
+
+# Format: os-rel-sp-arch-vtype-scenario-method
+DEFINITION=$2
+
+TEST_ROOT="/usr/share/qa/qa_test_virtualization"
 
 if [ ! -r "$TEST_ROOT/shared/$TEST_TYPE" ] ; then
 	echo "Not a test type '$TEST_TYPE'."
 	exit $ERROR
 fi
 
-# Format: os-rel-sp-arch-vtype-scenario-method
-DEFINITION=@DEFINITION@
-# Depending on how the test is started, MY_NAME may need to be set
-if [ -z $MY_NAME ]; then
-    MY_NAME=$(basename $0)
-fi
-# After replacement this should contain the same value as above.
-NAME_DEF=${MY_NAME/install_/}
 
 # Gather parts of the definition into array for easier
 # handling. Script name is preferred before the definition.
 OIFS=$IFS
 IFS="-"
-A_NAME=(${NAME_DEF})
 A_DEFINITION=(${DEFINITION})
 IFS=$OIFS
 unset OIFS
@@ -66,13 +59,13 @@ unset OIFS
 # they are not available from the name, default values from definition
 # above are used.
 # These values must be known before source shared/$TEST_TYPE
-OPERATING_SYSTEM=${A_NAME[0]:-A_DEFINITION[0]}
-RELEASE=${A_NAME[1]:-A_DEFINITION[1]}
-SERVICE_PACK=${A_NAME[2]:-A_DEFINITION[2]}
-ARCHITECTURE=${A_NAME[3]:-A_DEFINITION[3]}
-VIRT_TYPE=${A_NAME[4]:-A_DEFINITION[4]}
-SCENARIO=${A_NAME[5]:-A_DEFINITION[5]}
-INSTALL_METHOD=${A_NAME[6]:-A_DEFINITION[6]}
+OPERATING_SYSTEM=${A_DEFINITION[0]}
+RELEASE=${A_DEFINITION[1]}
+SERVICE_PACK=${A_DEFINITION[2]}
+ARCHITECTURE=${A_DEFINITION[3]}
+VIRT_TYPE=${A_DEFINITION[4]}
+SCENARIO=${A_DEFINITION[5]}
+INSTALL_METHOD=${A_DEFINITION[6]}
 
 # Before this line, script parameters have to be collected
 source "$TEST_ROOT/shared/$TEST_TYPE"
@@ -102,7 +95,7 @@ function test_action
                 SPECIAL_ARGS="$SPECIAL_ARGS -e 1024"
         fi
 
-	/usr/share/qa/virtautolib/lib/vm-install.sh -y $IP -b $BR $SETTINGS -C $SPECIAL_ARGS @VMINST_ARGS@
+	/usr/share/qa/virtautolib/lib/vm-install.sh -y $IP -b $BR $SETTINGS -C $SPECIAL_ARGS -o $OPERATING_SYSTEM -r $RELEASE -p $SERVICE_PACK -c $ARCHITECTURE -t $VIRT_TYPE -n $SCENARIO -m $INSTALL_METHOD
 }
 
 run_test
