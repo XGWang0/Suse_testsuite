@@ -1,7 +1,7 @@
 
 SET_DEST := $(dest)/set
 
-allset := acceptance.set  kernel.set  kgraft-kernel.set  performance.set  regression.set kgraft-performance.set
+allset := acceptance.set  kernel.set  kgraft-kernel.set  performance.set  regression.set kgraft-performance.set kernel-all.set
 
 install:
 	install -d $(SET_DEST)

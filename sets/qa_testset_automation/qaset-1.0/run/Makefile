@@ -1,6 +1,6 @@
 
 runcaller := run-caller
-allrun += acceptance-run kernel-run performance-run regression-run
+allrun += acceptance-run kernel-run performance-run regression-run kernel-all-run
 kgraft_run += kgraft-kernel-run kgraft-performance-run
 
 ifneq (,$(findstring SLE12, $(TARGET_RELEASE)))

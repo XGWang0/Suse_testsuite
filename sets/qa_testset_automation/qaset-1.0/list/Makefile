@@ -3,6 +3,7 @@ default_list_sle11 += acceptance-SLE11SP3.list acceptance-SLE11SP4.list
 default_list_sle11 += kernel-SLE11SP3.list kernel-SLE11SP4.list
 default_list_sle11 += performance-SLE11SP3.list performance-SLE11SP4.list
 default_list_sle11 += regression-SLE11SP3.list regression-SLE11SP4.list
+default_list_sle11 += kernel-all-default.list kernel-all-SLE11SP3.list kernel-all-SLE11SP4.list
 
 default_list_sle12 += acceptance-SLE12.list kernel-SLE12.list regression-SLE12.list performance-SLE12.list
 
