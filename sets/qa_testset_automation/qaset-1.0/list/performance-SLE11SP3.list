@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SQ_TEST_RUN_LIST=(
+    _install_all_packages
     siege
     siege
     siege
@@ -68,6 +69,13 @@ SQ_TEST_RUN_LIST=(
     bonniepp_ext3
     bonniepp_xfs
 
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_ext3
+    bonniepp_xfs
+    bonniepp_ext3
+    bonniepp_xfs
+
     bonniepp_fsync_ext3
     bonniepp_fsync_xfs
     bonniepp_fsync_ext3
@@ -75,5 +83,17 @@ SQ_TEST_RUN_LIST=(
     bonniepp_fsync_ext3
     bonniepp_fsync_xfs
 
-# dbench todo
+    dbench4_xfs
+    dbench4_ext3
+    dbench4_xfs
+    dbench4_ext3
+    dbench4_xfs
+    dbench4_ext3
+
+    dbench4_fsync_xfs
+    dbench4_fsync_ext3
+    dbench4_fsync_xfs
+    dbench4_fsync_ext3
+    dbench4_fsync_xfs
+    dbench4_fsync_ext3
 )

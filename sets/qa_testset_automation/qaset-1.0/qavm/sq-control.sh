@@ -187,6 +187,39 @@ function eval_result_comment {
     fi
 }
 
+function install_all_packages {
+    local _l=${#SQ_TEST_RUN_LIST[@]}
+    local _pl
+    local _i
+    local _j
+    local _n
+    local _p
+
+    if test ${_l} -le 0; then
+        sq_warn "[CONTROL] RUN LIST is empty, install nothing."
+        return 2
+    fi
+
+    _i=0
+    while test ${_i} -lt ${_l}; do
+        _n=${SQ_TEST_RUN_LIST[$_i]}
+        if echo ${_n} | egrep -q '^_.*';then
+            let _i++; continue;
+        fi
+        eval "_pl=\${#${_n}_packages[@]}"
+        sq_debug "[CONTROL] #packages for ${_n} is ${_pl}"
+        _j=0
+        while test ${_j} -lt ${_pl};do
+            eval "_p=\${${_n}_packages[$_j]}"
+            sq_debug "[CONTROL] try to install package ${_p}"
+            sq_prep_install_package ${_p} || return $?
+            let _j++
+        done
+        let _i++
+    done
+    sq_info "[CONTROL] All packages have been tried"
+}
+
 function sq_control_run {
     sq_control_open ${ARCH} ${SLE_BUILD} ${REPO_MIRROR}
     if test $? -ne 0; then
@@ -204,6 +237,9 @@ function sq_control_run {
                 ;;
             _result_comment*)
                 eval_result_comment ${SQ_THIS_RUN}
+                ;;
+            _install_all_package*)
+                install_all_packages
                 ;;
             _*)
                 sq_debug '[CONTROL] Unknown special form ${SQ_THIS_RUN}'

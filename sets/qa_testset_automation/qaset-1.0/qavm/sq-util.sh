@@ -139,8 +139,14 @@ function sq_prep_install_packages_qa_libs {
 }
 
 function sq_prep_install_package_nocheck {
+    local try
     sq_info "Try to install ${1}"
-    eval "${SQ_DEBUG_ECHO} zypper -n in -l ${1}"
+    try=0;
+    while test $try -lt 10;do
+        zypper -n in -l ${1} && break
+        sq_info "Try to install $try times"
+        let try++
+    done
     if [ $? != 0 ];then
         sq_error "Failed to install ${1}\n"
         return 2
@@ -150,12 +156,12 @@ function sq_prep_install_package_nocheck {
 
 function sq_prep_install_package {
     local pkg=$1
-    if rpm -q $pkg > /dev/null; then
-        sq_info "[package] $pkg already installed"
-        return 0
-    else
-        sq_prep_install_package_nocheck $pkg
-    fi
+#    if rpm -q $pkg > /dev/null; then
+#        sq_info "[package] $pkg already installed"
+#        return 0
+#    else
+    sq_prep_install_package_nocheck $pkg
+#    fi
 }
 
 function sq_prep_repos_and_packages {
