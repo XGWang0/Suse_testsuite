@@ -143,16 +143,17 @@ function sq_control_get_next_run {
 
 function sq_control_get_run_status {
     local _run_ret
+    local _run
 
     _run_ret=$1
+    _run=$2
 
     if test ${_run_ret} -eq 0;then
         sq_debug "[CONTROL]: tag the system dirty"
         echo "$(date '+%Y-%m-%d-%H-%M-%S')" > ${SQ_TEST_CONTROL_FILE_SYSTEM_DIRTY}
     else
-        true
-        # TODO save a list of all the failed runs
-        # TODO more
+        sq_info "[CONTROL]: Save the failed ${_run}"
+        echo "$(date %Y%m%dT%H%M%S) ${_run}" >> ${SQ_USER_CONFIG_LIST_FAILURE}
     fi
 }
 
@@ -246,7 +247,7 @@ function sq_control_run {
                 ;;
             *)
                 sq_execute_run ${SQ_THIS_RUN} ${SQ_TEST_CONTROL_PARALELL_NOWAIT}
-                sq_control_get_run_status $?
+                sq_control_get_run_status $? ${SQ_THIS_RUN}
                 ;;
         esac
         sq_control_check_run_queue
