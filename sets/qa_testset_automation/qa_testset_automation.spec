@@ -16,23 +16,20 @@ Group:          testset
 AutoReqProv:    on
 Version:        1.0
 Release:        0
-Summary:        A test Framework for QCAPII
-Source0:        qaset-%{version}.tar.bz2
-#Source501:      stat.tar.xz
+Summary:        A test Framework for QA ACAPII
+Source0:        automation-%{version}.tar.bz2
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
-qa_testset_automation is a framework to launch a serial of tests.
-All of the tests run in the same system.
-
+qa_testset_automation is a collection of tools.
 
 Authors:
 --------
     Lance Wang <lzwang@suse.com>
 
 %prep
-%setup -n qaset-%{version}
+%setup -n automation-%{version}
 
 %build
 
@@ -42,19 +39,10 @@ SLE_RELEASE=SLE11
 %elseif %suse_version == 1315
 SLE_RELEASE=SLE12
 %endif
+pushd qaset
 make TARGET_RELEASE=${SLE_RELEASE} DEST=$RPM_BUILD_ROOT install
-
-#%post
-#%if %suse_version < 1315
-#ln -s ../qaset /etc/init.d/rc5.d/S99qaset
-#%endif
-
-#cd /usr/share/qa/%{name}
+popd qaset
 #tar xf stat.tar.xz
-
-#%preun
-#cd /usr/share/qa/%{name}
-#rm -rf stat
 
 %clean
 rm -rf $RPM_BUILD_ROOT
