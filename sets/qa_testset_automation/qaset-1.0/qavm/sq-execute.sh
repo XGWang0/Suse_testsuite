@@ -2,9 +2,14 @@
 
 __import qavm/sq-global.sh
 __import qavm/sq-util.sh
+__import qavm/sq-result.sh
+__import qavm/sq-hook.sh
 
 SQ_EXE_DEBUG_SCRIPT=${__IMPORT_ROOT}/qavm/sq-fake.sh
 
+function sq_execute_init {
+    sq_hook_list_new EXE_CLOSE
+}
 #
 # the execution of a run
 # ----------------------
@@ -67,21 +72,27 @@ function sq_execute_close {
     else
         sq_debug "[EXE] ${_n}: closing"
     fi
+    sq_execute_submit_log
+    sq_hook_list_foreach EXE_CLOSE
 }
 
-function sq_execute_close_and_submit_log {
-    sq_execute_close
+function sq_execute_submit_log {
     if test "X${SQ_EXE_RUN_NOWAIT}" == "XYES";then
         sq_info "[EXE] ignore the submition of qadb log"
         sq_info "[EXE] please submit the log manully"
     else
-        sq_qadb_submit_result ${SQ_EXE_RUN_NAME}
+        sq_result_one_run ${SQ_EXE_RUN_NAME} ${SQ_EXECUTE_END_STATUS}
     fi
 }
 
-function sq_execute_failed {
+function sq_execute_succeeded {
+    SQ_EXECUTE_END_STATUS=SUCCEEDED
     sq_execute_close
-    # TODO record the SQ_EXE_RUN_NAME
+}
+
+function sq_execute_failed {
+    SQ_EXECUTE_END_STATUS=FAILED
+    sq_execute_close
 }
 
 function sq_execute_call {
@@ -171,18 +182,18 @@ function sq_execute_run {
                 sq_execute_call
                 if test $? -eq 0;then
                     _result=EXE_RET_OK_CALL
-                    _exe_stage=EXE_STAGE_CLOSE
+                    _exe_stage=EXE_STAGE_SUCCEEDED
                 else
                     _result=EXE_RET_ERROR_CALL
-                    _exe_stage=EXE_STAGE_CLOSE
+                    _exe_stage=EXE_STAGE_FAILED
                 fi
                 ;;
-            EXE_STAGE_CLOSE)
-                sq_execute_close_and_submit_log
+            EXE_STAGE_SUCCEEDED)
+                sq_execute_succeeded
                 _exe_stage=EXE_STAGE_END
                 ;;
             EXE_STAGE_FAILED)
-                sq_execute_close
+                sq_execute_failed
                 _exe_stage=EXE_STAGE_END
                 ;;
             EXE_STAGE_END)
@@ -190,6 +201,7 @@ function sq_execute_run {
                 ;;
             *)
                 sq_error "[EXE] NEVER be Here. BUGON"
+                exit 9
                 ;;
         esac
     done
