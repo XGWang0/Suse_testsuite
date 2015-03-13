@@ -30,6 +30,13 @@ Source7:       test_pgbench_medium-run
 Source8:       test_pgbench_large-run
 Source9:       test_pgbench_small-run
 Source10:       simple-pgbench.sh
+Source11:
+Source20:     test_pgbench_large-ro-run
+Source21:     test_pgbench_large-rw-run
+Source22:     test_pgbench_medium-ro-run
+Source23:     test_pgbench_medium-rw-run
+Source24:     test_pgbench_small-ro-run
+Source25:     test_pgbench_small-rw-run
 #Source11:       simple-pgbench.tcf
 #Source12:       test_pgbench_small-run
 #Source13:       simple-pgbench-run
@@ -76,6 +83,19 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_small-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_medium-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_large-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 %{S:21} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 %{S:22} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 %{S:23} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 %{S:24} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 %{S:25} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+ln -s ../%{name}/test_pgbench_large-ro-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+ln -s ../%{name}/test_pgbench_large-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+ln -s ../%{name}/test_pgbench_medium-ro-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+ln -s ../%{name}/test_pgbench_medium-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+ln -s ../%{name}/test_pgbench_small-ro-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+ln -s ../%{name}/test_pgbench_small-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+
 
 
 
