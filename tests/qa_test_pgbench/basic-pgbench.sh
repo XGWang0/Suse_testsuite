@@ -231,25 +231,20 @@ function refresh_profile {
         MAX_TRANSACTIONS=5000000
     else
         READONLY_ARG=
-        MAX_TRANSACTIONS=1500000
+        MAX_TRANSACTIONS=500000
     fi
     case ${DATABASE_SIZE} in
         medium) WORKLOAD_SIZE=$(($MEMTOTAL_BYTES*3/5))
-                if test -z "${READONLY_ARG}"; then
-                    MAX_TRANSACTIONS=500000
-                fi
                 ;;
         large) WORKLOAD_SIZE=$(($MEMTOTAL_BYTES*7/5))
-               if test -z "${READONLY_ARG}";then
-                   MAX_TRANSACTIONS=500000
-               fi
                ;;
         xlarge) WORKLOAD_SIZE=$(($MEMTOTAL_BYTES*2))
-               if test -z "${READONLY_ARG}";then
-                   MAX_TRANSACTIONS=500000
-               fi                
-                ;; #NOT used yet
-        small) WORKLOAD_SIZE=$(($SHARED_BUFFERS*4/5)) ;;
+               ;; #NOT used yet
+        small) WORKLOAD_SIZE=$(($SHARED_BUFFERS*4/5))
+               if test -z "${READONLY_ARG}";then #RW
+                   MAX_TRANSACTIONS=1000000
+               fi
+               ;;
         *) _exit 1 "NOT be reached here";;
     esac
     echo "ARG MAX_TRANSACTIONS ${MAX_TRANSACTIONS}"
