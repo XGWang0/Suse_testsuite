@@ -30,7 +30,6 @@ Source7:       test_pgbench_medium-run
 Source8:       test_pgbench_large-run
 Source9:       test_pgbench_small-run
 Source10:       simple-pgbench.sh
-Source11:
 Source20:     test_pgbench_large-ro-run
 Source21:     test_pgbench_large-rw-run
 Source22:     test_pgbench_medium-ro-run
