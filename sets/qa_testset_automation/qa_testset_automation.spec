@@ -29,7 +29,7 @@ Authors:
     Lance Wang <lzwang@suse.com>
 
 %prep
-%setup -n automation-%{version}
+%setup -n automation
 
 %build
 
