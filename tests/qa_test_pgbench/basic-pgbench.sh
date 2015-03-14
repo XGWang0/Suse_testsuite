@@ -242,7 +242,7 @@ function refresh_profile {
                ;; #NOT used yet
         small) WORKLOAD_SIZE=$(($SHARED_BUFFERS*4/5))
                if test -z "${READONLY_ARG}";then #RW
-                   MAX_TRANSACTIONS=1000000
+                   : MAX_TRANSACTIONS=1000000
                fi
                ;;
         *) _exit 1 "NOT be reached here";;
