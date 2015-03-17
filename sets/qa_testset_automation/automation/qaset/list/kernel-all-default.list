@@ -39,4 +39,4 @@ SQ_TEST_RUN_LIST=(
     newburn_memtst
     ltp_stress
     newburn_run
-}
+)
