@@ -1,20 +1,22 @@
-qa_test_apache_testsuite	test_apache_testsuite-run		/usr/share/qa/tools	2m52s
-qa_test_apparmor		test_apparmor-run			/usr/share/qa/tools	3m35s
-qa_test_apparmor-profiles	test_apparmor-profiles-run		/usr/share/qa/tools	1m26s
-qa_test_bind			test_bind-run				/usr/share/qa/tools	1m24s
-qa_test_bzip2			test_bzip2-run				/usr/share/qa/tools	5s
-qa_test_cabextract		test_cabextract-run			/usr/share/qa/tools	1s
-qa_test_postfix			test_postfix-run			/usr/share/qa/tools	12s
-qa_test_sharutils		test_sharutils-run			/usr/share/qa/tools	1s
-qa_test_coreutils		test_coreutils-run			/usr/share/qa/tools	1m37s
-qa_test_cpio			test_cpio-run				/usr/share/qa/tools	1s
-qa_test_cracklib		test_cracklib-run			/usr/share/qa/tools	12s
-qa_test_findutils		test_findutils-run			/usr/share/qa/tools	5s
-qa_test_gzip			test_gzip-run				/usr/share/qa/tools	1s
-qa_test_indent			test_indent-run				/usr/share/qa/tools	1s
-qa_test_net-snmp		test_net-snmp-run			/usr/share/qa/tools	1m27s
-qa_test_nfs			test_nfs-run				/usr/share/qa/tools	15m48s
-qa_test_openssh			test_openssh-run			/usr/share/qa/tools	17m38s
-qa_test_openssl			test_openssl-run			/usr/share/qa/tools
-qa_test_php5			test_php5-run				/usr/share/qa/tools
-qa_db_report			remote_qa_db_report.pl -b -T bwliu	/usr/share/qa/tools	
+qa_test_apache_testsuite		test_apache_testsuite-run			/usr/share/qa/tools	2m52s
+qa_test_apparmor				test_apparmor-run					/usr/share/qa/tools	3m35s
+qa_test_apparmor-profiles		test_apparmor-profiles-run			/usr/share/qa/tools	1m26s
+qa_test_bind					test_bind-run						/usr/share/qa/tools	1m24s
+qa_test_bzip2					test_bzip2-run						/usr/share/qa/tools	5s
+qa_test_cabextract				test_cabextract-run					/usr/share/qa/tools	1s
+qa_test_postfix					test_postfix-run					/usr/share/qa/tools	12s
+qa_test_sharutils				test_sharutils-run					/usr/share/qa/tools	1s
+qa_test_coreutils				test_coreutils-run					/usr/share/qa/tools	1m37s
+qa_test_cpio					test_cpio-run						/usr/share/qa/tools	1s
+qa_test_cracklib				test_cracklib-run					/usr/share/qa/tools	12s
+qa_test_findutils				test_findutils-run					/usr/share/qa/tools	5s
+qa_test_gzip					test_gzip-run						/usr/share/qa/tools	1s
+qa_test_indent					test_indent-run						/usr/share/qa/tools	1s
+qa_test_net-snmp				test_net-snmp-run					/usr/share/qa/tools	1m27s
+qa_test_fetchmail				test_fetchmail-run					/usr/share/qa/tools
+qa_test_nfs						test_nfs-run						/usr/share/qa/tools	15m48s
+qa_test_openssh					test_openssh-run					/usr/share/qa/tools	17m38s
+qa_test_openssl					test_openssl-run					/usr/share/qa/tools
+#qa_test_php5					test_php5-run						/usr/share/qa/tools
+qa_test_php53					test_php53-run						/usr/share/qa/tools
+qa_db_report					remote_qa_db_report.pl -b -T bwliu	/usr/share/qa/tools	

@@ -10,7 +10,8 @@ echo -e "You can run stress validation tests now.\n"
 # Set Env
 echo $PATH | grep '/usr/share/qa/tools:/usr/lib/ctcs2/tools' > /dev/null || export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
 # Run the validation testing.
-validation_run=`awk -F "\t+" '{print $2}' /usr/share/qa/qa_testset_kernel/validation_test_packages`
+#validation_run=`awk -F "\t+" '{print $2}' /usr/share/qa/qa_testset_kernel/validation_test_packages`
+validation_run=`awk -F "\t+" '/^[^#]/{print $2}' /usr/share/qa/qa_testset_kernel/validation_test_packages`
 i=1
 #Change $IFS for Loop Command Names With Spaces
 SAVE_IFS=$IFS

@@ -17,8 +17,10 @@ echo -e "All tests starts now, see screen -r tests for details\n"
                                                                                                         
 echo -e "========== Starting Testing ==========\n" 
 
-kernel_run=`awk '{print $2}' kernel_test_packages`
-regression_run=`awk '{print $2}' regression_test_packages`
+#kernel_run=`awk '{print $2}' kernel_test_packages`
+#regression_run=`awk '{print $2}' regression_test_packages`
+kernel_run=`awk -F "\t+" '/^[^#]/{print $2}' kernel_test_packages`
+regression_run=`awk -F "\t+" '/^[^#]/{print $2}' regression_test_packages`
 
 for test_run in $kernel_run $regression_run;do
 	run_path=`grep $test_run *test_packages | awk '{print $3}'`

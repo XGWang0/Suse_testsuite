@@ -1,3 +1,4 @@
-qa_test_sched_stress  		test_sched_stress-run 					/usr/share/qa/tools
-qa_test_fs_stress 		test_fs_stress-run;btrfs filesystem balance /		/usr/share/qa/tools
-qa_test_process_stress 		test_process_stress-run 				/usr/share/qa/tools
+qa_test_sched_stress		test_sched_stress-run								/usr/share/qa/tools
+#qa_test_fs_stress			test_fs_stress-run;btrfs filesystem balance /		/usr/share/qa/tools
+qa_test_fs_stress			test_fs_stress-run									/usr/share/qa/tools
+qa_test_process_stress		test_process_stress-run								/usr/share/qa/tools

@@ -13,8 +13,10 @@ sed -i 's/cmd="\$1\${EXE_EXT}"/cmd="\/usr\/bin\/openssl"/' $filename
 echo -e "You can run kernel and regression tests now.\n"
 # Set Env
 echo $PATH | grep '/usr/share/qa/tools:/usr/lib/ctcs2/tools' > /dev/null || export PATH="/usr/share/qa/tools:/usr/lib/ctcs2/tools:$PATH"
-kernel_run=`awk -F "\t+" '{print $2}' /usr/share/qa/qa_testset_kernel/kernel_test_packages`
-regression_run=`awk -F "\t+" '{print $2}' /usr/share/qa/qa_testset_kernel/regression_test_packages`
+#kernel_run=`awk -F "\t+" '{print $2}' /usr/share/qa/qa_testset_kernel/kernel_test_packages`
+#regression_run=`awk -F "\t+" '{print $2}' /usr/share/qa/qa_testset_kernel/regression_test_packages`
+kernel_run=`awk -F "\t+" '/^[^#]/{print $2}' /usr/share/qa/qa_testset_kernel/kernel_test_packages`
+regression_run=`awk -F "\t+" '/^[^#]/{print $2}' /usr/share/qa/qa_testset_kernel/regression_test_packages`
 
 i=1
 #Change $IFS for Loop Command Names With Spaces
