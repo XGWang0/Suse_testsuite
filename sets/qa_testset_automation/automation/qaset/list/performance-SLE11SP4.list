@@ -6,19 +6,33 @@ SQ_TEST_RUN_LIST=(
     siege
     siege
 
+    netperf_loop4
+    netperf_loop4
+    netperf_loop4
+   
+    netperf_loop6
+    netperf_loop6
+    netperf_loop6
+
     libmicro_bench
     libmicro_bench
     libmicro_bench
 
-#   lmbench todo
+    lmbench_bench
+    lmbench_bench
+    lmbench_bench
 
     kernbench
     kernbench
     kernbench
 
-    sysbench_bench
-    sysbench_bench
-    sysbench_bench
+    sysbench_oltp_ext3
+    sysbench_oltp_ext3
+    sysbench_oltp_ext3
+
+    sysbench_oltp_xfs
+    sysbench_oltp_xfs
+    sysbench_oltp_xfs
 
     reaim_ioperf_ext3
     reaim_ioperf_xfs
