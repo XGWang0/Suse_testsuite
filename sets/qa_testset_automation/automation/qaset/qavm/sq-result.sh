@@ -71,7 +71,8 @@ function sq_qadb_update_system_infomation {
     for name in $(ls /var/log/qa/ctcs2); do
         echo $name | egrep "^.*[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}$" &&
             ! [ -f /var/log/qa/ctcs2/${name}/messages.syslog ] &&
-            cp /var/log/messages /var/log/qa/ctcs2/${name}/messages.syslog
+            cp /var/log/messages /var/log/qa/ctcs2/${name}/messages.syslog  &&
+            chmod 644 /var/log/qa/ctcs2/${name}/messages.syslog
     done
 }
 
