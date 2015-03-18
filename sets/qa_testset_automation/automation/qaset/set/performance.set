@@ -235,5 +235,10 @@ def_unit_fs pgbench "/usr/share/qa/tools/simple-pgbench-run" qa_test_pgbench
 def_unit_fs pgbench_small  "/usr/share/qa/tools/test_pgbench_small-run" qa_test_pgbench
 def_unit_fs pgbench_medium  "/usr/share/qa/tools/test_pgbench_medium-run" qa_test_pgbench
 def_unit_fs pgbench_large  "/usr/share/qa/tools/test_pgbench_large-run" qa_test_pgbench
+def_unit_fs pgbench_small_rw  "/usr/share/qa/tools/test_pgbench_small-rw-run" qa_test_pgbench
+def_unit_fs pgbench_small_ro  "/usr/share/qa/tools/test_pgbench_small-ro-run" qa_test_pgbench
+def_unit_fs pgbench_medium_rw  "/usr/share/qa/tools/test_pgbench_medium-rw-run" qa_test_pgbench
+def_unit_fs pgbench_medium_ro  "/usr/share/qa/tools/test_pgbench_medium-ro-run" qa_test_pgbench
+def_unit_fs pgbench_large_rw  "/usr/share/qa/tools/test_pgbench_large-rw-run" qa_test_pgbench
+def_unit_fs pgbench_large_ro  "/usr/share/qa/tools/test_pgbench_large-ro-run" qa_test_pgbench
 def_unit_fs sysbench_oltp "/usr/lib/ctcs2/tools/test_sysbench_oltp-run" qa_test_sysbench mysql
-
