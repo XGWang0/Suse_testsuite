@@ -67,6 +67,14 @@ function sq_result_save_locally {
     return $ret
 }
 
+function sq_qadb_update_system_infomation {
+    for name in $(ls /var/log/qa/ctcs2); do
+        echo $name | egrep "^.*[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}$" &&
+            ! [ -f /var/log/qa/ctcs2/${name}/messages.syslog ] &&
+            cp /var/log/messages /var/log/qa/ctcs2/${name}/messages.syslog
+    done
+}
+
 function sq_qadb_submit_result_for_run {
     local _sq_run
     local _serial
@@ -110,6 +118,8 @@ function sq_qadb_submit_result_for_run {
     fi
     sq_debug "[qadb] comment is ${_comment}"
 
+    sq_qadb_update_system_infomation
+
     sq_result_save_locally "${_result}"
 
     ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "${_comment}" -T "${_run_id}"
@@ -121,6 +131,11 @@ function sq_qadb_submit_result_for_run {
         rm -rf /var/log/qa/ctcs2/* 
     fi
 }
+
+
+
+
+
 
 function sq_result_one_run {
     local _run=$1
