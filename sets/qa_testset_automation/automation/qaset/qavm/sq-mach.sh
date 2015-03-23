@@ -27,6 +27,11 @@ function sq_mach_open {
         sq_info "[MACH] Preparation: set hostname in /etc/hosts"
         echo "127.0.0.100    $(hostname)" >> /etc/hosts
         echo "$(date)" > ${SQ_TEST_CONTROL_FILE_PREPARED}
+        sed -i /abuild/"s/^ *#*/#/" /etc/fstab
+        if test $? -ne 0;then
+            sq_info "[MACH] preparation:add comment in fstab failed!"
+        fi
+
         # more kernel logs
         # TODO finally add to /etc/defautl/grub
         # kernel args : ignore_loglevel
