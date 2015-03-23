@@ -105,6 +105,7 @@ svn_setup() {
 	local key keygen pubkey pubkey_f auth_keys cmd
 
 	is_grp $SVN_GRP || groupadd $SVN_GRP
+	is_usr $SVN_USR && userdel $SVN_USR
 	useradd -d $SVN_HOME -s /bin/bash -g $SVN_GRP $SVN_USR >$LOGF 2>&1
 
 	is_usr $SVN_CLI_USR || \
