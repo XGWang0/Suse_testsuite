@@ -54,34 +54,18 @@ SQ_TEST_RUN_LIST=(
     tiobench_basic_ext3
     tiobench_basic_xfs
     tiobench_basic_ext3
+    #pgbench_medium_xfs
+    #pgbench_medium_ext3
+    #pgbench_medium_xfs
+    #pgbench_medium_ext3
+    #pgbench_medium_xfs
 
-    pgbench_small_ext3
-    pgbench_small_xfs
-    pgbench_small_ext3
-    pgbench_small_xfs
-    pgbench_small_ext3
-    pgbench_small_xfs
-
-    pgbench_medium_ext3
-    pgbench_medium_xfs
-    pgbench_medium_ext3
-    pgbench_medium_xfs
-    pgbench_medium_ext3
-    pgbench_medium_xfs
-
-    pgbench_large_ext3
-    pgbench_large_xfs
-    pgbench_large_ext3
-    pgbench_large_xfs
-    pgbench_large_ext3
-    pgbench_large_xfs
-
-    bonniepp_ext3
-    bonniepp_xfs
-    bonniepp_ext3
-    bonniepp_xfs
-    bonniepp_ext3
-    bonniepp_xfs
+    #pgbench_large_ext3
+    #pgbench_large_xfs
+    #pgbench_large_ext3
+    #pgbench_large_xfs
+    #pgbench_large_ext3
+    #pgbench_large_xfs
 
     bonniepp_ext3
     bonniepp_xfs
@@ -110,4 +94,11 @@ SQ_TEST_RUN_LIST=(
     dbench4_fsync_ext3
     dbench4_fsync_xfs
     dbench4_fsync_ext3
+
+    pgbench_small_ext3
+    pgbench_small_xfs
+    pgbench_small_ext3
+    pgbench_small_xfs
+    pgbench_small_ext3
+    pgbench_small_xfs
 )
