@@ -26,6 +26,9 @@
 
 export LANG=C
 
+#clean the ip table rules from standalone
+iptables -F
+iptable -t nat -F
 source /usr/share/qa/qa_internalapi/sh/libqainternal.lib.sh
 
 LOCATION="`/usr/share/qa/tools/location.pl | awk '{ print $NF; }'`"
