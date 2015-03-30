@@ -126,6 +126,7 @@ sed "/$list/!d" $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-virt_in
 cp tools/test_virtualization-sles12fcs* $RPM_BUILD_ROOT/usr/share/qa/tools
 %endif
 
+cp tools/test_virtualization-virt_install-run $RPM_BUILD_ROOT/usr/share/qa/tools
 rm -fr tools generate _install.template
 chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/test_virtualization*-run
 
