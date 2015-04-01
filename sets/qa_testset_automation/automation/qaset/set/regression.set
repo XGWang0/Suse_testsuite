@@ -22,6 +22,7 @@ def_simple_run gzip '/usr/share/qa/tools/test_gzip-run' qa_test_gzip
 def_simple_run indent '/usr/share/qa/tools/test_indent-run' qa_test_indent
 def_simple_run net_snmp '/usr/share/qa/tools/test_net-snmp-run' qa_test_net-snmp
 def_simple_run nfs '/usr/share/qa/tools/test_nfs-run' qa_test_nfs
+def_simple_run nfs-v4 '/usr/share/qa/tools/test_nfs-v4-run' qa_test_nfs-v4
 def_simple_run openssh '/usr/share/qa/tools/test_openssh-run' qa_test_openssh
 def_simple_run openssl '/usr/share/qa/tools/test_openssl-run' qa_test_openssl
 def_simple_run php53 '/usr/share/qa/tools/test_php53-run' qa_test_php53

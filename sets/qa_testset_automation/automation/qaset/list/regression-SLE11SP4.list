@@ -16,6 +16,7 @@ SQ_TEST_RUN_LIST=(
     indent
     net_snmp_run
     nfs
+    nfs-v4
     openssh
     openssl
     php53
