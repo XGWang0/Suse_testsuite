@@ -114,8 +114,9 @@ teardown() {
 	cd $OLDPWD
 	rm -rf $TESTDIR || echo BLA
     }
-    rm -f /etc/lvm/.cache
-    mv -f /root/lvm.conf.back /etc/lvm/lvm.conf
+    #rm -f /etc/lvm/.cache
+    #mv -f /root/lvm.conf.back /etc/lvm/lvm.conf
+    rm -f $TESTDIR/etc/.cache
     echo "ok"
 }
 
@@ -323,7 +324,7 @@ devices/dir = "/dev"
 devices/scan = "/dev" 
 devices/filter = [ "r|/dev/.*/by-path/.*|", "r|/dev/.*/by-id/.*|", "a/dev\/mirror/", "a/dev\/mapper\/.*pv[0-9_]*$/", "r/.*/" ] 
 devices/preferred_names = [ "^/dev/mapper/", "^/dev/sd" ]
-devices/cache = "/etc/lvm/.cache"
+devices/cache = "$TESTDIR/etc/.cache"
 devices/sysfs_scan = 1
 devices/write_cache_state = 1 
 devices/md_component_detection = 1
@@ -362,8 +363,9 @@ EOF
         echo "}" >> $TESTDIR/CONFIG
         echo >> $TESTDIR/CONFIG
     done
-	cp /etc/lvm/lvm.conf /root/lvm.conf.back
-	mv -f $TESTDIR/CONFIG /etc/lvm/lvm.conf
+	#cp /etc/lvm/lvm.conf /root/lvm.conf.back
+	#mv -f $TESTDIR/CONFIG /etc/lvm/lvm.conf
+	mv -f $TESTDIR/CONFIG $TESTDIR/etc/lvm.conf
 }
 
 apitest() {
