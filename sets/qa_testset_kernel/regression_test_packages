@@ -15,6 +15,7 @@ qa_test_indent					test_indent-run						/usr/share/qa/tools	1s
 qa_test_net-snmp				test_net-snmp-run					/usr/share/qa/tools	1m27s
 qa_test_fetchmail				test_fetchmail-run					/usr/share/qa/tools
 qa_test_nfs						test_nfs-run						/usr/share/qa/tools	15m48s
+qa_test_nfs						test_nfs-v4-run						/usr/share/qa/tools	15m48s
 qa_test_openssh					test_openssh-run					/usr/share/qa/tools	17m38s
 qa_test_openssl					test_openssl-run					/usr/share/qa/tools
 #qa_test_php5					test_php5-run						/usr/share/qa/tools
