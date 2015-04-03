@@ -1,0 +1,115 @@
+Introduction:
+==============
+qa_testset_automation package is a harness using for SLE product testing,  it's in an important role in the whole automation test process to customize the test list, do pre-configuration, control the test run, monitor and summarize test result, and clean environment, now it include stress acceptance, kernel and userspace application regression, performance regression for SLE11SP3, SLE11SP4, SLE12, kGraft. It's scripts base and don't need HAMSTA at all.
+
+#Tree
+/usr/share/qa/qaset/
+|-- conf #The default container for dependency packages and repository definition
+|   |-- SLE11SP3.conf
+|   |-- SLE11SP4.conf
+|   |-- SLE12.conf
+|   `-- common.conf
+|-- list #Default list definition with a bunch of testsuite for different product
+|   |-- acceptance-SLE11SP3.list
+|   |-- acceptance-SLE11SP4.list
+|   |-- acceptance-SLE12.list
+|   |-- kernel-SLE11SP3.list
+|   |-- kernel-SLE11SP4.list
+|   |-- kernel-SLE12.list
+|   |-- kernel-all-SLE11SP3.list
+|   |-- kernel-all-SLE11SP4.list
+|   |-- kernel-all-default.list
+|   |-- kgraft-kernel-SLE12.list
+|   |-- kgraft-performance-SLE12.list
+|   |-- performance-IO.sh
+|   |-- performance-SLE11SP3.list
+|   |-- performance-SLE11SP4.list
+|   |-- performance-SLE12.list
+|   |-- performance-SYS.sh
+|   |-- regression-SLE11SP3.list
+|   |-- regression-SLE11SP4.list
+|   `-- regression-SLE12.list
+|-- qaset #Main script to trigger corresponding test in the classified run, to stop|reset test
+|-- qaset-service #service for systemd(SLE12) to monitor the OS rebooting and trigger next test run
+|-- sysv-install #service for sysv(SLE11) to monitor the OS rebooting and trigger next test run
+|-- qavm #Function definitions for test process control
+|   |-- import.sh
+|   |-- sq-control.sh
+|   |-- sq-execute.sh
+|   |-- sq-fake.sh
+|   |-- sq-global.sh
+|   |-- sq-hook.sh
+|   |-- sq-mach.sh
+|   |-- sq-result.sh
+|   `-- sq-util.sh
+|-- run #Classify test runs for test executing
+|   |-- acceptance-run -> run-caller
+|   |-- kernel-all-run -> run-caller
+|   |-- kernel-run -> run-caller
+|   |-- performance-run -> run-caller
+|   |-- regression-run -> run-caller
+|   `-- run-caller
+|-- set #Pre-configurations of each kind of tests to define test run's name and execution
+|   |-- acceptance.set
+|   |-- kernel-all.set
+|   |-- kernel.set
+|   |-- kgraft-kernel.set
+|   |-- kgraft-performance.set
+|   |-- performance.set
+|   `-- regression.set
+
+Features:
+==========
+#Customize testsuits list
+A customized test list should stored in /root/qaset/list, which will be called in higher priority than /qaset/list/*.list
+/root/qaset/config is where to save come configurations.
+
+#Host Reboot
+By default, the host will be rebooted to refresh the testing evironment when each test run finished, especially for Performance. However it's very easily to disable the "Reboot" action in the test run list by using a switcher "_reboot_off" comment.
+
+#Screens
+Test been launched in screens, and there are 2 main screens:
+- Test process screen: named in <Release>-<test classification> to tracking the test process; 
+- Test run screen: named after test run to tracking the output of tests
+
+#Logs
+Test run log will be submmited to QADB(http://qadb.suse.de/qadb) automatedly when each run finished.
+/var/log/qaset/
+|-- calls #Test process screen output
+|   |-- SLE11SP4-acceptance-20150310-0310T2339.screenlog
+|   `-- screenrc
+|-- control #Test marked for next run after host rebooting interrupt
+|   |-- NEXT_RUN
+|   |-- PREPARED
+|   `-- RUN_ID
+|-- lock.d
+|-- log #Test results backup
+|   `-- sched_stress-ACAP2-20150310-20150329T002531.tar.bz2
+|-- runs #test run screen output
+|   |-- sched_stress-0328T2325.screenlog
+|   `-- sched_stress.screenrc
+`-- set
+
+Benefits:
+=========
+1. Easier to customize an automation run for a test series.
+2. Better to control test process when need interrupt.
+3. Logs analyze and backup
+
+How to get:
+===========
+Repo: http://dist.nue.suse.com/ibs/QA:/Head/<OS-Release>/
+Package: qa_testset_automation
+Developer & Maintainer: QA-APACII team qa-apac2@suse.de
+
+How to launch test:
+==============
+Run /usr/share/qa/qaset/run/* scripts
+
+TODO:
+=========
+Let's moving step by step to instead "gobble up at one gulp" :-)
+1. Automated to analyze test logs and messages for bug reporting
+2. Automated to compare test results with the expected definition and the expected output format
+3. Intelligible test status dashboard
+4. Integrate in Jenkins
