@@ -160,6 +160,14 @@ function sq_control_get_run_status {
 function sq_control_check_run_queue {
     if test $(($SQ_THIS_RUN_INDEX + 1)) -ge ${#SQ_TEST_RUN_LIST[*]};then
         echo "$(date '+%Y-%m-%d-%H-%M-%S')" > ${SQ_TEST_CONTROL_FILE_DONE}
+        case ${SLE_RELEASE} in
+            SLE11*)remove_service_byinitd
+                ;;
+            SLE12) remove_serice_bysystemctl
+                ;;
+            *) sq_info "[MACH] remove services in ${SLE_RELEASE}"
+                ;;
+        esac
     fi
 }
 

@@ -54,12 +54,13 @@ if test "X${SQ_TEST_RUN_SET}" == "X"; then
     fi
 fi
 
-if test ${SQ_TEST_RUN_SET} == performance; then
+# start reboot service default whenever what kind of test
+#if test ${SQ_TEST_RUN_SET} == performance; then
     case ${TARGET_RELEASE} in
         SLE11*) ${QASET_ROOT}/sysv-install;;
         *) systemctl enable qaperf.service;;
     esac
-fi
+#fi
 
 SQ_SET_BIN=${QASET_ROOT}/qaset
 # user configuration

@@ -219,3 +219,24 @@ function sq_os_reboot {
     # TODO why env
     env /usr/bin/systemctl -f reboot
 }
+
+function remove_serice_bysystemctl {
+   systemctl disable qaperf.service
+   if [ $? != 0 ];then
+       sq_error "disable service by systemctl failed."
+   fi
+}
+
+function remove_service_byinitd {
+    level=$(runlevel | awk '{print $2}')
+    run_dir="/etc/init.d/rc${level}.d"
+    if test -d ${run_dir}; then
+        rm -rf ${run_dir}/S99qaset
+    else #runlevel unknown
+        rm -rf /etc/init.d/after.local
+    fi
+    if [ $? != 0 ];then
+       sq_error "disable service by remove soft link failed."
+    fi
+}
+
