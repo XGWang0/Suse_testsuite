@@ -26,19 +26,28 @@ if [ ! -f $tcf_f ]; then
 fi
 
 # disable thin, dmeventd, clvmd testcases
-sed -i '/thin/s/^/#/g' $tcf_f
-sed -i '/clvmd/s/^/#/g' $tcf_f
-sed -i '/dmeventd/s/^/#/g' $tcf_f
+sed -i '/^[^#].*thin/s/^/#/g' $tcf_f
+sed -i '/^[^#].*clvmd/s/^/#/g' $tcf_f
+sed -i '/^[^#].*dmeventd/s/^/#/g' $tcf_f
 
 # disable prepare_lvmetad and related cases if /sbin/lvmetad not exist.
 if [ ! -f '/sbin/lvmetad' ]; then
 	sed -i "s/^aux\ prepare_lvmetad/#aux prepare_lvmetad/g" /usr/share/qa/qa_test_lvm2_shell/test/lib/test
-	sed -i '/lvmetad/s/^/#/g' /usr/share/qa/tcf/qa_lvm2-2_02_98.tcf
+	sed -i '/^[^#].*lvmetad/s/^/#/g' $tcf_f
 fi
 
 # disable prepare_clvmd if /usr/sbin/clvmd not exist.
 if [ ! -f '/usr/sbin/clvmd' ]; then
 	sed -i "s/^aux\ prepare_clvmd/#aux prepare_clvmd/g" /usr/share/qa/qa_test_lvm2_shell/test/lib/test
+fi
+
+# disable raid related cases because of module dm_raid not found.
+if `modprobe --quiet dm_raid` ; then
+	echo "Module dm_raid found."
+else
+	echo "Module dm_raid not found. Disable raid related cases."
+	sed -i '/^[^#].*raid/s/^/#/g' $tcf_f
+	sed -i '/^[^#].*lvchange-partial/s/^/#/g' $tcf_f
 fi
 
 /usr/lib/ctcs2/tools/run $tcf_f
