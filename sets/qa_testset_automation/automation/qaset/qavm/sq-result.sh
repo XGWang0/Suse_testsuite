@@ -76,6 +76,16 @@ function sq_qadb_update_system_infomation {
     done
 }
 
+function sq_qadb_update_system_shortinfo {
+    #if [ -e "/var/log/messages" ];then
+    for name in $(ls /var/log/qa/ctcs2); do
+        echo $name | egrep "^.*[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}$" &&
+            ! [ -f /var/log/qa/ctcs2/${name}/messages.shortlog ] &&
+        awk 'BEGIN{ key["error"]=0;key["calltrace"]=0;}{for(i in key){if($0~i){key[i]++;values[i]=values[i]""FNR""$0"\n";}}}END{for (i in key){print i" have "key[i];} for (i in key){print values[i] }}' /var/log/messages >> /var/log/qa/ctcs2/${name}/messages.shortlog &&
+       chmod 644 /var/log/qa/ctcs2/${name}/messages.shortlog
+    done
+}
+
 function sq_qadb_submit_result_for_run {
     local _sq_run
     local _serial
@@ -120,6 +130,8 @@ function sq_qadb_submit_result_for_run {
     sq_debug "[qadb] comment is ${_comment}"
 
     sq_qadb_update_system_infomation
+
+    sq_qadb_update_system_shortinfo
 
     sq_result_save_locally "${_result}"
 
