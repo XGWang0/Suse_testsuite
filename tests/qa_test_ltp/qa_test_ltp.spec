@@ -84,12 +84,13 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20150119
+Version:        20150420
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
 Source1:        ctcstools-%{version}.tar.bz2
 Source2:	qa_test_ltp.8
+Source3:	leapsec.tcf
 
 # Compiler warnings and workarounds
 Patch102:	disable-min_free_kbytes.patch
@@ -101,7 +102,6 @@ Patch102:	disable-min_free_kbytes.patch
 Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-Patch700:	0001-proc01-Change-TWARN-for-proc-xen-xenbus-to-TINFO.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -139,7 +139,6 @@ Authors:
 %patch501 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
-%patch700 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
@@ -196,6 +195,9 @@ ln -s ../../../../../opt/ltp/runtest $RPM_BUILD_ROOT/usr/lib/ctcs2/config/ltp/ru
 # Generate ctcs2 tcf files from runtest files
 $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 720 %{_libdir} $RPM_BUILD_ROOT
 
+# Install leap second tcf file
+install %{SOURCE3} $RPM_BUILD_ROOT/usr/share/qa/qa_test_ltp/tcf/
+
 #Exclude tst_brk
 HARDLINKS="tst_brkm tst_res tst_resm tst_exit tst_flush tst_brkloop tst_brkloopm tst_kvercmp"
 cd $RPM_BUILD_ROOT/opt/ltp/testcases/bin
@@ -222,122 +224,3 @@ done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%changelog
-* Mon Sep 01 2014 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20140828
-
-* Mon Apr 28 2014 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20140422
-
-* Tue Mar 25 2014 Cyril Hrubis chrubis@suse.cz
-  Backport fix for shm_open, shm_unlink ENAMETOOLONG testcases.
-
-* Mon Mar 10 2014 Cyril Hrubis chrubis@suse.cz
-  Backport fixes for link() failures due to enabled protected_hardlinks
-  Backport fixes for swapon() and swapoff() testcases on Btrfs
-
-* Wed Jan 15 2014 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20140115
-
-  Add build dependency on numa devel library.
-
-  Add two more tcf files (controllers, numa) into default run.
-
-* Mon Sep  9 2013 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20130904
-
-  Fixed bug #729880
-
-* Mon Jun  3 2013 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20130503
-
-* Thu May  2 2013 Cyril Hrubis chrubis@suse.cz
-
-  Backported fixes for following testcases:
-
-  * accept4 - Return TCONF on ENOSYS
-
-  * ksm05 - Fix Segfault on ENOSYS
-
-  * thp03: Return TCONF on ENOSYS
-
-  * pthread_key_create_5-1: Fix.
-
-  * pthread_mutexattr_gettype: Return UNTESTED on unimplemented.
-
-* Mon Apr 29 2013 Cyril Hrubis chrubis@suse.cz
-
-  Backport fixes for aio_fsync_2-1 and aio_fsync_3-1
-  (the testcases Segfaulted randomly due to race
-   condition)
-
-* Wed Apr 24 2013 Cyril Hrubis chrubis@suse.cz
-
-  Backport patch for proc01 for false possitive on
-  xen proc files.
-
-* Wed Apr 17 2013 Cyril Hrubis chrubis@suse.cz
-
-  Backport several patches and fix openposix wrapper.
-
-  * Remove lio_listio_11-1 as the test was wrong
-
-  * Fixup several testcases to return UNTESTED
-    instead of UNRESOLVED when the test for
-    optional behavior (and not implemented by Linux).
-
-  * Fixup the openposix wrapper to interpret the
-    UNTESTED as skipped under CTCS2 which is closer
-    to the openposix interpretation.
-
-* Thu Mar 21 2013 Cyril Hrubis chrubis@suse.cz
-
-  Silenced process_stress output (bug #810495).
-
-  Turned off debug for FSX tests
-
-  Fixed tests bellow flush stdout before fork:
-
-  pthread_cond_broadcast/1-2.c
-  pthread_create/3-2.c
-  pthread_exit/6-1.c
-  pthread_cond_timedwait/4-2.c
-
-  All in order not to generate several megabytes
-  of useless logs.
-
-* Wed Mar 20 2013 Cyril Hrubis chrubis@suse.cz
-  Backported fix for sysctl03.
-
-* Tue Mar  5 2013 Cyril Hrubis chrubis@suse.cz
-  Backported patches to remove stubs from
-  openposix testsuite.
-
-* Mon Mar  4 2013 Cyril Hrubis chrubis@suse.cz
-  Backported fixes for:
-
-  getrusage04
-  pthread_cond_timedwait/{2-2,2-3}
-  readlink04
-
-* Wed Feb 13 2013 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20130109
-
-* Thu Oct 18 2012 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20120903
-
-* Wed Jun 20 2012 Cyril Hrubis chrubis@suse.cz
-  Fixed realtime build.
-
-* Wed Jun 06 2012 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20120401
-
-* Thu Feb 02 2012 Cyril Hrubis chrubis@suse.cz
-  Update to ltp-full-20120104
-
-* Mon Aug 22 2011 - llipavsky@suse.cz
-- Package rename: ltp -> qa_test_ltp
-
-* Fri Aug 19 2011 Cyril Hrubis chrubis@suse.cz
-  Updated ltp package to newest released version.

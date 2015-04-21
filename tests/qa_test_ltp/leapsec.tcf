@@ -1,0 +1,195 @@
+timer 900
+fg 1 leapsec_stop_ntpd "$(command -v rcntp)$(command -v rcntpd) stop"
+wait
+
+timer 900
+fg 1 leapsec_add_alarm05 /usr/lib/ctcs2/tools/ltp_leapsec.sh add alarm05
+wait
+
+timer 900
+fg 1 leapsec_add_clock_nanosleep2_01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add clock_nanosleep2_01
+wait
+
+timer 900
+fg 1 leapsec_add_futex_wait01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add futex_wait01
+wait
+
+timer 900
+fg 1 leapsec_add_futex_wait02 /usr/lib/ctcs2/tools/ltp_leapsec.sh add futex_wait02
+wait
+
+timer 900
+fg 1 leapsec_add_futex_wait03 /usr/lib/ctcs2/tools/ltp_leapsec.sh add futex_wait03
+wait
+
+timer 900
+fg 1 leapsec_add_futex_wait05 /usr/lib/ctcs2/tools/ltp_leapsec.sh add futex_wait05
+wait
+
+timer 900
+fg 1 leapsec_add_futex_wake02 /usr/lib/ctcs2/tools/ltp_leapsec.sh add futex_wake02
+wait
+
+timer 900
+fg 1 leapsec_add_futex_wake03 /usr/lib/ctcs2/tools/ltp_leapsec.sh add futex_wake03
+wait
+
+timer 900
+fg 1 leapsec_add_futex_wait_bitset01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add futex_wait_bitset01
+wait
+
+timer 900
+fg 1 leapsec_add_futex_wait_bitset02 /usr/lib/ctcs2/tools/ltp_leapsec.sh add futex_wait_bitset02
+wait
+
+timer 900
+fg 1 leapsec_add_getitimer01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add getitimer01
+wait
+
+timer 900
+fg 1 leapsec_add_nanosleep01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add nanosleep01
+wait
+
+timer 900
+fg 1 leapsec_add_nanosleep02 /usr/lib/ctcs2/tools/ltp_leapsec.sh add nanosleep02
+wait
+
+timer 900
+fg 1 leapsec_add_nanosleep03 /usr/lib/ctcs2/tools/ltp_leapsec.sh add nanosleep03
+wait
+
+timer 900
+fg 1 leapsec_add_ppoll01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add ppoll01
+wait
+
+timer 900
+fg 1 leapsec_add_pselect01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add pselect01
+wait
+
+timer 900
+fg 1 leapsec_add_select01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add select01
+wait
+
+timer 900
+fg 1 leapsec_add_select02 /usr/lib/ctcs2/tools/ltp_leapsec.sh add select02
+wait
+
+timer 900
+fg 1 leapsec_add_select03 /usr/lib/ctcs2/tools/ltp_leapsec.sh add select03
+wait
+
+timer 900
+fg 1 leapsec_add_time02 /usr/lib/ctcs2/tools/ltp_leapsec.sh add time02
+wait
+
+timer 900
+fg 1 leapsec_add_timer_getoverrun01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add timer_getoverrun01
+wait
+
+timer 900
+fg 1 leapsec_add_timerfd01 /usr/lib/ctcs2/tools/ltp_leapsec.sh add timerfd01
+wait
+
+timer 900
+fg 1 leapsec_add_poll02 /usr/lib/ctcs2/tools/ltp_leapsec.sh add poll02
+wait
+
+timer 900
+fg 1 leapsec_add_select04 /usr/lib/ctcs2/tools/ltp_leapsec.sh add select04
+wait
+
+timer 900
+fg 1 leapsec_rem_alarm05 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem alarm05
+wait
+
+timer 900
+fg 1 leapsec_rem_clock_nanosleep2_01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem clock_nanosleep2_01
+wait
+
+timer 900
+fg 1 leapsec_rem_futex_wait01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem futex_wait01
+wait
+
+timer 900
+fg 1 leapsec_rem_futex_wait02 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem futex_wait02
+wait
+
+timer 900
+fg 1 leapsec_rem_futex_wait03 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem futex_wait03
+wait
+
+timer 900
+fg 1 leapsec_rem_futex_wait05 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem futex_wait05
+wait
+
+timer 900
+fg 1 leapsec_rem_futex_wake02 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem futex_wake02
+wait
+
+timer 900
+fg 1 leapsec_rem_futex_wake03 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem futex_wake03
+wait
+
+timer 900
+fg 1 leapsec_rem_futex_wait_bitset01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem futex_wait_bitset01
+wait
+
+timer 900
+fg 1 leapsec_rem_getitimer01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem getitimer01
+wait
+
+timer 900
+fg 1 leapsec_rem_nanosleep01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem nanosleep01
+wait
+
+timer 900
+fg 1 leapsec_rem_nanosleep02 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem nanosleep02
+wait
+
+timer 900
+fg 1 leapsec_rem_nanosleep03 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem nanosleep03
+wait
+
+timer 900
+fg 1 leapsec_rem_ppoll01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem ppoll01
+wait
+
+timer 900
+fg 1 leapsec_rem_pselect01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem pselect01
+wait
+
+timer 900
+fg 1 leapsec_rem_select01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem select01
+wait
+
+timer 900
+fg 1 leapsec_rem_select02 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem select02
+wait
+
+timer 900
+fg 1 leapsec_rem_select03 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem select03
+wait
+
+timer 900
+fg 1 leapsec_rem_time02 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem time02
+wait
+
+timer 900
+fg 1 leapsec_rem_timer_getoverrun01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem timer_getoverrun01
+wait
+
+timer 900
+fg 1 leapsec_rem_timerfd01 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem timerfd01
+wait
+
+timer 900
+fg 1 leapsec_rem_poll02 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem poll02
+wait
+
+timer 900
+fg 1 leapsec_rem_select04 /usr/lib/ctcs2/tools/ltp_leapsec.sh rem select04
+wait
+
+timer 900
+fg 1 leapsec_start_ntpd "$(command -v rcntp)$(command -v rcntpd) start"
+wait
