@@ -39,5 +39,5 @@ SQ_TEST_RUN_LIST=(
     ltp_stress
     newburn_memtst
     ltp_stress
-    newburn_run
+    newburn
 )

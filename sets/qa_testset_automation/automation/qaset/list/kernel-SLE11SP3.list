@@ -14,5 +14,5 @@ SQ_TEST_RUN_LIST=(
     lynis
     newburn_memtst
     ltp_stress
-    newburn_run
+    newburn
 )
