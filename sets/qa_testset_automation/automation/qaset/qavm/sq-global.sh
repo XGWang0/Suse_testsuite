@@ -16,6 +16,7 @@ SQ_TEST_CALL_DIR=${SQ_TEST_DIR}/calls
 SQ_TEST_CONTROL_DIR=${SQ_TEST_DIR}/control
 SQ_TEST_LOG_DIR=${SQ_TEST_DIR}/log
 SQ_TEST_SET_STATUS_DIR=${SQ_TEST_DIR}/set
+SQ_TEST_SUBMISSION_DIR=${SQ_TEST_DIR}/submission
 
 SQ_TEST_CONTROL_FILE_PREPARED=${SQ_TEST_CONTROL_DIR}/PREPARED
 SQ_TEST_CONTROL_FILE_STOP=${SQ_TEST_CONTROL_DIR}/STOP
@@ -57,6 +58,7 @@ function sq_global_init {
         mkdir -p ${SQ_TEST_CONTROL_DIR}
         mkdir -p ${SQ_TEST_LOG_DIR}
         mkdir -p ${SQ_TEST_SET_STATUS_DIR}
+        mkdir -p ${SQ_TEST_SUBMISSION_DIR}
     fi
     if test ! -d ${SQ_USER_CONFIG_DIR};then
         mkdir -p ${SQ_USER_CONFIG_DIR}
