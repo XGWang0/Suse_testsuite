@@ -9,7 +9,7 @@ SQ_TEST_RUN_LIST=(
     apparmor
     apparmor_profiles
     bind
-    bzip
+    bzip2
     cabextract
     postfix
     sharutils
@@ -19,7 +19,7 @@ SQ_TEST_RUN_LIST=(
     findutils
     gzip
     indent
-    net_snmp_run
+    net_snmp
     nfs
     nfs_v4
     openssh

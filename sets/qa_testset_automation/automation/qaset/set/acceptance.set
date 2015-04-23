@@ -8,4 +8,4 @@ fs_stress_run='/usr/share/qa/tools/test_fs_stress-run'
 fs_stress_packages=(qa_test_fs_stress)
 
 sched_stress_run='/usr/share/qa/tools/test_sched_stress-run'
-fs_stress_packages=(qa_test_sched_stress)
+sched_stress_packages=(qa_test_sched_stress)

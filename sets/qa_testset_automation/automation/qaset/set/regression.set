@@ -16,7 +16,7 @@ def_simple_run postfix '/usr/share/qa/tools/test_postfix-run' qa_test_postfix
 def_simple_run sharutils '/usr/share/qa/tools/test_sharutils-run' qa_test_sharutils
 def_simple_run coreutils '/usr/share/qa/tools/test_coreutils-run' qa_test_coreutils
 def_simple_run cpio '/usr/share/qa/tools/test_cpio-run' qa_test_cpio
-def_simple_run cracklib '/usr/share/qa/tools/test_cracklib-run'qa_test_cracklib
+def_simple_run cracklib '/usr/share/qa/tools/test_cracklib-run' qa_test_cracklib
 def_simple_run findutils '/usr/share/qa/tools/test_findutils-run' qa_test_findutils
 def_simple_run gzip '/usr/share/qa/tools/test_gzip-run' qa_test_gzip
 def_simple_run indent '/usr/share/qa/tools/test_indent-run' qa_test_indent
