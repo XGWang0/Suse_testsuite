@@ -44,6 +44,7 @@ NET_STATIC_RANGE_START='192.168.123.101'
 NET_STATIC_RANGE_END='192.168.123.115'
 TESTUSER="virt-test"
 TESTUSER_PASSWD="virt-pass-159"
+TEST_ROOT="/usr/share/qa/qa_test_virtualization"
 
 DEFAULT_IF="`route | grep ^default | awk {'print $NF'}`"
 
@@ -107,7 +108,6 @@ function setup_services
 		echo "Error: Cannot create user $TESTUSER, user with same name already exist." >&2
 		echo "       If it's a result of improper cleanup from last time, you can do:" >&2
 		echo "           userdel -r $TESTUSER" >&2
-		failed=1
 	fi
 	[ $failed -eq 0 ] || return 1 # already reported
 
@@ -306,7 +306,7 @@ EOF
 	echo 1 > /proc/sys/net/ipv4/ip_forward
 
 	# user for netinfo,pxe and http
-	addUser $TESTUSER || return 1
+	addUser $TESTUSER || echo "Can not create User:$TESTUSER ,The user maybe exist already"
 	changePassword $TESTUSER $TESTUSER_PASSWD || return 1
 	homedir=`getent passwd $TESTUSER | awk -F: '{ print $6; }'`
 	mkdir -p "$homedir/bin"
@@ -478,3 +478,11 @@ function interrupt
 
 trap interrupt SIGINT
 
+_test_init
+init_res=$?
+if [ $init_res -ne 0 ] ; then
+	printError "Initialization failed, running cleanup - some errors might occur due to improper initialization."
+	_test_cleanup
+	[ $init_res -eq 22 ] || init_res=$ERROR
+	exit $init_res
+fi

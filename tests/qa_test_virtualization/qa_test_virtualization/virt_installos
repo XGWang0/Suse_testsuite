@@ -28,13 +28,9 @@ export LANG=C
 
 source /usr/share/qa/qa_internalapi/sh/libqainternal.lib.sh
 
-if [ $# -ne 1 ]; then
-	echo "require 1 argument"
-	exit $ERROR
-fi
-
 # Format: os-rel-sp-arch-vtype-scenario-method
 DEFINITION=$1
+shift
 
 TEST_ROOT="/usr/share/qa/qa_test_virtualization"
 
@@ -59,24 +55,10 @@ SCENARIO=${A_DEFINITION[5]}
 INSTALL_METHOD=${A_DEFINITION[6]}
 
 # Before this line, script parameters have to be collected
-source "$TEST_ROOT/shared/standalone"
-
 # test_init not overloaded
 # test_cleanup not overloaded
 
-function test_action
-{
-	SETTINGS=""
-	if [ "$TEST_TYPE" != "network" ] ; then
-		# standalone
-		SETTINGS="-P $TEST_ROOT/loc/settings.$TEST_TYPE"
-		echo "Using settings file $TEST_ROOT/loc/settings.$TEST_TYPE..."
-	else
-		echo "Using default configuration for virtautolib for settings file" >&2
-	fi
 
-	/usr/share/qa/virtautolib/lib/virt-install.sh -y $IP -b $BR -o $OPERATING_SYSTEM -r $RELEASE -p $SERVICE_PACK -c $ARCHITECTURE -t $VIRT_TYPE -n $SCENARIO -m $INSTALL_METHOD
-}
+/usr/share/qa/virtautolib/lib/virt-install.sh -o $OPERATING_SYSTEM -r $RELEASE -p $SERVICE_PACK -c $ARCHITECTURE -t $VIRT_TYPE -n $SCENARIO -m $INSTALL_METHOD -a "$*"
 
-run_test
 
