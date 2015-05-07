@@ -16,7 +16,6 @@ def_simple_run autotest '/usr/share/qa/tools/test_autotest-run' qa_test_autotest
 def_simple_run ltp '/usr/lib/ctcs2/tools/test_ltp-run' qa_test_ltp
 def_simple_run newburn '/usr/lib/ctcs2/tools/test_newburn-run' qa_test_newburn
 
-def_simple_run file_copy '/share/qa/tools/file_copy' qa_test_fs_stress
 def_simple_run ltp_fstests '/usr/lib/ctcs2/tools/test_ltp-fstests-run' qa_test_ltp
 def_simple_run ltp_stress '/usr/lib/ctcs2/tools/ltp-stress.py' qa_test_ltp
 def_simple_run lynis '/usr/share/qa/tools/test_lynis-run' qa_test_lynis
