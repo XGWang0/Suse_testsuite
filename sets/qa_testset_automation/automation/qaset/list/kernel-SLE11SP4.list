@@ -8,9 +8,7 @@ SQ_TEST_RUN_LIST=(
     lvm2
     autotest
     ltp
-    file_copy
     ltp_fstests
-    ltp_stress
     lynis
     newburn_memtst
     ltp_stress

@@ -27,17 +27,16 @@ SQ_TEST_RUN_LIST=(
     php53
     fetchmail
 
+    lynis
     libhugetlbfs
     ftpload
     lmbench
     memeat
     memtester
+    ltp_fstests
     lvm2
-    autotest
-    file_copy
-    lynis
-    ltp_stress
     newburn_memtst
+    autotest
     ltp_stress
     newburn
 )
