@@ -22,33 +22,43 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
-#
-#
-#MOUNT_DIR1="/MOUNT-VIRT"
-#MOUNT_DIR2="/VIRT-ISO"
-#MOUNT_DIR3="/VIRT-ISO2"
-#
-#for dir in $MOUNT_DIR1 $MOUNT_DIR2
-#do
-#    if [ -d "$dir" -a -n "`ls -A $dir`" ] ; then
-#        echo "Error: Directory $dir already exist and is nonempty. Terminating..."
-#        exit 11
-#    fi
-#done
-#
-#getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
-#MOUNT1=`$getSettings MOUNT1.addr`
-#MOUNT2=`$getSettings MOUNT2.addr`
-#
-#test -r /etc/os-release && . /etc/os-release
-#if [[ $NAME =~ SLE[SD] && $VERSION -gt 11 ]]; then
-#    if ! systemctl status rpcbind | grep "active (running)" >/dev/null;then
-#        echo "rpcbind is not started, now starting it!"
-#        systemctl start rpcbind
-#    fi
-#fi
-#
-#mkdir -p $MOUNT_DIR1 && mount -t nfs $MOUNT1:/srv/ftp/dist/install $MOUNT_DIR1
-#mkdir -p $MOUNT_DIR2 && mount -t nfs $MOUNT2:/mirror_a/VIRT-ISO $MOUNT_DIR2
-#mkdir -p $MOUNT_DIR3 && mount -t nfs $MOUNT2:/mirror_a/iso $MOUNT_DIR3
-#
+
+
+export LANG=C
+
+source /usr/share/qa/qa_internalapi/sh/libqainternal.lib.sh
+
+# Format: os-rel-sp-arch-vtype-scenario-method
+DEFINITION=$1
+shift
+
+TEST_ROOT="/usr/share/qa/qa_test_virtualization"
+
+# Gather parts of the definition into array for easier
+# handling. Script name is preferred before the definition.
+OIFS=$IFS
+IFS="-"
+A_DEFINITION=(${DEFINITION})
+IFS=$OIFS
+unset OIFS
+
+# These variables are derived from the installation script name. If
+# they are not available from the name, default values from definition
+# above are used.
+# These values must be known before source shared/$TEST_TYPE
+OPERATING_SYSTEM=${A_DEFINITION[0]}
+RELEASE=${A_DEFINITION[1]}
+SERVICE_PACK=${A_DEFINITION[2]}
+ARCHITECTURE=${A_DEFINITION[3]}
+VIRT_TYPE=${A_DEFINITION[4]}
+SCENARIO=${A_DEFINITION[5]}
+INSTALL_METHOD=${A_DEFINITION[6]}
+
+# Before this line, script parameters have to be collected
+# test_init not overloaded
+# test_cleanup not overloaded
+
+
+/usr/share/qa/virtautolib/lib/virt-install.sh -o $OPERATING_SYSTEM -r $RELEASE -p $SERVICE_PACK -c $ARCHITECTURE -t $VIRT_TYPE -n $SCENARIO -m $INSTALL_METHOD -a "$*"
+
+
