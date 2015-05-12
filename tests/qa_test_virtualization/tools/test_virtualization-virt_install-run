@@ -42,3 +42,16 @@ if echo $thread|grep -q "^[0-9][0-9]*$" ;then
 fi
 $CTCS2_DIR/tools/run $TCF_FILE
 
+returncode=0
+
+for file in `find /var/log/qa/ctcs2/ -name test_results`; do
+	[ -z "$(cat $file)" ] && ((returncode+=1))
+done
+
+((returncode+=`find /var/log/qa/ctcs2/ -name test_results -exec grep "^[0-9] 0" {} \; | wc -l`))
+hn=`cat /etc/HOSTNAME`
+ARCH=`arch`
+
+/usr/share/qa/tools/remote_qa_db_report.pl -b -c "Virtualization test results on $hn-$ARCH"
+
+exit $returncode
