@@ -39,4 +39,5 @@ SQ_TEST_RUN_LIST=(
     autotest
     ltp_stress
     newburn
+    ltp
 )
