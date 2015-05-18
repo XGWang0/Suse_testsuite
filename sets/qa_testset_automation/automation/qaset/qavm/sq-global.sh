@@ -50,6 +50,13 @@ SQ_USER_CONFIG_LIST_FAILURE=${SQ_USER_CONFIG_DIR}/list.failed
 SQ_QADB_COMMENT_FILE=${SQ_TEST_CONTROL_DIR}/QADB_COMMENT
 SQ_QADB_COMMENT=
 
+# collect acceptance results and send mail
+SQ_MAIL_ADDRESS_ACCEPTANCE="bwliu@suse.com, yosun@suse.com, cachen@suse.com"
+SQ_MAIL_TITLE_ACCEPTANCE="acceptance test results"
+SQ_CTCS2_OLDLOG_DIR="/var/log/qa/oldlogs"
+SQ_CTCS2_TEST_RESULTS_FILENAME="test_results"
+SQ_CTCS2_TEST_DONE_FILENAME="done"
+
 function sq_global_init {
     if test ! -d ${SQ_TEST_DIR};then
         mkdir -p ${SQ_TEST_DIR}

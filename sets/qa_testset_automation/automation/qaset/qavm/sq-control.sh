@@ -244,6 +244,9 @@ function sq_control_run {
             _reboot_on)
                 sq_control_special_form_reboot_on
                 ;;
+            _send_mail_acceptance)
+                send_mail_acceptance_test_results
+                ;;
             _result_comment*)
                 eval_result_comment ${SQ_THIS_RUN}
                 ;;
