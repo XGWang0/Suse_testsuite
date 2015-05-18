@@ -37,6 +37,9 @@ TCF_TRUE="/tmp/qa_virtualization-virt_install.tcf"
 
 ##Skip the windows cases
 
+mkdir -m 0751 -p /.virtinst
+mkdir -m 0751 -p ~/.virtinst
+
 cat $TCF_FILE|sed '/ win-/{N;d}' >$TCF_TRUE
 
 ##filter for the products,all lists are from SPEC file
