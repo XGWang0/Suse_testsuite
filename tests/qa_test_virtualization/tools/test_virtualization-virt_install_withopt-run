@@ -94,7 +94,7 @@ sed -i "1s/^/timer $timer\n/" $TCF_TRUE
 sed -i "\$s/$/\nwait/" $TCF_TRUE
 
 
-$CTCS2_DIR/tools/run $TMP_TRUE
+$CTCS2_DIR/tools/run $TCF_TRUE
 returncode=0
 
 for file in `find /var/log/qa/ctcs2/ -name test_results`; do
