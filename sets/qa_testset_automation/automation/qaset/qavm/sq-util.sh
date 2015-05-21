@@ -240,3 +240,92 @@ function remove_service_byinitd {
     fi
 }
 
+# collect acceptance results and send mail
+function get_test_results_file_list(){
+    local _testsuit_name=${1}
+    local _test_results_dir_list=`find ${SQ_CTCS2_OLDLOG_DIR} -type d -name *${_testsuit_name}*`
+    if test "X${_test_results_dir_list}" != "X"; then
+        for path in ${_test_results_dir_list}; do
+            if test -f "${path}/${SQ_CTCS2_TEST_DONE_FILENAME}" ; then
+                echo "${path}/${SQ_CTCS2_TEST_RESULTS_FILENAME} "
+            fi
+        done
+    else
+        return 1
+    fi
+}
+
+function get_qadb_submission_url(){
+    local _testsuit_name=${1}
+    local _submission_log=${SQ_TEST_SUBMISSION_DIR}/submission-${_testsuit_name}.log
+    if test -f ${_submission_log}; then
+        echo "The submission url as below:"
+        for line in $(grep submission_id ${_submission_log} | cut -d ' ' -f 5); do
+            echo "http://${line##*http://}"
+        done
+    else
+        echo "Not found submission log file."
+        return 1
+    fi
+}
+
+function analyze_test_results(){
+    local _testsuit_name=${1}
+    local _return="PASSED"
+    local _skipped=""
+    local _results_file_list=$(get_test_results_file_list ${_testsuit_name})
+    if test "X${_results_file_list}" = "X"; then
+        echo; echo "Not found test_results file."    
+    else
+        for result_file in ${_results_file_list}; do
+            if `grep '^1 0' ${result_file} 2>&1 > /dev/null`; then
+                _return="FAILED"
+            fi
+            if `grep '^0 0' ${result_file} 2>&1 > /dev/null`; then
+                _skipped="with some skipped cases"
+            fi
+        done
+        echo "${_return} ${_skipped}"
+    fi
+}
+
+function get_test_results_and_submission_url(){
+    local _testsuit_name=${1}
+    echo; echo -n "The ${_testsuit_name} test result is: "
+    analyze_test_results ${_testsuit_name}
+    get_qadb_submission_url ${_testsuit_name}
+}
+
+
+function get_process_stress_results(){
+    local _testsuit_name="process_stress"
+    get_test_results_and_submission_url ${_testsuit_name}
+    echo "PS: You can ignore the VMSTAT testcase in the process_stress test."
+}
+
+function get_fs_stress_results(){
+    local _testsuit_name="fs_stress"
+    get_test_results_and_submission_url ${_testsuit_name}
+}
+
+function get_sched_stress_results(){
+    local _testsuit_name="sched_stress"
+    get_test_results_and_submission_url ${_testsuit_name}
+}
+
+function get_acceptance_results(){
+    get_process_stress_results
+    get_fs_stress_results
+    get_sched_stress_results
+}
+
+function send_mail(){
+    local _title=${1}
+    local _mail_address=${2}
+    local _mail_text=${3}
+    echo "${_mail_text}" | mail -s "${_title}" "${_mail_address}"
+}
+
+function send_mail_acceptance_test_results(){
+    send_mail "${SQ_MAIL_TITLE_ACCEPTANCE}" "${SQ_MAIL_ADDRESS_ACCEPTANCE}" "$(get_acceptance_results)"
+}
