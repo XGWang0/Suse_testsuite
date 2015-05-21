@@ -59,6 +59,6 @@ INSTALL_METHOD=${A_DEFINITION[6]}
 # test_cleanup not overloaded
 
 
-/usr/share/qa/virtautolib/lib/virt-install.sh -o $OPERATING_SYSTEM -r $RELEASE -p $SERVICE_PACK -c $ARCHITECTURE -t $VIRT_TYPE -n $SCENARIO -m $INSTALL_METHOD -a "$*"
+/usr/share/qa/virtautolib/lib/virt-install.sh -d -o $OPERATING_SYSTEM -r $RELEASE -p $SERVICE_PACK -c $ARCHITECTURE -t $VIRT_TYPE -n $SCENARIO -m $INSTALL_METHOD -a "$*"
 
 
