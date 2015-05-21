@@ -76,9 +76,39 @@ chmod +x generate/*.sh
 generate/_generate_install.sh -d /usr/share/qa/virtautolib/data/autoinstallation -m standalone >$RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-standalone.tcf
 generate/_generate_install.sh -d /usr/share/qa/virtautolib/data/autoinstallation -m network > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-network.tcf
 generate/_generate_virt-install.sh -d /usr/share/qa/virtautolib/data/autoinstallation >$RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-virt_install.tcf
-
+generate/_generate_vh-update_tcf.sh >$RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-vh_update.tcf
 #./_generate_install.sh -d /usr/share/qa/virtautolib/data/autoinstallation -m standalone -t "tap:aio"
 #./_generate_install.sh -d /usr/share/qa/virtautolib/data/autoinstallation -m network -t "tap:qcow2"
+
+for hypervisor in xen kvm;do
+    for arch in 32 64;do
+		for product in sles-11-sp3 sles-11-sp4;do
+			if [ "$product" = "sles-11-sp4" -a $arch = "32" ];then
+				continue
+			fi
+			for virtUp in on off;do
+				if [ "$virtUp" = "on" ];then
+					mode="devel"
+				elif [ "$virtUp" = "off" ];then
+					mode="standard"
+				fi
+				for phase in vhUpdateVirt vhPrepAndUpdate vhUpdatePostVerification;do
+					content=`sed "N;N;N;/-p $phase -t $hypervisor -m ${product}-${arch} .* -v $virtUp/!d" $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-vh_update.tcf`
+					if [ "$phase" = "vhUpdateVirt" ];then
+						step="step01"
+					elif [ "$phase" = "vhPrepAndUpdate" ];then
+						step="step02"
+					elif [ "$phase" = "vhUpdatePostVerification" ];then
+						step="step03"
+					fi
+					echo "$content" >$RPM_BUILD_ROOT/usr/share/qa/%name/tcf/hostUpgrade-${product}-${arch}-${hypervisor}-${mode}-${step}.tcf
+					sed "s/TCF_NAME/hostUpgrade-${product}-${arch}-${hypervisor}-${mode}-${step}\.tcf/g" tools/test_virtualization-vh-update-run > $RPM_BUILD_ROOT/usr/share/qa/tools/hostUpgrade-${product}-${arch}-${hypervisor}-${mode}-${step}-run
+				done
+			done
+		done
+	done
+done
+rm $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-vh_update.tcf
 
 #tcf only for sles10sp4
 %if 0%{?suse_version} == 1010
@@ -110,8 +140,14 @@ list="nw-65-sp8\|oes-11-sp2\|sles-11-sp3\|win-2k8r2-sp1\|win-2k3-sp2"
 sed "N;N;N;/$list/!d" $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-standalone.tcf > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp3stage-standalone.tcf
 sed "N;N;N;/$list/!d" $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-network.tcf > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp3stage-network.tcf
 sed "/$list/!d" $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-virt_install.tcf > $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-sles11sp3stage-virt_install.tcf
+for file in $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/hostUpgrade-* $RPM_BUILD_ROOT/usr/share/qa/tools/hostUpgrade-*;do
+	if [[ $file != *sles-11* ]];then
+		rm $file
+	fi
+done
 cp tools/test_virtualization-sles11sp3* $RPM_BUILD_ROOT/usr/share/qa/tools
 %endif
+
 
 #tcf only for sles12
 %if 0%{?suse_version} == 1315
@@ -126,9 +162,16 @@ sed "/$list/!d" $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_virtualization-virt_in
 cp tools/test_virtualization-sles12fcs* $RPM_BUILD_ROOT/usr/share/qa/tools
 %endif
 
+#rm tcf and run files on unsupported products for vh update related files
+%if 0%{?suse_version} != 1110
+rm $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/hostUpgrade-*
+rm $RPM_BUILD_ROOT/usr/share/qa/tools/hostUpgrade-*
+%endif
+
 cp tools/test_virtualization-virt_install* $RPM_BUILD_ROOT/usr/share/qa/tools
 rm -fr tools generate _install.template
 chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/test_virtualization*-run
+chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/hostUpgrade-*-run
 
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 
