@@ -25,7 +25,7 @@ for block in 4096 32768; do
         # FILE_SIZE for tiobench.pl is the sum of size of files for each thread
         FILE_SIZE=$((${MEM_SIZE_DOUBLE} / 1024)) #in MiB
         cat <<EOF >> ${TCF}
-fg 1 tiobench-basic-${block}-${num} tiobench.pl --size ${FILE_SIZE} --block ${block} --threads ${NR_THREAD} --dir /abuild
+fg 1 tiobench-basic tiobench.pl --size ${FILE_SIZE} --block ${block} --threads ${NR_THREAD} --dir /abuild
 EOF
     done
 done

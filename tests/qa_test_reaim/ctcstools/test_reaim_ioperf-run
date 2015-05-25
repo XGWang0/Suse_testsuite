@@ -17,7 +17,7 @@ echo > ${TCF_DIR}/reaim-ioperf.tcf
 
 for workfile in ${ALL_WORKFILES}; do
     name=${workfile#workfile.}
-    echo "fg 1 reaim-${name} /usr/lib/reaim/reaim -s ${REAIM_STARTUSERS} -e ${REAIM_ENDUSERS} -i ${REAIM_INCREMENT} -t -r1 -f /usr/lib/reaim/data/${workfile}" >> ${TCF_DIR}/reaim-ioperf.tcf
+    echo "fg 1 reaim-ioperf /usr/lib/reaim/reaim -s ${REAIM_STARTUSERS} -e ${REAIM_ENDUSERS} -i ${REAIM_INCREMENT} -t -r1 -f /usr/lib/reaim/data/${workfile}" >> ${TCF_DIR}/reaim-ioperf.tcf
     echo "wait" >> ${TCF_DIR}/reaim-ioperf.tcf
 done
 
