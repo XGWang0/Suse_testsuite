@@ -16,9 +16,10 @@ mkdir -p "$PATCH_DIR"
 sed "s/@@SEQ_N@@/_7/g" "$SOURCE_DIR"/kgr_tc_Makefile.tpl > "$PATCH_DIR"/Makefile
 sed "s/@@SEQ_N@@/_7/g" "$SOURCE_DIR"/kgr_tc-kgraft_patch_getpid.c.tpl \
 	> "$PATCH_DIR"/kgraft_patch_getpid_7.c
+KERN_VERSION=$(uname -r | sed 's/-[^-]*$//')
 KERN_FLAVOR=$(uname -r | sed 's/^.*-//')
 KERN_ARCH=$(uname -m)
-make -C /usr/src/linux-obj/$KERN_ARCH/$KERN_FLAVOR M="$PATCH_DIR" O="$PATCH_DIR"
+make -C /usr/src/linux-$KERN_VERSION-obj/$KERN_ARCH/$KERN_FLAVOR M="$PATCH_DIR" O="$PATCH_DIR"
 
 add_workload mem
 kgr_tc_milestone "Staring workload"
