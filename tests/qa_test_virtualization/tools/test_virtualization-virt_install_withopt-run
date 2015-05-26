@@ -92,9 +92,9 @@ else
 fi
 
 
-sed -i "0~$num {s/\$/\nwait\ntimer $timer/;}" $TCF_TRUE
+sed -i "0~$num {s/\$/\nwait\nwait\ntimer $timer/;}" $TCF_TRUE
 sed -i "1s/^/timer $timer\n/" $TCF_TRUE
-sed -i "\$s/$/\nwait/" $TCF_TRUE
+sed -i "\$s/$/\nwait\nwait/" $TCF_TRUE
 
 
 $CTCS2_DIR/tools/run $TCF_TRUE
