@@ -1,3 +1,11 @@
+-------------------------------------------------------------------
+Tue May 26 17:27:32 UTC 2015 - lpechacek@suse.com
+
+- Honor running kernel version in module build.  This allows
+  running the test in environment with multiple kernel packages
+  installed.
+
+-------------------------------------------------------------------
 Tue Aug 12 16:54:53 CST 2014 - lzwang@suse.com
 
 - Add two test cases.

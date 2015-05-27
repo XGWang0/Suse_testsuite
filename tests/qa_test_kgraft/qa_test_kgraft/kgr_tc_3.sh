@@ -13,9 +13,10 @@ PATCH_DIR="/tmp/kgraft-patch/"
 mkdir -p "$PATCH_DIR"
 cp -v "$SOURCE_DIR"/kgr_tc_3-Makefile "$PATCH_DIR"/Makefile
 cp -v "$SOURCE_DIR"/kgr_tc_3-kgraft_patch_getpid.c "$PATCH_DIR"/kgraft_patch_getpid.c
+KERN_VERSION=$(uname -r | sed 's/-[^-]*$//')
 KERN_FLAVOR=$(uname -r | sed 's/^.*-//')
 KERN_ARCH=$(uname -m)
-make -C /usr/src/linux-obj/$KERN_ARCH/$KERN_FLAVOR M="$PATCH_DIR" O="$PATCH_DIR"
+make -C /usr/src/linux-$KERN_VERSION-obj/$KERN_ARCH/$KERN_FLAVOR M="$PATCH_DIR" O="$PATCH_DIR"
 
 kgr_tc_milestone "Compiling call_getpid"
 gcc -o "$PATCH_DIR"/call_getpid "$SOURCE_DIR"/kgr_tc_3-call_getpid.c

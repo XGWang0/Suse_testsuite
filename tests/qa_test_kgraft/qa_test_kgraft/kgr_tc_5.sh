@@ -12,6 +12,7 @@ N_PATCHES=15
 kgr_tc_milestone "Compiling kGraft patches"
 SOURCE_DIR="$(dirname $0)"
 PATCH_DIR="/tmp/kgraft-patch/"
+KERN_VERSION=$(uname -r | sed 's/-[^-]*$//')
 KERN_FLAVOR=$(uname -r | sed 's/^.*-//')
 KERN_ARCH=$(uname -m)
 for N in $(seq 1 $N_PATCHES); do
@@ -20,7 +21,7 @@ for N in $(seq 1 $N_PATCHES); do
     sed "s/@@SEQ_N@@/$N/g" "$SOURCE_DIR"/kgr_tc_5-Makefile > "$PATCH_SUBDIR"/Makefile
     sed "s/@@SEQ_N@@/$N/g" "$SOURCE_DIR"/kgr_tc_5-kgraft_patch_getpid.c \
 	> "$PATCH_SUBDIR"/kgraft_patch_getpid$N.c
-    make -C /usr/src/linux-obj/$KERN_ARCH/$KERN_FLAVOR M="$PATCH_SUBDIR" O="$PATCH_SUBDIR"
+    make -C /usr/src/linux-$KERN_VERSION-obj/$KERN_ARCH/$KERN_FLAVOR M="$PATCH_SUBDIR" O="$PATCH_SUBDIR"
 done
 
 for N in $(seq 1 $N_PATCHES); do
