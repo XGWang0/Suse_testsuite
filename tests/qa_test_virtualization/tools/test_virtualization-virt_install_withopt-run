@@ -77,13 +77,34 @@ fi
 /usr/share/qa/virtautolib/lib/opt_gen.pl
 
 
-thread=$1
+
+#Start to process options
+
+print_usage()
+{
+	echo "Usage: $0 -h  print this help"
+	echo "-n <thread_number>"
+	echo "-f <filter string>  : eg. 'nw-65-sp8\|oes-11-sp2' "
+
+}
+
+while getopts "hf:n:" OPTIONS
+do
+	case $OPTIONS in
+		f) filter=$OPTARG;;
+		n) thread=$OPTARG;;
+		h) print_usage;;
+	esac
+done
+
+#verify the option
 
 
 if echo $thread|grep -q "^[0-9][0-9]*$" ;then
 	#set the number
 	num=$thread
-	timer=7200
+	time_ext=$((thread*300))
+	timer=$((7200+$time_ext))
 else
 	#By default, we set thread = 4
 	num=4
@@ -91,11 +112,18 @@ else
 
 fi
 
+#filter the testcase
+
+if [ -n "$filter" ];then
+
+	sed -i "/$filter/!d" $TCF_TRUE
+
+fi
+
 
 sed -i "0~$num {s/\$/\nwait\nwait\ntimer $timer/;}" $TCF_TRUE
 sed -i "1s/^/timer $timer\n/" $TCF_TRUE
 sed -i "\$s/$/\nwait\nwait/" $TCF_TRUE
-
 
 $CTCS2_DIR/tools/run $TCF_TRUE
 returncode=0
