@@ -116,6 +116,7 @@ fi
 
 if [ -n "$filter" ];then
 
+	filter=`echo $filter|sed 's/,/\\\|/g'`
 	sed -i "/$filter/!d" $TCF_TRUE
 
 fi
