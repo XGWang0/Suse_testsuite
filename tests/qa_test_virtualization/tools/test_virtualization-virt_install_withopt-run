@@ -39,6 +39,7 @@ TCF_TRUE="/tmp/qa_virtualization-virt_install.tcf"
 
 mkdir -m 0751 -p /.virtinst
 mkdir -m 0751 -p ~/.virtinst
+mkdir -m 0751 -p /root/.cache/virt-manager
 
 cat $TCF_FILE|sed '/ win-/{N;d}' >$TCF_TRUE
 

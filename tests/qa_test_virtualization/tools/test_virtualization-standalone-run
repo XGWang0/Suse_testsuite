@@ -37,6 +37,7 @@ TCF_TRUE="/tmp/qa_virtualization-vm_install.tcf"
 
 mkdir -m 0751 -p /.virtinst
 mkdir -m 0751 -p ~/.virtinst
+mkdir -m 0751 -p /root/.cache/virt-manager
 
 sed '/-/!d' $TCF_FILE >$TCF_TRUE
 
@@ -49,14 +50,14 @@ if [ $suse_version -eq 1010 ];then
 
 elif [ $suse_version -eq 1110 ] ;then
 	#SLES 11
-	list="nw-65-sp8\|oes-2-sp3\|oes-11\|rhel-4-u8\|rhel-5-u1*[89]\|rhel-6-u[345]\|rhel-7\|sles-9-sp4\|sles-10-sp4\|sles-11-sp[123]\|sled-11-sp3\|win-vista-sp2\|win-xp-sp3|win-7-sp1\|win-8\|win-2k3-sp2\|win-2k8-sp2\|win-2k8r2\|win-2k12"
+	list="nw-65-sp8\|oes-2-sp3\|oes-11\|rhel-4-u8\|rhel-5-u1*[89]\|rhel-6-u[345]\|rhel-7\|sles-9-sp4\|sles-10-sp4\|sles-11-sp[123]\|sled-11-sp[34]\|win-vista-sp2\|win-xp-sp3|win-7-sp1\|win-8\|win-2k3-sp2\|win-2k8-sp2\|win-2k8r2\|win-2k12"
 	#list="nw-65-sp8\|oes-11-sp2\|sles-11-sp3\|win-2k8r2-sp1\|win-2k3-sp2"
 	sed -i "/$list/!d" $TCF_TRUE
 
 
 elif [ $suse_version -eq 1315 ] ;then
 
-	list="nw-65-sp8\|oes-11-sp[12]\|rhel-5-u1[0-9]\|rhel-6-u[5-9]]\|rhel-7\|sles-9-sp4\|sles-10-sp4\|sles-11-sp3\|sle[sd]-12\|win-vista-sp2\|win-xp-sp3|win-7-sp1\|win-8\|win-2k3-sp2\|win-2k8-sp2\|win-2k8r2-sp1\|win-2k12"
+	list="nw-65-sp8\|oes-11-sp[12]\|rhel-5-u1[0-9]\|rhel-6-u[5-9]]\|rhel-7\|sles-9-sp4\|sles-10-sp4\|sles-11-sp[34]\|sle[sd]-12\|win-vista-sp2\|win-xp-sp3|win-7-sp1\|win-8\|win-2k3-sp2\|win-2k8-sp2\|win-2k8r2-sp1\|win-2k12"
 	#list="oes-11-sp2\|sles-11-sp3\|sles-12\|win-2k8r2-sp1\|win-2k12r2-fcs"
 	sed -i "/$list/!d" $TCF_TRUE
 
