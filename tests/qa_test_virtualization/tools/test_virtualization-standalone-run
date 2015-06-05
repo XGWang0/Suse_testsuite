@@ -37,7 +37,6 @@ TCF_TRUE="/tmp/qa_virtualization-vm_install.tcf"
 
 mkdir -m 0751 -p /.virtinst
 mkdir -m 0751 -p ~/.virtinst
-mkdir -m 0751 -p /root/.cache/virt-manager
 
 sed '/-/!d' $TCF_FILE >$TCF_TRUE
 
@@ -118,9 +117,11 @@ if [ -n "$filter" ];then
 fi
 
 
+first_timer=$(($timer+1800))
 sed -i "0~$num {s/\$/\nwait\nwait\ntimer $timer/;}" $TCF_TRUE
-sed -i "1s/^/timer $timer\n/" $TCF_TRUE
+sed -i "1s/^/timer $first_timer\n/" $TCF_TRUE
 sed -i "\$s/$/\nwait\nwait/" $TCF_TRUE
+sed -i '2s/^bg/fg/' $TCF_TRUE
 
 $CTCS2_DIR/tools/run $TCF_TRUE
 returncode=0
