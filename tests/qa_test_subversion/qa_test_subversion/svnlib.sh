@@ -163,21 +163,6 @@ svn_setup() {
 
 	TMP_BASEDIR=`mktemp -d -t svn_test.XXX`
 
-	# {{{ setup for dav+auth
-		svn_pwd_dir=${SVN_CLI_HOME}/.subversion/auth/svn.simple
-		mkdir -p $svn_pwd_dir
-		chown ${SVN_CLI_USR} ${SVN_CLI_HOME}/.subversion -R
-		realm=`grep FQDN_HOSTNAME ${SRCDIR}/svn-auth | sed "s/FQDN_HOSTNAME/$(hostname -f)/"`
-		svn_pwd_file=$(echo "${realm}" | head -c-1 | md5sum | head -c 32)
-		cp ${SRCDIR}/svn-auth $svn_pwd_dir/$svn_pwd_file
-		sed -i "s/FQDN_HOSTNAME/$(hostname -f)/" $svn_pwd_dir/$svn_pwd_file
-		len=$(hostname -f | wc -c)
-		len=$(($len + 26)) # FIXME: magic value
-		sed -i "s/REALM_LEN/${len}/" $svn_pwd_dir/$svn_pwd_file
-		chown ${SVN_CLI_USR} $svn_pwd_dir/$svn_pwd_file
-		chmod 600 $svn_pwd_dir/$svn_pwd_file
-	# }}}
-
 	# {{{ dav_authz
 	cp ${SRCDIR}/authz-access-anonymous ${SVN_HOME}
 	# }}}
@@ -210,7 +195,7 @@ _test() {
 			svn_cli_exe "mkdir $import_tree" || return $RES_FAIL_INT
 			svn_cli_exe "cp $source_tree/* -r $import_tree"
 		fi
-		cmd="svn import $import_tree $CASE_URL -m \"import test\""
+		cmd="svn --password testing import --no-auth-cache $import_tree $CASE_URL -m \"import test\""
 		svn_cli_exe "$cmd" || return $RES_FAIL;
 	}
 
@@ -227,7 +212,7 @@ _test() {
 		svn_cli_exe "echo PASSED > README.test" || return $RES_FAIL_INT
 
 		svn_cli_exe "svn add README.test" || return $RES_FAIL
-		svn_cli_exe "svn commit -m testcommit" || return $RES_FAIL
+		svn_cli_exe "svn --password testing commit --no-auth-cache -m testcommit" || return $RES_FAIL
 		svn_cli_exe "svn cat README.test" || return $RES_FAIL
 	}
 
