@@ -175,13 +175,14 @@ option domain-name "testvirt.net";
 EOF
 
 
-#	# DNS
-#	FORWARDERS=""
-#	backup_copy /etc/resolv.conf
-#	for i in `cat /etc/resolv.conf | grep ^nameserver | awk {'print $NF'}` ; do 
-#		FORWARDERS="$FORWARDERS $i;" 
-#	done
-#
+# DNS
+FORWARDERS=""
+for i in `cat /etc/resolv.conf | grep ^nameserver | awk {'print $NF'}` ; do 
+	FORWARDERS="$FORWARDERS $i;" 
+done
+
+sed -i "/forwarders {/s/.*/       forwarders { $FORWARDERS }/" /etc/named.conf
+
 #	backup /etc/named.conf
 #	cat > /etc/named.conf << EOF
 #options {
