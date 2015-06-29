@@ -181,7 +181,7 @@ for i in `cat /etc/resolv.conf | grep ^nameserver | awk {'print $NF'}` ; do
 	FORWARDERS="$FORWARDERS $i;" 
 done
 
-sed -i "/forwarders {/s/.*/       forwarders { $FORWARDERS }/" /etc/named.conf
+sed -i "/forwarders {/s/.*/       forwarders { $FORWARDERS } ;/" /etc/named.conf
 
 #	backup /etc/named.conf
 #	cat > /etc/named.conf << EOF
