@@ -68,12 +68,17 @@ else
 fi
 
 
+
 #remove all para-virtualization test on KVM host
 if ! uname -a|grep -iq xen ;then
 	#The host is KVM
 	sed -i '/-pv-/d' $TCF_TRUE
 
 fi
+
+#remove the iso cases
+sed -i "/-iso/d" $TCF_TRUE
+
 /usr/share/qa/virtautolib/lib/opt_gen.pl
 
 
