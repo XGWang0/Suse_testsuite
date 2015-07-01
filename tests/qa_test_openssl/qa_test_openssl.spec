@@ -66,7 +66,7 @@ Test cases for openssl package.
 
 %prep
 %setup -q
-echo -en "#!/bin/bash\nln -s /usr/bin/openssl %{qa_location}/apps/\ncd %{qa_location}/test\nmake \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
+echo -en "#!/bin/bash\napp=\"/usr/share/qa/qa_test_openssl/apps/openssl\"\nif [ ! -f \"\$app\" ];then\n    ln -s /usr/bin/openssl %{qa_location}/apps/\nfi\ncd %{qa_location}/test\nmake \$1\n[[ \$? -eq 0 ]] && exit 0 || exit 1\n" > ./ctcs2_run_test.sh
 chmod +x ./ctcs2_run_test.sh
 
 # fix the perl invocations
