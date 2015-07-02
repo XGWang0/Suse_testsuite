@@ -16,8 +16,9 @@ SQ_TEST_RUN_LIST=(
     indent
     net_snmp
     nfs
+    nfs_v4
     openssh
     openssl
-    php53
+    php5
     fetchmail
 )
