@@ -61,8 +61,8 @@ shortBase=${base//-/}
 shortUpgrade=${upgrade//-/}
 
 case $mode in
-	std)vFlag="off";;
-	dev)vFlag="on";;
+	std)vFlag="off"; rareUpdateFlag="on";;
+	dev)vFlag="on"; rareUpdateFlag="off";;
 esac
 
 tcfDir=/usr/share/qa/qa_test_virtualization/tcf
@@ -77,15 +77,15 @@ for phase in vhUpdateVirt vhPrepAndUpdate vhUpdatePostVerification;do
 		timer=3600
 	elif [ "$phase" = "vhPrepAndUpdate" ];then
 		step="02"
-		timer=7200
+		timer=28800
 	elif [ "$phase" = "vhUpdatePostVerification" ];then
 		step="03"
-		timer=3600
+		timer=7200
 	fi
 	tcfName="$testNamePrefix-$step.tcf"
 	cat > $tcfDir/$tcfName << EOF
 timer $timer
-fg 1 $phase /usr/share/qa/virtautolib/lib/vh-update.sh -p $phase -t $hypervisor -m ${base}-64 -n ${upgrade}-64 -r off -f on -v $vFlag
+fg 1 $phase /usr/share/qa/virtautolib/lib/vh-update.sh -p $phase -t $hypervisor -m ${base}-64 -n ${upgrade}-64 -r off -f $rareUpdateFlag -v $vFlag
 wait
 
 EOF
