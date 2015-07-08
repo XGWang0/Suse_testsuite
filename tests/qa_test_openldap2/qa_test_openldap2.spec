@@ -8,7 +8,12 @@
 # norootforbuild
 #!BuildIgnore: post-build-checks
 
-%if %{suse_version} >= 1110
+%if %{suse_version} >= 1315
+%define ver 2.Xgit_a18d4c97638e
+%define system sle12
+%endif
+
+%if %{suse_version} == 1110
 %define ver 2.4.20
 %define system sle11
 %endif
@@ -38,7 +43,7 @@ Source1:        qa_openldap2-%{system}.tcf
 Source2:        test_openldap2-run
 Source3:        qa_test_openldap2.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArch: 	noarch
+BuildArch: 	x86_64
 
 %define __os_install_post %{nil}
 %description
@@ -52,6 +57,11 @@ Authors:
 %setup -q -n qa_openldap2
 
 %build
+%if %{suse_version} >= 1315
+make -C '%_builddir/qa_openldap2/libraries'
+make -C '%_builddir/qa_openldap2/tests/progs'
+%endif
+
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
@@ -64,7 +74,6 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_openldap2.tc
 ln -s ../%name/tcf/qa_openldap2.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 install -m 755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -80,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_openldap2.tcf
 
 %changelog
+* Wed Jul 8 2015 - thehejik@suse.com
+- updated tests from openldap2 git repo and added support for SLE12
 * Wed Aug 17 2011 - llipavsky@suse.cz
 - Remove qa_dummy dependency
 * Fri Aug 12 2011 - llipavsky@suse.cz
