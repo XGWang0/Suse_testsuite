@@ -1,0 +1,11 @@
+* Thu Jul 9 2015 - thehejik@suse.com
+ remains from compilation cleaned, spec file modified by spec-cleaner
+* Wed Jul 8 2015 - thehejik@suse.com
+ updated tests from openldap2 git repo and added support for SLE12
+* Wed Aug 17 2011 - llipavsky@suse.cz
+ Remove qa_dummy dependency
+* Fri Aug 12 2011 - llipavsky@suse.cz
+ Package rename: qa_openldap2 -> qa_test_openldap2
+* Thu Aug 12 2010 - nfriedrich@suse.cz
+ package created, version 1.1
+
