@@ -77,16 +77,9 @@ install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/qa/%{name}/tcf/qa_openldap2.tc
 ln -s ../%{name}/tcf/qa_openldap2.tcf %{buildroot}%{_datadir}/qa/tcf/
 install -m 755 %{SOURCE2} %{buildroot}%{_datadir}/qa/tools
 %if 0%{?suse_version} >= 1315
-find %{_builddir}/qa_openldap2/tests/progs -type f ! -executable -exec rm {} \;
-rm -r %{_builddir}/qa_openldap2/libraries
-rm -r %{_builddir}/qa_openldap2/include
-rm -r %{_builddir}/qa_openldap2/build
-rm %{_builddir}/qa_openldap2/libtool
-rm %{_builddir}/qa_openldap2/tests/Makefile*
-rm %{_builddir}/qa_openldap2/tests/run.in
+make install-tests DESTDIR=%{buildroot}%{_datadir}/qa/%{name}
+%else cp -a * %{buildroot}%{_datadir}/qa/%{name}
 %endif
-cp -a * %{buildroot}%{_datadir}/qa/%{name}
-
 
 %files
 %defattr(-, root, root)
