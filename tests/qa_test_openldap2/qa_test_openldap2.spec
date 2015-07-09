@@ -1,99 +1,94 @@
-# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
-# This file and all modifications and additions to the pristine
-# package are under the same license as the package itself.
 #
+# spec file for package qa_test_openldap2
+#
+# Copyright (c) 2015 SUSE LINUX GmbH, Nuernberg, Germany.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
-# norootforbuild
-#!BuildIgnore: post-build-checks
 
-%if %{suse_version} >= 1315
+%define __os_install_post %{nil}
+%if 0%{?suse_version} >= 1315
 %define ver 2.Xgit_a18d4c97638e
 %define system sle12
 %endif
-
-%if %{suse_version} == 1110
+%if 0%{?suse_version} == 1110
 %define ver 2.4.20
 %define system sle11
 %endif
-
-%if %{suse_version} == 1010
+%if 0%{?suse_version} == 1010
 %define ver 2.3.32
 %define system sle10sp3
 %endif
-
-%if %{suse_version} == 910
+%if 0%{?suse_version} == 910
 %define ver 2.2.24
 %define system sle9sp4
 %endif
-
 Name:           qa_test_openldap2
-BuildRequires:  ctcs2
+Version:        %{ver}
+Release:        0
+Summary:        openldap2 tests for ctcs framework
 License:        OpenLDAP Public License
 Group:          SuSE internal
-Summary:        openldap2 tests for ctcs framework
-Provides:	qa_openldap2
-Obsoletes:	qa_openldap2
-Requires:       openldap2 openldap2-client ctcs2 grep
-Version:        %{ver}
-Release:        1
-Source0:        %name-%version.tar.bz2
+Source0:        %{name}-%{version}.tar.bz2
 Source1:        qa_openldap2-%{system}.tcf
 Source2:        test_openldap2-run
 Source3:        qa_test_openldap2.8
+BuildRequires:  ctcs2
+Requires:       ctcs2
+Requires:       grep
+Requires:       openldap2
+Requires:       openldap2-client
+Provides:       qa_openldap2
+Obsoletes:      qa_openldap2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArch: 	x86_64
+BuildArch:      x86_64
 
-%define __os_install_post %{nil}
 %description
 Test cases for openldap2 server testing
-
-Authors:
---------
-    The OpenLDAP Project <project@openldap.org>
 
 %prep
 %setup -q -n qa_openldap2
 
 %build
-%if %{suse_version} >= 1315
-make -C '%_builddir/qa_openldap2/libraries'
-make -C '%_builddir/qa_openldap2/tests/progs'
+%if 0%{?suse_version} >= 1315
+make %{?_smp_mflags} -C '%{_builddir}/qa_openldap2/libraries'
+make %{?_smp_mflags} -C '%{_builddir}/qa_openldap2/tests/progs'
 %endif
 
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf/qa_openldap2.tcf
-ln -s ../%name/tcf/qa_openldap2.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-install -m 755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
-cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+install -m 755 -d %{buildroot}%{_mandir}/man8
+install -m 644 %{SOURCE3} %{buildroot}%{_mandir}/man8
+gzip %{buildroot}%{_mandir}/man8/%{name}.8
+install -m 755 -d %{buildroot}%{_datadir}/qa/%{name}/tcf
+install -m 755 -d %{buildroot}%{_datadir}/qa/tcf
+install -m 755 -d %{buildroot}%{_datadir}/qa/tools
+install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/qa/%{name}/tcf/qa_openldap2.tcf
+ln -s ../%{name}/tcf/qa_openldap2.tcf %{buildroot}%{_datadir}/qa/tcf/
+install -m 755 %{SOURCE2} %{buildroot}%{_datadir}/qa/tools
+%if 0%{?suse_version} >= 1315
+make install-tests DESTDIR=%{buildroot}%{_datadir}/qa/%{name}
+%else cp -a * %{buildroot}%{_datadir}/qa/%{name}
+%endif
 
 %files
 %defattr(-, root, root)
-/usr/share/man/man8/qa_test_openldap2.8.gz
-%dir /usr/share/qa
-/usr/share/qa/%name
-%dir /usr/share/qa/tools
-/usr/share/qa/tools/test_openldap2-run
-%dir /usr/share/qa/tcf
-/usr/share/qa/tcf/qa_openldap2.tcf
+%{_mandir}/man8/qa_test_openldap2.8.gz
+%dir %{_datadir}/qa
+%{_datadir}/qa/%{name}
+%dir %{_datadir}/qa/tools
+%{_datadir}/qa/tools/test_openldap2-run
+%dir %{_datadir}/qa/tcf
+%{_datadir}/qa/tcf/qa_openldap2.tcf
 
 %changelog
-* Wed Jul 8 2015 - thehejik@suse.com
-- updated tests from openldap2 git repo and added support for SLE12
-* Wed Aug 17 2011 - llipavsky@suse.cz
-- Remove qa_dummy dependency
-* Fri Aug 12 2011 - llipavsky@suse.cz
-- Package rename: qa_openldap2 -> qa_test_openldap2
-* Thu Aug 12 2010 - nfriedrich@suse.cz
-- package created, version 1.1
