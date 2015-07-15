@@ -24,6 +24,9 @@ Source0:	glibc_testsuite-2.4.tar.gz
 %if 0%{?suse_version} == 1110
 Source0:	glibc_testsuite-2.11.tar.gz
 %endif
+%if 0%{?suse_version} == 1315
+Source0:        glibc_testsuite-2.11.tar.gz
+%endif
 Source2:	test_glibc-run
 Patch1:         glibc_testsuite-partial-fix-1.patch
 Patch2:         tst-leaks2-large-hosts-file-fix.patch
