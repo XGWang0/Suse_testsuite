@@ -135,7 +135,7 @@ function sq_qadb_submit_result_for_run {
 
     sq_result_save_locally "${_result}"
 
-    ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "${_comment}" -T "${_run_id}" 2>&1 | tee -a "${SQ_TEST_SUBMISSION_DIR}/submission-${_sq_run}.log"
+    ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "${_run_id}" 2>&1 | tee -a "${SQ_TEST_SUBMISSION_DIR}/submission-${_sq_run}.log"
 
     if test $? -ne 0;then
         sq_warn "[qadb] Submit qa_db_report failed!"
