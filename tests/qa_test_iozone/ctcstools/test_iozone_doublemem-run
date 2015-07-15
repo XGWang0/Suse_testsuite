@@ -58,11 +58,26 @@ elif [ -z "$IOZONE_MAX_BLK_SIZE" ]; then
     IOZONE_MAX_BLK_SIZE="$IOZONE_MIN_BLK_SIZE"
 fi
 
-cat <<EOF > $TCF_DIR/qa_iozone_bigmem_basic.tcf
-fg 1 iozone-bigmem-abuildinfo /usr/share/qa/qa_test_iozone/abuildinfo
-fg 1 iozone-bigmem-default /usr/bin/iozone -a -n ${IOZONE_MIN_SIZE} -g ${IOZONE_MAX_SIZE} -y  ${IOZONE_MIN_BLK_SIZE} -q ${IOZONE_MAX_BLK_SIZE} -i 0 -i 1 -i 2 -i 3 -f /abuild/iozone -R
-fg 1 iozone-bigmem-fsync /usr/bin/iozone -e -a -n ${IOZONE_MIN_SIZE} -g ${IOZONE_MAX_SIZE} -y  ${IOZONE_MIN_BLK_SIZE} -q ${IOZONE_MAX_BLK_SIZE} -i 0 -i 1 -i 2 -i 3 -f /abuild/iozone -R
+ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
+case ${ABUILD_FS} in
+    "ext3"): ;;
+    "xfs"):  ;;
+    "btrfs"): ;;
+    "")
+        mkdir -p /abuild
+        ABUILD_FS="root"
+        ;;
+    *)
+        echo "NOT support filesystem ${ABUILD_FS}"
+        exit 1
+        ;;
+esac
+
+TCF_FILE="${TCF_DIR}/qa_iozone_doublemem_${ABUILD_FS}.tcf"
+cat <<EOF > ${TCF_FILE}
+fg 1 iozone-doublemem-async-${ABUILD_FS} /usr/bin/iozone -a -n ${IOZONE_MIN_SIZE} -g ${IOZONE_MAX_SIZE} -y  ${IOZONE_MIN_BLK_SIZE} -q ${IOZONE_MAX_BLK_SIZE} -i 0 -i 1 -i 2 -f /abuild/iozone -R
+fg 1 iozone-doublemem-fsync-${ABUILD_FS} /usr/bin/iozone -e -a -n ${IOZONE_MIN_SIZE} -g ${IOZONE_MAX_SIZE} -y  ${IOZONE_MIN_BLK_SIZE} -q ${IOZONE_MAX_BLK_SIZE} -i 0 -i 1 -i 2 -f /abuild/iozone -R
 EOF
 
 cd $CTCS2_DIR
-tools/run $TCF_DIR/qa_iozone_bigmem_basic.tcf
+tools/run ${TCF_FILE}

@@ -22,16 +22,8 @@ BuildRequires:  ctcs2
 Version:        3_300
 Release:	1
 Source0:        %name-%version.tar.bz2
-Source1:        qa_iozone.tcf
-Source2:        test_iozone-run
-Source3:	qa_test_iozone.8
-Source4:	iozoneparser
-Source7:        test_iozone_new_run
-Source10:       qa_iozone_4-32G.tcf
-Source11:   	test_iozone_bigmem-run
-Source13:       test_iozone_bigmem_basic-run
-Source20:   	abuildinfo
-Source21: 	iozoneparser_4-32G
+Source1:        ctcstools-%{version}.tar.bz2
+Source2:        qa_test_iozone.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -41,7 +33,7 @@ operating systems.
 
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{name} -a1
 
 %build
 cd src/current
@@ -49,22 +41,12 @@ make linux
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 -d $RPM_BUILD_ROOT/usr/bin
-install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:11} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:13} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 755 %{S:21} $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 755 %{S:20} $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 644 %{S:10} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-ln -s ../%name/tcf/qa_iozone_4-32G.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_iozone_4-32G.tcf
 install -m 744 src/current/iozone $RPM_BUILD_ROOT/usr/bin
 install -m 744 src/current/fileop $RPM_BUILD_ROOT/usr/bin
 install -m 744 src/current/Generate_Graphs $RPM_BUILD_ROOT/usr/share/qa/%name
@@ -73,7 +55,11 @@ install -m 744 src/current/gnu3d.dem $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 744 src/current/iozone_visualizer.pl $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 744 src/current/report.pl $RPM_BUILD_ROOT/usr/share/qa/%name
 install -m 644 src/current/Gnuplot.txt $RPM_BUILD_ROOT/usr/share/qa/%name
-ln -s ../%name/tcf/qa_iozone.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+#ctcstools files
+install -m 644 ctcstools/qa_iozone.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf
+install -m 755 ctcstools/test_iozone-run $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 ctcstools/iozoneparser $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 ctcstools/test_iozone_doublemem-run $RPM_BUILD_ROOT/usr/share/qa/tools
 
 %clean
 rm -rf $RPM_BUILD_ROOT
