@@ -222,7 +222,7 @@ def_unit_fs bonnie "/usr/share/qa/tools/test_bonnie-run" qa_test_bonnie
 def_unit_fs bonniepp "/usr/share/qa/tools/test_bonnie++-async-run" 'qa_test_bonnie++'
 def_unit_fs bonniepp_fsync "/usr/share/qa/tools/test_bonnie++-fsync-run" 'qa_test_bonnie++'
 def_unit_fs iozone "/usr/share/qa/tools/test_iozone_new_run" qa_test_iozone
-def_unit_fs iozone_bigmem_basic "/usr/share/qa/tools/test_iozone_bigmem_basic-run" qa_test_iozone
+def_unit_fs iozone_doublemem "/usr/share/qa/tools/test_iozone_doublemem-run" qa_test_iozone
 def_unit_fs dbench4 "/usr/share/qa/tools/test_dbench-4_0_async-run" qa_test_dbench-4_0
 def_unit_fs dbench4_fsync "/usr/share/qa/tools/test_dbench-4_0_fsync-run" qa_test_dbench-4_0
 def_unit_fs dbench4_osync "/usr/share/qa/tools/test_dbench-4_0_osync-run" qa_test_dbench-4_0
