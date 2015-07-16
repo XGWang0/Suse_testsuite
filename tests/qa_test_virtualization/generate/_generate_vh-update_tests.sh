@@ -80,7 +80,7 @@ for phase in vhUpdateVirt vhPrepAndUpdate vhUpdatePostVerification;do
 		timer=28800
 	elif [ "$phase" = "vhUpdatePostVerification" ];then
 		step="03"
-		timer=7200
+		timer=9000
 	fi
 	tcfName="$testNamePrefix-$step.tcf"
 	cat > $tcfDir/$tcfName << EOF
