@@ -1,0 +1,48 @@
+#!/bin/bash
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+
+NR_CPU=$(grep -c '^processor' /proc/cpuinfo)
+MEM_SIZE=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
+
+MEM_SIZE_DOUBLE=$((${MEM_SIZE} * 2))
+MEM_1GiB=$((1024 * 1024))
+MEM_SIZE_DOUBLE_MOD=$((${MEM_SIZE_DOUBLE} % ${MEM_1GiB}))
+if test ${MEM_SIZE_DOUBLE_MOD} -ne 0;then
+    MEM_SIZE_DOUBLE_GiB=$((${MEM_SIZE_DOUBLE} / ${MEM_1GiB}))
+    let MEM_SIZE_DOUBLE_GiB++
+    MEM_SIZE_DOUBLE=$((${MEM_SIZE_DOUBLE_GiB} * ${MEM_1GiB}))
+fi
+
+ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
+case ${ABUILD_FS} in
+    "ext3"): ;;
+    "xfs"):  ;;
+    "btrfs"): ;;
+    "")
+        mkdir -p /abuild
+        ABUILD_FS="root"
+        ;;
+    *)
+        echo "NOT support filesystem ${ABUILD_FS}"
+        exit 1
+        ;;
+esac
+
+TCF_FILE="${TCF_DIR}/qa_tiobench_osync_${ABUILD_FS}.tcf"
+echo > ${TCF_FILE}
+for block in 4096 32768; do
+    for num in 1 2 4;do
+        NR_THREAD=$((${NR_CPU} * ${num}))
+        # FILE_SIZE for tiobench.pl is the sum of size of files for each thread
+        FILE_SIZE=$((${MEM_SIZE_DOUBLE} / 1024)) #in MiB
+        cat <<EOF >> ${TCF_FILE}
+fg 1 tiobench-doublemem-osync tiobench.pl --size ${FILE_SIZE} --block ${block} --threads ${NR_THREAD} --dir /abuild --sync
+EOF
+    done
+done
+
+echo 'wait' >> ${TCF_FILE}
+$CTCS2_DIR/tools/run ${TCF_FILE}
+

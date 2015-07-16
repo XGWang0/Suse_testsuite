@@ -1,12 +1,8 @@
 #!/bin/sh
-#sut_timeout 3600
 
-# run tiobench.pl with some good standard parameters
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
-TCF=${TCF_DIR}/tiobench-basic.tcf
-echo 'fg 1 tiobench-basic /usr/share/qa/qa_test_tiobench/abuildinfo' > ${TCF}
 NR_CPU=$(grep -c '^processor' /proc/cpuinfo)
 MEM_SIZE=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
 
@@ -19,17 +15,33 @@ if test ${MEM_SIZE_DOUBLE_MOD} -ne 0;then
     MEM_SIZE_DOUBLE=$((${MEM_SIZE_DOUBLE_GiB} * ${MEM_1GiB}))
 fi
 
+ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
+case ${ABUILD_FS} in
+    "ext3"): ;;
+    "xfs"):  ;;
+    "btrfs"): ;;
+    "")
+        mkdir -p /abuild
+        ABUILD_FS="root"
+        ;;
+    *)
+        echo "NOT support filesystem ${ABUILD_FS}"
+        exit 1
+        ;;
+esac
+
+TCF_FILE="${TCF_DIR}/qa_tiobench_async_${ABUILD_FS}.tcf"
+echo > ${TCF_FILE}
 for block in 4096 32768; do
     for num in 1 2 4;do
         NR_THREAD=$((${NR_CPU} * ${num}))
         # FILE_SIZE for tiobench.pl is the sum of size of files for each thread
         FILE_SIZE=$((${MEM_SIZE_DOUBLE} / 1024)) #in MiB
-        cat <<EOF >> ${TCF}
-fg 1 tiobench-basic tiobench.pl --size ${FILE_SIZE} --block ${block} --threads ${NR_THREAD} --dir /abuild
+        cat <<EOF >> ${TCF_FILE}
+fg 1 tiobench-doublemem-async tiobench.pl --size ${FILE_SIZE} --block ${block} --threads ${NR_THREAD} --dir /abuild
 EOF
     done
 done
 
-echo 'wait' >> ${TCF}
-
-$CTCS2_DIR/tools/run ${TCF}
+echo 'wait' >> ${TCF_FILE}
+$CTCS2_DIR/tools/run ${TCF_FILE}
