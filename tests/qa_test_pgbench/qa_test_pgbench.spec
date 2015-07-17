@@ -23,7 +23,8 @@ Group:          System/Benchmark
 Requires:       gcc readline-devel zlib-devel            
 #Requires:       postgresql93 postgresql93-contrib postgresql-init postgresql93-server
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Source0:       	ctcstools.tar.bz2
+Source0:       	ctcstools-%{version}.tar.bz2
+Source1:        postgresql-9.3.4.tar.bz2
 Source2:       	qa_test_pgbench.8
 #Source4:       qa_test_pgbench-large.tcf
 #Source5:       qa_test_pgbench-medium.tcf
@@ -59,7 +60,7 @@ Authors:
     Yong Sun (yosun@suse.com)
 
 %prep
-%setup -q -n ctcstools ctcstools.tar.bz2
+%setup -q -n ctcstools
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
@@ -109,11 +110,7 @@ ln -s ../%{name}/test_pgbench_medium-ro-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_medium-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_small-ro-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_small-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
-
-
-
-
-cp postgresql-9.3.4.tar.bz2 $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+cp %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 
 %post 
 /usr/share/qa/%{name}/install-pgbench.sh
