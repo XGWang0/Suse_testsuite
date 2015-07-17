@@ -36,7 +36,7 @@ Authors:
 %install
 %if %suse_version == 1110
 SLE_RELEASE=SLE11
-%elseif %suse_version == 1315
+%else if %suse_version == 1315
 SLE_RELEASE=SLE12
 %endif
 pushd qaset
@@ -51,7 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %if %suse_version == 1110
 /etc/init.d/qaset
-%elseif %suse_version == 1315
+%else if %suse_version == 1315
 /usr/lib/systemd/system/multi-user.target.wants
 /usr/lib/systemd/system/qaperf.service
 %endif
