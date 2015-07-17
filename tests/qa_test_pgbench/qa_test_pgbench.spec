@@ -69,12 +69,12 @@ gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 
 echo "RPM_BUILD_ROOT=$RPM_BUILD_ROOT"
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}
-install -m 755 qa_test_pgbench-large.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 755 qa_test_pgbench-medium.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 755 qa_test_pgbench-small.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 755 test_pgbench_medium-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 755 test_pgbench_large-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 755 test_pgbench_small-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+#install -m 755 qa_test_pgbench-large.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+#install -m 755 qa_test_pgbench-medium.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+#install -m 755 qa_test_pgbench-small.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+#install -m 755 test_pgbench_medium-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+#install -m 755 test_pgbench_large-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+#install -m 755 test_pgbench_small-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 ###install -m 755 $(basename %{S:5}) $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 ###install -m 755 $(basename %{S:6}) $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 ###install -m 755 $(basename %{S:7}) $RPM_BUILD_ROOT/usr/share/qa/%{name}/
@@ -94,9 +94,9 @@ ln -s ../%{name}/qa_test_pgbench-small.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/qa_test_pgbench-medium.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/qa_test_pgbench-large.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools/
-ln -s ../%{name}/test_pgbench_small-run $RPM_BUILD_ROOT/usr/share/qa/tools/
-ln -s ../%{name}/test_pgbench_medium-run $RPM_BUILD_ROOT/usr/share/qa/tools/
-ln -s ../%{name}/test_pgbench_large-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+#ln -s ../%{name}/test_pgbench_small-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+#ln -s ../%{name}/test_pgbench_medium-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+#ln -s ../%{name}/test_pgbench_large-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 install -m 755 test_pgbench_large-ro-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 test_pgbench_large-rw-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 test_pgbench_medium-ro-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/

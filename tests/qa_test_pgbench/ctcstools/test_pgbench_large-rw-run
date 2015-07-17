@@ -42,7 +42,7 @@ case ${ABUILD_FS} in
         ;;
 esac
 
-TCF_FILE=${TCF_DIR}/qa_test_pgbench-large-rw_${ABUILD_FS}.tcf
+TCF_FILE=${TCF_DIR}/pgbench_large_rw_${ABUILD_FS}.tcf
 
 cat <<EOF > ${TCF_FILE}
 timer 5h
