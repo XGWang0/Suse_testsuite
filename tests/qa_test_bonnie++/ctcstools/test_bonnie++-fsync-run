@@ -2,17 +2,9 @@
 #sut_timeout 600
 
 ctcsdir="/usr/lib/ctcs2"
-basedir="/usr/share/qa/qa_test_bonnie++"
-TCF="/usr/share/qa/tcf/bonnie++-fsync.tcf"
-
-if [ ! -d /abuild ]; then
-	mkdir -p /abuild
-fi
+TCF_DIR="/usr/share/qa/tcf"
 
 service cron stop
-
-echo 'fg 1 bonnie++-abuildinfo /usr/share/qa/qa_test_bonnie++/abuildinfo' > ${TCF}
-echo >> ${TCF}
 
 NR_CPU=$(grep -c '^processor' /proc/cpuinfo)
 MEM_SIZE=$(grep 'MemTotal:' /proc/meminfo | awk '{print $2}')
@@ -39,12 +31,28 @@ if [ $NR_FILES -eq 0 ]; then
         NR_FILES=1
 fi
 
-echo 'timer 2h' >>${TCF}
-cat <<EOF >>${TCF}
-fg 1 bonnie++-fsync bonnie++ -u root -d /abuild/  -n $NR_FILES:$DIRECTORY_SIZE:$DIRECTORY_SIZE:$NR_DIRECTORIES -b
-EOF
-echo 'wait' >> ${TCF}
-echo >> ${TCF}
+ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
+case ${ABUILD_FS} in
+    "ext3"): ;;
+    "xfs"):  ;;
+    "btrfs"): ;;
+    "")
+        mkdir -p /abuild
+        ABUILD_FS="root"
+        ;;
+    *)
+        echo "NOT support filesystem ${ABUILD_FS}"
+        exit 1
+        ;;
+esac
 
-$ctcsdir/tools/run ${TCF}
+TCF_FILE="${TCF_DIR}/bonnie++_fsync_${ABUILD_FS}.tcf"
+echo > ${TCF_FILE}
+cat <<EOF >>${TCF_FILE}
+timer 2h
+fg 1 bonnie++-fsync bonnie++ -u root -d /abuild/  -n $NR_FILES:$DIRECTORY_SIZE:$DIRECTORY_SIZE:$NR_DIRECTORIES -b
+wait
+EOF
+
+$ctcsdir/tools/run ${TCF_FILE}
 

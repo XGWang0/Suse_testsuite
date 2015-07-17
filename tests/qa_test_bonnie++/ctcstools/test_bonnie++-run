@@ -1,0 +1,8 @@
+#!/bin/sh
+#sut_timeout 600
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/qa_test_bonnie++"
+TCF="/usr/share/qa/tcf/bonnie++.tcf"
+$ctcsdir/tools/run ${TCF}
+

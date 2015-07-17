@@ -20,13 +20,9 @@ Summary:        File System Benchmark
 Version:        1.03e
 Release:        1
 Source0:        bonnie++-%{version}.tgz
-Source1:	qa_test_bonnie++.8
-Source2:	test_bonnie++-run
-Source3:	do_bonnie++
-Source4:	bonnie++-default.tcf
-Source5:        abuildinfo
-Source6:    test_bonnie++-async-run
-Source7:    test_bonnie++-fsync-run
+Source1:	    ctcstools-%{version}.tar.bz2
+Source2:        qa_test_bonnie++.8
+Source3:	    do_bonnie++
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires: gcc-c++
 
@@ -42,29 +38,36 @@ Authors:
     QA-APACII team
 
 %prep
-%setup -n bonnie++-1.03e 
+%setup -n bonnie++-1.03e -a1
 
 %build
 %configure
 make CC=gcc CFLAGS="$RPM_OPT_FLAGS"
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
-#make install DESTDIR=$RPM_BUILD_ROOT MANDIR=%{_mandir}
-install -D -m 755 bonnie++ $RPM_BUILD_ROOT/usr/sbin/bonnie++
-install -D -m 755 bon_csv2html $RPM_BUILD_ROOT/usr/bin/bon_csv2html
-install -D -m 755 bon_csv2txt $RPM_BUILD_ROOT/usr/bin/bon_csv2txt
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie++
+install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
+gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 744 %{S:3} $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie++/
-install -m 744 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools/
-install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tcf/
-install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/qa_test_bonnie++/
-install -m 755 %{S:6} $RPM_BUILD_ROOT/usr/share/qa/tools/
-install -m 755 %{S:7} $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -D -m 755 bonnie++ $RPM_BUILD_ROOT/usr/sbin/bonnie++
+install -D -m 755 bon_csv2html $RPM_BUILD_ROOT/usr/bin/bon_csv2html
+install -D -m 755 bon_csv2txt $RPM_BUILD_ROOT/usr/bin/bon_csv2txt
+
+pushd ctcstools > /dev/null
+for name in *; do
+    case $name in
+        *.tcf)
+            install -D -m 644 ${name} $RPM_BUILD_ROOT/usr/share/qa/tcf/
+            ;;
+        *-run)
+            install -D -m 755 ${name} $RPM_BUILD_ROOT/usr/share/qa/tools/
+            ;;
+    esac
+done
+popd > /dev/null
 
 %files
 %defattr(-, root, root)
