@@ -44,7 +44,7 @@ TCF_FILE=${TCF_DIR}/qa_test_pgbench-medium-rw_${ABUILD_FS}.tcf
 
 cat <<EOF > ${TCF_FILE}
 timer 5h
-fg 1 simple-pgbench-medium-rw /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -s medium
+fg 1 pgbench-medium-rw /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -s medium
 wait
 EOF
 
