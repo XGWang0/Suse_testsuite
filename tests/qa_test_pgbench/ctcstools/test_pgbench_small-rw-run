@@ -26,11 +26,25 @@
 
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
-TCF_FILE=${TCF_DIR}/qa_test_pgbench-small-ro.tcf
+ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
+case ${ABUILD_FS} in
+    "ext3"): ;;
+    "xfs"):  ;;
+    "btrfs"): ;;
+    "")
+        mkdir -p /abuild
+        ABUILD_FS="root"
+        ;;
+    *)
+        echo "NOT support filesystem ${ABUILD_FS}"
+        exit 1
+        ;;
+esac
+TCF_FILE=${TCF_DIR}/pgbench_small_rw_${ABUILD_FS}.tcf
 
 cat <<EOF > ${TCF_FILE}
 timer 5h
-fg 1 simple-pgbench-small-ro /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -r -s small
+fg 1 pgbench-small-rw /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -s small
 wait
 EOF
 
