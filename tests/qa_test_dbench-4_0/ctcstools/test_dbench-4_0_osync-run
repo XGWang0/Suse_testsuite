@@ -1,18 +1,38 @@
 #!/bin/sh
-#sut_timeout 3600
 
 ctcsdir="/usr/lib/ctcs2"
-basedir="/usr/share/qa/qa_test_dbench-4_0"
+TCF_DIR="/usr/share/qa/tcf"
 
-ostag=`cat /etc/issue|perl -ne 'if(/(\w+)\s+(\d+\.?\d+)\s+("?\w+)/i){$b=$2;$c=$3;$c=~s/[[:alpha:]]|\"//g;$a=$b.".".$c;$a=~s/\.$//;print $a;}'`
-newtag=12
-flag=`expr $ostag \> $newtag`
-if [ $flag -ne 1 ]
-then
-/etc/init.d/cron stop
+if [ -x /etc/init.d/cron ];then
+    /etc/init.d/cron stop
 else
-systemctl stop cron
+    systemctl stop cron
 fi
 
-$ctcsdir/tools/run $basedir/tcf/dbench-o_sync-4_0.tcf
+ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
+case ${ABUILD_FS} in
+    "ext3"): ;;
+    "xfs"):  ;;
+    "btrfs"): ;;
+    "")
+        mkdir -p /abuild
+        ABUILD_FS="root"
+        ;;
+    *)
+        echo "NOT support filesystem ${ABUILD_FS}"
+        exit 1
+        ;;
+esac
+
+TCF_FILE="${TCF_DIR}/dbench4_osync_${ABUILD_FS}.tcf"
+echo > ${TCF_FILE}
+for NUM in 1 48 128 192 256 500;do
+cat <<EOF >> ${TCF_FILE}
+timer 8h
+fg 1 dbench4-osync /usr/share/qa/qa_test_dbench-4_0/do_dbench -o -s -n ${NUM}
+wait
+EOF
+done
+
+$ctcsdir/tools/run ${TCF_FILE}
 
