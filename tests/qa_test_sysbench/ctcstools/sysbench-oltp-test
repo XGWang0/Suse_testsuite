@@ -37,8 +37,7 @@ function mysql_service_init {
         /etc/init.d/mysql status
     else
         #systemd
-        #NOT tested yet
-        export defaults="--defaults-file=${SB_MYSQL_DEFAULTS_FILE}"
+        systemctl set-environment defaults="--defaults-file=${SB_MYSQL_DEFAULTS_FILE}"
         systemctl start mysql
         sleep 3
         systemctl status mysql
