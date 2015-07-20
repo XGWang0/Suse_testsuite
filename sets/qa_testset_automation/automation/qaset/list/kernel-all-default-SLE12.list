@@ -1,0 +1,43 @@
+SQ_TEST_RUN_LIST=(
+    _reboot_off
+
+    process_stress
+    fs_stress
+    sched_stress
+
+    apache
+    apparmor
+    apparmor_profiles
+    bind
+    bzip2
+    cabextract
+    postfix
+    sharutils
+    coreutils
+    cpio
+    cracklib
+    findutils
+    gzip
+    indent
+    net_snmp
+    nfs
+    nfs_v4
+    openssh
+    openssl
+    php5
+    fetchmail
+
+    lynis
+    libhugetlbfs
+    ftpload
+    lmbench
+    memeat
+    memtester
+    ltp
+    ltp_fstests
+    lvm2
+    newburn_memtst
+    autotest
+    ltp_stress
+    newburn
+)

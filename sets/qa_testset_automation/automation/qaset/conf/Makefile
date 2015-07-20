@@ -1,5 +1,5 @@
 
-allconf := common.conf SLE11SP3.conf  SLE11SP4.conf  SLE12.conf
+allconf := common.conf SLE11SP3.conf  SLE11SP4.conf  SLE12.conf SLE12SP1.conf
 
 CONF_DEST := $(dest)/conf
 
