@@ -51,9 +51,7 @@ function sq_mach_close {
         case ${SLE_RELEASE} in
             SLE11*) sq_os_reboot_2
                 ;;
-            SLE12) sq_os_reboot
-                ;;
-            *) sq_info "[MACH] Not implement rebooting in ${SLE_RELEASE}"
+            *) sq_os_reboot
                 ;;
         esac
     fi
