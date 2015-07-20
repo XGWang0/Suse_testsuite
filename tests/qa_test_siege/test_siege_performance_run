@@ -1,0 +1,6 @@
+#!/bin/bash
+#sut_timeout 12000
+
+
+# Run test
+/usr/share/qa/tools/test_siege-run performance
