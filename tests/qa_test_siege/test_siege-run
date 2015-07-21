@@ -41,7 +41,8 @@ ExecStop=/usr/sbin/start_apache2 -D SYSTEMD -DFOREGROUND -D SSL -D SSL_DEFAULT_V
 [Install]
 WantedBy=multi-user.target
 EOF
-   systemctl start apache2
+    systemctl daemon-reload
+    systemctl start apache2
 else
    if $INITSCRIPT status > /dev/null
    then

@@ -20,9 +20,10 @@ Release:        1
 Summary:        Apache testing tool
 Url:            http://www.joedog.org/index/siege-home
 Source0:        siege-%{version}.tar.gz
-Source1:	ctcstools.tar.bz2
-Source2:	qa_test_siege.8
-Source3:	test_siege-run
+Source1:	    ctcstools-%{version}.tar.bz2
+Source2:	    qa_test_siege.8
+Source3:	    test_siege-run
+Source4:	    test_siege_performance_run
 Patch0:         url-patch.dif
 Patch2:         config-patch.dif
 Patch3:         strncat-patch.dif
@@ -62,6 +63,7 @@ install -m 755 -d -v $RPM_BUILD_ROOT/usr/share/man/man8/
 install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 install -m 755 -d -v $RPM_BUILD_ROOT%{qa_location}
+install -m 755 -d -v $RPM_BUILD_ROOT%{qa_location}/share
 install -m 755 -d -v $RPM_BUILD_ROOT%{qa_location}/tcf
 install -m 755 -d -v $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 755 -d -v $RPM_BUILD_ROOT/usr/share/qa/tools
@@ -75,17 +77,38 @@ ln -s ../%{name}/tcf/qa_siege_http.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/tcf/qa_siege_https.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 ln -s ../%{name}/tcf/qa_siege_performance.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 cp -v %{S:3} $RPM_BUILD_ROOT/usr/share/qa/tools
+cp -v %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
 cp -v ctcstools/.siegerc $RPM_BUILD_ROOT/%{qa_location}
 mkdir -p $RPM_BUILD_ROOT/etc/apache2/ssl.key
 cp -v ctcstools/qa.key $RPM_BUILD_ROOT/etc/apache2/ssl.key/
 mkdir -p $RPM_BUILD_ROOT/etc/apache2/ssl.crt/
 cp -v ctcstools/qa.crt $RPM_BUILD_ROOT/etc/apache2/ssl.crt/
 mkdir -p $RPM_BUILD_ROOT/etc/apache2/vhosts.d
-cp -v ctcstools/00_localhost_ssl.conf $RPM_BUILD_ROOT/etc/apache2/vhosts.d/
+cp -v ctcstools/00_localhost_ssl_SLES12.conf $RPM_BUILD_ROOT%{qa_location}/share
+cp -v ctcstools/00_localhost_ssl.conf $RPM_BUILD_ROOT%{qa_location}/share
+
 cp -v ctcstools/index.html $RPM_BUILD_ROOT%{qa_location}
 cd $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s test_siege-run test_siege-run-http
 ln -s test_siege-run test_siege-run-https
+
+
+%post
+
+if grep "SUSE Linux Enterprise Server 12" /etc/issue &>/dev/null ;then
+    cp -v /usr/share/qa/qa_test_siege/share/00_localhost_ssl_SLES12.conf $RPM_BUILD_ROOT/etc/apache2/vhosts.d/
+else
+    cp -v /usr/share/qa/qa_test_siege/share/00_localhost_ssl.conf $RPM_BUILD_ROOT/etc/apache2/vhosts.d/
+fi
+
+%postun
+if [ "$1" = 0 ] ;then
+    if grep "SUSE Linux Enterprise Server 12" /etc/issue &>/dev/null ;then
+        rm -v /etc/apache2/vhosts.d/00_localhost_ssl_SLES12.conf 
+    else
+        rm -v /etc/apache2/vhosts.d/00_localhost_ssl.conf
+    fi
+fi
 
 %clean
 rm -fr $RPM_BUILD_ROOT
@@ -100,12 +123,14 @@ rm -fr $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_siege_https.tcf
 /usr/share/qa/tcf/qa_siege_performance.tcf
 %attr(0755,root,root) /usr/share/qa/tools/test_siege-run
+%attr(0755,root,root) /usr/share/qa/tools/test_siege_performance_run
 /usr/share/qa/tools/test_siege-run-http
 /usr/share/qa/tools/test_siege-run-https
 /usr/share/qa/qa_test_siege/siegeparser
+/usr/share/qa/qa_test_siege/share/00_localhost_ssl_SLES12.conf
+/usr/share/qa/qa_test_siege/share/00_localhost_ssl.conf
 %attr(0400,root,root) /etc/apache2/ssl.key/qa.key
 %attr(0400,root,root) /etc/apache2/ssl.crt/qa.crt
-/etc/apache2/vhosts.d/00_localhost_ssl.conf
 %dir /etc/apache2/ssl.crt
 %dir /etc/apache2/ssl.key
 %dir /etc/apache2/vhosts.d
