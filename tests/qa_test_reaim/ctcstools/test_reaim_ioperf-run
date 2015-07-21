@@ -9,16 +9,31 @@ REAIM_STARTUSERS=1
 REAIM_ENDUSERS=$((NUMCPUS*4))
 REAIM_INCREMENT=$((NUMCPUS/4))
 
-ALL_WORKFILES="workfile.compute workfile.new_dbase workfile.new_fserver workfile.shared workfile.disk workfile.alltests"
+REAIM_WORKFILE="workfile.disk"
 
-REAIM_WORKFILE=
+# /abuild is in a reaim config
+ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
+case ${ABUILD_FS} in
+    "ext3"): ;;
+    "xfs"):  ;;
+    "btrfs"): ;;
+    "")
+        mkdir -p /abuild
+        ABUILD_FS="root"
+        ;;
+    *)
+        echo "NOT support filesystem ${ABUILD_FS}"
+        exit 1
+        ;;
+esac
 
-echo > ${TCF_DIR}/reaim-ioperf.tcf
+TCF_FILE="${TCF_DIR}/reaim_disk_${ABUILD_FS}.tcf"
 
-for workfile in ${ALL_WORKFILES}; do
-    name=${workfile#workfile.}
-    echo "fg 1 reaim-ioperf /usr/lib/reaim/reaim -s ${REAIM_STARTUSERS} -e ${REAIM_ENDUSERS} -i ${REAIM_INCREMENT} -t -r1 -f /usr/lib/reaim/data/${workfile}" >> ${TCF_DIR}/reaim-ioperf.tcf
-    echo "wait" >> ${TCF_DIR}/reaim-ioperf.tcf
-done
+echo > ${TCF_FILE}
+echo "fg 1 reaim-ioperf /usr/lib/reaim/reaim -s ${REAIM_STARTUSERS} -e ${REAIM_ENDUSERS} -i ${REAIM_INCREMENT} -t -r1 -f /usr/lib/reaim/data/${REAIM_WORKFILE}" >> ${TCF_FILE}
+echo "wait" >> ${TCF_FILE}
+
+cd $CTCS2_DIR
+tools/run ${TCF_FILE}
 
 $CTCS2_DIR/tools/run $TCF_DIR/reaim-ioperf.tcf
