@@ -1,0 +1,24 @@
+SQ_TEST_RUN_LIST=(
+    _reboot_off
+    apache
+    apparmor
+    apparmor_profiles
+    bind
+    bzip2
+    cabextract
+    postfix
+    sharutils
+    coreutils
+    cpio
+    cracklib
+    findutils
+    gzip
+    indent
+    net_snmp
+    nfs
+    nfs_v4
+    openssh
+    openssl
+    php5
+    fetchmail
+)
