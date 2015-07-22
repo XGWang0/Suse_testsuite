@@ -11,7 +11,7 @@ Summary:      kernbench benchmark
 Provides:	kernbench kernbench-ctcs2-glue
 Obsoletes:	kernbench kernbench-ctcs2-glue
 Requires:     coreutils kernel-source make gcc gawk ctcs2
-Version:      0.41
+Version:      0.50
 Release:      1
 Source0:      kernbench-%{version}.tar.bz2
 Source1:      test_kernbench-run
