@@ -135,14 +135,17 @@ function sq_qadb_submit_result_for_run {
 
     sq_result_save_locally "${_result}"
 
-    ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "${_run_id}" 2>&1 | tee -a "${SQ_TEST_SUBMISSION_DIR}/submission-${_sq_run}.log"
-
-    if test $? -ne 0;then
-        sq_warn "[qadb] Submit qa_db_report failed!"
+    ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "${_run_id}" 2>&1 | tee "/tmp/submission-${_sq_run}.log"
+    cat "/tmp/submission-${_sq_run}.log" >>"${SQ_TEST_SUBMISSION_DIR}/submission-${_sq_run}.log"
+    if ! grep -iq "submission.php?submission_id=" "/tmp/submission-${_sq_run}.log";then
+        sq_warn "[qadb] ${_sq_run} submit qa_db_report failed!"
         # the result has been already backed
         # clean for the next run.
-        rm -rf /var/log/qa/ctcs2/* 
+        rm -rf /var/log/qa/ctcs2/*
+    else
+       sq_info "[qadb] ${_sq_run} submit qa_db_report succeed!"
     fi
+    rm /tmp/submission-${_sq_run}.log
 }
 
 
