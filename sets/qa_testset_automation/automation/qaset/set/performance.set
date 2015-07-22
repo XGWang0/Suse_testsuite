@@ -216,13 +216,12 @@ function def_unit_fs {
     done
 }
 
-def_unit_fs reaim "/usr/lib/ctcs2/tools/test_reaim-run" qa_test_reaim
-def_unit_fs reaim_ioperf "/usr/lib/ctcs2/tools/test_reaim_ioperf-run" qa_test_reaim
-def_unit_fs bonnie "/usr/share/qa/tools/test_bonnie-run" qa_test_bonnie
-def_unit_fs bonniepp "/usr/share/qa/tools/test_bonnie++-async-run" 'qa_test_bonnie++'
+### performance IO test ###
+def_unit_fs reaim_ioperf "/usr/share/qa/tools/test_reaim_ioperf-run" qa_test_reaim
+def_unit_fs bonniepp_async "/usr/share/qa/tools/test_bonnie++-async-run" 'qa_test_bonnie++'
 def_unit_fs bonniepp_fsync "/usr/share/qa/tools/test_bonnie++-fsync-run" 'qa_test_bonnie++'
 def_unit_fs iozone_doublemem "/usr/share/qa/tools/test_iozone_doublemem-run" qa_test_iozone
-def_unit_fs dbench4 "/usr/share/qa/tools/test_dbench-4_0_async-run" qa_test_dbench-4_0
+def_unit_fs dbench4_async "/usr/share/qa/tools/test_dbench-4_0_async-run" qa_test_dbench-4_0
 def_unit_fs dbench4_fsync "/usr/share/qa/tools/test_dbench-4_0_fsync-run" qa_test_dbench-4_0
 def_unit_fs dbench4_osync "/usr/share/qa/tools/test_dbench-4_0_osync-run" qa_test_dbench-4_0
 dbench4_nfs_run="/usr/share/qa/tools/test_dbench-4_0-nfs-run"
@@ -231,10 +230,6 @@ dbench4_nfs4_run="/usr/share/qa/tools/test_dbench-4_0-nfs4-run"
 dbench4_nfs4_packages=(qa_test_dbench-4_0)
 def_unit_fs tiobench_doublemem_async "/usr/share/qa/tools/test_tiobench_doublemem_async-run" qa_test_tiobench
 def_unit_fs tiobench_doublemem_osync "/usr/share/qa/tools/test_tiobench_doublemem_osync-run" qa_test_tiobench
-def_unit_fs pgbench "/usr/share/qa/tools/simple-pgbench-run" qa_test_pgbench
-def_unit_fs pgbench_small  "/usr/share/qa/tools/test_pgbench_small-run" qa_test_pgbench
-def_unit_fs pgbench_medium  "/usr/share/qa/tools/test_pgbench_medium-run" qa_test_pgbench
-def_unit_fs pgbench_large  "/usr/share/qa/tools/test_pgbench_large-run" qa_test_pgbench
 def_unit_fs pgbench_small_rw  "/usr/share/qa/tools/test_pgbench_small-rw-run" qa_test_pgbench
 def_unit_fs pgbench_small_ro  "/usr/share/qa/tools/test_pgbench_small-ro-run" qa_test_pgbench
 def_unit_fs pgbench_medium_rw  "/usr/share/qa/tools/test_pgbench_medium-rw-run" qa_test_pgbench

@@ -103,6 +103,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/reaim
 mkdir -p $RPM_BUILD_ROOT/usr/share/man/man8
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/qa_test_reaim.8
 cp -r data scripts $RPM_BUILD_ROOT/usr/lib/reaim
@@ -110,12 +111,11 @@ cp src/reaim data/reaim.config $RPM_BUILD_ROOT/usr/lib/reaim
 cp ctcstools/workfile $RPM_BUILD_ROOT/usr/lib/reaim/workfile
 cp ctcstools/test_reaim-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/test_reaim-run
-install -m 755 ctcstools/test_reaim_ioperf-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
+install -m 755 ctcstools/test_reaim_ioperf-run $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 ctcstools/test_reaim_all-run $RPM_BUILD_ROOT/usr/share/qa/tools
 cp ctcstools/reaim.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
 cp ctcstools/prepare.sh $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim
 chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/prepare.sh
-cp ctcstools/abuildinfo.reaim $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/abuildinfo.reaim
-chmod +x $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/abuildinfo.reaim
 ln -s ../../../reaim/reaim.config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/reaim.config
 ln -s ../../../reaim/workfile $RPM_BUILD_ROOT/usr/lib/ctcs2/config/reaim/workfile
 ln -s ../../../reaim/reaim $RPM_BUILD_ROOT/usr/lib/ctcs2/bin/reaim
@@ -128,6 +128,7 @@ find $RPM_BUILD_ROOT -type f -print0 | xargs -0 chmod -c o-w,u-s
 %files
 %defattr(-,root,root)
 /usr/lib/reaim
+/usr/share/qa
 /usr/share/man/man8/%{name}.8.gz
 
 #%files ctcs2-glue
