@@ -29,7 +29,7 @@ WORKPATH="/usr/share/qa/qa_test_bind"
 TEST_DATA=forwarder
 
 test_() {
-	QUERY=`grep forwarder_query qa_test_bind-config |cut -d = -f2`
+	QUERY=`grep forwarder_query $WORKPATH/qa_test_bind-config |cut -d = -f2`
 	RESULT=$(dig @127.0.0.1 $QUERY | grep -E "^$QUERY")
 
 	echo "query for '$QUERY' resulted in '$RESULT'"

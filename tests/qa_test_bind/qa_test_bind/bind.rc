@@ -27,7 +27,7 @@ TESTCONFBASE=/usr/share/qa/qa_test_bind/data
 BINDCTRL=/etc/init.d/named
 PID_FILE=/var/run/named/named.pid
 DATADIR=/var/lib/named
-OSVERSION=`cat /etc/SuSE-brand | grep VERSION | cut -d" " -f3`
+OSVERSION=`cat /etc/issue | cut -d" " -sf7`
 CTLSTDWAIT=10
 
 RES_OK=0
