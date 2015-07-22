@@ -1,8 +1,8 @@
-diff -ruN kernbench-0.41.old/kernbench kernbench-0.41/kernbench
---- kernbench-0.41.old/kernbench	2006-04-07 07:20:42.000000000 +0200
-+++ kernbench-0.41/kernbench	2009-03-17 11:45:35.000000000 +0100
-@@ -227,7 +227,7 @@
- runname="Optimal load -j $optijobs"
+diff -Nurp kernbench-0.50.org/kernbench kernbench-0.50/kernbench
+--- kernbench-0.50.org/kernbench	2009-12-11 22:42:08.000000000 +0800
++++ kernbench-0.50/kernbench	2015-07-21 18:33:50.001682542 +0800
+@@ -241,7 +241,7 @@ tempjobs=$custjobs
+ runname="Custom load -j $custjobs"
  do_runs
  
 -temp_runs=$max_runs
