@@ -14,7 +14,7 @@ Name:           qa_test_apache_testsuite
 License:        Apache 2.0
 Group:          SUSE internal
 AutoReqProv:    on
-Release:        1
+Release:        2
 Summary:        (rd-)qa internal package for testing apache and apache2
 Url:            http://httpd.apache.org/test/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -22,6 +22,7 @@ BuildArch:      noarch
 Provides:	qa_apache_testsuite
 Obsoletes:	qa_apache_testsuite
 Requires:       ctcs2 apache2-prefork apache2-devel apache2-mod_perl apache2-mod_python apache2-worker gcc perl-libwww-perl perl-IO-Socket-SSL
+Patch3:		err_headers_out.patch
 %if 0%{?suse_version} >= 1315
 Version:        1554166
 Source0:        %{name}-%{version}.tar.bz2
@@ -61,6 +62,7 @@ cd ..
 %patch0 -p0
 %patch1 -p0
 %endif
+%patch3 -p0
 
 
 %install
@@ -120,6 +122,8 @@ rm -rvf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed July 22 2015 - jtzhao@suse.com
+- Add patch for apierr_headers_outt test
 * Wed Aug 17 2011 - llipavsky@suse.cz
 - Remove qa_dummy dependency
 * Thu Aug 11 2011 - llipavsky@suse.cz
