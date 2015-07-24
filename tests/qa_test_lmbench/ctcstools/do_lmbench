@@ -5,12 +5,12 @@ cd /usr/share/qa/qa_test_lmbench/src
 #make rerun; make rerun; make rerun;
 make rerun
 cd /usr/share/qa/qa_test_lmbench/results
-find . -type d -maxdepth 1 | while read dirname;do
-  case ${dirname} in
-      *linux-gnu)
-         echo "Find Dir ${dirname}";;
-      *) continue
-  esac
-      cat ${dirname}/$(hostname).*
-done
+#find . -type d -maxdepth 1 | while read dirname;do
+#  case ${dirname} in
+#      *linux-gnu)
+#         echo "Find Dir ${dirname}";;
+#      *) continue
+#  esac
+#      cat ${dirname}/$(hostname).*
+#done
 make 
