@@ -122,7 +122,7 @@ rm -rvf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed July 22 2015 - jtzhao@suse.com
+* Wed Jul 22 2015 - jtzhao@suse.com
 - Add patch for apierr_headers_outt test
 * Wed Aug 17 2011 - llipavsky@suse.cz
 - Remove qa_dummy dependency

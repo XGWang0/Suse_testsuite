@@ -1,5 +1,5 @@
---- mod_perl/t/api/err_headers_out.t	2013-05-24 13:46:53.000000000 +0200
-+++ err_headers_out.t	2015-07-22 07:31:12.914516003 +0200
+--- httpd24/t/api/err_headers_out.t	2013-05-24 13:46:53.000000000 +0200
++++ err_headers_out.t			2015-07-22 07:31:12.914516003 +0200
 @@ -27,11 +27,21 @@
      undef $HTTP::Headers::TRANSLATE_UNDERSCORE
  	if defined HTTP::Headers->VERSION and HTTP::Headers->VERSION==6.00;
