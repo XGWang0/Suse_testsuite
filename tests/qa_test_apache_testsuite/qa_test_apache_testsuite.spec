@@ -22,7 +22,6 @@ BuildArch:      noarch
 Provides:	qa_apache_testsuite
 Obsoletes:	qa_apache_testsuite
 Requires:       ctcs2 apache2-prefork apache2-devel apache2-mod_perl apache2-mod_python apache2-worker gcc perl-libwww-perl perl-IO-Socket-SSL
-Patch3:		err_headers_out.patch
 %if 0%{?suse_version} >= 1315
 Version:        1554166
 Source0:        %{name}-%{version}.tar.bz2
@@ -33,6 +32,7 @@ Source3:	qa_test_apache_testsuite.8
 Patch0:         CVE-2004-0959.diff
 #Patch1:		hash_attack.patch
 #Patch2:         mod_perl-closeur-s390x.patch
+Patch3:		err_headers_out.patch
 %else
 Version:        894558
 Source0:        %{name}-%{version}.tar.bz2
@@ -56,13 +56,13 @@ cd ..
 %patch0 -p0
 #%patch1 -p0
 #%patch2 -p0
+%patch3 -p0
 %else
 %setup -b 1 -n %{name}
 cd ..
 %patch0 -p0
 %patch1 -p0
 %endif
-%patch3 -p0
 
 
 %install
