@@ -2,6 +2,14 @@
 # reference https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
 
 
+#
+# functions
+#
+
+kecho (){
+	[[ "${DEBUG}x" == "1x" ]] && builtin echo $@
+}
+
 PGROOT=/usr/share/qa/qa_test_pgbench/postgres
 PGPATH=${PGROOT}/bin/
 PG_CTL_BIN="$PGPATH/pg_ctl"
@@ -19,12 +27,12 @@ else
     PG_DB_ROOT=/tmp/pgdbroot
 fi
 mkdir -p ${PG_DB_ROOT}
-echo "[pg] PG_DB_ROOT is ${PG_DB_ROOT}"
+kecho "[pg] PG_DB_ROOT is ${PG_DB_ROOT}"
 
 function _exit {
     local _ret=$1
     shift
-    echo "$@"
+    kecho "$@"
     exit $_ret
 }
 
@@ -55,7 +63,7 @@ update_entry_cnf() {
         if [ "$LINE" = "" ]; then
                 LINE=`grep -n "^#$PARAMETER" $CONF | cut -d: -f1 | head -1`
                 if [ "$LINE" = "" ]; then
-                        echo " Failed to locate parameter" $PARAMETER
+                        kecho " Failed to locate parameter" $PARAMETER
                 fi
         fi
         LINEC=`wc -l $CONF | awk '{print $1}'`
@@ -73,21 +81,21 @@ function postgresql_init {
     if test $? -ne 0;then
         _exit 1 "[SYSTEM] create dir ${PG_DB_ROOT} failed!"
     else
-        echo "[SYSTEM] created dir ${PG_DB_ROOT}"
+        kecho "[SYSTEM] created dir ${PG_DB_ROOT}"
     fi
 
     if test -f ${PG_DB_ROOT}/postmaster.pid;then
-        echo "[pg] stop a service instance"
+        kecho "[pg] stop a service instance"
         service_stop
     fi
-    echo "[SYSTEM] clearing the dir ${PG_DB_ROOT}"
+    kecho "[SYSTEM] clearing the dir ${PG_DB_ROOT}"
     cd ${PG_DB_ROOT} && rm -rf ./*
 
     sudo -u postgres ${PG_INITDB_BIN} -D ${PG_DB_ROOT}
     if test $? -ne 0;then
         _exit 1 "[pg] initdb ${PG_DB_ROOT} failed!"
     else
-        echo "[pg] inited the database ${PG_DB_ROOT}"
+        kecho "[pg] inited the database ${PG_DB_ROOT}"
     fi
 
     # Update the max connection count if necessary
@@ -165,7 +173,7 @@ function service_start {
     if test $? -ne 0;then
        _exit 1 "[pg] start service on ${PG_DB_ROOT} failed!"
     else
-       echo "[pg] started the service on ${PG_DB_ROOT}"
+       kecho "[pg] started the service on ${PG_DB_ROOT}"
     fi
 }
 
@@ -175,7 +183,7 @@ function service_stop {
     if test $? -ne 0;then
        _exit 1 "[pg] stop service on ${PG_DB_ROOT} failed!"
     else
-       echo "[pg] stop the service on ${PG_DB_ROOT}"
+       kecho "[pg] stop the service on ${PG_DB_ROOT}"
     fi
     rm ${PG_DB_ROOT}/postmaster.pid || true
 }
@@ -185,10 +193,10 @@ function service_stop {
 PGHOST=localhost
 PGPORT=5432
 function pgbench_db_create {
-	echo "[pg] creating the db pgbench"
+	kecho "[pg] creating the db pgbench"
     su postgres -c "${PG_CREATEDB_BIN} -h $PGHOST -p $PGPORT -U postgres pgbench"
     if test $? -eq 0;then
-        echo "[pg] created the db pgbench"
+        kecho "[pg] created the db pgbench"
     else
 	    _exit 1 "[pg] create db pgbench failed!"
 	fi
@@ -203,17 +211,17 @@ function pgbench_db_init {
 	if test $? -ne 0;then
 	    _exit 1 "[pg] Failed to create the db"
 	else
-	    echo "[pg] Succeeded to create the db"
+	    kecho "[pg] Succeeded to create the db"
 	fi
 }
 
 function pgbench_db_fini {
-    echo "[pg] dropping the db pgbench"
+    kecho "[pg] dropping the db pgbench"
     su postgres -c "${PG_DROPDB_BIN} -h $PGHOST -p $PGPORT -U postgres pgbench"
 }
 
 function pgbench_db_workload {
-	echo "[pg] starting pgbench"
+	kecho "[pg] starting pgbench"
     #TPC-B (transactions per second)
 	/usr/bin/time -f "QARESULT NR_THREADS ${NR_THREADS} WORK_LOAD %Uuser %Ssystem %Eelapsed"  \
 	${PGBENCH_BIN} -U postgres -v -h $PGHOST -p $PGPORT -r -l --aggregate-interval=1 -n $READONLY_ARG -c $NR_THREADS \
@@ -221,7 +229,7 @@ function pgbench_db_workload {
 	if test $? -ne 0;then
 	    _exit 1 "[pg] Failed to run"
 	else
-	     echo "[pg] Finished one time"
+	     kecho "[pg] Finished one time"
 	fi
 }
 
@@ -245,11 +253,14 @@ function refresh_profile {
                    : MAX_TRANSACTIONS=1000000
                fi
                ;;
+        test) WORKLOAD_SIZE=$(($SHARED_BUFFERS/5))
+              MAX_TRANSACTIONS=10
+               ;;
         *) _exit 1 "NOT be reached here";;
     esac
-    echo "ARG MAX_TRANSACTIONS ${MAX_TRANSACTIONS}"
-    echo "ARG READONLY_ARG ${READONLY_ARG}"
-    echo "ARG DATABASE_SIZE ${DATABASE_SIZE}"
+    kecho "ARG MAX_TRANSACTIONS ${MAX_TRANSACTIONS}"
+    kecho "ARG READONLY_ARG ${READONLY_ARG}"
+    kecho "ARG DATABASE_SIZE ${DATABASE_SIZE}"
     THREADS=
     START_THREAD=1
     END_THREAD=$(($NUMCPUS*4))
@@ -266,13 +277,13 @@ function refresh_profile {
     if [ `echo $THREADS | awk '{print $NF}'` -ne $END_THREAD ]; then
 	    THREADS="$THREADS $END_THREAD"
     fi
-    echo -n ARG THREADS 
+    kecho -n ARG THREADS 
     for num in $THREADS; do
-        echo -n " $num"
+        kecho -n " $num"
     done
     echo
     CACHE_HOT=YES
-    echo "ARG CACHE_HOT ${CACHE_HOT}"
+    kecho "ARG CACHE_HOT ${CACHE_HOT}"
 }
 
 function pgbench_run {
@@ -285,7 +296,7 @@ function pgbench_run {
         pgbench_db_init
 
 	    if [ "$CACHE_HOT" != "YES" ]; then
-		    echo Discarding database cache for cold startup
+		    kecho "Discarding database cache for cold startup"
 		    service_stop
 		    echo 3 > /proc/sys/vm/drop_caches
 		    service_start
@@ -312,16 +323,27 @@ Options:
 # main function
 DATABASE_SIZE=small
 PGBENCH_READONLY=
-while getopts "hr:t:s:" optchar; do
+while getopts "hrs:tD" optchar; do
     case "$optchar" in
         r)      PGBENCH_READONLY=YES ;;
         s)      DATABASE_SIZE="$OPTARG" ;;
+        t)      DATABASE_SIZE="test" ;;
+        D)      DEBUG="1" ;;
         *)      usage ;;
     esac
 done
 shift $((OPTIND - 1))
 
-postgresql_init
-postgresql_configure
-refresh_profile
-pgbench_run
+if [ "${DEBUG}x" == "1x" ]; then
+	echo "[testing run in DEBUG mode]"
+	postgresql_init 
+	postgresql_configure 
+	refresh_profile 
+	pgbench_run 
+else
+	echo "[testing run in quite mode]"
+	postgresql_init 2>&1 >/dev/null
+	postgresql_configure 2>&1 >/dev/null
+	refresh_profile 2>&1 >/dev/null
+	pgbench_run 
+fi

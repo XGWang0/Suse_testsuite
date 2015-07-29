@@ -44,7 +44,7 @@ TCF_FILE=${TCF_DIR}/pgbench_small_ro_${ABUILD_FS}.tcf
 
 cat <<EOF > ${TCF_FILE}
 timer 5h
-fg 1 pgbench-small-ro /usr/share/qa/qa_test_pgbench/basic-pgbench.sh -r -s small
+fg 1 pgbench-small-ro /usr/share/qa/qa_test_pgbench/pgbench-run.sh -r -s small
 wait
 EOF
 
