@@ -28,7 +28,7 @@ function sysbench_fini {
 
 function mysql_service_init {
     sysbench_init
-    if test -x /etc/init.d/mysql;then
+    if [ "${systemd_flag}x" == "0x" ];then
         #sysv
         #settings via the way
         export defaults="--defaults-file=${SB_MYSQL_DEFAULTS_FILE}"
@@ -48,10 +48,9 @@ function mysql_service_init {
 }
 
 function mysql_service_fini {
-    if test -x /etc/init.d/mysql;then
-        service mysql stop
+    if [ "${systemd_flag}x" == "0x" ];then
+        /etc/init.d/mysql stop
     else
-        #not tested ye
         systemctl stop mysql
     fi
     echo "debug"
@@ -108,6 +107,13 @@ else
 fi
 if [ $(echo $THREADS | awk '{print $NF}') -ne $END_THREAD ]; then
     list_append THREADS $END_THREAD
+fi
+#check systemd's PID if is 1.
+pid=$(ps aux | grep systemd | head -n 1 | awk '{print $2}')
+if [ "${pid}x" == "1x" ]; then
+    systemd_flag=1
+else
+    systemd_flag=0
 fi
 set +x
 sysbench_db_fini
