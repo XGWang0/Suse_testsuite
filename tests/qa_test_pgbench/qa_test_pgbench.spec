@@ -48,8 +48,8 @@ gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
 
 echo "RPM_BUILD_ROOT=$RPM_BUILD_ROOT"
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}
-install -m 755 basic-pgbench.sh $RPM_BUILD_ROOT/usr/share/qa/%{name}/
-install -m 755 install-pgbench.sh  $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 pgbench-run.sh $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 pgbench.postinst  $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf/
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools/
 install -m 755 test_pgbench_large-ro-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
@@ -67,12 +67,14 @@ ln -s ../%{name}/test_pgbench_small-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 cp %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 
 %post 
-/usr/share/qa/%{name}/install-pgbench.sh
+/usr/share/qa/%{name}/pgbench.postinst
 
 %preun
 
 %postun
-rm -rf /usr/share/qa/qa_test_pgbench
+if [ "$1x" == "0x" ]; then
+    rm -rf /usr/share/qa/qa_test_pgbench
+fi
 
 %files
 %defattr(-, root, root)
