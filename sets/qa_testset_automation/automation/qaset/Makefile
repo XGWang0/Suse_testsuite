@@ -8,7 +8,7 @@ export dest
 
 all: install
 
-SUBDIRS = conf list misc qavm run set
+SUBDIRS = conf list misc qavm run set bin
 subdir: $(SUBDIRS)
 QASETBINS := qaset qaset-service
 qasetbin: $(QASETBINS)
