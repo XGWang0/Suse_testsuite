@@ -161,6 +161,11 @@ function postgresql_configure {
 	echo $TOTALBUFFER_SIZE > /proc/sys/kernel/shmmax
 	echo $(($TOTALBUFFER_SIZE*2/$PAGESIZE)) > /proc/sys/kernel/shmall
 	ulimit -l $TOTALBUFFER_SIZE
+
+    # Configure Direct I/O WAL_SYNC_METHOD
+    if [ "${DIRECTIO}x" == "yesx" ];then
+        update_entry_cnf wal_sync_method open_sync
+    fi
 }
 
 function service_start {
@@ -310,12 +315,15 @@ function pgbench_run {
 
 function usage() {
         echo "
-Usage:   $0 [-h] [-r] [-t target work sizez] [-s scale factor]
+Usage:   $0 [-h] [-r] [-t] [-i] [-s DATABASE_SIZE]
 
 Options:
          -r   Read only or not
          -h   Print this help text and exit successfully
-         -s   report this scale factor in output
+         -s   DATABASE size. available value: [small, medium, large, xlarge]
+         -t   just dryrun with very small scale [don't realy testing]!!
+         -i   Direct I/O test. This is option for WAL_SYNC_METHOD=open_sync.
+              It will effect WAL write back method.
 "
         exit 1
 }
@@ -323,12 +331,13 @@ Options:
 # main function
 DATABASE_SIZE=small
 PGBENCH_READONLY=
-while getopts "hrs:tD" optchar; do
+while getopts "hrs:tDi" optchar; do
     case "$optchar" in
         r)      PGBENCH_READONLY=YES ;;
         s)      DATABASE_SIZE="$OPTARG" ;;
         t)      DATABASE_SIZE="test" ;;
         D)      DEBUG="1" ;;
+        i)      DIRECTIO="yes" ;;
         *)      usage ;;
     esac
 done
