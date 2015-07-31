@@ -23,7 +23,7 @@ Source0:        siege-%{version}.tar.gz
 Source1:	    ctcstools-%{version}.tar.bz2
 Source2:	    qa_test_siege.8
 Source3:	    test_siege-run
-Source4:	    test_siege_performance_run
+Source4:	    test_siege_performance-run
 Patch0:         url-patch.dif
 Patch2:         config-patch.dif
 Patch3:         strncat-patch.dif
@@ -123,7 +123,7 @@ rm -fr $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_siege_https.tcf
 /usr/share/qa/tcf/qa_siege_performance.tcf
 %attr(0755,root,root) /usr/share/qa/tools/test_siege-run
-%attr(0755,root,root) /usr/share/qa/tools/test_siege_performance_run
+%attr(0755,root,root) /usr/share/qa/tools/test_siege_performance-run
 /usr/share/qa/tools/test_siege-run-http
 /usr/share/qa/tools/test_siege-run-https
 /usr/share/qa/qa_test_siege/siegeparser
