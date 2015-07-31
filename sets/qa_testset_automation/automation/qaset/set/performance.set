@@ -70,8 +70,10 @@ function kernbench_close {
     mv linux.sq_orig linux 2>/dev/null
 }
 
+def_simple_run reaim_allworks "/usr/share/qa/tools/test_reaim_all-run" qa_test_reaim
+
 # File system test runs for btrfs, ext3, xfs
-SQ_TEST_ALL_FS=(ext3 xfs btrfs)
+SQ_TEST_ALL_FS=(ext3 xfs btrfs ext4)
 function sq_abuild_open {
     sq_debug "[abuild] check /etc/fstab for /abuild."
     if test "X${SQ_ABUILD_JUST_DIR}" == "XYES"; then

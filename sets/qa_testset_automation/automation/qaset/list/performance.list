@@ -20,6 +20,10 @@ SQ_TEST_RUN_LIST=(
     kernbench
     kernbench
 
+    reaim_allworks
+    reaim_allworks
+    reaim_allworks
+
     #one time is OK because netperf has a good statitics process.
     netperf_loop4
     netperf_loop6
@@ -33,6 +37,10 @@ SQ_TEST_RUN_LIST=(
     reaim_ioperf_btrfs
     reaim_ioperf_btrfs
     reaim_ioperf_btrfs
+    reaim_ioperf_ext4
+    reaim_ioperf_ext4
+    reaim_ioperf_ext4
+
     iozone_doublemem_ext3
     iozone_doublemem_ext3
     iozone_doublemem_ext3
@@ -42,6 +50,10 @@ SQ_TEST_RUN_LIST=(
     iozone_doublemem_btrfs
     iozone_doublemem_btrfs
     iozone_doublemem_btrfs
+    iozone_doublemem_ext4
+    iozone_doublemem_ext4
+    iozone_doublemem_ext4
+
     tiobench_doublemem_async_ext3
     tiobench_doublemem_async_ext3
     tiobench_doublemem_async_ext3
@@ -51,6 +63,10 @@ SQ_TEST_RUN_LIST=(
     tiobench_doublemem_async_btrfs
     tiobench_doublemem_async_btrfs
     tiobench_doublemem_async_btrfs
+    tiobench_doublemem_async_ext4
+    tiobench_doublemem_async_ext4
+    tiobench_doublemem_async_ext4
+
     bonniepp_async_ext3
     bonniepp_async_ext3
     bonniepp_async_ext3
@@ -60,6 +76,10 @@ SQ_TEST_RUN_LIST=(
     bonniepp_async_btrfs
     bonniepp_async_btrfs
     bonniepp_async_btrfs
+    bonniepp_async_ext4
+    bonniepp_async_ext4
+    bonniepp_async_ext4
+
     bonniepp_fsync_ext3
     bonniepp_fsync_ext3
     bonniepp_fsync_ext3
@@ -69,6 +89,10 @@ SQ_TEST_RUN_LIST=(
     bonniepp_fsync_btrfs
     bonniepp_fsync_btrfs
     bonniepp_fsync_btrfs
+    bonniepp_fsync_ext4
+    bonniepp_fsync_ext4
+    bonniepp_fsync_ext4
+
     sysbench_oltp_ext3
     sysbench_oltp_ext3
     sysbench_oltp_ext3
@@ -78,6 +102,10 @@ SQ_TEST_RUN_LIST=(
     sysbench_oltp_btrfs
     sysbench_oltp_btrfs
     sysbench_oltp_btrfs
+    sysbench_oltp_ext4
+    sysbench_oltp_ext4
+    sysbench_oltp_ext4
+ 
     dbench4_async_ext3
     dbench4_async_ext3
     dbench4_async_ext3
@@ -87,6 +115,10 @@ SQ_TEST_RUN_LIST=(
     dbench4_async_btrfs
     dbench4_async_btrfs
     dbench4_async_btrfs
+    dbench4_async_ext4
+    dbench4_async_ext4
+    dbench4_async_ext4
+
     pgbench_small_rw_ext3
     pgbench_small_rw_ext3
     pgbench_small_rw_ext3
@@ -96,6 +128,10 @@ SQ_TEST_RUN_LIST=(
     pgbench_small_rw_btrfs
     pgbench_small_rw_btrfs
     pgbench_small_rw_btrfs
+    pgbench_small_rw_ext4
+    pgbench_small_rw_ext4
+    pgbench_small_rw_ext4
+
     pgbench_small_ro_ext3
     pgbench_small_ro_ext3
     pgbench_small_ro_ext3
@@ -105,6 +141,10 @@ SQ_TEST_RUN_LIST=(
     pgbench_small_ro_btrfs
     pgbench_small_ro_btrfs
     pgbench_small_ro_btrfs
+    pgbench_small_ro_ext4
+    pgbench_small_ro_ext4
+    pgbench_small_ro_ext4
+
     dbench4_fsync_ext3
     dbench4_fsync_ext3
     dbench4_fsync_ext3
@@ -114,31 +154,35 @@ SQ_TEST_RUN_LIST=(
     dbench4_fsync_btrfs
     dbench4_fsync_btrfs
     dbench4_fsync_btrfs
-    pgbench_medium_ext3
-    pgbench_medium_ext3
-    pgbench_medium_ext3
-    pgbench_medium_xfs
-    pgbench_medium_xfs
-    pgbench_medium_xfs
-    pgbench_medium_btrfs
-    pgbench_medium_btrfs
-    pgbench_medium_btrfs
-    pgbench_large_ext3
-    pgbench_large_ext3
-    pgbench_large_ext3
-    pgbench_large_xfs
-    pgbench_large_xfs
-    pgbench_large_xfs
-    pgbench_large_btrfs
-    pgbench_large_btrfs
-    pgbench_large_btrfs
-    dbench4_osync_ext3
-    dbench4_osync_ext3
-    dbench4_osync_ext3
-    dbench4_osync_xfs
-    dbench4_osync_xfs
-    dbench4_osync_xfs
-    dbench4_osync_btrfs
-    dbench4_osync_btrfs
-    dbench4_osync_btrfs
+    dbench4_fsync_ext4
+    dbench4_fsync_ext4
+    dbench4_fsync_ext4
+
+#    pgbench_medium_ext3
+#    pgbench_medium_ext3
+#    pgbench_medium_ext3
+#    pgbench_medium_xfs
+#    pgbench_medium_xfs
+#    pgbench_medium_xfs
+#    pgbench_medium_btrfs
+#    pgbench_medium_btrfs
+#    pgbench_medium_btrfs
+#    pgbench_large_ext3
+#    pgbench_large_ext3
+#    pgbench_large_ext3
+#    pgbench_large_xfs
+#    pgbench_large_xfs
+#    pgbench_large_xfs
+#    pgbench_large_btrfs
+#    pgbench_large_btrfs
+#    pgbench_large_btrfs
+#    dbench4_osync_ext3
+#    dbench4_osync_ext3
+#    dbench4_osync_ext3
+#    dbench4_osync_xfs
+#    dbench4_osync_xfs
+#    dbench4_osync_xfs
+#    dbench4_osync_btrfs
+#    dbench4_osync_btrfs
+#    dbench4_osync_btrfs
 )
