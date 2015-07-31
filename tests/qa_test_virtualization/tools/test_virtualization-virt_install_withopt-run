@@ -109,11 +109,11 @@ if echo $thread|grep -q "^[0-9][0-9]*$" ;then
 	#set the number
 	num=$thread
 	time_ext=$((thread*300))
-	timer=$((7200+$time_ext))
+	timer=$((9600+$time_ext))
 else
 	#By default, we set thread = 4
 	num=4
-	timer=7200
+	timer=9600
 
 fi
 
