@@ -15,6 +15,7 @@ if test "X${TARGET_RELEASE}" == "X";then
     if egrep -q "SP[0-9]+" /etc/issue;then
         TARGET_RELEASE="${TARGET_RELEASE}$(egrep -o "SP[0-9]+" /etc/issue)"
     fi
+    echo "The TARGET_RELEASE is ${QASET_ROOT}"
 fi
 
 QASET_ROOT=
@@ -22,7 +23,7 @@ if test "X${QASET_ROOT}" == "X";then
     echo "SET_ROOT is NONE!"
     echo "Try my best to guess it"
     dirpart=$(dirname $0)
-    if test -f ${dirpart}/qaset && test -d ${dirpart}/qavm;then
+    if test -f ${dirpart}/../qaset && test -d ${dirpart}/../qavm;then
         pushd ${dirpart}/.. > /dev/null
         QASET_ROOT=${PWD}
         popd > /dev/null
@@ -36,6 +37,7 @@ if test "X${QASET_ROOT}" == "X";then
         echo "Failed to get QASET_ROOT"
         exit 1
     fi
+    echo "The QASET_ROOT is ${QASET_ROOT}"
 fi
 
 SQ_TEST_RUN_SET=
