@@ -52,6 +52,7 @@ function sq_result_save_locally {
     local ret=0
 
     _serial=$(date '+%Y%m%dT%H%M%S')
+    
     pushd /var/log/qa/ctcs2 > /dev/null
     if test $? -eq 0;then
         tar -c -j -f "${SQ_TEST_LOG_DIR}/${name}-${_serial}.tar.bz2" *
@@ -84,6 +85,51 @@ function sq_qadb_update_system_shortinfo {
         awk 'BEGIN{ key["error"]=0;key["calltrace"]=0;}{for(i in key){if($0~i){key[i]++;values[i]=values[i]""FNR""$0"\n";}}}END{for (i in key){print i" have "key[i];} for (i in key){print values[i] }}' /var/log/messages >> /var/log/qa/ctcs2/${name}/messages.shortlog &&
        chmod 644 /var/log/qa/ctcs2/${name}/messages.shortlog
     done
+}
+function sq_qadb_server_resotre {
+    rm "/etc/qa/99-qa_tools-"*
+}
+
+function sq_qadb_server_switch {
+#/etc/qa/00-qa_tools-default indcate where the reporter
+    local _Beijing_addr
+    local _Nuremberg_addr
+    local _qadb_server_addr
+    local _qadb_reporter
+    local _Beijing_reporter
+    local _Nuremberg_reporter
+    local _config_file
+    local _sq_qadb2_server
+
+    if echo ${SQ_TEST_RESULT_SERVER} | grep "Beijing" &>/dev/null ;then
+        _sq_qadb2_server="Beijing"
+    fi
+    if ! [ -z ${1} ]; then
+        _sq_qadb2_server=${1}
+    fi
+
+    _config_file="/etc/qa/99-qa_tools-apac2"
+
+    #remove others
+    rm "/etc/qa/99-qa_tools-"*
+    #to be only one
+    cp -v "/etc/qa/00-qa_tools-default" ${_config_file}
+
+    _Beijing_addr="147.2.207.30"
+    _Beijing_reporter="rd-qa"
+    _Nuremberg_addr="qadb2.suse.de"
+    _Nuremberg_reporter="qadb_report"
+
+    if [ "${_sq_qadb2_server}x" = "Beijingx" ]; then
+        _qadb_server_addr=${_Beijing_addr}
+        _qadb_reporter=${_Beijing_reporter}
+    else
+        _qadb_server_addr=${_Nuremberg_addr}
+        _qadb_reporter=${_Nuremberg_reporter}
+    fi
+
+    sed -i "s/^remote_qa_db_report_host=.*$/remote_qa_db_report_host=\"${_qadb_server_addr}\"/g" ${_config_file}
+    sed -i "s/^remote_qa_db_report_user=.*$/remote_qa_db_report_user=\"${_qadb_reporter}\"/g" ${_config_file}
 }
 
 function sq_qadb_submit_result_for_run {
@@ -135,17 +181,37 @@ function sq_qadb_submit_result_for_run {
 
     sq_result_save_locally "${_result}"
 
-    ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -b -m "${SQ_HOSTNAME}" -c "$(uname -r)" 2>&1 | tee "/tmp/submission-${_sq_run}.log"
-    cat "/tmp/submission-${_sq_run}.log" >>"${SQ_TEST_SUBMISSION_DIR}/submission-${_sq_run}.log"
+    sq_qadb_server_switch Nuremberg
+    ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -L -b -m "${SQ_HOSTNAME}" -c "$(uname -r)" 2>&1 | tee "/tmp/submission-${_sq_run}.log"
+    sq_qadb_server_resotre
+    cat "/tmp/submission-${_sq_run}.log" >>"${SQ_TEST_SUBMISSION_DIR}/submission-Nuremberg-${_sq_run}.log"
     if ! grep -iq "submission.php?submission_id=" "/tmp/submission-${_sq_run}.log";then
-        sq_warn "[qadb] ${_sq_run} submit qa_db_report failed!"
-        # the result has been already backed
-        # clean for the next run.
-        rm -rf /var/log/qa/ctcs2/*
+        sq_warn "[qadb] ${_sq_run} submit qa_db_report Nuremberg failed!"
+        echo "${_sq_run}-${_serial}-Nuremberg" >>${SQ_USER_CONFIG_SUBMIT_FAILURE}
     else
-       sq_info "[qadb] ${_sq_run} submit qa_db_report succeed!"
+       sq_info "[qadb] ${_sq_run} submit qa_db_report Nuremberg succeed!"
     fi
-    rm /tmp/submission-${_sq_run}.log
+    rm /tmp/submission-${_sq_run}.log ${SQ_TEST_LOG_DIR}/qadb-Nuremberg-submission-${_result}-${_serial}.log
+
+#upload log to Beijing QADB2 server
+    if [ "${SQ_UPLOAD_TO_BEIJING}x" == "Enabledx" ]; then
+        sq_qadb_server_switch Beijing
+        ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -L -b -m "${SQ_HOSTNAME}" -c "$(uname -r)" 2>&1 | tee "/tmp/submission-${_sq_run}.log"
+        sq_qadb_server_resotre
+        cat "/tmp/submission-${_sq_run}.log" >>"${SQ_TEST_SUBMISSION_DIR}/submission-Beijing-${_sq_run}.log"
+        if ! grep -iq "submission.php?submission_id=" "/tmp/submission-${_sq_run}.log";then
+            sq_warn "[qadb] ${_sq_run} submit qa_db_report Beijing failed!"
+        echo "${_sq_run}-${_serial}-Beijing" >>${SQ_USER_CONFIG_SUBMIT_FAILURE}
+        else
+            sq_info "[qadb] ${_sq_run} submit qa_db_report Beijing succeed!"
+        fi
+    fi
+    rm /tmp/submission-${_sq_run}.log ${SQ_TEST_LOG_DIR}/qadb-Beijing-submission-${_result}-${_serial}.log
+
+
+    # the result has been already backed
+    # clean for the next run.
+    rm -rf /var/log/qa/ctcs2/*
 }
 
 function sq_result_one_run {

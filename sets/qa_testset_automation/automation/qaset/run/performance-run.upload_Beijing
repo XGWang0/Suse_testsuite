@@ -1,0 +1,86 @@
+#!/bin/bash
+
+TARGET_RELEASE=
+if test "X${TARGET_RELEASE}" == "X";then
+    echo "TARGET_RELEASE is NONE!"
+    echo "Try my best to guess it"
+    if grep -q "SUSE Linux Enterprise Server 11" /etc/issue;then
+        TARGET_RELEASE=SLE11
+    elif grep -q "SUSE Linux Enterprise Server 12" /etc/issue;then
+        TARGET_RELEASE=SLE12
+    else
+        echo "Failed to get SLE_RELEASE"
+        exit 1
+    fi
+    if egrep -q "SP[0-9]+" /etc/issue;then
+        TARGET_RELEASE="${TARGET_RELEASE}$(egrep -o "SP[0-9]+" /etc/issue)"
+    fi
+fi
+
+QASET_ROOT=/usr/share/qa/qaset
+if test "X${QASET_ROOT}" == "X";then
+    echo "SET_ROOT is NONE!"
+    echo "Try my best to guess it"
+    dirpart=$(dirname $0)
+    if test -f ${dirpart}/../qaset && test -d ${dirpart}/../qavm;then
+        pushd ${dirpart}/.. > /dev/null
+        QASET_ROOT=${PWD}
+        popd > /dev/null
+    elif test -f ${PWD}/qaset && test -d ${PWD}/qavm;then
+        QASET_ROOT=${PWD}
+    elif test -f ${PWD}/../qaset && test -d ${PWD}/../qavm;then
+        pushd .. > /dev/null
+        QASET_ROOT=${PWD}
+        popd > /dev/null
+    else
+        echo "Failed to get QASET_ROOT"
+        exit 1
+    fi
+fi
+
+SQ_TEST_RUN_SET=
+if test "X${SQ_TEST_RUN_SET}" == "X"; then
+    echo "SQ_TEST_RUN_SET is NONE!"
+    echo "Try my best to guess it"
+    arg0=$(basename $0)
+    if test -z ${arg0}; then
+        echo "impossible"
+        exit 1
+    fi
+    SQ_TEST_RUN_SET=$(echo $arg0 | sed 's/-run.*//')
+    if test -z ${SQ_TEST_RUN_SET}; then
+        echo "Failed to get SQ_TEST_RUN_SET"
+        exit 1
+    fi
+fi
+
+# start reboot service default whenever what kind of test
+#if test ${SQ_TEST_RUN_SET} == performance; then
+    case ${TARGET_RELEASE} in
+        SLE11*) ${QASET_ROOT}/sysv-install;;
+        *) systemctl enable qaperf.service;;
+    esac
+#fi
+
+SQ_SET_BIN=${QASET_ROOT}/qaset
+# user configuration
+SQ_USER_CONFIG_DIR=/root/qaset
+SQ_USER_CONFIG_FILE=${SQ_USER_CONFIG_DIR}/config
+if ! test -d ${SQ_USER_CONFIG_DIR};then
+    mkdir -p ${SQ_USER_CONFIG_DIR}
+fi
+if ! test -f ${SQ_USER_CONFIG_FILE};then
+    touch ${SQ_USER_CONFIG_FILE}
+fi
+if egrep -q '^SQ_TEST_RUN_SET=' ${SQ_USER_CONFIG_FILE};then
+    sed -i "/^SQ_TEST_RUN_SET=/s#^.*\$#SQ_TEST_RUN_SET=${SQ_TEST_RUN_SET}#" ${SQ_USER_CONFIG_FILE}
+else
+    echo "SQ_TEST_RUN_SET=${SQ_TEST_RUN_SET}" >> ${SQ_USER_CONFIG_FILE}
+fi
+if egrep -q '^SQ_UPLOAD_TO_BEIJING=' ${SQ_USER_CONFIG_FILE};then
+    sed -i "/^SQ_UPLOAD_TO_BEIJING=/s#^.*\$#SQ_UPLOAD_TO_BEIJING=Enabled#" ${SQ_USER_CONFIG_FILE}
+else
+    echo "SQ_UPLOAD_TO_BEIJING=Enabled" >> ${SQ_USER_CONFIG_FILE}
+fi
+export SQ_SET_CALL_BY_WRAP=YES
+${SQ_SET_BIN} -t ${TARGET_RELEASE} run
