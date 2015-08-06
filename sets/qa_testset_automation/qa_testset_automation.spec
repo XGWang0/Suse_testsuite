@@ -19,6 +19,8 @@ Release:        0
 Summary:        A test Framework for QA ACAPII
 Source0:        automation-%{version}.tar.bz2
 BuildArch:      noarch
+# The require java is only for generating cucumber report
+Requires:       java >= 1.7.1
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
