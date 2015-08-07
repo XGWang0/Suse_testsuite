@@ -31,14 +31,18 @@ function sq_mach_open {
         if test $? -ne 0;then
             sq_info "[MACH] preparation:add comment in fstab failed!"
         fi
-
-        # more kernel logs
-        # TODO finally add to /etc/defautl/grub
-        # kernel args : ignore_loglevel
-        # xen kernel : multiboot args : loglvl=all guest_loglvl=all
-        #              module line args : ignore_loglevel
-        echo 8 >/proc/sys/kernel/printk
     fi
+    
+    sed -i /abuild/"s/^ *#*/#/" /etc/fstab && {
+        sq_info "[MACH] preparation:add comment in fstab failed!"
+    }
+    # more kernel logs
+    # TODO finally add to /etc/defautl/grub
+    # kernel args : ignore_loglevel
+    # xen kernel : multiboot args : loglvl=all guest_loglvl=all
+    #              module line args : ignore_loglevel
+    echo 8 >/proc/sys/kernel/printk
+
     SQ_TEST_MACH_FLAG_REBOOT=NO
 }
 
