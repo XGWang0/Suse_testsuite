@@ -15,7 +15,7 @@ if test "X${TARGET_RELEASE}" == "X";then
     if egrep -q "SP[0-9]+" /etc/issue;then
         TARGET_RELEASE="${TARGET_RELEASE}$(egrep -o "SP[0-9]+" /etc/issue)"
     fi
-    echo "The TARGET_RELEASE is ${QASET_ROOT}"
+    echo "The TARGET_RELEASE is ${TARGET_RELEASE}"
 fi
 
 QASET_ROOT=
@@ -54,6 +54,7 @@ if test "X${SQ_TEST_RUN_SET}" == "X"; then
         echo "Failed to get SQ_TEST_RUN_SET"
         exit 1
     fi
+    echo "The SQ_TEST_RUN_SET is ${SQ_TEST_RUN_SET}"
 fi
 
 # start reboot service default whenever what kind of test
