@@ -153,7 +153,9 @@ function sq_abuild_set_fs {
 
     case ${_fs_type} in
         ext3)
-            ${SQ_DEBUG_ECHO} /sbin/mkfs.ext3 ${_fs_options} ${_part} > /dev/null;;
+            ${SQ_DEBUG_ECHO} /sbin/mkfs.ext3 -F ${_fs_options} ${_part} > /dev/null;;
+        ext4)
+            ${SQ_DEBUG_ECHO} /sbin/mkfs.ext4 -F ${_fs_options} ${_part} > /dev/null;;
         xfs)
             ${SQ_DEBUG_ECHO} /sbin/mkfs.xfs -f ${_fs_options} ${_part} > /dev/null ;;
         btrfs) ${SQ_DEBUG_ECHO} /sbin/mkfs.btrfs -f ${_fs_options} ${_part} > /dev/null ;;
