@@ -79,6 +79,13 @@ function sq_assert {
     exit 4
 }
 
+function sq_network_dump {
+    sq_info "[network] dump"
+    ip a
+    ip r
+    cat /etc/resolv.conf
+}
+
 #
 # Repo tools
 #
@@ -149,6 +156,7 @@ function sq_prep_install_package_nocheck {
     done
     if [ $? != 0 ];then
         sq_error "Failed to install ${1}\n"
+        sq_network_dump
         return 2
     fi
     return 0
