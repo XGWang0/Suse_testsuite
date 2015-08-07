@@ -20,6 +20,7 @@ Source5:      qa_test_libhugetlbfs_ia64.tcf
 Patch0:       err_output.patch
 Patch1:       ppc64le.patch
 Patch2:	      s390ppc64.patch
+Patch3:       misalign.patch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -30,6 +31,7 @@ The testsuite contains tests both for the library's features and for the underly
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 make clean
