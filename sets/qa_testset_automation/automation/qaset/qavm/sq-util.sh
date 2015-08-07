@@ -151,12 +151,14 @@ function sq_prep_install_package_nocheck {
     try=0;
     while test $try -lt 10;do
         zypper -n in -l ${1} && break
+        sq_network_dump
         sq_info "Try to install $try times"
+        sq_info "Wait 10 secs"
+        sleep 10
         let try++
     done
     if [ $? != 0 ];then
         sq_error "Failed to install ${1}\n"
-        sq_network_dump
         return 2
     fi
     return 0
