@@ -52,7 +52,6 @@ function sq_result_save_locally {
     local ret=0
 
     _serial=$(date '+%Y%m%dT%H%M%S')
-    
     pushd /var/log/qa/ctcs2 > /dev/null
     if test $? -eq 0;then
         tar -c -j -f "${SQ_TEST_LOG_DIR}/${name}-${_serial}.tar.bz2" *
