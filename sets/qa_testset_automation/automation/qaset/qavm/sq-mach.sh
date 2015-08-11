@@ -43,6 +43,16 @@ function sq_mach_open {
     #              module line args : ignore_loglevel
     echo 8 >/proc/sys/kernel/printk
 
+    # wait the network ready
+    while true;do
+        if ip r | grep -q default; then
+             break;
+        else
+             echo "wait 6 secs for network ready"
+             sleep 6
+        fi
+    done
+
     SQ_TEST_MACH_FLAG_REBOOT=NO
 }
 
