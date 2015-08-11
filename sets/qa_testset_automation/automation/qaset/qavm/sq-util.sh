@@ -84,6 +84,7 @@ function sq_network_dump {
     ip a
     ip r
     cat /etc/resolv.conf
+    echo
 }
 
 #
@@ -114,7 +115,7 @@ function sq_prep_repos {
             "${_repo_url}"
         #delete the old one
         ${SQ_DEBUG_ECHO} zypper rr ${_repo_name}
-        ${SQ_DEBUG_ECHO} zypper --no-gpg-checks -n ar ${_repo_url} ${_repo_name}
+        ${SQ_DEBUG_ECHO} zypper --no-gpg-checks -n ar -f ${_repo_url} ${_repo_name}
         if [ $? != 0 ];then
             sq_error "zypper add repo ${_repo_name} failed." \
                 "The URI is\n\t${_repo_url}"
@@ -150,8 +151,8 @@ function sq_prep_install_package_nocheck {
     sq_info "Try to install ${1}"
     try=0;
     while test $try -lt 10;do
-        zypper -n in -l ${1} && break
         sq_network_dump
+        zypper -n in -l ${1} && break
         sq_info "Try to install $try times"
         sq_info "Wait 10 secs"
         sleep 10
