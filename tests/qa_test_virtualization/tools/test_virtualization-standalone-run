@@ -65,13 +65,16 @@ else
 	echo "Can NOT detect the suse_version,test all"
 fi
 
-
 #remove all para-virtualization test on KVM host
-if ! uname -a|grep -iq xen ;then
+if ! uname -r|grep -iq xen ;then
 	#The host is KVM
 	sed -i '/-pv-/d' $TCF_TRUE
 
 fi
+
+#remove the iso cases
+sed -i "/-iso/d" $TCF_TRUE
+
 
 #Start to process options
 
@@ -99,11 +102,11 @@ if echo $thread|grep -q "^[0-9][0-9]*$" ;then
 	#set the number
 	num=$thread
 	time_ext=$((thread*300))
-	timer=$((7200+$time_ext))
+	timer=$((9600+$time_ext))
 else
 	#By default, we set thread = 4
 	num=4
-	timer=7200
+	timer=9600
 
 fi
 
@@ -121,6 +124,7 @@ first_timer=$(($timer+1800))
 sed -i "0~$num {s/\$/\nwait\nwait\ntimer $timer/;}" $TCF_TRUE
 sed -i "1s/^/timer $first_timer\n/" $TCF_TRUE
 sed -i "\$s/$/\nwait\nwait/" $TCF_TRUE
+sed -i 's/^fg /bg /' $TCF_TRUE
 sed -i '2s/^bg/fg/' $TCF_TRUE
 
 $CTCS2_DIR/tools/run $TCF_TRUE
@@ -137,7 +141,4 @@ ARCH=`arch`
 /usr/share/qa/tools/remote_qa_db_report.pl -b -c "Virtualization test results on $hn-$ARCH"
 
 exit $returncode
-
-
-$CTCS2_DIR/tools/run $TCF_DIR/qa_virtualization-standalone.tcf
 
