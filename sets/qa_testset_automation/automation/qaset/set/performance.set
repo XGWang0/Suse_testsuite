@@ -224,7 +224,7 @@ function def_unit_fs {
 def_unit_fs reaim_ioperf "/usr/share/qa/tools/test_reaim_ioperf-run" qa_test_reaim
 def_unit_fs bonniepp_async "/usr/share/qa/tools/test_bonnie++-async-run" 'qa_test_bonnie++'
 def_unit_fs bonniepp_fsync "/usr/share/qa/tools/test_bonnie++-fsync-run" 'qa_test_bonnie++'
-#def_unit_fs iozone_doublemem "/usr/share/qa/tools/test_iozone_doublemem-run" qa_test_iozone
+def_unit_fs iozone_doublemem "/usr/share/qa/tools/test_iozone_doublemem-run" qa_test_iozone
 def_unit_fs dbench4_async "/usr/share/qa/tools/test_dbench-4_0_async-run" qa_test_dbench-4_0
 def_unit_fs dbench4_fsync "/usr/share/qa/tools/test_dbench-4_0_fsync-run" qa_test_dbench-4_0
 def_unit_fs dbench4_osync "/usr/share/qa/tools/test_dbench-4_0_osync-run" qa_test_dbench-4_0
