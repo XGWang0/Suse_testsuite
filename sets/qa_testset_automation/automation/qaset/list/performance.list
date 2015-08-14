@@ -41,31 +41,31 @@ SQ_TEST_RUN_LIST=(
     reaim_ioperf_ext4
     reaim_ioperf_ext4
 
-    iozone_doublemem_ext3
-    iozone_doublemem_ext3
-    iozone_doublemem_ext3
-    iozone_doublemem_xfs
-    iozone_doublemem_xfs
-    iozone_doublemem_xfs
-    iozone_doublemem_btrfs
-    iozone_doublemem_btrfs
-    iozone_doublemem_btrfs
-    iozone_doublemem_ext4
-    iozone_doublemem_ext4
-    iozone_doublemem_ext4
+    tiobench_doublemem_async_ext3
+    tiobench_doublemem_async_ext3
+    tiobench_doublemem_async_ext3
+    tiobench_doublemem_async_xfs
+    tiobench_doublemem_async_xfs
+    tiobench_doublemem_async_xfs
+    tiobench_doublemem_async_btrfs
+    tiobench_doublemem_async_btrfs
+    tiobench_doublemem_async_btrfs
+    tiobench_doublemem_async_ext4
+    tiobench_doublemem_async_ext4
+    tiobench_doublemem_async_ext4
 
-    tiobench_doublemem_async_ext3
-    tiobench_doublemem_async_ext3
-    tiobench_doublemem_async_ext3
-    tiobench_doublemem_async_xfs
-    tiobench_doublemem_async_xfs
-    tiobench_doublemem_async_xfs
-    tiobench_doublemem_async_btrfs
-    tiobench_doublemem_async_btrfs
-    tiobench_doublemem_async_btrfs
-    tiobench_doublemem_async_ext4
-    tiobench_doublemem_async_ext4
-    tiobench_doublemem_async_ext4
+    tiobench_doublemem_fsync_ext3
+    tiobench_doublemem_fsync_ext3
+    tiobench_doublemem_fsync_ext3
+    tiobench_doublemem_fsync_xfs
+    tiobench_doublemem_fsync_xfs
+    tiobench_doublemem_fsync_xfs
+    tiobench_doublemem_fsync_btrfs
+    tiobench_doublemem_fsync_btrfs
+    tiobench_doublemem_fsync_btrfs
+    tiobench_doublemem_fsync_ext4
+    tiobench_doublemem_fsync_ext4
+    tiobench_doublemem_fsync_ext4
 
     bonniepp_async_ext3
     bonniepp_async_ext3
