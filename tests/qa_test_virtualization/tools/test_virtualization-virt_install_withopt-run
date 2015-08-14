@@ -134,6 +134,8 @@ sed -i "1s/^/timer $first_timer\n/" $TCF_TRUE
 sed -i "\$s/$/\nwait\nwait/" $TCF_TRUE
 sed -i '2s/^bg/fg/' $TCF_TRUE
 
+rm -rf /tmp/virt_screenshot.tar.bz2 /tmp/virt-install_screenshot
+
 $CTCS2_DIR/tools/run $TCF_TRUE
 returncode=0
 
@@ -142,8 +144,17 @@ for file in `find /var/log/qa/ctcs2/ -name test_results`; do
 done
 
 ((returncode+=`find /var/log/qa/ctcs2/ -name test_results -exec grep "^[0-9] 0" {} \; | wc -l`))
+
+
 hn=`cat /etc/HOSTNAME`
 ARCH=`arch`
+
+rm /tmp/virt_screenshot.tar.bz2
+tar jcf /tmp/virt_screenshot.tar.bz2 /tmp/virt-install_screenshot/
+
+v_updir=`find /var/log/qa/ctcs2 -type d -name "qa_virtualization-virt_install*"|tail -1`
+
+[ -d $v_updir ] && cp /tmp/virt_screenshot.tar.bz2 $v_updir/
 
 /usr/share/qa/tools/remote_qa_db_report.pl -b -c "Virtualization test results on $hn-$ARCH"
 
