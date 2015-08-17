@@ -29,6 +29,7 @@ function sysbench_fini {
 function mysql_service_init {
     sysbench_init
     if [ "${systemd_flag}x" == "0x" ];then
+        #SLE11 and older version
         #sysv
         #settings via the way
         export defaults="--defaults-file=${SB_MYSQL_DEFAULTS_FILE}"
@@ -36,8 +37,9 @@ function mysql_service_init {
         sleep 3
         /etc/init.d/mysql status
     else
+        #SLE12 and later version
         #systemd
-        systemctl set-environment defaults="--defaults-file=${SB_MYSQL_DEFAULTS_FILE}"
+        cp ${SB_MYSQL_DEFAULTS_FILE} /etc/my.cnf.d/sysbench_testing.cnf
         systemctl start mysql
         sleep 3
         systemctl status mysql
@@ -52,6 +54,7 @@ function mysql_service_fini {
         /etc/init.d/mysql stop
     else
         systemctl stop mysql
+        rm /etc/my.cnf.d/sysbench_testing.cnf
     fi
     echo "debug"
     ps -ef | grep mysql
