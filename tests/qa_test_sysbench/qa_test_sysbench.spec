@@ -94,6 +94,7 @@ install -D -m 755 sysbench-example-tests/sysbench-example-all-tests  %{buildroot
 install -D -m 755 ctcstools/sysbench-oltp-test %{buildroot}/usr/bin/sysbench-oltp-test
 #popd
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
+mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 cp ctcstools/test_sysbench-run $RPM_BUILD_ROOT/usr/lib/ctcs2/tools
 cp ctcstools/sysbench-full.tcf $RPM_BUILD_ROOT/usr/lib/ctcs2/tcf
@@ -130,6 +131,8 @@ fi
 #%files ctcs2-glue
 #%defattr(-, root, root)
 /usr/lib/ctcs2
+/usr/share/qa
+/usr/share/qa/tcf
 
 %changelog
 * Thu Jul 31 2008 yxu@suse.de
