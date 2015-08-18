@@ -1,0 +1,61 @@
+." Manpage for qa_testset_htmlreport.
+." Contact John Wang <xgwang@suse.com> to correct errors or typos.
+.TH man 8 "18 Aug 2015" "1.0" "qa_testset_htmlreport man page"
+.SH NAME
+qa_testset_htmlreport
+.SH SYNOPSIS
+A package for generating cucumber report for APECII regerssion test & kotd test
+.br
+/usr/share/qa/qaset/report/cu_report_generator.py
+.br
+/usr/share/qa/qaset/report/cucumber_generator.jar
+.SH TYPE
+qa_ package.
+.SH DESCRIPTION
+This is a tool package that can be used to generate cucumber html report for relevant regressiont test.
+.br
+qa_testset_htmlreport  scripts are writen by Python and Java. Use cu_report_generator.py to collect json.
+.br
+And use file cucumber_generator.jar to get parse json into html report.
+.SH README
+None.
+.SH OPTIONS
+-h, --help            show this help message and exit
+.br
+-t TEST_TYPE, --testtype=TEST_TYPE
+.br
+                      Input test type
+.br
+                      "stress_validation|kernel_regression|user_regression".
+.br
+-l LOG_PATH, --logpath=LOG_PATH
+.br
+                      Input a log path
+.br
+-s SUBMISSION_PATH, --submissionpath=SUBMISSION_PATH
+.br
+                      Input a submission path.
+.br
+-o OUTPUT, --output=OUTPUT
+.br
+                      Input path which json and html file will be generated
+.SH WHAT IT DOES
+Use cu_report_generator.py to collect json. And use file cucumber_generator.jar to parse json file into html report.
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+No harm scripts, generally no problem.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Internal, Our code.
+.SH LICENSE
+SUSE Proprietary
+.SH UPSTREAM
+None.
+.SH AUTHOR
+John Wang <xgwang@suse.com>
+.SH MAINTAINER
+John Wang <xgwang@suse.com>
