@@ -28,6 +28,7 @@ RES_SKIPPED=22
 
 APACHE_MODULES=( dav dav_svn )
 REPOS_HTTPD_OWNER=( davtest_world_writable davtest_auth )
+REPOS=( "${REPOS_HTTPD_OWNER[@]}" svn_plus_ssh )
 
 # {{{ helpers
 _check_shell_settings() {
@@ -114,9 +115,9 @@ svn_setup() {
 
 	chown -R --no-dereference $SVN_USR:$SVN_GRP $SVN_HOME
 
-	su $SVN_USR -c "svnadmin create ${SVN_HOME}/repos/svn_plus_ssh"
-	su $SVN_USR -c "svnadmin create ${SVN_HOME}/repos/davtest_world_writable"
-	su $SVN_USR -c "svnadmin create ${SVN_HOME}/repos/davtest_auth"
+	for i in ${REPOS[@]}; do
+		su $SVN_USR -c "svnadmin create ${SVN_HOME}/repos/${i}"
+	done
 
 	[ -d "${SVN_CLI_HOME}/.ssh" ] && \
 		[ ! $(ls ${SVN_CLI_HOME}/.ssh/ | wc -l) = "0" ] && \
