@@ -26,8 +26,8 @@ RES_FAIL_SETUP=11
 RES_SKIPPED=22
 # }}}
 
-APACHE_MODULES=( dav dav_svn )
-REPOS_HTTPD_OWNER=( davtest_world_writable davtest_auth )
+APACHE_MODULES=( dav dav_svn authz_svn )
+REPOS_HTTPD_OWNER=( davtest_world_writable davtest_auth davtest_authz_anonymous )
 REPOS=( "${REPOS_HTTPD_OWNER[@]}" svn_plus_ssh )
 
 # {{{ helpers
@@ -176,6 +176,10 @@ svn_setup() {
 		chown ${SVN_CLI_USR} $svn_pwd_dir/$svn_pwd_file
 		chmod 600 $svn_pwd_dir/$svn_pwd_file
 	# }}}
+
+	# {{{ dav_authz
+	cp ${SRCDIR}/authz-access-anonymous ${SVN_HOME}
+	# }}}
 }
 
 _svn_version() {
@@ -278,6 +282,12 @@ case_dav_auth() {
 	export CASE_NAME="DAV+AUTH"
 	export CASE_URL="http://$svn_server/repos/davtest_auth"
 	export CASE_BASEDIR=${TMP_BASEDIR}/dav_auth
+}
+
+case_dav_authz() {
+	export CASE_NAME="DAV+AUTHZ"
+	export CASE_URL="http://$svn_server/repos/davtest_authz"
+	export CASE_BASEDIR=${TMP_BASEDIR}/dav_authz
 }
 
 case_null() {

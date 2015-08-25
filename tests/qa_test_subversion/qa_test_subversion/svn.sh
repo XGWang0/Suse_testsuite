@@ -45,7 +45,7 @@ if [ -n "${1:-}" ]; then
 	[ ! $? -eq 0 ] &&  exit $RES_FAIL_SETUP
 	svn_test_all $(hostname -f) /usr/share/doc/packages/vim $1
 else
-	cases="ssh dav dav_auth"
+	cases="ssh dav dav_auth dav_authz"
 	rc=0
 	for i in $cases; do
 		$SRCDIR/svn.sh $ARGV $i
