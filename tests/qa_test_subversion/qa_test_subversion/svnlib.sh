@@ -26,6 +26,10 @@ RES_FAIL_SETUP=11
 RES_SKIPPED=22
 # }}}
 
+APACHE_MODULES=( dav dav_svn authz_svn )
+REPOS_HTTPD_OWNER=( davtest_world_writable davtest_auth davtest_authz_anonymous )
+REPOS=( "${REPOS_HTTPD_OWNER[@]}" svn_plus_ssh )
+
 # {{{ helpers
 _check_shell_settings() {
 	opts="errexit nounset"
@@ -66,8 +70,9 @@ svn_cleanup() {
 		is_usr $SVN_CLI_USR && userdel -r $SVN_CLI_USR >$LOGF 2>&1
 		is_grp $SVN_GRP && groupdel svn
 
-		a2dismod dav
-		a2dismod dav_svn
+		for i in ${APACHE_MODULES[@]}; do
+			a2dismod $i
+		done
 
 		rcapache2 stop >$LOGF 2>&1
 	}
@@ -110,9 +115,9 @@ svn_setup() {
 
 	chown -R --no-dereference $SVN_USR:$SVN_GRP $SVN_HOME
 
-	su $SVN_USR -c "svnadmin create ${SVN_HOME}/repos/svn_plus_ssh"
-	su $SVN_USR -c "svnadmin create ${SVN_HOME}/repos/davtest_world_writable"
-	su $SVN_USR -c "svnadmin create ${SVN_HOME}/repos/davtest_auth"
+	for i in ${REPOS[@]}; do
+		su $SVN_USR -c "svnadmin create ${SVN_HOME}/repos/${i}"
+	done
 
 	[ -d "${SVN_CLI_HOME}/.ssh" ] && \
 		[ ! $(ls ${SVN_CLI_HOME}/.ssh/ | wc -l) = "0" ] && \
@@ -143,13 +148,15 @@ svn_setup() {
 
 	cp ${SVN_APACHE_CONF} ${SVN_APACHE_CONF_BAK}
 
-	chown wwwrun:${SVN_GRP} -R \
-		${SVN_HOME}/repos/{davtest_world_writable,davtest_auth}
+	for i in "${REPOS_HTTPD_OWNER[@]}"; do
+		chown wwwrun:${SVN_GRP} -R ${SVN_HOME}/repos/$i
+	done
 
 	cp $SRCDIR/subversion.conf ${SVN_APACHE_CONF}
 
-	a2enmod dav
-	a2enmod dav_svn
+	for i in ${APACHE_MODULES[@]}; do
+		a2enmod $i
+	done
 
 	rcapache2 restart >$LOGF 2>&1
 
@@ -168,6 +175,10 @@ svn_setup() {
 		sed -i "s/REALM_LEN/${len}/" $svn_pwd_dir/$svn_pwd_file
 		chown ${SVN_CLI_USR} $svn_pwd_dir/$svn_pwd_file
 		chmod 600 $svn_pwd_dir/$svn_pwd_file
+	# }}}
+
+	# {{{ dav_authz
+	cp ${SRCDIR}/authz-access-anonymous ${SVN_HOME}
 	# }}}
 }
 
@@ -271,6 +282,12 @@ case_dav_auth() {
 	export CASE_NAME="DAV+AUTH"
 	export CASE_URL="http://$svn_server/repos/davtest_auth"
 	export CASE_BASEDIR=${TMP_BASEDIR}/dav_auth
+}
+
+case_dav_authz() {
+	export CASE_NAME="DAV+AUTHZ"
+	export CASE_URL="http://$svn_server/repos/davtest_authz"
+	export CASE_BASEDIR=${TMP_BASEDIR}/dav_authz
 }
 
 case_null() {
