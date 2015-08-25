@@ -26,6 +26,8 @@ RES_FAIL_SETUP=11
 RES_SKIPPED=22
 # }}}
 
+APACHE_MODULES=( dav dav_svn )
+
 # {{{ helpers
 _check_shell_settings() {
 	opts="errexit nounset"
@@ -66,8 +68,9 @@ svn_cleanup() {
 		is_usr $SVN_CLI_USR && userdel -r $SVN_CLI_USR >$LOGF 2>&1
 		is_grp $SVN_GRP && groupdel svn
 
-		a2dismod dav
-		a2dismod dav_svn
+		for i in ${APACHE_MODULES[@]}; do
+			a2dismod $i
+		done
 
 		rcapache2 stop >$LOGF 2>&1
 	}
@@ -148,8 +151,9 @@ svn_setup() {
 
 	cp $SRCDIR/subversion.conf ${SVN_APACHE_CONF}
 
-	a2enmod dav
-	a2enmod dav_svn
+	for i in ${APACHE_MODULES[@]}; do
+		a2enmod $i
+	done
 
 	rcapache2 restart >$LOGF 2>&1
 
