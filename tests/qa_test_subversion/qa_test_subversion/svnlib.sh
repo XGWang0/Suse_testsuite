@@ -27,6 +27,7 @@ RES_SKIPPED=22
 # }}}
 
 APACHE_MODULES=( dav dav_svn )
+REPOS_HTTPD_OWNER=( davtest_world_writable davtest_auth )
 
 # {{{ helpers
 _check_shell_settings() {
@@ -146,8 +147,9 @@ svn_setup() {
 
 	cp ${SVN_APACHE_CONF} ${SVN_APACHE_CONF_BAK}
 
-	chown wwwrun:${SVN_GRP} -R \
-		${SVN_HOME}/repos/{davtest_world_writable,davtest_auth}
+	for i in "${REPOS_HTTPD_OWNER[@]}"; do
+		chown wwwrun:${SVN_GRP} -R ${SVN_HOME}/repos/$i
+	done
 
 	cp $SRCDIR/subversion.conf ${SVN_APACHE_CONF}
 
