@@ -50,4 +50,7 @@ else
 	sed -i '/^[^#].*lvchange-partial/s/^/#/g' $tcf_f
 fi
 
+# if lvm2-lvmetad started before test, it'll cause hang in aux line82.
+service lvm2-lvmetad stop
+
 /usr/lib/ctcs2/tools/run $tcf_f
