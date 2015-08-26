@@ -1,6 +1,6 @@
-diff -uN qa_test_nfs/nfs_dontwrite.sh new/nfs_dontwrite.sh
+diff -uN qa_test_nfs/nfs_dontwrite.sh nfs_dontwrite.sh
 --- qa_test_nfs/nfs_dontwrite.sh	2008-06-06 11:23:03.000000000 +0200
-+++ new/nfs_dontwrite.sh	2015-08-25 11:31:53.193512361 +0200
++++ nfs_dontwrite.sh	2015-08-25 11:31:53.193512361 +0200
 @@ -21,6 +21,8 @@
          mkdir -p "$EXPORT"
          mkdir -p "$MOUNT"
@@ -27,9 +27,9 @@ diff -uN qa_test_nfs/nfs_dontwrite.sh new/nfs_dontwrite.sh
  }
  
  function cleanup() {
-diff -uN qa_test_nfs/nfs_mount_umount.sh new/nfs_mount_umount.sh
+diff -uN qa_test_nfs/nfs_mount_umount.sh nfs_mount_umount.sh
 --- qa_test_nfs/nfs_mount_umount.sh	2008-06-05 14:36:21.000000000 +0200
-+++ new/nfs_mount_umount.sh	2015-08-25 10:36:53.297640721 +0200
++++ nfs_mount_umount.sh	2015-08-25 10:36:53.297640721 +0200
 @@ -19,6 +19,8 @@
      while read EXPORT MOUNT; do
          mkdir -p "$EXPORT"
@@ -56,9 +56,9 @@ diff -uN qa_test_nfs/nfs_mount_umount.sh new/nfs_mount_umount.sh
  }
  
  function cleanup() {
-diff -uN qa_test_nfs/nfs_read.sh new/nfs_read.sh
+diff -uN qa_test_nfs/nfs_read.sh nfs_read.sh
 --- qa_test_nfs/nfs_read.sh	2008-06-05 14:36:28.000000000 +0200
-+++ new/nfs_read.sh	2015-08-25 11:34:34.169506100 +0200
++++ nfs_read.sh	2015-08-25 11:34:34.169506100 +0200
 @@ -18,6 +18,10 @@
          mkdir -p "$MOUNT"
          chmod 777 "$EXPORT"
@@ -87,9 +87,9 @@ diff -uN qa_test_nfs/nfs_read.sh new/nfs_read.sh
  }
  
  function cleanup() {
-diff -uN qa_test_nfs/nfs_start_stop.sh new/nfs_start_stop.sh
+diff -uN qa_test_nfs/nfs_start_stop.sh nfs_start_stop.sh
 --- qa_test_nfs/nfs_start_stop.sh	2015-08-25 10:57:56.313591592 +0200
-+++ new/nfs_start_stop.sh	2015-08-25 10:19:41.861680841 +0200
++++ nfs_start_stop.sh	2015-08-25 10:19:41.861680841 +0200
 @@ -24,7 +24,7 @@
  	return 0
      fi
@@ -99,9 +99,9 @@ diff -uN qa_test_nfs/nfs_start_stop.sh new/nfs_start_stop.sh
  	printMessage $MSG_FAILED "Still running (mountd or nfsd)"
  	return 1
      fi
-diff -uN qa_test_nfs/nfs_usermapping_allsquash.sh new/nfs_usermapping_allsquash.sh
+diff -uN qa_test_nfs/nfs_usermapping_allsquash.sh nfs_usermapping_allsquash.sh
 --- qa_test_nfs/nfs_usermapping_allsquash.sh	2015-08-25 10:57:56.313591592 +0200
-+++ new/nfs_usermapping_allsquash.sh	2015-08-26 08:28:50.125848774 +0200
++++ nfs_usermapping_allsquash.sh	2015-08-26 08:28:50.125848774 +0200
 @@ -19,6 +19,10 @@
      while read EXPORT MOUNT; do
          mkdir -p "$EXPORT"
@@ -132,9 +132,9 @@ diff -uN qa_test_nfs/nfs_usermapping_allsquash.sh new/nfs_usermapping_allsquash.
  }
  
  function cleanup() {
-diff -uN qa_test_nfs/nfs_usermapping_norootsquash.sh new/nfs_usermapping_norootsquash.sh
+diff -uN qa_test_nfs/nfs_usermapping_norootsquash.sh nfs_usermapping_norootsquash.sh
 --- qa_test_nfs/nfs_usermapping_norootsquash.sh	2015-08-25 10:57:56.313591592 +0200
-+++ new/nfs_usermapping_norootsquash.sh	2015-08-25 11:36:07.641502464 +0200
++++ nfs_usermapping_norootsquash.sh	2015-08-25 11:36:07.641502464 +0200
 @@ -19,6 +19,10 @@
      while read EXPORT MOUNT; do
          mkdir -p "$EXPORT"
@@ -165,9 +165,9 @@ diff -uN qa_test_nfs/nfs_usermapping_norootsquash.sh new/nfs_usermapping_noroots
  }
  
  function cleanup() {
-diff -uN qa_test_nfs/nfs_usermapping_rootsquash.sh new/nfs_usermapping_rootsquash.sh
+diff -uN qa_test_nfs/nfs_usermapping_rootsquash.sh nfs_usermapping_rootsquash.sh
 --- qa_test_nfs/nfs_usermapping_rootsquash.sh	2015-08-25 10:57:56.313591592 +0200
-+++ new/nfs_usermapping_rootsquash.sh	2015-08-25 11:33:53.081507698 +0200
++++ nfs_usermapping_rootsquash.sh	2015-08-25 11:33:53.081507698 +0200
 @@ -19,6 +19,10 @@
      while read EXPORT MOUNT; do
          mkdir -p "$EXPORT"
@@ -198,9 +198,9 @@ diff -uN qa_test_nfs/nfs_usermapping_rootsquash.sh new/nfs_usermapping_rootsquas
  }
  
  function cleanup() {
-diff -uN qa_test_nfs/nfs_write.sh new/nfs_write.sh
+diff -uN qa_test_nfs/nfs_write.sh nfs_write.sh
 --- qa_test_nfs/nfs_write.sh	2008-06-05 14:36:36.000000000 +0200
-+++ new/nfs_write.sh	2015-08-25 11:27:21.309522937 +0200
++++ nfs_write.sh	2015-08-25 11:27:21.309522937 +0200
 @@ -18,6 +18,8 @@
          mkdir -p "$MOUNT"
          chmod 777 "$EXPORT"
