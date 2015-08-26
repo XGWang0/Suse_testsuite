@@ -1,0 +1,227 @@
+diff -ruN qa_test_nfs/nfs_dontwrite.sh nfs_dontwrite.sh
+--- qa_test_nfs/nfs_dontwrite.sh	2008-06-06 11:23:03.000000000 +0200
++++ nfs_dontwrite.sh	2015-08-25 11:31:53.193512361 +0200
+@@ -21,6 +21,8 @@
+         mkdir -p "$EXPORT"
+         mkdir -p "$MOUNT"
+         chmod $CHMOD_PERMISION "$EXPORT"
++        # export dirs
++        exportfs -rv &> /dev/null
+         MOUNTEDNOW=$MOUNT # for cleanup when interputed..
+         mount $MOUNT_PARAMS -t $NFSVER localhost:"$EXPORT" "$MOUNT"
+ # mount
+@@ -48,12 +50,15 @@
+         printMessage $MSG_ERROR "File $EXPORTSCONF dont exists or is not readable!"
+         exit $FAILED
+     fi
++    # start nfsserver before changing conf file
++    service "$SERVICE" restart
++    # nfsserver status
++    service nfsserver status
+     if ! copyConfig "$EXPORTSFILE" "/etc/exports"; then
+         printMessage $MSG_ERROR "Backup and rewrite config /etc/exports by $EXPORTSFILE"
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports # if it fails in TEST1 in NFS4 and it is not bug, here must be "ro" for TEST1
+-    startService "$SERVICE" 2> /dev/null >&2
+ }
+ 
+ function cleanup() {
+diff -ruN qa_test_nfs/nfs_mount_umount.sh nfs_mount_umount.sh
+--- qa_test_nfs/nfs_mount_umount.sh	2008-06-05 14:36:21.000000000 +0200
++++ nfs_mount_umount.sh	2015-08-25 10:36:53.297640721 +0200
+@@ -19,6 +19,8 @@
+     while read EXPORT MOUNT; do
+         mkdir -p "$EXPORT"
+         mkdir -p "$MOUNT"
++        # export dirs
++        exportfs -rv &> /dev/null
+         printMessage $MSG_INFO "Mounting localhost:$EXPORT to $MOUNT..."
+         if mount -t $NFSVER localhost:"$EXPORT" "$MOUNT" && mount | grep "$EXPORT" > /dev/null; then
+             COUNTER=$(($COUNTER+1))
+@@ -77,12 +79,15 @@
+         printMessage $MSG_ERROR "File $EXPORTSCONF dont exists or is not readable!"
+         exit $FAILED
+     fi
++    # start nfsserver before changing conf file
++    service "$SERVICE" restart
++    # nfsserver status
++    service nfsserver status
+     if ! copyConfig "$EXPORTSFILE" "/etc/exports"; then
+         printMessage $MSG_ERROR "Backup and rewrite config /etc/exports by $EXPORTSFILE"
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
+ }
+ 
+ function cleanup() {
+diff -ruN qa_test_nfs/nfs_read.sh nfs_read.sh
+--- qa_test_nfs/nfs_read.sh	2008-06-05 14:36:28.000000000 +0200
++++ nfs_read.sh	2015-08-25 11:34:34.169506100 +0200
+@@ -18,6 +18,10 @@
+         mkdir -p "$MOUNT"
+         chmod 777 "$EXPORT"
+         chmod 777 "$MOUNT"
++
++        # export dirs
++        exportfs -rv &> /dev/null
++
+         MOUNTEDNOW=$MOUNT # for cleanup when interputed..
+         mount -t $NFSVER localhost:"$EXPORT" "$MOUNT"
+         testOneFileText   "$EXPORT" "$MOUNT" 2> /dev/null && \
+@@ -40,12 +44,15 @@
+         printMessage $MSG_ERROR "File $EXPORTSCONF dont exists or is not readable!"
+         exit $FAILED
+     fi
++    # start nfsserver before changing conf file
++    service "$SERVICE" restart
++    # nfsserver status
++    service nfsserver status
+     if ! copyConfig "$EXPORTSFILE" "/etc/exports"; then
+         printMessage $MSG_ERROR "Backup and rewrite config /etc/exports by $EXPORTSFILE"
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
+ }
+ 
+ function cleanup() {
+diff -ruN qa_test_nfs/nfs_start_stop.sh nfs_start_stop.sh
+--- qa_test_nfs/nfs_start_stop.sh	2015-08-25 10:57:56.313591592 +0200
++++ nfs_start_stop.sh	2015-08-25 10:19:41.861680841 +0200
+@@ -24,7 +24,7 @@
+ 	return 0
+     fi
+ 
+-    if [ -n "`/etc/init.d/$SERVICE status | grep -e mountd  -e nfsd | grep running`" ]; then
++    if [ -n "`service $SERVICE status | grep -e mountd  -e nfsd | grep running`" ]; then
+ 	printMessage $MSG_FAILED "Still running (mountd or nfsd)"
+ 	return 1
+     fi
+diff -ruN qa_test_nfs/nfs_usermapping_allsquash.sh nfs_usermapping_allsquash.sh
+--- qa_test_nfs/nfs_usermapping_allsquash.sh	2015-08-25 10:57:56.313591592 +0200
++++ nfs_usermapping_allsquash.sh	2015-08-25 11:37:13.353499908 +0200
+@@ -19,6 +19,10 @@
+     while read EXPORT MOUNT; do
+         mkdir -p "$EXPORT"
+         mkdir -p "$MOUNT"
++
++        # export dirs
++        exportfs -rv &> /dev/null
++
+         MOUNTEDNOW=$MOUNT
+         mount -t $NFSVER -o noac localhost:"$EXPORT" "$MOUNT"
+ 
+@@ -67,6 +71,8 @@
+         printMessage $MSG_ERROR "File $EXPORTSCONF dont exists or is not readable!"
+         exit $FAILED
+     fi
++    # start nfsserver before changing conf file
++    service "$SERVICE" restart
+     if ! copyConfig $EXPORTSFILE "/etc/exports"; then
+         printMessage $MSG_ERROR "Backup and rewrite config /etc/exports by $EXPORTSFILE1"
+         exit $FAILED
+@@ -76,7 +82,6 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0,all_squash)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
+ }
+ 
+ function cleanup() {
+diff -ruN qa_test_nfs/nfs_usermapping_norootsquash.sh nfs_usermapping_norootsquash.sh
+--- qa_test_nfs/nfs_usermapping_norootsquash.sh	2015-08-25 10:57:56.313591592 +0200
++++ nfs_usermapping_norootsquash.sh	2015-08-25 11:36:07.641502464 +0200
+@@ -19,6 +19,10 @@
+     while read EXPORT MOUNT; do
+         mkdir -p "$EXPORT"
+         mkdir -p "$MOUNT"
++
++        # export dirs
++        exportfs -rv &> /dev/null
++
+         MOUNTEDNOW=$MOUNT
+         mount -t $NFSVER -o noac localhost:"$EXPORT" "$MOUNT"
+ 
+@@ -61,6 +65,10 @@
+         printMessage $MSG_ERROR "File $EXPORTSCONF dont exists or is not readable!"
+         exit $FAILED
+     fi
++    # start nfsserver before changing conf file
++    service "$SERVICE" restart
++    # nfsserver status
++    service nfsserver status
+     if ! copyConfig $EXPORTSFILE "/etc/exports"; then
+         printMessage $MSG_ERROR "Backup and rewrite config /etc/exports by $EXPORTSFILE1"
+         exit $FAILED
+@@ -70,7 +78,6 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0,no_root_squash)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
+ }
+ 
+ function cleanup() {
+diff -ruN qa_test_nfs/nfs_usermapping_rootsquash.sh nfs_usermapping_rootsquash.sh
+--- qa_test_nfs/nfs_usermapping_rootsquash.sh	2015-08-25 10:57:56.313591592 +0200
++++ nfs_usermapping_rootsquash.sh	2015-08-25 11:33:53.081507698 +0200
+@@ -19,6 +19,10 @@
+     while read EXPORT MOUNT; do
+         mkdir -p "$EXPORT"
+         mkdir -p "$MOUNT"
++
++        # export dirs
++        exportfs -rv &> /dev/null
++
+         MOUNTEDNOW=$MOUNT
+         mount -t $NFSVER -o noac localhost:"$EXPORT" "$MOUNT"
+ 
+@@ -68,6 +72,10 @@
+         printMessage $MSG_ERROR "File $EXPORTSCONF dont exists or is not readable!"
+         exit $FAILED
+     fi
++    # start nfsserver before changing conf file
++    service "$SERVICE" restart
++    # nfsserver status
++    service nfsserver status
+     if ! copyConfig $EXPORTSFILE "/etc/exports"; then
+         printMessage $MSG_ERROR "Backup and rewrite config /etc/exports by $EXPORTSFILE1"
+         exit $FAILED
+@@ -77,7 +85,6 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
+ }
+ 
+ function cleanup() {
+diff -ruN qa_test_nfs/nfs_write.sh nfs_write.sh
+--- qa_test_nfs/nfs_write.sh	2008-06-05 14:36:36.000000000 +0200
++++ nfs_write.sh	2015-08-25 11:27:21.309522937 +0200
+@@ -18,6 +18,8 @@
+         mkdir -p "$MOUNT"
+         chmod 777 "$EXPORT"
+         chmod 777 "$MOUNT"
++        # export dirs
++        exportfs -rv &> /dev/null
+         MOUNTEDNOW=$MOUNT # for cleanup when interputed..
+         mount -t $NFSVER localhost:"$EXPORT" "$MOUNT"
+         testOneFileText   "$MOUNT" "$EXPORT" && \
+@@ -40,12 +42,15 @@
+         printMessage $MSG_ERROR "File $EXPORTSCONF dont exists or is not readable!"
+         exit $FAILED
+     fi
++    # start nfsserver before changing conf file
++    service "$SERVICE" restart
++    # nfsserver status
++    service nfsserver status
+     if ! copyConfig "$EXPORTSFILE" "/etc/exports"; then
+         printMessage $MSG_ERROR "Backup and rewrite config /etc/exports by $EXPORTSFILE"
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
+ }
+ 
+ function cleanup() {
