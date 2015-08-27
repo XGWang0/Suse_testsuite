@@ -26,9 +26,14 @@
 
 export LANG=C
 
-#clean the ip table rules from standalone
+#clean the ip table rules (which are modified in standalone tests),
+#reset default policy to ACCEPT, and delete user-defined chains
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -t nat -F
 iptables -F
-iptable -t nat -F
+iptables -X
 source /usr/share/qa/qa_internalapi/sh/libqainternal.lib.sh
 
 LOCATION="`/usr/share/qa/tools/location.pl | awk '{ print $NF; }'`"
