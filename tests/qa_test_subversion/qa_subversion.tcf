@@ -32,3 +32,7 @@ wait
 timer 300
 fg 1 dav_auth /usr/share/qa/qa_test_subversion/svn.sh dav_auth
 wait
+
+timer 300
+fg 1 dav_authz /usr/share/qa/qa_test_subversion/svn.sh dav_authz
+wait
