@@ -183,7 +183,7 @@ function sq_qadb_submit_result_for_run {
     sq_qadb_server_switch Nuremberg
     ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -L -b -m "${SQ_HOSTNAME}" -c "$(uname -r)" 2>&1 | tee "/tmp/submission-${_sq_run}.log"
     sq_qadb_server_resotre
-    cat "/tmp/submission-${_sq_run}.log" >>"${SQ_TEST_SUBMISSION_DIR}/submission-Nuremberg-${_sq_run}.log"
+    cat "/tmp/submission-${_sq_run}.log" >>"${SQ_TEST_SUBMISSION_DIR}/submission-${_sq_run}.log"
     if ! grep -iq "submission.php?submission_id=" "/tmp/submission-${_sq_run}.log";then
         sq_warn "[qadb] ${_sq_run} submit qa_db_report Nuremberg failed!"
         echo "${_sq_run}-${_serial}-Nuremberg" >>${SQ_USER_CONFIG_SUBMIT_FAILURE}
