@@ -22,9 +22,10 @@
 # ****************************************************************************
 
 # timer for the tests in seconds
-timer 300
+timer 3600
 
 # sample testcase
 # Run once in foreground. The testcase name is fate000000_sample
 fg 1 fate000000_sample /usr/share/qa/qa_test_features/sle12/000000_sample.sh
+fg 1 fate317066_sample /usr/share/qa/qa_test_features/sle12/317066_snapper_sync_after_deleting_snapshots.sh
 

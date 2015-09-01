@@ -23,7 +23,7 @@
 # ****************************************************************************
 
 cat << EOF
-This is a simple test, written in bash.
+This is a test for FATE#317066, written in bash.
 
 The test results are determined by the return value of this script:
 
@@ -47,6 +47,11 @@ TESTFILE_NAME='zerodata'
 
 TESTDIR=${MOUNT_POINT}/${TESTDIR_NAME}
 TESTFILE=${MOUNT_POINT}/${TESTDIR_NAME}/${TESTFILE_NAME}
+
+
+SNAPPER_DIR="/abuild_snapper"
+SNAPPER_TESTDIR=${SNAPPER_DIR}/test
+SNAPPER_TESTFILE=${SNAPPER_TESTDIR}/zerodata
 
 test_init ()
 {
@@ -128,23 +133,26 @@ sleep 5
 test_btrfs_snapper()
 {
 
+	mkdir -pv ${SNAPPER_TESTDIR}
+        snapper create --command "dd bs=1M count=250 if=/dev/urandom of=${SNAPPER_TESTFILE}" --desc "generate trash"
 #
 # Create snapshots
 #
 echo "Snapper testing -- Create snapshots start"
 echo "Snapper testing -- Before Create Snapshots"
-    btrfs filesystem df ${MOUNT_POINT}
-    btrfs filesystem show ${MOUNT_POINT}
+    btrfs filesystem df ${SNAPPER_DIR}
+    btrfs filesystem show 
+	
 
-    for i in `seq 10` ; do
-        snapper create --command "dd bs=1M count=250 if=/dev/urandom of=${TESTFILE}-${i}" --desc "generate trash"
+    for i in `seq 20` ; do
+        snapper create --command "dd bs=1M count=250 if=/dev/urandom of=${SNAPPER_TESTFILE}" --desc "generate trash"
     done
 
-    btrfs filesystem sync /btrfs
+    btrfs filesystem sync ${SNAPPER_TESTDIR}
 
 echo "Snapper testing -- After Create Snapshots"
-    btrfs filesystem df ${MOUNT_POINT}
-    btrfs filesystem show ${MOUNT_POINT}
+    btrfs filesystem df ${SNAPPER_DIR}
+    btrfs filesystem show
 
 #
 # Delete snapshots
@@ -152,11 +160,12 @@ echo "Snapper testing -- After Create Snapshots"
 
 echo "Snapper testing -- Delete snapshots start"
 echo "Snapper testing -- Before Delete Snapshots"
-    btrfs filesystem df ${MOUNT_POINT}
-    btrfs filesystem show ${MOUNT_POINT}
+    btrfs filesystem df ${SNAPPER_DIR}
+    btrfs filesystem show 
 
     startid=$(snapper ls | grep "generate trash" | head -n 1 | awk -F "|" '{print $2}' |xargs echo)
 
+sleep 10;
     snapper delete --sync ${startid}-1000
     if [ $? -ne 0 ]; then
         echo "snapper delete --sync option testing failed" 2>&1
@@ -164,8 +173,8 @@ echo "Snapper testing -- Before Delete Snapshots"
     fi
 
 echo "Snapper testing -- After remove Snapshots"
-    btrfs filesystem df ${MOUNT_POINT}
-    btrfs filesystem show ${MOUNT_POINT}
+    btrfs filesystem df ${SNAPPER_DIR}
+    btrfs filesystem show
 
 }
 
