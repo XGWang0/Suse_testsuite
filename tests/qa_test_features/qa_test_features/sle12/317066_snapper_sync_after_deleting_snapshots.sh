@@ -1,6 +1,6 @@
 #!/bin/bash
 # ****************************************************************************
-# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
+# Copyright © 2015 Unpublished Work of SUSE, Inc. All Rights Reserved.
 # 
 # THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
 # CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
@@ -48,39 +48,58 @@ TESTFILE_NAME='zerodata'
 TESTDIR=${MOUNT_POINT}/${TESTDIR_NAME}
 TESTFILE=${MOUNT_POINT}/${TESTDIR_NAME}/${TESTFILE_NAME}
 
-
-SNAPPER_DIR="/abuild_snapper"
-SNAPPER_TESTDIR=${SNAPPER_DIR}/test
-SNAPPER_TESTFILE=${SNAPPER_TESTDIR}/zerodata
-
-test_init ()
+test_init()
 {
-    if [ -b ${TEST_DEVICE} ]; then
-        umount ${TEST_DEVICE}
-        umount ${MOUNT_POINT}
-        mkfs.btrfs -f -q ${TEST_DEVICE}
-        if [ $? -ne 0 ]; then
-            echo "Formatting ${TEST_DEVICE} to BtrFS is failed." >&2
-            exit 11
-        fi
-        mkdir -pv ${MOUNT_POINT}
-        mount ${TEST_DEVICE} ${MOUNT_POINT}
-        if [ $? -ne 0 ]; then
-            echo "Mountting ${TEST_DEVICE} to ${MOUNT_POINT} is failed." >&2
-            exit 11
-        fi
+    if ! [ -b ${TEST_DEVICE} ]; then
+        exit 22
     fi
-
-    btrfs sub create ${TESTDIR}
+    while mount | grep ${TEST_DEVICE};
+    do
+        umount ${TEST_DEVICE}
+    done
+    mkfs.btrfs -f -q ${TEST_DEVICE}
+    if [ $? -ne 0 ]; then
+        echo "Formatting ${TEST_DEVICE} to BtrFS is failed." >&2
+        exit 11
+    fi
+    mkdir -pv ${MOUNT_POINT}
+    mount ${TEST_DEVICE} ${MOUNT_POINT}
+    if [ $? -ne 0 ]; then
+        echo "Mountting ${TEST_DEVICE} to ${MOUNT_POINT} is failed." >&2
+        exit 11
+    fi
+    btrfs subvol create ${TESTDIR}
     if ! [ -d ${TESTDIR} ]; then
         echo "TESTDIR is not a directory" >&2
         exit 11
     fi
 
     mount -t btrfs -o subvol=${TESTDIR_NAME} ${TEST_DEVICE} ${TESTDIR}
+
+    snapper -c 'test' -t 'default' create-config ${TESTDIR}
+
     dd bs=330M count=1 if=/dev/urandom of=${TESTFILE}
-    sync
+
+    btrfs fi sync ${TESTDIR}
+
+echo "testing -- start point"
+echo "testing -- Before All of testing"
+echo "========================================"
+    btrfs filesystem df ${MOUNT_POINT}
+    btrfs filesystem show ${MOUNT_POINT}
+echo "========================================"
+echo 
 }
+
+test_cleanup()
+{
+    snapper -c 'test' delete-config
+    while mount | grep ${TEST_DEVICE};
+    do
+        umount ${TEST_DEVICE}
+    done
+}
+
 
 test_btrfs_cli ()
 {
@@ -96,7 +115,7 @@ echo "CLI testing -- Before Create Snapshots"
     btrfs filesystem show ${MOUNT_POINT}
 
 
-    for i in `seq 10`
+    for i in `seq 1`
     do
         btrfs subvolume snapshot ${TESTDIR} ${TESTDIR}/../${TESTDIR_NAME}-pre-${i}
         dd bs=330M count=1 if=/dev/urandom of=${TESTFILE}
@@ -133,26 +152,24 @@ sleep 5
 test_btrfs_snapper()
 {
 
-	mkdir -pv ${SNAPPER_TESTDIR}
-        snapper create --command "dd bs=1M count=250 if=/dev/urandom of=${SNAPPER_TESTFILE}" --desc "generate trash"
 #
 # Create snapshots
 #
 echo "Snapper testing -- Create snapshots start"
 echo "Snapper testing -- Before Create Snapshots"
-    btrfs filesystem df ${SNAPPER_DIR}
-    btrfs filesystem show 
+    btrfs filesystem df ${MOUNT_POINT}
+    btrfs filesystem show ${MOUNT_POINT}
 	
 
-    for i in `seq 20` ; do
-        snapper create --command "dd bs=1M count=250 if=/dev/urandom of=${SNAPPER_TESTFILE}" --desc "generate trash"
+    for i in `seq 10` ; do
+        snapper -c 'test' create --command "dd bs=1M count=250 if=/dev/urandom of=${TESTFILE}" --desc "generate trash"
     done
 
-    btrfs filesystem sync ${SNAPPER_TESTDIR}
+    btrfs filesystem sync ${MOUNT_POINT}
 
 echo "Snapper testing -- After Create Snapshots"
-    btrfs filesystem df ${SNAPPER_DIR}
-    btrfs filesystem show
+    btrfs filesystem df ${MOUNT_POINT}
+    btrfs filesystem show ${MOUNT_POINT}
 
 #
 # Delete snapshots
@@ -160,27 +177,97 @@ echo "Snapper testing -- After Create Snapshots"
 
 echo "Snapper testing -- Delete snapshots start"
 echo "Snapper testing -- Before Delete Snapshots"
-    btrfs filesystem df ${SNAPPER_DIR}
-    btrfs filesystem show 
+    btrfs filesystem df ${MOUNT_POINT}
+    btrfs filesystem show ${MOUNT_POINT}
+
+    startid=$(snapper -c 'test' ls | grep "generate trash" | head -n 1 | awk -F "|" '{print $2}' |xargs echo)
+
+sleep 10;
+set -x
+    snapper -c "test" delete --sync ${startid}-1000
+    if [ $? -ne 0 ]; then
+        echo "snapper delete --sync option testing failed" 2>&1
+        exit 1
+    fi
+set +x
+
+echo "Snapper testing -- After remove Snapshots"
+    btrfs filesystem df ${MOUNT_POINT}
+    btrfs filesystem show ${MOUNT_POINT}
+
+}
+
+test_btrfs_snapper_root()
+{
+
+#
+# Create snapshots
+#
+echo "Snapper testing -- Create snapshots start"
+echo "Snapper testing -- Before Create Snapshots"
+    btrfs filesystem df /
+    btrfs filesystem show /
+	
+
+    for i in `seq 10` ; do
+        snapper create --command "dd bs=1M count=250 if=/dev/urandom of=/test" --desc "generate trash"
+    done
+
+    btrfs filesystem sync /
+
+echo "Snapper testing -- After Create Snapshots"
+    btrfs filesystem df /
+    btrfs filesystem show /
+
+#
+# Delete snapshots
+#
+
+echo "Snapper testing -- Delete snapshots start"
+echo "Snapper testing -- Before Delete Snapshots"
+    btrfs filesystem df /
+    btrfs filesystem show /
 
     startid=$(snapper ls | grep "generate trash" | head -n 1 | awk -F "|" '{print $2}' |xargs echo)
 
 sleep 10;
+set -x
     snapper delete --sync ${startid}-1000
     if [ $? -ne 0 ]; then
         echo "snapper delete --sync option testing failed" 2>&1
         exit 1
     fi
+set +x
 
 echo "Snapper testing -- After remove Snapshots"
-    btrfs filesystem df ${SNAPPER_DIR}
-    btrfs filesystem show
+    btrfs filesystem df /
+    btrfs filesystem show /
 
 }
 
+echo "-------------------------------------------"
+echo "=============Testing initial==============="
 test_init
+echo "=============Testing initial Finish========"
+echo "-------------------------------------------"
+echo "============BtrFS CLI testing=============="
 test_btrfs_cli
+echo "============BtrFS CLI testing Finish======="
+echo "-------------------------------------------"
+echo "==============Snapper testing=============="
 test_btrfs_snapper
+echo "==============Snapper testing Finish======="
+echo "-------------------------------------------"
+echo "=============Testing cleanup==============="
+test_cleanup
+echo "=============Testing cleanup Finish========"
+echo "-------------------------------------------"
 
-exit 22
+
+echo "-------------------------------------------"
+echo "==============Snapper testing=============="
+test_btrfs_snapper_root
+echo "==============Snapper testing Finish======="
+echo "-------------------------------------------"
+exit 0
 
