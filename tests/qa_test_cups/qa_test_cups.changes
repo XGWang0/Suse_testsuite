@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Aug 31 17:07:52 GMT 2015 - thehejik@suse.com
+
+- Updated version of CUPS tests (without commands set yet)
+
+-------------------------------------------------------------------
 Wed Aug 17 10:05:52 GMT 2011 - llipavsky@suse.cz
 
 - Remove qa_dummy dependency
