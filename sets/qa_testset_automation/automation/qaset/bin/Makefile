@@ -1,6 +1,6 @@
 BIN_DEST := $(dest)/bin
 
-bin_list := submitlog.sh
+bin_list := submitlog.sh junitxml_generator.py
 
 install:
 	install -d $(BIN_DEST)
