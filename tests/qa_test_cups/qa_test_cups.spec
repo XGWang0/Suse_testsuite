@@ -30,6 +30,7 @@ Requires:       cups
 Provides:       qa_cups
 Obsoletes:      qa_cups
 %if 0%{?suse_version} >= 1315
+BuildRequires:  cups-client
 Version:        1.7.5
 Source0:        %{name}-%{version}.tgz
 BuildArch:	x86_64
