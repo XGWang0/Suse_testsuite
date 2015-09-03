@@ -84,7 +84,7 @@ Requires:       python
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20150420
+Version:        20150903
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
