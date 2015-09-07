@@ -100,6 +100,9 @@ cp -r ../httpd24/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/mod_perl-tests
 cp -r ../mod_perl/* $RPM_BUILD_ROOT/usr/share/qa/%{name}/mod_perl-tests
 %endif
 find $RPM_BUILD_ROOT/usr/share/qa -type f -name "*.html" -print0 | xargs -0 -r chmod a-x
+# set permission for mod_perl tests logs dir
+install -m 777 -d -v $RPM_BUILD_ROOT/usr/share/qa/%{name}/mod_perl-tests/t/logs
+
 
 %build
 
