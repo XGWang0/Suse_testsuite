@@ -302,6 +302,12 @@ EOF
 	# NAT - TODO, create more complete rules so it's not neccessary to disable firewall
 	rcSuSEfirewall2 stop
 	iptables-save > /tmp/iptables
+	iptables -P INPUT ACCEPT
+	iptables -P FORWARD ACCEPT
+	iptables -P OUTPUT ACCEPT
+	iptables -t nat -F
+	iptables -F
+	iptables -X
 	iptables --table nat --append POSTROUTING --out-interface $DEFAULT_IF -j MASQUERADE
 	iptables --append FORWARD --in-interface $BR -j ACCEPT
 	echo 1 > /proc/sys/net/ipv4/ip_forward
