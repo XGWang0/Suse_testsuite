@@ -28,6 +28,7 @@ BuildRequires:  cups-devel
 Requires:       ctcs2
 Requires:       cups
 Provides:       qa_cups
+Requires:       cups-devel
 Obsoletes:      qa_cups
 %if 0%{?suse_version} >= 1315
 BuildRequires:  cups-client
@@ -38,7 +39,6 @@ BuildArch:	x86_64
 Version:        1.0
 Source0:        %{name}-%{version}-sle11.tar.bz2
 BuildArch:      noarch 
-Requires:       cups-devel
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
