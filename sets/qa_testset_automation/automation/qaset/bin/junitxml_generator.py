@@ -426,7 +426,7 @@ class CollectData(object):
         folder = '/var/log/qa/oldlogs/'
         if os.path.exists(folder):
             all_folders = os.listdir(folder)
-            folder_list = filter(lambda x : re.search("[qa_]*%s-\d+" %ts_name, x), all_folders)
+            folder_list = filter(lambda x : re.search("[qa_]*%s(_testsuite)*-\d+" %ts_name, x), all_folders)
             if folder_list:
                 tc_file = os.path.join(folder, folder_list[-1], tc_name)
                 if os.path.exists(tc_file):
@@ -512,8 +512,8 @@ class CMDParamParser(optparse.OptionParser):
 
         
         self.add_option("-t", "--testtype", action="store", type="choice",
-                        dest="test_type", choices=["stress_validation","kernel_regression","user_regression"],
-                        help=("Input test type \"stress_validation|kernel_regression|user_regression\"."))
+                        dest="test_type", choices=["stress_validation","kernel_regression","user_regression","all"],
+                        help=("Input test type \"stress_validation|kernel_regression|user_regression|all\"."))
 
         self.add_option("-l", "--logpath", action="store", type="string",
                         dest="log_path",
