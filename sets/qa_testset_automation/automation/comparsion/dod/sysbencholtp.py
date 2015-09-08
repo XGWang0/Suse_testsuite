@@ -6,8 +6,9 @@ import re
 
 from dod import *
 from common import *
-import pprint
+import parserManager
 import logging
+import pdb
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
 
@@ -22,7 +23,7 @@ class DODSysbencholtp(DODLog):
             thread = []
             value = []
             for line in self.stream:
-                tmatch = re.match(r'Number of threads:\s*(\d)',line)
+                tmatch = re.match(r'Number of threads:\s*(\d+)',line)
                 vmatch = re.match(r'\s*total\s*time\:\s*(\d*\.?\d*)',line)
                 if tmatch:
                     thread.append('thread num '+tmatch.group(1))
@@ -42,4 +43,10 @@ class DODSysbencholtp(DODLog):
             return self._dod
         raise AttributeError()
 
+fl = ['sysbench_oltp_ext3','sysbench_oltp_xfs','sysbench_oltp_btrfs','sysbench_oltp_ext4']
+for i in fl:
+    parserManager.add_parser("sample",i,'sysbench-oltp',DODSysbencholtp)
 
+ll=['sysbench-cpu','sysbench-fileio','sysbench-memory','sysbench-mutex','sysbench-threads']
+for j in ll:
+    parserManager.add_parser("sample",'sysbench-sys',j,DODSysbencholtp)

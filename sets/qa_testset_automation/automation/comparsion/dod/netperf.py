@@ -6,7 +6,7 @@ import re
 
 from dod import *
 from common import *
-import pprint
+import parserManager
 import logging
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
@@ -15,7 +15,7 @@ class DODNetperf(DODLog):
     def __init__(self, stream):
         super(DODNetperf, self).__init__(stream)
         self.ST = PST_NULL
-        self._dod.standard = 's'
+        self._dod.standard = 'b'
 
     def parser(self):
         if self.ST == PST_NULL:
@@ -48,4 +48,19 @@ class DODNetperf(DODLog):
             return self._dod
         raise AttributeError()
 
+tl= ['netperf-peer-loop','netperf-peer-loop6']
+ll=['netperf-loop-udp','netperf-loop-tcp']
 
+for i in tl:
+    for j in ll:
+        parserManager.add_parser("sample",i,j,DODNetperf)
+
+fl=['netperf-peer-fiber','netperf-peer-fiber6']
+
+parserManager.add_parser("sample",'netperf-peer-fiber','netperf-fiber-tcp',DODNetperf)
+
+parserManager.add_parser("sample",'netperf-peer-fiber','netperf-fiber-udp',DODNetperf)
+
+parserManager.add_parser("sample",'netperf-peer-fiber6','netperf-fiber-udp6',DODNetperf)
+
+parserManager.add_parser("sample",'netperf-peer-fiber6','netperf-fiber-tcp6',DODNetperf)

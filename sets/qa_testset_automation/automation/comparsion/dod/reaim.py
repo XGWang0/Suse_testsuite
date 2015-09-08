@@ -3,7 +3,7 @@
 import sys
 import os
 import re
-
+import parserManager
 from dod import *
 from common import *
 import logging
@@ -32,4 +32,27 @@ class DODReaim(DODLog):
             return self._dod
         raise AttributeError()
 
+parserManager.add_parser("sample",
+                         "reaim_disk_ext3",
+                         "reaim-ioperf",
+                         DODReaim)
+
+parserManager.add_parser("sample",
+                         "reaim_disk_xfs",
+                         "reaim-ioperf",
+                         DODReaim)
+parserManager.add_parser("sample",
+                         "reaim_disk_btrfs",
+                         "reaim-ioperf",
+                         DODReaim)
+
+parserManager.add_parser("sample",
+                         "reaim_alltests",
+                         "reaim-alltest",
+                         DODReaim)
+
+parserManager.add_parser("sample",
+                         "reaim_disk_ext4",
+                         "reaim-ioperf",
+                         DODReaim)
 

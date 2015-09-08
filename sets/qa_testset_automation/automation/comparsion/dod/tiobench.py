@@ -6,7 +6,7 @@ import re
 
 from dod import *
 from common import *
-import pprint
+import parserManager
 import logging
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
@@ -63,4 +63,23 @@ class DODTiobench(DODLog):
             return self._dod
         raise AttributeError()
 
+parserManager.add_parser("sample",
+                         "qa_tiobench_async_ext3",
+                         "tiobench-doublemem-async",
+                         DODTiobench)
+
+parserManager.add_parser("sample",
+                         "qa_tiobench_async_xfs",
+                         "tiobench-doublemem-async",
+                         DODTiobench)
+
+parserManager.add_parser("sample",
+                         "qa_tiobench_async_btrfs",
+                         "tiobench-doublemem-async",
+                         DODTiobench)
+
+parserManager.add_parser("sample",
+                         "qa_tiobench_async_ext4",
+                         "tiobench-doublemem-async",
+                         DODTiobench)
 

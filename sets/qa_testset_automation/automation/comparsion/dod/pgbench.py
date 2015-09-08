@@ -3,7 +3,7 @@
 import sys
 import os
 import re
-
+import parserManager
 from dod import *
 from common import *
 import pdb
@@ -16,7 +16,7 @@ class DODPgbench(DODLog):
     def __init__(self, stream):
         super(DODPgbench, self).__init__(stream)
         self.ST = PST_NULL
-        self._dod.standard = 's'
+        self._dod.standard = 'b'
 
     def parser(self):
         if self.ST == PST_NULL:
@@ -40,8 +40,12 @@ class DODPgbench(DODLog):
                     arg +=(line.split())[4]+(line.split())[5]
                 else:
                     s = re.match(r'^tps = (\d+\.?\d*).*including', line)
-                    if s:
-                        tps = float(s.group(1))
+                    if s :
+                        t=s.group(1)
+                        if not t:
+                            tps = 0
+                        else:
+                            tps = float(t)
                         self._dod[arg]=tps
 
 
@@ -51,4 +55,14 @@ class DODPgbench(DODLog):
                 self.parser()
             return self._dod
         raise AttributeError()
+
+tl = ['pgbench_small_ro_ext3','pgbench_small_ro_xfs','pgbench_small_ro_btrfs','pgbench_small_ro_ext4']
+
+for i in tl:
+    parserManager.add_parser("sample",i,"pgbench-small-ro",DODPgbench)
+
+rl = ['pgbench_small_rw_ext3','pgbench_small_rw_xfs','pgbench_small_rw_btrfs','pgbench_small_rw_ext4']
+
+for i in rl:
+    parserManager.add_parser("sample",i,"pgbench-small-rw",DODPgbench)
 

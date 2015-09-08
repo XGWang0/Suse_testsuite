@@ -4,12 +4,13 @@ import functools
 import logging
 from common import *
 
-__all__ = ['DictOfDict', 'DODGroup', 'DODError', 'DODLog', 'DODResult']
-
 class DictOfDict(dict):
     def __missing__(self, key):
         self[key] = DictOfDict()
         return self[key]
+
+class Error(Exception):
+    pass
 
 class DODError(Error):
     def __init__(self, dod, path):
@@ -18,7 +19,11 @@ class DODError(Error):
 
 def dod_get_leaf_by_path(node, path):
     for name in path:
-        assert(isinstance(node, DictOfDict))
+        try:
+            assert(isinstance(node, DictOfDict))
+        except AssertionError as e:
+            print("path %s" % path)
+            raise(e)
         if name in node:
             node = node[name]
         else:
@@ -51,7 +56,6 @@ def dod_vector_travel_depth(dod_vector, cb_func, cb_data):
 
 def dod_vector_travel_depth_return_dod(dod_vector, cb_func, cb_data):
     new_dod = DictOfDict()
-    print('dod_vector_travel_depth_return_dod')
     def _wrapper(path, leaf_list, cb_data):
         new_leaf = cb_func(path, leaf_list, cb_data)
         node = new_dod
@@ -62,81 +66,94 @@ def dod_vector_travel_depth_return_dod(dod_vector, cb_func, cb_data):
     dod_vector_travel_depth(dod_vector, _wrapper, cb_data)
     return new_dod
 
+class NumberOperator:
+    '''
+    All these operation on basic num such as int, float.
+    '''
+    max = max
+    min = min
+    sum = sum
+    
+    @staticmethod
+    def mean(vector):
+        return np.mean(np.array(vector))
+
+    @staticmethod
+    def std(vector):
+        return np.std(np.array(vector))
+
+    @staticmethod
+    def cov(vector):
+        return np.cov(np.array(vector))
+
+    @staticmethod
+    def compare(vector):
+        ref0 = vector[0]
+        ref1 = vector[1]
+        ret.append(ref1 / ref0)
+        return ret
+
+    @staticmethod
+    def is_number(x):
+        return isinstance(x, (int, float, complex))
+
+class VectorOperator:
+    @staticmethod
+    def _call(name, vector):
+        ref0 = vector[0]
+        if NumberOperator.is_number(ref0):
+            stat_func = getattr(NumberOperator, name)
+        else:
+            stat_func = getattr(ref0, name)
+        return stat_func(vector)
+
+    @staticmethod
+    def max(vector):
+        return VectorOperator._call("max", vector)
+
+    @staticmethod
+    def min(vector):
+        return VectorOperator._call("min", vector)
+
+    @staticmethod
+    def sum(vector):
+        return VectorOperator._call("sum", vector)
+
+    @staticmethod
+    def mean(vector):
+        return VectorOperator._call("mean", vector)
+
+    @staticmethod
+    def std(vector):
+        return VectorOperator._call("std", vector)
+
+    @staticmethod
+    def cov(vector):
+        return VectorOperator._call("cov", vector)
+
+    @staticmethod
+    def compare(vector):
+        return VectorOperator._call("compare", vector)
+
+class StatisticDict(dict):
+    @staticmethod
+    def compare(vector):
+        ref0 = vector[0]
+        ref1 = vector[1]
+        retd = StatisticDict()
+        for k in ref0:
+            d1 = ref1[k]
+            if not d1: raise(Error("ref1 %s" % (k)))
+            d2 = ref2[k]
+            if not d2: raise(Error("ret2 %s" % (k)))
+            retd[k] = ref1[k] / ref0[k]    
+        return retd
+
 def dod_vector_operator_simple(func):
     @functools.wraps(func)
     def travel_wrapper(dod_vector):
         return dod_vector_travel_depth_return_dod(dod_vector, func, None)
     return travel_wrapper
-
-class defaultStatistic:
-    #def max
-    #def min
-    #def sum
-    def mean(vector):
-        return np.mean(np.array(vector))
-    def std(vector):
-        return np.std(np.array(vector))
-    def cov(vector):
-        return np.cov(np.array(vector))
-    def ref0_percent(leaf_list):
-        ret = list()
-        for leaf in leaf_list[1:]:
-            ret.append(leaf / ref0)
-        return ret
-
-statFuncs = {'max':max, 'min':min, 'sum':sum,
-             'mean':defaultStatistic.mean, 'std':defaultStatistic.std,
-             'cov':defaultStatistic.cov, 'ref0_percent':defaultStatistic.ref0_percent}
-
-def stat_result_operator(statname):
-    def decorator(func):
-        @functools.wraps(func)
-        def wapper(vector):
-            stat_func = statFuncs[statname]
-            return stat_func(vector)
-        return wapper
-    return decorator
-
-class dodStatistic(dict):
-    @staticmethod
-    @stat_result_operator('max')
-    def max(vector): pass
-
-    @staticmethod
-    @stat_result_operator('min')
-    def min(vector): pass
-
-    @staticmethod
-    @stat_result_operator('sum')
-    def sum(vector): pass
-
-    @staticmethod
-    @stat_result_operator('mean')
-    def mean(vector): pass
-
-    @staticmethod
-    @stat_result_operator('std')
-    def std(vector): pass
-
-    @staticmethod
-    @stat_result_operator('cov')
-    def cov(vector): pass
-
-    @staticmethod
-    @stat_result_operator('ref0_percent')
-    def ref0_percent(vector): pass
-
-def dod_statistic_operator(statname):
-    def decorator(func):
-        def wrapper(path, vector, cb_data):
-            ref0 = vector[0]
-            if hasattr(ref0, statname):
-                stat_func = getattr(ref0, statname)
-            else:
-                stat_func = statFuncs[statname]
-            stat_func(vector)
-        return wrapper
-    return decorator
 
 class DODOperator:
 
@@ -146,67 +163,85 @@ class DODOperator:
 
     @staticmethod
     @dod_vector_operator_simple
-    @dod_statistic_operator('max')
-    def max(vector): pass
+    def max(path, vector, cb_data):
+        return VectorOperator.max(vector)
 
     @staticmethod
     @dod_vector_operator_simple
-    @dod_statistic_operator('min')
-    def min(vector): pass
+    def min(path, vector, cb_data):
+        return VectorOperator.min(vector)
 
     @staticmethod
     @dod_vector_operator_simple
-    @dod_statistic_operator('sum')
-    def sum(vector): pass
+    def sum(path, vector, cb_data):
+        return VectorOperator.sum(vector)
 
     @staticmethod
     @dod_vector_operator_simple
-    @dod_statistic_operator('mean')
-    def mean(vector): pass
+    def mean(path, vector, cb_data):
+        return VectorOperator.mean(vector)
 
     @staticmethod
     @dod_vector_operator_simple
-    @dod_statistic_operator('std')
-    def std(vector): pass
+    def std(path, vector, cb_data):
+        return VectorOperator.std(vector)
 
     @staticmethod
     @dod_vector_operator_simple
-    @dod_statistic_operator('cov')
-    def cov(vector): pass
+    def cov(path, vector, cb_data):
+        return VectorOperator.cov(vector)
 
     @staticmethod
     @dod_vector_operator_simple
-    @dod_statistic_operator('ref0_percent')
-    def ref0_percent(vector): pass
+    def compare(path, vector, cb_data):
+        return VectorOperator.compare(vector)
 
     @staticmethod
     @dod_vector_operator_simple
-    def statistic(path, leaf_list, cb_data):
-        stat = dodStatistic()
-        stat['max'] = dodStatistic.max(leaf_list)
-        stat['min'] = dodStatistic.min(leaf_list)
-        stat['sum'] = dodStatistic.sum(leaf_list)
-        stat['mean'] = dodStatistic.mean(leaf_list)
-        stat['std'] = dodStatistic.std(leaf_list)
-        stat['cov'] = dodStatistic.cov(leaf_list)
+    def statistic(path, vector, cb_data):
+        stat = StatisticDict()
+        stat['max'] = VectorOperator.max(vector)
+        stat['min'] = VectorOperator.min(vector)
+        stat['sum'] = VectorOperator.sum(vector)
+        stat['mean'] = VectorOperator.mean(vector)
+        stat['std'] = VectorOperator.std(vector)
+        stat['cov'] = VectorOperator.cov(vector)
         return stat
 
-    @staticmethod
-    @dod_vector_operator_simple
-    def example(path, leaf_list, cb_data):
-        raise NotImplementedError()
-
-class DODLog(DictOfDict):
-    def __init__(self, stream):
+class DODLog:
+    def __init__(self, stream = None):
         self.stream = stream
         self._dod = DictOfDict()
 
-class DODResult(DictOfDict):
+class DODLogList:
+    def __init__(self, stream = None):
+        self.stream = stream
+        self._dod_list = list()
+
+    def append(self, dod):
+        self._dod_list.append(dod)
+
+    def statistic(self):
+        return DODOperator.statistic(self._dod_list)
+
+    def compare(self):
+        return DODOperator.compare(self._dod_list)
+
+class DODLogStatistic:
+    def __init__(self, stream = None):
+        self.stream = stream
+        self._dod = DictOfDict()
+
+class DODResult:
+    '''Deprecated'''
     def __init__(self, dod):
+        print("DODResult is deprecated")
         self.dod = dod
 
 class DODGroup(list):
+    '''Deprecated'''
     def __init__(self, dod_list, name = "NoName"):
+        print("DODResult is deprecated")
         self.name = name
         for dod in dod_list:
             self.append(dod)

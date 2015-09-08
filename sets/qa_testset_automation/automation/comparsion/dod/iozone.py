@@ -1,8 +1,10 @@
-#!/usr/bin/env python3
+#!usr/bin/env python3
 
 import sys
 import os
 import re
+
+import parserManager
 
 from dod import *
 from common import *
@@ -86,3 +88,19 @@ class DODIOZone(DODLog):
                 self.parse()
             return self._dod
         raise AttributeError()
+
+fl = ['qa_iozone_doublemem_ext3','qa_iozone_doublemem_xfs','qa_iozone_doublemem_btrfs','qa_iozone_doublemem_ext4']
+tl =['iozone-doublemem-async','iozone-doublemem-fsync']
+for i in fl:
+    for j in tl:
+        parserManager.add_parser("sample",i,j,DODIOZone)
+
+#parserManager.add_parser("sample",
+#                         "qa_iozo"ne_doublemem_ext3",
+#                         "iozone-"doublemem-async",
+#                         DODIOZon"e)
+#
+#parserManager.add_parser("sample"",
+#                         "qa_iozo"ne_doublemem_ext3",
+#                         "iozone-"doublemem-fsync",
+#                         DODIOZon"e)

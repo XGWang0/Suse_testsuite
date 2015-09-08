@@ -6,7 +6,7 @@ import re
 import pdb
 from dod import *
 from common import *
-import pprint
+import parserManager
 import logging
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
@@ -45,4 +45,8 @@ class DODKernbench(DODLog):
             return self._dod
         raise AttributeError()
 
+parserManager.add_parser("sample",
+                         "kernbench",
+                         "kernbench",
+                         DODKernbench)
 

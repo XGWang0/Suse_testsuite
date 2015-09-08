@@ -6,7 +6,7 @@ import re
 
 from dod import *
 from common import *
-import pprint
+import parserManager 
 import logging
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
@@ -16,7 +16,7 @@ class DODSiege(DODLog):
     def __init__(self, stream):
         super(DODSiege, self).__init__(stream)
         self.ST = PST_NULL
-        self._dod.standard = 's'
+        self._dod.standard = 'b`'
 
         for i in IO_PATTERN:
             self._dod[i]=DictOfDict()
@@ -48,4 +48,8 @@ class DODSiege(DODLog):
             return self._dod
         raise AttributeError()
 
+parserManager.add_parser("sample",
+                         "qa_siege_performance",
+                         "qa_siege_performance",
+                         DODSiege)
 
