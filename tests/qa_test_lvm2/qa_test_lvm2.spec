@@ -63,7 +63,7 @@ cc %{optflags} -o not not.c
 ln -s not should
 ln -s not fail
 ln -s not invalid
-ln -s /etc/lvm/profile/thin-performance.profile thin-performance.profile
+test -f /etc/lvm/profile/thin-performance.profile && ln -s /etc/lvm/profile/thin-performance.profile thin-performance.profile
 rm *.c
 popd
 
