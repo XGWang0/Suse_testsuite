@@ -150,6 +150,7 @@ hn=`cat /etc/HOSTNAME`
 ARCH=`arch`
 
 rm /tmp/virt_screenshot.tar.bz2
+cp -ar /root/.cache /tmp/virt-install_screenshot/
 tar jcf /tmp/virt_screenshot.tar.bz2 /tmp/virt-install_screenshot/
 
 v_updir=`find /var/log/qa/ctcs2 -type d -name "qa_virtualization-virt_install*"|tail -1`
