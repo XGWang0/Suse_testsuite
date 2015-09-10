@@ -5,7 +5,7 @@ SQ_TEST_RUN_LIST=(
     lmbench
     memeat
     memtester
-    lvm2
+    lvm2_2_02_120
     autotest
     ltp
     ltp_fstests
