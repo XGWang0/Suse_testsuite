@@ -83,8 +83,12 @@ class NumberOperator:
         return np.std(np.array(vector))
 
     @staticmethod
-    def cov(vector):
+    def cov(vector): #covariance
         return np.cov(np.array(vector))
+
+    @staticmethod
+    def cv(vector): #coefficient of variation
+        return np.std(np.array(vector)) / np.mean(np.array(vector))
 
     @staticmethod
     def compare(vector):
@@ -141,8 +145,12 @@ class VectorOperator:
         return VectorOperator._call("std", vector)
 
     @staticmethod
-    def cov(vector):
+    def cov(vector): #covariance
         return VectorOperator._call("cov", vector)
+
+    @staticmethod
+    def cv(vector): #coefficient of variation
+        return VectorOperator._call("cv", vector)
 
     @staticmethod
     def compare(vector):
@@ -221,7 +229,7 @@ class DODOperator:
 
     @staticmethod
     @dod_vector_operator_simple
-    def cov(path, vector, cb_data):
+    def cov(path, vector, cb_data): #covariance
         return VectorOperator.cov(vector)
 
     @staticmethod
@@ -243,7 +251,8 @@ class DODOperator:
         stat['sum'] = VectorOperator.sum(vector)
         stat['mean'] = VectorOperator.mean(vector)
         stat['std'] = VectorOperator.std(vector)
-        stat['cov'] = VectorOperator.cov(vector)
+        #stat['cov'] = VectorOperator.cov(vector)
+        stat['cv'] = VectorOperator.cv(vector)
         return stat
 
 class DODLog:
