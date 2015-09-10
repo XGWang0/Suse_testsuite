@@ -73,7 +73,7 @@ class NumberOperator:
     max = max
     min = min
     sum = sum
-    
+
     @staticmethod
     def mean(vector):
         return np.mean(np.array(vector))
@@ -90,7 +90,20 @@ class NumberOperator:
     def compare(vector):
         ref0 = vector[0]
         ref1 = vector[1]
-        ret.append(ref1 / ref0)
+        if ref1 is None or not ref0:
+            ret = float('nan')
+        else:
+            ret = ref1 / ref0 - 1
+        return ret
+
+    @staticmethod
+    def compare1(vector):
+        ref0 = vector[0]
+        ref1 = vector[1]
+        if ref1 is None or not ref0:
+            ret = float('nan')
+        else:
+            ret = 1 - ref1 / ref0
         return ret
 
     @staticmethod
@@ -135,6 +148,11 @@ class VectorOperator:
     def compare(vector):
         return VectorOperator._call("compare", vector)
 
+    @staticmethod
+    def compare1(vector):
+        return VectorOperator._call("compare1", vector)
+
+
 class StatisticDict(dict):
     @staticmethod
     def compare(vector):
@@ -142,11 +160,26 @@ class StatisticDict(dict):
         ref1 = vector[1]
         retd = StatisticDict()
         for k in ref0:
+            d0 = ref0[k]
             d1 = ref1[k]
-            if not d1: raise(Error("ref1 %s" % (k)))
-            d2 = ref2[k]
-            if not d2: raise(Error("ret2 %s" % (k)))
-            retd[k] = ref1[k] / ref0[k]    
+            if d1 is None or not d0:
+                retd[k] = float('nan')
+            else:
+                retd[k] = d1 / d0 - 1
+        return retd
+
+    @staticmethod
+    def compare1(vector):
+        ref0 = vector[0]
+        ref1 = vector[1]
+        retd = StatisticDict()
+        for k in ref0:
+            d0 = ref0[k]
+            d1 = ref1[k]
+            if d1 is None or not d0:
+                retd[k] = float('nan')
+            else:
+                retd[k] = 1 - d1 / d0
         return retd
 
 def dod_vector_operator_simple(func):
@@ -195,6 +228,11 @@ class DODOperator:
     @dod_vector_operator_simple
     def compare(path, vector, cb_data):
         return VectorOperator.compare(vector)
+
+    @staticmethod
+    @dod_vector_operator_simple
+    def compare1(path, vector, cb_data):
+        return VectorOperator.compare1(vector)
 
     @staticmethod
     @dod_vector_operator_simple
@@ -277,4 +315,3 @@ if __name__ == '__main__':
     cnode31 = DictOfDict()
     cnode31['l31'] = cnode21
     cnode31['l32'] = cnode22
-
