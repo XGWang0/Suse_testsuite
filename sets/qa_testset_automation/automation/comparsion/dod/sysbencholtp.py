@@ -8,7 +8,6 @@ from dod import *
 from common import *
 import parserManager
 import logging
-import pdb
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
 

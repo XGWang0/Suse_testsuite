@@ -3,7 +3,6 @@
 import sys
 import os
 import re
-import pdb
 from dod import *
 from common import *
 import parserManager

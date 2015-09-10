@@ -8,7 +8,6 @@ from dod import *
 from common import *
 import pprint
 import logging
-import pdb
 import parserManager 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
 
@@ -35,7 +34,6 @@ class DODLmbench(DODLog):
     def parser(self):
         for line in self.stream:
             vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
-            #pdb.set_trace()
             if re.match(r'Processor',line):
                 while not vmatch:
                     line =next(self.stream) 
@@ -48,7 +46,6 @@ class DODLmbench(DODLog):
                 self.getvalue(CTXSW_T,line)
             elif re.match(r'File & VM system',line):
                 while not vmatch:
-                    #pdb.set_trace()
                     line =next(self.stream)
                     vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
                 self.getvalue(LOCAL_L,line)
@@ -69,7 +66,6 @@ class DODLmbench(DODLog):
         value = []
         value = (''.join(line.strip().split()[3:])).split('|')
         if len(conf) ==len(value):
-      #      pdb.set_trace()
             for i in range(len(value)-1):
                 if not value[i]:
                     self._dod[conf[i]]=0 

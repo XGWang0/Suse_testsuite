@@ -6,7 +6,6 @@ import re
 import parserManager
 from dod import *
 from common import *
-import pdb
 import logging
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
