@@ -103,8 +103,8 @@ def main(argv):
     #logname1,logname2 = splitpara(logname,ll)   
     print (product1,release1,arch1,hostname,testsuite,logname)
     print (product2,release2,arch2,hostname,testsuite,logname) 
-    dod1 = app.log_perf_get_statistic(product1,release1,arch1,hostname,testsuite,logname)
-    dod2 = app.log_perf_get_statistic(product2,release2,arch2,hostname,testsuite,logname)
+    dod1 = openapi.app.log_perf_get_statistic(product1,release1,arch1,hostname,testsuite,logname)
+    dod2 = openapi.app.log_perf_get_statistic(product2,release2,arch2,hostname,testsuite,logname)
 
     comp = dod.DODLogList()
     comp.append(dod1)
