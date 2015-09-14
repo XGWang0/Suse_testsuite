@@ -121,7 +121,7 @@ function sq_prep_repos {
                 "The URI is\n\t${_repo_url}"
             return 2 #return or exit ??
         fi
-        ${SQ_DEBUG_ECHO} zypper --gpg-auto-import-keys ref ${_repo_name}
+        ${SQ_DEBUG_ECHO} zypper --gpg-auto-import-keys -n ref ${_repo_name}
         if [ $? != 0 ];then
             sq_error "zypper refresh repo ${_repo_name} failed." \
                 "Check the connection to server"
