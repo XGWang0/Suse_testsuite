@@ -28,3 +28,4 @@ def_simple_run openssl '/usr/share/qa/tools/test_openssl-run' qa_test_openssl
 def_simple_run php53 '/usr/share/qa/tools/test_php53-run' qa_test_php53
 def_simple_run php5 '/usr/share/qa/tools/test_php5-run' qa_test_php5
 def_simple_run fetchmail '/usr/share/qa/tools/test_fetchmail-run' qa_test_fetchmail
+def_simple_run systemd '/usr/share/qa/tools/test_systemd-run' qa_test_systemd

@@ -10,4 +10,5 @@ SQ_TEST_RUN_LIST=(
     ltp
     ltp_fstests
     ltp_stress
+    xfstests
 )

@@ -21,4 +21,5 @@ SQ_TEST_RUN_LIST=(
     openssl
     php5
     fetchmail
+    systemd
 )

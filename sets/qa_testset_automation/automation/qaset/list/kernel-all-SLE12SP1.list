@@ -26,6 +26,7 @@ SQ_TEST_RUN_LIST=(
     openssl
     php5
     fetchmail
+    systemd
 
     lynis
     libhugetlbfs
@@ -40,4 +41,6 @@ SQ_TEST_RUN_LIST=(
     autotest
     ltp_stress
     newburn
+    xfstests
+
 )
