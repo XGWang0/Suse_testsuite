@@ -1,618 +1,824 @@
+timer 3600
 fg 1 000-basic /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/000-basic.sh
 wait
 
+timer 3600
 fg 1 activate-minor /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/activate-minor.sh
 wait
 
+timer 3600
 fg 1 activate-missing-segment /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/activate-missing-segment.sh
 wait
 
+timer 3600
 fg 1 activate-missing /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/activate-missing.sh
 wait
 
+timer 3600
 fg 1 activate-partial /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/activate-partial.sh
 wait
 
+timer 3600
 fg 1 activation-skip /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/activation-skip.sh
 wait
 
+timer 3600
 #fg 1 clvmd-restart /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/clvmd-restart.sh
 #wait
 
+timer 3600
 fg 1 covercmd /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/covercmd.sh
 wait
 
+timer 3600
 fg 1 discards-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/discards-thin.sh
 wait
 
+timer 3600
 #fg 1 dmeventd-restart /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/dmeventd-restart.sh
 #wait
 
+timer 3600
 fg 1 dumpconfig /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/dumpconfig.sh
 wait
 
+timer 3600
 fg 1 error-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/error-usage.sh
 wait
 
+timer 3600
 fg 1 fsadm /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/fsadm.sh
 wait
 
+timer 3600
 fg 1 inconsistent-metadata /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/inconsistent-metadata.sh
 wait
 
+timer 3600
 fg 1 listings /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/listings.sh
 wait
 
+timer 3600
 fg 1 lock-blocking /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lock-blocking.sh
 wait
 
+timer 3600
 fg 1 lock-parallel /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lock-parallel.sh
 wait
 
+timer 3600
 fg 1 lvchange-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-cache.sh
 wait
 
+timer 3600
 fg 1 lvchange-mirror /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-mirror.sh
 wait
 
+timer 3600
 fg 1 lvchange-partial-raid10 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-partial-raid10.sh
 wait
 
+timer 3600
 fg 1 lvchange-partial /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-partial.sh
 wait
 
+timer 3600
 fg 1 lvchange-raid10 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-raid10.sh
 wait
 
+timer 3600
 fg 1 lvchange-raid456 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-raid456.sh
 wait
 
+timer 3600
 fg 1 lvchange-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-raid.sh
 wait
 
+timer 3600
 fg 1 lvchange-syncaction-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-syncaction-raid.sh
 wait
 
+timer 3600
 fg 1 lvchange-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-thin.sh
 wait
 
+timer 3600
 fg 1 lvconvert-cache-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache-raid.sh
 wait
 
+timer 3600
 fg 1 lvconvert-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache.sh
 wait
 
+timer 3600
 fg 1 lvconvert-cache-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache-thin.sh
 wait
 
+timer 3600
 fg 1 lvconvert-mirror-basic-0 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-mirror-basic-0.sh
 wait
 
+timer 3600
 fg 1 lvconvert-mirror-basic-1 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-mirror-basic-1.sh
 wait
 
+timer 3600
 fg 1 lvconvert-mirror-basic-2 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-mirror-basic-2.sh
 wait
 
+timer 3600
 fg 1 lvconvert-mirror-basic-3 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-mirror-basic-3.sh
 wait
 
+timer 3600
 fg 1 lvconvert-mirror-basic /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-mirror-basic.sh
 wait
 
+timer 3600
 fg 1 lvconvert-mirror /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-mirror.sh
 wait
 
+timer 3600
 fg 1 lvconvert-mirror-updown /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-mirror-updown.sh
 wait
 
+timer 3600
 fg 1 lvconvert-raid10 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-raid10.sh
 wait
 
+timer 3600
 fg 1 lvconvert-raid456 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-raid456.sh
 wait
 
+timer 3600
 fg 1 lvconvert-raid-allocation /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-raid-allocation.sh
 wait
 
+timer 3600
 fg 1 lvconvert-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-raid.sh
 wait
 
+timer 3600
 #fg 1 lvconvert-repair-dmeventd /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-dmeventd.sh
 #wait
 
+timer 3600
 fg 1 lvconvert-repair-policy /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-policy.sh
 wait
 
+timer 3600
 #fg 1 lvconvert-repair-raid-dmeventd /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-raid-dmeventd.sh
 #wait
 
+timer 3600
 fg 1 lvconvert-repair-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-raid.sh
 wait
 
+timer 3600
 fg 1 lvconvert-repair-replace /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-replace.sh
 wait
 
+timer 3600
 fg 1 lvconvert-repair /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair.sh
 wait
 
+timer 3600
 fg 1 lvconvert-repair-snapshot /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-snapshot.sh
 wait
 
+timer 3600
 fg 1 lvconvert-repair-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-thin.sh
 wait
 
+timer 3600
 #fg 1 lvconvert-repair-transient-dmeventd /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-transient-dmeventd.sh
 #wait
 
+timer 3600
 fg 1 lvconvert-repair-transient /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-repair-transient.sh
 wait
 
+timer 3600
 fg 1 lvconvert-snapshot /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-snapshot.sh
 wait
 
+timer 3600
 fg 1 lvconvert-thin-external /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-thin-external.sh
 wait
 
+timer 3600
 fg 1 lvconvert-thin-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-thin-raid.sh
 wait
 
+timer 3600
 fg 1 lvconvert-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-thin.sh
 wait
 
+timer 3600
 fg 1 lvconvert-twostep /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-twostep.sh
 wait
 
+timer 3600
 fg 1 lvcreate-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-cache.sh
 wait
 
+timer 3600
 fg 1 lvcreate-large-raid10 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-large-raid10.sh
 wait
 
+timer 3600
 fg 1 lvcreate-large-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-large-raid.sh
 wait
 
+timer 3600
 fg 1 lvcreate-large /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-large.sh
 wait
 
+timer 3600
 fg 1 lvcreate-mirror /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-mirror.sh
 wait
 
+timer 3600
 fg 1 lvcreate-missing /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-missing.sh
 wait
 
+timer 3600
 fg 1 lvcreate-operation /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-operation.sh
 wait
 
+timer 3600
 fg 1 lvcreate-pvtags /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-pvtags.sh
 wait
 
+timer 3600
 fg 1 lvcreate-raid10 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-raid10.sh
 wait
 
+timer 3600
 fg 1 lvcreate-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-raid.sh
 wait
 
+timer 3600
 fg 1 lvcreate-repair /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-repair.sh
 wait
 
+timer 3600
 fg 1 lvcreate-signature-wiping /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-signature-wiping.sh
 wait
 
+timer 3600
 fg 1 lvcreate-small-snap /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-small-snap.sh
 wait
 
+timer 3600
 fg 1 lvcreate-striped-mirror /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-striped-mirror.sh
 wait
 
+timer 3600
 fg 1 lvcreate-thin-big /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-thin-big.sh
 wait
 
+timer 3600
 fg 1 lvcreate-thin-external /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-thin-external.sh
 wait
 
+timer 3600
 fg 1 lvcreate-thin-power2 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-thin-power2.sh
 wait
 
+timer 3600
 fg 1 lvcreate-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-thin.sh
 wait
 
+timer 3600
 fg 1 lvcreate-thin-snap /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-thin-snap.sh
 wait
 
+timer 3600
 fg 1 lvcreate-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-usage.sh
 wait
 
+timer 3600
 fg 1 lvextend-percent-extents /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvextend-percent-extents.sh
 wait
 
+timer 3600
 #fg 1 lvextend-snapshot-dmeventd /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvextend-snapshot-dmeventd.sh
 #wait
 
+timer 3600
 fg 1 lvextend-snapshot-policy /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvextend-snapshot-policy.sh
 wait
 
+timer 3600
 #fg 1 lvextend-thin-metadata-dmeventd /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvextend-thin-metadata-dmeventd.sh
 #wait
 
+timer 3600
 fg 1 lvextend-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvextend-thin.sh
 wait
 
+timer 3600
 fg 1 lvmcache-exercise /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmcache-exercise.sh
 wait
 
+timer 3600
 #fg 1 lvmetad-ambiguous /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-ambiguous.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-client-filter /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-client-filter.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-disabled /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-disabled.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-dump /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-dump.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-lvm1 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-lvm1.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-lvscan-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-lvscan-cache.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-no-cluster /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-no-cluster.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-override /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-override.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-pvscan-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-pvscan-cache.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-pvscan-filter /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-pvscan-filter.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-pvscan-md /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-pvscan-md.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-pvscan-nomda /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-pvscan-nomda.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-pvs /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-pvs.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-restart /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-restart.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-test /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-test.sh
 #wait
 
+timer 3600
 #fg 1 lvmetad-warning /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvmetad-warning.sh
 #wait
 
+timer 3600
 fg 1 lvm-init /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvm-init.sh
 wait
 
+timer 3600
 fg 1 lvresize-mirror /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvresize-mirror.sh
 wait
 
+timer 3600
 fg 1 lvresize-raid10 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvresize-raid10.sh
 wait
 
+timer 3600
 fg 1 lvresize-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvresize-raid.sh
 wait
 
+timer 3600
 fg 1 lvresize-rounding /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvresize-rounding.sh
 wait
 
+timer 3600
 fg 1 lvresize-thin-external-origin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvresize-thin-external-origin.sh
 wait
 
+timer 3600
 fg 1 lvresize-thin-metadata /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvresize-thin-metadata.sh
 wait
 
+timer 3600
 fg 1 lvresize-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvresize-usage.sh
 wait
 
+timer 3600
 fg 1 lvs-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvs-cache.sh
 wait
 
+timer 3600
 fg 1 mda-rollback /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/mda-rollback.sh
 wait
 
+timer 3600
 fg 1 mdata-strings /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/mdata-strings.sh
 wait
 
+timer 3600
 fg 1 metadata-balance /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/metadata-balance.sh
 wait
 
+timer 3600
 fg 1 metadata-dirs /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/metadata-dirs.sh
 wait
 
+timer 3600
 fg 1 metadata /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/metadata.sh
 wait
 
+timer 3600
 fg 1 mirror-names /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/mirror-names.sh
 wait
 
+timer 3600
 fg 1 mirror-vgreduce-removemissing /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/mirror-vgreduce-removemissing.sh
 wait
 
+timer 3600
 fg 1 name-mangling /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/name-mangling.sh
 wait
 
+timer 3600
 fg 1 nomda-missing /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/nomda-missing.sh
 wait
 
+timer 3600
 fg 1 nomda-restoremissing /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/nomda-restoremissing.sh
 wait
 
+timer 3600
 fg 1 orphan-ondisk /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/orphan-ondisk.sh
 wait
 
+timer 3600
 fg 1 pool-labels /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pool-labels.sh
 wait
 
+timer 3600
 fg 1 process-each-duplicate-vgnames /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/process-each-duplicate-vgnames.sh
 wait
 
+timer 3600
 fg 1 process-each-lv /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/process-each-lv.sh
 wait
 
+timer 3600
 fg 1 process-each-pv-nomda-all /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/process-each-pv-nomda-all.sh
 wait
 
+timer 3600
 fg 1 process-each-pv-nomda /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/process-each-pv-nomda.sh
 wait
 
+timer 3600
 fg 1 process-each-pvresize /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/process-each-pvresize.sh
 wait
 
+timer 3600
 fg 1 process-each-pv /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/process-each-pv.sh
 wait
 
+timer 3600
 fg 1 process-each-vg /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/process-each-vg.sh
 wait
 
+timer 3600
 fg 1 profiles /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/profiles.sh
 wait
 
+timer 3600
 fg 1 profiles-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/profiles-thin.sh
 wait
 
+timer 3600
 fg 1 pvchange-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvchange-usage.sh
 wait
 
+timer 3600
 fg 1 pvcreate-bootloaderarea /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvcreate-bootloaderarea.sh
 wait
 
+timer 3600
 fg 1 pvcreate-ff /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvcreate-ff.sh
 wait
 
+timer 3600
 fg 1 pvcreate-metadata0 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvcreate-metadata0.sh
 wait
 
+timer 3600
 fg 1 pvcreate-operation-md /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvcreate-operation-md.sh
 wait
 
+timer 3600
 fg 1 pvcreate-operation /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvcreate-operation.sh
 wait
 
+timer 3600
 fg 1 pvcreate-restore /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvcreate-restore.sh
 wait
 
+timer 3600
 fg 1 pvcreate-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvcreate-usage.sh
 wait
 
+timer 3600
 fg 1 pv-duplicate /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pv-duplicate.sh
 wait
 
+timer 3600
 fg 1 pv-duplicate-uuid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pv-duplicate-uuid.sh
 wait
 
+timer 3600
 fg 1 pv-min-size /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pv-min-size.sh
 wait
 
+timer 3600
 fg 1 pvmove-abort-all /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-abort-all.sh
 wait
 
+timer 3600
 fg 1 pvmove-abort /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-abort.sh
 wait
 
+timer 3600
 fg 1 pvmove-all-segtypes /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-all-segtypes.sh
 wait
 
+timer 3600
 fg 1 pvmove-background /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-background.sh
 wait
 
+timer 3600
 fg 1 pvmove-basic /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-basic.sh
 wait
 
+timer 3600
 fg 1 pvmove-cache-segtypes /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-cache-segtypes.sh
 wait
 
+timer 3600
 fg 1 pvmove-raid-segtypes /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-raid-segtypes.sh
 wait
 
+timer 3600
 fg 1 pvmove-restart /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-restart.sh
 wait
 
+timer 3600
 fg 1 pvmove-resume-1 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-resume-1.sh
 wait
 
+timer 3600
 fg 1 pvmove-resume-2 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-resume-2.sh
 wait
 
+timer 3600
 fg 1 pvmove-resume-multiseg /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-resume-multiseg.sh
 wait
 
+timer 3600
 fg 1 pvmove-thin-segtypes /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-thin-segtypes.sh
 wait
 
+timer 3600
 fg 1 pv-range-overflow /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pv-range-overflow.sh
 wait
 
+timer 3600
 fg 1 pvremove-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvremove-thin.sh
 wait
 
+timer 3600
 fg 1 pvremove-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvremove-usage.sh
 wait
 
+timer 3600
 fg 1 pvremove-warnings /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvremove-warnings.sh
 wait
 
+timer 3600
 fg 1 read-ahead /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/read-ahead.sh
 wait
 
+timer 3600
 fg 1 select-report /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/select-report.sh
 wait
 
+timer 3600
 fg 1 select-tools /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/select-tools.sh
 wait
 
+timer 3600
 fg 1 select-tools-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/select-tools-thin.sh
 wait
 
+timer 3600
 #fg 1 snapshot-autoumount-dmeventd /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-autoumount-dmeventd.sh
 #wait
 
+timer 3600
 fg 1 snapshot-cluster /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-cluster.sh
 wait
 
+timer 3600
 fg 1 snapshot-lvm1 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-lvm1.sh
 wait
 
+timer 3600
 fg 1 snapshot-maxsize /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-maxsize.sh
 wait
 
+timer 3600
 fg 1 snapshot-merge /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-merge.sh
 wait
 
+timer 3600
 fg 1 snapshot-reactivate /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-reactivate.sh
 wait
 
+timer 3600
 fg 1 snapshot-rename /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-rename.sh
 wait
 
+timer 3600
 fg 1 snapshots-of-mirrors /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshots-of-mirrors.sh
 wait
 
+timer 3600
 fg 1 snapshot-usage-exa /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-usage-exa.sh
 wait
 
+timer 3600
 fg 1 snapshot-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/snapshot-usage.sh
 wait
 
+timer 3600
 fg 1 stray-device-node /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/stray-device-node.sh
 wait
 
+timer 3600
 fg 1 system_id /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/system_id.sh
 wait
 
+timer 3600
 fg 1 tags /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/tags.sh
 wait
 
+timer 3600
 fg 1 test-partition /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/test-partition.sh
 wait
 
+timer 3600
 #fg 1 thin-autoumount-dmeventd /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/thin-autoumount-dmeventd.sh
 #wait
 
+timer 3600
 fg 1 thin-defaults /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/thin-defaults.sh
 wait
 
+timer 3600
 fg 1 thin-merge /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/thin-merge.sh
 wait
 
+timer 3600
 fg 1 thin-restore /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/thin-restore.sh
 wait
 
+timer 3600
 fg 1 thin-vglock /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/thin-vglock.sh
 wait
 
+timer 3600
 fg 1 thin-volume-list /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/thin-volume-list.sh
 wait
 
+timer 3600
 fg 1 topology-support /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/topology-support.sh
 wait
 
+timer 3600
 fg 1 unknown-segment /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/unknown-segment.sh
 wait
 
+timer 3600
 fg 1 unlost-pv /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/unlost-pv.sh
 wait
 
+timer 3600
 fg 1 vgcfgbackup-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgcfgbackup-usage.sh
 wait
 
+timer 3600
 fg 1 vgchange-many /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgchange-many.sh
 wait
 
+timer 3600
 fg 1 vgchange-maxlv /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgchange-maxlv.sh
 wait
 
+timer 3600
 fg 1 vgchange-partial /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgchange-partial.sh
 wait
 
+timer 3600
 fg 1 vgchange-sysinit /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgchange-sysinit.sh
 wait
 
+timer 3600
 fg 1 vgchange-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgchange-usage.sh
 wait
 
+timer 3600
 fg 1 vgck /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgck.sh
 wait
 
+timer 3600
 fg 1 vgcreate-many-pvs /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgcreate-many-pvs.sh
 wait
 
+timer 3600
 fg 1 vgcreate-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgcreate-usage.sh
 wait
 
+timer 3600
 fg 1 vgextend-restoremissing /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgextend-restoremissing.sh
 wait
 
+timer 3600
 fg 1 vgextend-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgextend-usage.sh
 wait
 
+timer 3600
 fg 1 vgimportclone /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgimportclone.sh
 wait
 
+timer 3600
 fg 1 vgmerge-operation /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgmerge-operation.sh
 wait
 
+timer 3600
 fg 1 vgmerge-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgmerge-usage.sh
 wait
 
+timer 3600
 fg 1 vg-name-from-env /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vg-name-from-env.sh
 wait
 
+timer 3600
 fg 1 vgreduce-removemissing-snapshot /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgreduce-removemissing-snapshot.sh
 wait
 
+timer 3600
 fg 1 vgreduce-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgreduce-usage.sh
 wait
 
+timer 3600
 fg 1 vgremove-corrupt-vg /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgremove-corrupt-vg.sh
 wait
 
+timer 3600
 fg 1 vgrename-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgrename-usage.sh
 wait
 
+timer 3600
 fg 1 vgsplit-operation /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgsplit-operation.sh
 wait
 
+timer 3600
 fg 1 vgsplit-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgsplit-raid.sh
 wait
 
+timer 3600
 fg 1 vgsplit-stacked /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgsplit-stacked.sh
 wait
 
+timer 3600
 fg 1 vgsplit-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgsplit-thin.sh
 wait
 
+timer 3600
 fg 1 vgsplit-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/vgsplit-usage.sh
 wait
 
+timer 3600
 fg 1 zero-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/zero-usage.sh
 wait
 
