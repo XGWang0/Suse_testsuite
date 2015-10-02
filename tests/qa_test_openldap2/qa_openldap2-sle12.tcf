@@ -309,9 +309,10 @@ fg 1 test061-syncreplication-initiation-bdb /usr/share/qa/qa_test_openldap2/test
 wait
 
 
-timer 300
-fg 1 test062-config-delete-bdb /usr/share/qa/qa_test_openldap2/tests/run -b bdb test062-config-delete
-wait
+# DEPRECATED TEST SKIPPED ACCORDING TO THE BUGREPORT http://www.openldap.org/its/index.cgi?findid=8260 (and 7639)
+#timer 300
+#fg 1 test062-config-delete-bdb /usr/share/qa/qa_test_openldap2/tests/run -b bdb test062-config-delete
+#wait
 
 
 timer 300
