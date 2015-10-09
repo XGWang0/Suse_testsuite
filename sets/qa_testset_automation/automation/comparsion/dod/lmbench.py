@@ -48,7 +48,6 @@ class DODLmbench(DODLog):
                 while not vmatch:
                     line =next(self.stream)
                     vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
-                print(line)
                 self.getvalue(FILE_VM_L,line)
             elif re.match(r'\*Local\*\s*Communication\s*latencies',line):
                 while not vmatch:
@@ -69,8 +68,6 @@ class DODLmbench(DODLog):
         for i in range(len(value)-1):
             if value[i].find('K'):
                value[i]=value[i].replace('K','')
-        print(conf)
-        print(value)
         if len(conf) ==len(value):
             for i in range(len(value)-1):
                 if not value[i]:
