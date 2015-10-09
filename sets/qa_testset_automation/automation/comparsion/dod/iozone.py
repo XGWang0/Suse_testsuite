@@ -34,8 +34,8 @@ class DODIOZone(DODLog):
             try:
                 record = line.split()
                 fsize = record[0]
-                i = 0
-                for v in record[1:]:
+                for i in range(2):
+                    v = record[i+1]
                     rl = reclen[i]
                     node[fsize][rl] = int(v)
             except IndexError:
