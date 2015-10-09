@@ -8,21 +8,21 @@ from dod import *
 from common import *
 import pprint
 import logging
-import parserManager 
+import parserManager
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
 
 
-PROCESSOR_T = ['Mhz','null call','null I/O','stat','open clos','slct TCP','sig inst','sig hndl','fork proc','exec proc','sh proc']
-INTEGER_T = ['intgr bit','intgr add','intgr mul','intgr div','intgr mod']
-UINT64_T = ['int64 bit','int64 add','int64 mul','int64 div','int64 mod']
-FLOAT_T = ['float add','float mul','float div','float mod']
-DOUBLE_T = ['double add','double mul','double div','double mod']
-CTXSW_T = ['2p/0K ctxsw','2p/16K ctxsw','2p/64K ctxsw','8p/16K ctxsw','8p/64K ctxsw','16p/16K ctxsw','16p/64K ctxsw']
-LOCAL_L = ['LOCAL_2p/0K ctxsw','Pipe','AF UNIX','UDP','RPC/UDP','TCP','RPC/TCP','TCP conn']
-REMOTE_L = ['REMOTE_UDP', 'REMOTE_RPC/UDP','REMOTE_TCP','REMOTE_RPC/TCP','REMOTE_TCP conn']
-FILE_VM_L = ['0K File Create','0K File Delete','10K File Create','10K File Delete','Mmap Latency','Prot Fault','Page Fault','100fd selct']
-LOCAL_B = ['Pipe','AF UNIX','TCP ','File reread','Mmap reread','Bcopy (libc)','Bcopy (hand)','Mem read','Mem write']
-MEMORY_L = ['L1$','L2$','Rand mem','Rand mem']
+PROCESSOR_T = ['Mhz','null_call','null_I/O','stat','open_clos','slct_TCP','sig_inst','sig_hndl','fork_proc','exec_proc','sh_proc']
+INTEGER_T = ['intgr_bit','intgr_add','intgr_mul','intgr_div','intgr_mod']
+UINT64_T = ['int64_bit','int64_add','int64_mul','int64_div','int64_mod']
+FLOAT_T = ['float_add','float_mul','float_div','float_mod']
+DOUBLE_T = ['double_add','double_mul','double_div','double_mod']
+CTXSW_T = ['2p/0K_ctxsw','2p/16K_ctxsw','2p/64K_ctxsw','8p/16K_ctxsw','8p/64K_ctxsw','16p/16K_ctxsw','16p/64K_ctxsw']
+LOCAL_L = ['LOCAL_2p/0K_ctxsw','Pipe','AF_UNIX','UDP','RPC/UDP','TCP','RPC/TCP','TCP_conn']
+REMOTE_L = ['REMOTE_UDP','REMOTE_RPC/UDP','REMOTE_TCP','REMOTE_RPC/TCP','REMOTE_TCP_conn']
+FILE_VM_L = ['0K_File_Create','0K_File_Delete','10K_File_Create','10K_File_Delete','Mmap_Latency','Prot_Fault','Page_Fault','100fd_selct']
+LOCAL_B = ['Pipe','AF_UNIX','TCP','File_reread','Mmap_reread','Bcopy_(libc)','Bcopy_(hand)','Mem_read','Mem_write']
+MEMORY_L = ['L1$','L2$','Rand_mem','Rand_mem']
 
 class DODLmbench(DODLog):
     def __init__(self, stream):
@@ -36,7 +36,7 @@ class DODLmbench(DODLog):
             vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
             if re.match(r'Processor',line):
                 while not vmatch:
-                    line =next(self.stream) 
+                    line =next(self.stream)
                     vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
                 self.getvalue(PROCESSOR_T,line)
             elif re.search(r'Context\s*switch',line):
@@ -74,10 +74,10 @@ class DODLmbench(DODLog):
         if len(conf) ==len(value):
             for i in range(len(value)-1):
                 if not value[i]:
-                    self._dod[conf[i]]=0.1 
+                    self._dod[conf[i]]=0.1
                 else:
                     self._dod[conf[i]]=float(value[i])
-            
+
 
     def __getattr__(self, name):
         if name == 'dod':
