@@ -20,7 +20,7 @@ DOUBLE_T = ['double add','double mul','double div','double mod']
 CTXSW_T = ['2p/0K ctxsw','2p/16K ctxsw','2p/64K ctxsw','8p/16K ctxsw','8p/64K ctxsw','16p/16K ctxsw','16p/64K ctxsw']
 LOCAL_L = ['LOCAL_2p/0K ctxsw','Pipe','AF UNIX','UDP','RPC/UDP','TCP','RPC/TCP','TCP conn']
 REMOTE_L = ['REMOTE_UDP', 'REMOTE_RPC/UDP','REMOTE_TCP','REMOTE_RPC/TCP','REMOTE_TCP conn']
-File_VM_L = ['0K File Create','0K File Delete','10K File Create','10K File Delete','Mmap Latency','Prot Fault','Page Fault','100fd selct']
+FILE_VM_L = ['0K File Create','0K File Delete','10K File Create','10K File Delete','Mmap Latency','Prot Fault','Page Fault','100fd selct']
 LOCAL_B = ['Pipe','AF UNIX','TCP ','File reread','Mmap reread','Bcopy (libc)','Bcopy (hand)','Mem read','Mem write']
 MEMORY_L = ['L1$','L2$','Rand mem','Rand mem']
 
@@ -33,31 +33,32 @@ class DODLmbench(DODLog):
 
     def parser(self):
         for line in self.stream:
-            vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
+            vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
             if re.match(r'Processor',line):
                 while not vmatch:
                     line =next(self.stream) 
-                    vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
+                    vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
                 self.getvalue(PROCESSOR_T,line)
-            elif re.match(r'Context\s*switch',line):
+            elif re.search(r'Context\s*switch',line):
                 while not vmatch:
                     line =next(self.stream)
-                    vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
+                    vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
                 self.getvalue(CTXSW_T,line)
             elif re.match(r'File & VM system',line):
                 while not vmatch:
                     line =next(self.stream)
-                    vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
-                self.getvalue(LOCAL_L,line)
+                    vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
+                print(line)
+                self.getvalue(FILE_VM_L,line)
             elif re.match(r'\*Local\*\s*Communication\s*latencies',line):
                 while not vmatch:
                     line =next(self.stream)
-                    vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
-                self.getvalue(File_VM_L,line)
+                    vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
+                self.getvalue(LOCAL_L,line)
             elif re.match(r'Memory latencies',line):
                 while not vmatch:
                     line =next(self.stream)
-                    vmatch = re.search(r'(\d*\.?\d*\|){3}',line)
+                    vmatch = re.search(r'(\s*\d*\.?\d*\|){3}',line)
                 self.getvalue(MEMORY_L,line)
             else:
                 pass
@@ -65,10 +66,15 @@ class DODLmbench(DODLog):
     def getvalue(self,conf,line):
         value = []
         value = (''.join(line.strip().split()[3:])).split('|')
+        for i in range(len(value)-1):
+            if value[i].find('K'):
+               value[i]=value[i].replace('K','')
+        print(conf)
+        print(value)
         if len(conf) ==len(value):
             for i in range(len(value)-1):
                 if not value[i]:
-                    self._dod[conf[i]]=0 
+                    self._dod[conf[i]]=0.1 
                 else:
                     self._dod[conf[i]]=float(value[i])
             
@@ -103,7 +109,7 @@ class DODLmbenchBand(DODLog):
         if len(conf) ==len(value):
             for i in range(len(value)-1):
                 if not value[i]:
-                    self._dod[conf[i]]=0
+                    self._dod[conf[i]]=0.1
                 else:
                     self._dod[conf[i]]=float(value[i])
 
