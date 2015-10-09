@@ -53,7 +53,7 @@ class DODRenderCLComparsion(DODRender):
         def _wrapper(path, leaf_list, self):
             func(path, leaf_list)
         dod.dod_vector_travel_depth(self.out_list, _wrapper, self)
-        
+
     def _print_record(self, path, vector):
         stat_key_list = list()
         stat_dict_list = list()
@@ -63,7 +63,11 @@ class DODRenderCLComparsion(DODRender):
         stat_dict = dict()
         for k in ref0:
             stat_key_list.append(k)
-            stat_dict[k]=str(ref0[k])
+            if ref0[k] < 0.0001:
+                stat_dict[k]=str(ref0[k])
+            else:
+                stat_dict[k]="{0:.4f}".format(ref0[k])
+            
         stat_dict_list.append(stat_dict)
 
         c_iter = iter(vector[1:])
@@ -76,8 +80,12 @@ class DODRenderCLComparsion(DODRender):
             stat_dict_1 = dict()
             stat_dict_2 = dict()
             for k in ref0:
-                stat_dict_1[k] = str(dict_1[k])
-                stat_dict_2[k] = "{0:2.2f}".format(dict_2[k])
+                #
+                if dict_1[k] < 0.0001:
+                    stat_dict_1[k] = str(dict_1[k])
+                else:
+                    stat_dict_1[k] = "{0:.4f}".format(dict_1[k])
+                stat_dict_2[k] = "{0:0> 02.2f} %".format(dict_2[k]*100)
             stat_dict_list.append(stat_dict_1)
             stat_dict_list.append(stat_dict_2)
 
