@@ -29,12 +29,12 @@ export LANG=C
 function usage() {
 	echo ""
 	echo "Usage: $0 [step]"
-	echo "       step can only be 01/02/03, default to 01 if not set."
+	echo "       step can only be 01/02/03/04, default to 01 if not set."
 }
 
 step=$1
 [ -z "$step" ] && step="01"
-if [ "$step" != "01" -a "$step" != "02" -a "$step" != "03" ] || [ $# -ne 1 -a $# -ne 0 ];then
+if [ "$step" != "01" -a "$step" != "02" -a "$step" != "03" -a "$step" != "04" ] || [ $# -ne 1 -a $# -ne 0 ];then
 	usage
 	exit 1
 fi
