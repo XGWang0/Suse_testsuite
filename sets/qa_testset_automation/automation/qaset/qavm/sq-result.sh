@@ -73,6 +73,15 @@ function sq_qadb_update_system_infomation {
             ! [ -f /var/log/qa/ctcs2/${name}/messages.syslog ] &&
             cp /var/log/messages /var/log/qa/ctcs2/${name}/messages.syslog  &&
             chmod 644 /var/log/qa/ctcs2/${name}/messages.syslog
+        zypper pt -i > /var/log/qa/ctcs2/${name}/installed-pattern.txt
+        lspci -k > /var/log/qa/ctcs2/${name}/lspci-k.txt
+        lsmod > /var/log/qa/ctcs2/${name}/lsmod.txt
+        lscpu > /var/log/qa/ctcs2/${name}/lscup.txt
+        mount | grep ^/dev > /var/log/qa/ctcs2/${name}/partition-mount.txt
+        cat /proc/cmdline > /var/log/qa/ctcs2/${name}/cmdline.txt
+        cat /proc/meminfo > /var/log/qa/ctcs2/${name}/meminfo.txt
+        cat /proc/zoneinfo > /var/log/qa/ctcs2/${name}/zoneinfo.txt
+        systemctl list-units > /var/log/qa/ctcs2/${name}/systemctl-list-units.txt
     done
 }
 
