@@ -79,7 +79,6 @@ fi
 #remove the iso cases
 sed -i "/-iso/d" $TCF_TRUE
 
-/usr/share/qa/virtautolib/lib/opt_gen.pl
 
 
 
@@ -89,18 +88,23 @@ print_usage()
 {
 	echo "Usage: $0 -h  print this help"
 	echo "-n <thread_number>"
+	echo "-t [U,M] :Unit test,Milestone test"
 	echo "-f <filter string>  : eg. 'nw-65-sp8\|oes-11-sp2' "
 
 }
 
-while getopts "hf:n:" OPTIONS
+while getopts "hf:n:t:" OPTIONS
 do
 	case $OPTIONS in
 		f) filter=$OPTARG;;
 		n) thread=$OPTARG;;
+		t) gen_type=$OPTARG;;
 		h) print_usage;;
 	esac
 done
+
+
+[ -n "$gen_type" ] && [ "$gen_type" == "U" ] && /usr/share/qa/virtautolib/lib/opt_gen.pl
 
 #verify the option
 
