@@ -73,7 +73,7 @@ function sq_qadb_update_system_infomation {
             ! [ -f /var/log/qa/ctcs2/${name}/messages.syslog ] &&
             cp /var/log/messages /var/log/qa/ctcs2/${name}/messages.syslog  &&
             chmod 644 /var/log/qa/ctcs2/${name}/messages.syslog
-        zypper pt -i > /var/log/qa/ctcs2/${name}/installed-pattern.txt
+        zypper -n --no-refresh pt -i > /var/log/qa/ctcs2/${name}/installed-pattern.txt
         lspci -k > /var/log/qa/ctcs2/${name}/lspci-k.txt
         lsmod > /var/log/qa/ctcs2/${name}/lsmod.txt
         lscpu > /var/log/qa/ctcs2/${name}/lscup.txt
