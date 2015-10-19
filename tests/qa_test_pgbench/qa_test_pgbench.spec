@@ -18,7 +18,7 @@ Release:        5.1
 License:        GPL v2
 Group:          System/Benchmark
 #Url:
-Requires:       gcc readline-devel zlib-devel            
+Requires:       gcc readline-devel zlib-devel sudo           
 #Requires:       postgresql93 postgresql93-contrib postgresql-init postgresql93-server
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source0:       	ctcstools-%{version}.tar.bz2
