@@ -16,7 +16,7 @@ class DODSiege(DODLog):
     def __init__(self, stream):
         super(DODSiege, self).__init__(stream)
         self.ST = PST_NULL
-        self._dod.standard = 'b`'
+        self._dod.standard = 'b'
 
         for i in IO_PATTERN:
             self._dod[i]=DictOfDict()

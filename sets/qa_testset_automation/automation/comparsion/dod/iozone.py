@@ -18,6 +18,7 @@ class DODIOZone(DODLog):
     def __init__(self, stream):
         super(DODIOZone, self).__init__(stream)
         self.ST = PST_NULL
+        self._dod.standard = 'b'
         self.line_num  = 0
 
     def parse_iopt(self, node):

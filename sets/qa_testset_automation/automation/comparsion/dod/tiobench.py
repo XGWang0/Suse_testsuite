@@ -16,7 +16,7 @@ class DODTiobench(DODLog):
     def __init__(self, stream):
         super(DODTiobench, self).__init__(stream)
         self.ST = PST_NULL
-        self._dod.standard = 's'
+        self._dod.standard = 'b'
         
         for i in IO_PATTERN:
             self._dod[i]=DictOfDict()

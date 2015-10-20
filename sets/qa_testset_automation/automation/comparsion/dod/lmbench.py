@@ -91,7 +91,7 @@ class DODLmbenchBand(DODLog):
 
     def parser(self):
         for line in self.stream:
-            vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
+            vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
             if re.match(r'\*Local\* Communication bandwidths',line):
                 while not vmatch:
                     line =next(self.stream)
@@ -117,6 +117,6 @@ class DODLmbenchBand(DODLog):
             return self._dod
         raise AttributeError()
 
+parserManager.add_parser("sample","lmbench","lmbench",DODLmbenchBand)
 parserManager.add_parser("sample","lmbench","lmbench",DODLmbench)
 
-#parserManager.add_parser("sample","lmbench","lmbench",DODLmbenchBand)
