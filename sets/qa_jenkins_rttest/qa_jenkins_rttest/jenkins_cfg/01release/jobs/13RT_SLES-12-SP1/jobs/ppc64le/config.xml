@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<com.tikal.jenkins.plugins.multijob.MultiJobProject plugin="jenkins-multijob-plugin@1.16">
+  <actions/>
+  <description>&lt;font color=&quot;orange&quot; size=4&gt;&lt;b&gt;Summary: &lt;/font&gt;: ==== SUSE Systerm Regression Test ====. &lt;br&gt;&#xd;
+You could select sutiable for yourself parameters or default on dashboard to tirgger the job.&lt;/b&gt;&lt;br&gt;&lt;br&gt;&#xd;
+&#xd;
+&lt;font color=&quot;orange&quot; size=4&gt;&lt;b&gt;Project: &lt;/font&gt;Regfression Test&lt;/b&gt;&lt;br&gt;&lt;br&gt;&#xd;
+&#xd;
+&lt;font color=&quot;orange&quot; size=4&gt;&lt;b&gt;Work Flow: &lt;/font&gt;&lt;br&gt;&#xd;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&#xd;
+1 Install host server on physical machine through selected product version; &lt;br&gt;&#xd;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &#xd;
+2 Run stress validation test by chosed test suite (choose nothing will mean to skip the stress validation test); &lt;br&gt;&#xd;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &#xd;
+3 Run kernel regression test by chosed test suite (choose nothing will mean to skip the kernel regression test); &lt;br&gt;&#xd;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &#xd;
+4 Run userspace regression test by chosed test suite (choose nothing will mean to skip the userspace regression test); &lt;br&gt;&#xd;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &#xd;
+5 Statistic result and Generate cucumber report; &lt;br&gt;&#xd;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &#xd;
+6 Send mail notification ; &lt;br&gt;&#xd;
+</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.1">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs></blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>REPOSITORY</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;Repository website for installing host. (eg: http://dist.suse.de/install/SLP/SLE-12-SP1-Server-LATEST/ppc64le/DVD1/)&lt;/b&gt;&lt;/font&gt;</description>
+          <defaultValue>http://dist.suse.de/install/SLP/SLE-12-SP1-Server-LATEST/ppc64le/DVD1/</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MACHINE</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;Available host . ( eg: 147.2.207.2)&lt;/b&gt;&lt;/font&gt;</description>
+          <defaultValue>10.162.6.67</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.50">
+          <name>ARCH</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;OS Architecture. (Choice Scope: i586 | ia64 | ppc64le | s390 | s390x | x86_64)&lt;/b&gt;&lt;/font&gt;</description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>6</visibleItemCount>
+          <type>PT_RADIO</type>
+          <value>i586,ia64,ppc64le,s390,s390x,x86_64</value>
+          <defaultValue>ppc64le</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>QA_REPO</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;QA Repoisitory, All test suite and package are from QA Repo. (eg : http://dist.nue.suse.com/ibs/QA:/Head/)&lt;/b&gt;&lt;/font&gt;</description>
+          <defaultValue>http://dist.nue.suse.com/ibs/QA:/Head/</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.50">
+          <name>SV_TS</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;Stress Validation Test Suite List. (Nothing in choice means that stress validation will be skipped)&lt;/b&gt;&lt;/font&gt;</description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>3</visibleItemCount>
+          <type>PT_CHECKBOX</type>
+          <value>process_stress,fs_stress,sched_stress</value>
+          <defaultValue>process_stress,fs_stress,sched_stress</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.50">
+          <name>KR_TS</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;Kernel Regression Test Suite List. (Nothing in choice means that kernel regression will be skipped)&lt;/b&gt;&lt;/font&gt;</description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>6</visibleItemCount>
+          <type>PT_CHECKBOX</type>
+          <value>libhugetlbfs,ftpload,lmbench,memeat,memtester,lvm2,autotest,ltp,ltp_fstests,ltp_stress,lvm2_2_02_120</value>
+          <defaultValue>libhugetlbfs,ftpload,lmbench,memeat,memtester,lvm2_2_02_120,autotest,ltp,ltp_fstests,ltp_stress</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.50">
+          <name>US_TS</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;UserSpace Regression Test Suite List. (Nothing in choice means that user space regression will be skipped)&lt;/b&gt;&lt;/font&gt;</description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>6</visibleItemCount>
+          <type>PT_CHECKBOX</type>
+          <value>apache,apparmor,apparmor_profiles,bind,bzip2,cabextract,postfix,sharutils,coreutils,cpio,cracklib,findutils,gzip,indent,net_snmp,nfs,nfs_v4,openssh,openssl,php5,fetchmail</value>
+          <defaultValue>apache,apparmor,apparmor_profiles,bind,bzip2,cabextract,postfix,sharutils,coreutils,cpio,cracklib,findutils,gzip,indent,net_snmp,nfs,nfs_v4,openssh,openssl,php5,fetchmail</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <hudson.plugins.random__string__parameter.RandomStringParameterDefinition plugin="random-string-parameter@1.0">
+          <name>REPORT_FILE</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;This parameters is very importent for this project.&lt;/b&gt;&lt;/font&gt;
+&lt;font color=&quot;red&quot; size=2&gt;&lt;b&gt;(Make sure to put an unique value for this parameter on each run)&lt;/b&gt;&lt;/font&gt;</description>
+          <failedValidationMessage></failedValidationMessage>
+        </hudson.plugins.random__string__parameter.RandomStringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BUILD_VER</name>
+          <description>&lt;font color=&quot;black&quot; size=2&gt;&lt;b&gt;BUild Version.&lt;/b&gt;&lt;/font&gt;</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>true</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>python /mnt/147.2.212.89/eclipse_ws/RegressionTest1/allochosts.py ${MACHINE} ${REPORT_FILE}</command>
+    </hudson.tasks.Shell>
+    <com.tikal.jenkins.plugins.multijob.MultiJobBuilder>
+      <phaseName>Reinstallaion Host</phaseName>
+      <phaseJobs>
+        <com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+          <jobName>REGRESSIONTEST/01release/libjobs/01_InstallHost</jobName>
+          <currParams>false</currParams>
+          <exposedSCM>false</exposedSCM>
+          <disableJob>false</disableJob>
+          <parsingRulesPath></parsingRulesPath>
+          <maxRetries>0</maxRetries>
+          <enableRetryStrategy>false</enableRetryStrategy>
+          <enableCondition>false</enableCondition>
+          <abortAllJob>true</abortAllJob>
+          <condition></condition>
+          <configs>
+            <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters plugin="parameterized-trigger@2.27">
+              <properties>PRODUCT_VER=SLE-12-SP1
+REPOSITORY=${REPOSITORY}
+MACHINE=${MACHINE}
+ARCH=${ARCH}
+REPORT_FILE=${WORKSPACE}/BUILD${BUILD_NUMBER}_${REPORT_FILE}
+BUILD_VER=${BUILD_VER}
+</properties>
+            </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+          </configs>
+          <killPhaseOnJobResultCondition>FAILURE</killPhaseOnJobResultCondition>
+          <buildOnlyIfSCMChanges>false</buildOnlyIfSCMChanges>
+        </com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+      </phaseJobs>
+      <continuationCondition>SUCCESSFUL</continuationCondition>
+    </com.tikal.jenkins.plugins.multijob.MultiJobBuilder>
+    <org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder plugin="conditional-buildstep@1.3.3">
+      <condition class="org.jenkins_ci.plugins.run_condition.core.ExpressionCondition" plugin="run-condition@1.0">
+        <expression>.+</expression>
+        <label>${SV_TS}</label>
+      </condition>
+      <buildStep class="com.tikal.jenkins.plugins.multijob.MultiJobBuilder" plugin="jenkins-multijob-plugin@1.16">
+        <phaseName>Stress Validation</phaseName>
+        <phaseJobs>
+          <com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+            <jobName>REGRESSIONTEST/01release/libjobs/03_StressValidation</jobName>
+            <currParams>false</currParams>
+            <exposedSCM>false</exposedSCM>
+            <disableJob>false</disableJob>
+            <parsingRulesPath></parsingRulesPath>
+            <maxRetries>0</maxRetries>
+            <enableRetryStrategy>false</enableRetryStrategy>
+            <enableCondition>false</enableCondition>
+            <abortAllJob>true</abortAllJob>
+            <condition></condition>
+            <configs>
+              <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters plugin="parameterized-trigger@2.27">
+                <properties>PRODUCT_VER=SLE-12-SP1
+MACHINE=${MACHINE}
+ARCH=${ARCH}
+QA_REPO=${QA_REPO}
+TESTSUITES=${SV_TS}
+REPORT_FILE=${WORKSPACE}/BUILD${BUILD_NUMBER}_${REPORT_FILE}
+BUILD_VER=${BUILD_VER}</properties>
+              </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+            </configs>
+            <killPhaseOnJobResultCondition>FAILURE</killPhaseOnJobResultCondition>
+            <buildOnlyIfSCMChanges>false</buildOnlyIfSCMChanges>
+          </com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+        </phaseJobs>
+        <continuationCondition>SUCCESSFUL</continuationCondition>
+      </buildStep>
+      <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$DontRun" plugin="run-condition@1.0"/>
+    </org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder>
+    <org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder plugin="conditional-buildstep@1.3.3">
+      <condition class="org.jenkins_ci.plugins.run_condition.core.ExpressionCondition" plugin="run-condition@1.0">
+        <expression>.+</expression>
+        <label>${KR_TS}</label>
+      </condition>
+      <buildStep class="com.tikal.jenkins.plugins.multijob.MultiJobBuilder" plugin="jenkins-multijob-plugin@1.16">
+        <phaseName>Kernel Regression</phaseName>
+        <phaseJobs>
+          <com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+            <jobName>REGRESSIONTEST/01release/libjobs/04_KernelRegression</jobName>
+            <currParams>false</currParams>
+            <exposedSCM>false</exposedSCM>
+            <disableJob>false</disableJob>
+            <parsingRulesPath></parsingRulesPath>
+            <maxRetries>0</maxRetries>
+            <enableRetryStrategy>false</enableRetryStrategy>
+            <enableCondition>false</enableCondition>
+            <abortAllJob>true</abortAllJob>
+            <condition></condition>
+            <configs>
+              <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters plugin="parameterized-trigger@2.27">
+                <properties>PRODUCT_VER=SLE-12-SP1
+MACHINE=${MACHINE}
+ARCH=${ARCH}
+QA_REPO=${QA_REPO}
+TESTSUITES=${KR_TS}
+REPORT_FILE=${WORKSPACE}/BUILD${BUILD_NUMBER}_${REPORT_FILE}
+BUILD_VER=${BUILD_VER}</properties>
+              </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+            </configs>
+            <killPhaseOnJobResultCondition>NEVER</killPhaseOnJobResultCondition>
+            <buildOnlyIfSCMChanges>false</buildOnlyIfSCMChanges>
+          </com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+        </phaseJobs>
+        <continuationCondition>COMPLETED</continuationCondition>
+      </buildStep>
+      <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$DontRun" plugin="run-condition@1.0"/>
+    </org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder>
+    <org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder plugin="conditional-buildstep@1.3.3">
+      <condition class="org.jenkins_ci.plugins.run_condition.core.ExpressionCondition" plugin="run-condition@1.0">
+        <expression>.+</expression>
+        <label>${US_TS}</label>
+      </condition>
+      <buildStep class="com.tikal.jenkins.plugins.multijob.MultiJobBuilder" plugin="jenkins-multijob-plugin@1.16">
+        <phaseName>Userspace App</phaseName>
+        <phaseJobs>
+          <com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+            <jobName>REGRESSIONTEST/01release/libjobs/05_UserSpaceAPP</jobName>
+            <currParams>false</currParams>
+            <exposedSCM>false</exposedSCM>
+            <disableJob>false</disableJob>
+            <parsingRulesPath></parsingRulesPath>
+            <maxRetries>0</maxRetries>
+            <enableRetryStrategy>false</enableRetryStrategy>
+            <enableCondition>false</enableCondition>
+            <abortAllJob>true</abortAllJob>
+            <condition></condition>
+            <configs>
+              <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters plugin="parameterized-trigger@2.27">
+                <properties>PRODUCT_VER=SLE-12-SP1
+MACHINE=${MACHINE}
+ARCH=${ARCH}
+QA_REPO=${QA_REPO}
+TESTSUITES=${US_TS}
+REPORT_FILE=${WORKSPACE}/BUILD${BUILD_NUMBER}_${REPORT_FILE}
+BUILD_VER=${BUILD_VER}</properties>
+              </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+            </configs>
+            <killPhaseOnJobResultCondition>NEVER</killPhaseOnJobResultCondition>
+            <buildOnlyIfSCMChanges>false</buildOnlyIfSCMChanges>
+          </com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+        </phaseJobs>
+        <continuationCondition>ALWAYS</continuationCondition>
+      </buildStep>
+      <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$DontRun" plugin="run-condition@1.0"/>
+    </org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder>
+    <hudson.tasks.Shell>
+      <command>python /mnt/147.2.212.89/eclipse_ws/RegressionTest1/freehosts.py ${MACHINE} ${REPORT_FILE}</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <net.masterthought.jenkins.CucumberReportPublisher plugin="cucumber-reports@0.1.0">
+      <jsonReportDirectory></jsonReportDirectory>
+      <pluginUrlPath></pluginUrlPath>
+      <fileIncludePattern>*.json</fileIncludePattern>
+      <fileExcludePattern></fileExcludePattern>
+      <skippedFails>false</skippedFails>
+      <pendingFails>false</pendingFails>
+      <undefinedFails>false</undefinedFails>
+      <missingFails>false</missingFails>
+      <noFlashCharts>false</noFlashCharts>
+      <ignoreFailedTests>false</ignoreFailedTests>
+      <parallelTesting>false</parallelTesting>
+    </net.masterthought.jenkins.CucumberReportPublisher>
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.40.5">
+      <recipientList>xgwang@suse.com,cachen@suse.com,jtzhao@suse.com</recipientList>
+      <configuredTriggers>
+        <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+          <email>
+            <recipientList></recipientList>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+      </configuredTriggers>
+      <contentType>default</contentType>
+      <defaultSubject>REGRESSION TEST ON SLES-12-SP1 Finished !  $PROJECT_DISPLAY_NAME (Build #$BUILD_NUMBER) - $BUILD_STATUS!</defaultSubject>
+      <defaultContent>$DEFAULT_CONTENT</defaultContent>
+      <attachmentsPattern></attachmentsPattern>
+      <presendScript>$DEFAULT_PRESEND_SCRIPT</presendScript>
+      <attachBuildLog>false</attachBuildLog>
+      <compressBuildLog>false</compressBuildLog>
+      <replyTo>$DEFAULT_REPLYTO</replyTo>
+      <saveOutput>false</saveOutput>
+      <disabled>false</disabled>
+    </hudson.plugins.emailext.ExtendedEmailPublisher>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.3">
+      <template>#${BUILD_NUMBER}-${ENV,var=&quot;BUILD_USER&quot;}.${ENV,var=&quot;BUILD_VER&quot;}</template>
+    </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</com.tikal.jenkins.plugins.multijob.MultiJobProject>
