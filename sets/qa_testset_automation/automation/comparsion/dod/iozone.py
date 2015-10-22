@@ -61,6 +61,7 @@ class DODIOZone(DODLog):
         if not m: #end of file
             return False
         iopt = m.group(1)
+        iopt.replace(" ","_")
         self.parse_iopt(self._dod[iopt])
         self.ST = PST_REPORT_E
         return True
