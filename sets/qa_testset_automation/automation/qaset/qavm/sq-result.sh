@@ -69,11 +69,11 @@ function sq_result_save_locally {
 
 function sq_qadb_update_system_infomation {
     for name in $(ls /var/log/qa/ctcs2); do
-        echo $name | egrep "^.*[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}$" &&
-            ! [ -f /var/log/qa/ctcs2/${name}/messages.syslog ] &&
-            cp /var/log/messages /var/log/qa/ctcs2/${name}/messages.syslog  &&
-            chmod 644 /var/log/qa/ctcs2/${name}/messages.syslog
+        echo $name | egrep -q "^.*[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}$"
+        [ $? != 0 ] && continue
+        journalctl > //var/log/qa/ctcs2/${name}/syslog-journalctl.txt
         zypper -n --no-refresh pt -i > /var/log/qa/ctcs2/${name}/installed-pattern.txt
+        lsscsi > /var/log/qa/ctcs2/${name}/lsscsi.txt
         lspci -k > /var/log/qa/ctcs2/${name}/lspci-k.txt
         lsmod > /var/log/qa/ctcs2/${name}/lsmod.txt
         lscpu > /var/log/qa/ctcs2/${name}/lscup.txt
