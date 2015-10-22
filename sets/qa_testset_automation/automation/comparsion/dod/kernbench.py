@@ -10,7 +10,7 @@ import logging
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
 
-IO_PATTERN = ('Elapsed Time', 'User Time','System Time','Percent CPU','Context Switches','Sleeps')
+IO_PATTERN = ('Elapsed_Time', 'User_Time','System_Time','Percent_CPU','Context_Switches','Sleeps')
 class DODKernbench(DODLog):
     def __init__(self, stream):
         super(DODKernbench, self).__init__(stream)

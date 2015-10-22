@@ -10,8 +10,8 @@ import parserManager
 import logging
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
-IO_PATTERN=('Sequential Output','Sequential Input','Random','Sequential Create','Random Create')
-IO_OPERATION=('Per Chr','Block','Rewrite','Seeks','Create','Read','Delete')
+IO_PATTERN=('Sequential_Output','Sequential_Input','Random','Sequential_Create','Random_Create')
+IO_OPERATION=('Per_Chr','Block','Rewrite','Seeks','Create','Read','Delete')
 class DODBonniepp(DODLog):
     def __init__(self, stream):
         super(DODBonniepp, self).__init__(stream)
@@ -26,7 +26,7 @@ class DODBonniepp(DODLog):
             if len(r) > 24 :
                 self._dod[IO_PATTERN[0]]=DictOfDict({IO_OPERATION[0]:int(r[2]),IO_OPERATION[1]:int(r[4]),IO_OPERATION[2]:int(r[6])})
                 self._dod[IO_PATTERN[1]]=DictOfDict({IO_OPERATION[0]:int(r[8]),IO_OPERATION[1]:int(r[10])})
-                self._dod[IO_PATTERN[2]] = DictOfDict({IO_OPERATION[3]:float(r[12])}) 
+                self._dod[IO_PATTERN[2]] = DictOfDict({IO_OPERATION[3]:float(r[12])})
                 self._dod[IO_PATTERN[3]]=DictOfDict({IO_OPERATION[4]:int(r[15]),IO_OPERATION[5]:int(r[17]),IO_OPERATION[6]:int(r[19])})
                 self._dod[IO_PATTERN]=DictOfDict({IO_OPERATION[4]:int(r[21]),IO_OPERATION[5]:int(r[23]),IO_OPERATION[6]:int(r[25])})
 
