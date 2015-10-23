@@ -34,8 +34,8 @@
 
 Name:           qa_test_fetchmail
 Url:            None
-Version:        0.2.1
-Release:        2
+Version:        0.3
+Release:        1
 License:        SUSE Proprietary
 Group:          System/Packages
 AutoReqProv:    on
@@ -48,9 +48,7 @@ Summary:        (rd-)qa internal package for fetchmail testing
 BuildArch:      noarch
 Provides:	qa_fetchmail
 Obsoletes:	qa_fetchmail
-Requires:       fetchmail xinetd cyrus-imapd postfix
-Provides:	qa_fetchmail
-Obsoletes:	qa_fetchmail
+Requires:       fetchmail xinetd dovecot postfix
 Requires:       ctcs2
 Requires:       libqainternal
 
@@ -96,6 +94,9 @@ rm -rvf $RPM_BUILD_ROOT
 %attr(0644,root,root) /usr/share/qa/%name/COPYING
 
 %changelog
+* Fri Oct 23 2015 jtzhao@suse.com
+- update to 0.3
+  - use dovecot instead of cyrus
 * Wed Dec 30 2009 puzel@suse.cz
 - update to 0.2.1
   - main.cf: use default myhostname
