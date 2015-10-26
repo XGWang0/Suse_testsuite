@@ -49,9 +49,9 @@ QA tool for regression and kotd automation test on Jenkins
 install -m 755 -d %{buildroot}%{_mandir}/man8
 install -m 644 %{SOURCE1} %{buildroot}%{_mandir}/man8
 gzip %{buildroot}%{_mandir}/man8/%{name}.8
-install -m 755 -d %{buildroot}%{_datadir}/qa/jenkins_rt_run
-cp -a * %{buildroot}%{_datadir}/qa/jenkins_rt_run
-find %{buildroot}%{_datadir}/qa/jenkins_rt_run -type d -name .pyc -exec rm -rf {} \;
+install -m 755 -d %{buildroot}%{_datadir}/qa/tools/jenkins_rt_run
+cp -a * %{buildroot}%{_datadir}/qa/tools/jenkins_rt_run
+find %{buildroot}%{_datadir}/qa/tools/jenkins_rt_run -type d -name .pyc -exec rm -rf {} \;
 
 %post
 
@@ -62,6 +62,7 @@ rm -rf %{buildroot}
 %defattr(-, root, root)
 %{_mandir}/man8/qa_testset_jenkins.8.gz
 %{_datadir}/qa
+%{_datadir}/qa/tools
 #%doc COPYING
 
 %changelog

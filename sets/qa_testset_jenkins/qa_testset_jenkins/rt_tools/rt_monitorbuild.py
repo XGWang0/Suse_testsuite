@@ -151,7 +151,7 @@ class RTBuildChange(object):
     def checkBuildChange(self, last_file, url):
 
         last_content = CommonOpt().loadData(last_file)
-        curr_content = self.urlpaser.getFileContent(url).strip()
+        curr_content = self.urlpaser.getFileContent(url, times=3).strip()
 
         if ''.join(curr_content.strip()) == "":
             return (False, last_content, "")

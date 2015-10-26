@@ -23,7 +23,7 @@
 
 import random
 import time
-from urllib2 import urlopen, HTTPError, Request
+from urllib2 import urlopen, HTTPError, Request, URLError
 
 from constantvars import LOGGER
 
