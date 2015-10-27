@@ -1,0 +1,48 @@
+." Manpage for qa_testset_jenkins.
+." Contact John Wang <xgwang@suse.com> to correct errors or typos.
+.TH man 8 "15 Oct 2015" "1.0" "qa_testset_jenkins man page"
+.SH NAME
+qa_testset_jenkins
+.SH SYNOPSIS
+A package for regerssion & kotd automation integration test on jenkins
+.SH TYPE
+qa_ package.
+.SH DESCRIPTION
+This is a tool package that can complete regression and kotd test automation running on jenkins.
+.br
+Regression Test: Stress validation test, Kernel regression test and User space regression test.
+.br
+KOTD Test: Stress validation test and kernel regression test
+.SH README
+None.
+.SH Deployment
+1.Install qa_testset_jenkins on default path. (Default path : /usr/share/qa/)
+.br
+2.Folder jenkins_rt_run will be created on default path. All needed files are here.
+.br
+3.Copy folder ${default}/jenkins_rt_run/jenkins_cfg/* to place where wants to create project on home path of jenkins.
+Notice: Do not forget to modify the owner and permission for all configuraion files
+(This step is temporary, it will be replaced by automatical installation at next plan) 
+.br
+4.Copy folder ${default}/jenkins_rt_run/rt_tools/REGRESSION_TEST_CFG to home path of jenkins
+(These files are the configuration files of project)
+.SH WHAT IT DOES
+Regression and KOTD automation integration test
+.SH COMMON PROBLEMS
+None.
+.SH WARNINGS
+No harm scripts, generally no problem.
+.SH SEE ALSO
+None.
+.SH BUGS
+No known bugs.
+.SH DISTRIBUTION
+Internal, Our code.
+.SH LICENSE
+SUSE Proprietary
+.SH UPSTREAM
+None.
+.SH AUTHOR
+John Wang <xgwang@suse.com>
+.SH MAINTAINER
+John Wang <xgwang@suse.com>
