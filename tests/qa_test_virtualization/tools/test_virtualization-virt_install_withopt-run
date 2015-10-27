@@ -73,6 +73,10 @@ fi
 if ! uname -r|grep -iq xen ;then
 	#The host is KVM
 	sed -i '/-pv-/d' $TCF_TRUE
+else
+	#The host is XEN
+	#disable the autoballoon
+	sed -i '/autoballoon=1/s/.*/autoballoon=0/;/autoballoon="/s/.*/autoballoon="off"/' /etc/xen/xl.conf
 
 fi
 
