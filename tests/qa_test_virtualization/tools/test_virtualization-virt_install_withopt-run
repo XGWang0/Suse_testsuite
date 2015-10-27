@@ -92,7 +92,7 @@ print_usage()
 {
 	echo "Usage: $0 -h  print this help"
 	echo "-n <thread_number>"
-	echo "-t [U,M] :Unit test,Milestone test"
+	echo "-t [std,dev] :Unit test,Milestone test"
 	echo "-f <filter string>  : eg. 'nw-65-sp8\|oes-11-sp2' "
 
 }
@@ -108,7 +108,7 @@ do
 done
 
 
-[ -n "$gen_type" ] && [ "$gen_type" == "U" ] && /usr/share/qa/virtautolib/lib/opt_gen.pl
+[ -n "$gen_type" ] && [ "$gen_type" == "dev" ] && /usr/share/qa/virtautolib/lib/opt_gen.pl
 
 #verify the option
 
