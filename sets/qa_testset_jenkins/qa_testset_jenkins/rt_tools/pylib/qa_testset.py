@@ -324,6 +324,9 @@ class QA_TESTSET(object):
     def addRepo2Host(self, qa_repo, repo_nike_name):
         #qa_repo = os.path.join(qa_repo, PrjPath().getProductVersion().replace("SLES", "SLE"))
         repo = self.getValidURL(qa_repo)
+        
+        self.removeRepoByURL(repo)
+
         LOGGER.info(StringColor().printColorString("Add repo to slave.", StringColor.F_BLU))
         addrepo_cmd = PREFIX_ADD_REPO_CMD %dict(repo_addr=repo,
                                                 repo_nike=repo_nike_name)
@@ -354,6 +357,18 @@ class QA_TESTSET(object):
         #rel_list = [{'name':"Install package", 'status':True, 'output':ret_msg, 'error_msg':None, 'url':None}]
         return ts_data
 
+    def removeRepoByURL(self, repo_addr):
+        getrepo_total = "zypper lr -d | grep %s | wc -l" %(repo_addr)
+        rel = self.executeCMD(getrepo_total, w_timeout=1800, s_timeout=20, title='Get All Repos')
+        
+        rei = re.search("(\d+)", rel[1], re.I)
+        if rei:
+            total_n = int(rei.groups()[0])
+            for i in range(total_n):
+                LOGGER.info(StringColor().printColorString("Remove repo %s." %(repo_addr) , StringColor.F_BLU))
+                rmrepo_cmd = PREFIX_RMV_REPO_CMD %dict(repo_addr=repo_addr)
+                self.executeCMD(rmrepo_cmd, w_timeout=1800, s_timeout=20, title='Remove Repo')  
+
     def installPackage(self, qa_repo, package=TS_STRESS_VALID_NAME, times=3):
         
         # Add repo to zypper 
@@ -361,6 +376,9 @@ class QA_TESTSET(object):
         #qa_repo = os.path.join(qa_repo, PrjPath().getProductVersion().replace("SLES", "SLE"))
         
         qa_repo = os.path.join(qa_repo, self.productv)
+        
+        self.removeRepoByURL(repo_addr=qa_repo)
+        
         LOGGER.info(StringColor().printColorString("Add repo to slave.", StringColor.F_BLU))
         addrepo_cmd = PREFIX_ADD_REPO_CMD %dict(repo_addr=qa_repo,
                                                 repo_nike=TS_STRESS_VALID_NICK)
@@ -532,12 +550,12 @@ class QA_TESTSET(object):
                     LOGGER.info(StringColor().printColorString(ret_msg,  StringColor.F_GRE))
                     break
                 else:
-                    LOGGER.info(StringColor().printColorString("This test is dropped down or can not be launched, try again", StringColor.F_GRE))
+                    LOGGER.info(StringColor().printColorString("Screen %s not found, try again" %(screen_name), StringColor.F_GRE))
             time.sleep(60)
         else:
             exec_duration = CommonOpt().getDiffTime(self.start_time, datetime.datetime.now())
             tc_status = 'failed'
-            ret_msg = "Test suite is not launched successfully, due to no screen"
+            ret_msg = "Test suite finished, due to no screen process"
             LOGGER.info(StringColor().printColorString(ret_msg,  StringColor.F_GRE))
 
         tc_data = self.combineTCData(tc_name="Check TestSuite Screen", tc_status=tc_status, 
@@ -970,6 +988,7 @@ class Install_Kernel(QA_TESTSET):
         org_rel = self.executeCMD("uname -r",  w_timeout=120, s_timeout=20,
                                   title="Get kernel version", chk_reltime=True)
         
+        self.removeRepoByURL(qa_repo)
         # Add repo to zypper        
         LOGGER.info(StringColor().printColorString("Add repo to slave.", StringColor.F_BLU))
         addrepo_cmd = PREFIX_ADD_REPO_CMD %dict(repo_addr=qa_repo,
