@@ -232,6 +232,7 @@ PREFIX_STORE_FILE_NAME = "pickel_file_%s.pkl"
 
 PREFIX_ADD_REPO_CMD = "zypper --no-gpg-checks -n ar %(repo_addr)s %(repo_nike)s"
 PREFIX_REF_REPO_CMD = "zypper --gpg-auto-import-keys ref -r %(repo_nike)s"
+PREFIX_RMV_REPO_CMD = "zypper rr %(repo_addr)s"
 #PREFIX_INS_REPO_CMD = "zypper in -y -r %(repo_nike)s %(ts_name)s"
 PREFIX_INS_REPO_CMD = "zypper in -y %(ts_name)s"
 
