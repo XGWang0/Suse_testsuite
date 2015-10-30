@@ -28,7 +28,7 @@ class DODBonniepp(DODLog):
                 self._dod[IO_PATTERN[1]]=DictOfDict({IO_OPERATION[0]:int(r[8]),IO_OPERATION[1]:int(r[10])})
                 self._dod[IO_PATTERN[2]] = DictOfDict({IO_OPERATION[3]:float(r[12])}) 
                 self._dod[IO_PATTERN[3]]=DictOfDict({IO_OPERATION[4]:int(r[15]),IO_OPERATION[5]:int(r[17]),IO_OPERATION[6]:int(r[19])})
-                self._dod[IO_PATTERN]=DictOfDict({IO_OPERATION[4]:int(r[21]),IO_OPERATION[5]:int(r[23]),IO_OPERATION[6]:int(r[25])})
+                self._dod[IO_PATTERN[4]]=DictOfDict({IO_OPERATION[4]:int(r[21]),IO_OPERATION[5]:int(r[23]),IO_OPERATION[6]:int(r[25])})
 
     def __getattr__(self, name):
         if name == 'dod':
