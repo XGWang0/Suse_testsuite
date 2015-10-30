@@ -340,3 +340,48 @@ function send_mail(){
 function send_mail_acceptance_test_results(){
     send_mail "${SQ_MAIL_TITLE_ACCEPTANCE}" "${SQ_MAIL_ADDRESS_ACCEPTANCE}" "$(get_acceptance_results)"
 }
+
+# This array contains regex and corresponding location.
+# Do NOT Change the sequence of the elements unless you know what you're doing
+# All the ips other than 10.x.x.x, 147.2.x.x, 192.168.x.x will be considered as German ip
+IP_TO_LOCATION=(
+    '10. German'
+    '147.2. China'
+    '192.168. China'
+    ' German'
+)
+
+# Get the ip address of localhost
+# IPs like 10.x.x.x, 147.2.x.x, 192.168.x.x are prefered.
+# Otherwise, print the first ip
+function get_host_ip()
+{
+    ip_list=`ip address | grep -oP '(?<=inet )(\d+\.){3}\d+' | grep -v '127.0.0.1'`
+    for item in "${IP_TO_LOCATION[@]}"; do
+        pattern=`echo "$item" | cut -d' ' -f1`
+        for ip in "$ip_list"; do
+            if [[ "$ip" == "$pattern"* ]]; then
+                echo "$ip"
+                return 0
+            fi
+        done
+    done
+    return 1
+}
+
+# Get the location of given ip
+# Arguments:
+#   $1 - input ip address
+function get_ip_location()
+{
+    ip="$1"
+    for item in "${IP_TO_LOCATION[@]}"; do
+        pattern=`echo "$item" | cut -d' ' -f1`
+        location=`echo "$item" | cut -d' ' -f2`
+        if [[ "$ip" == "$pattern"* ]]; then
+            echo "$location"
+            return 0
+        fi
+    done
+    return 1
+}
