@@ -322,6 +322,9 @@ class QA_TESTSET(object):
         return ts_data
 
     def addRepo2Host(self, qa_repo, repo_nike_name):
+        '''Add install.pl relevant package
+        '''
+        
         #qa_repo = os.path.join(qa_repo, PrjPath().getProductVersion().replace("SLES", "SLE"))
         repo = self.getValidURL(qa_repo)
         
@@ -330,15 +333,16 @@ class QA_TESTSET(object):
         LOGGER.info(StringColor().printColorString("Add repo to slave.", StringColor.F_BLU))
         addrepo_cmd = PREFIX_ADD_REPO_CMD %dict(repo_addr=repo,
                                                 repo_nike=repo_nike_name)
-        self.executeCMD(addrepo_cmd, w_timeout=1800, s_timeout=20, title='Add Repo')
+        self.executeCMD(addrepo_cmd, w_timeout=1800, s_timeout=20, title='Add Repo', times=3)
 
         # Refresh repo 
         LOGGER.info(StringColor().printColorString("Refresh repo on slave.", StringColor.F_BLU))
         refrepo_cmd = PREFIX_REF_REPO_CMD %dict(repo_nike=repo_nike_name)
-        self.executeCMD(refrepo_cmd, w_timeout=1800, s_timeout=20, title='Refresh Repo')
+        self.executeCMD(refrepo_cmd, w_timeout=1800, s_timeout=20, title='Refresh Repo', times=3)
 
     def installPKG(self, repo_nike_name, package):
-
+        ''' Install install.pl relevant package to host
+        '''
         LOGGER.info(StringColor().printColorString("Install package on slave.", StringColor.F_BLU))
         inpackage_cmd = PREFIX_INS_REPO_CMD %dict(#repo_nike=repo_nike_name,
                                                   ts_name=package)
@@ -370,7 +374,8 @@ class QA_TESTSET(object):
                 self.executeCMD(rmrepo_cmd, w_timeout=1800, s_timeout=20, title='Remove Repo')  
 
     def installPackage(self, qa_repo, package=TS_STRESS_VALID_NAME, times=3):
-        
+        '''Install normal qa-head package
+        '''
         # Add repo to zypper 
         #self.addRepo2Host(qa_repo)
         #qa_repo = os.path.join(qa_repo, PrjPath().getProductVersion().replace("SLES", "SLE"))
@@ -993,12 +998,12 @@ class Install_Kernel(QA_TESTSET):
         LOGGER.info(StringColor().printColorString("Add repo to slave.", StringColor.F_BLU))
         addrepo_cmd = PREFIX_ADD_REPO_CMD %dict(repo_addr=qa_repo,
                                                 repo_nike=KTOD_KERNEL_VALID_NICK)
-        self.executeCMD(addrepo_cmd, w_timeout=1800, s_timeout=360, title='Add Repo')
+        self.executeCMD(addrepo_cmd, w_timeout=1800, s_timeout=360, title='Add Repo', times=3)
 
         # Refresh repo 
         LOGGER.info(StringColor().printColorString("Refresh repo on slave.", StringColor.F_BLU))
         refrepo_cmd = PREFIX_REF_REPO_CMD %dict(repo_nike=KTOD_KERNEL_VALID_NICK)
-        self.executeCMD(refrepo_cmd, w_timeout=3600, s_timeout=1800, title='Refresh Repo')
+        self.executeCMD(refrepo_cmd, w_timeout=3600, s_timeout=1800, title='Refresh Repo', times=3)
 
         # Install package
         LOGGER.info(StringColor().printColorString("Install package on slave.", StringColor.F_BLU))
