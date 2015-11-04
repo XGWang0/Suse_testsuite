@@ -20,5 +20,4 @@ SQ_TEST_RUN_LIST=(
     openssh
     openssl
     php5
-    fetchmail
 )

@@ -195,18 +195,18 @@ wait
 #fg 1 autotest-parallel_dd /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/parallel_dd/control
 #wait
 ###### lot of time used
-timer 86400
-fg 1 autotest-fsdev /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fsdev/control
-wait
-timer 86400
-fg 1 autotest-kvm /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kvm/control
-wait
-timer 86400
-fg 1 autotest-libvirt /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/libvirt/control
-wait
-timer 86400
-fg 1 autotest-profiler_sync /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/profiler_sync/control
-wait
+#timer 86400
+#fg 1 autotest-fsdev /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/fsdev/control
+#wait
+#timer 86400
+#fg 1 autotest-kvm /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/kvm/control
+#wait
+#timer 86400
+#fg 1 autotest-libvirt /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/libvirt/control
+#wait
+#timer 86400
+#fg 1 autotest-profiler_sync /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/profiler_sync/control
+#wait
 #timer 86400
 #fg 1 autotest-qemu_iotests /usr/lib/autotest/bin/autotest /usr/lib/autotest/tests/qemu_iotests/control
 #wait
