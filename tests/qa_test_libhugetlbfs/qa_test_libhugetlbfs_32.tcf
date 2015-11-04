@@ -54,9 +54,9 @@ timer 300
 fg 1 mlock /usr/lib/libhugetlbfs/tests/obj32/mlock
 wait
 
-timer 300
-fg 1 misalign /usr/lib/libhugetlbfs/tests/obj32/misalign
-wait
+#timer 300
+#fg 1 misalign /usr/lib/libhugetlbfs/tests/obj32/misalign
+#wait
 
 timer 300
 fg 1 mremap-expand-slice-collision /usr/lib/libhugetlbfs/tests/obj32/mremap-expand-slice-collision

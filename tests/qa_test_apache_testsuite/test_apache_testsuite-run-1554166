@@ -11,7 +11,7 @@ cd ../mod_perl-tests
 perl Makefile.PL MP_APXS=/usr/sbin/apxs2 MP_APR_CONFIG=/usr/bin/apr-1-config -startuptimeout 120 > /dev/null 2>&1
 cd ..
 
-blist="mod_perl-tests/t/api/add_config.t mod_perl-tests/t/hooks/authen_basic.t mod_perl-tests/t/hooks/authz.t mod_perl-tests/t/modules/cgiupload.t mod_perl-tests/Apache-Test/t/more/01testpm.t mod_perl-tests/Apache-Test/t/more/02testmore.t mod_perl-tests/Apache-Test/t/more/03testpm.t mod_perl-tests/Apache-Test/t/more/04testmore.t mod_perl-tests/Apache-Test/t/alltest/01bang.t mod_perl-tests/Apache-Test/t/alltest2/01bang.t"
+blist="mod_perl-tests/t/api/add_config.t mod_perl-tests/t/hooks/authen_basic.t mod_perl-tests/t/hooks/authz.t mod_perl-tests/t/modules/cgiupload.t mod_perl-tests/Apache-Test/t/more/01testpm.t mod_perl-tests/Apache-Test/t/more/02testmore.t mod_perl-tests/Apache-Test/t/more/03testpm.t mod_perl-tests/Apache-Test/t/more/04testmore.t mod_perl-tests/Apache-Test/t/alltest/01bang.t mod_perl-tests/Apache-Test/t/alltest2/01bang.t mod_perl-tests/t/directive/perlloadmodule3.t mod_perl-tests/t/filter/in_bbs_inject_header.t mod_perl-tests/t/hooks/authen_digest.t mod_perl-tests/ModPerl-Registry/t/closure.t"
 for suite in $blist;do
   if [ -e $suite ];then
     mv $suite $suite.bad
