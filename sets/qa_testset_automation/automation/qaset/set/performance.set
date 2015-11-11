@@ -241,3 +241,7 @@ def_unit_fs pgbench_medium_ro  "/usr/share/qa/tools/test_pgbench_medium-ro-run" 
 def_unit_fs pgbench_large_rw  "/usr/share/qa/tools/test_pgbench_large-rw-run" qa_test_pgbench
 def_unit_fs pgbench_large_ro  "/usr/share/qa/tools/test_pgbench_large-ro-run" qa_test_pgbench
 def_unit_fs sysbench_oltp "/usr/lib/ctcs2/tools/test_sysbench_oltp-run" qa_test_sysbench mysql
+
+#this is just a name for naming the log in qadb.
+#Real different needs to be mannually set on hardware.
+def_unit_fs tiobench_doublemem_async_without_disk_cache "/usr/share/qa/tools/test_tiobench_doublemem_async-run" qa_test_tiobench
