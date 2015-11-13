@@ -40,13 +40,13 @@ if ! mkdir -p ${MOUNT_POINT_UNCOM};then
     exit 1
 fi
 
-dd if=/dev/zero of=${TESTDIR_COM} bs=10M count=30
+dd if=/dev/urandom of=${TESTDIR_COM} bs=10M count=30
 if test $? -ne 0;then
     echo "can't dd "
     exit 1
 fi
 
-dd if=/dev/zero of=${TESTDIR_UNCOM} bs=10M count=30
+dd if=/dev/urandom of=${TESTDIR_UNCOM} bs=10M count=30
 if test $? -ne 0;then
     echo "can't dd "
     exit 1
@@ -99,7 +99,7 @@ else
 OB
 fi
 
-dd if=/dev/zero of=${DATA} bs=10M count=10
+dd if=/dev/urandom of=${DATA} bs=10M count=10
 if test $? -ne 0;then
     echo "can't dd "
     exit 1
