@@ -36,6 +36,7 @@ Patch7:         drop-aio.patch
 Patch8:         fix-pipe_test.patch
 Patch9:         c_macro_problem.patch
 Patch10:	diskdir_abuild.patch
+Patch11:        fix-sync.patch
 Requires:       ctcs2
 Provides: 	reaim reaim-ctcs2-glue
 Obsoletes:	reaim reaim-ctcs2-glue
@@ -91,6 +92,7 @@ Authors:
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 %build
 ./bootstrap
 ./configure
