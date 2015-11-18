@@ -26,7 +26,7 @@ class DODPgbench(DODLog):
                     arg =""
                     arg +=(line.split(':'))[1].strip()+'-'
                     line = next(self.stream)
-                    arg +=(line.split())[1]+(line.split())[2]+'-'
+                    #arg +=(line.split())[1]+(line.split())[2]+'-'
                     line = next(self.stream)
                     arg +=(line.split())[1]+(line.split())[2]+'-'
                     line = next(self.stream)

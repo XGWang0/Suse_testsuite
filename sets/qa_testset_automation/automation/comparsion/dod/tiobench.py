@@ -59,7 +59,6 @@ class DODTiobench(DODLog):
         if name == 'dod':
             if self.ST == PST_NULL:
                 self.parse_default()
-                print (self._dod)
             return self._dod
         raise AttributeError()
 

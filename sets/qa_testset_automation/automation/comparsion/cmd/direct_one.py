@@ -24,7 +24,7 @@ logname = ''
 hostname = ''
 
 pl=['SLES-12-SP0','SLES-12-SP1','SLES-12','SLES-11-SP3','SLES-11-SP4','SLES-12.1-SP1']
-rl=['beta1','beta2','beta3','beta4','RC1','RC2','RC3','GMC1','GMC2','GM','GA']
+rl=['beta1','beta2','beta3','beta4','RC1','RC2','RC3','GMC','GMC2','GM','GA','RC6','RC3A']
 al=['x86_64','xen0-x86_64','i586','ia64','ppc']
 tl=['qa_siege_performance','kernbench','lmbench','libmicro-bench','sysbench_oltp_ext3','sysbench_oltp_xfs','sysbench_oltp_btrfs','sysbench-sys','netperf-peer-loop','netperf-peer-loop6','netperf-peer-fiber','netperf-peer-fiber6','reaim_disk_ext3','reaim_disk_xfs','reaim_disk_btrfs','qa_tiobench_async_ext3','qa_tiobench_async_xfs','qa_tiobench_async_btrfs','bonnie++_async_ext3','bonnie++_async_xfs','bonnie++_async_btrfs','bonnie++_fsync_ext3','bonnie++_fsync_xfs','bonnie++_fsync_btrfs','qa_iozone_doublemem_ext3','qa_iozone_doublemem_xfs','qa_iozone_doublemem_btrfs','dbench4_async_ext3','dbench4_async_xfs','dbench4_async_btrfs','pgbench_small_ro_ext3','pgbench_small_ro_xfs','pgbench_small_ro_btrfs','pgbench_small_rw_ext3','pgbench_small_rw_xfs','pgbench_small_rw_btrfs']
 ll=['qa_siege_performance','kernbench','lmbench','libmicro-bench','sysbench-oltp','sysbench-cpu','sysbench-fileio','sysbench-memory','sysbench-mutex','sbench-threads','netperf-loop-udp','netperf-loop-tcp','netperf-fiber-tcp','netperf-fiber-udp','netperf-fiber-udp6','netperf-fiber-tcp6','reaim-ioperf','tiobench-doublemem-async','bonnie++-async','bonnie++-fsync','iozone-doublemem-async','iozone-doublemem-fsync','dbench4-async','dbench4-fsync','pgbench-small-ro','pgbench-small-rw']
