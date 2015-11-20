@@ -1,0 +1,11 @@
+--- qa_test_openssl-1.0.1g.orig/test/dsatest.c	2014-03-18 00:14:20.000000000 +0800
++++ qa_test_openssl-1.0.1g/test/dsatest.c	2015-11-20 15:03:43.377697643 +0800
+@@ -251,7 +251,7 @@
+ 
+ 	if (!ok && (p == 0) && (num > 1))
+ 		{
+-		BIO_printf((BIO *)arg,"error in dsatest\n");
++		BIO_printf(arg->arg,"error in dsatest\n");
+ 		return 0;
+ 		}
+ 	return 1;
