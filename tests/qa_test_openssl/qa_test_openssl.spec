@@ -41,9 +41,9 @@ Source4:        qa_test_openssl_benchmark.sh
 Source5:        process_benchmarks.pl
 Patch0:         qa_test_openssl-Makefile-%{Ver}.patch
 Patch1:         qa_test_openssl-fips_test.patch
-Patch2:         openssl-1.0.1e-fips.patch
-Patch3:         openssl-1.0.1e-fips-ec.patch
-Patch4:         dsatest.patch
+Patch2:         dsatest.patch
+Patch3:         ecdhtest.patch
+Patch4:         ecdsatest.patch
 BuildRequires:  bc
 BuildRequires:  ctcs2
 BuildRequires:  gcc
@@ -79,8 +79,8 @@ sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %if 0%{?suse_version} >= 1220
 %patch1 -p1
-%patch2 -t -p1
-%patch3 -t -p1
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
 %endif
 
