@@ -41,6 +41,7 @@ Source12:       ping02
 Source13:       localaccess.sh
 Source14:       remoteaccess.sh
 Patch0:         qa_apparmor-build_issue_on_sles12
+Patch1:         exec_ptrace_regex.patch
 Url:            http://www.novell.com/products/apparmor/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Summary:        apparmor tests
@@ -81,6 +82,9 @@ Currently the following profiles are tested: - tcp commands:ping
 %setup -n tests 
 %define qa_location /usr/share/qa/qa_test_apparmor
 %patch0 -p1
+%patch1 -p1
+
+
 %build
 make -C regression/apparmor all
 make -C stress/subdomain all
