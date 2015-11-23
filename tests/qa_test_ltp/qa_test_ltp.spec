@@ -81,6 +81,7 @@ Requires:       bash
 Requires:       perl
 Requires:	qa_lib_ctcs2
 Requires:       python
+Requires:	rpmbuild
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
