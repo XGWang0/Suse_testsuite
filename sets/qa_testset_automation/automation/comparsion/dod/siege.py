@@ -6,12 +6,12 @@ import re
 
 from dod import *
 from common import *
-import parserManager 
+import parserManager
 import logging
 
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
 
-IO_PATTERN = ('Transaction rate', 'Throughput')
+IO_PATTERN = ('Transaction_rate', 'Throughput')
 class DODSiege(DODLog):
     def __init__(self, stream):
         super(DODSiege, self).__init__(stream)
@@ -23,7 +23,7 @@ class DODSiege(DODLog):
 
     def parser(self):
         rate = []
-        throughput = [] 
+        throughput = []
         if self.ST == PST_NULL or self.ST== PST_START:
             for line in self.stream:
                 tmatch = re.match(r'Transaction rate:\s*(\d*.\d*)',line)
