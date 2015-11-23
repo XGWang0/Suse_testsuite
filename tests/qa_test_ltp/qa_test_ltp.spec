@@ -81,7 +81,9 @@ Requires:       bash
 Requires:       perl
 Requires:	qa_lib_ctcs2
 Requires:       python
+%if 0%{?suse_version} >= 1220
 Requires:	rpmbuild
+%endif
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
