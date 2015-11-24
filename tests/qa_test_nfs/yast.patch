@@ -1,0 +1,185 @@
+diff -ru qa_test_nfs.orig/nfs_dontwrite.sh qa_test_nfs/nfs_dontwrite.sh
+--- qa_test_nfs.orig/nfs_dontwrite.sh	2008-06-06 17:23:03.000000000 +0800
++++ qa_test_nfs/nfs_dontwrite.sh	2015-11-24 14:09:08.375090560 +0800
+@@ -53,7 +53,8 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports # if it fails in TEST1 in NFS4 and it is not bug, here must be "ro" for TEST1
+-    startService "$SERVICE" 2> /dev/null >&2
++    #startService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server start &> /dev/null
+ }
+ 
+ function cleanup() {
+@@ -62,7 +63,8 @@
+         rm -rf "$MOUNT"
+         rm -rf "$EXPORT"
+     fi
+-    stopService "$SERVICE" 2> /dev/null >&2
++    #stopService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server stop &> /dev/null
+     if ! removeConfig "/etc/exports"; then
+         printMessage $MSG_WARNING "Restore config /etc/exports"
+     fi
+diff -ru qa_test_nfs.orig/nfs_mount_umount.sh qa_test_nfs/nfs_mount_umount.sh
+--- qa_test_nfs.orig/nfs_mount_umount.sh	2008-06-05 20:36:21.000000000 +0800
++++ qa_test_nfs/nfs_mount_umount.sh	2015-11-24 14:09:39.487090560 +0800
+@@ -82,11 +82,13 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
++    #startService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server start &> /dev/null
+ }
+ 
+ function cleanup() {
+-    stopService "$SERVICE" 2> /dev/null >&2
++    #stopService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server stop &> /dev/null
+     if ! removeConfig "/etc/exports"; then
+         printMessage $MSG_WARNING "Restore config /etc/exports"
+     fi
+diff -ru qa_test_nfs.orig/nfs_read.sh qa_test_nfs/nfs_read.sh
+--- qa_test_nfs.orig/nfs_read.sh	2008-06-05 20:36:28.000000000 +0800
++++ qa_test_nfs/nfs_read.sh	2015-11-24 14:10:09.431090560 +0800
+@@ -45,7 +45,8 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
++    #startService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server start &> /dev/null
+ }
+ 
+ function cleanup() {
+@@ -54,7 +55,8 @@
+         rm -rf "$MOUNT"
+         rm -rf "$EXPORT"
+     fi
+-    stopService "$SERVICE" 2> /dev/null >&2
++    #stopService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server stop &> /dev/null
+     if ! removeConfig "/etc/exports"; then
+         printMessage $MSG_WARNING "Restore config /etc/exports"
+     fi
+diff -ru qa_test_nfs.orig/nfs_start_stop.sh qa_test_nfs/nfs_start_stop.sh
+--- qa_test_nfs.orig/nfs_start_stop.sh	2015-11-24 14:05:29.335090560 +0800
++++ qa_test_nfs/nfs_start_stop.sh	2015-11-24 14:43:15.759090560 +0800
+@@ -9,6 +9,8 @@
+ . ./conf/nfs_tests.conf
+ 
+ function testStart() {
++    # Make sure nfs-server is stopped before testing
++    yast nfs-server stop &> /dev/null
+     if startService "$SERVICE"; then
+         printMessage $MSG_PASSED "Nfsd - start the service"
+         return 0
+@@ -19,12 +21,14 @@
+ }
+ 
+ function testStop() {
++    # Make sure nfs-server is started before testing
++    yast nfs-server start &> /dev/null
+     if ! stopService "$SERVICE"; then
+ 	printMessage $MSG_FAILED "Nfsd - stop the service"
+ 	return 0
+     fi
+ 
+-    if [ -n "`/etc/init.d/$SERVICE status | grep -e mountd  -e nfsd | grep running`" ]; then
++    if [ -n "`service $SERVICE status | grep -e mountd  -e nfsd | grep running`" ]; then
+ 	printMessage $MSG_FAILED "Still running (mountd or nfsd)"
+ 	return 1
+     fi
+diff -ru qa_test_nfs.orig/nfs_usermapping_allsquash.sh qa_test_nfs/nfs_usermapping_allsquash.sh
+--- qa_test_nfs.orig/nfs_usermapping_allsquash.sh	2015-11-24 14:05:29.335090560 +0800
++++ qa_test_nfs/nfs_usermapping_allsquash.sh	2015-11-24 14:14:01.455090560 +0800
+@@ -76,7 +76,8 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0,all_squash)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
++    #startService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server start &> /dev/null
+ }
+ 
+ function cleanup() {
+@@ -85,7 +86,8 @@
+         rm -rf "$MOUNT"
+         rm -rf "$EXPORT"
+     fi
+-    stopService "$SERVICE" 2> /dev/null >&2
++    #stopService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server stop &> /dev/null
+     if ! delUser "$TESTUSER"; then
+         printMessage $MSG_WARNING "Delete the user"
+     fi
+diff -ru qa_test_nfs.orig/nfs_usermapping_norootsquash.sh qa_test_nfs/nfs_usermapping_norootsquash.sh
+--- qa_test_nfs.orig/nfs_usermapping_norootsquash.sh	2015-11-24 14:05:29.335090560 +0800
++++ qa_test_nfs/nfs_usermapping_norootsquash.sh	2015-11-24 14:14:27.535090560 +0800
+@@ -70,7 +70,8 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0,no_root_squash)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
++    #startService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server start &> /dev/null
+ }
+ 
+ function cleanup() {
+@@ -79,7 +80,8 @@
+         rm -rf "$MOUNT"
+         rm -rf "$EXPORT"
+     fi
+-    stopService "$SERVICE" 2> /dev/null >&2
++    #stopService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server stop &> /dev/null
+     if ! delUser "$TESTUSER"; then
+         printMessage $MSG_WARNING "Delete the user"
+     fi
+diff -ru qa_test_nfs.orig/nfs_usermapping_rootsquash.sh qa_test_nfs/nfs_usermapping_rootsquash.sh
+--- qa_test_nfs.orig/nfs_usermapping_rootsquash.sh	2015-11-24 14:05:29.335090560 +0800
++++ qa_test_nfs/nfs_usermapping_rootsquash.sh	2015-11-24 14:14:54.143090560 +0800
+@@ -77,7 +77,8 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
++    #startService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server start &> /dev/null
+ }
+ 
+ function cleanup() {
+@@ -86,7 +87,8 @@
+         rm -rf "$MOUNT"
+         rm -rf "$EXPORT"
+     fi
+-    stopService "$SERVICE" 2> /dev/null >&2
++    #stopService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server stop &> /dev/null
+     if ! delUser "$TESTUSER"; then
+         printMessage $MSG_WARNING "Delete the user"
+     fi
+diff -ru qa_test_nfs.orig/nfs_write.sh qa_test_nfs/nfs_write.sh
+--- qa_test_nfs.orig/nfs_write.sh	2008-06-05 20:36:36.000000000 +0800
++++ qa_test_nfs/nfs_write.sh	2015-11-24 14:15:22.055090560 +0800
+@@ -45,7 +45,8 @@
+         exit $FAILED
+     fi
+     [ "$NFSVER" = "nfs4" ] && echo "/ localhost(rw,no_subtree_check,fsid=0)" >> /etc/exports
+-    startService "$SERVICE" 2> /dev/null >&2
++    #startService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server start &> /dev/null
+ }
+ 
+ function cleanup() {
+@@ -54,7 +55,8 @@
+         rm -rf "$MOUNT"
+         rm -rf "$EXPORT"
+     fi
+-    stopService "$SERVICE" 2> /dev/null >&2
++    #stopService "$SERVICE" 2> /dev/null >&2
++    yast nfs-server stop &> /dev/null
+     if ! removeConfig "/etc/exports"; then
+         printMessage $MSG_WARNING "Restore config /etc/exports"
+     fi
