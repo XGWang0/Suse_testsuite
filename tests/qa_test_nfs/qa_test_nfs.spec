@@ -34,9 +34,9 @@ Source2:        test_nfs-v4-run
 Source3:	qa_test_nfs.8
 Source4:	qa_nfs.tcf
 Source5:	qa_nfs-v4.tcf
-Patch0:		start_stop.diff
-Patch1:		bnc894187.diff
-Patch2:         logic.patch
+Patch0:         start_stop.diff
+Patch1:         bnc894187.diff
+Patch2:         yast.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 %define qa_location /usr/share/qa/%{name}
@@ -65,7 +65,7 @@ for root and user.
 %setup -n %{name}
 %patch0 -p 1
 %patch1 -p 1
-%patch2 -p 0
+%patch2 -p 1
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
