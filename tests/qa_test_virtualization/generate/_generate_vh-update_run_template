@@ -63,9 +63,12 @@ done
 v_updir=`find /var/log/qa/ctcs2 -type d -name "test-VH-Upgrade*"|tail -1`
 [ -d $v_updir -a -e /tmp/virt_screenshot.tar.bz2 ] && cp /tmp/virt_screenshot.tar.bz2 $v_updir/
 
-#upload libvirt debug log
-[ -e /var/log/libvirt/libvirtd.log ] && cp /var/log/libvirt/libvirtd.log $v_updir/
+#upload virtualization debug log
+tar cvf $v_updir/libvirt.tar /var/log/libvirt
 cp /var/log/messages $v_updir/
+if uname -r | grep -iq xen && [ -d /var/log/xen ];then
+	tar cvf $v_updir/xen-log.tar /var/log/xen
+fi
 
 /usr/share/qa/tools/remote_qa_db_report.pl -b -c "Test result for virtualization host upgrade step $step test: $TCF_FILE."
 
