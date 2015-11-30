@@ -1,6 +1,9 @@
 -------------------------------------------------------------------
-Mon Feb 16 15:03:52 CET 2015 - asemen@suse.de
+* Mon Nov 30 2015 - asemen@suse.com
+- fixed not build by removing error in changelog
 
+-------------------------------------------------------------------
+Mon Feb 16 2015 - asemen@suse.de
 - increase time out in qa_clamav.tcf for update test cases
 
 -------------------------------------------------------------------

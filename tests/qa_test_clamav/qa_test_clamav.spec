@@ -45,18 +45,16 @@ Source0:        %name-%version.tar.bz2
 Source1:        qa_clamav.tcf
 Source2:        test_clamav-run
 Source3:        README
-Source4:	qa_test_clamav.8
+Source4:	    qa_test_clamav.8
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Provides:	qa_clamav
-Obsoletes:	qa_clamav
+Provides:	    qa_clamav
+Obsoletes:	    qa_clamav
 Requires:       ctcs2 clamav
 BuildArch:      noarch
 #ExclusiveArch: %ix86
 
 %description
 test suite for clamav and freshclam testing
-
-
 
 Authors:
 --------
@@ -92,27 +90,3 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tcf/qa_clamav.tcf
 /usr/share/qa/tools/test_clamav-run
 %doc COPYING
-
-%changelog
-* Mon Feb 16 15:03:52 CET 2015 - asemen@suse.de
-- increase time out in qa_clamav.tcf for update test cases
-* Wed Aug 10 2011 - llipavsky@suse.cz
-- Package rename: qa_clamav -> qa_test_clamav
-* Thu Apr 23 2009 asemen@suse.de
-- correction in tcf file of output script name to qa_clamdscan_file_scan_eicarcom2.zip.sh
-* Fri Dec 12 2008 asemen@suse.de
-- fix fail of initial installed clamav if no clamav db is present
-* Fri Nov 21 2008 asemen@suse.de
-- fix restart and start problem of clamd and freshclam
-* Fri Nov 21 2008 asemen@suse.de
-- fix #447091 clamd_start
-- fix #447087 changing to noarch
-- Add of README
-* Thu Nov 20 2008 asemen@suse.de
-- building fail on sles9 fixed
-- filescan tests for clamscan and clamdsacn in seperate files
-- add environment checks of start and stop of clamd and freshclam
-- add 2nd freshclam update test (no db files)
-* Fri Nov 14 2008 asemen@suse.de
-- package created, version 0.1
-
