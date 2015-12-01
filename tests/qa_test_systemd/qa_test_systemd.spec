@@ -21,9 +21,9 @@ Requires:       ctcs2
 BuildRequires:  ctcs2
 Version:        1
 Release:	1
-Source:         qa_test_systemd-1.tar.xz
+Source:         qa_test_systemd-1.tar.bz2
 Source1:        test_systemd-run
-Source2:	qa_test_systemd.8
+Source2:        qa_test_systemd.8
 
 %description
 During Beta7 and Beta8 regression testing, we noticed that systemd upgrade easier to cause system service regression issue(specially relate to sysvinit), such as kdump in bnc882395 and bnc869608, postfix in bnc879960, nfs in bnc860246. So do a basic service activity testing is necessarily. 
