@@ -19,7 +19,6 @@ Group:          SuSE internal
 Summary:        systemd test
 Requires:       ctcs2
 BuildRequires:  ctcs2
-BuildArch:      noarch
 Version:        1
 Release:	1
 Source:         qa_test_systemd-1.tar.xz
@@ -67,7 +66,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/%{name}.8.gz
 %dir /usr/share/qa
 /usr/share/qa/%name
+%dir /usr/share/qa/tcf
 /usr/share/qa/tcf/qa_systemd.tcf
+%dir /usr/share/qa/tools
 /usr/share/qa/tools/test_systemd-run
 
 %changelog 
