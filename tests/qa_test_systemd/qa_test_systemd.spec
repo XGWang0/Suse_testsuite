@@ -34,42 +34,41 @@ We designed 2 test points for systemd service as first step, the automation is i
 
 %build
 while read -r line; do
-    cat <<END >> qa_systemd.tcf
+    cat <<END >> tcf/qa_systemd.tcf
 
 timer 1800
-fg 1 check-${line} /usr/share/qa/qa_test_systemd/check-service.sh "${line}"
+fg 1 check-${line} %{_datadir}/qa/%{name}/check-service.sh "${line}"
 wait
 END
 done < services
 chmod +x *.sh
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
-cp -r * $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-mv qa_systemd.tcf $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
-#ln -s ../%name/tcf/qa_systemd.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-ln -s /usr/share/qa/%name/tcf/qa_systemd.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+install -m 755 -d %{buildroot}/%{_datadir}/qa
+install -m 755 -d %{buildroot}/%{_datadir}/qa/%name
+cp -r * %{buildroot}/%{_datadir}/qa/%name
+install -m 755 -d %{buildroot}/%{_datadir}/qa/%name/tcf
+install -m 755 -d %{buildroot}/%{_datadir}/qa/tcf
+install -m 755 -d %{buildroot}/%{_datadir}/qa/tools
+install -m 755 %{S:1} %{buildroot}/%{_datadir}/qa/tools
+ln -s %{_datadir}/qa/%name/tcf/qa_systemd.tcf %{buildroot}/%{_datadir}/qa/tcf/
 # man page
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
+install -m 755 -d %{buildroot}/%{_datadir}/man/man8
+install -m 644 %{S:2} %{buildroot}/%{_datadir}/man/man8
+gzip %{buildroot}/%{_datadir}/man/man8/%{name}.8
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-/usr/share/man/man8/%{name}.8.gz
-%dir /usr/share/qa
-/usr/share/qa/%name
-%dir /usr/share/qa/tcf
-/usr/share/qa/tcf/qa_systemd.tcf
-%dir /usr/share/qa/tools
-/usr/share/qa/tools/test_systemd-run
+%{_datadir}/man/man8/%{name}.8.gz
+%dir %{_datadir}/qa
+%{_datadir}/qa/%name
+%dir %{_datadir}/qa/tcf
+%{_datadir}/qa/tcf/qa_systemd.tcf
+%dir %{_datadir}/qa/tools
+%{_datadir}/qa/tools/test_systemd-run
 
 %changelog 
 * Mon Nov 30 2015 - jtzhao@suse.com
