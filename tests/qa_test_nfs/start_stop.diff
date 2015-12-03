@@ -24,3 +24,17 @@ diff -uNpr qa_test_nfs/nfs_usermapping_rootsquash.sh qa_nfs_/nfs_usermapping_roo
          printMessage $MSG_ERROR "Make a new user"
          exit $FAILED
      fi
+
+diff -uNpr qa_test_nfs/nfs_start_stop.sh qa_nfs_/nfs_start_stop.sh
+--- qa_test_nfs/nfs_start_stop.sh	2008-06-03 16:56:44.000000000 +0800
++++ qa_nfs_/nfs_start_stop.sh	2015-12-03 13:17:35.838388091 +0800
+@@ -47,8 +47,8 @@ function cleanup() {
+ }
+ 
+ init
+-testStart;TESTRESULT=$(($? || $TESTRESULT))
+ testStop; TESTRESULT=$(($? || $TESTRESULT))
++testStart;TESTRESULT=$(($? || $TESTRESULT))
+ cleanup
+ 
+ if [ $TESTRESULT -eq 0 ]; then
