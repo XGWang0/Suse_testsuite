@@ -385,3 +385,20 @@ function get_ip_location()
     done
     return 1
 }
+
+# Sometimes the repo url is .../dvd1, sometimes .../DVD1.
+# This function helps to find the correct one
+# Params:
+#   $1 - url
+function get_repo_url_with_correct_dvd {
+    local url="$1"
+    [[ "$url" != */ ]] && url="${url}/"
+    local dvd_list=$(curl -s "$url" | grep -ioP 'dvd\d+' | sort -h | uniq)
+    local dvd_seq=$(echo "$dvd_list" | grep -ioP '(?<=dvd)\d+' | sort -h | uniq | head -n1)
+    local dvd=$(echo "$dvd_list" | grep -ioP "^dvd${dvd_seq}$")
+    if [[ $? -ne 0 ]] || [[ -z "$dvd" ]]; then
+        echo "Failed to get repo url from: $url" >&2
+        exit 255
+    fi
+    echo "${url}${dvd}/"
+}
