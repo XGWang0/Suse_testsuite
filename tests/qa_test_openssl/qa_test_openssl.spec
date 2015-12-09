@@ -23,7 +23,7 @@
 %if 0%{?suse_version} < 1220
 %define Ver 1.0.0l
 %else
-%define Ver 1.0.1g
+%define Ver 1.0.1q
 %endif
 %endif
 
@@ -44,6 +44,7 @@ Patch1:         qa_test_openssl-fips_test.patch
 Patch2:         dsatest.patch
 Patch3:         ecdhtest.patch
 Patch4:         ecdsatest.patch
+Patch5:         rc4test_remove_cpuid.patch
 BuildRequires:  bc
 BuildRequires:  ctcs2
 BuildRequires:  gcc
@@ -79,15 +80,18 @@ sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %if 0%{?suse_version} >= 1220
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+#%%patch2 -p1
+#%%patch3 -p1
+%patch5 -p1
 %endif
 
 cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list
 
 # Fix missing define
 sed -i -e 's:#include <openssl/sha.h>:#include <openssl/sha.h>\n#define OPENSSL_PIC:' test/rc4test.c
+%if 0%{?suse_version} >= 1220
+sed -i -e 's:#include <openssl/ssl.h>:#include <openssl/ssl.h>\n# define SSL3_HM_HEADER_LENGTH                   4:' ssl/clienthellotest.c
+%endif
 
 %build
 cd test
