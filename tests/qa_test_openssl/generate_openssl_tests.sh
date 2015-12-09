@@ -40,16 +40,20 @@ fix_test_symlinks() {
 	local f
 	local symlinks=""
 	local slink
-
 	pushd "${PACKAGE}" > /dev/null
 
 	for f in test/*; do
 		slink=`readlink $f`
+        slink=${slink#$OLD_NAME_VER}
 		if [[ ${slink} = ..* ]]; then
 			extract_item ${slink/..\/}
 		fi
 	done
-	mv "${TARBALL%.tar.*}"/* ./ && rm -rf "${TARBALL%.tar.*}"
+    for i in ${items}; do
+        extract_item ${i}
+    done
+
+    cp "${TARBALL%.tar.*}"/* ./ && rm -rf "${TARBALL%.tar.*}"
 
 	popd > /dev/null
 }
@@ -61,11 +65,46 @@ fix_test_executable() {
 	popd > /dev/null
 }
 
+fix_test_symlinks_after() {
+    local f
+    local symlinks=""
+    local slink
+    local plink
+
+    pushd "${PACKAGE}" > /dev/null
+    for f in test/*;do
+        slink=`readlink $f`
+        plink=${slink#$OLD_NAME_VER}
+        if [[ ${plink} = ..* ]]; then
+            ln -s -f ${plink} ${f}
+        fi
+    done
+
+    popd > /dev/null
+
+}
+
+forgotten_items() {
+    local items="ssl/ssl_locl.h crypto/constant_time_locl.h"
+    local i
+
+    pushd "${PACKAGE}" > /dev/null
+
+    for i in ${items}; do
+            extract_item ${i}
+    done
+
+    cp -n -r "${TARBALL%.tar.*}"/* ./ && rm -rf "${TARBALL%.tar.*}"
+    
+    popd > /dev/null
+}
+
 if [[ -z ${1} ]]; then
 	print_help
 fi
 VERSION=${1}
 PACKAGE="qa_test_openssl-${VERSION}"
+OLD_NAME_VER="openssl-${VERSION}/"
 TARBALL="openssl-${VERSION}.tar.gz"
 WORKDIR=$(pwd)
 
@@ -81,6 +120,9 @@ mkdir -p "${PACKAGE}"
 extract_tests
 fix_test_symlinks
 fix_test_executable
+fix_test_symlinks_after
+forgotten_items
+
 
 tar cjf "${PACKAGE}".tar.bz2 "${PACKAGE}"
 rm -rf "${PACKAGE}"
