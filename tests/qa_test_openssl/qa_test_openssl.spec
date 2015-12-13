@@ -80,8 +80,9 @@ sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %if 0%{?suse_version} >= 1220
 %patch1 -p1
-#%%patch2 -p1
-#%%patch3 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 %patch5 -p1
 %endif
 
