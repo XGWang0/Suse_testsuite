@@ -23,7 +23,7 @@ extract_item() {
 }
 
 extract_tests() {
-	local items="test util Makefile.shared e_os.h apps/openssl.cnf apps/CA.sh apps/server2.pem"
+	local items="test util Makefile.shared e_os.h apps/openssl.cnf apps/CA.sh apps/server2.pem certs"
 	local i
 
 	pushd "${PACKAGE}" > /dev/null
