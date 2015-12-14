@@ -14,13 +14,12 @@
 #
 
 Name:           qa_test_systemd
-License:        Freeware
+License:        GPL v2
 Group:          SuSE internal
 Summary:        systemd test
-Requires:       ctcs2
-BuildRequires:  ctcs2
+Requires:       ctcs2, apache2, at, audit, autoyast2, brltty, cups, cron, cyrus-sasl-saslauthd, device-mapper, dovecot, dnsmasq, gpm, haveged, kexec-tools, libvirt, lvm2, mariadb, mcelog, mdadm, multipath-tools, nfs-client, nfsidmap, nfs-kernel-server, nscd, openslp-server, PackageKit, pcsc-lite, polkit, plymouth, postfix, postgresql-server, quota, radvd, rpcbind, rsync, rsyslog, samba, samba-winbind, spice-vdagent, SuSEfirewall2, smartmontools, systemd, vsftpd, yast2-nfs-server, xinetd
 Version:        1
-Release:	1
+Release:        1
 Source:         qa_test_systemd-1.tar.bz2
 Source1:        test_systemd-run
 Source2:        qa_test_systemd.8
