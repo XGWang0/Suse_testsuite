@@ -26,6 +26,10 @@ def expand_path(path):
     path = os.path.abspath(path)
     return path
 
+# Replace ]]> with ]]&gt;
+def escape_cdata_text(text):
+    return text.replace(']]>', ']]&gt;')
+
 # Detect raw string encoding and convert it to unicode object
 # Note: This function uses chardet lib to detect encoding,
 #       but should work as well without it
@@ -76,8 +80,8 @@ def _serialize_xml(write, elem, encoding, qnames, namespaces, level=0):
     tag = elem.tag
     text = elem.text
     if tag == '![CDATA[':
-        # CDATA. Do NOT escape special characters
-        u = str_to_unicode(text)
+        # CDATA. Do NOT escape special characters except ]]>
+        u = str_to_unicode(escape_cdata_text(text))
         write("<%s%s\n]]>\n" % (tag, u.encode(encoding)))
     elif tag is ET.Comment:
         write("%s<!--%s-->\n" % (_indent_gen(level),
@@ -463,6 +467,9 @@ class TestsuitesParser(BaseParser):
         return self.data
 
 class BaseElement(object):
+    ATTR_BLACKLIST = ['system-out', 'system-err',
+                        'submission_id', 'submission_link']
+
     def __init__(self, data, tag, parent=None):
         self.data = data
         self.elem = ET.Element(tag)
@@ -479,7 +486,7 @@ class BaseElement(object):
             if not(isinstance(v, list) or
                     isinstance(v, dict) or
                     v is None or
-                    k == 'system-out'):
+                    k in BaseElement.ATTR_BLACKLIST):
                 if not isinstance(v, basestring):
                     v = str(v)
                 self.elem.set(k, v)
@@ -495,8 +502,20 @@ class TestcaseElement(BaseElement):
                                             parent)
         self.convert()
 
+    def convert_submission_data(self):
+        if not(self.data.get('submission_id', None) and
+                self.data.get('submission_link', None)):
+            return
+        text = "Submission ID %s: %s" % (self.data['submission_id'],
+                                        self.data['submission_link'])
+        # Write submission data into "system-err"
+        err_elem = ET.SubElement(self.elem, 'system-err')
+        cdata_elem = CDATA(text)
+        err_elem.append(cdata_elem)
+
     def convert(self):
         self.set_attrs()
+        self.convert_submission_data()
         # skipped
         if self.data['skipped'] is not None:
             skip_elem = ET.SubElement(self.elem, 'skipped')
@@ -521,18 +540,8 @@ class TestsuiteElement(BaseElement):
                                             parent)
         self.convert()
 
-    def set_properties(self):
-        if not self.data.has_key('properties'):
-            return
-        properties_elem = ET.SubElement(self.elem, 'properties')
-        for k, v in self.data['properties'].items():
-            property_elem = ET.SubElement(properties_elem,
-                                        'property',
-                                        attrib={'name': k, 'value': v})
-
     def convert(self):
         self.set_attrs()
-        self.set_properties()
         for testcase_data in self.data['testcases']:
             TestcaseElement(testcase_data, parent=self)
 
@@ -588,8 +597,9 @@ class JunitConverter(object):
             submission_id = d.get('id', None)
             submission_link = d.get('link', None)
             if submission_id and submission_link:
-                testsuite['properties'] = { 'submission_id': d['id'],
-                                            'submission_link': d['link']}
+                for testcase in testsuite['testcases']:
+                    testcase['submission_id'] = d['id']
+                    testcase['submission_link'] = d['link']
         # Create xml tree 
         self.root = TestsuitesElement(log_data)
 
