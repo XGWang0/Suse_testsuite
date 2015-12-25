@@ -585,21 +585,19 @@ class JunitConverter(object):
         log_parser.parse()
         log_data = log_parser.get_result()
         # Parse submission files
-        if self.submission_dir is None:
-            submission_data = {}
-        else:
+        if self.submission_dir is not None:
             submission_parser = SubmissionParser(self.submission_dir, self.logger)
             submission_parser.parse()
             submission_data = submission_parser.get_result()
-        # Add submission id and link to log_data
-        for testsuite in log_data['testsuites']:
-            d = submission_data.get(testsuite['name'], {})
-            submission_id = d.get('id', None)
-            submission_link = d.get('link', None)
-            if submission_id and submission_link:
-                for testcase in testsuite['testcases']:
-                    testcase['submission_id'] = d['id']
-                    testcase['submission_link'] = d['link']
+            # Add submission id and link to log_data
+            for testsuite in log_data['testsuites']:
+                d = submission_data.get(testsuite['name'], {})
+                submission_id = d.get('id', None)
+                submission_link = d.get('link', None)
+                if submission_id and submission_link:
+                    for testcase in testsuite['testcases']:
+                        testcase['submission_id'] = submission_id
+                        testcase['submission_link'] = submission_link
         # Create xml tree 
         self.root = TestsuitesElement(log_data)
 
