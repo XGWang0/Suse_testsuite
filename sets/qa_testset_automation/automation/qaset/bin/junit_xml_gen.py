@@ -219,6 +219,7 @@ class TestsuiteParser(BaseParser):
                     'timestamp' : None,                 # [str] Testsuite start time
                     'hostname'  : socket.gethostname(), # [str] Hostname
                     'id'        : TestsuiteParser.ID,   # [int] Sequence number
+                    'package'   : None,                 # [str] Same as testsuite name
                     'testcases' : []}                   # [list] List of testcases
         TestsuiteParser.ID += 1
         self.test_results_file = os.path.join(self.path, TestsuiteParser.TEST_RESULTS)
@@ -228,8 +229,9 @@ class TestsuiteParser(BaseParser):
         basename = os.path.basename(self.path)
         m = re.search(r'(.*)-(\d+(?:-\d+){5})', basename)
         assert m is not None, "Invalid directory name: %s" % (basename)
-        # Name
+        # Name & Package
         self.data['name'] = re.sub(r'^qa[_\-]', '', m.group(1))   # Remove prefix: qa_
+        self.data['package'] = self.data['name']
         # Timestamp
         lst = m.group(2).split('-')
         date = '-'.join(lst[:3])
@@ -298,6 +300,7 @@ class TestsuiteParser(BaseParser):
                                                                         testcase_name))
                     self.logger.debug(traceback.format_exc())
                 testcase_data = tp.get_result()
+                testcase_data['classname'] = "%s.%s" % (self.data['name'], testcase_data['name'])
                 self.data['testcases'].append(testcase_data)
                 # Statistics for testsuite
                 self.data['time'] += testcase_data['time']
@@ -422,12 +425,14 @@ class TestsuitesParser(BaseParser):
 
     # path: The directory containing log tarballs or log dirs.
     #   Example: /var/log/qaset/log/
-    def __init__(self, path, logger=None):
+    def __init__(self, name, path, logger=None):
         super(self.__class__, self).__init__(path, logger)
-        self.data = {'time'     : 0,        # [int] time used(in seconds)
+        self.data = {'name'     : name,     # [str] Test name(e.g.Kernel, Userspace regression)
+                    'time'      : 0,        # [int] time used(in seconds)
                     'tests'     : 0,        # [int] Amount of testsuites
                     'failures'  : 0,        # [int] Amount of failed testsuites
                     'errors'    : 0,        # [int] Amount of testsuites with internal errors
+                    'skipped'   : 0,        # [int] Amount of skipped testsuites
                     'testsuites': []}       # [list] List of testsuites
 
     # Parse all the tarballs or dirs in self.path
@@ -450,9 +455,10 @@ class TestsuitesParser(BaseParser):
             # Statistics for testsuites
             for testsuite in testsuites_data:
                 self.data['time'] += testsuite['time']
-                self.data['tests'] += 1
+                self.data['tests'] += testsuite['tests']
                 self.data['failures'] += testsuite['failures']
                 self.data['errors'] += testsuite['errors']
+                self.data['skipped'] += testsuite['skipped']
             self.data['testsuites'].extend(testsuites_data)
         return self.data
 
@@ -548,7 +554,8 @@ class JunitConverter(object):
     '''
     Convert testsuites data to junit format
     '''
-    def __init__(self, log_dir, submission_dir=None, encoding='UTF-8', logger=None):
+    def __init__(self, name, log_dir, submission_dir=None, encoding='UTF-8', logger=None):
+        self.name = name
         self.log_dir = expand_path(log_dir)
         if submission_dir is not None:
             submission_dir = expand_path(submission_dir)
@@ -565,7 +572,7 @@ class JunitConverter(object):
 
     def run(self):
         # Parse log files
-        log_parser = TestsuitesParser(self.log_dir, self.logger)
+        log_parser = TestsuitesParser(self.name, self.log_dir, self.logger)
         log_parser.parse()
         log_data = log_parser.get_result()
         # Parse submission files
@@ -592,38 +599,50 @@ class JunitConverter(object):
 
 if __name__ == '__main__':
     # Parse cmd line options
-    usage = '''Usage: %prog [options] log_dir [submission_dir]
+    usage = '''Usage: %prog [options] log_dir
 
   Arguments:
     log_dir             QA log dir. Default: /var/log/qaset/log
-    submission_dir      Log submission dir(optional). Default: /var/log/qaset/submission
 
   Options:
+    -n|--name           (Required)Name of this test(e.g.Kernel Regression, Userspace, Acceptance)
+    -s|--submission     Log submission dir. Default: /var/log/qaset/submission
     -o|--output         Write xml to file instead of STDOUT
     -d|--debug          Enable debug mode
-    -e|--encoding       xml encoding. Default: UTF-8
+    -e|--encoding       (TBD)Set xml encoding. Default: UTF-8
 '''
     op = OptionParser(usage=usage)
+    op.add_option('-n', '--name', dest='name', type='string',
+                help='Name of this test')
+    op.add_option('-s', '--submission', dest='submission', type='string',
+                default="/var/log/qaset/submission",
+                help='Log submission dir. Default: /var/log/qaset/submission')
     op.add_option('-o', '--output', dest='file', type='string',
                 help='Save xml to file')
     op.add_option('-d', '--debug', action="store_true", dest="debug",
                 help='Enable debug mode')
     op.add_option('-e', '--encoding', dest="encoding", default='UTF-8',
-                help='Set xml encoding')
+                help='(TBD)Set xml encoding')
     (options, args) = op.parse_args()
-    try:
-        assert len(args) >= 1
-        assert len(args) < 3
-    except AssertionError, e:
-        op.print_usage()
-        exit(255)
-    log_dir = expand_path(args[0])
-    submission_dir = expand_path(args[1]) if len(args) == 2 else None
     # Logger
     logging.basicConfig(format='[%(name)s]%(levelname)s: %(message)s')
     logger = logging.getLogger(__file__)
     level = logging.DEBUG if options.debug else logging.INFO
     logger.setLevel(level)
+    # Check options & args
+    try:
+        assert len(args) == 1
+        assert options.name
+    except AssertionError, e:
+        op.print_usage()
+        exit(255)
+    # Log dir & Submission dir
+    log_dir = expand_path(args[0])
+    assert os.path.isdir(log_dir), "Not a directory: %s" % (log_dir)
+    submission_dir = expand_path(options.submission)
+    if not os.path.isdir(submission_dir):
+        logger.warning("No submission data. Not a directory: %s." % (submission_dir))
+        submission_dir = None
     # Output file
     if options.file:
         try:
@@ -635,7 +654,8 @@ if __name__ == '__main__':
     else:
         outfile = sys.stdout
     # Convert to xml
-    converter = JunitConverter(log_dir,
+    converter = JunitConverter( options.name,
+                                log_dir,
                                 submission_dir=submission_dir,
                                 encoding=options.encoding,
                                 logger=logger)
