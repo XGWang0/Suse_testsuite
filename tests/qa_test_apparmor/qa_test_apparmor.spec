@@ -90,7 +90,6 @@ cp parser/Makefile parser/tst/uservars.conf parser/tst/simple.pl $RPM_BUILD_ROOT
 #copy tcf files
 cp %{SOURCE1} $RPM_BUILD_ROOT/%{qa_location}/tcf
 ln -s ../qa_test_apparmor/tcf/qa_apparmor.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_apparmor.tcf
-ln -s ../qa_test_apparmor/tcf/qa_apparmor_profiles.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_apparmor_profiles.tcf
 #add subdomain tests
 echo "#Subdomain regression tests" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_apparmor.tcf
 for test in `make -n -p -C regression/apparmor/ | grep '^TESTS' | cut -d'=' -f 2`; do
