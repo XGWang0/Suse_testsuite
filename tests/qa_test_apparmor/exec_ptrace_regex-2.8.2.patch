@@ -1,6 +1,6 @@
-diff -ru tests.orig/regression/apparmor/exec.sh tests/regression/apparmor/exec.sh
---- tests.orig/regression/apparmor/exec.sh	2012-01-12 19:29:10.000000000 +0800
-+++ tests/regression/apparmor/exec.sh	2015-11-23 17:05:42.909202738 +0800
+diff -ru apparmor.orig/tests/regression/apparmor/exec.sh apparmor/tests/regression/apparmor/exec.sh
+--- apparmor.orig/tests/regression/apparmor/exec.sh	2012-01-12 19:29:10.000000000 +0800
++++ apparmor/tests/regression/apparmor/exec.sh	2015-11-23 17:05:42.909202738 +0800
 @@ -10,13 +10,13 @@
  #=DESCRIPTION Runs exec() through ux, ix & px functionality
  
@@ -17,9 +17,9 @@ diff -ru tests.orig/regression/apparmor/exec.sh tests/regression/apparmor/exec.s
  ok_ix_perm=rix
  badperm=r
  ok_ux_perm=ux
-diff -ru tests.orig/regression/apparmor/ptrace.sh tests/regression/apparmor/ptrace.sh
---- tests.orig/regression/apparmor/ptrace.sh	2010-12-21 04:29:10.000000000 +0800
-+++ tests/regression/apparmor/ptrace.sh	2015-11-23 17:05:55.253202738 +0800
+diff -ru apparmor.orig/tests/regression/apparmor/ptrace.sh apparmor/tests/regression/apparmor/ptrace.sh
+--- apparmor.orig/tests/regression/apparmor/ptrace.sh	2010-12-21 04:29:10.000000000 +0800
++++ apparmor/tests/regression/apparmor/ptrace.sh	2015-11-23 17:05:55.253202738 +0800
 @@ -32,154 +32,154 @@
  # -h transition child to ptrace_helper before doing ptrace (used to test
  #  x transitions with ptrace)
@@ -243,9 +243,9 @@ diff -ru tests.orig/regression/apparmor/ptrace.sh tests/regression/apparmor/ptra
  
  
  
-diff -ru tests.orig/regression/apparmor/regex.sh tests/regression/apparmor/regex.sh
---- tests.orig/regression/apparmor/regex.sh	2010-12-21 04:29:10.000000000 +0800
-+++ tests/regression/apparmor/regex.sh	2015-11-23 17:08:51.701202738 +0800
+diff -ru apparmor.orig/tests/regression/apparmor/regex.sh apparmor/tests/regression/apparmor/regex.sh
+--- apparmor.orig/tests/regression/apparmor/regex.sh	2010-12-21 04:29:10.000000000 +0800
++++ apparmor/tests/regression/apparmor/regex.sh	2015-11-23 17:08:51.701202738 +0800
 @@ -18,7 +18,7 @@
  # pcre stuff works as well.
  

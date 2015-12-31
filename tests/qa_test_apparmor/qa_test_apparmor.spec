@@ -18,97 +18,72 @@
 
 # norootforbuild
 Name:           qa_test_apparmor
-BuildRequires:  apparmor-parser bzip2 gcc libapparmor-devel swig flex bison automake autoconf libtool
-Version:        1326
-Release:        3
+Version:        2.8.2
+Release:        1
+Summary:        apparmor tests
 License:        GPL v2
 Group:          System/Packages
 AutoReqProv:    on
-Source0:        tests.tar.bz2
-Source1:        qa_apparmor.tcf
+Source0:        apparmor-%{version}.tar.bz2
+Source1:        qa_apparmor-%{version}.tcf
 Source2:        test_apparmor-run
 Source3:        qa_test_apparmor.8
-Source4:        test_apparmor-run
-Source5:        subdomain-wrapper.sh
-Patch0:         qa_apparmor-build_issue_on_sles12
-Patch1:         exec_ptrace_regex.patch
+Source4:        wrapper.sh
+Patch0:         bin_include-path-2.8.2.patch
+Patch1:         mount-2.8.2.patch
+Patch2:         exec_ptrace_regex-2.8.2.patch
 Url:            http://www.novell.com/products/apparmor/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Summary:        apparmor tests
 #BuildArchitectures: noarch
 Provides:	qa_apparmor
 Obsoletes:	qa_apparmor
-Requires:       apparmor-parser apparmor-profiles libapparmor perl bison swig flex ruby
-Requires:       qa_lib_ctcs2  
+Requires:       apparmor-parser apparmor-profiles libapparmor perl bison swig flex ruby qa_lib_ctcs2
+BuildRequires:  apparmor-parser bzip2 gcc libapparmor-devel swig flex bison automake autoconf libtool
 
 
 %description
 This package contains different types of tests:
 - regression tests for apparmor_parser
 - regression tests for the kernel module
-
+- stress tests
+- parser tests
 
 %prep
-%setup -n tests 
-%define qa_location /usr/share/qa/qa_test_apparmor
+%define qa_dir usr/share/qa
+%setup -q -n apparmor-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 
 %build
-make -C regression/apparmor all
-make -C stress/subdomain all
+# regression
+make -C tests/regression/apparmor
+# stress
+# TODO: subdomain testing scripts need patching
+make -C tests/stress/subdomain
+# Remove source code files
+find -name '*.c' -exec rm {} \; -o -name '*.h' -exec rm {} \;
 
 
 %install
+find -type f -name '*.sh' -exec chmod +x {} \;
+# scripts
+install -d -m 0755 $RPM_BUILD_ROOT/%{qa_dir}/tools
+install -d -m 0755 $RPM_BUILD_ROOT/%{qa_dir}/%{name}
+cp -ar * $RPM_BUILD_ROOT/%{qa_dir}/%{name}/
+install -m 0755 %{SOURCE4} $RPM_BUILD_ROOT/%{qa_dir}/%{name}/
+install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/%{qa_dir}/tools/
+# man page
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
 gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/tests
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/parser
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/tcf
-install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tcf
-install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tools
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/doc/parser
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/doc/apparmor
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/bin/parser
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/bin/profiles
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/bin/subdomain
-install -m 0755 %{SOURCE5} $RPM_BUILD_ROOT/%{qa_location}/
-#copy the helper script
-install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/qa/tools
-#copy  tests
-find regression/apparmor/ -maxdepth 2 \( -perm /+x -o -name '*.sh' -o -name '*.inc' \) -exec cp '{}' $RPM_BUILD_ROOT%{qa_location}/tests/ \;
-#copy  documentation
-cp regression/apparmor/README regression/apparmor/AppArmor.rtf $RPM_BUILD_ROOT%{qa_location}/doc/apparmor
-#copy parser documentation 
-cp parser/README $RPM_BUILD_ROOT%{qa_location}/doc/parser
-#copy parser tests
-cp parser/Makefile parser/tst/uservars.conf parser/tst/simple.pl $RPM_BUILD_ROOT%{qa_location}/bin/parser
-
-#
-#copy tcf files
-cp %{SOURCE1} $RPM_BUILD_ROOT/%{qa_location}/tcf
-ln -s ../qa_test_apparmor/tcf/qa_apparmor.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_apparmor.tcf
-#add subdomain tests
-echo "#Subdomain regression tests" >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_apparmor.tcf
-for test in `make -n -p -C regression/apparmor/ | grep '^TESTS' | cut -d'=' -f 2`; do
-	echo "timer 600"
-	TEST=`echo $test | tr [a-z] [A-Z]`
-	echo "fg 1 ${TEST} /usr/share/qa/qa_test_apparmor/subdomain-wrapper.sh ${test}.sh"
-	echo "wait"
-	echo
-done >> $RPM_BUILD_ROOT/usr/share/qa/tcf/qa_apparmor.tcf
-#add parser test
-echo "#Parser regression tests" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor.tcf
-echo "timer 600" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor.tcf
-echo "fg 1 PARSER_REGRESSION /usr/bin/prove -v /usr/share/qa/qa_test_apparmor/parser/tst/simple.pl" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor.tcf
-echo "wait" >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor.tcf
-echo >> $RPM_BUILD_ROOT/%{qa_location}/tcf/qa_apparmor.tcf
-#add stress test
-#
-#%define ltp_tcp_cmds_tcf /usr/share/qa/qa_test_ltp/tcf/.tcf
-#%define ltp_commands_tcf /usr/share/qa/qa_test_ltp/tcf/comtcp_cmdsmands.tcf
+# tcf files
+install -d -m 0755 $RPM_BUILD_ROOT/%{qa_dir}/tcf
+install -d -m 0755 $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf
+mv $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf/qa_apparmor-%{version}.tcf $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf/qa_apparmor.tcf
+ln -s ../%{name}/tcf/qa_apparmor.tcf $RPM_BUILD_ROOT/%{qa_dir}/tcf/qa_apparmor.tcf
 
 
 %clean
@@ -117,14 +92,16 @@ rm -rvf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
+# man page
 /usr/share/man/man8/qa_test_apparmor.8.gz
-/usr/share/qa
+# scripts
+%dir /usr/share/qa
+/usr/share/qa/%{name}
+%dir /usr/share/qa/tools
+/usr/share/qa/tools/test_apparmor-run
+# tcf file
+%dir /usr/share/qa/tcf
 /usr/share/qa/tcf/qa_apparmor.tcf
-#/usr/share/qa/tools/
-%exclude %{qa_location}/tcf/qa_apparmor_*.tcf
-%exclude /usr/share/qa/tcf/qa_apparmor_*.tcf
-%exclude %{qa_location}/bin/profiles
-%exclude /usr/share/qa/tools/test_apparmor-profiles-run
 
 
 %changelog

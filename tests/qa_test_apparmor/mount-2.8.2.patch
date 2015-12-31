@@ -1,0 +1,276 @@
+diff -ru apparmor-2.8.2.orig/tests/regression/apparmor/mount.sh apparmor-2.8.2/tests/regression/apparmor/mount.sh
+--- apparmor-2.8.2.orig/tests/regression/apparmor/mount.sh	2012-02-24 20:29:08.000000000 +0800
++++ apparmor-2.8.2/tests/regression/apparmor/mount.sh	2015-12-31 16:15:51.219107721 +0800
+@@ -28,11 +28,38 @@
+ 
+ mount_file=$tmpdir/mountfile
+ mount_point=$tmpdir/mountpoint
++mount_bad=$tmpdir/mountbad
+ loop_device="unset" 
++fstype="ext2"
++
++setup_mnt() {
++	/bin/mount -n -t${fstype} ${loop_device} ${mount_point}
++#	/bin/mount -n -t${fstype} ${loop_device} ${mount_bad}
++}
++remove_mnt() {
++	mountpoint -q "${mount_point}"
++	if [ $? -eq 0 ] ; then
++		/bin/umount -t${fstype} ${mount_point}
++	fi
++	mountpoint -q "${mount_bad}"
++	if [ $? -eq 0 ] ; then
++		/bin/umount -t${fstype} ${mount_bad}
++	fi
++}
++
++mount_cleanup() {
++	remove_mnt &> /dev/null
++	if [ "$loop_device" != "unset" ]
++	then
++		/sbin/losetup -d ${loop_device} &> /dev/null
++	fi
++}
++do_onexit="mount_cleanup"
+ 
+ dd if=/dev/zero of=${mount_file} bs=1024 count=512 2> /dev/null
+-/sbin/mkfs -text2 -F ${mount_file} > /dev/null 2> /dev/null
++/sbin/mkfs -t${fstype} -F ${mount_file} > /dev/null 2> /dev/null
+ /bin/mkdir ${mount_point}
++/bin/mkdir ${mount_bad}
+ 
+ # in a modular udev world, the devices won't exist until the loopback
+ # module is loaded.
+@@ -56,34 +83,92 @@
+ 	fatalerror 'Unable to find a free loop device'
+ fi
+ 
+-# TEST 1.  Make sure can mount and umount unconfined
+ 
++# TEST 1.  Make sure can mount and umount unconfined
+ runchecktest "MOUNT (unconfined)" pass mount ${loop_device} ${mount_point}
+-runchecktest "UMOUNT (unconfined)" pass umount ${loop_device} ${mount_point}
++remove_mnt
+ 
+-# TEST A2.  confine MOUNT 
++setup_mnt
++runchecktest "UMOUNT (unconfined)" pass umount ${loop_device} ${mount_point}
++remove_mnt
+ 
++# TEST A2.  confine MOUNT no perms
+ genprofile
+-runchecktest "MOUNT (confined)" fail mount ${loop_device} ${mount_point}
++runchecktest "MOUNT (confined no perm)" fail mount ${loop_device} ${mount_point}
++remove_mnt
+ 
+-# TEST A3.  confine MOUNT - cap sys_admin is not sufficient to mount
+-genprofile capability:sys_admin
+-runchecktest "MOUNT (confined)" fail mount ${loop_device} ${mount_point}
++setup_mnt
++runchecktest "UMOUNT (confined no perm)" fail umount ${loop_device} ${mount_point}
++remove_mnt
+ 
+-/bin/umount -text2 ${mount_point}
+ 
+-# TEST A4.  confine UMOUNT
++if [ "$(kernel_features mount)" != "true" -o "$(parser_supports 'mount,')" != "true" ] ; then
++	genprofile capability:sys_admin
++	runchecktest "MOUNT (confined cap)" pass mount ${loop_device} ${mount_point}
++	remove_mnt
+ 
+-/bin/mount -text2 ${loop_device} ${mount_point}
++	setup_mnt
++	runchecktest "UMOUNT (confined cap)" pass umount ${loop_device} ${mount_point}
++	remove_mnt
++else
++	echo "    using mount rules ..."
++
++	genprofile capability:sys_admin
++	runchecktest "MOUNT (confined cap)" fail mount ${loop_device} ${mount_point}
++	remove_mnt
++
++	setup_mnt
++	runchecktest "UMOUNT (confined cap)" fail umount ${loop_device} ${mount_point}
++	remove_mnt
++
++
++	genprofile mount:ALL
++	runchecktest "MOUNT (confined mount:ALL)" fail mount ${loop_device} ${mount_point}
++	remove_mnt
+ 
+-genprofile
+-runchecktest "UMOUNT (confined)" fail umount ${loop_device} ${mount_point}
+ 
+-# TEST A4.  confine UMOUNT - cap sys_admin allows unmount
+-genprofile capability:sys_admin
+-runchecktest "UMOUNT (confined)" pass umount ${loop_device} ${mount_point}
++	genprofile "mount:-> ${mount_point}/"
++	runchecktest "MOUNT (confined bad mntpnt mount -> mntpnt)" fail mount ${loop_device} ${mount_bad}
++	remove_mnt
+ 
+-# cleanup, umount file
+-/bin/umount ${loop_device} > /dev/null 2> /dev/null  || /sbin/losetup -d ${loop_device} > /dev/null 2> /dev/null
++	runchecktest "MOUNT (confined mount -> mntpnt)" fail mount ${loop_device} ${mount_point}
++	remove_mnt
++
++
++
++	genprofile umount:ALL
++	setup_mnt
++	runchecktest "UMOUNT (confined umount:ALL)" fail umount ${loop_device} ${mount_point}
++	remove_mnt
++
++
++	genprofile mount:ALL cap:sys_admin
++	runchecktest "MOUNT (confined cap mount:ALL)" pass mount ${loop_device} ${mount_point}
++	remove_mnt
++
++
++	genprofile cap:sys_admin "mount:-> ${mount_point}/"
++	runchecktest "MOUNT (confined bad mntpnt cap mount -> mntpnt)" fail mount ${loop_device} ${mount_bad}
++	remove_mnt
++
++	runchecktest "MOUNT (confined cap mount -> mntpnt)" pass mount ${loop_device} ${mount_point}
++	remove_mnt
++
++
++	genprofile cap:sys_admin "mount:fstype=${fstype}XXX"
++	runchecktest "MOUNT (confined cap mount bad fstype)" fail mount ${loop_device} ${mount_point}
++	remove_mnt
++
++	genprofile cap:sys_admin "mount:fstype=${fstype}"
++	runchecktest "MOUNT (confined cap mount fstype)" pass mount ${loop_device} ${mount_point}
++	remove_mnt
++
++
++	genprofile cap:sys_admin umount:ALL
++	setup_mnt
++	runchecktest "UMOUNT (confined cap umount:ALL)" pass umount ${loop_device} ${mount_point}
++	remove_mnt
++
++fi
+ 
+-/sbin/losetup -d ${loop_device} > /dev/null 2> /dev/null
++#need tests for move mount, remount, bind mount, chroot
+diff -ru apparmor-2.8.2.orig/tests/regression/apparmor/prologue.inc apparmor-2.8.2/tests/regression/apparmor/prologue.inc
+--- apparmor-2.8.2.orig/tests/regression/apparmor/prologue.inc	2012-10-02 01:57:11.000000000 +0800
++++ apparmor-2.8.2/tests/regression/apparmor/prologue.inc	2015-12-31 16:15:06.546053654 +0800
+@@ -21,6 +21,67 @@
+ #
+ # For this file, functions are first, entry point code is at end, see "MAIN"
+ 
++#use $() to retreive the failure message or "true" if success
++kernel_features()
++{
++	if [ ! -e "/sys/kernel/security/apparmor/features/" ] ; then
++		echo "Kernel feature masks not supported."
++		return 1;
++	fi
++
++	for f in $@ ; do
++		if [ ! -e "/sys/kernel/security/apparmor/features/$f" ] ; then
++			echo "Required feature '$f' not available."
++			return 2;
++		fi
++	done
++
++	echo "true"
++	return 0;
++}
++
++requires_kernel_features()
++{
++	local res=$(kernel_features $@)
++	if [ "$res" != "true" ] ; then
++		echo "$res. Skipping tests ..."
++		exit 0
++	fi
++}
++
++requires_query_interface()
++{
++	if [ ! -e "/sys/kernel/security/apparmor/.access" ]
++	then
++		echo "Kernel query interface not supported. Skipping tests ..."
++		exit 0
++	fi
++}
++
++parser_supports()
++{
++	for R in $@ ; do
++		echo "/test { $R }" | $subdomain ${parser_args} -qQT 2>/dev/null 1>/dev/null
++		if [ $? -ne 0 ] ; then
++			echo "Compiler does not support rule '$R'"
++			return 1;
++		fi
++	done
++
++	echo "true"
++	return 0;
++}
++
++requires_parser_support()
++{
++	local res=$(parser_supports $@)
++	if [ "$res" != "true" ] ; then
++		echo "$res. Skipping tests ..."
++		exit 0
++	fi
++}
++
++
+ fatalerror()
+ {
+ 	# global _fatal
+@@ -52,9 +113,6 @@
+ 
+ error_handler()
+ {
+-	#invoke exit_handler to cleanup
+-	exit_handler
+-
+ 	fatalerror "Unexpected shell error. Run with -x to debug"
+ }
+ 
+@@ -129,7 +187,7 @@
+ 	then
+ 		echo "SIGNAL$(($rc - 128))" > $outfile
+ 	fi
+-	checktestfg
++	checktestfg "$@"
+ }
+ 
+ runtestfg()
+@@ -207,7 +265,19 @@
+ 			;;
+ 	esac
+ 
+-	if [ -n "$VERBOSE" ]; then
++	if [ $# -gt 0 ]
++	then
++		$1
++		if [ "$teststatus" != "pass" ]
++		then
++			return
++		fi
++	fi
++
++	# warn about expected failures
++	if [ -n "${_known}" ] ; then
++		echo "x${_pfmode}: ${_testdesc}"
++	elif [ -n "$VERBOSE" ]; then
+ 		echo "ok: ${_testdesc}"
+ 	fi
+ }
+@@ -307,10 +377,6 @@
+ 		# mandatory after --
+ 		case "$1" in
+ 			image=*) imagename=`echo $1 | sed 's/^image=\([^:]*\).*$/\1/'`
+-				 if [ ! -x "$imagename" ]
+-				 then
+-					fatalerror "invalid imagename specified in input '$1'"
+-				 fi
+ 				 num_emitted=0
+ 				 shift
+ 				 ;;
