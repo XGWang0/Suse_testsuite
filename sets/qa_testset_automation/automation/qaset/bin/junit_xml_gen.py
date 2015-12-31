@@ -234,7 +234,9 @@ class TestsuiteParser(BaseParser):
         m = re.search(r'(.*)-(\d+(?:-\d+){5})', basename)
         assert m is not None, "Invalid directory name: %s" % (basename)
         # Name & Package
-        self.data['name'] = re.sub(r'^qa[_\-]', '', m.group(1))   # Remove prefix: qa_
+        self.data['name'] = m.group(1).strip()
+        self.data['name'] = re.sub(r'^qa[_\-]', '', self.data['name']) # Remove prefix: qa_
+        self.data['name'] = self.data['name'].replace('-', '_')         # Replace - with _
         self.data['package'] = self.data['name']
         # Timestamp
         lst = m.group(2).split('-')
@@ -395,6 +397,7 @@ class SubmissionParser(BaseParser):
     def get_testsuite_name(self, submission_file_name):
         m = re.search(r'^submission-(.*)\.log$', submission_file_name)
         assert m is not None, "Can't detect testsuite name: %s" % (submission_file_name)
+        name = m.group(1).strip().replace('-', '_')
         return m.group(1)
 
     def parse_submission(self, submission_file_path):
@@ -591,7 +594,13 @@ class JunitConverter(object):
             submission_data = submission_parser.get_result()
             # Add submission id and link to log_data
             for testsuite in log_data['testsuites']:
-                d = submission_data.get(testsuite['name'], {})
+                d = {}
+                for k, v in submission_data.items():
+                    if k in testsuite['name']:
+                        d = v
+                if len(d) == 0:
+                    self.logger.warning("No submission data for testsuite %s" % (testsuite['name']))
+                    continue
                 submission_id = d.get('id', None)
                 submission_link = d.get('link', None)
                 if submission_id and submission_link:
