@@ -1,0 +1,150 @@
+diff -ru apparmor-2.5.1.orig/parser/tst/caching.sh apparmor-2.5.1/parser/tst/caching.sh
+--- apparmor-2.5.1.orig/parser/tst/caching.sh	2010-09-16 05:37:53.000000000 +0800
++++ apparmor-2.5.1/parser/tst/caching.sh	2016-01-04 14:10:24.000000000 +0800
+@@ -26,19 +26,19 @@
+ rm -f $basedir/test1 $basedir/test2
+ 
+ echo -n "Profiles are not cached by default: "
+-../apparmor_parser $ARGS -q -r $basedir/$profile
++/sbin/apparmor_parser $ARGS -q -r $basedir/$profile
+ [ -f $basedir/cache/$profile ] && echo "FAIL ($basedir/cache/$profile exists)" && exit 1
+ echo "ok"
+ 
+ echo -n "Profiles are not cached when using --skip-cache: "
+-../apparmor_parser $ARGS -q --write-cache --skip-cache -r $basedir/$profile
++/sbin/apparmor_parser $ARGS -q --write-cache --skip-cache -r $basedir/$profile
+ [ -f $basedir/cache/$profile ] && echo "FAIL ($basedir/cache/$profile exists)" && exit 1
+ echo "ok"
+ 
+ sleep $timeout
+ 
+ echo -n "Profiles are cached when requested: "
+-../apparmor_parser $ARGS -q --write-cache -r $basedir/$profile
++/sbin/apparmor_parser $ARGS -q --write-cache -r $basedir/$profile
+ [ ! -f $basedir/cache/$profile ] && echo "FAIL ($basedir/cache/$profile does not exist)" && exit 1
+ echo "ok"
+ 
+@@ -50,40 +50,40 @@
+ echo "ok"
+ 
+ echo -n "Cache is loaded when it exists and features match: "
+-../apparmor_parser $ARGS -v -r $basedir/$profile | grep -q 'Cached reload succeeded' || { echo "FAIL"; exit 1; }
++/sbin/apparmor_parser $ARGS -v -r $basedir/$profile | grep -q 'Cached reload succeeded' || { echo "FAIL"; exit 1; }
+ echo "ok"
+ 
+ echo -n "Cache is not loaded when skipping is requested: "
+-../apparmor_parser $ARGS -v --skip-read-cache -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
+-../apparmor_parser $ARGS -v --skip-cache -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
++/sbin/apparmor_parser $ARGS -v --skip-read-cache -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
++/sbin/apparmor_parser $ARGS -v --skip-cache -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
+ echo "ok"
+ 
+ echo -n "Cache reading is skipped when features do not match cache: "
+ echo -n "monkey" > $basedir/cache/.features
+-../apparmor_parser $ARGS -v -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
++/sbin/apparmor_parser $ARGS -v -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
+ echo "ok"
+ 
+ echo -n "Cache writing is skipped when features do not match cache: "
+ rm $basedir/cache/$profile
+-../apparmor_parser $ARGS -v --write-cache -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
++/sbin/apparmor_parser $ARGS -v --write-cache -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
+ [ -f $basedir/cache/$profile ] && echo "FAIL ($basedir/cache/$profile exists)" && exit 1
+ echo "ok"
+ 
+ echo -n "Profiles are cached when requested (again): "
+ rm -f $basedir/cache/.features || true
+ rm -f $basedir/cache/$profile || true
+-../apparmor_parser $ARGS -q --write-cache -r $basedir/$profile
++/sbin/apparmor_parser $ARGS -q --write-cache -r $basedir/$profile
+ [ ! -f $basedir/cache/$profile ] && echo "FAIL ($basedir/cache/$profile does not exist)" && exit 1
+ echo "ok"
+ 
+ echo -n "Cache reading is skipped when profile is newer: "
+ sleep $timeout
+ touch $basedir/$profile
+-../apparmor_parser $ARGS -v -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
++/sbin/apparmor_parser $ARGS -v -r $basedir/$profile | grep -q 'Replacement succeeded for' || { echo "FAIL"; exit 1; }
+ echo "ok"
+ 
+ echo -n "Cache is used when cache is newer: "
+ sleep $timeout
+ touch $basedir/cache/$profile
+-../apparmor_parser $ARGS -v -r $basedir/$profile | grep -q 'Cached reload succeeded' || { echo "FAIL"; exit 1; }
++/sbin/apparmor_parser $ARGS -v -r $basedir/$profile | grep -q 'Cached reload succeeded' || { echo "FAIL"; exit 1; }
+ echo "ok"
+diff -ru apparmor-2.5.1.orig/parser/tst/Makefile apparmor-2.5.1/parser/tst/Makefile
+--- apparmor-2.5.1.orig/parser/tst/Makefile	2016-01-04 13:59:54.000000000 +0800
++++ apparmor-2.5.1/parser/tst/Makefile	2016-01-04 14:14:21.000000000 +0800
+@@ -1,9 +1,7 @@
+ #
+ PROVE=/usr/bin/prove
+ TESTS=simple.pl
+-PARSER_DIR=..
+-PARSER_BIN=apparmor_parser
+-PARSER=$(PARSER_DIR)/$(PARSER_BIN)
++PARSER=/sbin/apparmor_parser
+ 
+ ifeq ($(VERBOSE),1)
+   PROVE_ARG=-v
+@@ -17,7 +15,7 @@
+ gen_xtrans:
+ 	perl ./gen-xtrans.pl
+ 
+-error_output: $(PARSER)
++error_output:
+ 	$(PARSER) -S -I errors >/dev/null errors/okay.sd
+ 	LANG=C $(PARSER) -S -I errors 2>&1 >/dev/null errors/single.sd | \
+ 		grep -q "AppArmor parser error for errors/single.sd in errors/single.sd at line 3: Could not open 'failure'"
+@@ -29,14 +27,11 @@
+ 		grep -q "AppArmor parser error for errors/multi_include.sd in errors/multi_include.sd at line 12: Could not open 'failure'"
+ 	@echo "Error Output: PASS"
+ 
+-parser_sanity: $(PARSER)
++parser_sanity:
+ 	$(Q)${PROVE} ${PROVE_ARG} ${TESTS}
+ 
+-caching: $(PARSER)
++caching:
+ 	LANG=C ./caching.sh
+ 
+-$(PARSER):
+-	make -C $(PARSER_DIR) $(PARSER_BIN)
+-
+ clean:
+ 	rm -f simple_tests/generated_x/*
+diff -ru apparmor-2.5.1.orig/parser/tst/uservars.conf apparmor-2.5.1/parser/tst/uservars.conf
+--- apparmor-2.5.1.orig/parser/tst/uservars.conf	2009-11-12 02:44:26.000000000 +0800
++++ apparmor-2.5.1/parser/tst/uservars.conf	2016-01-04 14:09:41.000000000 +0800
+@@ -5,5 +5,5 @@
+ # config items are 'name = value' pairs. Currently the only config items
+ # are the location of the parser and the location of the simple profiles.
+ #
+-parser = ../apparmor_parser
++parser = /sbin/apparmor_parser
+ profiledir = ./simple_tests/
+diff -ru apparmor-2.5.1.orig/tests/regression/subdomain/Makefile apparmor-2.5.1/tests/regression/subdomain/Makefile
+--- apparmor-2.5.1.orig/tests/regression/subdomain/Makefile	2009-08-22 04:39:45.000000000 +0800
++++ apparmor-2.5.1/tests/regression/subdomain/Makefile	2016-01-04 14:23:41.000000000 +0800
+@@ -95,7 +95,8 @@
+ 	  			fi ;\
+ 			fi )
+ 
+-LIBIMMUNIX:=$(shell	if [ -f /usr/lib/libapparmor.so -o -f /usr/lib64/libapparmor.so ] ; then \
++LIBIMMUNIX:=$(shell	if [ -f /usr/lib/libapparmor.so -o -f /usr/lib64/libapparmor.so -o \
++				-f /lib/libapparmor.so -o -f /lib64/libapparmor.so ] ; then \
+ 				echo -lapparmor ; \
+ 			elif [ -f /lib/libimmunix.so.1 -o -f /lib64/libimmunix.so ] ; then \
+ 				echo -limmunix ; \
+diff -ru apparmor-2.5.1.orig/tests/stress/subdomain/change_hat.c apparmor-2.5.1/tests/stress/subdomain/change_hat.c
+--- apparmor-2.5.1.orig/tests/stress/subdomain/change_hat.c	2010-03-11 09:56:51.000000000 +0800
++++ apparmor-2.5.1/tests/stress/subdomain/change_hat.c	2016-01-04 14:06:34.000000000 +0800
+@@ -7,7 +7,7 @@
+ #include <stdio.h>
+ #include <linux/unistd.h>
+ 
+-#include "sys/apparmor.h"
++#include <sys/apparmor.h>
+ 
+ #define SD_ID_MAGIC 0xdeadbeef
+ 

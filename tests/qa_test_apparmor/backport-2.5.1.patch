@@ -1,0 +1,389 @@
+diff -ru apparmor-2.5.1.orig/tests/regression/subdomain/coredump.c apparmor-2.5.1/tests/regression/subdomain/coredump.c
+--- apparmor-2.5.1.orig/tests/regression/subdomain/coredump.c	2006-05-20 01:32:14.000000000 +0800
++++ apparmor-2.5.1/tests/regression/subdomain/coredump.c	2016-01-04 17:01:33.243731228 +0800
+@@ -1,7 +1,9 @@
++#include <stdio.h>
+ int *ptr;
+ 
+ /*
+  *	Copyright (C) 2002-2005 Novell/SUSE
++ *	Copyright (C) 2010 Canonical, Ltd
+  *
+  *	This program is free software; you can redistribute it and/or
+  *	modify it under the terms of the GNU General Public License as
+@@ -9,7 +11,7 @@
+  *	License.
+  */
+ 
+-main()
++int main(int argc, char *argv[])
+ {
+ 	printf("This will cause a sigsegv\n");
+ 
+diff -ru apparmor-2.5.1.orig/tests/regression/subdomain/coredump.sh apparmor-2.5.1/tests/regression/subdomain/coredump.sh
+--- apparmor-2.5.1.orig/tests/regression/subdomain/coredump.sh	2006-05-20 01:32:14.000000000 +0800
++++ apparmor-2.5.1/tests/regression/subdomain/coredump.sh	2016-01-04 17:01:43.551762586 +0800
+@@ -1,7 +1,6 @@
+ #! /bin/bash
+-# $Id$
+-
+ #	Copyright (C) 2002-2005 Novell/SUSE
++#	Copyright (C) 2010 Canonical, Ltd
+ #
+ #	This program is free software; you can redistribute it and/or
+ #	modify it under the terms of the GNU General Public License as
+@@ -11,26 +10,52 @@
+ #=NAME coredump
+ #=DESCRIPTION coredump test
+ 
++cleancorefile()
++{
++	rm -f "$tmpdir/core.$_pid"
++}
++
+ checkcorefile()
+ {
+-_corefilelist=`echo core.*`
+-if [ "$_corefilelist" = "core.*" ]
+-then
+-	_corefile=no
+-else
+-	_corefile=yes
+-fi
+-
+-if [ "$1" = "yes" -a "$_corefile" = "no" ]
+-then
+-	echo "Error: corefile expected but not present - $2"
+-elif [ "$1" = "no" -a "$_corefile"  = "yes" ]
+-then
+-	echo "Error: corefile present when not expected -- $2"
+-fi
++	# global _testdesc _pfmode _known outfile
++	if [ ${1:0:1} == "x" ] ; then
++		requirement=${1#x}
++		_known=" (known problem)"
++        else
++		requirement=$1
++		_known=""
++        fi
++
++	#check pid of last test run by the test suite
++	if [ -f "$tmpdir/core.$_pid" ]
++	then
++		_corefile=yes
++	else
++		_corefile=no
++	fi
++
++	if [ "$requirement" = "yes" -a "$_corefile" = "no" ] ; then
++		if [ -n "$_known" ] ; then
++			echo -n "XFAIL: "
++		fi
++		echo "Error: corefile expected but not present - $2"
++		if [ -z "$_known" ] ; then
++			cat $profile
++			testfailed
++		fi
++	elif [ "$requirement" = "no" -a "$_corefile"  = "yes" ] ; then
++		if [ -n "$_known" ] ; then
++			echo -n "XFAIL: "
++		fi
++		echo "Error: corefile present when not expected -- $2"
++		if [ -z "$_known" ] ; then
++			cat $profile
++			testfailed
++		fi
++	fi
+ 
+-unset _corefile _corefilelist
+-rm -f core.*
++	unset _corefile
++	cleancorefile
+ }
+ 
+ pwd=`dirname $0`
+@@ -46,25 +71,60 @@
+ # enable coredumps
+ ulimit -c 1000000
+ 
++# set the core_pattern so we can reliably check for the expected cores
++#echo -n "core dump pattern: " ; cat /proc/sys/kernel/core_pattern
++dumppattern=`cat /proc/sys/kernel/core_pattern`
++echo "$tmpdir/core.%p" > /proc/sys/kernel/core_pattern
++#echo -n "set core patter to: " ; cat /proc/sys/kernel/core_pattern
++
++cleancorefile
++checkcorefile no "COREDUMP (starting with clean slate)"
++
+ # PASS TEST, no confinement
++cleancorefile
+ echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
+ runchecktest "COREDUMP (no confinement)" signal11
+ checkcorefile yes "COREDUMP (no confinement)"
+ 
+-# PASS TEST, with r confinement
+-genprofile $test:$coreperm
+-cat $profile
++# FAIL TEST, with r confinement, no permission to write core file
++cleancorefile
++genprofile -I $test:$coreperm
++
++echo
++echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
++runchecktest "COREDUMP ($coreperm confinement)" signal11
++checkcorefile no "COREDUMP ($coreperm confinement)"
++
++# PASS TEST, with r confinement, permission to write core file
++cleancorefile
++genprofile -I $test:$coreperm $tmpdir/core.*:w
+ 
+ echo
+ echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
+ runchecktest "COREDUMP ($coreperm confinement)" signal11
+ checkcorefile yes "COREDUMP ($coreperm confinement)"
+ 
+-# FAIL TEST, with x confinement
+-genprofile $test:$nocoreperm
+-cat $profile
++# FAIL TEST, with x confinement, no permission to write core file
++cleancorefile
++genprofile -I $test:$nocoreperm 
+ 
+ echo
+ echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
+ runchecktest "COREDUMP ($nocoreperm confinement)" signal11
+ checkcorefile no "COREDUMP ($nocoreperm confinement)"
++
++# FAIL TEST, with x confinement, permission to write core file
++# should fail because of no read permission on executable (see man 5 core)
++cleancorefile
++genprofile -I $test:$nocoreperm $tmpdir/core.*:w
++
++echo
++echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
++runchecktest "COREDUMP ($nocoreperm confinement)" signal11
++checkcorefile xno "COREDUMP ($nocoreperm confinement)"
++
++
++
++
++#restore core dump pattern
++echo "$dumppattern" > /proc/sys/kernel/core_pattern
+diff -ru apparmor-2.5.1.orig/tests/regression/subdomain/pwrite.sh apparmor-2.5.1/tests/regression/subdomain/pwrite.sh
+--- apparmor-2.5.1.orig/tests/regression/subdomain/pwrite.sh	2016-01-04 13:59:54.000000000 +0800
++++ apparmor-2.5.1/tests/regression/subdomain/pwrite.sh	2016-01-04 17:00:49.974599600 +0800
+@@ -1,6 +1,4 @@
+ #!/bin/bash
+-# $Id$
+-
+ #	Copyright (C) 2002-2005 Novell/SUSE
+ #
+ #	This program is free software; you can redistribute it and/or
+@@ -39,41 +37,45 @@
+ 
+ rm -f ${file}
+ 
+-# FAIL TEST - PWRITE (pass 1)
+-
+-genprofile $file:$okperm
+-
+-runtestbg "PWRITE without w" fail $file
+-
+-sleep 2
+-
+-# FAIL TEST - PWRITE (pass 2)
+-
+-genprofile $file:$badwriteperm
+-
+-sleep 2
+-
+-kill -USR1 $_pid
+-
+-checktestbg
+-
+-rm -f ${file}
++# Disabled revalidation/revocation test as this can not be reliably tested
++# at this time 
++## FAIL TEST - PWRITE (pass 1)
++#
++#genprofile $file:$okperm
++#
++#runtestbg "PWRITE without w" fail $file
++#
++#sleep 2
++#
++## FAIL TEST - PWRITE (pass 2)
++#
++#genprofile $file:$badwriteperm
++#
++#sleep 2
++#
++#kill -USR1 $_pid
++#
++#checktestbg
++#
++#rm -f ${file}
+ 
++# Disabled revalidation/revocation test as this can not be reliably tested
++# at this time 
+ # FAIL TEST - PREAD (pass 1)
+-
+-genprofile $file:$okperm
+-
+-runtestbg "PREAD without r" fail $file
+-
+-sleep 2
+-
+-#FAIL TEST - PREAD (pass 2)
+-genprofile $file:$badreadperm
+-
+-sleep 2
+-
+-kill -USR1 $_pid
+-
+-checktestbg
+-
+-rm -f ${file}
++#
++#genprofile $file:$okperm
++#
++#runtestbg "PREAD without r" fail $file
++#
++#sleep 2
++#
++##FAIL TEST - PREAD (pass 2)
++#genprofile $file:$badreadperm
++#
++#sleep 2
++#
++#kill -USR1 $_pid
++#
++#checktestbg
++#
++#rm -f ${file}
+diff -ru apparmor-2.5.1.orig/tests/regression/subdomain/rw.sh apparmor-2.5.1/tests/regression/subdomain/rw.sh
+--- apparmor-2.5.1.orig/tests/regression/subdomain/rw.sh	2006-05-20 01:32:14.000000000 +0800
++++ apparmor-2.5.1/tests/regression/subdomain/rw.sh	2016-01-04 17:01:52.544789944 +0800
+@@ -1,6 +1,4 @@
+ #! /bin/bash
+-# $Id$
+-
+ #	Copyright (C) 2002-2005 Novell/SUSE
+ #
+ #	This program is free software; you can redistribute it and/or
+@@ -45,24 +43,26 @@
+ 
+ rm -f $file
+ 
+-# FAILURE TEST (pt 1)
+-
+-genprofile $file:$okperm
+-
+-runtestbg "READ/WRITE fail" fail $file
+-
+-sleep 2
+-
+-# FAILURE TEST (pt 2)
+-
+-genprofile $file:$badperm
+-
+-# problem the shell and the test program are racing, after profile replacement
+-# if the shell runs immediately after profile replacement instead of the
+-# test program it will will.  We insert a small sleep to make this unlikely
+-
+-sleep 1
+-
+-kill -USR1 $_pid
+-
+-checktestbg
++# Disabled revalidation/revocation test as this can not be reliably tested
++# at this time 
++## FAILURE TEST (pt 1)
++#
++#genprofile $file:$okperm
++#
++#runtestbg "READ/WRITE fail" fail $file
++#
++#sleep 2
++#
++## FAILURE TEST (pt 2)
++#
++#genprofile $file:$badperm
++#
++## problem the shell and the test program are racing, after profile replacement
++## if the shell runs immediately after profile replacement instead of the
++## test program it will will.  We insert a small sleep to make this unlikely
++#
++#sleep 1
++#
++#kill -USR1 $_pid
++#
++#checktestbg
+diff -ru apparmor-2.5.1.orig/tests/regression/subdomain/tcp.sh apparmor-2.5.1/tests/regression/subdomain/tcp.sh
+--- apparmor-2.5.1.orig/tests/regression/subdomain/tcp.sh	2007-03-08 02:54:28.000000000 +0800
++++ apparmor-2.5.1/tests/regression/subdomain/tcp.sh	2016-01-04 17:01:22.806699478 +0800
+@@ -1,6 +1,4 @@
+ #! /bin/bash
+-# $Id$ 
+-
+ #	Copyright (C) 2002-2005 Novell/SUSE
+ #
+ #	This program is free software; you can redistribute it and/or
+@@ -23,18 +21,37 @@
+ #badperm1=r
+ #badperm2=w
+ 
+-# PASS TEST - no netdomain rules
++# PASS TEST - no apparmor rules
++runchecktest "TCP (no apparmor)" pass $port
++
++# FAIL TEST - no network rules
+ genprofile 
+-runchecktest "TCP" pass $port
++runchecktest "TCP (accept, connect) no network rules" fail $port
+ 
+-# PASS TEST - simple 
+-genprofile tcp_accept: tcp_connect:
+-runchecktest "TCP (accept, connect)" pass $port
++# PASS TEST - allow tcp
++genprofile network:tcp
++runchecktest "TCP (accept, connect) allow tcp" pass $port
++
++# PASS TEST - allow inet
++genprofile network:inet
++runchecktest "TCP (accept, connect) allow inet" pass $port
++
++# PASS TEST - allow inet stream
++genprofile "network:inet stream"
++runchecktest "TCP (accept, connect) allow inet stream" pass $port
+ 
+ # PASS TEST - simple / low-numbered port
+ # you damn well better not be running telnet
+-genprofile tcp_accept: tcp_connect: cap:net_bind_service
+-runchecktest "TCP (accept, connect)" pass 23
++genprofile network:inet cap:net_bind_service
++runchecktest "TCP (accept, connect) low numbered port/bind cap" pass 23
++
++# FAIL TEST - simple / low-numbered port
++# will always fail unless process has net_bind_service capability.
++# you damn well better not be running telnetd.
++genprofile network:inet 
++runchecktest "TCP (accept, connect) low numbered port/no bind cap" fail 23
++
++exit 0
+ 
+ # PASS TEST - accept via interface
+ genprofile tcp_accept:via:lo tcp_connect:
+@@ -64,12 +81,6 @@
+ genprofile tcp_accept:to:127.0.0.0/255.255.192.0::${port} tcp_connect:
+ runchecktest "TCP (accept, connect)" pass $port
+ 
+-# FAIL TEST - simple / low-numbered port
+-# will always fail unless process has net_bind_service capability.
+-# you damn well better not be running telnetd.
+-genprofile tcp_accept: tcp_connect:
+-runchecktest "TCP (accept, connect, port 23)" fail 23
+-
+ # PASS TEST - simple / low-numbered port
+ # will always fail unless process has net_bind_service capability.
+ # you damn well better not be running telnetd.

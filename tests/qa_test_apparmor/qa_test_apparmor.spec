@@ -18,7 +18,11 @@
 
 # norootforbuild
 Name:           qa_test_apparmor
+%if 0%{?suse_version} >= 1315
 Version:        2.8.2
+%else
+Version:        2.5.1
+%endif
 Release:        1
 Summary:        apparmor tests
 License:        GPL v2
@@ -29,12 +33,15 @@ Source1:        qa_apparmor-%{version}.tcf
 Source2:        test_apparmor-run
 Source3:        qa_test_apparmor.8
 Source4:        wrapper.sh
-Patch0:         bin_include-path-2.8.2.patch
+Patch0:         bin_include-path-%{version}.patch
+%if "%{version}" == "2.8.2"
 Patch1:         mount-2.8.2.patch
 Patch2:         exec_ptrace_regex-2.8.2.patch
+%else %if "%{version}" == "2.5.1"
+Patch1:         backport-2.5.1.patch
+%endif
 Url:            http://www.novell.com/products/apparmor/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-#BuildArchitectures: noarch
 Provides:	qa_apparmor
 Obsoletes:	qa_apparmor
 Requires:       apparmor-parser apparmor-profiles libapparmor perl bison swig flex ruby qa_lib_ctcs2
@@ -52,13 +59,21 @@ This package contains different types of tests:
 %define qa_dir usr/share/qa
 %setup -q -n apparmor-%{version}
 %patch0 -p1
+%if "%{version}" == "2.8.2"
 %patch1 -p1
 %patch2 -p1
+%else %if "%{version}" == "2.5.1"
+%patch1 -p1
+%endif
 
 
 %build
 # regression
+%if 0%{?suse_version} >= 1315
 make -C tests/regression/apparmor
+%else
+make -C tests/regression/subdomain
+%endif
 # stress
 # TODO: subdomain testing scripts need patching
 make -C tests/stress/subdomain
