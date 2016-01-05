@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.1">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>UNDEFINED</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs></blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.50">
+          <name>PRODUCT_VER</name>
+          <description>Production version</description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>4</visibleItemCount>
+          <type>PT_RADIO</type>
+          <value>SLE-11-SP3,SLE-11-SP4,SLE-12-SP0,SLE-12-SP1</value>
+          <defaultValue>SLE-12-SP0</defaultValue>
+          <multiSelectDelimiter>，</multiSelectDelimiter>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MACHINE</name>
+          <description></description>
+          <defaultValue>147.2.207.54</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.50">
+          <name>ARCH</name>
+          <description></description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>6</visibleItemCount>
+          <type>PT_RADIO</type>
+          <value>i586,ia64,ppc,s390,s390x,x86_64</value>
+          <defaultValue>x86_64</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>KERNEL_REPO</name>
+          <description></description>
+          <defaultValue>http://download.suse.de/ibs/Devel:/Kernel:</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.50">
+          <name>KERNEL_NAME</name>
+          <description></description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>6</visibleItemCount>
+          <type>PT_RADIO</type>
+          <value>kernel-debug,kernel-default,kernel-xen</value>
+          <defaultValue>kernel-default</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>REPORT_FILE</name>
+          <description>If set value for this parameter, it will combine filled report data with current build report data, then generate finial report.
+So, if you do not expect to get any report data, please make sure this file is unique.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BUILD_VER</name>
+          <description></description>
+          <defaultValue>bbbbbbbbbbbbb</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>true</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>python /mnt/147.2.212.89/eclipse_ws/RegressionTest1/installkernel.py  -r ${KERNEL_REPO} -p ${PRODUCT_VER} -m ${MACHINE} -A ${ARCH} -b &quot;${BUILD_VER}&quot; -k &quot;${KERNEL_NAME}&quot; -f &quot;${REPORT_FILE}&quot;
+
+#echo &quot; -r ${KERNEL_REPO} -m ${MACHINE} -A ${ARCH} -b \&quot;${BUILD_VER}\&quot; -k \&quot;${KERNEL_NAME}\&quot;&quot;
+#exit 1</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <net.masterthought.jenkins.CucumberReportPublisher plugin="cucumber-reports@0.1.0">
+      <jsonReportDirectory></jsonReportDirectory>
+      <pluginUrlPath></pluginUrlPath>
+      <fileIncludePattern>*.json</fileIncludePattern>
+      <fileExcludePattern></fileExcludePattern>
+      <skippedFails>false</skippedFails>
+      <pendingFails>false</pendingFails>
+      <undefinedFails>false</undefinedFails>
+      <missingFails>false</missingFails>
+      <noFlashCharts>false</noFlashCharts>
+      <ignoreFailedTests>false</ignoreFailedTests>
+      <parallelTesting>false</parallelTesting>
+    </net.masterthought.jenkins.CucumberReportPublisher>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+  </buildWrappers>
+</project>
