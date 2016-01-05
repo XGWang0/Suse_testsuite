@@ -1,0 +1,231 @@
+diff -Naur lmbench-3.orig/Makefile lmbench-3/Makefile
+--- lmbench-3.orig/Makefile	2011-01-03 21:47:57.000000000 +0800
++++ lmbench-3/Makefile	2016-01-06 16:22:25.877838901 +0800
+@@ -25,6 +25,60 @@
+ rerun: 
+ 	cd src && $(MAKE) rerun
+ 
++rerun_syscall:
++	cd src && $(MAKE) rerun_syscall
++
++rerun_select:
++	cd src && $(MAKE) rerun_select
++
++rerun_sig:
++	cd src && $(MAKE) rerun_sig
++
++rerun_proc:
++	cd src && $(MAKE) rerun_proc
++
++rerun_ctx:
++	cd src && $(MAKE) rerun_ctx
++
++rerun_pagefault:
++	cd src && $(MAKE) rerun_pagefault
++
++rerun_file:
++	cd src && $(MAKE) rerun_file
++
++rerun_mmap:
++	cd src && $(MAKE) rerun_mmap
++
++rerun_pipe:
++	cd src && $(MAKE) rerun_pipe
++
++rerun_unix:
++	cd src && $(MAKE) rerun_unix
++
++rerun_udp:
++	cd src && $(MAKE) rerun_udp
++
++rerun_tcp:
++	cd src && $(MAKE) rerun_tcp
++
++rerun_connect:
++	cd src && $(MAKE) rerun_connect
++
++rerun_rpc:
++	cd src && $(MAKE) rerun_rpc
++
++rerun_http:
++	cd src && $(MAKE) rerun_http
++
++rerun_bcopy:
++	cd src && $(MAKE) rerun_bcopy
++
++rerun_mem:
++	cd src && $(MAKE) rerun_mem
++
++rerun_ops:
++	cd src && $(MAKE) rerun_ops
++
+ see:
+ 	cd results && $(MAKE) summary >summary.out 2>summary.errs 
+ 	cd results && $(MAKE) percent >percent.out 2>percent.errs 
+diff -Naur lmbench-3.orig/scripts/config-test lmbench-3/scripts/config-test
+--- lmbench-3.orig/scripts/config-test	2016-01-06 16:13:08.647734058 +0800
++++ lmbench-3/scripts/config-test	2016-01-06 17:10:56.313001594 +0800
+@@ -90,8 +90,67 @@
+ LINE_SIZE=`../bin/$OS/line -M ${MB}M`
+ export LINE_SIZE
+ echo "OK, it looks like your cache line is $LINE_SIZE bytes."
+-BENCHMARK_HARDWARE=YES
+-BENCHMARK_OS=YES
++case $1 in
++    syscall)
++        BENCHMARK_SYSCALL=YES
++        ;;
++    select)
++        BENCHMARK_SELECT=YES
++        ;;
++    sig)
++        BENCHMARK_SIG=YES
++        ;;
++    proc)
++        BENCHMARK_PROC=YES
++        ;;
++    ctx)
++        BENCHMARK_CTX=YES
++        ;;
++    pagefault)
++        BENCHMARK_PAGEFAULT=YES
++        ;;
++    file)
++        BENCHMARK_FILE=YES
++        ;;
++    mmap)
++        BENCHMARK_MMAP=YES
++        ;;
++    pipe)
++        BENCHMARK_PIPE=YES
++        ;;
++    unix)
++        BENCHMARK_UNIX=YES
++        ;;
++    udp)
++        BENCHMARK_UDP=YES
++        ;;
++    tcp)
++        BENCHMARK_TCP=YES
++        ;;
++    connect)
++        BENCHMARK_CONNECT=YES
++        ;;
++    rpc)
++        BENCHMARK_RPC=YES
++        ;;
++    http)
++        BENCHMARK_HTTP=YES
++        ;;
++    bcopy)
++        BENCHMARK_BCOPY=YES
++        ;;
++    mem)
++        BENCHMARK_MEM=YES
++        ;;
++    ops)
++        BENCHMARK_OPS=YES
++        ;;
++    *)
++    BENCHMARK_HARDWARE=YES
++    BENCHMARK_OS=YES
++        ;;
++
++esac
+ FASTMEM=NO
+ SLOWFS=NO
+ echo "Calculating mhz, please wait for a moment..."
+@@ -103,6 +162,11 @@
+ 
+ EOF
+ 
++if [ -d /abuild ]; then
++    DEFAULTFSDIR=/abuild
++    FSDIR=$DEFAULTFSDIR
++    FILE=$FSDIR/XXX
++fi
+ DEFAULTFSDIR=/usr/tmp
+ OUTPUT=/dev/stdout
+ MAIL=no
+diff -Naur lmbench-3.orig/src/Makefile lmbench-3/src/Makefile
+--- lmbench-3.orig/src/Makefile	2016-01-06 16:13:08.647734058 +0800
++++ lmbench-3/src/Makefile	2016-01-06 17:10:58.093012781 +0800
+@@ -122,6 +122,78 @@
+ 	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test; fi
+ 	@env OS="${OS}" ../scripts/results
+ 
++rerun_syscall: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test syscall; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_select: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test select; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_sig: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test sig; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_proc: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test proc; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_ctx: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test ctx; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_pagefault: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test pagefault; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_file: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test file; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_mmap: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test mmap; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_pipe: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test pipe; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_unix: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test unix; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_udp: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test udp; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_tcp: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test tcp; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_connect: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test connect; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_rpc: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test rpc; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_http: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test http; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_bcopy: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test bcopy; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_mem: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test mem; fi
++	@env OS="${OS}" ../scripts/results
++
++rerun_ops: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test ops; fi
++	@env OS="${OS}" ../scripts/results
++
+ scaling: lmbench
+ 	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test; \
+ 	 else ../scripts/config-scaling $(CONFIG); fi

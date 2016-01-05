@@ -25,6 +25,7 @@ Source4:	qa_test_lmbench.8
 #Patch1:         lmbench-%{version}-ia64.diff
 Patch0:         lmbench-3-automation.diff
 Patch1:         lmbench-3-config.diff
+Patch2:         lmbench-3-split-testcase.diff
 BuildRoot:      %{_tmppath}/%{name}-3-build
 
 %description
@@ -63,6 +64,7 @@ Authors:
 find -name "*.orig" -type f | xargs -r rm -fv
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS"
@@ -89,6 +91,10 @@ mkdir -p $RPM_BUILD_ROOT/usr/bin
 # install ctcs2 related files in the ctcs2-glue sub packages
 cd ctcstools
 install -m 744 do_lmbench $RPM_BUILD_ROOT/usr/bin/do_lmbench
+install -m 744 do_lmbench.basic $RPM_BUILD_ROOT/usr/bin/do_lmbench.basic
+install -m 744 do_lmbench.mem $RPM_BUILD_ROOT/usr/bin/do_lmbench.mem 
+install -m 744 do_lmbench.comm $RPM_BUILD_ROOT/usr/bin/do_lmbench.comm
+
 install -m 744 test_lmbench-run $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
 ln -s ../qa_test_lmbench/lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/lmbench.tcf
@@ -107,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /usr/share/qa/qa_test_lmbench/
 /usr/share/qa/qa_test_lmbench/README
 /usr/bin/do_lmbench
+/usr/bin/do_lmbench.comm
+/usr/bin/do_lmbench.basic
+/usr/bin/do_lmbench.mem
 /usr/share/qa/qa_test_lmbench/bin
 /usr/share/qa/qa_test_lmbench/scripts
 /usr/share/qa/qa_test_lmbench/results
