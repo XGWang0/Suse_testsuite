@@ -1,3 +1,24 @@
 timer 3600
-fg 1 libmicro-bench /usr/lib/libMicro/bin/bench.sh 
+fg 1 libmicro-regular /usr/lib/libMicro/bin/bench_regular.sh
 wait
+
+timer 3600
+fg 1 libmicro-memory /usr/lib/libMicro/bin/bench_memory.sh
+wait
+
+timer 3600
+fg 1 libmicro-file /usr/lib/libMicro/bin/bench_file.sh
+wait
+
+timer 3600
+fg 1 libmicro-contextswitch /usr/lib/libMicro/bin/bench_contextswitch.sh
+wait
+
+timer 3600
+fg 1 libmicro-process /usr/lib/libMicro/bin/bench_process.sh
+wait
+
+timer 3600
+fg 1 libmicro-socket /usr/lib/libMicro/bin/bench_socket.sh
+wait
+
