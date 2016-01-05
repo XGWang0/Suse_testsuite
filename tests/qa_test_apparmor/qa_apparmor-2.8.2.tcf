@@ -1,234 +1,234 @@
-timer 600
+timer 1800
 fg 1 xattrs /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/xattrs.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 ptrace /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/ptrace.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 swap /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/swap.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 pwrite /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/pwrite.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 open /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/open.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 unix_fd_server /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/unix_fd_server.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 tcp /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/tcp.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 mult_mount /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/mult_mount.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 net_raw /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/net_raw.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 changehat_fork /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/changehat_fork.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 sd_flags /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/sd_flags.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 setattr /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/setattr.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 named_pipe /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/named_pipe.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 access /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/access.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 rename /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/rename.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 syscall /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 exec /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/exec.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 clone /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/clone.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 coredump /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/coredump.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 mmap /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/mmap.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 fchdir /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/fchdir.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 regex /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/regex.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 rw /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/rw.sh"
 wait
 
 # According to the script, this test has been removed
-#timer 600
+#timer 1800
 #fg 1 owlsm /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/owlsm.sh"
 #wait
 
-timer 600
+timer 1800
 fg 1 changeprofile /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/changeprofile.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 changehat /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/changehat.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 readdir /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/readdir.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 strace /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/strace.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 changehat_misc /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/changehat_misc.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 longpath /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/longpath.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 introspect /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/introspect.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 i18n /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/i18n.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 openat /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/openat.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 capabilities /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/capabilities.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 unlink /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/unlink.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 fork /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/fork.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 mkdir /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/mkdir.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 link /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/link.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 pipe /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/pipe.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 mount /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/mount.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 exec_qual /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/exec_qual.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 deleted /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/deleted.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 environ /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/environ.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 link_subset /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/link_subset.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 chdir /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/chdir.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 symlink /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/symlink.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 onexec /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/onexec.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 syscall_sysctl /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall_sysctl.sh"
 wait
 
-timer 600
+timer 1800
 fg 1 stress /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/parser/stress.sh"
 wait
 
 # Subdomain tests need fixing
-#timer 600
+#timer 1800
 #fg 1 subdomain-stress /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/subdomain/stress.sh"
 #wait
 
-#timer 600
+#timer 1800
 #fg 1 subdomain-s-2.4.20 /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/subdomain/s-2.4.20.sh"
 #wait
 
-#timer 600
+#timer 1800
 #fg 1 subdomain-s /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/subdomain/s.sh"
 #wait
 
-#timer 600
+#timer 1800
 #fg 1 subdomain-kill /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/subdomain/kill.sh"
 #wait
 
 #### Parser tests ####
-timer 600
+timer 1800
 fg 1 parser-error_output /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ error_output
 wait
 
-timer 600
+timer 1800
 fg 1 parser-gen_xtrans /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ gen_xtrans
 wait
 
-timer 600
+timer 1800
 fg 1 parser-parser_sanity /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ parser_sanity
 wait
 
-timer 600
+timer 1800
 fg 1 parser-caching /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ caching
 wait
 
-timer 600
+timer 1800
 fg 1 parser-minimize /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ minimize
 wait
