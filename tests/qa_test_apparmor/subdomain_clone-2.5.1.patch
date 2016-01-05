@@ -1,0 +1,12 @@
+diff -ru apparmor-2.5.1.orig/tests/regression/subdomain/clone.c apparmor-2.5.1/tests/regression/subdomain/clone.c
+--- apparmor-2.5.1.orig/tests/regression/subdomain/clone.c	2009-07-28 10:17:10.000000000 +0800
++++ apparmor-2.5.1/tests/regression/subdomain/clone.c	2016-01-05 15:27:40.000000000 +0800
+@@ -61,7 +61,7 @@
+ 	int waitstatus;
+ 	int c;
+ 	char buf[BUFSIZ];
+-	int stack_size = PAGE_SIZE << 4;
++	int stack_size = getpagesize() << 4;
+ 	void *child_stack = malloc(stack_size);
+ 	int clone_flags = SIGCHLD;
+ 

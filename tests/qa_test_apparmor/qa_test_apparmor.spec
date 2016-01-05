@@ -39,6 +39,7 @@ Patch1:         mount-2.8.2.patch
 Patch2:         exec_ptrace_regex-2.8.2.patch
 %else %if "%{version}" == "2.5.1"
 Patch1:         backport-2.5.1.patch
+Patch2:         subdomain_clone-2.5.1.patch
 %endif
 Url:            http://www.novell.com/products/apparmor/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -64,6 +65,7 @@ This package contains different types of tests:
 %patch2 -p1
 %else %if "%{version}" == "2.5.1"
 %patch1 -p1
+%patch2 -p1
 %endif
 
 
