@@ -94,6 +94,24 @@ install -m 744 do_lmbench $RPM_BUILD_ROOT/usr/bin/do_lmbench
 install -m 744 do_lmbench.basic $RPM_BUILD_ROOT/usr/bin/do_lmbench.basic
 install -m 744 do_lmbench.mem $RPM_BUILD_ROOT/usr/bin/do_lmbench.mem 
 install -m 744 do_lmbench.comm $RPM_BUILD_ROOT/usr/bin/do_lmbench.comm
+#Add by jnwang@suse.com for separating testcases.
+install -m 744 do_lmbench.connect   $RPM_BUILD_ROOT/usr/bin/do_lmbench.connect
+install -m 744 do_lmbench.ctx       $RPM_BUILD_ROOT/usr/bin/do_lmbench.ctx
+install -m 744 do_lmbench.file      $RPM_BUILD_ROOT/usr/bin/do_lmbench.file
+install -m 744 do_lmbench.http      $RPM_BUILD_ROOT/usr/bin/do_lmbench.http
+install -m 744 do_lmbench.mem       $RPM_BUILD_ROOT/usr/bin/do_lmbench.mem
+install -m 744 do_lmbench.mmap      $RPM_BUILD_ROOT/usr/bin/do_lmbench.mmap
+install -m 744 do_lmbench.ops       $RPM_BUILD_ROOT/usr/bin/do_lmbench.ops
+install -m 744 do_lmbench.pipe      $RPM_BUILD_ROOT/usr/bin/do_lmbench.pipe
+install -m 744 do_lmbench.proc      $RPM_BUILD_ROOT/usr/bin/do_lmbench.proc
+install -m 744 do_lmbench.rpc       $RPM_BUILD_ROOT/usr/bin/do_lmbench.rpc
+install -m 744 do_lmbench.select    $RPM_BUILD_ROOT/usr/bin/do_lmbench.select
+install -m 744 do_lmbench.sig       $RPM_BUILD_ROOT/usr/bin/do_lmbench.sig
+install -m 744 do_lmbench.syscall   $RPM_BUILD_ROOT/usr/bin/do_lmbench.syscall
+install -m 744 do_lmbench.tcp       $RPM_BUILD_ROOT/usr/bin/do_lmbench.tcp
+install -m 744 do_lmbench.udp       $RPM_BUILD_ROOT/usr/bin/do_lmbench.udp
+install -m 744 do_lmbench.unix      $RPM_BUILD_ROOT/usr/bin/do_lmbench.unix
+install -m 744 do_lmbench.pagefault $RPM_BUILD_ROOT/usr/bin/do_lmbench.pagefault
 
 install -m 744 test_lmbench-run $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 644 lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
@@ -116,6 +134,26 @@ rm -rf $RPM_BUILD_ROOT
 /usr/bin/do_lmbench.comm
 /usr/bin/do_lmbench.basic
 /usr/bin/do_lmbench.mem
+
+#Add by jnwang@suse.com
+/usr/bin/do_lmbench.connect
+/usr/bin/do_lmbench.ctx
+/usr/bin/do_lmbench.file
+/usr/bin/do_lmbench.http
+/usr/bin/do_lmbench.mem
+/usr/bin/do_lmbench.mmap
+/usr/bin/do_lmbench.ops
+/usr/bin/do_lmbench.pipe
+/usr/bin/do_lmbench.proc
+/usr/bin/do_lmbench.rpc
+/usr/bin/do_lmbench.select
+/usr/bin/do_lmbench.sig
+/usr/bin/do_lmbench.syscall
+/usr/bin/do_lmbench.tcp
+/usr/bin/do_lmbench.udp
+/usr/bin/do_lmbench.unix
+/usr/bin/do_lmbench.pagefault
+
 /usr/share/qa/qa_test_lmbench/bin
 /usr/share/qa/qa_test_lmbench/scripts
 /usr/share/qa/qa_test_lmbench/results

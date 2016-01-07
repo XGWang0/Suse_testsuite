@@ -3,7 +3,7 @@ cd /usr/share/qa/qa_test_lmbench/results
 if [ -d *linux-gnu ] ; then rm -r *linux-gnu ; fi
 cd /usr/share/qa/qa_test_lmbench/src
 #make rerun; make rerun; make rerun;
-make clean
+make clobber
 make rerun_comm
 cd /usr/share/qa/qa_test_lmbench/results
 #find . -type d -maxdepth 1 | while read dirname;do
