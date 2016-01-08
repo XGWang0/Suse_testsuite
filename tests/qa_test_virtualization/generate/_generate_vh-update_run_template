@@ -74,6 +74,7 @@ if uname -r | grep -iq xen ;then
 	fi
 fi
 dmesg > $v_updir/dmesg.log
+tar cvf $v_updir/var-lib-xen-dump.tar /var/lib/xen/dump/
 
 #send to qadb
 /usr/share/qa/tools/remote_qa_db_report.pl -b -c "Test result for virtualization host upgrade step $step test: $TCF_FILE."
