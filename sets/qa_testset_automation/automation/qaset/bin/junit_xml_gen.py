@@ -596,7 +596,7 @@ class JunitConverter(object):
             for testsuite in log_data['testsuites']:
                 d = {}
                 for k, v in submission_data.items():
-                    if k in testsuite['name']:
+                    if k == testsuite['name']:
                         d = v
                 if len(d) == 0:
                     self.logger.warning("No submission data for testsuite %s" % (testsuite['name']))
