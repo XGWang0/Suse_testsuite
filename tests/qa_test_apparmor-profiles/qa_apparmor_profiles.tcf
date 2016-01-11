@@ -30,9 +30,9 @@ timer 300
 fg 1 traceroute /usr/lib/ctcs2/tools/ltp_wrapper.sh '/usr/share/qa/qa_test_apparmor-profiles/traceroute_tests1.sh'
 wait 
 
-timer 300
-fg 1 remoteaccess /usr/share/qa/qa_test_apparmor-profiles/remoteaccess.sh
-wait 
+#timer 300
+#fg 1 remoteaccess /usr/share/qa/qa_test_apparmor-profiles/remoteaccess.sh
+#wait 
 
 timer 300
 fg 1 localaccess /usr/share/qa/qa_test_apparmor-profiles/localaccess.sh
