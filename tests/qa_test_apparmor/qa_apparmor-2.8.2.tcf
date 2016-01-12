@@ -6,9 +6,9 @@ timer 1800
 fg 1 ptrace /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/ptrace.sh"
 wait
 
-timer 1800
-fg 1 swap /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/swap.sh"
-wait
+#timer 1800
+#fg 1 swap /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/swap.sh"
+#wait
 
 timer 1800
 fg 1 pwrite /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/pwrite.sh"
