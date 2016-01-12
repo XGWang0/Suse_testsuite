@@ -1,0 +1,3 @@
+timer 24h 
+fg 1 lmbench.syscall /usr/bin/do_lmbench.syscall
+wait

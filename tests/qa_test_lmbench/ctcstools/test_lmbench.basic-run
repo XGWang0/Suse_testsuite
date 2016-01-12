@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/qa_test_lmbench"
+
+#add "|" in log for compare,you can comment this line for generate log without "|"
+sed -i '/printf.*%.*%.*%.*%/s/ %/|%/g' /usr/share/qa/qa_test_lmbench/scripts/getsummary
+
+$ctcsdir/tools/run $basedir/lmbench.basic.tcf

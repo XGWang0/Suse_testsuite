@@ -1,0 +1,3 @@
+timer 24h 
+fg 1 lmbench.select /usr/bin/do_lmbench.select
+wait

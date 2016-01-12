@@ -1,0 +1,3 @@
+timer 24h 
+fg 1 lmbench.comm /usr/bin/do_lmbench.comm
+wait

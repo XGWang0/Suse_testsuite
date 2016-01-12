@@ -1,0 +1,3 @@
+timer 24h 
+fg 1 lmbench.ctx /usr/bin/do_lmbench.ctx
+wait

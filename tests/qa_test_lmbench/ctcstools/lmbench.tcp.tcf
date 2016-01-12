@@ -1,0 +1,3 @@
+timer 24h 
+fg 1 lmbench.tcp /usr/bin/do_lmbench.tcp
+wait

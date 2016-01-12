@@ -1,0 +1,3 @@
+timer 24h 
+fg 1 lmbench.sig /usr/bin/do_lmbench.sig
+wait

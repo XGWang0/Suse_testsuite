@@ -112,9 +112,54 @@ install -m 744 do_lmbench.tcp       $RPM_BUILD_ROOT/usr/bin/do_lmbench.tcp
 install -m 744 do_lmbench.udp       $RPM_BUILD_ROOT/usr/bin/do_lmbench.udp
 install -m 744 do_lmbench.unix      $RPM_BUILD_ROOT/usr/bin/do_lmbench.unix
 install -m 744 do_lmbench.pagefault $RPM_BUILD_ROOT/usr/bin/do_lmbench.pagefault
-
+#Add by jnwang@suse.com
 install -m 744 test_lmbench-run $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.basic-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.bcopy-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.comm-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.connect-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.ctx-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.file-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.http-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.mem-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.mmap-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.ops-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.pagefault-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.pipe-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.proc-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.rpc-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.select-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.sig-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.syscall-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.tcp-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.udp-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 test_lmbench.unix-run    $RPM_BUILD_ROOT/usr/share/qa/tools
+
 install -m 644 lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+#Add by jnwang@suse.com
+install -m 644 lmbench.basic.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.bcopy.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.comm.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.connect.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.ctx.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.file.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.http.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.mem.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.mmap.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.ops.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.pagefault.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.pipe.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.proc.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.rpc.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.select.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.sig.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.syscall.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.tcp.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.udp.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+install -m 644 lmbench.unix.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+
 ln -s ../qa_test_lmbench/lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/lmbench.tcf
 ln -s ../tools/test_lmbench-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench-run
 cd ..
@@ -163,6 +208,27 @@ rm -rf $RPM_BUILD_ROOT
 #%files ctcs2-glue
 #%defattr(-, root, root)
 /usr/share/qa/tcf/lmbench.tcf
+/usr/share/qa/tcf/lmbench.basic.tcf
+/usr/share/qa/tcf/lmbench.bcopy.tcf
+/usr/share/qa/tcf/lmbench.comm.tcf
+/usr/share/qa/tcf/lmbench.connect.tcf
+/usr/share/qa/tcf/lmbench.ctx.tcf
+/usr/share/qa/tcf/lmbench.file.tcf
+/usr/share/qa/tcf/lmbench.http.tcf
+/usr/share/qa/tcf/lmbench.mem.tcf
+/usr/share/qa/tcf/lmbench.mmap.tcf
+/usr/share/qa/tcf/lmbench.ops.tcf
+/usr/share/qa/tcf/lmbench.pagefault.tcf
+/usr/share/qa/tcf/lmbench.pipe.tcf
+/usr/share/qa/tcf/lmbench.proc.tcf
+/usr/share/qa/tcf/lmbench.rpc.tcf
+/usr/share/qa/tcf/lmbench.select.tcf
+/usr/share/qa/tcf/lmbench.sig.tcf
+/usr/share/qa/tcf/lmbench.syscall.tcf
+/usr/share/qa/tcf/lmbench.tcf
+/usr/share/qa/tcf/lmbench.tcp.tcf
+/usr/share/qa/tcf/lmbench.udp.tcf
+/usr/share/qa/tcf/lmbench.unix.tcf
 /usr/share/qa/tools/test_lmbench-run
 #/usr/share/qa/tcf/lmbench.tcf
 #/usr/share/qa/tools/test_lmbench-run

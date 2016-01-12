@@ -1,0 +1,3 @@
+timer 24h 
+fg 1 lmbench.mmap /usr/bin/do_lmbench.mmap
+wait

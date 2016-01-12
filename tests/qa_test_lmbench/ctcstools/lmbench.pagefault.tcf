@@ -1,0 +1,3 @@
+timer 24h 
+fg 1 lmbench.pagefault /usr/bin/do_lmbench.pagefault
+wait
