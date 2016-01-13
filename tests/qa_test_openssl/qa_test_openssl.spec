@@ -23,7 +23,7 @@
 %if 0%{?suse_version} < 1220
 %define Ver 1.0.0l
 %else
-%define Ver 1.0.1q
+%define Ver 1.0.1i
 %endif
 %endif
 
@@ -80,10 +80,11 @@ sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %if 0%{?suse_version} >= 1220
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+# SOURCE is based on suse srpm , so is patched
+#%%patch2 -p1
+#%%patch3 -p1
+#%%patch4 -p1
+#%%patch5 -p1
 %endif
 
 cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list

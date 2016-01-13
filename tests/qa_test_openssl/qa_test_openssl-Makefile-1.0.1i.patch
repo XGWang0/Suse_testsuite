@@ -1,7 +1,7 @@
-Index: qa_test_openssl-1.0.1q/test/Makefile
+Index: qa_test_openssl-1.0.1i/test/Makefile
 ===================================================================
---- qa_test_openssl-1.0.1q.orig/test/Makefile
-+++ qa_test_openssl-1.0.1q/test/Makefile
+--- qa_test_openssl-1.0.1i.orig/test/Makefile
++++ qa_test_openssl-1.0.1i/test/Makefile
 @@ -23,10 +23,10 @@ GENERAL=Makefile maketests.com \
  	tpkcs7.com tpkcs7d.com tverify.com testgen.com testss.com testssl.com \
  	testca.com VMSca-response.1 VMSca-response.2
@@ -17,7 +17,7 @@ Index: qa_test_openssl-1.0.1q/test/Makefile
  
  BNTEST=		bntest
  ECTEST=		ectest
-@@ -113,9 +113,9 @@ HEADER=	$(EXHEADER)
+@@ -105,9 +105,9 @@ HEADER=	$(EXHEADER)
  ALL=    $(GENERAL) $(SRC) $(HEADER)
  
  top:
@@ -29,7 +29,7 @@ Index: qa_test_openssl-1.0.1q/test/Makefile
  
  exe:	$(EXE) dummytest$(EXE_EXT)
  
-@@ -138,7 +138,7 @@ tags:
+@@ -130,7 +130,7 @@ tags:
  tests:	exe apps $(TESTS)
  
  apps:
@@ -38,22 +38,21 @@ Index: qa_test_openssl-1.0.1q/test/Makefile
  
  alltests: \
  	test_des test_idea test_sha test_md4 test_md5 test_hmac \
-@@ -351,14 +351,6 @@ test_clienthello: $(CLIENTHELLOTEST)$(EX
+@@ -327,13 +327,6 @@ test_heartbeat: $(HEARTBEATTEST)$(EXE_EX
  lint:
  	lint -DLINT $(INCLUDES) $(SRC)>fluff
  
--update: local_depend
--	@if [ -z "$(THIS)" ]; then $(MAKE) -f $(TOP)/Makefile reflect THIS=$@; fi
--
--depend: local_depend
--	@if [ -z "$(THIS)" ]; then $(MAKE) -f $(TOP)/Makefile reflect THIS=$@; fi
--local_depend:
--	@[ -z "$(THIS)" ] || $(MAKEDEPEND) -- $(CFLAG) $(INCLUDES) $(DEPFLAG) -- $(PROGS) $(SRC)
+-depend:
+-	@if [ -z "$(THIS)" ]; then \
+-	    $(MAKE) -f $(TOP)/Makefile reflect THIS=$@; \
+-	else \
+-	    $(MAKEDEPEND) -- $(CFLAG) $(INCLUDES) $(DEPFLAG) -- $(PROGS) $(SRC); \
+-	fi
 -
  dclean:
  	$(PERL) -pe 'if (/^# DO NOT DELETE THIS LINE/) {print; exit(0);}' $(MAKEFILE) >Makefile.new
  	mv -f Makefile.new $(MAKEFILE)
-@@ -366,7 +358,7 @@ dclean:
+@@ -341,7 +334,7 @@ dclean:
  			testreq.pem
  
  clean:
@@ -61,8 +60,8 @@ Index: qa_test_openssl-1.0.1q/test/Makefile
 +	rm -f .rnd tmp.bntest tmp.bctest *.o *.obj *.dll lib tags core .pure .nfs* *.old *.bak fluff $(EXE) *.ss *.srl log dummytest;cd ../apps/;rm -f *.o *.obj *.dll lib tags core .pure .nfs* *.old *.bak fluff openssl req
  
  $(DLIBSSL):
- 	(cd ..; $(MAKE) build_libssl)
-@@ -379,21 +371,21 @@ BUILD_CMD=shlib_target=; if [ -n "$(SHAR
+ 	(cd ..; $(MAKE) DIRS=ssl all)
+@@ -354,21 +347,21 @@ BUILD_CMD=shlib_target=; if [ -n "$(SHAR
  	fi; \
  	LIBRARIES="$(LIBSSL) $(LIBCRYPTO) $(LIBKRB5)"; \
  	$(MAKE) -f $(TOP)/Makefile.shared -e \
@@ -95,10 +94,11 @@ Index: qa_test_openssl-1.0.1q/test/Makefile
  
  BUILD_CMD_STATIC=shlib_target=; \
  	LIBRARIES="$(DLIBSSL) $(DLIBCRYPTO) $(LIBKRB5)"; \
-@@ -537,318 +529,3 @@ dummytest$(EXE_EXT): dummytest.o $(DLIBC
+@@ -499,268 +492,3 @@ dummytest$(EXE_EXT): dummytest.o $(DLIBC
+ 	@target=dummytest; $(BUILD_CMD)
  
  # DO NOT DELETE THIS LINE -- make depend depends on it.
- 
+-
 -asn1test.o: ../include/openssl/asn1.h ../include/openssl/asn1_mac.h
 -asn1test.o: ../include/openssl/bio.h ../include/openssl/buffer.h
 -asn1test.o: ../include/openssl/crypto.h ../include/openssl/e_os2.h
@@ -129,29 +129,6 @@ Index: qa_test_openssl-1.0.1q/test/Makefile
 -bntest.o: ../include/openssl/x509.h ../include/openssl/x509_vfy.h bntest.c
 -casttest.o: ../e_os.h ../include/openssl/cast.h ../include/openssl/e_os2.h
 -casttest.o: ../include/openssl/opensslconf.h casttest.c
--clienthellotest.o: ../include/openssl/asn1.h ../include/openssl/bio.h
--clienthellotest.o: ../include/openssl/buffer.h ../include/openssl/comp.h
--clienthellotest.o: ../include/openssl/crypto.h ../include/openssl/dtls1.h
--clienthellotest.o: ../include/openssl/e_os2.h ../include/openssl/ec.h
--clienthellotest.o: ../include/openssl/ecdh.h ../include/openssl/ecdsa.h
--clienthellotest.o: ../include/openssl/err.h ../include/openssl/evp.h
--clienthellotest.o: ../include/openssl/hmac.h ../include/openssl/kssl.h
--clienthellotest.o: ../include/openssl/lhash.h ../include/openssl/obj_mac.h
--clienthellotest.o: ../include/openssl/objects.h
--clienthellotest.o: ../include/openssl/opensslconf.h
--clienthellotest.o: ../include/openssl/opensslv.h ../include/openssl/ossl_typ.h
--clienthellotest.o: ../include/openssl/pem.h ../include/openssl/pem2.h
--clienthellotest.o: ../include/openssl/pkcs7.h ../include/openssl/pqueue.h
--clienthellotest.o: ../include/openssl/safestack.h ../include/openssl/sha.h
--clienthellotest.o: ../include/openssl/srtp.h ../include/openssl/ssl.h
--clienthellotest.o: ../include/openssl/ssl2.h ../include/openssl/ssl23.h
--clienthellotest.o: ../include/openssl/ssl3.h ../include/openssl/stack.h
--clienthellotest.o: ../include/openssl/symhacks.h ../include/openssl/tls1.h
--clienthellotest.o: ../include/openssl/x509.h ../include/openssl/x509_vfy.h
--clienthellotest.o: clienthellotest.c
--constant_time_test.o: ../crypto/constant_time_locl.h ../e_os.h
--constant_time_test.o: ../include/openssl/e_os2.h
--constant_time_test.o: ../include/openssl/opensslconf.h constant_time_test.c
 -destest.o: ../include/openssl/des.h ../include/openssl/des_old.h
 -destest.o: ../include/openssl/e_os2.h ../include/openssl/opensslconf.h
 -destest.o: ../include/openssl/ossl_typ.h ../include/openssl/safestack.h
@@ -222,19 +199,6 @@ Index: qa_test_openssl-1.0.1q/test/Makefile
 -enginetest.o: ../include/openssl/stack.h ../include/openssl/symhacks.h
 -enginetest.o: ../include/openssl/x509.h ../include/openssl/x509_vfy.h
 -enginetest.o: enginetest.c
--evp_extra_test.o: ../include/openssl/asn1.h ../include/openssl/bio.h
--evp_extra_test.o: ../include/openssl/buffer.h ../include/openssl/crypto.h
--evp_extra_test.o: ../include/openssl/e_os2.h ../include/openssl/ec.h
--evp_extra_test.o: ../include/openssl/ecdh.h ../include/openssl/ecdsa.h
--evp_extra_test.o: ../include/openssl/err.h ../include/openssl/evp.h
--evp_extra_test.o: ../include/openssl/lhash.h ../include/openssl/obj_mac.h
--evp_extra_test.o: ../include/openssl/objects.h ../include/openssl/opensslconf.h
--evp_extra_test.o: ../include/openssl/opensslv.h ../include/openssl/ossl_typ.h
--evp_extra_test.o: ../include/openssl/pkcs7.h ../include/openssl/rsa.h
--evp_extra_test.o: ../include/openssl/safestack.h ../include/openssl/sha.h
--evp_extra_test.o: ../include/openssl/stack.h ../include/openssl/symhacks.h
--evp_extra_test.o: ../include/openssl/x509.h ../include/openssl/x509_vfy.h
--evp_extra_test.o: evp_extra_test.c
 -evp_test.o: ../e_os.h ../include/openssl/asn1.h ../include/openssl/bio.h
 -evp_test.o: ../include/openssl/buffer.h ../include/openssl/conf.h
 -evp_test.o: ../include/openssl/crypto.h ../include/openssl/e_os2.h
@@ -394,21 +358,6 @@ Index: qa_test_openssl-1.0.1q/test/Makefile
 -ssltest.o: ../include/openssl/symhacks.h ../include/openssl/tls1.h
 -ssltest.o: ../include/openssl/x509.h ../include/openssl/x509_vfy.h
 -ssltest.o: ../include/openssl/x509v3.h ssltest.c
--verify_extra_test.o: ../include/openssl/asn1.h ../include/openssl/bio.h
--verify_extra_test.o: ../include/openssl/buffer.h ../include/openssl/crypto.h
--verify_extra_test.o: ../include/openssl/e_os2.h ../include/openssl/ec.h
--verify_extra_test.o: ../include/openssl/ecdh.h ../include/openssl/ecdsa.h
--verify_extra_test.o: ../include/openssl/err.h ../include/openssl/evp.h
--verify_extra_test.o: ../include/openssl/lhash.h ../include/openssl/obj_mac.h
--verify_extra_test.o: ../include/openssl/objects.h
--verify_extra_test.o: ../include/openssl/opensslconf.h
--verify_extra_test.o: ../include/openssl/opensslv.h
--verify_extra_test.o: ../include/openssl/ossl_typ.h ../include/openssl/pem.h
--verify_extra_test.o: ../include/openssl/pem2.h ../include/openssl/pkcs7.h
--verify_extra_test.o: ../include/openssl/safestack.h ../include/openssl/sha.h
--verify_extra_test.o: ../include/openssl/stack.h ../include/openssl/symhacks.h
--verify_extra_test.o: ../include/openssl/x509.h ../include/openssl/x509_vfy.h
--verify_extra_test.o: verify_extra_test.c
 -wp_test.o: ../include/openssl/crypto.h ../include/openssl/e_os2.h
 -wp_test.o: ../include/openssl/opensslconf.h ../include/openssl/opensslv.h
 -wp_test.o: ../include/openssl/ossl_typ.h ../include/openssl/safestack.h
