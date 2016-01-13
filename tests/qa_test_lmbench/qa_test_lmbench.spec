@@ -91,28 +91,6 @@ mkdir -p $RPM_BUILD_ROOT/usr/bin
 # install ctcs2 related files in the ctcs2-glue sub packages
 cd ctcstools
 install -m 744 do_lmbench $RPM_BUILD_ROOT/usr/bin/do_lmbench
-install -m 744 do_lmbench.basic $RPM_BUILD_ROOT/usr/bin/do_lmbench.basic
-install -m 744 do_lmbench.mem $RPM_BUILD_ROOT/usr/bin/do_lmbench.mem 
-install -m 744 do_lmbench.comm $RPM_BUILD_ROOT/usr/bin/do_lmbench.comm
-#Add by jnwang@suse.com for separating testcases.
-install -m 744 do_lmbench.connect   $RPM_BUILD_ROOT/usr/bin/do_lmbench.connect
-install -m 744 do_lmbench.ctx       $RPM_BUILD_ROOT/usr/bin/do_lmbench.ctx
-install -m 744 do_lmbench.file      $RPM_BUILD_ROOT/usr/bin/do_lmbench.file
-install -m 744 do_lmbench.http      $RPM_BUILD_ROOT/usr/bin/do_lmbench.http
-install -m 744 do_lmbench.mem       $RPM_BUILD_ROOT/usr/bin/do_lmbench.mem
-install -m 744 do_lmbench.mmap      $RPM_BUILD_ROOT/usr/bin/do_lmbench.mmap
-install -m 744 do_lmbench.ops       $RPM_BUILD_ROOT/usr/bin/do_lmbench.ops
-install -m 744 do_lmbench.pipe      $RPM_BUILD_ROOT/usr/bin/do_lmbench.pipe
-install -m 744 do_lmbench.proc      $RPM_BUILD_ROOT/usr/bin/do_lmbench.proc
-install -m 744 do_lmbench.rpc       $RPM_BUILD_ROOT/usr/bin/do_lmbench.rpc
-install -m 744 do_lmbench.select    $RPM_BUILD_ROOT/usr/bin/do_lmbench.select
-install -m 744 do_lmbench.sig       $RPM_BUILD_ROOT/usr/bin/do_lmbench.sig
-install -m 744 do_lmbench.syscall   $RPM_BUILD_ROOT/usr/bin/do_lmbench.syscall
-install -m 744 do_lmbench.tcp       $RPM_BUILD_ROOT/usr/bin/do_lmbench.tcp
-install -m 744 do_lmbench.udp       $RPM_BUILD_ROOT/usr/bin/do_lmbench.udp
-install -m 744 do_lmbench.unix      $RPM_BUILD_ROOT/usr/bin/do_lmbench.unix
-install -m 744 do_lmbench.pagefault $RPM_BUILD_ROOT/usr/bin/do_lmbench.pagefault
-#Add by jnwang@suse.com
 install -m 744 test_lmbench-run $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.basic-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.bcopy-run    $RPM_BUILD_ROOT/usr/share/qa/tools
@@ -128,7 +106,6 @@ install -m 744 test_lmbench.pagefault-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.pipe-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.proc-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.rpc-run    $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 test_lmbench-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.select-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.sig-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.syscall-run    $RPM_BUILD_ROOT/usr/share/qa/tools
@@ -136,31 +113,9 @@ install -m 744 test_lmbench.tcp-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.udp-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.unix-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 
-install -m 644 lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-#Add by jnwang@suse.com
-install -m 644 lmbench.basic.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.bcopy.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.comm.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.connect.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.ctx.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.file.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.http.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.mem.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.mmap.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.ops.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.pagefault.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.pipe.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.proc.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.rpc.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.select.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.sig.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.syscall.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.tcp.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.udp.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
-install -m 644 lmbench.unix.tcf    $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
+#install -m 644 lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
 
-ln -s ../qa_test_lmbench/lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/lmbench.tcf
+#ln -s ../qa_test_lmbench/lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/lmbench.tcf
 ln -s ../tools/test_lmbench-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench-run
 cd ..
 chmod +x $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/scripts/config-test
@@ -176,28 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /usr/share/qa/qa_test_lmbench/
 /usr/share/qa/qa_test_lmbench/README
 /usr/bin/do_lmbench
-/usr/bin/do_lmbench.comm
-/usr/bin/do_lmbench.basic
-/usr/bin/do_lmbench.mem
 
-#Add by jnwang@suse.com
-/usr/bin/do_lmbench.connect
-/usr/bin/do_lmbench.ctx
-/usr/bin/do_lmbench.file
-/usr/bin/do_lmbench.http
-/usr/bin/do_lmbench.mem
-/usr/bin/do_lmbench.mmap
-/usr/bin/do_lmbench.ops
-/usr/bin/do_lmbench.pipe
-/usr/bin/do_lmbench.proc
-/usr/bin/do_lmbench.rpc
-/usr/bin/do_lmbench.select
-/usr/bin/do_lmbench.sig
-/usr/bin/do_lmbench.syscall
-/usr/bin/do_lmbench.tcp
-/usr/bin/do_lmbench.udp
-/usr/bin/do_lmbench.unix
-/usr/bin/do_lmbench.pagefault
 
 /usr/share/qa/qa_test_lmbench/bin
 /usr/share/qa/qa_test_lmbench/scripts
@@ -208,27 +142,6 @@ rm -rf $RPM_BUILD_ROOT
 #%files ctcs2-glue
 #%defattr(-, root, root)
 /usr/share/qa/tcf/lmbench.tcf
-/usr/share/qa/tcf/lmbench.basic.tcf
-/usr/share/qa/tcf/lmbench.bcopy.tcf
-/usr/share/qa/tcf/lmbench.comm.tcf
-/usr/share/qa/tcf/lmbench.connect.tcf
-/usr/share/qa/tcf/lmbench.ctx.tcf
-/usr/share/qa/tcf/lmbench.file.tcf
-/usr/share/qa/tcf/lmbench.http.tcf
-/usr/share/qa/tcf/lmbench.mem.tcf
-/usr/share/qa/tcf/lmbench.mmap.tcf
-/usr/share/qa/tcf/lmbench.ops.tcf
-/usr/share/qa/tcf/lmbench.pagefault.tcf
-/usr/share/qa/tcf/lmbench.pipe.tcf
-/usr/share/qa/tcf/lmbench.proc.tcf
-/usr/share/qa/tcf/lmbench.rpc.tcf
-/usr/share/qa/tcf/lmbench.select.tcf
-/usr/share/qa/tcf/lmbench.sig.tcf
-/usr/share/qa/tcf/lmbench.syscall.tcf
-/usr/share/qa/tcf/lmbench.tcf
-/usr/share/qa/tcf/lmbench.tcp.tcf
-/usr/share/qa/tcf/lmbench.udp.tcf
-/usr/share/qa/tcf/lmbench.unix.tcf
 /usr/share/qa/tools/test_lmbench-run
 #/usr/share/qa/tcf/lmbench.tcf
 #/usr/share/qa/tools/test_lmbench-run

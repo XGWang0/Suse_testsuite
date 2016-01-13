@@ -1,3 +1,0 @@
-timer 24h 
-fg 1 lmbench.http /usr/bin/do_lmbench.http
-wait

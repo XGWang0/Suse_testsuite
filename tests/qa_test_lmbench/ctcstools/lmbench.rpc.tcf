@@ -1,3 +1,0 @@
-timer 24h 
-fg 1 lmbench.rpc /usr/bin/do_lmbench.rpc
-wait

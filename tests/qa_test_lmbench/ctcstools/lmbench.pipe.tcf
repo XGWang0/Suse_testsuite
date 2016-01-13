@@ -1,3 +1,0 @@
-timer 24h 
-fg 1 lmbench.pipe /usr/bin/do_lmbench.pipe
-wait
