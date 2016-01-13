@@ -91,9 +91,10 @@ cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $
 
 # Fix missing define
 sed -i -e 's:#include <openssl/sha.h>:#include <openssl/sha.h>\n#define OPENSSL_PIC:' test/rc4test.c
-%if 0%{?suse_version} >= 1220
-sed -i -e 's:#include <openssl/ssl.h>:#include <openssl/ssl.h>\n# define SSL3_HM_HEADER_LENGTH                   4:' ssl/clienthellotest.c
-%endif
+#%%if 0%{?suse_version} >= 1220
+# TODO -- is for openssl-1.0.1q
+#sed -i -e 's:#include <openssl/ssl.h>:#include <openssl/ssl.h>\n# define SSL3_HM_HEADER_LENGTH                   4:' ssl/clienthellotest.c
+#%%endif
 
 %build
 cd test
