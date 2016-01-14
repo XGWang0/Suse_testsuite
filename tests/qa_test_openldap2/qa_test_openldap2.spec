@@ -70,8 +70,8 @@ find ./ -type f -exec sed -i "s|stubs-64.h|stubs-64-v2.h|g" {} +
 %else
 find ./ -type f -exec sed -i "s|x86_64|%{_arch}|g" {} +
 %endif
-make %{?_smp_mflags} -C '%{_builddir}/qa_openldap2/libraries'
-make %{?_smp_mflags} -C '%{_builddir}/qa_openldap2/tests/progs'
+make %{?_smp_mflags} V=1 -C '%{_builddir}/qa_openldap2/libraries'
+make %{?_smp_mflags} V=1 -C '%{_builddir}/qa_openldap2/tests/progs'
 %endif
 
 
