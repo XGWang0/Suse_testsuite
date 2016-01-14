@@ -51,7 +51,6 @@ Requires:       openldap2-client
 Provides:       qa_openldap2
 Obsoletes:      qa_openldap2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArch:      x86_64
 
 %description
 Test cases for openldap2 server testing
