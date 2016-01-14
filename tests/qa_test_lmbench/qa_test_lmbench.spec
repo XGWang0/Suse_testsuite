@@ -92,9 +92,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/bin
 cd ctcstools
 install -m 744 do_lmbench $RPM_BUILD_ROOT/usr/bin/do_lmbench
 install -m 744 test_lmbench-run $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 test_lmbench.basic-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.bcopy-run    $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 test_lmbench.comm-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.connect-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.ctx-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.file-run    $RPM_BUILD_ROOT/usr/share/qa/tools
@@ -116,7 +114,27 @@ install -m 744 test_lmbench.unix-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 #install -m 644 lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
 
 #ln -s ../qa_test_lmbench/lmbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/lmbench.tcf
-ln -s ../tools/test_lmbench-run $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench-run
+
+ln -s ../tools/test_lmbench-run             $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench-run
+ln -s ../tools/test_lmbench.bcopy-run       $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.bcopy-run
+ln -s ../tools/test_lmbench.connect-run     $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.connect-run
+ln -s ../tools/test_lmbench.ctx-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.ctx-run
+ln -s ../tools/test_lmbench.file-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.file-run
+ln -s ../tools/test_lmbench.http-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.http-run
+ln -s ../tools/test_lmbench.mem-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.mem-run
+ln -s ../tools/test_lmbench.mmap-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.mmap-run
+ln -s ../tools/test_lmbench.ops-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.ops-run
+ln -s ../tools/test_lmbench.pagefault-run   $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.pagefault-run
+ln -s ../tools/test_lmbench.pipe-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.pipe-run
+ln -s ../tools/test_lmbench.proc-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.proc-run
+ln -s ../tools/test_lmbench.rpc-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.rpc-run
+ln -s ../tools/test_lmbench.select-run      $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.select-run
+ln -s ../tools/test_lmbench.sig-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.sig-run
+ln -s ../tools/test_lmbench.syscall-run     $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.syscall-run
+ln -s ../tools/test_lmbench.tcp-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.tcp-run
+ln -s ../tools/test_lmbench.udp-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.udp-run
+ln -s ../tools/test_lmbench.unix-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.unix-run
+
 cd ..
 chmod +x $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/scripts/config-test
 cp %{S:3} $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench
@@ -129,24 +147,60 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man8/qa_test_lmbench.8.gz
 %doc COPYING COPYING-2 README
 %dir /usr/share/qa/qa_test_lmbench/
+%dir /usr/share/qa/tools/
 /usr/share/qa/qa_test_lmbench/README
 /usr/bin/do_lmbench
-
-
 /usr/share/qa/qa_test_lmbench/bin
 /usr/share/qa/qa_test_lmbench/scripts
 /usr/share/qa/qa_test_lmbench/results
 /usr/share/qa/qa_test_lmbench/src
 %dir /usr/share/qa
 #
-#%files ctcs2-glue
-#%defattr(-, root, root)
-/usr/share/qa/tcf/lmbench.tcf
+
+/usr/share/qa/tools/test_lmbench-run
+/usr/share/qa/tools/test_lmbench.bcopy-run
+/usr/share/qa/tools/test_lmbench.connect-run
+/usr/share/qa/tools/test_lmbench.ctx-run
+/usr/share/qa/tools/test_lmbench.file-run
+/usr/share/qa/tools/test_lmbench.http-run
+/usr/share/qa/tools/test_lmbench.mem-run
+/usr/share/qa/tools/test_lmbench.mmap-run
+/usr/share/qa/tools/test_lmbench.ops-run
+/usr/share/qa/tools/test_lmbench.pagefault-run
+/usr/share/qa/tools/test_lmbench.pipe-run
+/usr/share/qa/tools/test_lmbench.proc-run
+/usr/share/qa/tools/test_lmbench.rpc-run
+/usr/share/qa/tools/test_lmbench.select-run
+/usr/share/qa/tools/test_lmbench.sig-run
+/usr/share/qa/tools/test_lmbench.syscall-run
+/usr/share/qa/tools/test_lmbench.tcp-run
+/usr/share/qa/tools/test_lmbench.udp-run
+/usr/share/qa/tools/test_lmbench.unix-run
+#
 /usr/share/qa/tools/test_lmbench-run
 #/usr/share/qa/tcf/lmbench.tcf
 #/usr/share/qa/tools/test_lmbench-run
 /usr/share/qa/qa_test_lmbench/test_lmbench-run
-/usr/share/qa/qa_test_lmbench/lmbench.tcf
+/usr/share/qa/qa_test_lmbench/test_lmbench.bcopy-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.connect-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.ctx-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.file-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.http-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.mem-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.mmap-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.ops-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.pagefault-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.pipe-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.proc-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.rpc-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.select-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.sig-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.syscall-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.tcp-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.udp-run
+/usr/share/qa/qa_test_lmbench/test_lmbench.unix-run
+
+
 %dir /usr/share/qa
 %dir /usr/share/qa/tcf
 %dir /usr/share/qa/tools
