@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Jan 14 07:02:37 UTC 2016 - osukup@suse.com
+
+- add clean to tcf before build, fixes bsc#961774 
+
+-------------------------------------------------------------------
 Wed Jan 13 12:08:20 UTC 2016 - osukup@suse.com
 
 -- downgrade to 1.0.1i bsc#961629

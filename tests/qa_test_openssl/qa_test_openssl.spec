@@ -123,7 +123,8 @@ install -m 755 %{SOURCE4} %{buildroot}/%{qa_location}
 install -m 755 %{SOURCE5} %{buildroot}/%{qa_location}
 cp -a * %{buildroot}/%{qa_location}
 
-echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" > %{buildroot}%{_datadir}/qa/tcf/qa_openssl.tcf
+echo -en "timer 300\nfg 1 clean %{qa_location}/ctcs2_run_test.sh clean\nwait\n\n" > %{buildroot}%{_datadir}/qa/tcf/qa_openssl.tcf
+echo -en "timer 300\nfg 1 build %{qa_location}/ctcs2_run_test.sh\nwait\n\n" >> %{buildroot}%{_datadir}/qa/tcf/qa_openssl.tcf
 cat %{buildroot}/%{qa_location}/ctcs2_test_list | while read test; do
 	echo "timer 300"
 	echo -en "fg 1 "
