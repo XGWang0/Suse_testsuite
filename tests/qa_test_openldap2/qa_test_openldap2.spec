@@ -61,6 +61,15 @@ Test cases for openldap2 server testing
 
 %build
 %if 0%{?suse_version} >= 1315
+# Since we are using parts of build enviroment which was configured for
+# x86_64, we need to replace x86_64 specific things with appropriate ones
+# for other architectures.
+%ifarch ppc64le
+find ./ -type f -exec sed -i "s|x86_64|powerpc64le|g" {} +
+find ./ -type f -exec sed -i "s|stubs-64.h|stubs-64-v2.h|g" {} +
+%else
+find ./ -type f -exec sed -i "s|x86_64|%{_arch}|g" {} +
+%endif
 make %{?_smp_mflags} -C '%{_builddir}/qa_openldap2/libraries'
 make %{?_smp_mflags} -C '%{_builddir}/qa_openldap2/tests/progs'
 %endif
