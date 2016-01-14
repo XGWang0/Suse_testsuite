@@ -83,6 +83,7 @@ function sq_qadb_update_system_infomation {
         cat /proc/meminfo > /var/log/qa/ctcs2/${name}/meminfo.txt
         cat /proc/zoneinfo > /var/log/qa/ctcs2/${name}/zoneinfo.txt
         systemctl list-units > /var/log/qa/ctcs2/${name}/systemctl-list-units.txt
+        env | grep "^_QASET" > /var/log/qa/ctcs2/${name}/tenv.txt
     done
 }
 

@@ -22,6 +22,36 @@
 
 __import qavm/sq-util.sh
 
+function def_syslib_run {
+    local name=$1
+    local run=$2
+    shift 2
+    eval "${name}_run=${run}"
+    eval "${name}_packages=($@)"
+    code="
+        function ${name}_open {
+            export _QASET_CATEGORY_TYPE="syslib"
+            export _QASET_CATEGORY_VALUE=${name}
+        }
+    "
+    eval "${code}"
+}
+
+function def_network_run {
+    local name=$1
+    local run=$2
+    shift 2
+    eval "${name}_run=${run}"
+    eval "${name}_packages=($@)"
+    code="
+        function ${name}_open {
+            export _QASET_CATEGORY_TYPE=network
+            export _QASET_CATEGORY_VALUE=${name}
+        }
+    "
+    eval "${code}"
+}
+
 function def_simple_run {
     local name=$1
     local run=$2
@@ -35,35 +65,35 @@ function siege_get_args {
     echo performance
 }
 #For lmbench testsuite
-def_simple_run lmbench_bcopy        "/usr/share/qa/tools/test_lmbench.bcopy-run" qa_test_lmbench
-def_simple_run lmbench_connect      "/usr/share/qa/tools/test_lmbench.connect-run" qa_test_lmbench
-def_simple_run lmbench_ctx          "/usr/share/qa/tools/test_lmbench.ctx-run" qa_test_lmbench
-def_simple_run lmbench_file         "/usr/share/qa/tools/test_lmbench.file-run" qa_test_lmbench
-def_simple_run lmbench_http         "/usr/share/qa/tools/test_lmbench.http-run" qa_test_lmbench
-def_simple_run lmbench_mem          "/usr/share/qa/tools/test_lmbench.mem-run" qa_test_lmbench
-def_simple_run lmbench_mmap         "/usr/share/qa/tools/test_lmbench.mmap-run" qa_test_lmbench
-def_simple_run lmbench_ops          "/usr/share/qa/tools/test_lmbench.ops-run" qa_test_lmbench
-def_simple_run lmbench_pagefault    "/usr/share/qa/tools/test_lmbench.pagefault-run" qa_test_lmbench
-def_simple_run lmbench_pipe         "/usr/share/qa/tools/test_lmbench.pipe-run" qa_test_lmbench
-def_simple_run lmbench_proc         "/usr/share/qa/tools/test_lmbench.proc-run" qa_test_lmbench
-def_simple_run lmbench_rpc          "/usr/share/qa/tools/test_lmbench.rpc-run" qa_test_lmbench
-def_simple_run lmbench_select       "/usr/share/qa/tools/test_lmbench.select-run" qa_test_lmbench
-def_simple_run lmbench_sig          "/usr/share/qa/tools/test_lmbench.sig-run" qa_test_lmbench
-def_simple_run lmbench_syscall      "/usr/share/qa/tools/test_lmbench.syscall-run" qa_test_lmbench
-def_simple_run lmbench_tcp          "/usr/share/qa/tools/test_lmbench.tcp-run" qa_test_lmbench
-def_simple_run lmbench_udp          "/usr/share/qa/tools/test_lmbench.udp-run" qa_test_lmbench
-def_simple_run lmbench_unix         "/usr/share/qa/tools/test_lmbench.unix-run" qa_test_lmbench
+def_syslib_run lmbench_bcopy        "/usr/share/qa/tools/test_lmbench.bcopy-run" qa_test_lmbench
+def_syslib_run lmbench_connect      "/usr/share/qa/tools/test_lmbench.connect-run" qa_test_lmbench
+def_syslib_run lmbench_ctx          "/usr/share/qa/tools/test_lmbench.ctx-run" qa_test_lmbench
+def_syslib_run lmbench_file         "/usr/share/qa/tools/test_lmbench.file-run" qa_test_lmbench
+def_syslib_run lmbench_http         "/usr/share/qa/tools/test_lmbench.http-run" qa_test_lmbench
+def_syslib_run lmbench_mem          "/usr/share/qa/tools/test_lmbench.mem-run" qa_test_lmbench
+def_syslib_run lmbench_mmap         "/usr/share/qa/tools/test_lmbench.mmap-run" qa_test_lmbench
+def_syslib_run lmbench_ops          "/usr/share/qa/tools/test_lmbench.ops-run" qa_test_lmbench
+def_syslib_run lmbench_pagefault    "/usr/share/qa/tools/test_lmbench.pagefault-run" qa_test_lmbench
+def_syslib_run lmbench_pipe         "/usr/share/qa/tools/test_lmbench.pipe-run" qa_test_lmbench
+def_syslib_run lmbench_proc         "/usr/share/qa/tools/test_lmbench.proc-run" qa_test_lmbench
+def_syslib_run lmbench_rpc          "/usr/share/qa/tools/test_lmbench.rpc-run" qa_test_lmbench
+def_syslib_run lmbench_select       "/usr/share/qa/tools/test_lmbench.select-run" qa_test_lmbench
+def_syslib_run lmbench_sig          "/usr/share/qa/tools/test_lmbench.sig-run" qa_test_lmbench
+def_syslib_run lmbench_syscall      "/usr/share/qa/tools/test_lmbench.syscall-run" qa_test_lmbench
+def_syslib_run lmbench_tcp          "/usr/share/qa/tools/test_lmbench.tcp-run" qa_test_lmbench
+def_syslib_run lmbench_udp          "/usr/share/qa/tools/test_lmbench.udp-run" qa_test_lmbench
+def_syslib_run lmbench_unix         "/usr/share/qa/tools/test_lmbench.unix-run" qa_test_lmbench
 
 
 
-def_simple_run libmicro_bench "/usr/share/qa/tools/test_libmicro-bench-run" qa_test_libmicro
-def_simple_run lmbench_bench "/usr/share/qa/tools/test_lmbench-run" qa_test_lmbench
-def_simple_run sysbench_sys "/usr/lib/ctcs2/tools/test_sysbench_sys-run" qa_test_sysbench mysql
-def_simple_run netperf_loop4 "/usr/share/qa/tools/netperf_peer_loop-run" qa_test_netperf
-def_simple_run netperf_loop6 "/usr/share/qa/tools/netperf_peer_loop-run6" qa_test_netperf
+def_syslib_run libmicro_bench "/usr/share/qa/tools/test_libmicro-bench-run" qa_test_libmicro
+def_syslib_run lmbench_bench "/usr/share/qa/tools/test_lmbench-run" qa_test_lmbench
+def_syslib_run sysbench_sys "/usr/lib/ctcs2/tools/test_sysbench_sys-run" qa_test_sysbench mysql
+def_network_run netperf_loop4 "/usr/share/qa/tools/netperf_peer_loop-run" qa_test_netperf
+def_network_run netperf_loop6 "/usr/share/qa/tools/netperf_peer_loop-run6" qa_test_netperf
 #the fiber tests need two machines. The server parts need to be set mannually.
-def_simple_run netperf_fiber4 "/usr/share/qa/tools/netperf-peer-fiber-run" qa_test_netperf
-def_simple_run netperf_fiber6 "/usr/share/qa/tools/netperf-peer-fiber-run6" qa_test_netperf
+def_network_run netperf_fiber4 "/usr/share/qa/tools/netperf-peer-fiber-run" qa_test_netperf
+def_network_run netperf_fiber6 "/usr/share/qa/tools/netperf-peer-fiber-run6" qa_test_netperf
 
 ##kernbench a server is need to store the kernel-package
 def_simple_run kernbench "/usr/share/qa/tools/test_kernbench-run" qa_test_kernbench
@@ -230,6 +260,8 @@ function def_unit_fs {
         code="
              function ${name}_${fs}_open {
                  sq_abuild_general_open ${fs};
+                 export _QASET_CATEGORY_TYPE=FS
+                 export _QASET_CATEGORY_VALUE=${fs}
              }
              "
         eval "${code}"
