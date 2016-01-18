@@ -1,0 +1,14 @@
+SQ_TEST_RUN_LIST=(
+    _reboot_off
+    libhugetlbfs
+    ftpload
+    lmbench
+    memeat
+    memtester
+    lvm2_2_02_120
+    autotest
+    ltp
+    ltp_fstests
+    ltp_stress
+    xfstests
+)
