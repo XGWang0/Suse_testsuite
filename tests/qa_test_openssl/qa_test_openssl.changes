@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue Jan 19 12:08:20 UTC 2016 - osukup@suse.com
+
+- add links to certificates in qa_openssl-1.0.1i tarball to fix
+ test_verify
+
+-------------------------------------------------------------------
 Thu Jan 14 07:02:37 UTC 2016 - osukup@suse.com
 
 - add clean to tcf before build, fixes bsc#961774 
@@ -6,7 +12,7 @@ Thu Jan 14 07:02:37 UTC 2016 - osukup@suse.com
 -------------------------------------------------------------------
 Wed Jan 13 12:08:20 UTC 2016 - osukup@suse.com
 
--- downgrade to 1.0.1i bsc#961629
+- downgrade to 1.0.1i bsc#961629
 
 -------------------------------------------------------------------
 Sun Dec 13 11:02:49 UTC 2015 - osukup@suse.com
