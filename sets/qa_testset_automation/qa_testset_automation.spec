@@ -59,5 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/qaset
 
 %changelog
+* Thu Jan 21 2016 jtzhao@suse.com
+- Add openqa_runner.py for openQA environment
 * Fri Jan 17 2014 cachen@suse.de
 - initial package

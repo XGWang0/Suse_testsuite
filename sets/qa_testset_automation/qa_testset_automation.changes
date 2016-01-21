@@ -1,4 +1,8 @@
 -------------------------------------------------------------------
+Thu Jan 21 16:42:00 CST 2016 - jtzhao@suse.com
+
+- Add openqa_runner.py for openQA environment
+-------------------------------------------------------------------
 Thu Jul  3 18:02:40 CST 2014 - lzwang@suse.com
 
 - Added some useful changes and the statistics tool.
