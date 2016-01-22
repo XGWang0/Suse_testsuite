@@ -18,13 +18,9 @@
 
 %define qa_location %{_datadir}/qa/qa_test_openssl
 %if 0%{?suse_version} < 1120
-%define Ver 0.9.8r
-%else
-%if 0%{?suse_version} < 1220
-%define Ver 1.0.0l
+%define Ver 0.9.8j
 %else
 %define Ver 1.0.1i
-%endif
 %endif
 
 Name:           qa_test_openssl
@@ -80,33 +76,22 @@ sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %if 0%{?suse_version} >= 1220
 %patch1 -p1
-# SOURCE is based on suse srpm , so is patched
-#%%patch2 -p1
-#%%patch3 -p1
-#%%patch4 -p1
-#%%patch5 -p1
 %endif
 
 cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list
 
 # Fix missing define
 sed -i -e 's:#include <openssl/sha.h>:#include <openssl/sha.h>\n#define OPENSSL_PIC:' test/rc4test.c
-#%%if 0%{?suse_version} >= 1220
 # TODO -- is for openssl-1.0.1q
 #sed -i -e 's:#include <openssl/ssl.h>:#include <openssl/ssl.h>\n# define SSL3_HM_HEADER_LENGTH                   4:' ssl/clienthellotest.c
-#%%endif
 
 %build
 cd test
 make %{?_smp_mflags}
 
-
 %check
 cd test
-# Disable tests on SLE12 for now as some fail
-%if 0%{?suse_version} <= 1110
 make tests -j1
-%endif
 make clean -j1
 
 
