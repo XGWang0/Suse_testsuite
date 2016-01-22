@@ -106,10 +106,16 @@ How to launch test:
 ==============
 Run /usr/share/qa/qaset/run/* scripts
 
+How to extend product list:
+===========================
+There are 2 steps to extend the test list for new produce,
+1)Add test list in qaset/list; add the new list name into Makefile
+2)Add test conf in qaset/conf; add the new list name into Makefile
+
 TODO:
 =========
 Let's moving step by step to instead "gobble up at one gulp" :-)
 1. Automated to analyze test logs and messages for bug reporting
 2. Automated to compare test results with the expected definition and the expected output format
 3. Intelligible test status dashboard
-4. Integrate in Jenkins
+4. Integrate in CI tool
