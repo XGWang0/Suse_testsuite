@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 import argparse
 import datetime
-import fcntl
 import glob
 import os
-import select
 from string import Template
 import subprocess
 import threading
@@ -60,78 +58,6 @@ def run_with_heartbeat(cmd, msg, begin_msg=None, succ_msg=None,
         logging.info(parsed_msg)
     return proc.poll(), proc.stdout.read()
 
-def zypper_list_repo():
-    def _strip(s):
-        return s.strip()
-
-    repos = []
-    cmd = "zypper repos -u"
-    output = subprocess.check_output(cmd, shell=True)
-    for line in output.splitlines():
-        if re.search(r'^\d+\s*\|', line):
-            arr = line.split('|')
-            arr = map(_strip, arr)
-            repo = {}
-            keys = ['id', 'alias', 'name', 'enabled', 'gpg', 'refresh', 'uri']
-            for i in range(len(arr)):
-                repo[keys[i]] = arr[i]
-            repos.append(repo)
-    return repos
-
-def zypper_add_repo(name, url):
-    logging.info('Adding repo "%s"' % (name))
-    cmd = "zypper -n addrepo -f '%s' '%s'" % (url, name)
-    subprocess.check_call(cmd, shell=True)
-
-def zypper_remove_repo(name):
-    logging.info('Removing repo "%s"' % (name))
-    cmd = "zypper -n removerepo %s" % (name)
-    subprocess.check_call(cmd, shell=True)
-
-def zypper_remove_all_repos():
-    lst = zypper_list_repo()
-    for repo in lst:
-        zypper_remove_repo(repo['name'])
-
-def zypper_refresh():
-    logging.info('Refreshing all repos')
-    cmd = "zypper -n --gpg-auto-import-keys refresh"
-    subprocess.check_call(cmd, shell=True)
-
-def zypper_install(package):
-    logging.info('Installing package "%s"' % (package))
-    cmd = "zypper -n install -y %s" % (package)
-    subprocess.check_call(cmd, shell=True)
-
-def create_qaset_config(testsuites):
-    # Create dirs
-    try:
-        os.makedirs('/root/qaset')
-    except OSError, e:
-        pass
-    # Write to config file
-    testsuites = '\n'.join(testsuites)
-    s = Template("SQ_TEST_RUN_LIST=(\n\t_reboot_off\n\t$testsuites\n)\n")
-    with file('/root/qaset/config', 'w') as f:
-        f.write(s.substitute({'testsuites': testsuites}))
-
-def init(args):
-    random.seed()
-    if args.package is None:
-        args.package = ['qa_testset_automation',]
-    # Remove existing repos
-    zypper_remove_all_repos()
-    # Add repos
-    zypper_add_repo('main', args.main_repo)
-    zypper_add_repo('sdk', args.sdk_repo)
-    zypper_add_repo('qa', args.qa_repo)
-    zypper_refresh()
-    # Install packages
-    zypper_install(' '.join(args.package))
-    # Create config file
-    args.testsuite = args.testsuite.split(',')
-    create_qaset_config(args.testsuite)
-
 def upload_log(log_tarball, upload_url_prefix):
     upload_url = "%s/uploadlog/%s"  % (upload_url_prefix,
                                         os.path.basename(log_tarball))
@@ -144,12 +70,14 @@ def upload_all_logs(log_dir, upload_url_prefix, pattern='*.tar.*'):
     for item in glob.glob(os.path.join(log_dir, pattern)):
         upload_log(item, upload_url_prefix)
 
+
 class PopenWithName(subprocess.Popen):
     def __init__(self, name, cmd):
         self.name = name
         super(self.__class__, self).__init__(cmd, shell=True, stdin=None,
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.STDOUT)
+
 
 class OpenqaRunner(object):
     # run_script:   Script to trigger test. e.g. /usr/share/qa/qaset/run/kernel-all-run
@@ -278,25 +206,12 @@ if __name__ == '__main__':
                         help='Script to start testing')
     parser.add_argument('-u', '--upload-url-prefix', metavar='URL', dest='upload_url',
                         type=str, required=True, help='Upload url prefix')
-    parser.add_argument('-t', '--testsuite', metavar='TESTSUITE', dest='testsuite',
-                        type=str, required=True, help='Testsuites to run. Example: lvm2,gzip,ltp')
     parser.add_argument('-l', '--log-dir', metavar='DIR', dest='log_dir',
                         type=str, required=True, default='/var/log/qaset/log',
                         help='Log dir. Default: /var/log/qaset/log')
     parser.add_argument('-s', '--submission-dir', metavar='DIR', dest='submission_dir',
                         type=str, required=True, default='/var/log/qaset/submission',
                         help='Submission dir. Default: /var/log/qaset/submission')
-    parser.add_argument('--main-repo', metavar='URL', dest='main_repo',
-                        type=str, required=True,
-                        help='Main repo url')
-    parser.add_argument('--sdk-repo', metavar='URL', dest='sdk_repo',
-                        type=str, required=True,
-                        help='SDK repo url')
-    parser.add_argument('--qa-repo', metavar='URL', dest='qa_repo',
-                        type=str, required=True,
-                        help='QA repo url')
-    parser.add_argument('-p', '--package', action='append', dest='package',
-                        help='Packages to install with zypper')
     parser.add_argument('--junit-type', metavar='TYPE', dest='junit_type',
                         type=str, required=True,
                         help='Junit type')
@@ -305,10 +220,10 @@ if __name__ == '__main__':
                         help='Junit type')
     args = parser.parse_args()
     # Init
+    random.seed()
     logging.basicConfig(format='\r<%(asctime)s> [%(levelname)s] %(message)s\r',
                         datefmt='%H:%M:%S',
                         level=logging.INFO)
-    init(args)
     # Running test
     runner = OpenqaRunner(args.script)
     runner.run()
@@ -319,6 +234,5 @@ if __name__ == '__main__':
                                                                             args.submission_dir,
                                                                             args.junit_file,
                                                                             args.junit_type)
-    subprocess.check_call(cmd, shell=True, stdin=None,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT)
+    subprocess.call(cmd, shell=True)
+    exit(0)
