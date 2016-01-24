@@ -215,12 +215,6 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--submission-dir', metavar='DIR', dest='submission_dir',
                         type=str, required=True, default='/var/log/qaset/submission',
                         help='Submission dir. Default: /var/log/qaset/submission')
-    parser.add_argument('--junit-type', metavar='TYPE', dest='junit_type',
-                        type=str, required=True,
-                        help='Junit type')
-    parser.add_argument('--junit-file', metavar='FILE', dest='junit_file',
-                        type=str, required=True,
-                        help='Junit type')
     args = parser.parse_args()
     # Init
     random.seed()
@@ -232,10 +226,3 @@ if __name__ == '__main__':
     runner.run()
     # Upload logs
     upload_all_logs(args.log_dir, args.upload_url)
-    # Generate junit report
-    cmd = "/usr/share/qa/qaset/bin/junit_xml_gen.py %s -s %s -o %s -n '%s'" % (args.log_dir,
-                                                                            args.submission_dir,
-                                                                            args.junit_file,
-                                                                            args.junit_type)
-    subprocess.call(cmd, shell=True)
-    exit(0)
