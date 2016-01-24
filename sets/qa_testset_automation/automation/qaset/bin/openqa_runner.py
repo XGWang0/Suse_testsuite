@@ -61,14 +61,17 @@ def run_with_heartbeat(cmd, msg, begin_msg=None, succ_msg=None,
 def upload_log(log_tarball, upload_url_prefix):
     upload_url = "%s/uploadlog/%s"  % (upload_url_prefix,
                                         os.path.basename(log_tarball))
-    cmd = "curl --form upload='%s' '%s'" % (log_tarball, upload_url)
+    cmd = "curl --form upload=@%s '%s'" % (log_tarball, upload_url)
     return run_with_heartbeat(cmd, 'Uploading "%s"' % (log_tarball),
                             succ_msg='Upload succeeded',
                             fail_msg='Upload failed with exit code $exitstatus')
 
 def upload_all_logs(log_dir, upload_url_prefix, pattern='*.tar.*'):
-    for item in glob.glob(os.path.join(log_dir, pattern)):
+    cwd = os.getcwd()
+    os.chdir(log_dir)
+    for item in glob.glob(pattern):
         upload_log(item, upload_url_prefix)
+    os.chdir(cwd)
 
 
 class PopenWithName(subprocess.Popen):
