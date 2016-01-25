@@ -9,7 +9,7 @@ sed -i '/printf.*%.*%.*%.*%/s/ %/|%/g' /usr/share/qa/qa_test_lmbench/scripts/get
 TCF_FILE="${basedir}/lmbench.pagefault.tcf"
 cat <<EOF > ${TCF_FILE}
 timer 24h 
-fg 1 lmbench /usr/bin/do_lmbench pagefault
+fg 1 lmbench-pagefault /usr/bin/do_lmbench pagefault
 wait
 EOF
 $ctcsdir/tools/run $basedir/lmbench.pagefault.tcf

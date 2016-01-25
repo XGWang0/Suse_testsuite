@@ -9,7 +9,7 @@ sed -i '/printf.*%.*%.*%.*%/s/ %/|%/g' /usr/share/qa/qa_test_lmbench/scripts/get
 TCF_FILE="${basedir}/lmbench.mem.tcf"
 cat <<EOF > ${TCF_FILE}
 timer 24h 
-fg 1 lmbench /usr/bin/do_lmbench mem
+fg 1 lmbench-mem /usr/bin/do_lmbench mem
 wait
 EOF
 $ctcsdir/tools/run $basedir/lmbench.mem.tcf
