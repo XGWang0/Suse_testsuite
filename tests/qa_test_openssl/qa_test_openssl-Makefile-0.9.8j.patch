@@ -1,5 +1,7 @@
---- qa_test_openssl-0.9.8r.old/test/Makefile	2009-08-10 13:52:15.000000000 +0200
-+++ qa_test_openssl-0.9.8r/test/Makefile	2011-10-11 09:15:01.015643439 +0200
+Index: qa_test_openssl-0.9.8j/test/Makefile
+===================================================================
+--- qa_test_openssl-0.9.8j.orig/test/Makefile
++++ qa_test_openssl-0.9.8j/test/Makefile
 @@ -5,7 +5,7 @@
  DIR=		test
  TOP=		..
@@ -9,7 +11,7 @@
  CFLAG=		-g
  MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD $(MAKEDEPPROG)
  PERL=		perl
-@@ -23,11 +23,10 @@
+@@ -23,11 +23,10 @@ GENERAL=Makefile maketests.com \
  	tpkcs7.com tpkcs7d.com tverify.com testgen.com testss.com testssl.com \
  	testca.com VMSca-response.1 VMSca-response.2
  
@@ -25,7 +27,7 @@
  
  BNTEST=		bntest
  ECTEST=		ectest
-@@ -60,18 +59,6 @@
+@@ -60,18 +59,6 @@ RSATEST=	rsa_test
  ENGINETEST=	enginetest
  EVPTEST=	evp_test
  IGETEST=	igetest
@@ -44,7 +46,7 @@
  
  TESTS=		alltests
  
-@@ -83,12 +70,7 @@
+@@ -83,12 +70,7 @@ EXE=	$(BNTEST)$(EXE_EXT) $(ECTEST)$(EXE_
  	$(RANDTEST)$(EXE_EXT) $(DHTEST)$(EXE_EXT) $(ENGINETEST)$(EXE_EXT) \
  	$(BFTEST)$(EXE_EXT) $(CASTTEST)$(EXE_EXT) $(SSLTEST)$(EXE_EXT) $(EXPTEST)$(EXE_EXT) $(DSATEST)$(EXE_EXT) $(RSATEST)$(EXE_EXT) \
  	$(EVPTEST)$(EXE_EXT) $(IGETEST)$(EXE_EXT) \
@@ -58,7 +60,7 @@
  
  # $(METHTEST)$(EXE_EXT)
  
-@@ -101,10 +83,6 @@
+@@ -101,10 +83,6 @@ OBJ=	$(BNTEST).o $(ECTEST).o  $(ECDSATES
  	$(RANDTEST).o $(DHTEST).o $(ENGINETEST).o $(CASTTEST).o \
  	$(BFTEST).o  $(SSLTEST).o  $(DSATEST).o  $(EXPTEST).o $(RSATEST).o \
  	$(EVPTEST).o $(IGETEST).o \
@@ -69,7 +71,7 @@
  	jpaketest.o
  
  SRC=	$(BNTEST).c $(ECTEST).c  $(ECDSATEST).c $(ECDHTEST).c $(IDEATEST).c \
-@@ -115,10 +93,6 @@
+@@ -115,10 +93,6 @@ SRC=	$(BNTEST).c $(ECTEST).c  $(ECDSATES
  	$(RANDTEST).c $(DHTEST).c $(ENGINETEST).c $(CASTTEST).c \
  	$(BFTEST).c  $(SSLTEST).c $(DSATEST).c   $(EXPTEST).c $(RSATEST).c \
  	$(EVPTEST).c $(IGETEST).c \
@@ -80,7 +82,7 @@
  	jpaketest.c
  
  EXHEADER= 
-@@ -127,7 +101,7 @@
+@@ -127,7 +101,7 @@ HEADER=	$(EXHEADER)
  ALL=    $(GENERAL) $(SRC) $(HEADER)
  
  top:
@@ -89,7 +91,7 @@
  
  all:	exe
  
-@@ -149,10 +123,7 @@
+@@ -149,10 +123,7 @@ install:
  tags:
  	ctags $(SRC)
  
@@ -101,7 +103,7 @@
  
  alltests: \
  	test_des test_idea test_sha test_md4 test_md5 test_hmac \
-@@ -177,9 +148,6 @@
+@@ -177,9 +148,6 @@ test_sha:
  	../util/shlib_wrap.sh ./$(SHA1TEST)
  	../util/shlib_wrap.sh ./$(SHA256TEST)
  	../util/shlib_wrap.sh ./$(SHA512TEST)
@@ -111,7 +113,7 @@
  
  test_mdc2:
  	../util/shlib_wrap.sh ./$(MDC2TEST)
-@@ -216,9 +184,6 @@
+@@ -216,9 +184,6 @@ test_rc5:
  
  test_rand:
  	../util/shlib_wrap.sh ./$(RANDTEST)
@@ -121,7 +123,7 @@
  
  test_enc:
  	sh ./testenc
-@@ -283,9 +248,6 @@
+@@ -283,9 +248,6 @@ test_dsa:
  	@echo "Generate a set of DSA parameters"
  	../util/shlib_wrap.sh ./$(DSATEST)
  	../util/shlib_wrap.sh ./$(DSATEST) -app2_1
@@ -131,7 +133,7 @@
  
  test_gen:
  	@echo "Generate and verify a certificate request"
-@@ -305,9 +267,6 @@
+@@ -305,9 +267,6 @@ test_engine:
  test_ssl: keyU.ss certU.ss certCA.ss certP1.ss keyP1.ss certP2.ss keyP2.ss \
  		intP1.ss intP2.ss
  	@echo "test SSL protocol"
@@ -141,7 +143,7 @@
  	../util/shlib_wrap.sh ./$(SSLTEST) -test_cipherlist
  	@sh ./testssl keyU.ss certU.ss certCA.ss
  	@sh ./testsslproxy keyP1.ss certP1.ss intP1.ss
-@@ -336,13 +295,6 @@
+@@ -336,13 +295,6 @@ test_jpake: jpaketest$(EXE_EXT)
  lint:
  	lint -DLINT $(INCLUDES) $(SRC)>fluff
  
@@ -155,7 +157,7 @@
  dclean:
  	$(PERL) -pe 'if (/^# DO NOT DELETE THIS LINE/) {print; exit(0);}' $(MAKEFILE) >Makefile.new
  	mv -f Makefile.new $(MAKEFILE)
-@@ -360,7 +312,6 @@
+@@ -360,7 +312,6 @@ BUILD_CMD=shlib_target=; if [ -n "$(SHAR
  		shlib_target="$(SHLIB_TARGET)"; \
  	fi; \
  	LIBRARIES="$(LIBSSL) $(LIBCRYPTO) $(LIBKRB5)"; \
@@ -163,7 +165,7 @@
  	$(MAKE) -f $(TOP)/Makefile.shared -e \
  		APPNAME=$$target$(EXE_EXT) OBJECTS="$$target.o" \
  		LIBDEPS="$(PEX_LIBS) $$LIBRARIES $(EX_LIBS)" \
-@@ -396,71 +347,6 @@
+@@ -396,65 +347,6 @@ $(SHA256TEST)$(EXE_EXT): $(SHA256TEST).o
  $(SHA512TEST)$(EXE_EXT): $(SHA512TEST).o $(DLIBCRYPTO)
  	@target=$(SHA512TEST); $(BUILD_CMD)
  
@@ -172,9 +174,6 @@
 -	fi; \
 -	if [ "$(FIPSCANLIB)" = "libfips" ]; then \
 -		LIBRARIES="-L$(TOP) -lfips"; \
--	elif [ -n "$(FIPSCANLIB)" ]; then \
--		FIPSLD_CC="$(CC)"; CC=$(TOP)/fips/fipsld; export CC FIPSLD_CC; \
--		LIBRARIES="$${FIPSLIBDIR:-$(TOP)/fips/}fipscanister.o"; \
 -	else \
 -		LIBRARIES="$(LIBCRYPTO)"; \
 -	fi; \
@@ -187,9 +186,6 @@
 -		shlib_target="$(SHLIB_TARGET)"; \
 -	fi; \
 -	LIBRARIES="$(LIBSSL) $(LIBCRYPTO) $(LIBKRB5)"; \
--	if [ -z "$(SHARED_LIBS)" -a -n "$(FIPSCANLIB)" ] ; then \
--		FIPSLD_CC="$(CC)"; CC=$(TOP)/fips/fipsld; export CC FIPSLD_CC; \
--	fi; \
 -	[ "$(FIPSCANLIB)" = "libfips" ] && LIBRARIES="$$LIBRARIES -lfips"; \
 -	$(MAKE) -f $(TOP)/Makefile.shared -e \
 -		CC="$${CC}" APPNAME=$$target$(EXE_EXT) OBJECTS="$$target.o" \
@@ -235,7 +231,7 @@
  $(RMDTEST)$(EXE_EXT): $(RMDTEST).o $(DLIBCRYPTO)
  	@target=$(RMDTEST); $(BUILD_CMD)
  
-@@ -507,7 +393,7 @@
+@@ -501,7 +393,7 @@ $(METHTEST)$(EXE_EXT): $(METHTEST).o $(D
  	@target=$(METHTEST); $(BUILD_CMD)
  
  $(SSLTEST)$(EXE_EXT): $(SSLTEST).o $(DLIBSSL) $(DLIBCRYPTO)
@@ -244,9 +240,9 @@
  
  $(ENGINETEST)$(EXE_EXT): $(ENGINETEST).o $(DLIBCRYPTO)
  	@target=$(ENGINETEST); $(BUILD_CMD)
-@@ -540,402 +426,3 @@
+@@ -534,402 +426,3 @@ jpaketest$(EXE_EXT): jpaketest.o $(DLIBC
  dummytest$(EXE_EXT): dummytest.o $(DLIBCRYPTO)
- 	@target=dummytest; $(BUILD_CMD)
+ 	@target=dummytest$; $(BUILD_CMD)
  
 -# DO NOT DELETE THIS LINE -- make depend depends on it.
 -
