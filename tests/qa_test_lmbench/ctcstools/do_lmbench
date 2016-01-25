@@ -2,7 +2,7 @@
 
 MAKE_TARGET=rerun
 
-case in $1
+case "$1" in
     bcopy)
         MAKE_TARGET=rerun_bcopy
         ;;
