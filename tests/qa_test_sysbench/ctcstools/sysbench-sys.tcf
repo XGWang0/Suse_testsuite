@@ -71,42 +71,6 @@ fg 1 sysbench-threads sysbench-example-test -t threads -T 256
 wait
 
 timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 1 
-wait
-
-timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 2 
-wait
-
-timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 4 
-wait
-
-timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 8 
-wait
-
-timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 16
-wait
-
-timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 32
-wait
-
-timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 64
-wait
-
-timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 128
-wait
-
-timer 3600
-fg 1 sysbench-fileio sysbench-example-test -t fileio -T 256
-wait
-
-timer 3600
 fg 1 sysbench-memory sysbench-example-test -t memory -T 1 
 wait
 

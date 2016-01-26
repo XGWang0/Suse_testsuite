@@ -1,0 +1,35 @@
+diff -Nur sysbench-example-tests.orig/sysbench-example-test sysbench-example-tests/sysbench-example-test
+--- sysbench-example-tests.orig/sysbench-example-test	2016-01-22 19:45:15.632363495 +0800
++++ sysbench-example-tests/sysbench-example-test	2016-01-22 19:48:48.268289320 +0800
+@@ -56,14 +56,14 @@
+ 
+ case $TEST in
+     oltp)
+-	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/run/mysql/mysql.sock          \
++	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/var/lib/mysql/mysql.sock \
+ 	    --mysql-db=test --mysql-port=3306  cleanup >/dev/null 1>&2
+-	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/run/mysql/mysql.sock \
++	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/var/lib/mysql/mysql.sock \
+ 	    --mysql-db=test --mysql-port=3306 \
+ 	    --oltp-dist-type=uniform --oltp-read-only --oltp-order-ranges=0 \
+ 	    --oltp-table-size=1000000 --oltp-range-size=1000 prepare
+-	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/run/mysql/mysql.sock \
+-	    --mysql-db=test --mysql-port=3306 --mysql-table-engine=myisam \
++	sysbench --test=oltp --mysql-user=mysql --mysql-socket=/var/lib/mysql/mysql.sock \
++	    --mysql-db=test --mysql-port=3306 --mysql-table-type=myisam \
+ 	    --oltp-dist-type=uniform --oltp-read-only --oltp-order-ranges=0 \
+ 	    --oltp-table-size=1000000 --oltp-range-size=1000 --num-threads=$THREADS run
+ 	;;
+@@ -78,10 +78,10 @@
+ 	    --file-fsync-freq=on --num-threads=$THREADS run
+ 	;;
+     cpu)
+-	sysbench --test=cpu --num-threads=$THREADS run
++	sysbench --test=cpu --num-threads=$THREADS  --cpu-max-prime=20000 run
+ 	;;
+     memory)
+-	sysbench --test=memory --memory-total-size=10G --num-threads=$THREADS run
++	sysbench --test=memory --memory-total-size=10G --num-threads=$THREADS --memory-block-size=8k run
+ 	;;
+     *)
+ 	echo "Test $TEST does not exit, see -h"
