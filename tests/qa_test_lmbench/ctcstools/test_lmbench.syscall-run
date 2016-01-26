@@ -6,12 +6,10 @@ basedir="/usr/share/qa/qa_test_lmbench"
 #add "|" in log for compare,you can comment this line for generate log without "|"
 sed -i '/printf.*%.*%.*%.*%/s/ %/|%/g' /usr/share/qa/qa_test_lmbench/scripts/getsummary
 
-TCF_FILE="${basedir}/lmbench.tcf"
+TCF_FILE="${basedir}/lmbench.syscall.tcf"
 cat <<EOF > ${TCF_FILE}
 timer 24h 
-fg 1 lmbench /usr/bin/do_lmbench
+fg 1 lmbench-syscall /usr/bin/do_lmbench syscall
 wait
 EOF
-
-$ctcsdir/tools/run $basedir/lmbench.tcf
-
+$ctcsdir/tools/run $basedir/lmbench.syscall.tcf
