@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-#fix for pathes given to new root-dir (as third arg)
+#fix for paths given to new root-dir (as third arg)
 $MYROOT="/";
 if ($#ARGV == 2) {
          $MYROOT="$ARGV[2]";
@@ -35,6 +35,10 @@ print "Using $libdir as libdir\n";
 	'openposix' => ['pthread_rwlock_unlock_3_1',
 	                'pthread_rwlock_rdlock_2_1',
 	                'pthread_rwlock_rdlock_2_2'],
+        # See bugs #810929 and #810395
+	'commands' => ['mail', 'sssd01', 'sssd02', 'sssd03'],
+	# Timeouts, leaves the machine in undefined state
+	'controllers' => ['memcg_stress'],
 );
 
 # SLES10 (perl 5.8) compatibility cruft (there is no ~~ operator)

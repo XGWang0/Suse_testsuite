@@ -87,7 +87,7 @@ Requires:	rpmbuild
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20150903
+Version:        20160126
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
@@ -96,7 +96,7 @@ Source2:	qa_test_ltp.8
 Source3:	leapsec.tcf
 
 # Compiler warnings and workarounds
-Patch102:	disable-min_free_kbytes.patch
+Patch101:	disable-min_free_kbytes.patch
 # Patches 2xx Build Environment Patches
 # Waiting for upstream approval
 # Patches 3xx RPMLinit Warning Fixes
@@ -134,7 +134,9 @@ Authors:
 %prep
 %setup -q -n ltp-full-%{version} -a1
 # Compiler warnings and workarounds
-%patch102 -p1
+%if 0%{?suse_version} < 1220
+%patch101 -p1
+%endif
 # Patches 2xx Build Environment Patches
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes
@@ -156,7 +158,6 @@ Authors:
 
 %configure --prefix=/opt/ltp --with-openposix-testsuite --with-realtime-testsuite
 find testcases | gzip --fast > TC_INDEX.gz
-cat /usr/include/linux/version.h
 make all %{?jobs:-j%jobs}
 make -C testcases/open_posix_testsuite all
 
@@ -201,11 +202,12 @@ $RPM_BUILD_ROOT/usr/lib/ctcs2/tools/ltp-generator 720 %{_libdir} $RPM_BUILD_ROOT
 # Install leap second tcf file
 install %{SOURCE3} $RPM_BUILD_ROOT/usr/share/qa/qa_test_ltp/tcf/
 
-#Exclude tst_brk
-HARDLINKS="tst_brkm tst_res tst_resm tst_exit tst_flush tst_brkloop tst_brkloopm tst_kvercmp"
+# Exclude tst_brkm
+HARDLINKS1="tst_exit tst_flush tst_fs_has_free tst_get_unused_port tst_kvercmp tst_brk"
+HARDLINKS2="tst_res tst_kvercmp2 tst_ncpus tst_ncpus_conf tst_ncpus_max tst_resm"
 cd $RPM_BUILD_ROOT/opt/ltp/testcases/bin
-for n in $HARDLINKS; do
-	ln -s -f tst_brk $n
+for n in $HARDLINKS1 $HARDLINKS2; do
+	ln -s -f tst_brkm $n
 done
 
 %files
