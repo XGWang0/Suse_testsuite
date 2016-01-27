@@ -1,0 +1,12 @@
+#!/bin/sh
+TCF_FILE=/usr/share/qa/tcf/socket.tcf
+CTCS2_DIR=/usr/lib/ctcs2
+
+cat <<EOF >> ${TCF_FILE}
+timer 3600
+fg 1 libmicro-socket /usr/lib/libMicro/bin/bench_socket.sh
+wait
+EOF
+
+$CTCS2_DIR/tools/run ${TCF_FILE}
+

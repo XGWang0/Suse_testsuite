@@ -90,8 +90,7 @@ install -m 755 *.sh $RPM_BUILD_ROOT/usr/lib/libMicro/bin
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
-cp ctcstools/test_libmicro-bench-run $RPM_BUILD_ROOT/usr/share/qa/tools
-cp ctcstools/test_libmicro-run $RPM_BUILD_ROOT/usr/share/qa/tools
+cp ctcstools/test_libmicro-* $RPM_BUILD_ROOT/usr/share/qa/tools
 cp ctcstools/libmicro-bench.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
 cp ctcstools/libmicro.tcf $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
 cp ctcstools/bench_* $RPM_BUILD_ROOT/usr/lib/libMicro/bin
@@ -108,6 +107,7 @@ ln -s ../%{name}/tcf/libmicro.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/libmicro.tcf
 /usr/share/qa
 %attr(0755,root,root) /usr/share/qa/tools/test_libmicro-bench-run
 %attr(0755,root,root) /usr/share/qa/tools/test_libmicro-run
+%attr(0755,root,root) /usr/share/qa/tools/test_libmicro-*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
