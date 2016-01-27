@@ -4,7 +4,7 @@ CTCS2_DIR=/usr/lib/ctcs2
 
 cat <<EOF >> ${TCF_FILE}
 timer 3600
-fg 1 libmicro-contextswitch /usr/lib/libMicro/bin/bench_file.sh
+fg 1 libmicro-file /usr/lib/libMicro/bin/bench_file.sh
 wait
 EOF
 
