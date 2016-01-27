@@ -29,7 +29,7 @@ diff -Nur sysbench-example-tests.orig/sysbench-example-test sysbench-example-tes
  	;;
      memory)
 -	sysbench --test=memory --memory-total-size=10G --num-threads=$THREADS run
-+	sysbench --test=memory --memory-total-size=10G --num-threads=$THREADS --memory-block-size=8k run
++	sysbench --test=memory --memory-total-size=10G --num-threads=$THREADS --memory-block-size=8K run
  	;;
      *)
  	echo "Test $TEST does not exit, see -h"
