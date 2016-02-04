@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_hacluster",
+  "summary": "(rd-)qa internal package for HA setup",
+  "description": "\nThis is a package that contains scripts for HA cluster setup.\nAuthors:\n--------\nVit Pelcak <vpelcak@novell.com>",
+  "status": "ready",
+  "maintainer": "VPelcak@novell.com",
+  "rpm": "qa_test_hacluster-0.6.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "hacluster",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:20 UTC",
+  "tags": [
+
+  ]
+}
