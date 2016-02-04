@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_evolution",
+  "summary": "Simple evolution tests for ctcs framework",
+  "description": "\nTest cases for evolution package. Initailly only have a test demo",
+  "status": "ready",
+  "maintainer": "cachen@novell.com",
+  "rpm": "qa_test_evolution-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "evolution",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:37 UTC",
+  "tags": [
+
+  ]
+}
