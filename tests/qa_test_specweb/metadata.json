@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_specweb",
+  "summary": "Specweb benchmark for ctcs framework",
+  "description": "\nSpecweb benchmark. Tests local web server from one local client with various number of simultaneous connections.",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_specweb-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "specweb",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:35 UTC",
+  "tags": [
+
+  ]
+}
