@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_numbench",
+  "summary": "simple benchmark for CPU test.",
+  "description": "\nAuthor : Junwei Hao (jhao@suse.com)\nrun 5 iterative algorithms(like fibonacci sequence)\ncalculate every CPU cost measured by seconds:",
+  "status": "ready",
+  "maintainer": "aguo@novell.com",
+  "rpm": "qa_test_numbench-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "numbench",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:29 UTC",
+  "tags": [
+
+  ]
+}
