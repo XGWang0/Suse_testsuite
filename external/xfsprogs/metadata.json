@@ -1,0 +1,16 @@
+{
+  "name": "xfsprogs",
+  "summary": "Utilities for managing the XFS file system",
+  "description": "\nA set of commands to use the XFS file system, including mkfs.xfs.\nXFS is a high performance journaling file system which originated on\nthe SGI IRIX platform.\tIt is completely multithreaded. It can support\nlarge files and large file systems, extended attributes, and variable\nblock sizes.It is extent based and makes extensive use of Btrees\n(directories, extents, and free space) to aid both performance and\nscalability.\nRefer to the documentation at http://oss.sgi.com/projects/xfs/ for\ncomplete details.  This implementation is on-disk compatible with the\nIRIX version of XFS.\nAuthors:\n--------\nSGI",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "xfsprogs-3.1.8-0.noarch.rpm",
+  "arch": "noarch",
+  "product": "xfsprogs",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:24:56 UTC",
+  "tags": [
+
+  ]
+}
