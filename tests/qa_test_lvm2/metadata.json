@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_lvm2",
+  "summary": "lvm2 regression tests for ctcs framework",
+  "description": "\nRegression tests for Logical Volume Manager\nAuthors:\n--------\nDinar Valeev <dvaleev@novell.com>",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_lvm2-0.1-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "lvm2",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:46 UTC",
+  "tags": [
+
+  ]
+}
