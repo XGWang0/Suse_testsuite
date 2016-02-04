@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_memeat",
+  "summary": "rd-qa-kernel internal package for easy memstressing",
+  "description": "\nContains an easy program that eats up nearly all available (low) mem of\nthe system and does read and write operations on it.\nAuthors:\n--------\nAndi Kleen <ak@suse.de>",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_memeat-0.1-224.noarch.rpm",
+  "arch": "noarch",
+  "product": "memeat",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:59 UTC",
+  "tags": [
+
+  ]
+}
