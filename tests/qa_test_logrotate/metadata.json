@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_logrotate",
+  "summary": "QA package for testing logrotate",
+  "description": "\nTests the following features of logrotate: addextension, compression, copy_log, dateformat, force_rotate, ifempty, log_order, log_size, no_force_rotate, notifempty, and remove_old_logs.\nAuthors:\n--------\nDavid Mulder <dmulder@suse.com>",
+  "status": "ready",
+  "maintainer": "dmulder@suse.com",
+  "rpm": "qa_test_logrotate-0.11-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "logrotate",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:34 UTC",
+  "tags": [
+
+  ]
+}
