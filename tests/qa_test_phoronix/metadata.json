@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_phoronix",
+  "summary": "The most comprehensive testing and benchmarking platform for the Linux",
+  "description": "\nThis software is designed to effectively carry out both qualitative and quantitative benchmarks is a clean,reproducible,and easy-to-use manner.\nThe Phoronix Test Suite consists of a lightweight processing core(pts-core) with each benchmark consisting of an XML-based profile with related resource scripts.The process from the benchmark installation,to the actual benchmarking,to the parsing of important hardware and software components is heavily automated and completely repeatable,asking usrs only for confirmation of actions.",
+  "status": "ready",
+  "maintainer": "jtang@novell.com",
+  "rpm": "qa_test_phoronix-2.2.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "phoronix",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:47 UTC",
+  "tags": [
+
+  ]
+}
