@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_aim9",
+  "summary": "AIM Independent Resource Benchmark - Suite IX",
+  "description": "\nThe AIM Independent Resource Benchmark exercises and times each\ncomponent of a UNIX computer system, independently. The benchmark uses\n58 subtests to generate absolute processing rates, in operations per\nsecond, for subsystems, I/O transfers, function calls, and UNIX system\ncalls.\nTest results can be used to compare different machines on a\ntest-by-test basis or to measure the success or failure of system\ntuning and configuration changes on a single system. This benchmark\nyields specific results on a per-test basis.\nSuSE series: suse",
+  "status": "ready",
+  "maintainer": "VMarsik@novell.com",
+  "rpm": "qa_test_aim9-1-141.noarch.rpm",
+  "arch": "noarch",
+  "product": "aim9",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:25 UTC",
+  "tags": [
+
+  ]
+}
