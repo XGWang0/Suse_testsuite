@@ -1,0 +1,16 @@
+{
+  "name": "dt",
+  "summary": "Generic data test program",
+  "description": "\ndt is a generic data test program used to verify proper operation of\nperipherals, file systems, device drivers, or any data stream supported\nby the operating system.  In its simplest mode of operation, dt writes\nand then verifys its default data pattern, then displays performance\nstatisics and other test parameters before exiting.  Since verification\nof data is performed, dt can be thought of as a generic diagnostic tool.",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "dt-17.25-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "dt",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:24:46 UTC",
+  "tags": [
+
+  ]
+}
