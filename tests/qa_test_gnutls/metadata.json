@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_gnutls",
+  "summary": "Tests for the gnutls package, prepared to run under the ctcs framework",
+  "description": "\nTest cases for the gnutls package.\nThe following command line utilities are tested:\ngnutls-cli, gnutls-cli-debug, gnutls-serv, certtool, srptool\nImplements TESTOPIA testcases 233364 - 233369 (as of 2010)",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_gnutls-0.3-1.1.noarch.rpm",
+  "arch": "noarch",
+  "product": "gnutls",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:14 UTC",
+  "tags": [
+
+  ]
+}
