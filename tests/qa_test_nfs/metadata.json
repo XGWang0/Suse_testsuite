@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_nfs",
+  "summary": "Basic NFS tests for nfsv3 and nfsv4",
+  "description": "\nBasic NFS tests for nfsv3 and nfsv4. Including: [nfs_start_stop] Start\nand stop nfs daemon.\n[nfs_mount_umount] Mount and umount directories with various params.\n[nfs_read] Read text and binary data and make simple directory tree\nwith folders, files and links and check them.\n[nfs_write] The same as nfs_read, but writes to mounted dir and check\nwith local dir.\n[nfs_dontwrite] Try write to mounted dir with no permision, mounted as\nro etc.\n[nfs_usermapping_*] Mount directories with params root_squash,\nno_root_squash and all_squash and check correct granting and denying\nfor root and user.",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_nfs-0.2-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "nfs",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:23 UTC",
+  "tags": [
+
+  ]
+}
