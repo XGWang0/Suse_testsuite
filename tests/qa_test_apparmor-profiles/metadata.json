@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_apparmor-profiles",
+  "summary": "apparmor profile tests",
+  "description": "\nThis package contains tcf files for apparmor profile testing.\nCurrently the following profiles are tested:\n- tcp commands:ping\n- tcp commands:traceroute\n- apache",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_apparmor-profiles-1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "apparmor-profiles",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:34 UTC",
+  "tags": [
+
+  ]
+}
