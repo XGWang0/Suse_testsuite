@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_lmbench",
+  "summary": "Some benchmarks",
+  "description": "\nlmbench is a series of micro benchmarks intended to measure basic\noperating system and hardware system metrics.\nAuthors:\n--------\nLarry McVoy <lm@who.net>",
+  "status": "ready",
+  "maintainer": "VMarsik@novell.com",
+  "rpm": "qa_test_lmbench-3svn1324-5.noarch.rpm",
+  "arch": "noarch",
+  "product": "lmbench",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:31 UTC",
+  "tags": [
+
+  ]
+}
