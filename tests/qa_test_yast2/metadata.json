@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_yast2",
+  "summary": "RD-QA internal yast2-gui-testingset",
+  "description": "\nTest of YaST online update (so far)\nAuthors:\n--------\nfseidel@suse.de",
+  "status": "ready",
+  "maintainer": "LLipavsky@novell.com",
+  "rpm": "qa_test_yast2-0.1-130.noarch.rpm",
+  "arch": "noarch",
+  "product": "yast2",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:31:26 UTC",
+  "tags": [
+
+  ]
+}
