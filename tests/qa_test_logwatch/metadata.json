@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_logwatch",
+  "summary": "QA package for testing logwatch",
+  "description": "\nTests the following features of logwatch: .\nAuthors:\n--------\nDavid Mulder <dmulder@suse.com>",
+  "status": "ready",
+  "maintainer": "dmulder@suse.com",
+  "rpm": "qa_test_logwatch-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "logwatch",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:37 UTC",
+  "tags": [
+
+  ]
+}
