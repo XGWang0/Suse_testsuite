@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_autotest",
+  "summary": "Kernel test suite",
+  "description": "\nAutotest with the packed tests/suites is used for kernel testing. This\nharness especially is used for testing the mainline kernel.\nAuthors:\n--------\nVarious people from test.kernel.org",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_autotest-0.13.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "autotest",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:37 UTC",
+  "tags": [
+
+  ]
+}
