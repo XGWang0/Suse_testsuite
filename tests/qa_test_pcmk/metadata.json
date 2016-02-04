@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_pcmk",
+  "summary": "Pacemaker internal test suite",
+  "description": "\nPacemaker internal testsuite.\nUses crm_simulate to emulate different scenarios\nAuthors:\n--------\nDinar Valeev <dvaleev@novell.com>",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_pcmk-1.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "pcmk",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:41 UTC",
+  "tags": [
+
+  ]
+}
