@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_fs_stress",
+  "summary": "file system stress test",
+  "description": "\nfile system stress test",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_fs_stress-0.1-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "stress",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:02 UTC",
+  "tags": [
+
+  ]
+}
