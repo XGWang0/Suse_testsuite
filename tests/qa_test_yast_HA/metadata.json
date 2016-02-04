@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_yast_HA",
+  "summary": "HA Yast tools UI Automation tests",
+  "description": "\nUI Automation test cases for HA Yast tools package, include yast2-cluster yast2-iplb yast2-drbd",
+  "status": "ready",
+  "maintainer": "cachen@novell.com",
+  "rpm": "qa_test_yast_HA-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "HA",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:31:29 UTC",
+  "tags": [
+
+  ]
+}
