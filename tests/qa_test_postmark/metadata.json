@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_postmark",
+  "summary": "A filesystem benchmarking tool",
+  "description": "\nExisting file system benchmarks are deficient in portraying\nperformance in the ephemeral small-file regime used by Internet\nsoftware, especially:\n* electronic mail\n* netnews\n* web-based commerce\nPostMark is a new benchmark to measure performance for this class of\napplication.\nAuthors:\n--------\nNetApp",
+  "status": "ready",
+  "maintainer": "yxu@suse.com",
+  "rpm": "qa_test_postmark-1.51-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "postmark",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:59 UTC",
+  "tags": [
+
+  ]
+}
