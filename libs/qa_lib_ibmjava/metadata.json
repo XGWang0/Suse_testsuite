@@ -1,0 +1,16 @@
+{
+  "name": "qa_lib_ibmjava",
+  "summary": "Shared QA IBM Java functions",
+  "description": "\nIBM Java QA scripts",
+  "status": "ready",
+  "maintainer": "mvyskocil@suse.cz",
+  "rpm": "qa_lib_ibmjava-1.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "ibmjava",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:24:59 UTC",
+  "tags": [
+
+  ]
+}
