@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_mozmill",
+  "summary": "An automation test framework for firefox.",
+  "description": "\nMozMill is a test tool and framework for writing automated tests for Gecko based applications (Firefox etc).\nIt is built as a command line client tools to help users write, run, and debug tests.\nAuthors:\n--------\nArthur Guo <aguo@novell.com>",
+  "status": "ready",
+  "maintainer": "aguo@novell.com",
+  "rpm": "qa_test_mozmill-0.2-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "mozmill",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:05 UTC",
+  "tags": [
+
+  ]
+}
