@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_apparmor",
+  "summary": "apparmor tests",
+  "description": "\nThis package contains different types of tests:\n- regression tests for apparmor_parser\n- regression tests for the kernel module\n- stress tests\n- parser tests",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_apparmor-2.5.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "apparmor",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:31 UTC",
+  "tags": [
+
+  ]
+}
