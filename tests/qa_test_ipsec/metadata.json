@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_ipsec",
+  "summary": "qa_test_ipsec",
+  "description": "\nstrongSwan is an OpenSource IPsec implementation for the Linux operating system.\nAuthors:\n--------\nAndreas Steffen",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_ipsec-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "ipsec",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:45 UTC",
+  "tags": [
+
+  ]
+}
