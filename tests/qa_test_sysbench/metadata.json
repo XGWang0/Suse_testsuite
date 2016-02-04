@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_sysbench",
+  "summary": "A MySQL benchmarking tool",
+  "description": "\nThis benchmark was designed for identifying basic system parameters, as\nthey are important for systems using MySQL (w Innodb) under intensive\nload.\nAuthors:\n--------\nAlexey Kopytov (alexeyk@mysql.com)\nKonstantin Osipov (rabidtransit@users.sourceforge.net)",
+  "status": "ready",
+  "maintainer": "jli@suse.com",
+  "rpm": "qa_test_sysbench-0.4.8-64.noarch.rpm",
+  "arch": "noarch",
+  "product": "sysbench",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:47 UTC",
+  "tags": [
+
+  ]
+}
