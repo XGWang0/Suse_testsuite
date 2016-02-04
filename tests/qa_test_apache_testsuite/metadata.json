@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_apache_testsuite",
+  "summary": "(rd-)qa internal package for testing apache and apache2",
+  "description": "\nThis package contains automated tests for apache developed with\nperl-framework.",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_apache_testsuite-894558-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "testsuite",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:28 UTC",
+  "tags": [
+
+  ]
+}
