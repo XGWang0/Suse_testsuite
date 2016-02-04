@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_hazard",
+  "summary": "(rd-)qa internal package for training",
+  "description": "\nHP hazard only for Novell.\nHP Hazard provides automated storage device reliability testing which focuses on\nhigh availability (HA).\nAuthors:\n--------\nJerry Tang <jtang@novell.com>",
+  "status": "ready",
+  "maintainer": "jtang@novell.com",
+  "rpm": "qa_test_hazard-0.1-5.noarch.rpm",
+  "arch": "noarch",
+  "product": "hazard",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:23 UTC",
+  "tags": [
+
+  ]
+}
