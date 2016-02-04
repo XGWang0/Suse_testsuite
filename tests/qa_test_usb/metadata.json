@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_usb",
+  "summary": "testusb",
+  "description": "\nA USB test suit.",
+  "status": "ready",
+  "maintainer": "yxu@suse.com",
+  "rpm": "qa_test_usb-1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "usb",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:31:12 UTC",
+  "tags": [
+
+  ]
+}
