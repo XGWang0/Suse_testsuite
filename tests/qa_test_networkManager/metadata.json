@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_networkManager",
+  "summary": "Simple network manager tests for ctcs framework",
+  "description": "\nTest cases for network manager package.",
+  "status": "ready",
+  "maintainer": "cachen@novell.com",
+  "rpm": "qa_test_networkManager-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "networkManager",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:17 UTC",
+  "tags": [
+
+  ]
+}
