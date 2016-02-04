@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_cups",
+  "summary": "CUPS automated testsuite",
+  "description": "\nCUPS automated testsuite\nIncludes:\nIPP compiance tests\nCommand tests",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_cups-1.0-0.noarch.rpm",
+  "arch": "noarch",
+  "product": "cups",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:21 UTC",
+  "tags": [
+
+  ]
+}
