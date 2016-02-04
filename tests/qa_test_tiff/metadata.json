@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_tiff",
+  "summary": "Unittests for tiff",
+  "description": "\nTest cases for tiff package.",
+  "status": "ready",
+  "maintainer": "tchvatal@suse.com",
+  "rpm": "qa_test_tiff-4.0.0beta7-21.noarch.rpm",
+  "arch": "noarch",
+  "product": "tiff",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:56 UTC",
+  "tags": [
+
+  ]
+}
