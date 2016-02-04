@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_cpio",
+  "summary": "Simple cpio test for ctcs framework",
+  "description": "\nTest case for cpio package. Tests all available archive formats",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_cpio-0.1-4.noarch.rpm",
+  "arch": "noarch",
+  "product": "cpio",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:12 UTC",
+  "tags": [
+
+  ]
+}
