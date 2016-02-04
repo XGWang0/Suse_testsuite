@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_clamav",
+  "summary": "(rd-)qa internal package for testing clamav",
+  "description": "\ntest suite for clamav and freshclam testing\nAuthors:\n--------\nAndrej Semen asemen@suse.de",
+  "status": "ready",
+  "maintainer": "asemen@novell.com",
+  "rpm": "qa_test_clamav-0.6-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "clamav",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:03 UTC",
+  "tags": [
+
+  ]
+}
