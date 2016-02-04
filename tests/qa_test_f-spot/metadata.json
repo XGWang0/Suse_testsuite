@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_f-spot",
+  "summary": "a simple testsuite for f-spot",
+  "description": "\nTest Cases for f-spot, now only contains test cases for import images",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_f-spot-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "f-spot",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:40 UTC",
+  "tags": [
+
+  ]
+}
