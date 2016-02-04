@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_postfix",
+  "summary": "Basic postfix tests for ctcs framework",
+  "description": "\nTestcases for postfix package. Tests start, restart and stop of the\nservice (so far)",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_postfix-0.2-192.noarch.rpm",
+  "arch": "noarch",
+  "product": "postfix",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:56 UTC",
+  "tags": [
+
+  ]
+}
