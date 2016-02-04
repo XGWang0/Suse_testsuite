@@ -1,0 +1,16 @@
+{
+  "name": "qa_testset_jenkins",
+  "summary": "Qa package for regressiont and kotd automation integration test on jenkins",
+  "description": "\nQA tool for regression and kotd automation test on Jenkins",
+  "status": "ready",
+  "maintainer": "xgwang@suse.com",
+  "rpm": "qa_testset_jenkins-1.0-0.noarch.rpm",
+  "arch": "noarch",
+  "product": "jenkins",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:18 UTC",
+  "tags": [
+
+  ]
+}
