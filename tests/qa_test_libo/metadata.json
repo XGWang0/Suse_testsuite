@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_libo",
+  "summary": "qa internal package for libreoffice",
+  "description": "\nThis is a qa_libo test package that can be used to\ntest libreoffice through testtool.\nAuthors:\n--------\nYifan Jiang <yfjiang@novell.com>",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_libo-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "libo",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:25 UTC",
+  "tags": [
+
+  ]
+}
