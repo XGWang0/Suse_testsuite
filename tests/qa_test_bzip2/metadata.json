@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_bzip2",
+  "summary": "(rd-)qa internal package for testing bzip2",
+  "description": "\nthis is the first rd-qa internal package following the new rd-qa\ninternal policies and may be taken as a template for other similar ones\nAuthors:\n--------\nFrank Seidel <fseidel@suse.de>",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_bzip2-0.2-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "bzip2",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:56 UTC",
+  "tags": [
+
+  ]
+}
