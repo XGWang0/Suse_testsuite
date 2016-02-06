@@ -92,7 +92,7 @@ for phase in $testPhases;do
 	elif [ "$phase" = "vhPrepAndUpdate" ];then
 		timer=28800
 	elif [ "$phase" = "vhUpdatePostVerification" ];then
-		timer=9000
+		timer=12600
 	fi
 	tcfName="$testNamePrefix-0$step.tcf"
 	if [ $step -eq 3 -a "$phase" == "vhUpdateVirt" ];then
