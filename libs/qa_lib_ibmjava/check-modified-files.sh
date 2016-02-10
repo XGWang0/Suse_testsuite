@@ -9,46 +9,6 @@ E_FAILED=1
 E_ERROR=11
 E_SKIPPED=22
 
-function check_filelist() {
-
-    local tempfile errfile
-
-    for package in $(cat ${1} | cut -d ';' -f 4 | sort -u); do
-
-        echo $package
-
-        tempfile=check_filelist.${package}
-        errfile=md5sum_stderror.${package}
-        grep "${package}$" "${1}"  | cut -d ';' -f 1,3 | sed 's@;@  /@' > "${tempfile}"
-
-        exec 3> "${errfile}"
-        if ! md5sum -c ${tempfile} >/dev/null 2>&3; then
-            # the md5sum ends with an error
-            if [[ $(grep "No such file or directory" "${errfile}" | wc -l) == $(wc -l < "${tempfile}") ]]; then
-                # no file of such package is installed
-                if is_mandatory_package "${package}"; then
-                    # which is fatal for main package
-                    error "ERROR: ${package} is not installed on a system"
-                    exit ${E_ERROR}
-                else
-                    # but not for a subpackage as it can be intentional
-                    error "WARNING: ${package} is not installed, skipping the check"
-                    continue
-                fi
-            fi
-
-            # md5sum does not match - this is serious error
-            error "ERROR: md5sum for ${package} have failed"
-            ecat "${errfile}"
-            exit ${E_ERROR}
-        fi
-
-    done
-
-    return 0
-
-}
-
 function error() {
 
     echo "${@}" >&2
@@ -86,8 +46,14 @@ function parse_args() {
         *6*)
             MAIN_PACKAGE="java-1_6_0-ibm"
             ;;
+        *7.1*|*7_1*)
+            MAIN_PACKAGE="java-1_7_1-ibm"
+            ;;
         *7*)
             MAIN_PACKAGE="java-1_7_0-ibm"
+            ;;
+        *8*)
+            MAIN_PACKAGE="java-1_8_0-ibm"
             ;;
         *)
             error "Unkown value ${1}"
@@ -143,33 +109,34 @@ function check() {
     for package in $(get_packages_from_filelist "${qa_filelist}"); do
 
         tempfile=check_filelist.${package}
-        errfile=md5sum_stderror.${package}
+        stdout=md5sum_stdout.${package}
+        stderr=md5sum_stderror.${package}
 
         # make qa_filelist md5sum compatible
         grep "${package}$" "${qa_filelist}"  | cut -d ';' -f 1,3 | sed 's@;@  /@' > "${tempfile}"
         
-        exec 3> "${errfile}"
+        exec 3> "${stdout}"
+        exec 4> "${stderr}"
         
-        if ! md5sum -c ${tempfile} >/dev/null 2>&3; then
-
+        if ! md5sum -c ${tempfile} >&3 2>&4; then
             # the md5sum ends with an error
-            if [[ $(grep "No such file or directory" "${errfile}" | wc -l) == $(wc -l < "${tempfile}") ]]; then
-                # no file of such package is installeda
-                # FIXME: that cannot happen as we did such check in main, remove in future
-                if [[ "${package}" == "${main_package}" ]]; then
-                    # which is fatal for main package
-                    error "ERROR: ${package} is not installed on a system"
-                    exit ${E_ERROR}
-                else
-                    # but not for a subpackage as it can be intentional
-                    error "WARNING: ${package} is not installed, skipping the check"
-                    continue
-                fi
+            if [[ $(grep "No such file or directory" "${stderr}" | wc -l) == $(wc -l < "${tempfile}") ]]; then
+                # but not for a subpackage as it can be intentional
+                error "WARNING: ${package} is not installed, skipping the check"
+                continue
+            fi
+            # the "file" is actualy a symlink generated later on and thus
+            # we get "Is a directory" which we can skip
+            if [[ $(grep "Is a directory" "${stderr}" | wc -l) > 0 ]]; then
+                echo "INFO: ${package} contains file converted to symlink (Is a drectory md5sum report):"
+                cat "${stderr}"
+		continue
             fi
 
             # md5sum does not match - this is serious error
             error "ERROR: md5sum for ${package} have failed"
-            ecat "${errfile}"
+            grep 'FAILED$' "${stdout}" >&2
+            ecat "${stderr}"
             exit ${E_ERROR}
         fi
 

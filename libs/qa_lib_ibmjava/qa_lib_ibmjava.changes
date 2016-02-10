@@ -1,9 +1,17 @@
 -------------------------------------------------------------------
+Wed Feb 10 14:37:35 CET 2016 - pgeorgiadis@suse.de
+
+-  Remove duplicated function, fix issue with empty-file to symlink coversation
+-  support for java-1_7_1-ibm
+-  support for java-1_8_0-ibm
+-  cleanup of error handling
+
+-------------------------------------------------------------------
 Wed Jul 11 13:23:40 UTC 2012 - mvyskocil@suse.cz
 
-- support for java-1_7_0-ibm 
+- support for java-1_7_0-ibm
 
 -------------------------------------------------------------------
 Tue Nov 22 10:11:13 UTC 2011 - mvyskocil@suse.cz
 
-- Initial version 1.0 of qa_lib_ibmjava 
+- Initial version 1.0 of qa_lib_ibmjava
