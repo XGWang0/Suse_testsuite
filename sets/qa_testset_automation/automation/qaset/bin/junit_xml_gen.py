@@ -250,12 +250,11 @@ class TestsuiteParser(BaseParser):
     # 
     # Return: {'status': <status>, }
     def extract_result_line(self, line):
-        m = re.search(r'\d+(\s+\d+){5}', line) 
-        assert m is not None, "Invalid result line: %s" % (line)
         nums = line.split()
         nums = map(int, nums)
-        assert nums[2] > 0, "No tests found: %s" % (line)
-        status = None
+        if nums[2] <= 0:
+            nums[2] = 1
+        status = TestsuiteParser.RESULT_ITEMS[1]
         for i in [0, 4, 1, 5]:
             if nums[i] > 0:
                 status = TestsuiteParser.RESULT_ITEMS[i]
@@ -276,28 +275,19 @@ class TestsuiteParser(BaseParser):
     #               'log'       : <100 lines of the log>}]
     def parse_testcases(self):
         self.data['testcases'] = []
-        testcase_name = ''
         line_num = 0
         self.logger.debug("Parsing file %s" % (self.test_results_file))
         with file(self.test_results_file, 'r') as f:
-            # Parse test_results file line by line
-            for line in f:
-                line_num += 1
-                line = line.strip()
-                # Testcase name line
-                if line_num % 2 == 1:
-                    testcase_name = line
-                    self.logger.debug("Parsing testcase %s" % (testcase_name))
-                    assert len(testcase_name) != 0, "[%s:%s]Invalid format" % (self.test_results_file, line_num)
-                    continue
-                # Test result line
-                self.logger.debug("Getting results of testcase %s" % (testcase_name))
-                try:
-                    extracted = self.extract_result_line(line)
-                except Exception, e:
-                    self.logger.error("[%s:%s]Invalid format" % (self.test_results_file, line_num))
-                    self.logger.debug(traceback.format_exc())
-                    raise e
+            while True:
+                testcase_name = f.readline().strip()
+                testcase_result = f.readline().strip()
+                line_num += 2
+                if len(testcase_name) == 0 or \
+                    (not re.search(r'\d+(\s+\d+){5}', testcase_result)):
+                    self.logger.error("[%s:%s]Invalid format" % (self.data['name'], line_num))
+                    return
+                self.logger.debug("Parsing testcase %s.%s" % (self.data['name'], testcase_name))
+                extracted = self.extract_result_line(testcase_result)
                 try:
                     tp = TestcaseParser(os.path.join(self.path, testcase_name), extracted, logger=self.logger)
                     tp.parse()
@@ -317,10 +307,6 @@ class TestsuiteParser(BaseParser):
                 for k, v in tmp.items():
                     if testcase_data['status'] == k:
                         self.data[v] += 1
-                # Prepare for next loop
-                testcase_name = ''
-        assert line_num % 2 == 0, ("No test result of testcase '%s'(%s:%s)" %
-                                (testcase_name, self.test_results_file, line_num))
 
     # Parse all the data.
     def parse(self):
