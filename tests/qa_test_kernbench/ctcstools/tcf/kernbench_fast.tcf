@@ -1,0 +1,5 @@
+#This script is porting from kernbench.tcf, and append f option for fast mode.
+#In fast mode, run 3 times build progress override default(5 times).
+
+fg 1 kernbench /usr/share/qa/qa_test_kernbench/do_kernbench -f
+wait

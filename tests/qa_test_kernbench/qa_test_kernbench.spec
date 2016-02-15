@@ -18,6 +18,7 @@ Source1:      test_kernbench-run
 Source2:      ctcstools-%version.tar.bz2
 Source3:      README
 Source4:	qa_test_kernbench.8
+Source5:	test_kernbench-fast-run
 Patch0:       maxload.patch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
@@ -71,7 +72,10 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
 install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 755 %{S:5} $RPM_BUILD_ROOT/usr/share/qa/tools
 ln -s ../%name/tcf/kernbench.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
+ln -s ../%name/tcf/kernbench_fast.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 mv README $RPM_BUILD_ROOT/usr/share/qa/%name
 mv kernbench $RPM_BUILD_ROOT/usr/bin/kernbench
 cp -a ctcstools/* $RPM_BUILD_ROOT/usr/share/qa/%name
