@@ -54,7 +54,7 @@ def_simple_run lmbench_tcp          "/usr/share/qa/tools/test_lmbench.tcp-run" q
 def_simple_run lmbench_udp          "/usr/share/qa/tools/test_lmbench.udp-run" qa_test_lmbench
 def_simple_run lmbench_unix         "/usr/share/qa/tools/test_lmbench.unix-run" qa_test_lmbench
 
-
+def_simple_run kernbench_fast   "/usr/share/qa/tools/test_kernbench-fast-run" qa_test_kernbench
 
 def_simple_run libmicro_bench "/usr/share/qa/tools/test_libmicro-bench-run" qa_test_libmicro
 def_simple_run lmbench_bench "/usr/share/qa/tools/test_lmbench-run" qa_test_lmbench
