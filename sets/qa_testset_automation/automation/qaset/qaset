@@ -47,6 +47,7 @@ sq_os_get_sysinfo
 # read user configuration
 if test -f ${SQ_USER_CONFIG_FILE};then
     source ${SQ_USER_CONFIG_FILE}
+    for v in `declare | grep "^_QASET" | awk -F '=' '{print $1}'`; do export $v; done
 fi
 
 function sq_set_cmd_run_parse {
