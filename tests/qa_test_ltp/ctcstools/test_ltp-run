@@ -3,12 +3,19 @@ ctcsdir="/usr/lib/ctcs2"
 tcfdir="/usr/share/qa/qa_test_ltp"
 
 TESTS="quickhit.tcf syscalls.tcf fs.tcf fs_perms_simple.tcf fsx.tcf dio.tcf mm.tcf ipc.tcf sched.tcf math.tcf pty.tcf commands.tcf pipes.tcf timers.tcf kernel_misc.tcf input.tcf controllers.tcf containers.tcf numa.tcf leapsec.tcf"
-
 AIO_TESTS="ltp-aiodio.part1.tcf ltp-aiodio.part2.tcf ltp-aiodio.part3.tcf ltp-aio-stress.part1.tcf ltp-aio-stress.part2.tcf"
-
 OPENPOSIX_TESTS="openposix.tcf"
 
-for i in $TESTS $AIO_TESTS $OPENPOSIX_TESTS
-do
-	$ctcsdir/tools/run $tcfdir/tcf/$i
+if [[ $# -gt 0 ]]; then
+    TESTS=""
+    for item in $@; do
+        if [[ "$item" != *.tcf ]]; then
+            item="${item}.tcf"
+        fi
+        TESTS="$TESTS $item"
+    done
+fi
+
+for item in $TESTS; do
+    ${ctcsdir}/tools/run ${tcfdir}/tcf/${item}
 done

@@ -52,7 +52,7 @@ function sq_execute_check_script {
     fi
 
     if test ! -x ${_s};then
-        sq_error "[EXE] ${_n}: ${_s} dose not exist!!!"
+        sq_error "[EXE] ${_n}: ${_s} does not exist!!!"
         return 1
     else
         if test $SQ_DEBUG_ON == YES;then

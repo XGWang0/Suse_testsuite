@@ -1,0 +1,1 @@
+`dirname "$0"`/test_ltp-run fs_perms_simple
