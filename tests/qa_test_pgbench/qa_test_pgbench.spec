@@ -58,12 +58,16 @@ install -m 755 test_pgbench_medium-ro-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 test_pgbench_medium-rw-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 test_pgbench_small-ro-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 install -m 755 test_pgbench_small-rw-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 test_pgbench_small-ro-osync-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
+install -m 755 test_pgbench_small-rw-osync-run $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 ln -s ../%{name}/test_pgbench_large-ro-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_large-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_medium-ro-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_medium-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_small-ro-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 ln -s ../%{name}/test_pgbench_small-rw-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+ln -s ../%{name}/test_pgbench_small-ro-osync-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+ln -s ../%{name}/test_pgbench_small-rw-osync-run $RPM_BUILD_ROOT/usr/share/qa/tools/
 cp %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 
 %post 
@@ -79,7 +83,5 @@ fi
 %files
 %defattr(-, root, root)
 /usr/share/man/man8/qa_test_pgbench.8.gz
-/usr/share/qa
 /usr/share/qa/%{name}
-/usr/share/qa/tcf
 /usr/share/qa/tools

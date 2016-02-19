@@ -1,3 +1,14 @@
 #!/bin/sh
 
-/usr/lib/ctcs2/tools/run /usr/share/qa/tcf/libmicro-bench.tcf
+TCF_DIR=/usr/share/qa/tcf
+CTCS2_DIR=/usr/lib/ctcs2
+
+for FOUNCTION in regular memory file contextswitch process socket; do
+    TCF_FILE="${TCF_DIR}/qa_libmicro_${FOUNCTION}.tcf"
+    cat <<EOF >> ${TCF_FILE}
+timer 3600
+fg 1 libmicro-${FOUNCTION} /usr/lib/libMicro/bin/bench_${FOUNCTION}.sh
+wait
+EOF
+$CTCS2_DIR/tools/run ${TCF_FILE}
+done
