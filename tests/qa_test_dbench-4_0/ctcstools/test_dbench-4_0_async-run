@@ -22,7 +22,7 @@ esac
 
 TCF_FILE="${TCF_DIR}/dbench4_async_${ABUILD_FS}.tcf"
 echo > ${TCF_FILE}
-for NUM in 1 48 128 192 256 500;do
+for NUM in 1 4 48 128 192 256 500;do
 cat <<EOF >> ${TCF_FILE}
 timer 8h
 fg 1 dbench4-async /usr/share/qa/qa_test_dbench-4_0/do_dbench -n ${NUM}
