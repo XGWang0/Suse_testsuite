@@ -1,0 +1,17 @@
+#!/bin/bash
+PATH='/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin'
+
+CTCS2_DIR="/usr/lib/ctcs2"
+TCF_DIR="/usr/share/qa/tcf"
+
+
+TCF_FILE="${TCF_DIR}/netperf-peer-loop-allsize.tcf"
+
+cat <<EOF > ${TCF_FILE}
+fg 1 netserver-start /usr/bin/netserver start
+fg 1 netperf-loop-allsizes-tcp  /usr/lib/ctcs2/config/netperf/netperf-client_all_size -T -a 127.0.0.1 -i lo -m 24 -b 127.0.0.255
+fg 1 netperf-loop-allsizes-udp /usr/lib/ctcs2/config/netperf/netperf-client_all_size -U -a 127.0.0.1 -i lo -m 24 -b 127.0.0.255
+EOF
+
+cd ${CTCS2_DIR}
+tools/run ${TCF_FILE}

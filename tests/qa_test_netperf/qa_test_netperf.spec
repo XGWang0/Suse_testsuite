@@ -91,8 +91,15 @@ install -D -m 755 ctcstools/netperf.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf
 install -D -m 755 ctcstools/netperf6.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf6.tcf
 install -D -m 755 ctcstools/qa_test_netperf-config $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/qa_test_netperf-config
 install -D -m 755 ctcstools/netperf-client $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/netperf-client
+install -D -m 755 ctcstools/netperf-client_all_size $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/netperf-client_all_size
 install -D -m 755 ctcstools/netperf-server $RPM_BUILD_ROOT/usr/lib/ctcs2/config/netperf/netperf-server
 install -D -m 755 ctcstools/netperf_peer_loop-run $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop-run
+install -D -m 755 ctcstools/netperf_peer_loop_tcp-run $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop_tcp-run
+install -D -m 755 ctcstools/netperf_peer_loop_udp-run $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop_udp-run
+install -D -m 755 ctcstools/netperf_peer_loop_tcp-run6 $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop_tcp-run6
+install -D -m 755 ctcstools/netperf_peer_loop_udp-run6 $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop_udp-run6
+install -D -m 755 ctcstools/netperf_peer_loop_allsizes-run $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop_allsizes-run
+install -D -m 755 ctcstools/netperf_peer_loop_allsizes-run6 $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop_allsizes-run6
 install -D -m 755 ctcstools/netperf-peer-loop.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf-peer-loop.tcf
 install -D -m 755 ctcstools/netperf_peer_loop-run6 $RPM_BUILD_ROOT/usr/share/qa/tools
 install -D -m 755 ctcstools/netperf-peer-fiber-run $RPM_BUILD_ROOT/usr/share/qa/tools/
