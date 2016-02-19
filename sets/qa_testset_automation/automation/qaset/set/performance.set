@@ -86,7 +86,12 @@ def_syslib_run lmbench_unix         "/usr/share/qa/tools/test_lmbench.unix-run" 
 
 
 
-def_syslib_run libmicro_bench "/usr/share/qa/tools/test_libmicro-bench-run" qa_test_libmicro
+def_syslib_run libmicro_bench "/usr/share/qa/tools/test_libmicro-contextswitch-run" qa_test_libmicro
+def_syslib_run libmicro_bench "/usr/share/qa/tools/test_libmicro-file-run" qa_test_libmicro
+def_syslib_run libmicro_bench "/usr/share/qa/tools/test_libmicro-memory-run" qa_test_libmicro
+def_syslib_run libmicro_bench "/usr/share/qa/tools/test_libmicro-regular-run" qa_test_libmicro
+def_syslib_run libmicro_bench "/usr/share/qa/tools/test_libmicro-process-run" qa_test_libmicro
+def_syslib_run libmicro_bench "/usr/share/qa/tools/test_libmicro-socket-run" qa_test_libmicro
 def_syslib_run lmbench_bench "/usr/share/qa/tools/test_lmbench-run" qa_test_lmbench
 def_syslib_run sysbench_sys "/usr/lib/ctcs2/tools/test_sysbench_sys-run" qa_test_sysbench mysql
 def_network_run netperf_loop4 "/usr/share/qa/tools/netperf_peer_loop-run" qa_test_netperf
