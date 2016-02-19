@@ -91,6 +91,10 @@ def_syslib_run lmbench_bench "/usr/share/qa/tools/test_lmbench-run" qa_test_lmbe
 def_syslib_run sysbench_sys "/usr/lib/ctcs2/tools/test_sysbench_sys-run" qa_test_sysbench mysql
 def_network_run netperf_loop4 "/usr/share/qa/tools/netperf_peer_loop-run" qa_test_netperf
 def_network_run netperf_loop6 "/usr/share/qa/tools/netperf_peer_loop-run6" qa_test_netperf
+def_network_run netperf_loop4_tcp "/usr/share/qa/tools/netperf_peer_loop_tcp-run" qa_test_netperf
+def_network_run netperf_loop4_udp "/usr/share/qa/tools/netperf_peer_loop_udp-run" qa_test_netperf
+def_network_run netperf_loop6_tcp "/usr/share/qa/tools/netperf_peer_loop_tcp-run6" qa_test_netperf
+def_network_run netperf_loop6_udp "/usr/share/qa/tools/netperf_peer_loop_udp-run6" qa_test_netperf
 #the fiber tests need two machines. The server parts need to be set mannually.
 def_network_run netperf_fiber4 "/usr/share/qa/tools/netperf-peer-fiber-run" qa_test_netperf
 def_network_run netperf_fiber6 "/usr/share/qa/tools/netperf-peer-fiber-run6" qa_test_netperf
