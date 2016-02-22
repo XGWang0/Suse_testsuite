@@ -1,1 +1,0 @@
-`dirname "$0"`/test_ltp-run ltp-aio-stress.part1 ltp-aio-stress.part2

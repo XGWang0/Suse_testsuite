@@ -1,1 +1,0 @@
-`dirname "$0"`/test_ltp-run ltp-aiodio.part1 ltp-aiodio.part2 ltp-aiodio.part3
