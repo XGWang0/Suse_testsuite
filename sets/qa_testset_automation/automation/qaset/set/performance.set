@@ -299,6 +299,8 @@ def_unit_fs tiobench_doublemem_async "/usr/share/qa/tools/test_tiobench_doubleme
 def_unit_fs tiobench_doublemem_osync "/usr/share/qa/tools/test_tiobench_doublemem_osync-run" qa_test_tiobench
 def_unit_fs pgbench_small_rw  "/usr/share/qa/tools/test_pgbench_small-rw-run" qa_test_pgbench
 def_unit_fs pgbench_small_ro  "/usr/share/qa/tools/test_pgbench_small-ro-run" qa_test_pgbench
+def_unit_fs pgbench_small_rw_osync  "/usr/share/qa/tools/test_pgbench_small-rw-osync-run" qa_test_pgbench
+def_unit_fs pgbench_small_ro_osync  "/usr/share/qa/tools/test_pgbench_small-ro-osync-run" qa_test_pgbench
 def_unit_fs pgbench_medium_rw  "/usr/share/qa/tools/test_pgbench_medium-rw-run" qa_test_pgbench
 def_unit_fs pgbench_medium_ro  "/usr/share/qa/tools/test_pgbench_medium-ro-run" qa_test_pgbench
 def_unit_fs pgbench_large_rw  "/usr/share/qa/tools/test_pgbench_large-rw-run" qa_test_pgbench
