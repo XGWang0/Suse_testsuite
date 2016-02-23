@@ -1,0 +1,2621 @@
+diff -uNr php-5.2.14.old/ext/bz2/tests/with_files.phpt php-5.2.14/ext/bz2/tests/with_files.phpt
+--- php-5.2.14.old/ext/bz2/tests/with_files.phpt	2004-05-19 16:56:50.000000000 +0800
++++ php-5.2.14/ext/bz2/tests/with_files.phpt	2012-02-01 18:15:47.779893564 +0800
+@@ -19,5 +19,6 @@
+ bzclose($bz);
+ unlink($filename);
+ 
++?>
+ --EXPECT--
+ This is a test string.
+diff -uNr php-5.2.14.old/ext/bz2/tests/with_strings.phpt php-5.2.14/ext/bz2/tests/with_strings.phpt
+--- php-5.2.14.old/ext/bz2/tests/with_strings.phpt	2004-05-19 16:56:50.000000000 +0800
++++ php-5.2.14/ext/bz2/tests/with_strings.phpt	2012-02-01 18:15:47.779893564 +0800
+@@ -23,5 +23,6 @@
+ 
+ include(dirname(__FILE__) . '/../../../tests/quicktester.inc');
+ 
++?>
+ --EXPECT--
+ OK
+diff -uNr php-5.2.14.old/ext/curl/tests/curl_CURLOPT_READDATA.phpt php-5.2.14/ext/curl/tests/curl_CURLOPT_READDATA.phpt
+--- php-5.2.14.old/ext/curl/tests/curl_CURLOPT_READDATA.phpt	2009-07-26 06:20:18.000000000 +0800
++++ php-5.2.14/ext/curl/tests/curl_CURLOPT_READDATA.phpt	2012-02-01 18:15:47.771893563 +0800
+@@ -35,6 +35,7 @@
+ // Clean the temporary file
+ @unlink($tempname);
+ 
++?>
+ --EXPECT--
+ array(2) {
+   ["hello"]=>
+diff -uNr php-5.2.14.old/ext/date/tests/bug32588.phpt php-5.2.14/ext/date/tests/bug32588.phpt
+--- php-5.2.14.old/ext/date/tests/bug32588.phpt	2005-06-17 22:21:53.000000000 +0800
++++ php-5.2.14/ext/date/tests/bug32588.phpt	2012-02-01 18:15:47.699893561 +0800
+@@ -7,6 +7,7 @@
+ echo date('D Y/m/d/H:i:s', strtotime('last saturday', 1112703348)). "\n";
+ echo date('D Y/m/d/H:i:s', strtotime("last sunday", 1112703348)). "\n";
+ echo date('D Y/m/d/H:i:s', strtotime('last monday', 1112703348)). "\n";
++?>
+ --EXPECT--
+ Sat 2005/04/02/00:00:00
+ Sun 2005/04/03/00:00:00
+diff -uNr php-5.2.14.old/ext/date/tests/bug46268.phpt php-5.2.14/ext/date/tests/bug46268.phpt
+--- php-5.2.14.old/ext/date/tests/bug46268.phpt	2010-02-11 00:23:30.000000000 +0800
++++ php-5.2.14/ext/date/tests/bug46268.phpt	2012-02-01 18:15:47.703893561 +0800
+@@ -16,6 +16,7 @@
+ $now->setTime(0, 0, 0);
+ //date_time_set($now, 0, 0, 0);
+ echo $now->format("Y-m-d H:i:s") . PHP_EOL;
++?>
+ --EXPECT--
+ 2008-10-10 01:02:03
+ 2008-10-11 01:02:03
+diff -uNr php-5.2.14.old/ext/date/tests/bug48097.phpt php-5.2.14/ext/date/tests/bug48097.phpt
+--- php-5.2.14.old/ext/date/tests/bug48097.phpt	2009-05-03 22:28:38.000000000 +0800
++++ php-5.2.14/ext/date/tests/bug48097.phpt	2012-02-01 18:15:47.699893561 +0800
+@@ -11,6 +11,7 @@
+ $d->setTimeZone( new DateTimeZone( 'Europe/Budapest' ) );
+ echo $d->format( DATE_ISO8601 ), "\n\n";
+ echo $d->format( 'U' ), "\n\n";
++?>
+ --EXPECT--
+ 1955-05-23T00:00:00+0200
+ -461124000
+diff -uNr php-5.2.14.old/ext/date/tests/bug48276.phpt php-5.2.14/ext/date/tests/bug48276.phpt
+--- php-5.2.14.old/ext/date/tests/bug48276.phpt	2009-06-22 06:32:19.000000000 +0800
++++ php-5.2.14/ext/date/tests/bug48276.phpt	2012-02-01 18:15:47.703893561 +0800
+@@ -5,5 +5,6 @@
+ --FILE--
+ <?php
+ var_dump(date("Y", 1245623227));
++?>
+ --EXPECT--
+ string(4) "2009"
+diff -uNr php-5.2.14.old/ext/date/tests/bug49585.phpt php-5.2.14/ext/date/tests/bug49585.phpt
+--- php-5.2.14.old/ext/date/tests/bug49585.phpt	2010-02-11 00:55:40.000000000 +0800
++++ php-5.2.14/ext/date/tests/bug49585.phpt	2012-02-01 18:15:47.699893561 +0800
+@@ -10,6 +10,7 @@
+ $date->setDate(-2147483648, 1, 1);
+ var_dump($date->format('r'));
+ var_dump($date->format('c'));
++?>
+ --EXPECT--
+ string(32) "Sat, 01 Jan -1500 00:00:00 +0000"
+ string(42) "Unknown, 01 Jan -2147483648 00:00:00 +0000"
+diff -uNr php-5.2.14.old/ext/date/tests/bug50680.phpt php-5.2.14/ext/date/tests/bug50680.phpt
+--- php-5.2.14.old/ext/date/tests/bug50680.phpt	2010-01-14 23:45:49.000000000 +0800
++++ php-5.2.14/ext/date/tests/bug50680.phpt	2012-02-01 18:15:47.703893561 +0800
+@@ -5,5 +5,6 @@
+ --FILE--
+ <?php
+ var_dump(date("d", strtotime("March 1 eighth day 2009")));
++?>
+ --EXPECT--
+ string(2) "09"
+diff -uNr php-5.2.14.old/ext/dom/tests/dom004.phpt php-5.2.14/ext/dom/tests/dom004.phpt
+--- php-5.2.14.old/ext/dom/tests/dom004.phpt	2004-12-03 00:33:36.000000000 +0800
++++ php-5.2.14/ext/dom/tests/dom004.phpt	2012-02-01 18:15:47.771893563 +0800
+@@ -11,6 +11,7 @@
+ $dom->load("compress.zlib://".dirname(__FILE__)."/book.xml.gz");
+ print $dom->saveXML();
+ 
++?>
+ --EXPECT--
+ <?xml version="1.0"?>
+ <books>
+diff -uNr php-5.2.14.old/ext/dom/tests/dom005.phpt php-5.2.14/ext/dom/tests/dom005.phpt
+--- php-5.2.14.old/ext/dom/tests/dom005.phpt	2005-11-06 18:51:29.000000000 +0800
++++ php-5.2.14/ext/dom/tests/dom005.phpt	2012-02-01 18:15:47.771893563 +0800
+@@ -17,6 +17,7 @@
+     return str_replace(array("DOCTYPE HTML",'<p>','</p>'),array("DOCTYPE html",'',''),$xml);
+ }
+ 
++?>
+ --EXPECT--
+ --- save as XML
+ <?xml version="1.0" standalone="yes"?>
+diff -uNr php-5.2.14.old/ext/dom/tests/dom006.phpt php-5.2.14/ext/dom/tests/dom006.phpt
+--- php-5.2.14.old/ext/dom/tests/dom006.phpt	2004-03-30 04:54:13.000000000 +0800
++++ php-5.2.14/ext/dom/tests/dom006.phpt	2012-02-01 18:15:47.623893557 +0800
+@@ -26,6 +26,7 @@
+ $dom->load(dirname(__FILE__)."/book.xml");
+ $dom->addBook("PHP de Luxe", "Richard Samar, Christian Stocker");
+ print $dom->saveXML();
++?>
+ --EXPECT--
+ <?xml version="1.0"?>
+ <books>
+diff -uNr php-5.2.14.old/ext/dom/tests/dom007.phpt php-5.2.14/ext/dom/tests/dom007.phpt
+--- php-5.2.14.old/ext/dom/tests/dom007.phpt	2006-03-04 04:15:10.000000000 +0800
++++ php-5.2.14/ext/dom/tests/dom007.phpt	2012-02-01 18:15:47.763893563 +0800
+@@ -78,6 +78,7 @@
+ var_dump($node);
+ 
+ 
++?>
+ --EXPECT--
+ Length: 1
+ Key GIF: GIF (image/gif) (-)
+diff -uNr php-5.2.14.old/ext/dom/tests/dom_comment_basic.phpt php-5.2.14/ext/dom/tests/dom_comment_basic.phpt
+--- php-5.2.14.old/ext/dom/tests/dom_comment_basic.phpt	2008-05-27 20:44:52.000000000 +0800
++++ php-5.2.14/ext/dom/tests/dom_comment_basic.phpt	2012-02-01 18:15:47.771893563 +0800
+@@ -27,6 +27,7 @@
+ 	var_dump($current->textContent);
+ }
+ 
++?>
+ --EXPECTF--
+ bool(true)
+ --- child 0 ---
+diff -uNr php-5.2.14.old/ext/dom/tests/dom_comment_variation.phpt php-5.2.14/ext/dom/tests/dom_comment_variation.phpt
+--- php-5.2.14.old/ext/dom/tests/dom_comment_variation.phpt	2008-05-27 20:44:52.000000000 +0800
++++ php-5.2.14/ext/dom/tests/dom_comment_variation.phpt	2012-02-01 18:15:47.767893563 +0800
+@@ -24,6 +24,7 @@
+ 	var_dump($current->textContent);
+ }
+ 
++?>
+ --EXPECTF--
+ bool(true)
+ --- child 0 ---
+diff -uNr php-5.2.14.old/ext/dom/tests/DOMDocumentFragment_appendXML_hasChildNodes_basic.phpt php-5.2.14/ext/dom/tests/DOMDocumentFragment_appendXML_hasChildNodes_basic.phpt
+--- php-5.2.14.old/ext/dom/tests/DOMDocumentFragment_appendXML_hasChildNodes_basic.phpt	2008-12-30 23:36:45.000000000 +0800
++++ php-5.2.14/ext/dom/tests/DOMDocumentFragment_appendXML_hasChildNodes_basic.phpt	2012-02-01 18:15:47.767893563 +0800
+@@ -18,6 +18,7 @@
+ } else {
+   echo "has no child nodes\n";
+ }
++?>
+ --EXPECT--
+ has no child nodes
+ has child nodes
+diff -uNr php-5.2.14.old/ext/dom/tests/DOMNode_cloneNode_basic.phpt php-5.2.14/ext/dom/tests/DOMNode_cloneNode_basic.phpt
+--- php-5.2.14.old/ext/dom/tests/DOMNode_cloneNode_basic.phpt	2008-12-01 19:29:35.000000000 +0800
++++ php-5.2.14/ext/dom/tests/DOMNode_cloneNode_basic.phpt	2012-02-01 18:15:47.767893563 +0800
+@@ -72,6 +72,7 @@
+ 	dumpcourse($children->item($index));
+ }
+ 
++?>
+ --EXPECTF--
+ Start cloneNode test
+ node 0
+diff -uNr php-5.2.14.old/ext/dom/tests/DOMNode_removeChild_basic.phpt php-5.2.14/ext/dom/tests/DOMNode_removeChild_basic.phpt
+--- php-5.2.14.old/ext/dom/tests/DOMNode_removeChild_basic.phpt	2008-12-01 19:29:35.000000000 +0800
++++ php-5.2.14/ext/dom/tests/DOMNode_removeChild_basic.phpt	2012-02-01 18:15:47.767893563 +0800
+@@ -57,6 +57,7 @@
+ 	dumpcourse($current);
+ }
+ 
++?>
+ --EXPECTF--
+ orignal has 5 nodes
+ node 4
+diff -uNr php-5.2.14.old/ext/filter/tests/052.phpt php-5.2.14/ext/filter/tests/052.phpt
+--- php-5.2.14.old/ext/filter/tests/052.phpt	2008-02-07 03:14:07.000000000 +0800
++++ php-5.2.14/ext/filter/tests/052.phpt	2012-02-01 18:15:47.675893559 +0800
+@@ -16,6 +16,7 @@
+ var_dump($data);
+ var_dump(filter_var_array($data, array('bar' => array('filter' => FILTER_CALLBACK, 'options' => 'filter_cb'))));
+ var_dump($data);
++?>
+ --EXPECT--
+ array(1) {
+   ["bar"]=>
+diff -uNr php-5.2.14.old/ext/filter/tests/bug51192.phpt php-5.2.14/ext/filter/tests/bug51192.phpt
+--- php-5.2.14.old/ext/filter/tests/bug51192.phpt	2010-03-03 17:25:50.000000000 +0800
++++ php-5.2.14/ext/filter/tests/bug51192.phpt	2012-02-01 18:15:47.675893559 +0800
+@@ -7,6 +7,7 @@
+ var_dump(filter_var('http://example.com/path', FILTER_VALIDATE_URL));
+ var_dump(filter_var('http://exa-mple.com/path', FILTER_VALIDATE_URL));
+ var_dump(filter_var('http://exa_mple.com/path', FILTER_VALIDATE_URL));
++?>
+ --EXPECT--	
+ string(23) "http://example.com/path"
+ string(24) "http://exa-mple.com/path"
+diff -uNr php-5.2.14.old/ext/gettext/tests/gettext_bindtextdomain-emptydomain.phpt php-5.2.14/ext/gettext/tests/gettext_bindtextdomain-emptydomain.phpt
+--- php-5.2.14.old/ext/gettext/tests/gettext_bindtextdomain-emptydomain.phpt	2009-06-18 15:31:10.000000000 +0800
++++ php-5.2.14/ext/gettext/tests/gettext_bindtextdomain-emptydomain.phpt	2012-02-01 18:15:47.703893561 +0800
+@@ -9,6 +9,7 @@
+ <?php
+ chdir(dirname(__FILE__));
+ bindtextdomain('', 'foobar');
++?>
+ --EXPECTF--
+ Warning: The first parameter of bindtextdomain must not be empty in %s on line %d
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/gettext/tests/gettext_bindtextdomain-path.phpt php-5.2.14/ext/gettext/tests/gettext_bindtextdomain-path.phpt
+--- php-5.2.14.old/ext/gettext/tests/gettext_bindtextdomain-path.phpt	2009-06-18 15:31:10.000000000 +0800
++++ php-5.2.14/ext/gettext/tests/gettext_bindtextdomain-path.phpt	2012-02-01 18:15:47.711893561 +0800
+@@ -9,6 +9,7 @@
+ <?php
+ chdir(dirname(__FILE__));
+ var_dump(bindtextdomain('example.org', 'foobar'));
++?>
+ --EXPECTF--
+ bool(false)
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/gettext/tests/gettext_bindtextdomain-wrongparams.phpt php-5.2.14/ext/gettext/tests/gettext_bindtextdomain-wrongparams.phpt
+--- php-5.2.14.old/ext/gettext/tests/gettext_bindtextdomain-wrongparams.phpt	2009-06-18 15:31:10.000000000 +0800
++++ php-5.2.14/ext/gettext/tests/gettext_bindtextdomain-wrongparams.phpt	2012-02-01 18:15:47.707893561 +0800
+@@ -10,6 +10,7 @@
+ chdir(dirname(__FILE__));
+ bindtextdomain('foobar');
+ bindtextdomain();
++?>
+ --EXPECTF--
+ Warning: bindtextdomain() expects exactly 2 parameters, 1 given in %s on line %d
+ 
+diff -uNr php-5.2.14.old/ext/gettext/tests/gettext_dcgettext.phpt php-5.2.14/ext/gettext/tests/gettext_dcgettext.phpt
+--- php-5.2.14.old/ext/gettext/tests/gettext_dcgettext.phpt	2009-06-18 15:31:10.000000000 +0800
++++ php-5.2.14/ext/gettext/tests/gettext_dcgettext.phpt	2012-02-01 18:15:47.711893561 +0800
+@@ -17,6 +17,7 @@
+ 
+ var_dump(dcgettext('dngettextTest', 'item', LC_CTYPE));
+ var_dump(dcgettext('dngettextTest', 'item', LC_MESSAGES));
++?>
+ --EXPECTF--
+ string(8) "cProdukt"
+ string(7) "Produkt"
+diff -uNr php-5.2.14.old/ext/gettext/tests/gettext_dcgettext-wrongparams.phpt php-5.2.14/ext/gettext/tests/gettext_dcgettext-wrongparams.phpt
+--- php-5.2.14.old/ext/gettext/tests/gettext_dcgettext-wrongparams.phpt	2009-06-18 15:31:10.000000000 +0800
++++ php-5.2.14/ext/gettext/tests/gettext_dcgettext-wrongparams.phpt	2012-02-01 18:15:47.707893561 +0800
+@@ -8,6 +8,7 @@
+ --FILE--
+ <?php
+ var_dump(dcgettext('a', 'b'));
++?>
+ --EXPECTF--
+ Warning: dcgettext() expects exactly 3 parameters, 2 given in %s on line %d
+ NULL
+diff -uNr php-5.2.14.old/ext/gettext/tests/gettext_dngettext-plural.phpt php-5.2.14/ext/gettext/tests/gettext_dngettext-plural.phpt
+--- php-5.2.14.old/ext/gettext/tests/gettext_dngettext-plural.phpt	2009-06-18 15:31:10.000000000 +0800
++++ php-5.2.14/ext/gettext/tests/gettext_dngettext-plural.phpt	2012-02-01 18:15:47.707893561 +0800
+@@ -16,6 +16,7 @@
+ 
+ var_dump(dngettext('dngettextTest', 'item', 'items', 1));
+ var_dump(dngettext('dngettextTest', 'item', 'items', 2));
++?>
+ --EXPECT--
+ string(7) "Produkt"
+ string(8) "Produkte"
+diff -uNr php-5.2.14.old/ext/gettext/tests/gettext_dngettext-wrongparams.phpt php-5.2.14/ext/gettext/tests/gettext_dngettext-wrongparams.phpt
+--- php-5.2.14.old/ext/gettext/tests/gettext_dngettext-wrongparams.phpt	2009-06-18 15:31:10.000000000 +0800
++++ php-5.2.14/ext/gettext/tests/gettext_dngettext-wrongparams.phpt	2012-02-01 18:15:47.707893561 +0800
+@@ -15,6 +15,7 @@
+ bindtextdomain('dngettextTest', './locale');
+ 
+ var_dump(dngettext('dngettextTest', 'item', 'items'));
++?>
+ --EXPECTF--
+ Warning: dngettext() expects exactly 4 parameters, 3 given in %s on line %d
+ NULL
+diff -uNr php-5.2.14.old/ext/hash/tests/haval.phpt php-5.2.14/ext/hash/tests/haval.phpt
+--- php-5.2.14.old/ext/hash/tests/haval.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/haval.phpt	2012-02-01 18:15:47.775893563 +0800
+@@ -25,6 +25,7 @@
+ 		echo $algo . ': ' . hash($algo,'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ0123456789') . "\n";
+ 	}
+ 
++?>
+ --EXPECT--
+ Empty String
+ haval128,3: c68f39913f901f3ddf44c707357a7d70
+diff -uNr php-5.2.14.old/ext/hash/tests/hmac-md5.phpt php-5.2.14/ext/hash/tests/hmac-md5.phpt
+--- php-5.2.14.old/ext/hash/tests/hmac-md5.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/hmac-md5.phpt	2012-02-01 18:15:47.667893560 +0800
+@@ -14,6 +14,7 @@
+ echo hash_final($ctx) . "\n";
+ 
+ echo hash_hmac('md5', str_repeat(chr(0xDD), 50), str_repeat(chr(0xAA), 16)) . "\n";
++?>
+ --EXPECT--
+ 9294727a3638bb1c13f48ef8158bfc9d
+ 750c783e6ab0b503eaa86e310a5db738
+diff -uNr php-5.2.14.old/ext/hash/tests/md2.phpt php-5.2.14/ext/hash/tests/md2.phpt
+--- php-5.2.14.old/ext/hash/tests/md2.phpt	2006-11-16 04:06:09.000000000 +0800
++++ php-5.2.14/ext/hash/tests/md2.phpt	2012-02-01 18:15:47.659893559 +0800
+@@ -11,6 +11,7 @@
+ echo hash('md2', 'abcdefghijklmnopqrstuvwxyz') . "\n";
+ echo hash('md2', 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') . "\n";
+ echo hash('md2', '12345678901234567890123456789012345678901234567890123456789012345678901234567890') . "\n";
++?>
+ --EXPECT--
+ 8350e5a3e24c153df2275c9f80692773
+ 32ec01ec4a6dac72c0ab96fb34c0b5d1
+diff -uNr php-5.2.14.old/ext/hash/tests/md4.phpt php-5.2.14/ext/hash/tests/md4.phpt
+--- php-5.2.14.old/ext/hash/tests/md4.phpt	2005-12-03 09:17:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/md4.phpt	2012-02-01 18:15:47.663893560 +0800
+@@ -12,6 +12,7 @@
+ echo hash('md4', 'abcdefghijklmnopqrstuvwxyz') . "\n";
+ echo hash('md4', 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') . "\n";
+ echo hash('md4', '12345678901234567890123456789012345678901234567890123456789012345678901234567890') . "\n";
++?>
+ --EXPECT--
+ 31d6cfe0d16ae931b73c59d7e0c089c0
+ bde52cb31de33e46245e05fbdbd6fb24
+diff -uNr php-5.2.14.old/ext/hash/tests/md5.phpt php-5.2.14/ext/hash/tests/md5.phpt
+--- php-5.2.14.old/ext/hash/tests/md5.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/md5.phpt	2012-02-01 18:15:47.663893560 +0800
+@@ -8,6 +8,7 @@
+ echo hash('md5', 'a') . "\n";
+ echo hash('md5', '012345678901234567890123456789012345678901234567890123456789') . "\n";
+ echo hash('md5', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ d41d8cd98f00b204e9800998ecf8427e
+ 0cc175b9c0f1b6a831c399e269772661
+diff -uNr php-5.2.14.old/ext/hash/tests/ripemd128.phpt php-5.2.14/ext/hash/tests/ripemd128.phpt
+--- php-5.2.14.old/ext/hash/tests/ripemd128.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/ripemd128.phpt	2012-02-01 18:15:47.659893559 +0800
+@@ -13,6 +13,7 @@
+ echo hash('ripemd128', 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') . "\n";
+ echo hash('ripemd128', '12345678901234567890123456789012345678901234567890123456789012345678901234567890') . "\n";
+ echo hash('ripemd128', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ cdf26213a150dc3ecb610f18f6b38b46
+ 86be7afa339d0fc7cfc785e72f578d33
+diff -uNr php-5.2.14.old/ext/hash/tests/ripemd160.phpt php-5.2.14/ext/hash/tests/ripemd160.phpt
+--- php-5.2.14.old/ext/hash/tests/ripemd160.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/ripemd160.phpt	2012-02-01 18:15:47.667893560 +0800
+@@ -13,6 +13,7 @@
+ echo hash('ripemd160', 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') . "\n";
+ echo hash('ripemd160', '12345678901234567890123456789012345678901234567890123456789012345678901234567890') . "\n";
+ echo hash('ripemd160', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ 9c1185a5c5e9fc54612808977ee8f548b2258d31
+ 0bdc9d2d256b3ee9daae347be6f4dc835a467ffe
+diff -uNr php-5.2.14.old/ext/hash/tests/ripemd256.phpt php-5.2.14/ext/hash/tests/ripemd256.phpt
+--- php-5.2.14.old/ext/hash/tests/ripemd256.phpt	2006-11-16 04:06:09.000000000 +0800
++++ php-5.2.14/ext/hash/tests/ripemd256.phpt	2012-02-01 18:15:47.659893559 +0800
+@@ -13,6 +13,7 @@
+ echo hash('ripemd256', 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') . "\n";
+ echo hash('ripemd256', '12345678901234567890123456789012345678901234567890123456789012345678901234567890') . "\n";
+ echo hash('ripemd256', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ 02ba4c4e5f8ecd1877fc52d64d30e37a2d9774fb1e5d026380ae0168e3c5522d
+ f9333e45d857f5d90a91bab70a1eba0cfb1be4b0783c9acfcd883a9134692925
+diff -uNr php-5.2.14.old/ext/hash/tests/ripemd320.phpt php-5.2.14/ext/hash/tests/ripemd320.phpt
+--- php-5.2.14.old/ext/hash/tests/ripemd320.phpt	2006-11-16 04:06:09.000000000 +0800
++++ php-5.2.14/ext/hash/tests/ripemd320.phpt	2012-02-01 18:15:47.667893560 +0800
+@@ -13,6 +13,7 @@
+ echo hash('ripemd320', 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') . "\n";
+ echo hash('ripemd320', '12345678901234567890123456789012345678901234567890123456789012345678901234567890') . "\n";
+ echo hash('ripemd320', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ 22d65d5661536cdc75c1fdf5c6de7b41b9f27325ebc61e8557177d705a0ec880151c3a32a00899b8
+ ce78850638f92658a5a585097579926dda667a5716562cfcf6fbe77f63542f99b04705d6970dff5d
+diff -uNr php-5.2.14.old/ext/hash/tests/sha1.phpt php-5.2.14/ext/hash/tests/sha1.phpt
+--- php-5.2.14.old/ext/hash/tests/sha1.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/sha1.phpt	2012-02-01 18:15:47.663893560 +0800
+@@ -12,6 +12,7 @@
+ echo hash('sha1', 'abc') . "\n";
+ echo hash('sha1', 'abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq') . "\n";
+ echo hash('sha1', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ da39a3ee5e6b4b0d3255bfef95601890afd80709
+ 86f7e437faa5a7fce15d1ddcb9eaeaea377667b8
+diff -uNr php-5.2.14.old/ext/hash/tests/sha256.phpt php-5.2.14/ext/hash/tests/sha256.phpt
+--- php-5.2.14.old/ext/hash/tests/sha256.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/sha256.phpt	2012-02-01 18:15:47.663893560 +0800
+@@ -12,6 +12,7 @@
+ echo hash('sha256', 'abc') . "\n";
+ echo hash('sha256', 'abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq') . "\n";
+ echo hash('sha256', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+ ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb
+diff -uNr php-5.2.14.old/ext/hash/tests/sha384.phpt php-5.2.14/ext/hash/tests/sha384.phpt
+--- php-5.2.14.old/ext/hash/tests/sha384.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/sha384.phpt	2012-02-01 18:15:47.667893560 +0800
+@@ -12,6 +12,7 @@
+ echo hash('sha384', 'abc') . "\n";
+ echo hash('sha384', 'abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu') . "\n";
+ echo hash('sha384', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ 38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b
+ 54a59b9f22b0b80880d8427e548b7c23abd873486e1f035dce9cd697e85175033caa88e6d57bc35efae0b5afd3145f31
+diff -uNr php-5.2.14.old/ext/hash/tests/sha512.phpt php-5.2.14/ext/hash/tests/sha512.phpt
+--- php-5.2.14.old/ext/hash/tests/sha512.phpt	2005-12-02 09:59:48.000000000 +0800
++++ php-5.2.14/ext/hash/tests/sha512.phpt	2012-02-01 18:15:47.655893559 +0800
+@@ -12,6 +12,7 @@
+ echo hash('sha512', 'abc') . "\n";
+ echo hash('sha512', 'abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu') . "\n";
+ echo hash('sha512', str_repeat('a', 1000000)) . "\n";
++?>
+ --EXPECT--
+ cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e
+ 1f40fc92da241694750979ee6cf582f2d5d7d28e18335de05abc54d0560e0f5302860c652bf08d560252aa5e74210546f369fbbbce8c12cfc7957b2652fe9a75
+diff -uNr php-5.2.14.old/ext/iconv/tests/bug48289.phpt php-5.2.14/ext/iconv/tests/bug48289.phpt
+--- php-5.2.14.old/ext/iconv/tests/bug48289.phpt	2010-05-04 19:56:59.000000000 +0800
++++ php-5.2.14/ext/iconv/tests/bug48289.phpt	2012-02-01 18:15:47.671893559 +0800
+@@ -13,6 +13,7 @@
+ );
+ 
+ echo iconv_mime_encode('Subject', $text, $options);
++?>
+ --EXPECT--
+ Subject: =?UTF-8?Q?=E3=83=86?=
+  =?UTF-8?Q?=E3=82=B9?=
+diff -uNr php-5.2.14.old/ext/iconv/tests/iconv_mime_decode.phpt php-5.2.14/ext/iconv/tests/iconv_mime_decode.phpt
+--- php-5.2.14.old/ext/iconv/tests/iconv_mime_decode.phpt	2003-12-02 06:59:28.000000000 +0800
++++ php-5.2.14/ext/iconv/tests/iconv_mime_decode.phpt	2012-02-01 18:15:47.675893559 +0800
+@@ -64,6 +64,7 @@
+ do_regression_test();
+ $mode = ICONV_MIME_DECODE_STRICT | ICONV_MIME_DECODE_CONTINUE_ON_ERROR;
+ do_regression_test();
++?>
+ --EXPECT--
+ (31) "Subject: PrÃ¼fungPrÃ¼fungkÅ¯Ã”Å„Ã“let"
+ (32) "Subject: PrÃ¼fung PrÃ¼fungkÅ¯Ã”Å„Ã“let"
+diff -uNr php-5.2.14.old/ext/mbstring/tests/overload01.phpt php-5.2.14/ext/mbstring/tests/overload01.phpt
+--- php-5.2.14.old/ext/mbstring/tests/overload01.phpt	2002-11-15 23:59:07.000000000 +0800
++++ php-5.2.14/ext/mbstring/tests/overload01.phpt	2012-02-01 18:15:47.711893561 +0800
+@@ -19,6 +19,7 @@
+ $str = '¸µÏ½ÍÜ»½Ðò¼Òº¾µ½É½¸½Ç½ÎÏÉ½¼¨±½ÌÈÄäË½ÎÏÅ½ÉÕ¹½Ê¸·½»ÒÍ½ÃÎñ½Æ¬¥½¥Õ¥¡¡¼';
+ var_dump(strlen($str));
+ var_dump(mb_strlen($str));
++?>
+ --EXPECT--
+ EUC-JP
+ int(33)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_cbc.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_cbc.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_cbc.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_cbc.phpt	2012-02-01 18:15:47.815893565 +0800
+@@ -17,6 +17,7 @@
+ // a warning must be issued if we don't use a IV on a AES cipher, that usually requires an IV
+ mcrypt_cbc($cipher, $key, $enc_data, MCRYPT_DECRYPT);
+ 
++?>
+ --EXPECTF--
+ PHP Testfest 2008
+ 
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_cbf.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_cbf.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_cbf.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_cbf.phpt	2012-02-01 18:15:47.815893565 +0800
+@@ -17,6 +17,7 @@
+ // a warning must be issued if we don't use a IV on a AES cipher, that usually requires an IV
+ mcrypt_cfb($cipher, $key, $enc_data, MCRYPT_DECRYPT);
+ 
++?>
+ --EXPECTF--
+ PHP Testfest 2008
+ 
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_create_iv.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_create_iv.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_create_iv.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_create_iv.phpt	2012-02-01 18:15:47.751893563 +0800
+@@ -11,6 +11,7 @@
+ echo strlen($iv1) . "\n";
+ echo strlen($iv2) . "\n";
+ echo strlen($iv3) . "\n";
++?>
+ --EXPECT--
+ 16
+ 24
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_decrypt.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_decrypt.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_decrypt.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_decrypt.phpt	2012-02-01 18:15:47.735893562 +0800
+@@ -19,6 +19,7 @@
+ mcrypt_decrypt($cipher, $key, $enc_data, MCRYPT_MODE_CBC);
+ 
+ var_dump(strpos(mcrypt_decrypt(MCRYPT_BLOWFISH, "FooBar", $enc_data, MCRYPT_MODE_CBC, $iv), "Testfest") !== false);
++?>
+ --EXPECTF--
+ PHP Testfest 2008
+ 
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_ecb.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_ecb.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_ecb.phpt	2008-09-08 07:00:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_ecb.phpt	2012-02-01 18:15:47.815893565 +0800
+@@ -17,6 +17,7 @@
+ // a warning not must be issued if we don't use a IV on a AES cipher, that not requires an IV
+ mcrypt_ecb($cipher, $key, $enc_data, MCRYPT_DECRYPT);
+ 
++?>
+ --EXPECTF--
+ PHP Testfest 2008
+ 
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_algorithms_name.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_algorithms_name.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_algorithms_name.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_algorithms_name.phpt	2012-02-01 18:15:47.751893563 +0800
+@@ -14,6 +14,7 @@
+ echo mcrypt_enc_get_algorithms_name($td) . "\n";
+ $td  = mcrypt_module_open('des', '', 'ecb', '');
+ echo mcrypt_enc_get_algorithms_name($td) . "\n";
++?>
+ --EXPECT--
+ Rijndael-128
+ Rijndael-128
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_block_size.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_block_size.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_block_size.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_block_size.phpt	2012-02-01 18:15:47.735893562 +0800
+@@ -10,6 +10,7 @@
+ var_dump(mcrypt_enc_get_block_size($td));
+ $td = mcrypt_module_open(MCRYPT_WAKE, '', MCRYPT_MODE_STREAM, '');
+ var_dump(mcrypt_enc_get_block_size($td));
++?>
+ --EXPECT--
+ int(32)
+ int(8)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_iv_size.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_iv_size.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_iv_size.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_iv_size.phpt	2012-02-01 18:15:47.743893562 +0800
+@@ -10,6 +10,7 @@
+ var_dump(mcrypt_enc_get_iv_size($td));
+ $td = mcrypt_module_open(MCRYPT_WAKE, '', MCRYPT_MODE_STREAM, '');
+ var_dump(mcrypt_enc_get_iv_size($td));
++?>
+ --EXPECT--
+ int(32)
+ int(8)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_key_size.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_key_size.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_key_size.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_key_size.phpt	2012-02-01 18:15:47.735893562 +0800
+@@ -10,6 +10,7 @@
+ var_dump(mcrypt_enc_get_key_size($td));
+ $td = mcrypt_module_open(MCRYPT_WAKE, '', MCRYPT_MODE_STREAM, '');
+ var_dump(mcrypt_enc_get_key_size($td));
++?>
+ --EXPECT--
+ int(32)
+ int(24)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_mode_name.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_mode_name.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_mode_name.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_mode_name.phpt	2012-02-01 18:15:47.739893562 +0800
+@@ -16,6 +16,7 @@
+ echo mcrypt_enc_get_modes_name($td) . "\n";
+ $td  = mcrypt_module_open('des', '', 'cbc', '');
+ echo mcrypt_enc_get_modes_name($td) . "\n";
++?>
+ --EXPECT--
+ ECB
+ CBC
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_supported_key_sizes.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_supported_key_sizes.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_get_supported_key_sizes.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_get_supported_key_sizes.phpt	2012-02-01 18:15:47.747893562 +0800
+@@ -7,6 +7,7 @@
+ $td  = mcrypt_module_open('rijndael-256', '', 'ecb', '');
+ $var = mcrypt_enc_get_supported_key_sizes($td);
+ var_dump($var);
++?>
+ --EXPECT--
+ array(3) {
+   [0]=>
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_is_block_algorithm_mode.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_is_block_algorithm_mode.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_is_block_algorithm_mode.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_is_block_algorithm_mode.phpt	2012-02-01 18:15:47.747893562 +0800
+@@ -10,6 +10,7 @@
+ var_dump(mcrypt_enc_is_block_algorithm_mode($td));
+ $td = mcrypt_module_open(MCRYPT_WAKE, '',  MCRYPT_MODE_STREAM, '');
+ var_dump(mcrypt_enc_is_block_algorithm_mode($td));
++?>
+ --EXPECT--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_is_block_algorithm.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_is_block_algorithm.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_is_block_algorithm.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_is_block_algorithm.phpt	2012-02-01 18:15:47.739893562 +0800
+@@ -10,6 +10,7 @@
+ var_dump(mcrypt_enc_is_block_algorithm($td));
+ $td = mcrypt_module_open(MCRYPT_WAKE, '', MCRYPT_MODE_STREAM, '');
+ var_dump(mcrypt_enc_is_block_algorithm($td));
++?>
+ --EXPECT--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_is_block_mode.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_is_block_mode.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_is_block_mode.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_is_block_mode.phpt	2012-02-01 18:15:47.751893563 +0800
+@@ -12,6 +12,7 @@
+ var_dump(mcrypt_enc_is_block_mode($td));
+ $td = mcrypt_module_open(MCRYPT_WAKE, '', MCRYPT_MODE_STREAM, '');
+ var_dump(mcrypt_enc_is_block_mode($td));
++?>
+ --EXPECT--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_self_test.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_enc_self_test.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_enc_self_test.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_enc_self_test.phpt	2012-02-01 18:15:47.747893562 +0800
+@@ -6,5 +6,6 @@
+ <?php
+ $td = mcrypt_module_open(MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_CBC, '');
+ var_dump(mcrypt_enc_self_test($td));
++?>
+ --EXPECT--
+ int(0)
+\ No newline at end of file
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_get_block_size.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_get_block_size.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_get_block_size.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_get_block_size.phpt	2012-02-01 18:15:47.747893562 +0800
+@@ -7,6 +7,7 @@
+ var_dump(mcrypt_get_block_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC));
+ var_dump(mcrypt_get_block_size(MCRYPT_3DES, MCRYPT_MODE_CBC));
+ var_dump(mcrypt_get_block_size(MCRYPT_WAKE, MCRYPT_MODE_STREAM));
++?>
+ --EXPECT--
+ int(32)
+ int(8)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_get_cipher_name.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_get_cipher_name.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_get_cipher_name.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_get_cipher_name.phpt	2012-02-01 18:15:47.743893562 +0800
+@@ -8,6 +8,7 @@
+ echo mcrypt_get_cipher_name(MCRYPT_RC2) . "\n";
+ echo mcrypt_get_cipher_name(MCRYPT_ARCFOUR) . "\n";
+ echo mcrypt_get_cipher_name(MCRYPT_WAKE) . "\n";
++?>
+ --EXPECT--
+ Rijndael-256
+ RC2
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_get_iv_size.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_get_iv_size.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_get_iv_size.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_get_iv_size.phpt	2012-02-01 18:15:47.739893562 +0800
+@@ -8,6 +8,7 @@
+ var_dump(mcrypt_get_iv_size(MCRYPT_3DES, MCRYPT_MODE_CBC));
+ var_dump(mcrypt_get_iv_size(MCRYPT_WAKE, MCRYPT_MODE_STREAM));
+ var_dump(mcrypt_get_iv_size(MCRYPT_XTEA, MCRYPT_MODE_STREAM));
++?>
+ --EXPECTF--
+ int(32)
+ int(8)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_get_key_size.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_get_key_size.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_get_key_size.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_get_key_size.phpt	2012-02-01 18:15:47.743893562 +0800
+@@ -7,6 +7,7 @@
+ var_dump(mcrypt_get_key_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC));
+ var_dump(mcrypt_get_key_size(MCRYPT_3DES, MCRYPT_MODE_CBC));
+ var_dump(mcrypt_get_key_size(MCRYPT_WAKE, MCRYPT_MODE_STREAM));
++?>
+ --EXPECT--
+ int(32)
+ int(24)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_list_algorithms.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_list_algorithms.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_list_algorithms.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_list_algorithms.phpt	2012-02-01 18:15:47.815893565 +0800
+@@ -9,6 +9,7 @@
+ 	   echo "FOUND\n";
+ 	}
+ }
++?>
+ --EXPECT--
+ FOUND
+ FOUND
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_list_modes.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_list_modes.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_list_modes.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_list_modes.phpt	2012-02-01 18:15:47.751893563 +0800
+@@ -5,6 +5,7 @@
+ --FILE--
+ <?php
+ var_dump(mcrypt_list_modes());
++?>
+ --EXPECT--
+ array(8) {
+   [0]=>
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_get_algo_block_size.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_module_get_algo_block_size.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_get_algo_block_size.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_module_get_algo_block_size.phpt	2012-02-01 18:15:47.743893562 +0800
+@@ -10,6 +10,7 @@
+ var_dump(mcrypt_module_get_algo_block_size(MCRYPT_XTEA));
+ var_dump(mcrypt_module_get_algo_block_size(MCRYPT_CAST_128));
+ var_dump(mcrypt_module_get_algo_block_size(MCRYPT_BLOWFISH));
++?>
+ --EXPECT--
+ int(32)
+ int(24)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_get_algo_key_size.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_module_get_algo_key_size.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_get_algo_key_size.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_module_get_algo_key_size.phpt	2012-02-01 18:15:47.743893562 +0800
+@@ -10,6 +10,7 @@
+ var_dump(mcrypt_module_get_algo_key_size(MCRYPT_XTEA));
+ var_dump(mcrypt_module_get_algo_key_size(MCRYPT_CAST_128));
+ var_dump(mcrypt_module_get_algo_key_size(MCRYPT_BLOWFISH));
++?>
+ --EXPECT--
+ int(32)
+ int(32)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_get_supported_key_sizes.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_module_get_supported_key_sizes.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_get_supported_key_sizes.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_module_get_supported_key_sizes.phpt	2012-02-01 18:15:47.735893562 +0800
+@@ -6,6 +6,7 @@
+ <?php
+ var_dump(mcrypt_module_get_supported_key_sizes(MCRYPT_RIJNDAEL_256));
+ var_dump(mcrypt_module_get_supported_key_sizes(MCRYPT_RC2));
++?>
+ --EXPECT--
+ array(3) {
+   [0]=>
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_is_block_algorithm_mode.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_module_is_block_algorithm_mode.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_is_block_algorithm_mode.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_module_is_block_algorithm_mode.phpt	2012-02-01 18:15:47.739893562 +0800
+@@ -8,6 +8,7 @@
+ var_dump(mcrypt_module_is_block_algorithm_mode(MCRYPT_MODE_ECB));
+ var_dump(mcrypt_module_is_block_algorithm_mode(MCRYPT_MODE_STREAM));
+ var_dump(mcrypt_module_is_block_algorithm_mode(MCRYPT_MODE_OFB));
++?>
+ --EXPECT--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_is_block_algorithm.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_module_is_block_algorithm.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_is_block_algorithm.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_module_is_block_algorithm.phpt	2012-02-01 18:15:47.739893562 +0800
+@@ -8,6 +8,7 @@
+ var_dump(mcrypt_module_is_block_algorithm(MCRYPT_DES));
+ var_dump(mcrypt_module_is_block_algorithm(MCRYPT_WAKE));
+ var_dump(mcrypt_module_is_block_algorithm(MCRYPT_XTEA));
++?>
+ --EXPECT--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_is_block_mode.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_module_is_block_mode.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_is_block_mode.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_module_is_block_mode.phpt	2012-02-01 18:15:47.751893563 +0800
+@@ -9,6 +9,7 @@
+ var_dump(mcrypt_module_is_block_mode(MCRYPT_MODE_STREAM));
+ var_dump(mcrypt_module_is_block_mode(MCRYPT_MODE_NOFB));
+ var_dump(mcrypt_module_is_block_mode(MCRYPT_MODE_OFB));
++?>
+ --EXPECT--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_open.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_module_open.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_open.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_module_open.phpt	2012-02-01 18:15:47.819893565 +0800
+@@ -7,6 +7,7 @@
+ var_dump(mcrypt_module_open(MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_CBC, ''));
+ mcrypt_module_open('', '', '', '');
+ 
++?>
+ --EXPECTF--
+ resource(%d) of type (mcrypt)
+ 
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_self_test.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_module_self_test.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_module_self_test.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_module_self_test.phpt	2012-02-01 18:15:47.731893562 +0800
+@@ -7,6 +7,7 @@
+ var_dump(mcrypt_module_self_test(MCRYPT_RIJNDAEL_128));
+ var_dump(mcrypt_module_self_test(MCRYPT_RC2));
+ var_dump(mcrypt_module_self_test(''));
++?>
+ --EXPECT--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/mcrypt/tests/mcrypt_ofb.phpt php-5.2.14/ext/mcrypt/tests/mcrypt_ofb.phpt
+--- php-5.2.14.old/ext/mcrypt/tests/mcrypt_ofb.phpt	2008-05-18 07:31:31.000000000 +0800
++++ php-5.2.14/ext/mcrypt/tests/mcrypt_ofb.phpt	2012-02-01 18:15:47.815893565 +0800
+@@ -17,5 +17,6 @@
+ // a warning must be issued if we don't use a IV on a AES cipher, that usually requires an IV
+ mcrypt_ofb($cipher, $key, $enc_data, MCRYPT_DECRYPT, $iv);
+ 
++?>
+ --EXPECT--
+ PHP Testfest 2008
+\ No newline at end of file
+diff -uNr php-5.2.14.old/ext/openssl/tests/005.phpt php-5.2.14/ext/openssl/tests/005.phpt
+--- php-5.2.14.old/ext/openssl/tests/005.phpt	2007-04-05 15:23:56.000000000 +0800
++++ php-5.2.14/ext/openssl/tests/005.phpt	2012-02-01 18:15:47.671893559 +0800
+@@ -15,6 +15,7 @@
+ echo "\n";
+ $cn = utf8_decode($out['CN']);
+ var_dump($cn);
++?>
+ --EXPECTF--	
+ array(6) {
+   ["C"]=>
+diff -uNr php-5.2.14.old/ext/pdo/tests/bug_43663.phpt php-5.2.14/ext/pdo/tests/bug_43663.phpt
+--- php-5.2.14.old/ext/pdo/tests/bug_43663.phpt	2008-04-11 03:09:49.000000000 +0800
++++ php-5.2.14/ext/pdo/tests/bug_43663.phpt	2012-02-01 18:15:47.671893559 +0800
+@@ -17,6 +17,7 @@
+ $a = new test('sqlite::memory:');
+ $a->foo();
+ $a->bar();
++?>
+ --EXPECT--
+ Called foo in test
+ Called bar in test
+diff -uNr php-5.2.14.old/ext/pdo/tests/pecl_bug_5772.phpt php-5.2.14/ext/pdo/tests/pecl_bug_5772.phpt
+--- php-5.2.14.old/ext/pdo/tests/pecl_bug_5772.phpt	2007-05-08 02:03:01.000000000 +0800
++++ php-5.2.14/ext/pdo/tests/pecl_bug_5772.phpt	2012-02-01 18:15:47.779893564 +0800
+@@ -25,5 +25,6 @@
+ 	var_dump($row);
+ }
+ 
++?>
+ --EXPECT--
+ string(1) "1"
+diff -uNr php-5.2.14.old/ext/pdo/tests/pecl_bug_5809.phpt php-5.2.14/ext/pdo/tests/pecl_bug_5809.phpt
+--- php-5.2.14.old/ext/pdo/tests/pecl_bug_5809.phpt	2007-05-08 02:03:01.000000000 +0800
++++ php-5.2.14/ext/pdo/tests/pecl_bug_5809.phpt	2012-02-01 18:15:47.779893564 +0800
+@@ -23,6 +23,7 @@
+ $stmt->execute($values);
+ var_dump($values);
+ 
++?>
+ --EXPECT--
+ array(1) {
+   [0]=>
+Binary files php-5.2.14.old/ext/pdo_mysql/tests/bug_39483.phpt and php-5.2.14/ext/pdo_mysql/tests/bug_39483.phpt differ
+diff -uNr php-5.2.14.old/ext/pdo_mysql/tests/last_insert_id.phpt php-5.2.14/ext/pdo_mysql/tests/last_insert_id.phpt
+--- php-5.2.14.old/ext/pdo_mysql/tests/last_insert_id.phpt	2006-12-12 16:13:31.000000000 +0800
++++ php-5.2.14/ext/pdo_mysql/tests/last_insert_id.phpt	2012-02-01 18:15:47.651893559 +0800
+@@ -19,6 +19,7 @@
+ print_r($db->query("INSERT INTO test (num) VALUES (451)"));
+ 
+ print_r($db->lastInsertId());
++?>
+ --EXPECT--
+ PDOStatement Object
+ (
+diff -uNr php-5.2.14.old/ext/pdo_mysql/tests/pecl_bug_5200.phpt php-5.2.14/ext/pdo_mysql/tests/pecl_bug_5200.phpt
+--- php-5.2.14.old/ext/pdo_mysql/tests/pecl_bug_5200.phpt	2007-05-08 02:03:01.000000000 +0800
++++ php-5.2.14/ext/pdo_mysql/tests/pecl_bug_5200.phpt	2012-02-01 18:15:47.775893563 +0800
+@@ -18,6 +18,7 @@
+ 	print_r($row);
+ }
+ 
++?>
+ --EXPECT--
+ Array
+ (
+diff -uNr php-5.2.14.old/ext/pdo_mysql/tests/pecl_bug_5780.phpt php-5.2.14/ext/pdo_mysql/tests/pecl_bug_5780.phpt
+--- php-5.2.14.old/ext/pdo_mysql/tests/pecl_bug_5780.phpt	2007-05-08 02:03:01.000000000 +0800
++++ php-5.2.14/ext/pdo_mysql/tests/pecl_bug_5780.phpt	2012-02-01 18:15:47.651893559 +0800
+@@ -25,6 +25,7 @@
+ $info = $logstmt->errorInfo();
+ unset($info[2]);
+ var_dump($info);
++?>
+ --EXPECT--
+ array(2) {
+   [0]=>
+diff -uNr php-5.2.14.old/ext/pdo_mysql/tests/pecl_bug_5802.phpt php-5.2.14/ext/pdo_mysql/tests/pecl_bug_5802.phpt
+--- php-5.2.14.old/ext/pdo_mysql/tests/pecl_bug_5802.phpt	2007-05-08 02:03:01.000000000 +0800
++++ php-5.2.14/ext/pdo_mysql/tests/pecl_bug_5802.phpt	2012-02-01 18:15:47.775893563 +0800
+@@ -32,6 +32,7 @@
+ if($stmt) $stmt->execute();
+ if($stmt) var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
+ 
++?>
+ --EXPECT--
+ array(3) {
+   [0]=>
+diff -uNr php-5.2.14.old/ext/pdo_mysql/tests/show_tables.phpt php-5.2.14/ext/pdo_mysql/tests/show_tables.phpt
+--- php-5.2.14.old/ext/pdo_mysql/tests/show_tables.phpt	2006-12-12 16:13:31.000000000 +0800
++++ php-5.2.14/ext/pdo_mysql/tests/show_tables.phpt	2012-02-01 18:15:47.651893559 +0800
+@@ -13,6 +13,7 @@
+ $db = PDOTest::test_factory(dirname(__FILE__) . '/common.phpt');
+ 
+ print_r($db->query('SHOW TABLES'));
++?>
+ --EXPECT--
+ PDOStatement Object
+ (
+diff -uNr php-5.2.14.old/ext/pdo_oci/tests/bug_33707.phpt php-5.2.14/ext/pdo_oci/tests/bug_33707.phpt
+--- php-5.2.14.old/ext/pdo_oci/tests/bug_33707.phpt	2007-05-08 02:03:01.000000000 +0800
++++ php-5.2.14/ext/pdo_oci/tests/bug_33707.phpt	2012-02-01 18:15:47.799893564 +0800
+@@ -16,6 +16,7 @@
+ var_dump($rs);
+ var_dump($db->errorInfo());
+ 
++?>
+ --EXPECTF--
+ bool(false)
+ array(3) {
+diff -uNr php-5.2.14.old/ext/pdo_oci/tests/bug44301.phpt php-5.2.14/ext/pdo_oci/tests/bug44301.phpt
+--- php-5.2.14.old/ext/pdo_oci/tests/bug44301.phpt	2009-05-13 05:57:42.000000000 +0800
++++ php-5.2.14/ext/pdo_oci/tests/bug44301.phpt	2012-02-01 18:15:47.711893561 +0800
+@@ -20,6 +20,7 @@
+     print $e->getMessage();
+ }
+ $db = null;
++?>
+ --EXPECTF--
+ SQLSTATE[HY000]: General error: 942 OCIStmtExecute: ORA-00942: table or view does not exist
+  (%s/ext/pdo_oci/oci_statement.c:%d)
+diff -uNr php-5.2.14.old/ext/pdo_odbc/tests/long_columns.phpt php-5.2.14/ext/pdo_odbc/tests/long_columns.phpt
+--- php-5.2.14.old/ext/pdo_odbc/tests/long_columns.phpt	2006-10-11 11:07:29.000000000 +0800
++++ php-5.2.14/ext/pdo_odbc/tests/long_columns.phpt	2012-02-01 18:15:47.783893564 +0800
+@@ -42,5 +42,6 @@
+ 
+ echo "Finished\n";
+ 
++?>
+ --EXPECT--
+ Finished
+diff -uNr php-5.2.14.old/ext/pdo_pgsql/tests/bug_33876.phpt php-5.2.14/ext/pdo_pgsql/tests/bug_33876.phpt
+--- php-5.2.14.old/ext/pdo_pgsql/tests/bug_33876.phpt	2009-12-26 04:11:07.000000000 +0800
++++ php-5.2.14/ext/pdo_pgsql/tests/bug_33876.phpt	2012-02-01 18:15:47.819893565 +0800
+@@ -91,6 +91,7 @@
+ 
+ 
+ 
++?>
+ --EXPECT--
+ Array
+ (
+diff -uNr php-5.2.14.old/ext/pdo_pgsql/tests/bug48764.phpt php-5.2.14/ext/pdo_pgsql/tests/bug48764.phpt
+--- php-5.2.14.old/ext/pdo_pgsql/tests/bug48764.phpt	2009-10-08 01:40:16.000000000 +0800
++++ php-5.2.14/ext/pdo_pgsql/tests/bug48764.phpt	2012-02-01 18:15:47.819893565 +0800
+@@ -104,6 +104,7 @@
+ 	}
+ }
+ 
++?>
+ --EXPECT--
+ Test 1
+ 42P18
+diff -uNr php-5.2.14.old/ext/pdo_sqlite/tests/bug33841.phpt php-5.2.14/ext/pdo_sqlite/tests/bug33841.phpt
+--- php-5.2.14.old/ext/pdo_sqlite/tests/bug33841.phpt	2005-10-18 08:17:27.000000000 +0800
++++ php-5.2.14/ext/pdo_sqlite/tests/bug33841.phpt	2012-02-01 18:15:47.799893564 +0800
+@@ -21,6 +21,7 @@
+ $name = 'test2';
+ var_dump($stmt->execute(), $stmt->rowCount());
+ 
++?>
+ --EXPECT--
+ bool(true)
+ int(1)
+diff -uNr php-5.2.14.old/ext/reflection/tests/026.phpt php-5.2.14/ext/reflection/tests/026.phpt
+--- php-5.2.14.old/ext/reflection/tests/026.phpt	2007-07-25 07:15:58.000000000 +0800
++++ php-5.2.14/ext/reflection/tests/026.phpt	2012-02-01 18:15:47.775893563 +0800
+@@ -13,6 +13,7 @@
+ 
+ echo "\nDone!\n";
+ 
++?>
+ --EXPECTF--
+ Reflection
+ 
+diff -uNr php-5.2.14.old/ext/reflection/tests/ReflectionClass_CannotClone_basic.phpt php-5.2.14/ext/reflection/tests/ReflectionClass_CannotClone_basic.phpt
+--- php-5.2.14.old/ext/reflection/tests/ReflectionClass_CannotClone_basic.phpt	2009-08-27 01:17:58.000000000 +0800
++++ php-5.2.14/ext/reflection/tests/ReflectionClass_CannotClone_basic.phpt	2012-02-01 18:15:47.627893558 +0800
+@@ -11,5 +11,6 @@
+ <?php
+ $rc = new ReflectionClass("stdClass");
+ $rc2 = clone($rc);
++?>
+ --EXPECTF--
+ Fatal error: Trying to clone an uncloneable object of class ReflectionClass in %s on line %d
+diff -uNr php-5.2.14.old/ext/reflection/tests/ReflectionFunction_isDeprecated_basic.phpt php-5.2.14/ext/reflection/tests/ReflectionFunction_isDeprecated_basic.phpt
+--- php-5.2.14.old/ext/reflection/tests/ReflectionFunction_isDeprecated_basic.phpt	2009-08-30 17:30:13.000000000 +0800
++++ php-5.2.14/ext/reflection/tests/ReflectionFunction_isDeprecated_basic.phpt	2012-02-01 18:15:47.627893558 +0800
+@@ -11,5 +11,6 @@
+ <?php
+ $rc = new ReflectionFunction('ereg');
+ echo var_dump($rc->isDeprecated());
++?>
+ --EXPECTF--
+ bool(true)
+diff -uNr php-5.2.14.old/ext/reflection/tests/ReflectionFunction_isDisabled_basic.phpt php-5.2.14/ext/reflection/tests/ReflectionFunction_isDisabled_basic.phpt
+--- php-5.2.14.old/ext/reflection/tests/ReflectionFunction_isDisabled_basic.phpt	2009-08-27 01:17:58.000000000 +0800
++++ php-5.2.14/ext/reflection/tests/ReflectionFunction_isDisabled_basic.phpt	2012-02-01 18:15:47.623893557 +0800
+@@ -13,5 +13,6 @@
+ <?php
+ $rc = new ReflectionFunction('is_file');
+ echo var_dump($rc->isDisabled());
++?>
+ --EXPECTF--
+ bool(true)
+diff -uNr php-5.2.14.old/ext/session/tests/001.phpt php-5.2.14/ext/session/tests/001.phpt
+--- php-5.2.14.old/ext/session/tests/001.phpt	2005-07-04 21:09:14.000000000 +0800
++++ php-5.2.14/ext/session/tests/001.phpt	2012-02-01 18:15:47.631893559 +0800
+@@ -30,5 +30,6 @@
+ print session_encode()."\n";
+ 
+ session_destroy();
++?>
+ --EXPECT--
+ baz|O:3:"foo":2:{s:3:"bar";s:2:"ok";s:3:"yes";s:4:"done";}arr|a:1:{i:3;O:3:"foo":2:{s:3:"bar";s:2:"ok";s:3:"yes";s:4:"done";}}
+diff -uNr php-5.2.14.old/ext/session/tests/002.phpt php-5.2.14/ext/session/tests/002.phpt
+--- php-5.2.14.old/ext/session/tests/002.phpt	2004-05-19 16:56:50.000000000 +0800
++++ php-5.2.14/ext/session/tests/002.phpt	2012-02-01 18:15:47.631893559 +0800
+@@ -7,5 +7,6 @@
+ error_reporting(E_ALL);
+ session_unset();
+ print "ok\n";
++?>
+ --EXPECT--
+ ok
+diff -uNr php-5.2.14.old/ext/session/tests/003.phpt php-5.2.14/ext/session/tests/003.phpt
+--- php-5.2.14.old/ext/session/tests/003.phpt	2005-07-04 21:09:14.000000000 +0800
++++ php-5.2.14/ext/session/tests/003.phpt	2012-02-01 18:15:47.631893559 +0800
+@@ -27,6 +27,7 @@
+ var_dump($baz);
+ var_dump($arr);
+ session_destroy();
++?>
+ --EXPECT--
+ object(foo)#1 (2) {
+   ["bar"]=>
+diff -uNr php-5.2.14.old/ext/session/tests/023.phpt php-5.2.14/ext/session/tests/023.phpt
+--- php-5.2.14.old/ext/session/tests/023.phpt	2008-04-22 23:58:34.000000000 +0800
++++ php-5.2.14/ext/session/tests/023.phpt	2012-02-01 18:15:47.635893559 +0800
+@@ -28,6 +28,7 @@
+ var_dump($baz);
+ var_dump($arr);
+ session_destroy();
++?>
+ --EXPECT--
+ object(foo)#1 (2) {
+   ["bar"]=>
+diff -uNr php-5.2.14.old/ext/session/tests/bug42596.phpt php-5.2.14/ext/session/tests/bug42596.phpt
+--- php-5.2.14.old/ext/session/tests/bug42596.phpt	2009-05-26 18:13:01.000000000 +0800
++++ php-5.2.14/ext/session/tests/bug42596.phpt	2012-02-01 18:15:47.635893559 +0800
+@@ -27,6 +27,7 @@
+   unlink($sessfile);
+ }
+ rmdir($sessdir);
++?>
+ --EXPECT--
+ hello world
+ string(6) "100777"
+diff -uNr php-5.2.14.old/ext/session/tests/bug51338.phpt php-5.2.14/ext/session/tests/bug51338.phpt
+--- php-5.2.14.old/ext/session/tests/bug51338.phpt	2010-03-23 19:51:38.000000000 +0800
++++ php-5.2.14/ext/session/tests/bug51338.phpt	2012-02-01 18:15:47.627893558 +0800
+@@ -9,6 +9,7 @@
+ <?php
+ session_start();
+ print_r(ob_list_handlers());
++?>
+ --EXPECT--
+ Array
+ (
+diff -uNr php-5.2.14.old/ext/soap/tests/bugs/bug39815.phpt php-5.2.14/ext/soap/tests/bugs/bug39815.phpt
+--- php-5.2.14.old/ext/soap/tests/bugs/bug39815.phpt	2008-01-10 00:45:30.000000000 +0800
++++ php-5.2.14/ext/soap/tests/bugs/bug39815.phpt	2012-02-01 18:15:47.755893563 +0800
+@@ -41,6 +41,7 @@
+ setlocale(LC_ALL,"en_US","en_US.ISO8859-1");
+ var_dump($x->test());
+ echo $x->__getLastResponse();
++?>
+ --EXPECT--
+ float(123,456)
+ <?xml version="1.0" encoding="UTF-8"?>
+diff -uNr php-5.2.14.old/ext/soap/tests/bugs/bug41566.phpt php-5.2.14/ext/soap/tests/bugs/bug41566.phpt
+--- php-5.2.14.old/ext/soap/tests/bugs/bug41566.phpt	2007-06-14 15:09:31.000000000 +0800
++++ php-5.2.14/ext/soap/tests/bugs/bug41566.phpt	2012-02-01 18:15:47.755893563 +0800
+@@ -56,6 +56,7 @@
+ $server->handle($HTTP_RAW_POST_DATA);
+ echo "ok\n";
+ ob_flush();
++?>
+ --EXPECT--
+ <?xml version="1.0" encoding="UTF-8"?>
+ <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://testuri.org" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:testResponse><return SOAP-ENC:arrayType="SOAP-ENC:Struct[4]" xsi:type="SOAP-ENC:Array"><item xsi:type="SOAP-ENC:Struct" id="ref1"><sName xsi:type="xsd:string">newUser</sName></item><item href="#ref1"/><item href="#ref1"/><item href="#ref1"/></return></ns1:testResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+diff -uNr php-5.2.14.old/ext/soap/tests/bugs/bug42183.phpt php-5.2.14/ext/soap/tests/bugs/bug42183.phpt
+--- php-5.2.14.old/ext/soap/tests/bugs/bug42183.phpt	2007-08-22 22:18:10.000000000 +0800
++++ php-5.2.14/ext/soap/tests/bugs/bug42183.phpt	2012-02-01 18:15:47.755893563 +0800
+@@ -23,5 +23,6 @@
+ $server->handle($req);
+ ob_end_clean();
+ echo "ok\n";
++?>
+ --EXPECT--
+ ok
+diff -uNr php-5.2.14.old/ext/soap/tests/bugs/bug43045.phpt php-5.2.14/ext/soap/tests/bugs/bug43045.phpt
+--- php-5.2.14.old/ext/soap/tests/bugs/bug43045.phpt	2008-10-01 16:42:26.000000000 +0800
++++ php-5.2.14/ext/soap/tests/bugs/bug43045.phpt	2012-02-01 18:15:47.755893563 +0800
+@@ -45,6 +45,7 @@
+ var_dump($client->test(NAN));
+ var_dump($response = $client->test(INF));
+ var_dump($response = $client->test(-INF));
++?>
+ --EXPECT--
+ float(0.1)
+ float(NAN)
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_accept-wrongparams.phpt php-5.2.14/ext/sockets/tests/socket_accept-wrongparams.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_accept-wrongparams.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_accept-wrongparams.phpt	2012-02-01 18:19:42.047901823 +0800
+@@ -5,9 +5,11 @@
+ if (!extension_loaded('sockets')) {
+     die('SKIP The sockets extension is not loaded.');
+ }
++?>
+ --FILE--
+ <?php
+ var_dump(socket_accept(null));
++?>
+ --CREDITS--
+ Till Klampaeckel, till@php.net
+ Berlin TestFest 2009 
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_create_listen-nobind.phpt php-5.2.14/ext/sockets/tests/socket_create_listen-nobind.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_create_listen-nobind.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_create_listen-nobind.phpt	2012-02-01 18:15:47.651893559 +0800
+@@ -15,6 +15,7 @@
+ --FILE--
+ <?php
+ $sock = socket_create_listen(80);
++?>
+ --EXPECTF--
+ Warning: socket_create_listen(): unable to bind to given address [13]: Permission denied in %s on line %d
+ --CLEAN--
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_create_listen.phpt php-5.2.14/ext/sockets/tests/socket_create_listen.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_create_listen.phpt	2009-08-09 22:50:51.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_create_listen.phpt	2012-02-01 18:15:47.639893558 +0800
+@@ -10,6 +10,7 @@
+ $sock = socket_create_listen(31338);
+ socket_getsockname($sock, $addr, $port); 
+ var_dump($addr, $port);
++?>
+ --EXPECT--
+ string(7) "0.0.0.0"
+ int(31338)
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_create_listen-wrongparams.phpt php-5.2.14/ext/sockets/tests/socket_create_listen-wrongparams.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_create_listen-wrongparams.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_create_listen-wrongparams.phpt	2012-02-01 18:15:47.643893558 +0800
+@@ -9,6 +9,7 @@
+ <?php
+ $sock1 = socket_create_listen(array());
+ $sock2 = socket_create_listen(31337, array());
++?>
+ --EXPECTF--
+ Warning: socket_create_listen() expects parameter 1 to be long, array given in %s on line %d
+ 
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_create_pair.phpt php-5.2.14/ext/sockets/tests/socket_create_pair.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_create_pair.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_create_pair.phpt	2012-02-01 18:15:47.643893558 +0800
+@@ -15,6 +15,7 @@
+ }
+ socket_create_pair($domain, SOCK_STREAM, 0, $sockets);
+ var_dump($sockets);
++?>
+ --EXPECT--
+ array(2) {
+   [0]=>
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_create_pair-wrongparams.phpt php-5.2.14/ext/sockets/tests/socket_create_pair-wrongparams.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_create_pair-wrongparams.phpt	2009-08-09 22:50:51.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_create_pair-wrongparams.phpt	2012-02-01 18:15:47.647893559 +0800
+@@ -17,6 +17,7 @@
+ var_dump(socket_create_pair(31337, null, null, $sockets));
+ 
+ var_dump(socket_create_pair(AF_INET, 31337, 0, $sockets));
++?>
+ --EXPECTF--
+ Warning: socket_create_pair() expects exactly 4 parameters, 3 given in %s on line %d
+ NULL
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_listen-wrongparams.phpt php-5.2.14/ext/sockets/tests/socket_listen-wrongparams.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_listen-wrongparams.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_listen-wrongparams.phpt	2012-02-01 18:15:47.635893559 +0800
+@@ -10,6 +10,7 @@
+ var_dump(socket_listen(null));
+ $socket = socket_create(AF_UNIX, SOCK_STREAM, 0); 
+ var_dump(socket_listen($socket));
++?>
+ --EXPECTF--
+ Warning: socket_listen() expects parameter 1 to be resource, null given in %s on line %d
+ NULL
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_select.phpt php-5.2.14/ext/sockets/tests/socket_select.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_select.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_select.phpt	2012-02-01 18:15:47.639893558 +0800
+@@ -18,6 +18,7 @@
+ $write  = null;
+ $except = null;
+ var_dump(socket_select($sockets, $write, $except, 0));
++?>
+ --EXPECT--
+ int(0)
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_select-wrongparams-1.phpt php-5.2.14/ext/sockets/tests/socket_select-wrongparams-1.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_select-wrongparams-1.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_select-wrongparams-1.phpt	2012-02-01 18:15:47.643893558 +0800
+@@ -19,6 +19,7 @@
+ $except = null;
+ $time   = -1;
+ var_dump(socket_select($sockets, $write, $except, $time));
++?>
+ --EXPECTF--
+ Warning: socket_select(): unable to select [%d]: Invalid argument in %s on line %d
+ bool(false)
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_select-wrongparams-2.phpt php-5.2.14/ext/sockets/tests/socket_select-wrongparams-2.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_select-wrongparams-2.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_select-wrongparams-2.phpt	2012-02-01 18:15:47.647893559 +0800
+@@ -13,6 +13,7 @@
+ $time    = 0;
+ var_dump(socket_select($sockets, $write, $except, $time));
+ socket_select($sockets, $write, $except);
++?>
+ --EXPECTF--
+ Warning: socket_select(): no resource arrays were passed to select in %s on line %d
+ bool(false)
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_select-wrongparams-3.phpt php-5.2.14/ext/sockets/tests/socket_select-wrongparams-3.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_select-wrongparams-3.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_select-wrongparams-3.phpt	2012-02-01 18:15:47.647893559 +0800
+@@ -21,6 +21,7 @@
+ $except = null;
+ $time   = array();
+ var_dump(socket_select($sockets, $write, $except, $time));
++?>
+ --EXPECT--
+ int(0)
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_select-wrongparams-4.phpt php-5.2.14/ext/sockets/tests/socket_select-wrongparams-4.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_select-wrongparams-4.phpt	2009-05-18 02:08:27.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_select-wrongparams-4.phpt	2012-02-01 18:15:47.647893559 +0800
+@@ -22,6 +22,7 @@
+ $time   = 0;
+ $usec   = 2000000;
+ var_dump(socket_select($sockets, $write, $except, $time, $usec));
++?>
+ --EXPECT--
+ int(0)
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_sentto_recvfrom_ipv4_udp.phpt php-5.2.14/ext/sockets/tests/socket_sentto_recvfrom_ipv4_udp.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_sentto_recvfrom_ipv4_udp.phpt	2009-08-09 22:50:51.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_sentto_recvfrom_ipv4_udp.phpt	2012-02-01 18:15:47.639893558 +0800
+@@ -43,6 +43,7 @@
+     echo "Received $buf from remote address $from and remote port $port" . PHP_EOL;
+ 
+     socket_close($socket);
++?>
+ --EXPECTF--
+ Warning: socket_recvfrom(): unable to recvfrom [%d]: Resource temporarily unavailable in %s on line %d
+ 
+diff -uNr php-5.2.14.old/ext/sockets/tests/socket_sentto_recvfrom_ipv6_udp.phpt php-5.2.14/ext/sockets/tests/socket_sentto_recvfrom_ipv6_udp.phpt
+--- php-5.2.14.old/ext/sockets/tests/socket_sentto_recvfrom_ipv6_udp.phpt	2009-05-20 17:13:39.000000000 +0800
++++ php-5.2.14/ext/sockets/tests/socket_sentto_recvfrom_ipv6_udp.phpt	2012-02-01 18:15:47.643893558 +0800
+@@ -44,6 +44,7 @@
+     echo "Received $buf from remote address $from and remote port $port" . PHP_EOL;
+ 
+     socket_close($socket);
++?>
+ --EXPECTF--
+ Warning: socket_recvfrom(): unable to recvfrom [11]: Resource temporarily unavailable in %s on line %d
+ 
+diff -uNr php-5.2.14.old/ext/spl/SplObjectStorage_unserialize_bad.phpt php-5.2.14/ext/spl/SplObjectStorage_unserialize_bad.phpt
+--- php-5.2.14.old/ext/spl/SplObjectStorage_unserialize_bad.phpt	2010-06-29 08:58:31.000000000 +0800
++++ php-5.2.14/ext/spl/SplObjectStorage_unserialize_bad.phpt	2012-02-01 18:15:47.811893565 +0800
+@@ -17,6 +17,7 @@
+ 	echo $e->getMessage()."\n";
+ }
+ }
++?>
+ --EXPECTF--
+ Error at offset 6 of 24 bytes
+ Error at offset 26 of 39 bytes
+diff -uNr php-5.2.14.old/ext/spl/SplObjectStorage_unserialize_nested.phpt php-5.2.14/ext/spl/SplObjectStorage_unserialize_nested.phpt
+--- php-5.2.14.old/ext/spl/SplObjectStorage_unserialize_nested.phpt	2010-06-29 08:58:31.000000000 +0800
++++ php-5.2.14/ext/spl/SplObjectStorage_unserialize_nested.phpt	2012-02-01 18:15:47.811893565 +0800
+@@ -20,6 +20,7 @@
+ foreach($so1 as $obj) {
+   var_dump($obj);
+ }
++?>
+ --EXPECTF--
+ C:16:"SplObjectStorage":66:{x:i:2;O:8:"stdClass":1:{s:1:"a";O:8:"stdClass":0:{}};r:2;;m:a:0:{}}
+ object(SplObjectStorage)#4 (0) {
+diff -uNr php-5.2.14.old/ext/spl/tests/bug46051.phpt php-5.2.14/ext/spl/tests/bug46051.phpt
+--- php-5.2.14.old/ext/spl/tests/bug46051.phpt	2008-09-11 23:24:12.000000000 +0800
++++ php-5.2.14/ext/spl/tests/bug46051.phpt	2012-02-01 18:15:47.731893562 +0800
+@@ -10,5 +10,6 @@
+ } catch (Exception $e) { }
+ 
+ var_dump($x->getPathName());
++?>
+ --EXPECTF--
+ string(%d) "%sbug46051.php"
+diff -uNr php-5.2.14.old/ext/spl/tests/bug46053.phpt php-5.2.14/ext/spl/tests/bug46053.phpt
+--- php-5.2.14.old/ext/spl/tests/bug46053.phpt	2008-09-11 23:32:15.000000000 +0800
++++ php-5.2.14/ext/spl/tests/bug46053.phpt	2012-02-01 18:15:47.731893562 +0800
+@@ -8,5 +8,6 @@
+ $x->seek(10);
+ $x->seek(0);
+ var_dump(trim($x->fgets()));
++?>
+ --EXPECTF--
+ string(%d) "<?php"
+diff -uNr php-5.2.14.old/ext/spl/tests/bug47534.phpt php-5.2.14/ext/spl/tests/bug47534.phpt
+--- php-5.2.14.old/ext/spl/tests/bug47534.phpt	2009-05-10 04:58:34.000000000 +0800
++++ php-5.2.14/ext/spl/tests/bug47534.phpt	2012-02-01 18:15:47.731893562 +0800
+@@ -9,6 +9,7 @@
+ $it2 = new RecursiveDirectoryIterator(dirname(__FILE__));
+ $it2->rewind();
+ echo gettype($it2->current())."\n";
++?>
+ --EXPECT--
+ string
+ object
+diff -uNr php-5.2.14.old/ext/standard/tests/array/bug42850.phpt php-5.2.14/ext/standard/tests/array/bug42850.phpt
+--- php-5.2.14.old/ext/standard/tests/array/bug42850.phpt	2008-05-14 21:10:30.000000000 +0800
++++ php-5.2.14/ext/standard/tests/array/bug42850.phpt	2012-02-01 18:15:47.791893564 +0800
+@@ -23,6 +23,7 @@
+ myfunc($data);
+ var_dump($data);
+ 
++?>
+ --EXPECT--
+ array(2) {
+   ["key1"]=>
+diff -uNr php-5.2.14.old/ext/standard/tests/array/key_exists_basic.phpt php-5.2.14/ext/standard/tests/array/key_exists_basic.phpt
+--- php-5.2.14.old/ext/standard/tests/array/key_exists_basic.phpt	2009-08-27 01:17:58.000000000 +0800
++++ php-5.2.14/ext/standard/tests/array/key_exists_basic.phpt	2012-02-01 18:15:47.679893560 +0800
+@@ -9,6 +9,7 @@
+ $a = array('bar' => 1);  
+ var_dump(key_exists('bar', $a));
+ var_dump(key_exists('foo', $a));
++?>
+ --EXPECTF--
+ *** test key_exists() by calling it with its expected arguments ***
+ bool(true)
+diff -uNr php-5.2.14.old/ext/standard/tests/array/key_exists_variation1.phpt php-5.2.14/ext/standard/tests/array/key_exists_variation1.phpt
+--- php-5.2.14.old/ext/standard/tests/array/key_exists_variation1.phpt	2009-08-27 01:17:58.000000000 +0800
++++ php-5.2.14/ext/standard/tests/array/key_exists_variation1.phpt	2012-02-01 18:15:47.679893560 +0800
+@@ -9,6 +9,7 @@
+ $a = array('bar' => 1, 'foo' => array('bar' => 2, 'baz' => 3));  
+ var_dump(key_exists('baz', $a));
+ var_dump(key_exists('baz', $a['foo']));
++?>
+ --EXPECTF--
+ *** test key_exists() by calling it with its expected arguments ***
+ bool(false)
+diff -uNr php-5.2.14.old/ext/standard/tests/array/key_exists_variation2.phpt php-5.2.14/ext/standard/tests/array/key_exists_variation2.phpt
+--- php-5.2.14.old/ext/standard/tests/array/key_exists_variation2.phpt	2009-08-27 01:17:58.000000000 +0800
++++ php-5.2.14/ext/standard/tests/array/key_exists_variation2.phpt	2012-02-01 18:15:47.791893564 +0800
+@@ -55,6 +55,7 @@
+ $i = array('foo' => 'baz', $st);  
+ var_dump(key_exists(0, $i));
+ 
++?>
+ --EXPECTF--
+ *** test key_exists() by using mixed type of arrays ***
+ bool(false)
+diff -uNr php-5.2.14.old/ext/standard/tests/assert/assert_basic1.phpt php-5.2.14/ext/standard/tests/assert/assert_basic1.phpt
+--- php-5.2.14.old/ext/standard/tests/assert/assert_basic1.phpt	2007-07-13 23:20:12.000000000 +0800
++++ php-5.2.14/ext/standard/tests/assert/assert_basic1.phpt	2012-02-01 18:15:47.683893561 +0800
+@@ -22,6 +22,7 @@
+ //Non string assert 
+ var_dump($r2=assert(0));
+ var_dump($r2=assert(1));
++?>
+ --EXPECTF--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/standard/tests/assert/assert_basic3.phpt php-5.2.14/ext/standard/tests/assert/assert_basic3.phpt
+--- php-5.2.14.old/ext/standard/tests/assert/assert_basic3.phpt	2007-07-13 23:20:12.000000000 +0800
++++ php-5.2.14/ext/standard/tests/assert/assert_basic3.phpt	2012-02-01 18:15:47.683893561 +0800
+@@ -18,6 +18,7 @@
+ $sa = "0 != 0";
+ var_dump($r2=assert($sa));
+ echo "If this is printed BAIL hasn't worked";
++?>
+ --EXPECTF--
+ int(0)
+ f1 called
+diff -uNr php-5.2.14.old/ext/standard/tests/assert/assert_basic4.phpt php-5.2.14/ext/standard/tests/assert/assert_basic4.phpt
+--- php-5.2.14.old/ext/standard/tests/assert/assert_basic4.phpt	2007-07-13 23:20:12.000000000 +0800
++++ php-5.2.14/ext/standard/tests/assert/assert_basic4.phpt	2012-02-01 18:15:47.795893564 +0800
+@@ -24,6 +24,7 @@
+ echo "Initial values: ini.get(\"assert.quiet_eval\") => [".ini_get("assert.quiet_eval")."]\n";
+ echo "Initial values: ini.get(\"assert.callback\") => [".ini_get("assert.callback")."]\n\n";
+ 
++?>
+ --EXPECTF--
+ Initial values: assert_options(ASSERT_ACTIVE) => [0]
+ Initial values: assert_options(ASSERT_WARNING) => [0]
+diff -uNr php-5.2.14.old/ext/standard/tests/assert/assert_basic5.phpt php-5.2.14/ext/standard/tests/assert/assert_basic5.phpt
+--- php-5.2.14.old/ext/standard/tests/assert/assert_basic5.phpt	2007-07-13 23:20:12.000000000 +0800
++++ php-5.2.14/ext/standard/tests/assert/assert_basic5.phpt	2012-02-01 18:15:47.687893561 +0800
+@@ -22,6 +22,7 @@
+ 
+ //switch warning on and test return value
+ var_dump($rao=assert_options(ASSERT_WARNING, 0));
++?>
+ --EXPECTF--
+ int(0)
+ f1 called
+diff -uNr php-5.2.14.old/ext/standard/tests/assert/assert_basic.phpt php-5.2.14/ext/standard/tests/assert/assert_basic.phpt
+--- php-5.2.14.old/ext/standard/tests/assert/assert_basic.phpt	2007-07-13 23:20:12.000000000 +0800
++++ php-5.2.14/ext/standard/tests/assert/assert_basic.phpt	2012-02-01 18:15:47.687893561 +0800
+@@ -21,6 +21,7 @@
+ //Non string assert 
+ var_dump($r2=assert(0));
+ var_dump($r2=assert(1));
++?>
+ --EXPECTF--
+ f1 called
+ NULL
+diff -uNr php-5.2.14.old/ext/standard/tests/assert/assert_error1.phpt php-5.2.14/ext/standard/tests/assert/assert_error1.phpt
+--- php-5.2.14.old/ext/standard/tests/assert/assert_error1.phpt	2007-07-13 23:20:12.000000000 +0800
++++ php-5.2.14/ext/standard/tests/assert/assert_error1.phpt	2012-02-01 18:15:47.687893561 +0800
+@@ -33,6 +33,7 @@
+ 
+ //Catch recoverable error with handler
+ var_dump($rc=assert('aa=sd+as+safsafasfaÃ§safÃ§safÃ§'));
++?>
+ --EXPECTF--
+ Warning: Wrong parameter count for assert_options() in %s on line 14
+ NULL
+diff -uNr php-5.2.14.old/ext/standard/tests/assert/assert_error.phpt php-5.2.14/ext/standard/tests/assert/assert_error.phpt
+--- php-5.2.14.old/ext/standard/tests/assert/assert_error.phpt	2007-07-13 23:20:12.000000000 +0800
++++ php-5.2.14/ext/standard/tests/assert/assert_error.phpt	2012-02-01 18:15:47.687893561 +0800
+@@ -20,6 +20,7 @@
+ var_dump($ra0 = assert_options(ASSERT_QUIET_EVAL, 1));
+ 
+ var_dump($r2=assert($sa));
++?>
+ --EXPECTF--
+ Notice: Use of undefined constant threemeninaboat - assumed 'threemeninaboat' in %s(9) : assert code on line 1
+ bool(true)
+diff -uNr php-5.2.14.old/ext/standard/tests/assert/assert_variation.phpt php-5.2.14/ext/standard/tests/assert/assert_variation.phpt
+--- php-5.2.14.old/ext/standard/tests/assert/assert_variation.phpt	2007-07-13 23:20:12.000000000 +0800
++++ php-5.2.14/ext/standard/tests/assert/assert_variation.phpt	2012-02-01 18:15:47.795893564 +0800
+@@ -70,6 +70,7 @@
+ var_dump($r2=assert($sa));
+ echo"\n";
+ 
++?>
+ --EXPECTF--
+ Initial values: assert_options(ASSERT_CALLBACK) => [f1]
+ Initial values: ini.get("assert.callback") => [f1]
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_basic.phpt php-5.2.14/ext/standard/tests/file/007_basic.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_basic.phpt	2007-06-12 00:14:59.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_basic.phpt	2012-02-01 18:15:47.695893560 +0800
+@@ -88,6 +88,7 @@
+ }
+ 
+ echo "\n*** Done ***\n";
++?>
+ --EXPECTF--
+ *** Testing basic operations of fopen() and fclose() functions ***
+ 
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation10.phpt php-5.2.14/ext/standard/tests/file/007_variation10.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation10.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation10.phpt	2012-02-01 18:18:37.575899553 +0800
+@@ -38,6 +38,7 @@
+ var_dump( fclose($file_handle) );  //Check for close operation on the file handle
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation10.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation11.phpt php-5.2.14/ext/standard/tests/file/007_variation11.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation11.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation11.phpt	2012-02-01 18:18:37.547899552 +0800
+@@ -55,6 +55,7 @@
+ fclose( fopen($file, "wt") );  //Opening the non-existing file in "wt" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation11.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation11-win32.phpt php-5.2.14/ext/standard/tests/file/007_variation11-win32.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation11-win32.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation11-win32.phpt	2012-02-01 18:18:37.563899552 +0800
+@@ -55,6 +55,7 @@
+ fclose( fopen($file, "wt") );  //Opening the non-existing file in "wt" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation11.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation12.phpt php-5.2.14/ext/standard/tests/file/007_variation12.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation12.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation12.phpt	2012-02-01 18:18:37.547899552 +0800
+@@ -55,6 +55,7 @@
+ fclose( fopen($file, "w+t") );  //Opening the non-existing file in "w+t" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation12.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation12-win32.phpt php-5.2.14/ext/standard/tests/file/007_variation12-win32.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation12-win32.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation12-win32.phpt	2012-02-01 18:18:37.559899552 +0800
+@@ -55,6 +55,7 @@
+ fclose( fopen($file, "w+t") );  //Opening the non-existing file in "w+t" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation12.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation13.phpt php-5.2.14/ext/standard/tests/file/007_variation13.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation13.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation13.phpt	2012-02-01 18:18:37.567899553 +0800
+@@ -47,6 +47,7 @@
+ fclose( fopen($file, "at") );  //Opening the non-existing file in "at" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation13.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation13-win32.phpt php-5.2.14/ext/standard/tests/file/007_variation13-win32.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation13-win32.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation13-win32.phpt	2012-02-01 18:18:37.539899551 +0800
+@@ -47,6 +47,7 @@
+ fclose( fopen($file, "at") );  //Opening the non-existing file in "at" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation13.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation14.phpt php-5.2.14/ext/standard/tests/file/007_variation14.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation14.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation14.phpt	2012-02-01 18:18:37.543899551 +0800
+@@ -41,6 +41,7 @@
+ fclose( fopen($file, "a+t") );  //Opening the non-existing file in "a+t" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation14.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation15.phpt php-5.2.14/ext/standard/tests/file/007_variation15.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation15.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation15.phpt	2012-02-01 18:18:37.571899553 +0800
+@@ -38,6 +38,7 @@
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ $file_handle = fopen($file, "xt");  //Opening the existing data file in 'xt' mode to check for the warning message
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation15.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation16.phpt php-5.2.14/ext/standard/tests/file/007_variation16.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation16.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation16.phpt	2012-02-01 18:18:37.571899553 +0800
+@@ -38,6 +38,7 @@
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ $file_handle = fopen($file, "x+t");  //Opening the existing data file in "x+t" mode to check for the warning message
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation16.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation17.phpt php-5.2.14/ext/standard/tests/file/007_variation17.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation17.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation17.phpt	2012-02-01 18:18:37.555899553 +0800
+@@ -36,6 +36,7 @@
+ var_dump( fclose($file_handle) );  //Check for close operation on the file handle
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation17.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation18.phpt php-5.2.14/ext/standard/tests/file/007_variation18.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation18.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation18.phpt	2012-02-01 18:18:37.575899553 +0800
+@@ -38,6 +38,7 @@
+ var_dump( fclose($file_handle) );  //Check for close operation on the file handle
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation18.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation19.phpt php-5.2.14/ext/standard/tests/file/007_variation19.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation19.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation19.phpt	2012-02-01 18:18:37.551899553 +0800
+@@ -50,6 +50,7 @@
+ fclose( fopen($file, "wb") );  //Opening the non-existing file in "wb" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation19.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation1.phpt php-5.2.14/ext/standard/tests/file/007_variation1.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation1.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation1.phpt	2012-02-01 18:18:37.551899553 +0800
+@@ -36,6 +36,7 @@
+ var_dump( fclose($file_handle) );  //Check for close operation on the file handle
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation1.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation20.phpt php-5.2.14/ext/standard/tests/file/007_variation20.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation20.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation20.phpt	2012-02-01 18:18:37.563899552 +0800
+@@ -50,6 +50,7 @@
+ fclose( fopen($file, "w+b") );  //Opening the non-existing file in "w+b" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation20.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation21.phpt php-5.2.14/ext/standard/tests/file/007_variation21.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation21.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation21.phpt	2012-02-01 18:18:37.543899551 +0800
+@@ -42,6 +42,7 @@
+ fclose( fopen($file, "ab") );  //Opening the non-existing file in "ab" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation21.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation22.phpt php-5.2.14/ext/standard/tests/file/007_variation22.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation22.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation22.phpt	2012-02-01 18:18:37.555899553 +0800
+@@ -41,6 +41,7 @@
+ fclose( fopen($file, "a+b") );  //Opening the non-existing file in "a+b" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation22.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation23.phpt php-5.2.14/ext/standard/tests/file/007_variation23.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation23.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation23.phpt	2012-02-01 18:18:37.539899551 +0800
+@@ -38,6 +38,7 @@
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ $file_handle = fopen($file, "xb");  //Opening the existing data file in 'xb' mode to check for the warning message
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation23.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation24.phpt php-5.2.14/ext/standard/tests/file/007_variation24.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation24.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation24.phpt	2012-02-01 18:18:37.551899553 +0800
+@@ -38,6 +38,7 @@
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ $file_handle = fopen($file, "x+b");  //Opening the existing data file in "x+b" mode to check for the warning message
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation24.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation2.phpt php-5.2.14/ext/standard/tests/file/007_variation2.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation2.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation2.phpt	2012-02-01 18:18:37.543899551 +0800
+@@ -38,6 +38,7 @@
+ var_dump( fclose($file_handle) );  //Check for close operation on the file handle
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation2.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation3.phpt php-5.2.14/ext/standard/tests/file/007_variation3.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation3.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation3.phpt	2012-02-01 18:18:37.547899552 +0800
+@@ -50,6 +50,7 @@
+ fclose( fopen($file, "w") );  //Opening the non-existing file in "w" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation3.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation4.phpt php-5.2.14/ext/standard/tests/file/007_variation4.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation4.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation4.phpt	2012-02-01 18:18:37.539899551 +0800
+@@ -50,6 +50,7 @@
+ fclose( fopen($file, "w+") );  //Opening the non-existing file in "w+" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation4.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation5.phpt php-5.2.14/ext/standard/tests/file/007_variation5.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation5.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation5.phpt	2012-02-01 18:18:37.555899553 +0800
+@@ -42,6 +42,7 @@
+ fclose( fopen($file, "a") );  //Opening the non-existing file in "a" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation5.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation6.phpt php-5.2.14/ext/standard/tests/file/007_variation6.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation6.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation6.phpt	2012-02-01 18:18:37.555899553 +0800
+@@ -41,6 +41,7 @@
+ fclose( fopen($file, "a+") );  //Opening the non-existing file in "a+" mode, which will be created
+ var_dump( file_exists($file) );  //Check for the existance of file
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation6.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation7.phpt php-5.2.14/ext/standard/tests/file/007_variation7.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation7.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation7.phpt	2012-02-01 18:18:37.563899552 +0800
+@@ -38,6 +38,7 @@
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ $file_handle = fopen($file, "x");  //Opening the existing data file in 'x' mode to check for the warning message
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation7.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation8.phpt php-5.2.14/ext/standard/tests/file/007_variation8.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation8.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation8.phpt	2012-02-01 18:18:37.567899553 +0800
+@@ -38,6 +38,7 @@
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ $file_handle = fopen($file, "x+");  //Opening the existing data file in "x+" mode to check for the warning message
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation8.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/007_variation9.phpt php-5.2.14/ext/standard/tests/file/007_variation9.phpt
+--- php-5.2.14.old/ext/standard/tests/file/007_variation9.phpt	2007-10-09 12:07:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/007_variation9.phpt	2012-02-01 18:18:37.543899551 +0800
+@@ -36,6 +36,7 @@
+ var_dump( fclose($file_handle) );  //Check for close operation on the file handle
+ var_dump( get_resource_type($file_handle) );  //Check whether resource is lost after close operation
+ echo "*** Done ***\n"; 
++?>
+ --CLEAN--
+ <?php
+ unlink(dirname(__FILE__)."/007_variation9.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/fgetc_error.phpt php-5.2.14/ext/standard/tests/file/fgetc_error.phpt
+--- php-5.2.14.old/ext/standard/tests/file/fgetc_error.phpt	2007-05-25 21:44:23.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/fgetc_error.phpt	2012-02-01 18:15:47.691893560 +0800
+@@ -35,6 +35,7 @@
+ }
+ 
+ echo "Done\n";
++?>
+ --EXPECTF--
+ *** Testing error conditions ***
+ -- Testing fgetc() with zero argument --
+diff -uNr php-5.2.14.old/ext/standard/tests/file/fgetcsv_error.phpt php-5.2.14/ext/standard/tests/file/fgetcsv_error.phpt
+--- php-5.2.14.old/ext/standard/tests/file/fgetcsv_error.phpt	2007-08-08 21:13:18.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/fgetcsv_error.phpt	2012-02-01 18:15:47.695893560 +0800
+@@ -39,6 +39,7 @@
+ }
+ 
+ echo "Done\n";
++?>
+ --EXPECTF--
+ *** Testing error conditions ***
+ -- Testing fgetcsv() with zero argument --
+diff -uNr php-5.2.14.old/ext/standard/tests/file/fileinode_basic.phpt php-5.2.14/ext/standard/tests/file/fileinode_basic.phpt
+--- php-5.2.14.old/ext/standard/tests/file/fileinode_basic.phpt	2007-05-25 21:44:23.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/fileinode_basic.phpt	2012-02-01 18:18:37.539899551 +0800
+@@ -22,6 +22,7 @@
+ print( fileinode("./..") )."\n";
+ 
+ echo "\n*** Done ***";
++?>
+ --CLEAN--
+ <?php
+ unlink (dirname(__FILE__)."/inode.tmp");
+diff -uNr php-5.2.14.old/ext/standard/tests/file/fileinode_error.phpt php-5.2.14/ext/standard/tests/file/fileinode_error.phpt
+--- php-5.2.14.old/ext/standard/tests/file/fileinode_error.phpt	2007-09-07 18:28:03.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/fileinode_error.phpt	2012-02-01 18:15:47.795893564 +0800
+@@ -24,6 +24,7 @@
+ 
+ echo "\n*** Done ***";
+ 
++?>
+ --EXPECTF--
+ *** Testing error conditions of fileinode() ***
+ Warning: fileinode(): stat failed for /no/such/file/dir in %s on line 10
+diff -uNr php-5.2.14.old/ext/standard/tests/file/fileinode_variation.phpt php-5.2.14/ext/standard/tests/file/fileinode_variation.phpt
+--- php-5.2.14.old/ext/standard/tests/file/fileinode_variation.phpt	2007-11-02 11:16:22.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/fileinode_variation.phpt	2012-02-01 18:15:47.799893564 +0800
+@@ -80,6 +80,7 @@
+ 
+ echo "\n*** Done ***";
+ 
++?>
+ --EXPECTF--
+ *** Testing fileinode() with files, links and directories ***
+ -- Testing with files --
+diff -uNr php-5.2.14.old/ext/standard/tests/file/filesize_variation1.phpt php-5.2.14/ext/standard/tests/file/filesize_variation1.phpt
+--- php-5.2.14.old/ext/standard/tests/file/filesize_variation1.phpt	2008-11-25 19:33:41.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/filesize_variation1.phpt	2012-02-01 18:15:47.795893564 +0800
+@@ -29,6 +29,7 @@
+ 
+ echo "Done\n";
+ 
++?>
+ --EXPECTF--
+ *** Testing filesize(): usage variations ***
+ *** Checking filesize() with different size of files ***
+diff -uNr php-5.2.14.old/ext/standard/tests/file/fputcsv_error.phpt php-5.2.14/ext/standard/tests/file/fputcsv_error.phpt
+--- php-5.2.14.old/ext/standard/tests/file/fputcsv_error.phpt	2007-08-08 11:53:07.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/fputcsv_error.phpt	2012-02-01 18:15:47.691893560 +0800
+@@ -40,6 +40,7 @@
+ }
+ 
+ echo "Done\n";
++?>
+ --EXPECTF--
+ *** Testing error conditions ***
+ -- Testing fputcsv() with zero argument --
+diff -uNr php-5.2.14.old/ext/standard/tests/file/fread_error.phpt php-5.2.14/ext/standard/tests/file/fread_error.phpt
+--- php-5.2.14.old/ext/standard/tests/file/fread_error.phpt	2008-11-25 19:33:41.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/fread_error.phpt	2012-02-01 18:15:47.691893560 +0800
+@@ -57,6 +57,7 @@
+ var_dump( fclose(@$fp) );
+ 
+ echo "Done\n";
++?>
+ --EXPECTF--
+ *** Testing error conditions ***
+ -- Testing fread() with zero argument --
+diff -uNr php-5.2.14.old/ext/standard/tests/file/include_userstream_001.phpt php-5.2.14/ext/standard/tests/file/include_userstream_001.phpt
+--- php-5.2.14.old/ext/standard/tests/file/include_userstream_001.phpt	2007-07-10 01:27:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/include_userstream_001.phpt	2012-02-01 18:15:47.699893561 +0800
+@@ -76,6 +76,7 @@
+ @include "test1://hello";
+ echo @file_get_contents("test2://hello"),"\n";
+ @include "test2://hello";
++?>
+ --EXPECT--
+ <?php echo "Hello World\n";?>
+ <?php echo "Hello World\n";?>
+diff -uNr php-5.2.14.old/ext/standard/tests/file/include_userstream_002.phpt php-5.2.14/ext/standard/tests/file/include_userstream_002.phpt
+--- php-5.2.14.old/ext/standard/tests/file/include_userstream_002.phpt	2007-07-10 01:27:24.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/include_userstream_002.phpt	2012-02-01 18:15:47.695893560 +0800
+@@ -93,6 +93,7 @@
+ @include "test1://hello";
+ echo @file_get_contents("test2://hello"),"\n";
+ include "test2://hello";
++?>
+ --EXPECTF--
+ <?php echo "Hello World\n";?>
+ <?php echo "Hello World\n";?>
+diff -uNr php-5.2.14.old/ext/standard/tests/file/is_executable_error.phpt php-5.2.14/ext/standard/tests/file/is_executable_error.phpt
+--- php-5.2.14.old/ext/standard/tests/file/is_executable_error.phpt	2007-06-05 17:10:50.000000000 +0800
++++ php-5.2.14/ext/standard/tests/file/is_executable_error.phpt	2012-02-01 18:15:47.695893560 +0800
+@@ -15,6 +15,7 @@
+ var_dump( is_executable(dirname(__FILE__)."/is_executable") );
+ 
+ echo "Done\n";
++?>
+ --EXPECTF--
+ *** Testing is_executable(): error conditions ***
+ 
+diff -uNr php-5.2.14.old/ext/standard/tests/math/abs.phpt php-5.2.14/ext/standard/tests/math/abs.phpt
+--- php-5.2.14.old/ext/standard/tests/math/abs.phpt	2004-05-19 16:56:50.000000000 +0800
++++ php-5.2.14/ext/standard/tests/math/abs.phpt	2012-02-01 18:15:47.683893561 +0800
+@@ -19,6 +19,7 @@
+ TESTS;
+ 
+ include(dirname(__FILE__) . '/../../../../tests/quicktester.inc');
++?>
+ --EXPECT--
+ 1,1,0,0
+ OK
+diff -uNr php-5.2.14.old/ext/standard/tests/math/pow.phpt php-5.2.14/ext/standard/tests/math/pow.phpt
+--- php-5.2.14.old/ext/standard/tests/math/pow.phpt	2004-05-19 16:45:46.000000000 +0800
++++ php-5.2.14/ext/standard/tests/math/pow.phpt	2012-02-01 18:15:47.791893564 +0800
+@@ -143,6 +143,7 @@
+  echo "On failure, please mail result to php-dev@lists.php.net\n";
+  include(dirname(__FILE__) . '/../../../../tests/quicktester.inc');
+ 
++?>
+ --EXPECT--
+ 1,1,0,0
+ On failure, please mail result to php-dev@lists.php.net
+diff -uNr php-5.2.14.old/ext/standard/tests/math/round.phpt php-5.2.14/ext/standard/tests/math/round.phpt
+--- php-5.2.14.old/ext/standard/tests/math/round.phpt	2004-05-19 16:45:46.000000000 +0800
++++ php-5.2.14/ext/standard/tests/math/round.phpt	2012-02-01 18:15:47.683893561 +0800
+@@ -32,6 +32,7 @@
+ TESTS;
+ 
+ include(dirname(__FILE__) . '/../../../../tests/quicktester.inc');
++?>
+ --EXPECT--
+ 1,1,0,0
+ OK
+diff -uNr php-5.2.14.old/ext/standard/tests/serialize/bug37947.phpt php-5.2.14/ext/standard/tests/serialize/bug37947.phpt
+--- php-5.2.14.old/ext/standard/tests/serialize/bug37947.phpt	2006-08-30 17:44:53.000000000 +0800
++++ php-5.2.14/ext/standard/tests/serialize/bug37947.phpt	2012-02-01 18:15:47.675893559 +0800
+@@ -17,5 +17,6 @@
+ 
+ $str='a:2:{i:0;O:4:"test":0:{}junk';
+ var_dump(unserialize($str));
++?>
+ --EXPECT--
+ bool(false)
+diff -uNr php-5.2.14.old/ext/standard/tests/serialize/unserializeS.phpt php-5.2.14/ext/standard/tests/serialize/unserializeS.phpt
+--- php-5.2.14.old/ext/standard/tests/serialize/unserializeS.phpt	2007-07-09 22:31:56.000000000 +0800
++++ php-5.2.14/ext/standard/tests/serialize/unserializeS.phpt	2012-02-01 18:15:47.787893564 +0800
+@@ -10,5 +10,6 @@
+ $data = unserialize($str);
+ var_dump($data);
+ 
++?>
+ --EXPECT--
+ bool(false)
+diff -uNr php-5.2.14.old/ext/standard/tests/strings/basename_variation.phpt php-5.2.14/ext/standard/tests/strings/basename_variation.phpt
+--- php-5.2.14.old/ext/standard/tests/strings/basename_variation.phpt	2007-05-22 23:59:04.000000000 +0800
++++ php-5.2.14/ext/standard/tests/strings/basename_variation.phpt	2012-02-01 18:15:47.787893564 +0800
+@@ -86,6 +86,7 @@
+ 
+ echo "Done\n";
+ 
++?>
+ --EXPECTF--
+ *** Testing possible variations in path and suffix ***
+ 
+diff -uNr php-5.2.14.old/ext/standard/tests/strings/strip_tags_variation8.phpt php-5.2.14/ext/standard/tests/strings/strip_tags_variation8.phpt
+--- php-5.2.14.old/ext/standard/tests/strings/strip_tags_variation8.phpt	2007-10-09 20:47:00.000000000 +0800
++++ php-5.2.14/ext/standard/tests/strings/strip_tags_variation8.phpt	2012-02-01 18:15:47.679893560 +0800
+@@ -38,6 +38,7 @@
+ }
+ 
+ echo "Done";
++?>
+ --EXPECTF--
+ *** Testing strip_tags() : usage variations ***
+ -- Iteration 1 --
+diff -uNr php-5.2.14.old/ext/standard/tests/strings/strip_tags_variation9.phpt php-5.2.14/ext/standard/tests/strings/strip_tags_variation9.phpt
+--- php-5.2.14.old/ext/standard/tests/strings/strip_tags_variation9.phpt	2009-07-15 21:55:39.000000000 +0800
++++ php-5.2.14/ext/standard/tests/strings/strip_tags_variation9.phpt	2012-02-01 18:15:47.679893560 +0800
+@@ -36,6 +36,7 @@
+ }
+ 
+ echo "Done";
++?>
+ --EXPECTF--
+ *** Testing strip_tags() : usage variations ***
+ -- Iteration 1 --
+diff -uNr php-5.2.14.old/ext/standard/tests/strings/trim.phpt php-5.2.14/ext/standard/tests/strings/trim.phpt
+--- php-5.2.14.old/ext/standard/tests/strings/trim.phpt	2004-05-19 16:45:46.000000000 +0800
++++ php-5.2.14/ext/standard/tests/strings/trim.phpt	2012-02-01 18:15:47.787893564 +0800
+@@ -23,5 +23,6 @@
+ 
+ include(dirname(__FILE__) . '/../../../../tests/quicktester.inc');
+ 
++?>
+ --EXPECT--
+ OK
+diff -uNr php-5.2.14.old/ext/standard/tests/strings/wordwrap.phpt php-5.2.14/ext/standard/tests/strings/wordwrap.phpt
+--- php-5.2.14.old/ext/standard/tests/strings/wordwrap.phpt	2007-07-22 23:55:16.000000000 +0800
++++ php-5.2.14/ext/standard/tests/strings/wordwrap.phpt	2012-02-01 18:15:47.787893564 +0800
+@@ -33,5 +33,6 @@
+ 
+ include(dirname(__FILE__) . '/../../../../tests/quicktester.inc');
+ 
++?>
+ --EXPECT--
+ OK
+diff -uNr php-5.2.14.old/ext/standard/tests/versioning/php_sapi_name.phpt php-5.2.14/ext/standard/tests/versioning/php_sapi_name.phpt
+--- php-5.2.14.old/ext/standard/tests/versioning/php_sapi_name.phpt	2009-04-09 21:28:22.000000000 +0800
++++ php-5.2.14/ext/standard/tests/versioning/php_sapi_name.phpt	2012-02-01 18:15:47.783893564 +0800
+@@ -5,5 +5,6 @@
+ 
+ var_dump(php_sapi_name());
+ 
++?>
+ --EXPECTF--
+ string(3) "c%ci"
+diff -uNr php-5.2.14.old/ext/xsl/tests/bug26384.phpt php-5.2.14/ext/xsl/tests/bug26384.phpt
+--- php-5.2.14.old/ext/xsl/tests/bug26384.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/bug26384.phpt	2012-02-01 18:15:47.799893564 +0800
+@@ -28,6 +28,7 @@
+ //this segfaulted before
+ print $dom->documentElement->firstChild->nextSibling->nodeName;
+ 
++?>
+ --EXPECT--
+ HERE
+ ROW
+diff -uNr php-5.2.14.old/ext/xsl/tests/bug48221.phpt php-5.2.14/ext/xsl/tests/bug48221.phpt
+--- php-5.2.14.old/ext/xsl/tests/bug48221.phpt	2009-05-10 23:48:53.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/bug48221.phpt	2012-02-01 18:15:47.719893561 +0800
+@@ -10,6 +10,7 @@
+ $proc->importStylesheet($xsl);
+ $proc->setParameter('', '', '"\'');
+ $proc->transformToXml($dom);
++?>
+ --EXPECTF--
+ Warning: XSLTProcessor::transformToXml(): Cannot create XPath expression (string contains both quote and double-quotes) in %s on line %d
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt001.phpt php-5.2.14/ext/xsl/tests/xslt001.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt001.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt001.phpt	2012-02-01 18:15:47.803893564 +0800
+@@ -12,6 +12,7 @@
+ print "\n";
+ 
+ 
++?>
+ --EXPECT--
+ Test 1: Transform To XML String
+ <?xml version="1.0" encoding="iso-8859-1"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt002.phpt php-5.2.14/ext/xsl/tests/xslt002.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt002.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt002.phpt	2012-02-01 18:15:47.807893565 +0800
+@@ -20,6 +20,7 @@
+ print "\n";
+ 
+ 
++?>
+ --EXPECT--
+ Test 2: Transform To HTML String
+ <html><body>bar
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt003.phpt php-5.2.14/ext/xsl/tests/xslt003.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt003.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt003.phpt	2012-02-01 18:15:47.811893565 +0800
+@@ -13,6 +13,7 @@
+ print "\n";
+ 
+ 
++?>
+ --EXPECT--
+ Test 3: Using Parameters
+ <?xml version="1.0" encoding="iso-8859-1"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt004.phpt php-5.2.14/ext/xsl/tests/xslt004.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt004.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt004.phpt	2012-02-01 18:15:47.799893564 +0800
+@@ -19,6 +19,7 @@
+ print "\n";
+ 
+ 
++?>
+ --EXPECT--
+ Test 4: Checking UTF8 Output
+ <?xml version="1.0" encoding="utf-8"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt005.phpt php-5.2.14/ext/xsl/tests/xslt005.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt005.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt005.phpt	2012-02-01 18:15:47.807893565 +0800
+@@ -19,6 +19,7 @@
+ print "\n";
+ 
+ 
++?>
+ --EXPECT--
+ Test 5: Checking Indent
+ <?xml version="1.0" encoding="iso-8859-1"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt006.phpt php-5.2.14/ext/xsl/tests/xslt006.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt006.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt006.phpt	2012-02-01 18:15:47.803893564 +0800
+@@ -13,6 +13,7 @@
+ print "\n";
+ 
+ 
++?>
+ --EXPECT--
+ Test 6: Transform To Doc
+ <?xml version="1.0" encoding="iso-8859-1"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt007.phpt php-5.2.14/ext/xsl/tests/xslt007.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt007.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt007.phpt	2012-02-01 18:15:47.811893565 +0800
+@@ -14,6 +14,7 @@
+ print "\n";
+ 
+ 
++?>
+ --EXPECT--
+ Test 7: Transform To Uri
+ <?xml version="1.0" encoding="iso-8859-1"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt008.phpt php-5.2.14/ext/xsl/tests/xslt008.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt008.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt008.phpt	2012-02-01 18:15:47.807893565 +0800
+@@ -21,6 +21,7 @@
+ print $proc->transformToXML($dom);
+ 
+ 
++?>
+ --EXPECT--
+ Test 8: Stream Wrapper Includes 
+ <?xml version="1.0" encoding="iso-8859-1"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt009.phpt php-5.2.14/ext/xsl/tests/xslt009.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt009.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt009.phpt	2012-02-01 18:15:47.811893565 +0800
+@@ -22,6 +22,7 @@
+ print $proc->transformToXML($dom);
+ 
+ 
++?>
+ --EXPECT--
+ Test 9: Stream Wrapper XPath-Document()
+ <?xml version="1.0" encoding="iso-8859-1"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt010.phpt php-5.2.14/ext/xsl/tests/xslt010.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt010.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt010.phpt	2012-02-01 18:15:47.723893562 +0800
+@@ -20,6 +20,7 @@
+   $xml->load(dirname(__FILE__)."/exslt.xml");
+   
+   print $proc->transformToXml($xml);
++?>
+ --EXPECT--
+ Test 10: EXSLT Support
+   
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt011.phpt php-5.2.14/ext/xsl/tests/xslt011.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt011.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt011.phpt	2012-02-01 18:15:47.803893564 +0800
+@@ -46,6 +46,7 @@
+     }
+   }
+   
++?>
+ --EXPECTF--
+ Test 11: php:function Support
+ 
+diff -uNr php-5.2.14.old/ext/xsl/tests/xslt012.phpt php-5.2.14/ext/xsl/tests/xslt012.phpt
+--- php-5.2.14.old/ext/xsl/tests/xslt012.phpt	2009-06-04 09:16:58.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xslt012.phpt	2012-02-01 18:15:47.807893565 +0800
+@@ -41,6 +41,7 @@
+ print "\n";
+ 
+ 
++?>
+ --EXPECT--
+ Test 12: Using Associative Array of Parameters
+ <?xml version="1.0" encoding="iso-8859-1"?>
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_getParameter-invalidparam.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_getParameter-invalidparam.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_getParameter-invalidparam.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_getParameter-invalidparam.phpt	2012-02-01 18:15:47.715893561 +0800
+@@ -10,6 +10,7 @@
+ <?php
+ include dirname(__FILE__) .'/prepare.inc';
+ var_dump($proc->getParameter('', 'doesnotexist'));
++?>
+ --EXPECTF--
+ bool(false)
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_getParameter.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_getParameter.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_getParameter.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_getParameter.phpt	2012-02-01 18:15:47.727893562 +0800
+@@ -12,6 +12,7 @@
+ $proc->importStylesheet($xsl);
+ $proc->setParameter('', 'key', 'value');
+ var_dump($proc->getParameter('', 'key'));
++?>
+ --EXPECTF--
+ %string|unicode%(5) "value"
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_getParameter-wrongparam.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_getParameter-wrongparam.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_getParameter-wrongparam.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_getParameter-wrongparam.phpt	2012-02-01 18:15:47.723893562 +0800
+@@ -12,6 +12,7 @@
+ var_dump($proc->getParameter());
+ var_dump($proc->getParameter(array(), array()));
+ var_dump($proc->getParameter('', array()));
++?>
+ --EXPECTF--
+ Warning: XSLTProcessor::getParameter() expects exactly 2 parameters, 0 given in %s on line %d
+ bool(false)
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-allfuncs.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-allfuncs.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-allfuncs.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-allfuncs.phpt	2012-02-01 18:15:47.803893564 +0800
+@@ -22,6 +22,7 @@
+ //var_dump($proc->registerPHPFunctions(array()));
+ //var_dump($proc->transformToXml($dom));
+ 
++?>
+ --EXPECTF--
+ NULL
+ string(18) "This Is An Example"
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array-multiple.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array-multiple.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array-multiple.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array-multiple.phpt	2012-02-01 18:15:47.731893562 +0800
+@@ -24,6 +24,7 @@
+ var_dump($proc->registerPHPFunctions(array('strrev', 'array_key_exists')));
+ var_dump($proc->registerPHPFunctions(array()));
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ bool(true)
+ bool(true)
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array-notallowed.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array-notallowed.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array-notallowed.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array-notallowed.phpt	2012-02-01 18:15:47.719893561 +0800
+@@ -18,6 +18,7 @@
+ $proc->importStylesheet($phpfuncxsl);
+ var_dump($proc->registerPHPFunctions(array()));
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ bool(true)
+ 
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-array.phpt	2012-02-01 18:15:47.715893561 +0800
+@@ -18,6 +18,7 @@
+ $proc->importStylesheet($phpfuncxsl);
+ var_dump($proc->registerPHPFunctions(array('ucwords')));
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ bool(true)
+ string(18) "This Is An Example"
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-funcnostring.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-funcnostring.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-funcnostring.phpt	2009-09-07 22:18:46.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-funcnostring.phpt	2012-02-01 18:15:47.727893562 +0800
+@@ -21,6 +21,7 @@
+ $proc->importStylesheet($phpfuncxsl);
+ var_dump($proc->registerPHPFunctions());
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ NULL
+ 
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-funcundef.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-funcundef.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-funcundef.phpt	2009-09-07 22:18:46.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-funcundef.phpt	2012-02-01 18:15:47.719893561 +0800
+@@ -20,6 +20,7 @@
+ $proc->importStylesheet($phpfuncxsl);
+ var_dump($proc->registerPHPFunctions());
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ NULL
+ 
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-null.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-null.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-null.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-null.phpt	2012-02-01 18:15:47.715893561 +0800
+@@ -23,6 +23,7 @@
+ var_dump($proc->registerPHPFunctions('ucwords'));
+ var_dump($proc->registerPHPFunctions(null));
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ NULL
+ NULL
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string-multiple.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string-multiple.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string-multiple.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string-multiple.phpt	2012-02-01 18:15:47.723893562 +0800
+@@ -23,6 +23,7 @@
+ var_dump($proc->registerPHPFunctions('ucwords'));
+ var_dump($proc->registerPHPFunctions('strpos'));
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ NULL
+ NULL
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string-notallowed.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string-notallowed.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string-notallowed.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string-notallowed.phpt	2012-02-01 18:15:47.719893561 +0800
+@@ -18,6 +18,7 @@
+ $proc->importStylesheet($phpfuncxsl);
+ var_dump($proc->registerPHPFunctions('strpos'));
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ NULL
+ 
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_registerPHPFunctions-string.phpt	2012-02-01 18:15:47.715893561 +0800
+@@ -18,6 +18,7 @@
+ $proc->importStylesheet($phpfuncxsl);
+ var_dump($proc->registerPHPFunctions('ucwords'));
+ var_dump($proc->transformToXml($dom));
++?>
+ --EXPECTF--
+ NULL
+ string(18) "This Is An Example"
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_removeParameter-invalidparam.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_removeParameter-invalidparam.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_removeParameter-invalidparam.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_removeParameter-invalidparam.phpt	2012-02-01 18:15:47.723893562 +0800
+@@ -11,6 +11,7 @@
+ include dirname(__FILE__) .'/prepare.inc';
+ $proc->importStylesheet($xsl);
+ var_dump($proc->removeParameter('', 'doesnotexist'));
++?>
+ --EXPECT--
+ bool(false)
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_removeParameter.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_removeParameter.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_removeParameter.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_removeParameter.phpt	2012-02-01 18:15:47.723893562 +0800
+@@ -13,6 +13,7 @@
+ $proc->setParameter('', 'key', 'value');
+ $proc->removeParameter('', 'key');
+ var_dump($proc->getParameter('', 'key'));
++?>
+ --EXPECT--
+ bool(false)
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_removeParameter-wrongparams.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_removeParameter-wrongparams.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_removeParameter-wrongparams.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_removeParameter-wrongparams.phpt	2012-02-01 18:15:47.727893562 +0800
+@@ -12,6 +12,7 @@
+ $proc->removeParameter();
+ $proc->removeParameter(array(), array());
+ $proc->removeParameter('', array());
++?>
+ --EXPECTF--
+ Warning: XSLTProcessor::removeParameter() expects exactly 2 parameters, 0 given in %s on line %d
+ 
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_setparameter-errorquote.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_setparameter-errorquote.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_setparameter-errorquote.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_setparameter-errorquote.phpt	2012-02-01 18:15:47.727893562 +0800
+@@ -14,6 +14,7 @@
+ $proc->importStylesheet($xsl);
+ $proc->setParameter('', '', '"\'');
+ $proc->transformToXml($dom);
++?>
+ --EXPECTF--
+ Warning: XSLTProcessor::transformToXml(): Cannot create XPath expression (string contains both quote and double-quotes) in %s on line %d
+ --CREDITS--
+diff -uNr php-5.2.14.old/ext/xsl/tests/xsltprocessor_setparameter-nostring.phpt php-5.2.14/ext/xsl/tests/xsltprocessor_setparameter-nostring.phpt
+--- php-5.2.14.old/ext/xsl/tests/xsltprocessor_setparameter-nostring.phpt	2009-05-23 22:52:54.000000000 +0800
++++ php-5.2.14/ext/xsl/tests/xsltprocessor_setparameter-nostring.phpt	2012-02-01 18:15:47.711893561 +0800
+@@ -14,6 +14,7 @@
+ $proc->importStylesheet($xsl);
+ var_dump($proc->setParameter('', array(4, 'abc')));
+ $proc->transformToXml($dom);
++?>
+ --EXPECTF--
+ Warning: XSLTProcessor::setParameter(): Invalid parameter array in %s on line %d
+ bool(false)
+diff -uNr php-5.2.14.old/ext/zip/tests/bug47667.phpt php-5.2.14/ext/zip/tests/bug47667.phpt
+--- php-5.2.14.old/ext/zip/tests/bug47667.phpt	2010-02-02 03:30:32.000000000 +0800
++++ php-5.2.14/ext/zip/tests/bug47667.phpt	2012-02-01 18:15:47.783893564 +0800
+@@ -36,5 +36,6 @@
+ $zip->close();
+ unlink($filename);
+ 
++?>
+ --EXPECT--
+ files: 1
+diff -uNr php-5.2.14.old/ext/zip/tests/bug8009.phpt php-5.2.14/ext/zip/tests/bug8009.phpt
+--- php-5.2.14.old/ext/zip/tests/bug8009.phpt	2007-05-08 02:03:01.000000000 +0800
++++ php-5.2.14/ext/zip/tests/bug8009.phpt	2012-02-01 18:15:47.783893564 +0800
+@@ -23,5 +23,6 @@
+ echo "status: " . $zip->status . "\n";
+ echo "\n";
+ 
++?>
+ --EXPECT--
+ status: 0
+diff -uNr php-5.2.14.old/ext/zip/tests/bug8700.phpt php-5.2.14/ext/zip/tests/bug8700.phpt
+--- php-5.2.14.old/ext/zip/tests/bug8700.phpt	2007-05-08 02:03:01.000000000 +0800
++++ php-5.2.14/ext/zip/tests/bug8700.phpt	2012-02-01 18:15:47.783893564 +0800
+@@ -26,5 +26,6 @@
+ echo "status: " . $zip->status . "\n";
+ echo "\n";
+ 
++?>
+ --EXPECT--
+ status: 0
+diff -uNr php-5.2.14.old/tests/classes/inheritance.phpt php-5.2.14/tests/classes/inheritance.phpt
+--- php-5.2.14.old/tests/classes/inheritance.phpt	2003-11-30 21:57:20.000000000 +0800
++++ php-5.2.14/tests/classes/inheritance.phpt	2012-02-01 18:15:47.623893557 +0800
+@@ -43,6 +43,7 @@
+ $bar1->c = 12;
+ $bar1->display();
+ echo $bar1->mul()."\n";
++?>
+ --EXPECT--
+ This is class foo
+ a = 2
+diff -uNr php-5.2.14.old/tests/func/002.phpt php-5.2.14/tests/func/002.phpt
+--- php-5.2.14.old/tests/func/002.phpt	2004-02-12 00:09:46.000000000 +0800
++++ php-5.2.14/tests/func/002.phpt	2012-02-01 18:15:47.759893563 +0800
+@@ -15,6 +15,7 @@
+ if (isset($hey) || isset($yo)) {
+   echo "Local variables became global :(\n";
+ }
++?>
+ --EXPECT--
+ hey=0, 0
+ hey=1, -1
+diff -uNr php-5.2.14.old/tests/func/003.phpt php-5.2.14/tests/func/003.phpt
+--- php-5.2.14.old/tests/func/003.phpt	2004-02-12 00:09:46.000000000 +0800
++++ php-5.2.14/tests/func/003.phpt	2012-02-01 18:15:47.619893557 +0800
+@@ -96,6 +96,7 @@
+ }
+ 
+ andi (3,10);
++?>
+ --EXPECT--
+ hey
+ blah
+diff -uNr php-5.2.14.old/tests/lang/018.phpt php-5.2.14/tests/lang/018.phpt
+--- php-5.2.14.old/tests/lang/018.phpt	2004-05-19 16:45:46.000000000 +0800
++++ php-5.2.14/tests/lang/018.phpt	2012-02-01 18:15:47.759893563 +0800
+@@ -11,6 +11,7 @@
+   eval($message);
+   echo $i."\n";
+ }
++?>
+ --EXPECT--
+ hey
+ 0
+diff -uNr php-5.2.14.old/tests/lang/019.phpt php-5.2.14/tests/lang/019.phpt
+--- php-5.2.14.old/tests/lang/019.phpt	2004-05-19 16:45:46.000000000 +0800
++++ php-5.2.14/tests/lang/019.phpt	2012-02-01 18:15:47.763893563 +0800
+@@ -13,6 +13,7 @@
+   test();
+   $i++;
+ }
++?>
+ --EXPECT--
+ hey, this is a regular echo'd eval()
+ hey, this is a function inside an eval()!
+diff -uNr php-5.2.14.old/tests/lang/bug24054.phpt php-5.2.14/tests/lang/bug24054.phpt
+--- php-5.2.14.old/tests/lang/bug24054.phpt	2003-09-14 03:49:50.000000000 +0800
++++ php-5.2.14/tests/lang/bug24054.phpt	2012-02-01 18:15:47.763893563 +0800
+@@ -19,6 +19,7 @@
+ 
+ include(dirname(__FILE__) . '/../quicktester.inc');
+ 
++?>
+ --EXPECT--
+ 1,1,0,0
+ OK
+diff -uNr php-5.2.14.old/tests/lang/bug43958.phpt php-5.2.14/tests/lang/bug43958.phpt
+--- php-5.2.14.old/tests/lang/bug43958.phpt	2008-09-02 17:45:36.000000000 +0800
++++ php-5.2.14/tests/lang/bug43958.phpt	2012-02-01 18:15:47.623893557 +0800
+@@ -10,6 +10,7 @@
+ }
+ 
+ MyClass::loadCode('file-which-does-not-exist-on-purpose.php');
++?>
+ --EXPECTF--
+ Warning: include(file-which-does-not-exist-on-purpose.php): failed to open stream: No such file or directory in %sbug43958.php on line 5
+ 
+diff -uNr php-5.2.14.old/tests/lang/foreach_with_references_001.phpt php-5.2.14/tests/lang/foreach_with_references_001.phpt
+--- php-5.2.14.old/tests/lang/foreach_with_references_001.phpt	2003-07-24 21:21:54.000000000 +0800
++++ php-5.2.14/tests/lang/foreach_with_references_001.phpt	2012-02-01 18:15:47.759893563 +0800
+@@ -17,6 +17,7 @@
+ 
+ print_r($arr);
+ 
++?>
+ --EXPECT--
+ Array
+ (
+diff -uNr php-5.2.14.old/tests/lang/returnByReference.009.phpt php-5.2.14/tests/lang/returnByReference.009.phpt
+--- php-5.2.14.old/tests/lang/returnByReference.009.phpt	2009-07-27 05:44:54.000000000 +0800
++++ php-5.2.14/tests/lang/returnByReference.009.phpt	2012-02-01 18:15:47.763893563 +0800
+@@ -29,6 +29,7 @@
+ 
+ var_dump (testReturnValByRef());
+ 
++?>
+ --EXPECTF--
+ ---> 1. Return a variable by reference -> No warning:
+ int(1)
+diff -uNr php-5.2.14.old/Zend/tests/bug31177-2.phpt php-5.2.14/Zend/tests/bug31177-2.phpt
+--- php-5.2.14.old/Zend/tests/bug31177-2.phpt	2005-12-27 07:58:42.000000000 +0800
++++ php-5.2.14/Zend/tests/bug31177-2.phpt	2012-02-01 18:15:47.759893563 +0800
+@@ -13,6 +13,7 @@
+ } catch (Exception $e) {
+   var_dump($x);
+ }
++?>
+ --EXPECT--
+ object(foo)#1 (0) {
+ }
+diff -uNr php-5.2.14.old/Zend/tests/bug37715.phpt php-5.2.14/Zend/tests/bug37715.phpt
+--- php-5.2.14.old/Zend/tests/bug37715.phpt	2007-07-25 02:28:39.000000000 +0800
++++ php-5.2.14/Zend/tests/bug37715.phpt	2012-02-01 18:15:47.611893560 +0800
+@@ -24,6 +24,7 @@
+ }
+ // Alternatively $c = $a; and foreachloop removal will cause identical results.
+ var_dump(key($a['b']));
++?>
+ --EXPECT--
+ int(3)
+ int(3)
+diff -uNr php-5.2.14.old/Zend/tests/bug38772.phpt php-5.2.14/Zend/tests/bug38772.phpt
+--- php-5.2.14.old/Zend/tests/bug38772.phpt	2006-09-12 19:01:16.000000000 +0800
++++ php-5.2.14/Zend/tests/bug38772.phpt	2012-02-01 18:15:47.615893558 +0800
+@@ -35,6 +35,7 @@
+ $b = new B();
+ $c = new C();
+ $d = new D();
++?>
+ --EXPECT--
+ A::foo
+ A::foo
+diff -uNr php-5.2.14.old/Zend/tests/bug40509.phpt php-5.2.14/Zend/tests/bug40509.phpt
+--- php-5.2.14.old/Zend/tests/bug40509.phpt	2007-09-19 19:25:57.000000000 +0800
++++ php-5.2.14/Zend/tests/bug40509.phpt	2012-02-01 18:15:47.615893558 +0800
+@@ -19,6 +19,7 @@
+ 	var_dump($k);
+ }
+ var_dump(key($arr["v"]));
++?>
+ --EXPECT--
+ int(0)
+ int(0)
+diff -uNr php-5.2.14.old/Zend/tests/bug40705.phpt php-5.2.14/Zend/tests/bug40705.phpt
+--- php-5.2.14.old/Zend/tests/bug40705.phpt	2007-09-19 19:25:57.000000000 +0800
++++ php-5.2.14/Zend/tests/bug40705.phpt	2012-02-01 18:15:47.611893560 +0800
+@@ -17,6 +17,7 @@
+ 	var_dump($k);
+ }
+ var_dump(key($foo));
++?>
+ --EXPECT--
+ int(0)
+ int(0)
+diff -uNr php-5.2.14.old/Zend/tests/bug41401.phpt php-5.2.14/Zend/tests/bug41401.phpt
+--- php-5.2.14.old/Zend/tests/bug41401.phpt	2007-05-19 04:13:28.000000000 +0800
++++ php-5.2.14/Zend/tests/bug41401.phpt	2012-02-01 18:15:47.615893558 +0800
+@@ -5,6 +5,7 @@
+ echo 1/-2*5;
+ echo "\n";
+ echo 6/+2*-3;
++?>
+ --EXPECT--
+ -2.5
+ -9
+\ No newline at end of file
+diff -uNr php-5.2.14.old/Zend/tests/bug41640.phpt php-5.2.14/Zend/tests/bug41640.phpt
+--- php-5.2.14.old/Zend/tests/bug41640.phpt	2007-06-09 16:38:44.000000000 +0800
++++ php-5.2.14/Zend/tests/bug41640.phpt	2012-02-01 18:15:47.619893557 +0800
+@@ -8,6 +8,7 @@
+ }
+ 
+ var_dump(get_class_vars("foo"));
++?>
+ --EXPECT--
+ array(1) {
+   ["x"]=>
+diff -uNr php-5.2.14.old/Zend/tests/bug42211.phpt php-5.2.14/Zend/tests/bug42211.phpt
+--- php-5.2.14.old/Zend/tests/bug42211.phpt	2007-08-08 21:32:46.000000000 +0800
++++ php-5.2.14/Zend/tests/bug42211.phpt	2012-02-01 18:15:47.607893560 +0800
+@@ -20,6 +20,7 @@
+ $a->foo();
+ $b = new B();
+ $b->foo();
++?>
+ --EXPECT--
+ bool(true)
+ bool(false)
+diff -uNr php-5.2.14.old/Zend/tests/bug43128.phpt php-5.2.14/Zend/tests/bug43128.phpt
+--- php-5.2.14.old/Zend/tests/bug43128.phpt	2008-05-14 21:07:17.000000000 +0800
++++ php-5.2.14/Zend/tests/bug43128.phpt	2012-02-01 18:15:47.611893560 +0800
+@@ -13,5 +13,6 @@
+ if ($a instanceof $a); // Segmentation fault
+ new $a;                // Segmentation fault
+ echo "ok\n";
++?>
+ --EXPECT--
+ ok
+diff -uNr php-5.2.14.old/Zend/tests/bug44141.phpt php-5.2.14/Zend/tests/bug44141.phpt
+--- php-5.2.14.old/Zend/tests/bug44141.phpt	2008-02-21 21:55:22.000000000 +0800
++++ php-5.2.14/Zend/tests/bug44141.phpt	2012-02-01 18:15:47.619893557 +0800
+@@ -21,5 +21,6 @@
+ 
+ $y = Y::cheat(5);
+ echo $y->x, PHP_EOL;
++?>
+ --EXPECTF--
+ Fatal error: Call to private X::__construct() from context 'Y' in %sbug44141.php on line 15
+diff -uNr php-5.2.14.old/Zend/tests/bug50394.phpt php-5.2.14/Zend/tests/bug50394.phpt
+--- php-5.2.14.old/Zend/tests/bug50394.phpt	2009-12-19 03:12:11.000000000 +0800
++++ php-5.2.14/Zend/tests/bug50394.phpt	2012-02-01 18:15:47.611893560 +0800
+@@ -17,6 +17,7 @@
+ call_user_func_array( array( $proxy, 'bar' ), $args );
+ call_user_func_array( array( $proxy, 'bar' ), array(&$arg) );
+ var_dump($arg);
++?>
+ --EXPECT--	
+ bar called!
+ bar called!
+diff -uNr php-5.2.14.old/Zend/tests/call_with_refs.phpt php-5.2.14/Zend/tests/call_with_refs.phpt
+--- php-5.2.14.old/Zend/tests/call_with_refs.phpt	2009-12-19 03:12:11.000000000 +0800
++++ php-5.2.14/Zend/tests/call_with_refs.phpt	2012-02-01 18:15:47.615893558 +0800
+@@ -12,6 +12,7 @@
+ $my_var = str_repeat("A",64);
+ $data = call_user_func_array("substr_replace",array(&$my_var, new StdClass(),1));
+ echo "OK!";
++?>
+ --EXPECT--	
+ Object of class stdClass could not be converted to string
+ Object of class stdClass to string conversion
+diff -uNr php-5.2.14.old/Zend/tests/halt03.phpt php-5.2.14/Zend/tests/halt03.phpt
+--- php-5.2.14.old/Zend/tests/halt03.phpt	2005-06-05 00:16:19.000000000 +0800
++++ php-5.2.14/Zend/tests/halt03.phpt	2012-02-01 18:15:47.759893563 +0800
+@@ -6,5 +6,6 @@
+ if (true) {
+ 	__HALT_COMPILER();
+ }
++?>
+ --EXPECTF--
+ Fatal error: __HALT_COMPILER() can only be used from the outermost scope in %shalt03.php on line %d
