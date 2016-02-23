@@ -1,0 +1,8 @@
+#!/bin/bash
+#sut_timeout 120000
+source /usr/share/qa/qa_test_php/apache2-php-prepare.sh
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+
+service apache2 restart
+$CTCS2_DIR/tools/run $TCF_DIR/qa_php.tcf

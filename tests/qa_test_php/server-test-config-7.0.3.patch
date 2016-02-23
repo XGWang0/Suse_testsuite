@@ -1,0 +1,65 @@
+diff -ruN php-7.0.3-old/server-tests-config.php php-7.0.3/server-tests-config.php
+--- php-7.0.3-old/server-tests-config.php	2016-02-03 00:32:19.000000000 +0800
++++ php-7.0.3/server-tests-config.php	2016-02-19 15:42:41.822378225 +0800
+@@ -9,32 +9,32 @@
+    
+ $conf = array(
+ /* path to the php source tree */
+-'TEST_PHP_SRCDIR'      =>    NULL,
++'TEST_PHP_SRCDIR'      =>    '/usr/share/qa/qa_test_php',
+ 
+ /* executable that will be tested.  Not used for
+    web based tests */
+ 'TEST_PHP_EXECUTABLE'  =>    NULL,
+ 
+ /* php.ini to use when executing php */
+-'PHPRC'                =>    NULL,
++'PHPRC'                =>    '/etc/php.ini',
+ 
+ /* log format */
+ 'TEST_PHP_LOG_FORMAT'  =>    'LEODC',
+ 
+ /* debugging detail in output. */
+-'TEST_PHP_DETAILED'    =>    0,
++'TEST_PHP_DETAILED'    =>    1,
+ 
+ /* error style for editors or IDE's */
+ 'TEST_PHP_ERROR_STYLE' =>    'EMACS',
+ 
+-'REPORT_EXIT_STATUS'   =>    0,
++'REPORT_EXIT_STATUS'   =>    1,
+ 'NO_PHPTEST_SUMMARY'   =>    0,
+ 
+ /* don't ask, and don't send results to QA if true */
+ 'NO_INTERACTION'       =>    true,
+ 
+ /* base url prefixed to any requests */
+-'TEST_WEB_BASE_URL'    =>    NULL,
++'TEST_WEB_BASE_URL'    =>    "http://localhost/php-tests",
+ 
+ /* if set, copy phpt files into this directory,
+    which should be accessible via an http server.  The
+@@ -48,7 +48,7 @@
+    TEST_WEB_BASE_URL=http://localhost/test
+    TEST_BASE_PATH=/path/to/htdocs/test
+ */
+-'TEST_BASE_PATH'   =>    NULL,
++'TEST_BASE_PATH'   =>    '/srv/www/htdocs/php-tests',
+ 
+ /* file extension of pages requested via http
+    this allows for php to be configured to parse
+@@ -60,6 +60,7 @@
+ 'TEST_CONTEXT_INFO'    =>    false,
+ 
+ /* : or ; separated list of paths */
++'TEST_WEB'             =>    true,
+ 'TEST_PATHS'           =>    NULL
+ /* additional configuration items that may be set
+    to provide proxy support for testes:
+@@ -71,4 +72,4 @@
+ */
+ );
+ 
+-?>
+\ No newline at end of file
++?>
