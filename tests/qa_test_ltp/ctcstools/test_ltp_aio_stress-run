@@ -1,0 +1,6 @@
+#!/bin/sh
+ctcsdir="/usr/lib/ctcs2"
+tcfdir="/usr/share/qa/qa_test_ltp"
+for tcf in ltp-aio-stress.part1.tcf ltp-aio-stress.part2.tcf; do
+    $ctcsdir/tools/run $tcfdir/tcf/$tcf
+done
