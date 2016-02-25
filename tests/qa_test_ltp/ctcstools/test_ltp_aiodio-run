@@ -1,0 +1,6 @@
+#!/bin/sh
+ctcsdir="/usr/lib/ctcs2"
+tcfdir="/usr/share/qa/qa_test_ltp"
+for tcf in ltp-aiodio.part1.tcf ltp-aiodio.part2.tcf ltp-aiodio.part3.tcf; do
+    $ctcsdir/tools/run $tcfdir/tcf/$tcf
+done

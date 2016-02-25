@@ -1,0 +1,4 @@
+#!/bin/sh
+ctcsdir="/usr/lib/ctcs2"
+tcfdir="/usr/share/qa/qa_test_ltp"
+$ctcsdir/tools/run $tcfdir/tcf/commands.tcf
