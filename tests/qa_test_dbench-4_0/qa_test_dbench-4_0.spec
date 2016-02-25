@@ -86,6 +86,8 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tcf
 mkdir -p $RPM_BUILD_ROOT/usr/share/qa/tools
 # install ctcs2 related files in the ctcs2-glue sub packages
 install -m 744 ctcstools/do_dbench $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
+install -m 744 ctcstools/do_tbench $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
+install -m 744 ctcstools/tbench_start.sh $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
 install -m 744 ctcstools/do_dbench_nfs $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
 install -m 744 ctcstools/dbenchnewparser $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
 install -m 744 ctcstools/dbenchnfsparser $RPM_BUILD_ROOT/usr/share/qa/qa_test_dbench-4_0/
@@ -98,6 +100,7 @@ do
 done
 
 install -m 744 ctcstools/test_dbench*-run $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 744 ctcstools/test_tbench*-run $RPM_BUILD_ROOT/usr/share/qa/tools
 
 find $RPM_BUILD_ROOT/usr/share/dbench-4_0 -name "*.txt" -type f -print0 | xargs -r -0 chmod a-x
 

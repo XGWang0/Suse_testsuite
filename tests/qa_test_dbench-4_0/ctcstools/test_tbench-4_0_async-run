@@ -1,0 +1,36 @@
+#!/bin/sh
+
+ctcsdir="/usr/lib/ctcs2"
+TCF_DIR="/usr/share/qa/tcf"
+
+if [ -x /etc/init.d/cron ];then
+    /etc/init.d/cron stop
+else
+    systemctl stop cron
+fi
+
+ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
+case ${ABUILD_FS} in
+    "")
+        mkdir -p /abuild
+        ABUILD_FS="root"
+        ;;
+    *)
+        echo "[tbench-4_0_async] The filesystem on /abuild is ${ABUILD_FS}"
+        ;;
+esac
+
+TCF_FILE="${TCF_DIR}/tbench4_async_${ABUILD_FS}.tcf"
+echo > ${TCF_FILE}
+#for NUM in 1 4 48 128 192 256 500;do
+cat <<EOF >> ${TCF_FILE}
+bg 1 tbench_start /usr/share/qa/qa_test_dbench-4_0/tbench_start.sh
+
+timer 8h
+fg 1 tbench4-async /usr/share/qa/qa_test_dbench-4_0/do_tbench -t 600
+wait
+EOF
+#done
+
+$ctcsdir/tools/run ${TCF_FILE}
+
