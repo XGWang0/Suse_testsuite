@@ -1,0 +1,70 @@
+diff -Nurp lmbench-3.orig/scripts/config-test lmbench-3/scripts/config-test
+--- lmbench-3.orig/scripts/config-test	2016-02-26 16:50:23.804920466 +0800
++++ lmbench-3/scripts/config-test	2016-02-26 17:18:37.056188666 +0800
+@@ -67,10 +67,10 @@ then	MB=`expr $TOTAL_MEM \* 7`
+ 	MB=`expr $MB / 10`
+ fi
+ 
+-echo "Checking to see if you have $MB MB; please wait for a moment..."
+-MB=`../bin/$OS/memsize $MB`
+-MB=`../bin/$OS/memsize $MB`
+-MB=`../bin/$OS/memsize $MB`
++#echo "Checking to see if you have $MB MB; please wait for a moment..."
++#MB=`../bin/$OS/memsize $MB`
++#MB=`../bin/$OS/memsize $MB`
++#MB=`../bin/$OS/memsize $MB`
+ if [ `expr $SYNC_MAX \* $MB` -gt `expr $TOTAL_MEM` ]
+ then
+ 	MB=`expr $TOTAL_MEM / $SYNC_MAX`
+@@ -106,13 +106,9 @@ case $1 in
+     ctx)
+         BENCHMARK_CTX=YES
+         ;;
+-    pagefault)
+-        BENCHMARK_PAGEFAULT=YES
+-        ;;
+     file)
++        BENCHMARK_PAGEFAULT=YES
+         BENCHMARK_FILE=YES
+-        ;;
+-    mmap)
+         BENCHMARK_MMAP=YES
+         ;;
+     pipe)
+diff -Nurp lmbench-3.orig/src/lat_fs.c lmbench-3/src/lat_fs.c
+--- lmbench-3.orig/src/lat_fs.c	2011-01-03 21:47:57.000000000 +0800
++++ lmbench-3/src/lat_fs.c	2016-02-26 19:03:36.879298174 +0800
+@@ -186,6 +186,13 @@ setup_names(iter_t iterations, void* coo
+ 	}
+ 
+ 	sprintf(dirname_tmpl, "lat_fs_%d_XXXXXX", getpid());
++    dirname = mkdtemp(dirname_tmpl);
++    if (!dirname) {
++        perror("mkdtemp");
++        exit(1);
++    }
++    dirname = strdup(dirname);
++    /*
+ 	dirname = tempnam(state->tmpdir, dirname_tmpl);
+ 	if (!dirname) {
+ 		perror("tempnam failed");
+@@ -195,6 +202,7 @@ setup_names(iter_t iterations, void* coo
+ 		perror("mkdir failed");
+ 		exit(1);
+ 	}
++    */
+ 	state->dirs[0] = dirname;
+ 	foff = 0;
+ 	doff = 0;
+diff -Nurp lmbench-3.orig/src/lat_pagefault.c lmbench-3/src/lat_pagefault.c
+--- lmbench-3.orig/src/lat_pagefault.c	2011-01-03 21:47:57.000000000 +0800
++++ lmbench-3/src/lat_pagefault.c	2016-02-26 16:51:10.184993643 +0800
+@@ -18,7 +18,7 @@ char	*id = "$Id$\n";
+ 
+ typedef struct _state {
+ 	int fd;
+-	int size;
++	long long size;
+ 	int npages;
+ 	int clone;
+ 	char* file;
