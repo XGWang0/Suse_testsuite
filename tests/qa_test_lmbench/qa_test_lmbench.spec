@@ -26,6 +26,7 @@ Source4:	qa_test_lmbench.8
 Patch0:         lmbench-3-automation.diff
 Patch1:         lmbench-3-config.diff
 Patch2:         lmbench-3-split-testcase.diff
+Patch3:         bigger_size_for_filesize.patch
 BuildRoot:      %{_tmppath}/%{name}-3-build
 
 %description
@@ -65,6 +66,7 @@ find -name "*.orig" -type f | xargs -r rm -fv
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS"
@@ -98,9 +100,7 @@ install -m 744 test_lmbench.ctx-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.file-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.http-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.mem-run    $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 test_lmbench.mmap-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.ops-run    $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 744 test_lmbench.pagefault-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.pipe-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.proc-run    $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 744 test_lmbench.rpc-run    $RPM_BUILD_ROOT/usr/share/qa/tools
@@ -122,9 +122,7 @@ ln -s ../tools/test_lmbench.ctx-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test
 ln -s ../tools/test_lmbench.file-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.file-run
 ln -s ../tools/test_lmbench.http-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.http-run
 ln -s ../tools/test_lmbench.mem-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.mem-run
-ln -s ../tools/test_lmbench.mmap-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.mmap-run
 ln -s ../tools/test_lmbench.ops-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.ops-run
-ln -s ../tools/test_lmbench.pagefault-run   $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.pagefault-run
 ln -s ../tools/test_lmbench.pipe-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.pipe-run
 ln -s ../tools/test_lmbench.proc-run        $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.proc-run
 ln -s ../tools/test_lmbench.rpc-run         $RPM_BUILD_ROOT/usr/share/qa/qa_test_lmbench/test_lmbench.rpc-run
@@ -164,9 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools/test_lmbench.file-run
 /usr/share/qa/tools/test_lmbench.http-run
 /usr/share/qa/tools/test_lmbench.mem-run
-/usr/share/qa/tools/test_lmbench.mmap-run
 /usr/share/qa/tools/test_lmbench.ops-run
-/usr/share/qa/tools/test_lmbench.pagefault-run
 /usr/share/qa/tools/test_lmbench.pipe-run
 /usr/share/qa/tools/test_lmbench.proc-run
 /usr/share/qa/tools/test_lmbench.rpc-run
@@ -187,9 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/qa_test_lmbench/test_lmbench.file-run
 /usr/share/qa/qa_test_lmbench/test_lmbench.http-run
 /usr/share/qa/qa_test_lmbench/test_lmbench.mem-run
-/usr/share/qa/qa_test_lmbench/test_lmbench.mmap-run
 /usr/share/qa/qa_test_lmbench/test_lmbench.ops-run
-/usr/share/qa/qa_test_lmbench/test_lmbench.pagefault-run
 /usr/share/qa/qa_test_lmbench/test_lmbench.pipe-run
 /usr/share/qa/qa_test_lmbench/test_lmbench.proc-run
 /usr/share/qa/qa_test_lmbench/test_lmbench.rpc-run
