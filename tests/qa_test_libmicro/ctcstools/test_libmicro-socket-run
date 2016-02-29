@@ -1,5 +1,5 @@
 #!/bin/sh
-TCF_FILE=/usr/share/qa/tcf/socket.tcf
+TCF_FILE=/usr/share/qa/tcf/libmicro-socket.tcf
 CTCS2_DIR=/usr/lib/ctcs2
 
 cat <<EOF >> ${TCF_FILE}
