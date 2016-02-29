@@ -1,0 +1,12 @@
+diff -Nurp tiobench-0.3.3.org/tiobench.pl tiobench-0.3.3/tiobench.pl
+--- tiobench-0.3.3.org/tiobench.pl	2003-06-10 21:29:23.000000000 +0800
++++ tiobench-0.3.3/tiobench.pl	2016-02-25 19:42:18.985123728 +0800
+@@ -157,7 +157,7 @@ foreach $dir (@dirs) {
+                   $stat_data{$identifier}{$thread}{$size}{$block}{$field}{'pct_gt_10_sec'} += $pct_gt_10_sec;
+                }
+                close(TIOTEST);
+-               print STDERR "" x length($prompt); # erase prompt
++               #print STDERR "" x length($prompt); # erase prompt
+             }
+             for my $field ('read','rread','write','rwrite') {
+                $stat_data{$identifier}{$thread}{$size}{$block}{$field}{'rate'} = 

@@ -28,6 +28,7 @@ Patch3:		    eatmem.patch
 # bnc#835355 tiobench compiling conflict on aligned_alloc
 Patch4:         tiobench-remove-conflict-on-aligned_alloc.patch
 Patch5:     tiobench-add-sync-option.patch
+Patch6:     ctcs2_remove_backspace.patch
 Provides:	tiobench tiobench-ctcs2-glue
 Obsoletes:	tiobench tiobench-ctcs2-glue
 Requires:	ctcs2
@@ -60,6 +61,7 @@ threads support library).
 %patch3
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS -DLARGEFILES" 
