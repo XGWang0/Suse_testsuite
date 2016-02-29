@@ -33,22 +33,18 @@ CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 ABUILD_FS=$(grep '/abuild' /proc/mounts  | awk '{print $3}')
 case ${ABUILD_FS} in
-    "ext3"): ;;
-    "xfs"):  ;;
-    "btrfs"): ;;
     "")
         mkdir -p /abuild
         ABUILD_FS="root"
         ;;
     *)
-        echo "NOT support filesystem ${ABUILD_FS}"
-        exit 1
+        echo "[pgbench_small_rw] The filesystem on /abuild is ${ABUILD_FS}"
         ;;
 esac
 TCF_FILE=${TCF_DIR}/pgbench_small_ro_osync_${ABUILD_FS}.tcf
 
 cat <<EOF > ${TCF_FILE}
-timer 5h
+timer 10h
 fg 1 pgbench-small-ro-osync /usr/share/qa/qa_test_pgbench/pgbench-run.sh -r -i -s small
 wait
 EOF
