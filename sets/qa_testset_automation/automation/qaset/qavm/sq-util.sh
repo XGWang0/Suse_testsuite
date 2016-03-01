@@ -180,9 +180,16 @@ function sq_prep_repos_and_packages {
     local _SLE_build=$2
     local _repo_mirror=$3
 
-    sq_prep_repos ${_arch} ${_SLE_build} ${_repo_mirror} && \
-        sq_prep_install_packages_qa_libs
+    #Ignore repo setup in OpenQA
+    if [ "${SQ_CI_ENV}X" != "openqaX" ]; then
+        sq_prep_repos ${_arch} ${_SLE_build} ${_repo_mirror}
+    fi
+    if test $? -ne 0;then
+        exit 5
+        rm -f ${_autorun_lock}
+    fi
 
+    sq_prep_install_packages_qa_libs
     if test $? -ne 0;then
         exit 5
         rm -f ${_autorun_lock}
