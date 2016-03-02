@@ -64,3 +64,8 @@ parserManager.add_parser("sample",'netperf-peer-fiber','netperf-fiber-udp',DODNe
 parserManager.add_parser("sample",'netperf-peer-fiber6','netperf-fiber-udp6',DODNetperf)
 
 parserManager.add_parser("sample",'netperf-peer-fiber6','netperf-fiber-tcp6',DODNetperf)
+
+for i in ['netperf-peer-loop-tcp','netperf-peer-loop6-tcp']:
+    parserManager.add_parser("sample",i,'netperf-loop-tcp',DODNetperf)
+for i in ['netperf-peer-loop-udp','netperf-peer-loop6-udp']:
+    parserManager.add_parser("sample",i,'netperf-loop-udp',DODNetperf)

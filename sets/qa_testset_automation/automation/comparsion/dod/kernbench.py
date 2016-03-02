@@ -49,3 +49,7 @@ parserManager.add_parser("sample",
                          "kernbench",
                          DODKernbench)
 
+parserManager.add_parser("sample",
+                         "kernbench_fast",
+                         "kernbench",
+                         DODKernbench)
