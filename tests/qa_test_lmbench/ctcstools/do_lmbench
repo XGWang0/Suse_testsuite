@@ -6,56 +6,23 @@ case "$1" in
     bcopy)
         MAKE_TARGET=rerun_bcopy
         ;;
-    connect)
-        MAKE_TARGET=rerun_connect
-        ;;
     ctx)
         MAKE_TARGET=rerun_ctx
         ;;
     file)
         MAKE_TARGET=rerun_file
         ;;
-    http)
-        MAKE_TARGET=rerun_http
-        ;;
     mem)
         MAKE_TARGET=rerun_mem
-        ;;
-    mmap)
-        MAKE_TARGET=rerun_mmap
         ;;
     ops)
         MAKE_TARGET=rerun_ops
         ;;
-    pagefault)
-        MAKE_TARGET=rerun_pagefault
-        ;;
-    pipe)
-        MAKE_TARGET=rerun_pipe
-        ;;
-    proc)
-        MAKE_TARGET=rerun_proc
-        ;;
-    rpc)
-        MAKE_TARGET=rerun_rpc
-        ;;
-    select)
-        MAKE_TARGET=rerun_select
-        ;;
-    sig)
-        MAKE_TARGET=rerun_sig
+    local_comm)
+        MAKE_TARGET=rerun_local_comm
         ;;
     syscall)
         MAKE_TARGET=rerun_syscall
-        ;;
-    tcp)
-        MAKE_TARGET=rerun_tcp
-        ;;
-    udp)
-        MAKE_TARGET=rerun_udp
-        ;;
-    unix)
-        MAKE_TARGET=rerun_unix
         ;;
     *)
         MAKE_TARGET=rerun
