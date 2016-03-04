@@ -2,6 +2,9 @@
 runcaller := run-caller
 allrun += acceptance-run kernel-run performance-run regression-run kernel-all-run 
 kgraft_run += kgraft-kernel-run kgraft-performance-run
+openqa_run += acceptance-run.openqa kernel-run.openqa regression-run.openqa kernel-all-run.openqa
+
+allrun += $(openqa_run)
 
 ifneq (,$(findstring SLE12, $(TARGET_RELEASE)))
 allrun += $(kgraft_run)
@@ -16,7 +19,7 @@ install:
 
 	sed -i '/^QASET_ROOT=/s#^.*$$#QASET_ROOT=$(prefix)#' $(RUN_DEST)/$(runcaller)
 	for run in $(allrun); do \
-		ln -s $(runcaller) $(RUN_DEST)/$${run}; \
+		install -m 755 $${run} $(RUN_DEST); \
 	done
 
 .PHONY: install
