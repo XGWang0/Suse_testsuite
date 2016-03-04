@@ -2,7 +2,7 @@
   "name": "mce-inject",
   "summary": "MCE injection tool",
   "description": "\nMachine Check Exception injection tool for linux kernel. Requires a Linux\n2.6.31+ kernel with CONFIG_X86_MCE_INJECT enabled and the mce-inject module\nloaded (if not built in)",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "CHrubis@novell.com",
   "rpm": "mce-inject-git_25_11_2009-1.noarch.rpm",
   "arch": "noarch",
