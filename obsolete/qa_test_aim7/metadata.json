@@ -2,7 +2,7 @@
   "name": "qa_test_aim7",
   "summary": "AIM7 test and benchmarking suite",
   "description": "\nThe AIM Multiuser Benchmark - Suite VII tests and measures the\nperformance of Open System multiuser computers. Multiuser computer\nenvironments typically have the following general characteristics in\ncommon:\n- A large number of tasks are run concurrently\n- Disk storage increases dramatically as the number of users\nincrease.\n- Complex numerically intense applications are performed\ninfrequently\n- An important amount of time is spent sorting and searching through\nlarge amounts of data.\n- After data is used it is placed back on disk because it is a\nshared resource.\n- A large amount of time is spent in common runtime libraries.\nMultiuser systems are commonly used to support the following types of\nuser environments:\n- Multiuser/shared system environment performing office automation,\nword processing, spreadsheet, email, database, payroll, and data\nprocessing.\n- Compute server environment that uses an extremely large quantity\nof data, performs large quantities of floating point\ncalculations, and large amounts of Interprocess Communications\n(IPC) for graphics.\n- Large database environment with a lot of disk I/O, data in memory,\nand IPC via shared memory.\n- File server environment with a heavy concentration of integer compute\nfile system operations.\nSuSE series: suse",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "VMarsik@novell.com",
   "rpm": "qa_test_aim7-1-140.noarch.rpm",
   "arch": "noarch",
