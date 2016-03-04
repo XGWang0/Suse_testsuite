@@ -3,7 +3,7 @@
   "summary": "CUPS automated testsuite",
   "description": "\nCUPS automated testsuite\nIncludes:\nIPP compiance tests\nCommand tests",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "thehejik@suse.com",
   "rpm": "qa_test_cups-1.0-0.noarch.rpm",
   "arch": "noarch",
   "product": "cups",
