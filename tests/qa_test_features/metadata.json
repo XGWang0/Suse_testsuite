@@ -2,7 +2,7 @@
   "name": "qa_test_features",
   "summary": "Package with SLE feature tests",
   "description": "\nPackage provide automated tests for features implemented in\nSLE products. Tests are developed as part of TDD initiative\nAuthors are various\nAuthors:\n--------\nLukas Lipavsky <llipavsky@suse.com>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "None",
   "rpm": "qa_test_features-0.1-1.noarch.rpm",
   "arch": "noarch",
