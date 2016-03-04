@@ -3,7 +3,7 @@
   "summary": "file system stress test",
   "description": "\nfile system stress test",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "yosun@suse.com",
   "rpm": "qa_test_fs_stress-0.1-2.noarch.rpm",
   "arch": "noarch",
   "product": "stress",
