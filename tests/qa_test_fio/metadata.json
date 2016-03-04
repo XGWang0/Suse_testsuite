@@ -2,7 +2,7 @@
   "name": "qa_test_fio",
   "summary": "Flexible I/O Tester/benchmarker",
   "description": "\nfio is an I/O tool meant to be used both for benchmark and stress/hardware\nverification. It has support for 4 different types of I/O engines (sync,\nmmap, libaio, posixaio), I/O priorities (for newer Linux kernels), rate I/O,\nforked or threaded jobs, and much more. It can work on block devices as\nwell as files. fio accepts job descriptions in a simple-to-understand text\nformat. Several example job files are included. fio displays all sorts of\nI/O performance information, such as completion and submission latencies\n(avg/mean/deviation), bandwidth stats, cpu and disk utilization, and more.\nAuthors:\n--------\nJens Axboe <jens.axboe@oracle.com>\n%define qadir /usr/share/qa\n%debug_package",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "None",
   "rpm": "qa_test_fio-2.0.5-0.noarch.rpm",
   "arch": "noarch",
