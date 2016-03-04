@@ -3,7 +3,7 @@
   "summary": "glibc testsuite",
   "description": "\nglibc testsuite\nripped out from the glibc sources",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "XLAi@suse.com",
   "rpm": "qa_test_glibc-1.0-1.noarch.rpm",
   "arch": "noarch",
   "product": "glibc",
