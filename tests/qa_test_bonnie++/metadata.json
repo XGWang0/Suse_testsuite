@@ -3,7 +3,7 @@
   "summary": "File System Benchmark",
   "description": "\nBonnie++ is a popular performance benchmark that targets various aspects\nof Unix file systems.\nThis subpackage also provides scripts and TCF files to the QA CTCS2 framework.\nAuthors:\n--------\nQA-APACII team",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "	LZWang@suse.com",
   "rpm": "qa_test_bonnie++-1.03e-1.noarch.rpm",
   "arch": "noarch",
   "product": "bonnie++",
