@@ -2,7 +2,7 @@
   "name": "qa_test_evolution",
   "summary": "Simple evolution tests for ctcs framework",
   "description": "\nTest cases for evolution package. Initailly only have a test demo",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "cachen@novell.com",
   "rpm": "qa_test_evolution-0.1-1.noarch.rpm",
   "arch": "noarch",
