@@ -65,3 +65,12 @@ rl = ['pgbench_small_rw_ext3','pgbench_small_rw_xfs','pgbench_small_rw_btrfs','p
 for i in rl:
     parserManager.add_parser("sample",i,"pgbench-small-rw",DODPgbench)
 
+otl = ['pgbench_small_ro_osync_ext3','pgbench_small_ro_osync_xfs','pgbench_small_ro_osync_btrfs','pgbench_small_ro_osync_ext4']
+
+for i in otl:
+    parserManager.add_parser("sample",i,"pgbench-small-ro-osync",DODPgbench)
+
+orl = ['pgbench_small_rw_osync_ext3','pgbench_small_rw_osync_xfs','pgbench_small_rw_osync_btrfs','pgbench_small_rw_osync_ext4']
+
+for i in orl:
+    parserManager.add_parser("sample",i,"pgbench-small-rw_osync",DODPgbench)
