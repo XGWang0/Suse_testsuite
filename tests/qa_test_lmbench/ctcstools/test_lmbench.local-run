@@ -13,4 +13,4 @@ fg 1 lmbench-local_comm /usr/bin/do_lmbench local_comm
 wait
 EOF
 
-$ctcsdir/tools/run $basedir/lmbench.connect.tcf
+$ctcsdir/tools/run ${TCF_FILE}

@@ -1,6 +1,6 @@
 diff -Nurp lmbench-3.orig/Makefile lmbench-3/Makefile
---- lmbench-3.orig/Makefile	2016-03-02 14:12:29.962563272 +0800
-+++ lmbench-3/Makefile	2016-03-02 14:17:07.868964554 +0800
+--- lmbench-3.orig/Makefile	2016-03-04 18:32:57.993351893 +0800
++++ lmbench-3/Makefile	2016-03-04 18:33:42.141503489 +0800
 @@ -28,47 +28,14 @@ rerun:
  rerun_syscall:
  	cd src && $(MAKE) rerun_syscall
@@ -52,8 +52,8 @@ diff -Nurp lmbench-3.orig/Makefile lmbench-3/Makefile
  rerun_bcopy:
  	cd src && $(MAKE) rerun_bcopy
 diff -Nurp lmbench-3.orig/scripts/config-test lmbench-3/scripts/config-test
---- lmbench-3.orig/scripts/config-test	2016-03-02 14:12:29.962563272 +0800
-+++ lmbench-3/scripts/config-test	2016-03-02 14:15:01.395364984 +0800
+--- lmbench-3.orig/scripts/config-test	2016-03-04 18:32:57.993351893 +0800
++++ lmbench-3/scripts/config-test	2016-03-04 18:34:14.805616086 +0800
 @@ -93,14 +93,8 @@ echo "OK, it looks like your cache line
  case $1 in
      syscall)
@@ -75,7 +75,7 @@ diff -Nurp lmbench-3.orig/scripts/config-test lmbench-3/scripts/config-test
          BENCHMARK_MMAP=YES
          ;;
 -    pipe)
-+    local_comm)
++    local)
          BENCHMARK_PIPE=YES
 -        ;;
 -    unix)
@@ -100,9 +100,9 @@ diff -Nurp lmbench-3.orig/scripts/config-test lmbench-3/scripts/config-test
          BENCHMARK_BCOPY=YES
          ;;
 diff -Nurp lmbench-3.orig/src/Makefile lmbench-3/src/Makefile
---- lmbench-3.orig/src/Makefile	2016-03-02 14:12:29.962563272 +0800
-+++ lmbench-3/src/Makefile	2016-03-02 14:15:59.186246766 +0800
-@@ -126,62 +126,18 @@ rerun_syscall: lmbench
+--- lmbench-3.orig/src/Makefile	2016-03-04 18:32:57.993351893 +0800
++++ lmbench-3/src/Makefile	2016-03-04 18:33:58.233558915 +0800
+@@ -126,60 +126,16 @@ rerun_syscall: lmbench
  	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test syscall; fi
  	@env OS="${OS}" ../scripts/results
  
@@ -151,18 +151,17 @@ diff -Nurp lmbench-3.orig/src/Makefile lmbench-3/src/Makefile
 -	@env OS="${OS}" ../scripts/results
 -
 -rerun_connect: lmbench
-+rerun_local_comm: lmbench
- 	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test connect; fi
- 	@env OS="${OS}" ../scripts/results
- 
+-	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test connect; fi
+-	@env OS="${OS}" ../scripts/results
+-
 -rerun_rpc: lmbench
 -	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test rpc; fi
 -	@env OS="${OS}" ../scripts/results
 -
 -rerun_http: lmbench
 -	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test http; fi
--	@env OS="${OS}" ../scripts/results
--
- rerun_bcopy: lmbench
- 	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test bcopy; fi
++rerun_local_comm: lmbench
++	@if [ ! -f $(CONFIG) ]; then env OS="${OS}" ../scripts/config-test local; fi
  	@env OS="${OS}" ../scripts/results
+ 
+ rerun_bcopy: lmbench

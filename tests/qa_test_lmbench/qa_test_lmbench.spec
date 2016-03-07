@@ -68,6 +68,7 @@ find -name "*.orig" -type f | xargs -r rm -fv
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS"
@@ -143,6 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/qa/tools/test_lmbench.ctx-run
 /usr/share/qa/tools/test_lmbench.file-run
 /usr/share/qa/tools/test_lmbench.mem-run
+/usr/share/qa/tools/test_lmbench.ops-run
 /usr/share/qa/tools/test_lmbench.local-run
 /usr/share/qa/tools/test_lmbench.syscall-run
 #
