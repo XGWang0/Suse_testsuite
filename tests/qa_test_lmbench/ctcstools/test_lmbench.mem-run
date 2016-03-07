@@ -12,4 +12,4 @@ timer 24h
 fg 1 lmbench-mem /usr/bin/do_lmbench mem
 wait
 EOF
-$ctcsdir/tools/run $basedir/lmbench.mem.tcf
+$ctcsdir/tools/run ${TCF_FILE}

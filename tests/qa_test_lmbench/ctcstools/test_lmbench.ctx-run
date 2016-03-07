@@ -13,4 +13,4 @@ fg 1 lmbench-ctx /usr/bin/do_lmbench ctx
 wait
 EOF
 
-$ctcsdir/tools/run $basedir/lmbench.ctx.tcf
+$ctcsdir/tools/run ${TCF_FILE}

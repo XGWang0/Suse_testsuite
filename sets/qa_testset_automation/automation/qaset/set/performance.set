@@ -66,23 +66,12 @@ function siege_get_args {
 }
 #For lmbench testsuite
 def_syslib_run lmbench_bcopy        "/usr/share/qa/tools/test_lmbench.bcopy-run" qa_test_lmbench
-def_syslib_run lmbench_connect      "/usr/share/qa/tools/test_lmbench.connect-run" qa_test_lmbench
 def_syslib_run lmbench_ctx          "/usr/share/qa/tools/test_lmbench.ctx-run" qa_test_lmbench
 def_syslib_run lmbench_file         "/usr/share/qa/tools/test_lmbench.file-run" qa_test_lmbench
-def_syslib_run lmbench_http         "/usr/share/qa/tools/test_lmbench.http-run" qa_test_lmbench
 def_syslib_run lmbench_mem          "/usr/share/qa/tools/test_lmbench.mem-run" qa_test_lmbench
-def_syslib_run lmbench_mmap         "/usr/share/qa/tools/test_lmbench.mmap-run" qa_test_lmbench
 def_syslib_run lmbench_ops          "/usr/share/qa/tools/test_lmbench.ops-run" qa_test_lmbench
-def_syslib_run lmbench_pagefault    "/usr/share/qa/tools/test_lmbench.pagefault-run" qa_test_lmbench
-def_syslib_run lmbench_pipe         "/usr/share/qa/tools/test_lmbench.pipe-run" qa_test_lmbench
-def_syslib_run lmbench_proc         "/usr/share/qa/tools/test_lmbench.proc-run" qa_test_lmbench
-def_syslib_run lmbench_rpc          "/usr/share/qa/tools/test_lmbench.rpc-run" qa_test_lmbench
-def_syslib_run lmbench_select       "/usr/share/qa/tools/test_lmbench.select-run" qa_test_lmbench
-def_syslib_run lmbench_sig          "/usr/share/qa/tools/test_lmbench.sig-run" qa_test_lmbench
+def_syslib_run lmbench_local         "/usr/share/qa/tools/test_lmbench.local-run" qa_test_lmbench
 def_syslib_run lmbench_syscall      "/usr/share/qa/tools/test_lmbench.syscall-run" qa_test_lmbench
-def_syslib_run lmbench_tcp          "/usr/share/qa/tools/test_lmbench.tcp-run" qa_test_lmbench
-def_syslib_run lmbench_udp          "/usr/share/qa/tools/test_lmbench.udp-run" qa_test_lmbench
-def_syslib_run lmbench_unix         "/usr/share/qa/tools/test_lmbench.unix-run" qa_test_lmbench
 
 def_simple_run kernbench_fast   "/usr/share/qa/tools/test_kernbench-fast-run" qa_test_kernbench
 

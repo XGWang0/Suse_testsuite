@@ -12,4 +12,4 @@ timer 24h
 fg 1 lmbench-syscall /usr/bin/do_lmbench syscall
 wait
 EOF
-$ctcsdir/tools/run $basedir/lmbench.syscall.tcf
+$ctcsdir/tools/run ${TCF_FILE}

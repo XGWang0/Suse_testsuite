@@ -13,4 +13,4 @@ fg 1 lmbench-bcopy /usr/bin/do_lmbench bcopy
 wait
 EOF
 
-$ctcsdir/tools/run $basedir/lmbench.bcopy.tcf
+$ctcsdir/tools/run ${TCF_FILE}
