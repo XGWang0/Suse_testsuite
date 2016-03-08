@@ -2,7 +2,7 @@
   "name": "qa_test_rugg",
   "summary": "rugg test",
   "description": "\nRugg is a hard drive and filesystem harness tool that allows you to test and\nbenchmark drives and filesystems, by writing simple to complex scenarios that\ncan mimic the behaviour of real-world applications.",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "yxu@suse.com",
   "rpm": "qa_test_rugg-0.2.3-1.noarch.rpm",
   "arch": "noarch",
