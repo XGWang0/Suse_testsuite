@@ -2,7 +2,7 @@
   "name": "qa_test_iosched",
   "summary": "rd-qa-kernel internal package to test behaviour of available ioschedulers",
   "description": "\nTries small benchmark on all available ioschedulers for the device.\nAuthors:\n--------\nFrank Seidel <fseidel@suse.de>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "None",
   "rpm": "qa_test_iosched-0.1-1.noarch.rpm",
   "arch": "noarch",
