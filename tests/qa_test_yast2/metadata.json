@@ -2,7 +2,7 @@
   "name": "qa_test_yast2",
   "summary": "RD-QA internal yast2-gui-testingset",
   "description": "\nTest of YaST online update (so far)\nAuthors:\n--------\nfseidel@suse.de",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "LLipavsky@novell.com",
   "rpm": "qa_test_yast2-0.1-130.noarch.rpm",
   "arch": "noarch",
