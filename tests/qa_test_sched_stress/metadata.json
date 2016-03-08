@@ -3,7 +3,7 @@
   "summary": "sched stress test from LTP",
   "description": "\nsched stress test from LTP",
   "status": "ready",
-  "maintainer": "yosun@suse.com",
+  "maintainer": "jtzhao@suse.com",
   "rpm": "qa_test_sched_stress-0.1-2.noarch.rpm",
   "arch": "noarch",
   "product": "stress",
