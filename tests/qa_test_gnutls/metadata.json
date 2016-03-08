@@ -3,7 +3,7 @@
   "summary": "Tests for the gnutls package, prepared to run under the ctcs framework",
   "description": "\nTest cases for the gnutls package.\nThe following command line utilities are tested:\ngnutls-cli, gnutls-cli-debug, gnutls-serv, certtool, srptool\nImplements TESTOPIA testcases 233364 - 233369 (as of 2010)",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "kgw@suse.com",
   "rpm": "qa_test_gnutls-0.3-1.1.noarch.rpm",
   "arch": "noarch",
   "product": "gnutls",
