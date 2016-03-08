@@ -3,7 +3,7 @@
   "summary": "Kernel, libhugetlbfs",
   "description": "\nThe testsuite contains tests both for the library's features and for the underlying kernel hugepage functionality",
   "status": "ready",
-  "maintainer": "jtzhao@suse.com",
+  "maintainer": "CaChen@suse.com",
   "rpm": "qa_test_libhugetlbfs-2.17-1.noarch.rpm",
   "arch": "noarch",
   "product": "libhugetlbfs",
