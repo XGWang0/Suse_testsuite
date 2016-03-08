@@ -3,7 +3,7 @@
   "summary": "Simple gzip tests for ctcs framework",
   "description": "\nTest cases for gzip package. Test archive creation and uncompression",
   "status": "ready",
-  "maintainer": "yosun@suse.com",
+  "maintainer": "jtzhao@suse.com",
   "rpm": "qa_test_gzip-0.1-48.noarch.rpm",
   "arch": "noarch",
   "product": "gzip",
