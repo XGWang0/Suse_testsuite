@@ -2,7 +2,7 @@
   "name": "qa_test_lsb",
   "summary": "The LSB test suite adapted for automatic runs.",
   "description": "\nThis is the testsuite for the Linux Standard Base (LSB).\nThis is only the automatic testing driver. The respective tests are in\nappropriate lsb-* packages, which are produced by the LSB committee.\nAuthors:\n--------\nJiri Dluhos <jdluhos@suse.com>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "jdluhos@suse.com",
   "rpm": "qa_test_lsb-2.0-3.noarch.rpm",
   "arch": "noarch",
