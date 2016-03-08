@@ -2,7 +2,7 @@
   "name": "qa_test_usb",
   "summary": "testusb",
   "description": "\nA USB test suit.",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "yxu@suse.com",
   "rpm": "qa_test_usb-1-1.noarch.rpm",
   "arch": "noarch",
