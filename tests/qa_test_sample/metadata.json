@@ -2,7 +2,7 @@
   "name": "qa_test_sample",
   "summary": "(rd-)qa internal package for training",
   "description": "\nThis is a sample qa_ test package that can be used as a template to\ncreate other packages or just for training purposes.\nAuthors:\n--------\nDan Collingridge <dcollingridge@novell.com>",
-  "status": "ready",
+  "status": "Deprecated",
   "maintainer": "aguo@novell.com",
   "rpm": "qa_test_sample-0.11-1.noarch.rpm",
   "arch": "noarch",
