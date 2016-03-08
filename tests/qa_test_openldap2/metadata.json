@@ -3,7 +3,7 @@
   "summary": "openldap2 tests for ctcs framework",
   "description": "\nTest cases for openldap2 server testing",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "thehejik@suse.com",
   "rpm": "qa_test_openldap2-%{ver}-0.noarch.rpm",
   "arch": "noarch",
   "product": "openldap2",
