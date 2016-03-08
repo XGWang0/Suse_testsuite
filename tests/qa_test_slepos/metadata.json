@@ -2,7 +2,7 @@
   "name": "qa_test_slepos",
   "summary": "SLEPOS (semi)automation bash scripts",
   "description": "\nAuthors:\n--------\nTomas Cech <tcech@suse.cz>\nErik Hamera <ehamera@suse.cz>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "TCech@novell.com",
   "rpm": "qa_test_slepos-0.5-1.noarch.rpm",
   "arch": "noarch",
