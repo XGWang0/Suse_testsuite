@@ -3,7 +3,7 @@
   "summary": "virt-test wrapper for QA Automation",
   "description": "\nThis is a wrapper for the upstream virt-test testsuite. This wrapper\nintegrates the testsuite with the QA Automation tool Hamsta.\nRead the virt-test package description for more information about the\ntest itself.\nNote that in order to install this testsuite you need to add the\nvirtualization team's package repository, the SLES SDK and Updates\nrepository (e.g. register your SLES product).",
   "status": "ready",
-  "maintainer": "pkacer@suse.com",
+  "maintainer": "JTang@suse.com",
   "rpm": "qa_test_virt-test-1.0-1.noarch.rpm",
   "arch": "noarch",
   "product": "virt-test",
