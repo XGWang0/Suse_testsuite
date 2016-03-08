@@ -2,7 +2,7 @@
   "name": "qa_test_unace",
   "summary": "Simple unace tests for ctcs framework",
   "description": "\nTest cases for unace package. Test archive uncompression (flat and\nstructured)",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "jtang@novell.com",
   "rpm": "qa_test_unace-0.1-3.noarch.rpm",
   "arch": "noarch",
