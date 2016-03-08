@@ -2,7 +2,7 @@
   "name": "qa_test_networkManager",
   "summary": "Simple network manager tests for ctcs framework",
   "description": "\nTest cases for network manager package.",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "cachen@novell.com",
   "rpm": "qa_test_networkManager-0.1-1.noarch.rpm",
   "arch": "noarch",
