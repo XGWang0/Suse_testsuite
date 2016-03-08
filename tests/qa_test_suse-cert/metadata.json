@@ -2,7 +2,7 @@
   "name": "qa_test_suse-cert",
   "summary": "SLES9/SLES10 Certification tests",
   "description": "\nAll tests and tools for SLES9/SLES10/SLED10 certifications are included\nin this package. Those tests are meant to be run from the System Test\nKit via TestConsole.\nAuthors:\n--------\nKlaus G. Wagner <kgw@suse.de>\nThomas Siedentopf <tsieden@suse.de>\nOlli Ries <ories@suse.de>\nGerald Bringhurst <gbringhurst@suse.de>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "aguo@novell.com",
   "rpm": "qa_test_suse-cert-0.8.1-184.noarch.rpm",
   "arch": "noarch",
