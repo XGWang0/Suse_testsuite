@@ -3,7 +3,7 @@
   "summary": "Benchmark tool",
   "description": "\nThis tool benchmarks overall system speed by mixing measurements of\nfile system speed and execution speed under VM and CPU pressure.\nAuthors:\n--------\nVarious from VA Linux\nGernot Payer <gpayer@suse.de>",
   "status": "ready",
-  "maintainer": "llwang@novell.com",
+  "maintainer": "LZWang@suse.com",
   "rpm": "qa_test_reaim-7.0.1.13-102.noarch.rpm",
   "arch": "noarch",
   "product": "reaim",
