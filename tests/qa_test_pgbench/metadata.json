@@ -3,7 +3,7 @@
   "summary": "Using pgbench to test the IO performance",
   "description": "\na test script using pgbench to test the IO performance.\nAuthors:\n--------\nLance Wang (lzwang@suse.com)\nYong Sun (yosun@suse.com)",
   "status": "ready",
-  "maintainer": "yosun@suse.com",
+  "maintainer": "LZWang@suse.com",
   "rpm": "qa_test_pgbench-1.0.0-5.1.noarch.rpm",
   "arch": "noarch",
   "product": "pgbench",
