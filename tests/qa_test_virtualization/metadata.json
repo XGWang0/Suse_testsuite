@@ -3,7 +3,7 @@
   "summary": "(rd-)qa virtualization automated tests",
   "description": "\nTest cases for virtualization\nAuthors:\n--------\nLukas Lipavsky <llipavsky@suse.cz>",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "JTang@suse.com",
   "rpm": "qa_test_virtualization-0.1.5-1.noarch.rpm",
   "arch": "noarch",
   "product": "virtualization",
