@@ -2,7 +2,7 @@
   "name": "qa_test_mce",
   "summary": "MCE testing scripts with ctcs2 integration",
   "description": "\nMachine Check Exception test scripts and data. Needs kernel 2.6.31+ kernel with\nCONFIG_X86_MCE_INJECT enabled.\nAuthors:\n--------\nAndi Kleen\nYing Huang",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "CHrubis@novell.com",
   "rpm": "qa_test_mce-git_04_02_2010-1.noarch.rpm",
   "arch": "noarch",
