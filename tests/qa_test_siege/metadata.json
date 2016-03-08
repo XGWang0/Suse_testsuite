@@ -3,7 +3,7 @@
   "summary": "Apache testing tool",
   "description": "\nThis is a apache testing and benchmarking tool",
   "status": "ready",
-  "maintainer": "cachen@suse.com",
+  "maintainer": "LZWang@suse.com",
   "rpm": "qa_test_siege-3.0.4-1.noarch.rpm",
   "arch": "noarch",
   "product": "siege",
