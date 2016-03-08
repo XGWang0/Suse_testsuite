@@ -2,7 +2,7 @@
   "name": "qa_test_iperf",
   "summary": "iperf test",
   "description": "\nIperf was developed as an alternative for measuring maximum TCP and UDP bandwidth performance.\nIperf allows the tuning of various parameters and UDP characteristics.\nIperf reports bandwidth, delay jitter, datagram loss.",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "yxu@suse.com",
   "rpm": "qa_test_iperf-2.0.5-1.noarch.rpm",
   "arch": "noarch",
