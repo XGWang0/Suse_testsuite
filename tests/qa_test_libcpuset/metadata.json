@@ -2,7 +2,7 @@
   "name": "qa_test_libcpuset",
   "summary": "Simple libcpuset tests for ctcs framework",
   "description": "\nTest cases for libcpuset\nAuthors:\n--------\nQAM team <qa-maintenance@suse.de>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "jmatejka@suse.cz",
   "rpm": "qa_test_libcpuset-0.1.0-10.noarch.rpm",
   "arch": "noarch",
