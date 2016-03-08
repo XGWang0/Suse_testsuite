@@ -2,7 +2,7 @@
   "name": "qa_test_md_monitor",
   "summary": "md_monitor/mdadm functional tests",
   "description": "\nThis is an integration bit for md_monitor test suite.\nAuthors:\n--------\nLibor Pechacek <lpechacek@suse.cz>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "hare@suse.de",
   "rpm": "qa_test_md_monitor-1.0-1.noarch.rpm",
   "arch": "noarch",
