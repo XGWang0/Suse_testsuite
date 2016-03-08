@@ -2,7 +2,7 @@
   "name": "qa_test_libo",
   "summary": "qa internal package for libreoffice",
   "description": "\nThis is a qa_libo test package that can be used to\ntest libreoffice through testtool.\nAuthors:\n--------\nYifan Jiang <yfjiang@novell.com>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "None",
   "rpm": "qa_test_libo-0.1-1.noarch.rpm",
   "arch": "noarch",
