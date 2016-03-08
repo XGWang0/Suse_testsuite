@@ -2,7 +2,7 @@
   "name": "qa_test_tar",
   "summary": "QA Integration for tar-tests package",
   "description": "\nQA Integration for tar-tests package. Tar-tests is upstream testsuite (part of tar sources)",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "llipavsky@suse.com",
   "rpm": "qa_test_tar-0.1-1.noarch.rpm",
   "arch": "noarch",
