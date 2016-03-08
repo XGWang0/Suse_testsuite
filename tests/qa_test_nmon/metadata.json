@@ -2,7 +2,7 @@
   "name": "qa_test_nmon",
   "summary": "nmom",
   "description": "\nnmon tool is used to monitor and analyze performance data, including:\nCPU utilization\nMemory use\nKernel statistics and run queue information\nDisks I/O rates, transfers, and read/write ratios\nFree space on file systems\nDisk adapters\nNetwork I/O rates, transfers, and read/write ratios\nPaging space and paging rates\nCPU and AIX specification\nTop processors\nIBM HTTP Web cache\nUser-defined disk groups\nMachine details and resources\nAsynchronous I/O -- AIX only\nWorkload Manager (WLM) -- AIX only\nIBM TotalStorage® Enterprise Storage Server® (ESS) disks -- AIX only\nNetwork File System (NFS)\nDynamic LPAR (DLPAR) changes",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "yxu@suse.com",
   "rpm": "qa_test_nmon-1-1.noarch.rpm",
   "arch": "noarch",
