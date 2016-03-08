@@ -2,7 +2,7 @@
   "name": "qa_test_stress",
   "summary": "Simple workload generator for POSIX systems",
   "description": "\nStress is a simple workload generator for POSIX systems.\nIt imposes a configurable amount of CPU, memory, I/O, and\ndisk stress on the system.",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "aguo@novell.com",
   "rpm": "qa_test_stress-1.0.4-1.noarch.rpm",
   "arch": "noarch",
