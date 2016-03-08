@@ -3,7 +3,7 @@
   "summary": "Interbench benchmark",
   "description": "\nThis benchmark application is designed to benchmark interactivity in Linux.\nIt is designed to measure the effect of changes in Linux kernel design or system\nconfiguration changes such as cpu, I/O scheduler and filesystem changes and\noptions. With careful benchmarking, different hardware can be compared.\nAuthors:\nCon Kolivas <kernel@kolivas.org>",
   "status": "ready",
-  "maintainer": "VMarsik@novell.com",
+  "maintainer": "XLAi@suse.com",
   "rpm": "qa_test_interbench-0.30-1.noarch.rpm",
   "arch": "noarch",
   "product": "interbench",
