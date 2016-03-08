@@ -3,7 +3,7 @@
   "summary": "iozone test",
   "description": "\nIOzone is a filesystem benchmark tool. The benchmark generates and measures a variety\nof file operations. Iozone has been ported to many machines and runs under many\noperating systems.",
   "status": "ready",
-  "maintainer": "yxu@suse.com",
+  "maintainer": "LZWang@suse.com@suse.com",
   "rpm": "qa_test_iozone-3_300-1.noarch.rpm",
   "arch": "noarch",
   "product": "iozone",
