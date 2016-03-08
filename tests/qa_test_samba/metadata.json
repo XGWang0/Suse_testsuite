@@ -3,7 +3,7 @@
   "summary": "(rd-)qa internal package for testing samba",
   "description": "\nTest cases for samba packages (implemented so far): - start daemon\nand check that it started\n- stop daemon and check that it stopped\n- verify pidfile handling\n- create user\n- delete user\n- test smbcontrol\n- show shares\n- file access (linux to linux only)\n- file access with ACL (linux to linux only)\nAuthors:\n--------\nLukas Lipavsky <llipavsky@suse.cz>",
   "status": "ready",
-  "maintainer": "llwang@novell.com",
+  "maintainer": "None",
   "rpm": "qa_test_samba-0.2.4-146.noarch.rpm",
   "arch": "noarch",
   "product": "samba",
