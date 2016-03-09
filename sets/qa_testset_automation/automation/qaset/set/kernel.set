@@ -40,6 +40,7 @@ def_simple_run ltp_sched '/usr/lib/ctcs2/tools/test_ltp_sched-run' qa_test_ltp
 def_simple_run ltp_syscalls '/usr/lib/ctcs2/tools/test_ltp_syscalls-run' qa_test_ltp
 def_simple_run ltp_timers '/usr/lib/ctcs2/tools/test_ltp_timers-run' qa_test_ltp
 def_simple_run autotest '/usr/share/qa/tools/test_autotest-run' qa_test_autotest
+def_simple_run autotest_openqa '/usr/share/qa/tools/test_autotest_openqa-run' qa_test_autotest
 def_simple_run newburn '/usr/lib/ctcs2/tools/test_newburn-run' qa_test_newburn
 def_simple_run lynis '/usr/share/qa/tools/test_lynis-run' qa_test_lynis
 def_simple_run newburn_memtst '/usr/lib/ctcs2/tools/test_newburn-memtst-run' qa_test_newburn-memtst

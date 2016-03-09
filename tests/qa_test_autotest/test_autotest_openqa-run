@@ -1,0 +1,20 @@
+#!/bin/bash
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+DISABLED="autotest-uptime autotest-fsstress"
+
+cmd="sed -e '/^#/d' "
+for testcase in $DISABLED; do
+    cmd="$cmd -e '/$testcase/,+2d'"
+done
+cmd="$cmd $TCF_DIR/autotest_no_bench.tcf > $TCF_DIR/autotest_openqa.tcf"
+eval "$cmd"
+
+# Bug 919680, autotest-libhugetlbfs cause timeout issue. so disable it firstly.
+ARCH=$HOSTTYPE
+if [ "$ARCH" = "s390x" ]; then
+    sed -i 's/^fg 1 autotest-libhugetlbfs/#fg 1 autotest-libhugetlbfs/' $TCF_DIR/autotest_openqa.tcf
+fi
+
+cd $CTCS2_DIR
+tools/run $TCF_DIR/autotest_openqa.tcf
