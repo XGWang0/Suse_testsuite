@@ -3,7 +3,7 @@
   "summary": "Kgraft test patch for QA test",
   "description": "\nThis is a test Kgraft patch. This is used for QA ACAPII Team\nbefore there is a recognized one.",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "lzwang@suse.com",
   "rpm": "kgraft-patch-getpid-qa-1-1.noarch.rpm",
   "arch": "noarch",
   "product": "kgraft-patch-getpid-qa",
