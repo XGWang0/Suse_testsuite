@@ -3,7 +3,7 @@
   "summary": "A test Framework for QA ACAPII",
   "description": "\nqa_testset_automation is a collection of tools.\nAuthors:\n--------\nLance Wang <lzwang@suse.com>",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "qa-apac2@suse.de",
   "rpm": "qa_testset_automation-1.0-0.noarch.rpm",
   "arch": "noarch",
   "product": "automation",
