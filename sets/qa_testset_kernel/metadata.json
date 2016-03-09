@@ -2,7 +2,7 @@
   "name": "qa_testset_kernel",
   "summary": "Setup for Kernel tests running",
   "description": "\ntestset_kernel-run is a script to launch a serials of tests related kernel testing.\nAuthors:\n--------\nBin Wei Liu <bwliu@suse.com>",
-  "status": "ready",
+  "status": "deprecated",
   "maintainer": "None",
   "rpm": "qa_testset_kernel-1.0-0.noarch.rpm",
   "arch": "noarch",
