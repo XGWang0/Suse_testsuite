@@ -1,0 +1,14 @@
+#!/bin/bash
+PATH='/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin'
+
+ctcsdir="/usr/lib/ctcs2"
+basedir="/usr/share/qa/tcf"
+TCF_FILE="$basedir/netperf-peer-fiber6-tcp.tcf"
+cat <<EOF >${TCF_FILE}
+timer 25m
+fg 1 netperf-fiber-tcp6  /usr/lib/ctcs2/config/netperf/netperf-client -6 -T -a ::efff:0:1054 -m 96 -i eth5 -p ::efff:0:1053
+wait
+EOF
+
+$ctcsdir/tools/run ${TCF_FILE}
+

@@ -101,11 +101,15 @@ install -D -m 755 ctcstools/netperf_peer_loop_udp-run6 $RPM_BUILD_ROOT/usr/share
 install -D -m 755 ctcstools/netperf_peer_loop_allsizes-run $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop_allsizes-run
 install -D -m 755 ctcstools/netperf_peer_loop_allsizes-run6 $RPM_BUILD_ROOT/usr/share/qa/tools/netperf_peer_loop_allsizes-run6
 install -D -m 755 ctcstools/netperf-peer-loop.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/netperf-peer-loop.tcf
-install -D -m 755 ctcstools/netperf_peer_loop-run6 $RPM_BUILD_ROOT/usr/share/qa/tools
+install -D -m 755 ctcstools/netperf_peer_loop-run6 $RPM_BUILD_ROOT/usr/share/qa/tools/
 install -D -m 755 ctcstools/netperf-peer-fiber-run $RPM_BUILD_ROOT/usr/share/qa/tools/
-install -D -m 755 ctcstools/netperf-peer-fiber-run6 $RPM_BUILD_ROOT/usr/share/qa/tools
-install -D -m 755 ctcstools/netperf-peer-fiber-server $RPM_BUILD_ROOT/usr/share/qa/tools
-install -D -m 755 ctcstools/netperf-peer-fiber-server6 $RPM_BUILD_ROOT/usr/share/qa/tools
+install -D -m 755 ctcstools/netperf-peer-fiber-run6 $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -D -m 755 ctcstools/netperf-peer-fiber-tcp-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -D -m 755 ctcstools/netperf-peer-fiber-tcp-run6 $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -D -m 755 ctcstools/netperf-peer-fiber-udp-run $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -D -m 755 ctcstools/netperf-peer-fiber-udp-run6 $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -D -m 755 ctcstools/netperf-peer-fiber-server $RPM_BUILD_ROOT/usr/share/qa/tools/
+install -D -m 755 ctcstools/netperf-peer-fiber-server6 $RPM_BUILD_ROOT/usr/share/qa/tools/
 
 %files
 %defattr(-, root, root)
