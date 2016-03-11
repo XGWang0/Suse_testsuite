@@ -58,9 +58,9 @@ timer 1800
 fg 1 rename /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/rename.sh"
 wait
 
-timer 1800
-fg 1 syscall /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall.sh"
-wait
+#timer 1800
+#fg 1 syscall /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall.sh"
+#wait
 
 timer 1800
 fg 1 exec /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/exec.sh"
@@ -187,9 +187,9 @@ timer 1800
 fg 1 onexec /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/onexec.sh"
 wait
 
-timer 1800
-fg 1 syscall_sysctl /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall_sysctl.sh"
-wait
+#timer 1800
+#fg 1 syscall_sysctl /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall_sysctl.sh"
+#wait
 
 timer 1800
 fg 1 stress /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/parser/stress.sh"
@@ -225,9 +225,9 @@ timer 1800
 fg 1 parser-parser_sanity /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ parser_sanity
 wait
 
-timer 1800
-fg 1 parser-caching /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ caching
-wait
+#timer 1800
+#fg 1 parser-caching /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ caching
+#wait
 
 timer 1800
 fg 1 parser-minimize /usr/bin/make -C /usr/share/qa/qa_test_apparmor/parser/tst/ minimize
