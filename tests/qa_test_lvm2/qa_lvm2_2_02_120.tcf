@@ -102,17 +102,17 @@ timer 3600
 fg 1 lvchange-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvchange-thin.sh
 wait
 
-timer 3600
-fg 1 lvconvert-cache-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache-raid.sh
-wait
+#timer 3600
+#fg 1 lvconvert-cache-raid /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache-raid.sh
+#wait
 
-timer 3600
-fg 1 lvconvert-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache.sh
-wait
+#timer 3600
+#fg 1 lvconvert-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache.sh
+#wait
 
-timer 3600
-fg 1 lvconvert-cache-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache-thin.sh
-wait
+#timer 3600
+#fg 1 lvconvert-cache-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-cache-thin.sh
+#wait
 
 timer 3600
 fg 1 lvconvert-mirror-basic-0 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-mirror-basic-0.sh
@@ -218,9 +218,9 @@ timer 3600
 fg 1 lvconvert-twostep /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvconvert-twostep.sh
 wait
 
-timer 3600
-fg 1 lvcreate-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-cache.sh
-wait
+#timer 3600
+#fg 1 lvcreate-cache /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-cache.sh
+#wait
 
 timer 3600
 fg 1 lvcreate-large-raid10 /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/lvcreate-large-raid10.sh
@@ -502,9 +502,9 @@ timer 3600
 fg 1 profiles /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/profiles.sh
 wait
 
-timer 3600
-fg 1 profiles-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/profiles-thin.sh
-wait
+#timer 3600
+#fg 1 profiles-thin /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/profiles-thin.sh
+#wait
 
 timer 3600
 fg 1 pvchange-usage /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvchange-usage.sh
@@ -570,9 +570,9 @@ timer 3600
 fg 1 pvmove-basic /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-basic.sh
 wait
 
-timer 3600
-fg 1 pvmove-cache-segtypes /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-cache-segtypes.sh
-wait
+#timer 3600
+#fg 1 pvmove-cache-segtypes /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-cache-segtypes.sh
+#wait
 
 timer 3600
 fg 1 pvmove-raid-segtypes /usr/share/qa/qa_test_lvm2_2_02_120/test/shell/pvmove-raid-segtypes.sh
