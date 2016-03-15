@@ -17,7 +17,7 @@ Name:           qa_test_systemd
 License:        GPL v2
 Group:          SuSE internal
 Summary:        systemd test
-Requires:       ctcs2, apache2, apparmor, apparmor-parser, at, audit, bluez, brltty, cups, cron, cyrus-sasl-saslauthd, device-mapper, dovecot, dnsmasq, gpm, haveged, kexec-tools, libvirt, lvm2, mariadb, mcelog, mdadm, multipath-tools, nfs-client, nfsidmap, nfs-kernel-server, nscd, openslp-server, PackageKit, pcsc-lite, postfix, postgresql-server, quota, radvd, rpcbind, rsync, rsyslog, samba, samba-winbind, spice-vdagent, SuSEfirewall2, systemd, upower, usbmuxd, vsftpd, yast2-nfs-server, xinetd
+Requires:       ctcs2, apache2, apparmor-parser, at, audit, bluez, brltty, cups, cron, cyrus-sasl-saslauthd, device-mapper, dovecot, dnsmasq, gpm, haveged, kexec-tools, libvirt, lvm2, mariadb, mcelog, mdadm, multipath-tools, nfs-client, nfsidmap, nfs-kernel-server, nscd, openslp-server, PackageKit, pcsc-lite, postfix, postgresql-server, quota, radvd, rpcbind, rsync, rsyslog, samba, samba-winbind, spice-vdagent, SuSEfirewall2, systemd, upower, usbmuxd, vsftpd, yast2-nfs-server, xinetd
 Version:        1
 Release:        1
 Source:         qa_test_systemd-1.tar.bz2
