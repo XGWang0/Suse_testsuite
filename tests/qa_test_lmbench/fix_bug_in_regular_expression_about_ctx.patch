@@ -1,0 +1,30 @@
+diff -Nurp lmbench-3.orig/scripts/getsummary lmbench-3/scripts/getsummary
+--- lmbench-3.orig/scripts/getsummary	2011-01-03 21:47:56.000000000 +0800
++++ lmbench-3/scripts/getsummary	2016-03-16 17:08:23.024131082 +0800
+@@ -315,7 +315,7 @@ foreach $file (@ARGV) {
+ 				}
+ 			}
+ 		}
+-		if (/size=0/) {
++		if (/^"size=0k/) {
+ 			while (<FD>) {
+ 				if (/^2 /) {
+ 					@_ = split; push(@lat_ctx0_2, $_[1]);
+@@ -327,7 +327,7 @@ foreach $file (@ARGV) {
+ 			    	last if /^\s*$/ || /^Memory/;
+ 			}
+ 		}
+-		if (/size=16/) {
++		if (/^"size=16k/) {
+ 			while (<FD>) {
+ 				if (/^2 /) {
+ 					@_ = split; push(@lat_ctx16_2, $_[1]);
+@@ -339,7 +339,7 @@ foreach $file (@ARGV) {
+ 			    	last if /^\s*$/;
+ 			}
+ 		}
+-		if (/size=64/) {
++		if (/^"size=64k/) {
+ 			while (<FD>) {
+ 				if (/^2 /) {
+ 					@_ = split; push(@lat_ctx64_2, $_[1]);
