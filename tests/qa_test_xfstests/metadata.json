@@ -3,7 +3,7 @@
   "summary": "XFS regression test suite",
   "description": "\nThe XFS regression test suite.  Also includes some support for\nacl, attr, dmapi, udf, reiserfs, nfs, btrfs testing.  Contains around 250+ specific tests\nfor userspace & kernelspace.",
   "status": "ready",
-  "maintainer": "pgonin@suse.com",
+  "maintainer": "yosun@suse.com",
   "rpm": "qa_test_xfstests-1.1.1-1.noarch.rpm",
   "arch": "noarch",
   "product": "xfstests",
