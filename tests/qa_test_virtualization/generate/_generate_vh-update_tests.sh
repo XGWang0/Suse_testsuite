@@ -29,7 +29,7 @@
 #
 function usage() {
     echo ""
-    echo "Usage: $0 [-m std/dev] [-v xen/kvm] [-b base] [-u upgrade] [-l milestoneTestRepo] [-r upgradeRepo]"
+    echo "Usage: $0 [-m std/dev] [-v xen/kvm] [-b base] [-u upgrade] [-l milestoneTestRepo] [-r upgradeRepo] [-i installGuestList]"
     echo "-m, std means update virt rpms from standard update repo;"
     echo "    dev means update virt rpms from developer's virt-devel/virt-test repo."
     echo "    default to std."
@@ -39,10 +39,11 @@ function usage() {
     echo "-u, upgrade product name, follow same convention with -b, default to sles-11-sp4"
     echo "-l, milestone test repo link which is used to update virt rpms."
     echo "-r, repo to do host upgrade do."
+    echo "-i, install guest list, separeted with comma, example \"sles-11-sp3-64,sles-12-sp1\"."
 	exit 1
 }
 
-while getopts "m:v:b:u:l:r:" OPTIONS
+while getopts "m:v:b:u:l:r:i:" OPTIONS
 do
     case $OPTIONS in
         m)mode="$OPTARG";;
@@ -51,6 +52,7 @@ do
         u)upgrade="$OPTARG";;
         l)milestoneTestRepo="$OPTARG";;
         r)upgradeRepo="$OPTARG";;
+        i)installGuestList="$OPTARG";;
         \?)usage;;
         *)usage;;
     esac
@@ -90,6 +92,10 @@ if [ -n "$upgradeRepo" ];then
 	upgradeParm=" -u $upgradeRepo"
 fi
 
+if [ -n "$installGuestList" ];then
+	guestParm=" -g \"$installGuestList\""
+fi
+
 tcfDir=/usr/share/qa/qa_test_virtualization/tcf
 linkDir=/usr/share/qa/tcf
 toolDir=/usr/share/qa/tools
@@ -109,14 +115,14 @@ for phase in $testPhases;do
 	if [ $step -eq 3 -a "$phase" == "vhUpdateVirt" ];then
 		cat > $tcfDir/$tcfName << EOF
 timer $timer
-fg 1 $phase /usr/share/qa/virtautolib/lib/vh-update.sh -p $phase -t $hypervisor -m ${base}-64 -n ${upgrade}-64 -r off -f $rareUpdateFlag -v $vFlag -l $milestoneTestRepo
+fg 1 $phase /usr/share/qa/virtautolib/lib/vh-update.sh -p $phase -t $hypervisor -m ${base}-64 -n ${upgrade}-64 -r off -f $rareUpdateFlag -v $vFlag -l $milestoneTestRepo $guestParm
 wait
 
 EOF
 	else
 		cat > $tcfDir/$tcfName << EOF
 timer $timer
-fg 1 $phase /usr/share/qa/virtautolib/lib/vh-update.sh -p $phase -t $hypervisor -m ${base}-64 -n ${upgrade}-64 -r off -f $rareUpdateFlag -v $vFlag $upgradeParm
+fg 1 $phase /usr/share/qa/virtautolib/lib/vh-update.sh -p $phase -t $hypervisor -m ${base}-64 -n ${upgrade}-64 -r off -f $rareUpdateFlag -v $vFlag $upgradeParm $guestParm
 wait
 
 EOF
