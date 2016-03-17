@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_fetchmail",
+  "summary": "(rd-)qa internal package for fetchmail testing",
+  "description": "\nfetchmail tests:\n- fetching via imap(s)\n- fetching via pop3(s)",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_fetchmail-0.3-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "fetchmail",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:46 UTC",
+  "tags": [
+
+  ]
+}

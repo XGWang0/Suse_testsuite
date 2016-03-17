@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_net-snmp",
+  "summary": "SNMP testsuite",
+  "description": "\nThis package contains testsuite for net-snmp package together with a\ntcf file (test control file).\nThe testsuite contains several testcases for testing the basic\nfunctionality provided by net-snmp package.\nAuthors:\n--------\nWes Hardaker <hardaker@users.sourceforge.net>",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_net-snmp-5.4.3-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "net-snmp",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:11 UTC",
+  "tags": [
+
+  ]
+}

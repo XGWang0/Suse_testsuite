@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_sharutils",
+  "summary": "Simple sharutils test for ctcs framework",
+  "description": "\nTest case for sharutils package.\nTests from sharutils package (source code) included as well as one\ncustom testcase for uuencode/decode.",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_sharutils-4.6.2-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "sharutils",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:25 UTC",
+  "tags": [
+
+  ]
+}

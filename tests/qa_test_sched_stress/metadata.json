@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_sched_stress",
+  "summary": "sched stress test from LTP",
+  "description": "\nsched stress test from LTP",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_sched_stress-0.1-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "stress",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:22 UTC",
+  "tags": [
+
+  ]
+}

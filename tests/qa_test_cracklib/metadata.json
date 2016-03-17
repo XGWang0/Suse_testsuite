@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_cracklib",
+  "summary": "Simple cracklib tests for ctcs framework",
+  "description": "\nTest cases for cracklib package. Tests short and trivial passwords.",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_cracklib-1.1.1-49.noarch.rpm",
+  "arch": "noarch",
+  "product": "cracklib",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:15 UTC",
+  "tags": [
+
+  ]
+}

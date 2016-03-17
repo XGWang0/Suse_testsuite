@@ -1,0 +1,16 @@
+{
+  "name": "qa_testset_automation",
+  "summary": "A test Framework for QA ACAPII",
+  "description": "\nqa_testset_automation is a collection of tools.\nAuthors:\n--------\nLance Wang <lzwang@suse.com>",
+  "status": "ready",
+  "maintainer": "qa-apac2@suse.de",
+  "rpm": "qa_testset_automation-1.0-0.noarch.rpm",
+  "arch": "noarch",
+  "product": "automation",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:12 UTC",
+  "tags": [
+
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_bash",
+  "summary": "RD-QA internal package",
+  "description": "\nTest of Bash",
+  "status": "ready",
+  "maintainer": "aguo@novell.com",
+  "rpm": "qa_test_bash-0.1-41.noarch.rpm",
+  "arch": "noarch",
+  "product": "bash",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:44 UTC",
+  "tags": [
+
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "qa_testset_htmlreport",
+  "summary": "A test test tool for generating html report for testset automation framework",
+  "description": "\nqa_testset_htmlreport is a tools for generating cucumber report.\nAuthors:\n--------\nJohn Wang <xgwang@suse.com>",
+  "status": "ready",
+  "maintainer": "xgwang@suse.com",
+  "rpm": "qa_testset_htmlreport-1.0-0.noarch.rpm",
+  "arch": "noarch",
+  "product": "htmlreport",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:15 UTC",
+  "tags": [
+
+  ]
+}

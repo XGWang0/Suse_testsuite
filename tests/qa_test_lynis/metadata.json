@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_lynis",
+  "summary": "lynis",
+  "description": "\nLynis is a security and system auditing tool. It scans a system on the\nmost interesting parts useful for audits, like:\n- Security enhancements\n- Logging and auditing options\n- Banner identification\n- Software availability\nLynis is released as a GPL licensed project and free for everyone to use.\nSee http://www.rootkit.nl for a full description and documentation.",
+  "status": "ready",
+  "maintainer": "YoSun@suse.com",
+  "rpm": "qa_test_lynis-1.3.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "lynis",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:49 UTC",
+  "tags": [
+
+  ]
+}

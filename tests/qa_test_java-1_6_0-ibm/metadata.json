@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_%{tpname}",
+  "summary": "QA test for %{tpname}",
+  "description": "\nQA test for %{tpname} - check if package matches the original tarball\ncontent. Use the qa_lib_ibmjava script.",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_%{tpname}-1.0.2-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "%{tpname}",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:54 UTC",
+  "tags": [
+
+  ]
+}

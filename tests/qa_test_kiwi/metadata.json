@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_kiwi",
+  "summary": "(rd-)qa internal package for training",
+  "description": "\nautomation for kiwi\nautomatic generate kinds type of iso\nAuthors:\n--------\nms",
+  "status": "deprecated",
+  "maintainer": "jtang@novell.com",
+  "rpm": "qa_test_kiwi-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "kiwi",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:10 UTC",
+  "tags": [
+
+  ]
+}

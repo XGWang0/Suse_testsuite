@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_kernbench",
+  "summary": "kernbench benchmark",
+  "description": "\nThis is a cpu throughput benchmark originally devised and used by Martin J.\nBligh. It is designed to compare kernels on the same machine, or to compare\nhardware. To compare hardware you need to be running the same architecture\nmachines (eg i386), the same userspace binaries and run kernbench on the same\nkernel source tree.\nIt runs a kernel at various numbers of concurrent jobs: 1/2 number of cpus,\noptimal (default is 4xnumber of cpus) and maximal job count. Optionally it can\nalso run single threaded. It then prints out a number of useful statistics\nfor the average of each group of runs and logs them to kernbench.log\nYou need more than 2Gb of ram for this to be a true throughput benchmark or\nelse you will get swapstorms.\nIdeally it should be run in single user mode on a non-journalled filesystem.\nTo compare results it should always be run in the same kernel tree.\nAuthors:\nCon Kolivas <kernel@kolivas.org>",
+  "status": "ready",
+  "maintainer": "LZWang@suse.com",
+  "rpm": "qa_test_kernbench-0.50-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "kernbench",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:04 UTC",
+  "tags": [
+
+  ]
+}

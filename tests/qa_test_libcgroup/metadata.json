@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_libcgroup",
+  "summary": "libcgroup automated testsuite",
+  "description": "\nlibcgroup automated testsuite\nIncludes:\nlibcgroup upstream tests",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_libcgroup-1.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "libcgroup",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:13 UTC",
+  "tags": [
+
+  ]
+}

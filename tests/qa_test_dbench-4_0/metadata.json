@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_dbench-4_0",
+  "summary": "File System Benchmark Similar to Netbench",
+  "description": "\nDbench is a file system benchmark that generates load patterns similar\nto those of the commercial Netbench benchmark, but without requiring a\nlab of Windows load generators to run. It is now considered a de facto\nstandard for generating load on the Linux VFS.\nAuthors:\n--------\nAndrew Tridgell <tridge@samba.org>",
+  "status": "ready",
+  "maintainer": "jli@suse.com",
+  "rpm": "qa_test_dbench-4_0-4.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "0",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:28 UTC",
+  "tags": [
+
+  ]
+}

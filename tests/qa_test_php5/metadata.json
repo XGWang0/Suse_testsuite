@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_php5",
+  "summary": "PHP5 test suite",
+  "description": "\nThis package contains wide range of PHP5 tests. These tests include\nbasic language constructs (operators, control flow, etc), object\noriented language constructs (classes, etc), basic functions tests\n(strlen, \"function\" construct, etc), php extensions (java, mbstring,\netc).\nAuthors:\n--------\nAndrei Zmievski <andrei@ispi.net>\nDanny Heijl <Danny.Heijl@cevi.be>\nFrank M. Kromann <fmk@swwwing.com>\nRasmus Lerdorf <rasmus@php.net>\nSam Ruby <rubys@us.ibm.com>\nSascha Schumann <sascha@schumann.cx>\nStefan Roehrich <sr@linux.de>\nThies C. Arntzen <thies@digicol.de>\nUwe Steinmann <steinm@php.net>",
+  "status": "ready",
+  "maintainer": "JTang@suse.com",
+  "rpm": "qa_test_php5-%{ver}-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "php5",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:50 UTC",
+  "tags": [
+
+  ]
+}

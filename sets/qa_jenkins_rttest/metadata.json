@@ -1,0 +1,16 @@
+{
+  "name": "qa_jenkins_rttest",
+  "summary": "Qa package for regressiont and kotd automation integration test on jenkins",
+  "description": "\nQA tool for regression and kotd automation test on Jenkins",
+  "status": "deprecated",
+  "maintainer": "xgwang@suse.com",
+  "rpm": "qa_jenkins_rttest-1.0-0.noarch.rpm",
+  "arch": "noarch",
+  "product": "rttest",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:06 UTC",
+  "tags": [
+
+  ]
+}

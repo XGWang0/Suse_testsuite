@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_process_stress",
+  "summary": "process stress test from LTP",
+  "description": "\nprocess stress test from LTP",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_process_stress-0.1-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "stress",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:02 UTC",
+  "tags": [
+
+  ]
+}

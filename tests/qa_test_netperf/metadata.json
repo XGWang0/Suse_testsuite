@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_netperf",
+  "summary": "network performance benchmark",
+  "description": "\nNetperf is a benchmark that can be used to measure the performance of\nmany different types of networking. It provides tests for both\nunidirecitonal throughput, and end-to-end latency.\nAuthors:\n--------\nHewlett-Packard Company",
+  "status": "ready",
+  "maintainer": "LZWang@suse.com",
+  "rpm": "qa_test_netperf-2.6.0-69.noarch.rpm",
+  "arch": "noarch",
+  "product": "netperf",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:14 UTC",
+  "tags": [
+
+  ]
+}

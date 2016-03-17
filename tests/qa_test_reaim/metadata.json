@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_reaim",
+  "summary": "Benchmark tool",
+  "description": "\nThis tool benchmarks overall system speed by mixing measurements of\nfile system speed and execution speed under VM and CPU pressure.\nAuthors:\n--------\nVarious from VA Linux\nGernot Payer <gpayer@suse.de>",
+  "status": "ready",
+  "maintainer": "LZWang@suse.com",
+  "rpm": "qa_test_reaim-7.0.1.13-102.noarch.rpm",
+  "arch": "noarch",
+  "product": "reaim",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:10 UTC",
+  "tags": [
+
+  ]
+}

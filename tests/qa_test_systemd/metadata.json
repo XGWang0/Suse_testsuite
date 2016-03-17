@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_systemd",
+  "summary": "systemd test",
+  "description": "\nDuring Beta7 and Beta8 regression testing, we noticed that systemd upgrade easier to cause system service regression issue(specially relate to sysvinit), such as kdump in bnc882395 and bnc869608, postfix in bnc879960, nfs in bnc860246. So do a basic service activity testing is necessarily.\nWe designed 2 test points for systemd service as first step, the automation is implemented.",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_systemd-1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "systemd",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:50 UTC",
+  "tags": [
+
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_ftpload",
+  "summary": "ftp download test",
+  "description": "\nDownload ftp source for times.\nAuthors:\n--------\nArthur Guo <aguo@novell.com>",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_ftpload-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "ftpload",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:05 UTC",
+  "tags": [
+
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_newburn",
+  "summary": "Stress test for linux for the ctcs2 test bed",
+  "description": "\nA stress test for linux, which is designed to run inside of ctcs2\nAuthors:\n--------\nVarious people from VA Linux",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_newburn-0.5.2-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "newburn",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:20 UTC",
+  "tags": [
+
+  ]
+}

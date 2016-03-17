@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_zypper",
+  "summary": "Basic light zypper tests for ctcs2 framework",
+  "description": "\nTestcases for zypper package. This is a light test suite, which focus on\noptions and commands test.\nThere is another API level test suite libzypp-testsuite-tools, but this\none is much bigger, slower and have too many dependences.",
+  "status": "deprecated",
+  "maintainer": "dmulder@novell.com",
+  "rpm": "qa_test_zypper-1.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "zypper",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:31:32 UTC",
+  "tags": [
+
+  ]
+}

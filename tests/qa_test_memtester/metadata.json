@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_memtester",
+  "summary": "tiny but very intensive memory tester",
+  "description": "\nRD-QA-Kernel internal tool for intensive memorytests\nAuthors:\n--------\nCharles Cazabon <memtest@discworld.dyndns.org>",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_memtester-4.3.0-226.noarch.rpm",
+  "arch": "noarch",
+  "product": "memtester",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:02 UTC",
+  "tags": [
+
+  ]
+}

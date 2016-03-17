@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_fs_enospc",
+  "summary": "file system stress test",
+  "description": "\nFilesystem tests for ENOSPC conditions",
+  "status": "deprecated",
+  "maintainer": "None",
+  "rpm": "qa_test_fs_enospc-0.1-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "enospc",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:59 UTC",
+  "tags": [
+
+  ]
+}

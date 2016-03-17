@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_libmicro",
+  "summary": "kernel test suite, micro benchmark",
+  "description": "\nLibMicro is intended to measure the performance of various system and\nlibrary calls. LibMicro was developed by Bart Smaalders and Phil\nHarman.\nAuthors:\n--------\nVarious people from OpenSolaris community",
+  "status": "ready",
+  "maintainer": "LZWang@suse.com",
+  "rpm": "qa_test_libmicro-0.4.0-81.noarch.rpm",
+  "arch": "noarch",
+  "product": "libmicro",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:22 UTC",
+  "tags": [
+
+  ]
+}

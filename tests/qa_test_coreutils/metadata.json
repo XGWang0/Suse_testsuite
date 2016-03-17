@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_coreutils",
+  "summary": "Coreutils tests for ctcs framework",
+  "description": "\nTest cases for coreutils package. Tests the following components:\nbasename, bool, cat, com, csplit, cut, dirname, expand, expr, md5sum,\nsort, touch, tr, tty, uniq, wc",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_coreutils-0.1-191.noarch.rpm",
+  "arch": "noarch",
+  "product": "coreutils",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:09 UTC",
+  "tags": [
+
+  ]
+}

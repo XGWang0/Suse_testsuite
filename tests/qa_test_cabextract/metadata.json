@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_cabextract",
+  "summary": "Simple cabextract tests for ctcs framework",
+  "description": "\nTest cases for cabextract package. Test archive uncompression.\nAuthors:\n--------\nLukas Lipavsky <llipavsky@suse.cz>",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_cabextract-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "cabextract",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:59 UTC",
+  "tags": [
+
+  ]
+}

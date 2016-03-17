@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_ltp",
+  "summary": "The Linux Test Project",
+  "description": "\nA collection of test suites to validate the reliability, robustness and\nstability of Linux. It provides tools for testing the kernel and\nrelated features.\nThis package also adds some additional scripts to the ctcs2 tools directory.\nWith them it is possible to run all LTP tests via ctcs2 and therefore\nto have improved result files. Additionally the script ltp-stress.py\nallows to run all (or selected) LTP tests in a randomized manner.\nAuthors:\n--------\nLTP authors.",
+  "status": "ready",
+  "maintainer": "chrubis@suse.cz",
+  "rpm": "qa_test_ltp-20160126-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "ltp",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:43 UTC",
+  "tags": [
+
+  ]
+}

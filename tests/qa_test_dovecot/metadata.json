@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_dovecot",
+  "summary": "Basic dovecot tests for ctcs framework",
+  "description": "\nTestcases for dovecot package. Tests start, restart and stop of the\nservice (so far)",
+  "status": "ready",
+  "maintainer": "varkoly@suse.com",
+  "rpm": "qa_test_dovecot-0.2-192.noarch.rpm",
+  "arch": "noarch",
+  "product": "dovecot",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:31 UTC",
+  "tags": [
+
+  ]
+}

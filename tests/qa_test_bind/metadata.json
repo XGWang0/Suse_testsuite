@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_bind",
+  "summary": "Simple bind tests for ctcs framework",
+  "description": "\nTest cases for bind DNS server testing\n* start and restart of the service\n* primary DNS function\n* secondary DNS function\n* DNS forwarding\nAuthors:\n--------\nQA team <qa@suse.de>",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_bind-0.222-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "bind",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:25:47 UTC",
+  "tags": [
+
+  ]
+}

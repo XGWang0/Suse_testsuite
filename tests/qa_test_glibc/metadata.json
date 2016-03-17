@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_glibc",
+  "summary": "glibc testsuite",
+  "description": "\nglibc testsuite\nripped out from the glibc sources",
+  "status": "ready",
+  "maintainer": "XLAi@suse.com",
+  "rpm": "qa_test_glibc-1.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "glibc",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:08 UTC",
+  "tags": [
+
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_contest",
+  "summary": "contest benchmark",
+  "description": "\nThis program is designed to test system responsiveness by running kernel\ncompilation under a number of different load conditions. It is designed to\ncompare different kernels, not different machines. It uses real workloads\nyou'd expect to find for short periods in every day machines but sustains\nthem for the duration of a kernel compile to increase the signal to noise\nratio.\nAuthors:\nCon Kolivas <kernel@kolivas.org>",
+  "status": "deprecated",
+  "maintainer": "VPelcak@novell.com",
+  "rpm": "qa_test_contest-0.61-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "contest",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:06 UTC",
+  "tags": [
+
+  ]
+}

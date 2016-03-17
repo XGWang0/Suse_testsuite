@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_iogen",
+  "summary": "iogen test",
+  "description": "\nAn I/O generator. It forks child processes that each run a mix of reads and writes.\nIt is by not a performance measuring tool since it tries to recreate the worst case\nscenario I/O.",
+  "status": "ready",
+  "maintainer": "yxu@suse.com",
+  "rpm": "qa_test_iogen-3.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "iogen",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:32 UTC",
+  "tags": [
+
+  ]
+}

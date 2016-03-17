@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_findutils",
+  "summary": "Findutils tests for ctcs framework",
+  "description": "\nTest cases for findutils package.\n* test find\n* test xargs",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_findutils-0.1-15.noarch.rpm",
+  "arch": "noarch",
+  "product": "findutils",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:49 UTC",
+  "tags": [
+
+  ]
+}

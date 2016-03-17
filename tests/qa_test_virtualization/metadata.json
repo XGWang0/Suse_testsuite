@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_virtualization",
+  "summary": "(rd-)qa virtualization automated tests",
+  "description": "\nTest cases for virtualization\nAuthors:\n--------\nLukas Lipavsky <llipavsky@suse.cz>",
+  "status": "ready",
+  "maintainer": "JTang@suse.com",
+  "rpm": "qa_test_virtualization-0.1.5-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "virtualization",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:31:19 UTC",
+  "tags": [
+
+  ]
+}

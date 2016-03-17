@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_kgraft",
+  "summary": "kGraft functional tests",
+  "description": "\nThis is an integration bit for kGraft test suite.\nAuthors:\n--------\nLibor Pechacek <lpechacek@suse.cz>",
+  "status": "ready",
+  "maintainer": "lpechacek@suse.cz",
+  "rpm": "qa_test_kgraft-1.0-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "kgraft",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:28:07 UTC",
+  "tags": [
+
+  ]
+}

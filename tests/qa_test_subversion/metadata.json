@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_subversion",
+  "summary": "Simple subversion tests for ctcs framework",
+  "description": "\nTest cases for subversion\nAuthors:\n--------\nQAM team <qa-maintenance@suse.de>",
+  "status": "ready",
+  "maintainer": "jmatejka@suse.cz",
+  "rpm": "qa_test_subversion-0.1.2-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "subversion",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:41 UTC",
+  "tags": [
+
+  ]
+}

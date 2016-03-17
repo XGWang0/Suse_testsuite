@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_firefox",
+  "summary": "Simple firefox tests for ctcs framework",
+  "description": "\nTest cases for firefox package.",
+  "status": "deprecated",
+  "maintainer": "cachen@novell.com",
+  "rpm": "qa_test_firefox-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "firefox",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:56 UTC",
+  "tags": [
+
+  ]
+}

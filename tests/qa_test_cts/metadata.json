@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_cts",
+  "summary": "qa internal package for HA cts",
+  "description": "\nThis is a HA test package that can be used to\ntest base function of HA.\nAuthors:\n--------\nJerry Tang <jtang@novell.com>",
+  "status": "deprecated",
+  "maintainer": "None",
+  "rpm": "qa_test_cts-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "cts",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:26:18 UTC",
+  "tags": [
+
+  ]
+}

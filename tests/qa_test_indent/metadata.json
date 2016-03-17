@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_indent",
+  "summary": "Simple indent tests for ctcs framework",
+  "description": "\nTest cases for indent package. Tests different indentations of source text.",
+  "status": "ready",
+  "maintainer": "yosun@suse.com",
+  "rpm": "qa_test_indent-2.2.9-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "indent",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:27:26 UTC",
+  "tags": [
+
+  ]
+}

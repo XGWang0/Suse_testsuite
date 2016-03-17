@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_python",
+  "summary": "python testsuite",
+  "description": "\npython testsuite\nripped out from the python 2.6 (SLE11 SP2 GM) and python 2.7 (SLE12)sources",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_python-2.7.7-2.noarch.rpm",
+  "arch": "noarch",
+  "product": "python",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:30:07 UTC",
+  "tags": [
+
+  ]
+}
