@@ -6,7 +6,6 @@ import re
 
 from dod import *
 from common import *
-import pprint
 import logging
 import parserManager
 PST_NULL, PST_START, PST_DONE, PST_FAILED = range(0, 4)
@@ -54,10 +53,10 @@ class DODLmbench(DODLog):
                     line =next(self.stream)
                     vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
                 self.getvalue(LOCAL_L,line)
-            elif re.match(r'Memory latencies',line):
+            elif re.match(r'Memory\s*latencies',line):
                 while not vmatch:
                     line =next(self.stream)
-                    vmatch = re.search(r'(\s*\d*\.?\d*\|){3}',line)
+                    vmatch = re.search(r'(\s*\-*\d*\.?\d*\|){2}',line)
                 self.getvalue(MEMORY_L,line)
             else:
                 pass
@@ -68,12 +67,16 @@ class DODLmbench(DODLog):
         for i in range(len(value)-1):
             if value[i].find('K'):
                value[i]=value[i].replace('K','')
+        for i in range(len(value)-1):
+            if value[i].find('\-'):
+               value[i]=value[i].replace('-','')
         if len(conf) ==len(value):
             for i in range(len(value)-1):
                 if not value[i]:
-                    self._dod[conf[i]]=0.1
+                    self._dod[conf[i]]=0
                 else:
                     self._dod[conf[i]]=float(value[i])
+        self._dod = dict(filter(lambda x: x[1] != 0, self._dod.items()))
 
 
     def __getattr__(self, name):
@@ -83,40 +86,46 @@ class DODLmbench(DODLog):
             return self._dod
         raise AttributeError()
 
-class DODLmbenchBand(DODLog):
-    def __init__(self, stream):
-        super(DODLmbenchBand, self).__init__(stream)
-        self.ST = PST_NULL
-        self._dod.standard = 'b'
+#class DODLmbenchBand(DODLog):
+#    def __init__(self, stream):
+#        super(DODLmbenchBand, self).__init__(stream)
+#        self.ST = PST_NULL
+#        self._dod.standard = 'b'
+#
+#    def parser(self):
+#        for line in self.stream:
+#            vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
+#            if re.match(r'\*Local\* Communication bandwidths',line):
+#                while not vmatch:
+#                    line =next(self.stream)
+#                    vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
+#                else:
+#                    self.getvalue(LOCAL_B,line)
+#                    break
+#
+#    def getvalue(self,conf,line):
+#        value = []
+#        value = (''.join(line.strip().split()[3:])).split('|')
+#        if len(conf) ==len(value):
+#            for i in range(len(value)-1):
+#                if not value[i]:
+#                    self._dod[conf[i]]=0.1
+#                else:
+#                    self._dod[conf[i]]=float(value[i])
+#
+#    def __getattr__(self, name):
+#        if name == 'dod':
+#            if self.ST == PST_NULL:
+#                self.parser()
+#            return self._dod
+#        raise AttributeError()
 
-    def parser(self):
-        for line in self.stream:
-            vmatch = re.search(r'(\s*\d*\.?\d*\|){4}',line)
-            if re.match(r'\*Local\* Communication bandwidths',line):
-                while not vmatch:
-                    line =next(self.stream)
-                    vmatch = re.search(r'(\d*\.?\d*\|){4}',line)
-                else:
-                    self.getvalue(LOCAL_B,line)
-                    break
-
-    def getvalue(self,conf,line):
-        value = []
-        value = (''.join(line.strip().split()[3:])).split('|')
-        if len(conf) ==len(value):
-            for i in range(len(value)-1):
-                if not value[i]:
-                    self._dod[conf[i]]=0.1
-                else:
-                    self._dod[conf[i]]=float(value[i])
-
-    def __getattr__(self, name):
-        if name == 'dod':
-            if self.ST == PST_NULL:
-                self.parser()
-            return self._dod
-        raise AttributeError()
-
-parserManager.add_parser("sample","lmbench","lmbench",DODLmbenchBand)
+#parserManager.add_parser("sample","lmbench","lmbench",DODLmbenchBand)
 parserManager.add_parser("sample","lmbench","lmbench",DODLmbench)
+parserManager.add_parser("sample","lmbench-syscall","lmbench-syscall",DODLmbench)
+parserManager.add_parser("sample","lmbench-file","lmbench-file",DODLmbench)
+parserManager.add_parser("sample","lmbench-mem","lmbench-mem",DODLmbench)
+parserManager.add_parser("sample","lmbench-bcopy","lmbench-bcopy",DODLmbench)
+parserManager.add_parser("sample","lmbench-localcomm","lmbench-localcomm",DODLmbench)
+parserManager.add_parser("sample","lmbench-ctx","lmbench-ctx",DODLmbench)
 
