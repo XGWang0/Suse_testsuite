@@ -28,6 +28,7 @@ Patch1:         lmbench-3-config.diff
 Patch2:         lmbench-3-split-testcase.diff
 Patch3:         bigger_size_for_filesize.patch
 Patch4:         merge_testcases_into_groups.patch
+Patch5:         fix_bug_in_regular_expression_about_ctx.patch
 BuildRoot:      %{_tmppath}/%{name}-3-build
 
 %description
@@ -69,6 +70,7 @@ find -name "*.orig" -type f | xargs -r rm -fv
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS"
