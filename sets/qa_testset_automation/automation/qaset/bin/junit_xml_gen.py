@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from datetime import timedelta, datetime
-import fnmatch
 import glob
-import json
 import logging
 import os
 from optparse import OptionParser
@@ -12,13 +10,21 @@ import re
 import shutil
 import sys
 import subprocess
-import uuid
 import socket
-import traceback
-import xml.dom.minidom as MINIDOM
 import xml.etree.ElementTree as ET
 
+HOSTNAME = socket.gethostname()
+
 ### Utils functions ###
+def get_logger(level=logging.INFO):
+    logging.basicConfig(format='[%(name)s]%(levelname)s: %(message)s')
+    logger = logging.getLogger(os.path.basename(__file__))
+    logger.setLevel(level)
+    return logger
+
+def current_timestamp():
+    return datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+
 # Expand ~ and env vars of a path and return its absolute path
 def expand_path(path):
     path = os.path.expanduser(path)
@@ -144,523 +150,337 @@ def _serialize_xml(write, elem, encoding, qnames, namespaces, level=0):
 ET._serialize_xml = ET._serialize['xml'] = _serialize_xml
 
 
-class BaseParser(object):
-    '''
-    Base class of parser classes
-    '''
-    def __init__(self, path, logger=None):
-        self.path = expand_path(path)
+class BaseElement(object):
+    def __init__(self, tag, attrs={}, text=None, tail=None):
+        self.data = {
+            'tag'   : tag,
+            'attrs' : attrs,
+            'text'  : text,
+            'tail'  : tail,
+            'sub'   : [],
+        }
+        self.sub = []
+
+    def add_sub_element(self, elem):
+        self.data['sub'].append(elem.data)
+        self.sub.append(elem)
+
+    def set(self, k, v):
+        self.data['attrs'][k] = v
+
+    def get(self, k):
+        return self.data['attrs'][k]
+
+    def to_xml_element(self, data):
+        if data['tag'] == 'CDATA':
+            return CDATA(data.get('text', ''))
+        elem = ET.Element(data['tag'])
+        if data.get('text'):
+            elem.text = data['text']
+        if data.get('tail'):
+            elem.text = data['tail']
+        for k, v in data.get('attrs', {}).items():
+            elem.set(k, str(v))
+        # Convert sub elements
+        for child in data.get('sub', []):
+            sub_elem = self.to_xml_element(child)
+            elem.append(sub_elem)
+        return elem
+
+    def to_xml(self, file_like=None, encoding='UTF-8'):
+        root = self.to_xml_element(self.data)
+        s = ET.tostring(root, encoding=encoding, method='xml')
+        if file_like is not None:
+            file_like.write(s)
+        return s
+
+class TestcaseElement(BaseElement):
+    STATES = ('failure', 'success', 'count', 'time', 'error', 'skipped')
+
+    # ts_name   : testsuite name
+    # name      : testcase name
+    def __init__(self, ts_name, name, states):
+        self.states = {}
+        for i in range(len(self.STATES)):
+            self.states[self.STATES[i]] = states[i]
+        self.calc_status()
+        attrs = {
+            'name'      : name,
+            'classname' : '%s.%s' % (ts_name, name),
+            'status'    : self.status,
+            'time'      : self.states['time'],
+        }
+        super(self.__class__, self).__init__('testcase', attrs)
+
+    def calc_status(self, states=None):
+        if states is None:
+            states = self.states
+        self.status = 'success'
+        for k in ['failure', 'error', 'success', 'skipped']:
+            if states[k] > 0:
+                self.status = k
+                break
+        return self.status
+
+    def add_status_tag(self, msg=None):
+        if msg is None:
+            msg = "%d/%d %s" % (self.states[self.status],
+                                self.states['count'],
+                                self.status)
+        if self.status in ['failure', 'error']:
+            attrs = {'message': msg, 'type': self.status}
+        elif self.status == 'skipped':
+            attrs = {}
+        else:
+            return
+        elem = BaseElement(self.status, attrs=attrs, text=msg)
+        self.add_sub_element(elem)
+
+    def add_system_tag(self, tag, msg):
+        if tag not in ['system-err', 'system-out']:
+            raise ValueError('Invalid tag: %s. Must be "system-err" or "system-out"' % tag)
+        elem = BaseElement(tag)
+        cdata_elem = BaseElement('CDATA', text=msg)
+        elem.add_sub_element(cdata_elem)
+        self.add_sub_element(elem)
+
+
+class TestsuiteElement(BaseElement):
+    NEXT_ID = 0
+
+    def __init__(self, name, timestamp=None):
+        if timestamp is None:
+            timestamp = current_timestamp()
+        attrs = {
+            'name'      : name,
+            'hostname'  : HOSTNAME,
+            'id'        : TestsuiteElement.NEXT_ID,
+            'package'   : 'qa_test_%s' % (name),
+            'tests'     : 0,
+            'failures'  : 0,
+            'errors'    : 0,
+            'skipped'   : 0,
+            'time'      : 0,
+            'timestamp' : timestamp,
+        }
+        TestsuiteElement.NEXT_ID += 1
+        super(self.__class__, self).__init__('testsuite', attrs)
+
+    def add_testcase(self, tc_elem):
+        self.add_sub_element(tc_elem)
+        self.data['attrs']['tests'] += 1
+        self.data['attrs']['time'] += tc_elem.get('time')
+        status = tc_elem.get('status')
+        mapping = {
+            'failure'   : 'failures',
+            'error'     : 'errors',
+            'skipped'   : 'skipped',
+        }
+        for k, v in mapping.items():
+            if status == k:
+                self.data['attrs'][v] += 1
+                break
+    
+    def add_fake_testcase(self, name, msg):
+        tc_elem = TestcaseElement(self.data['attrs']['name'],
+                                'fake_testcase',
+                                [1, 0, 1, 1, 0, 0])
+        tc_elem.add_status_tag(msg)
+        self.add_testcase(tc_elem)
+
+class RootElement(BaseElement):
+    def __init__(self, name):
+        attrs = {
+            'name'      : name,
+            'tests'     : 0,
+            'failures'  : 0,
+            'errors'    : 0,
+            'skipped'   : 0,
+            'time'      : 0,
+        }
+        super(self.__class__, self).__init__('testsuites', attrs)
+
+    def add_testsuite(self, ts_elem):
+        self.add_sub_element(ts_elem)
+        for item in ['tests', 'failures', 'errors', 'skipped', 'time']:
+            self.data['attrs'][item] += ts_elem.get(item)
+
+
+class DataCollector(object):
+    def __init__(self, name, qaset_dir='/var/log/qaset', logger=None):
         if logger is None:
-            self.logger = logging.getLogger(self.__class__.__name__)
+            self.logger = get_logger()
         else:
             self.logger = logger
-    
-    def get_result(self):
-        return self.data
+        self.qaset_dir = qaset_dir
+        assert os.path.isdir(self.qaset_dir), "Not a directory: %s" % (self.qaset_dir)
+        self.name = name
+        self.log_dir = os.path.join(self.qaset_dir, 'log')
+        self.sub_dir = os.path.join(self.qaset_dir, 'submission')
+        self.submission = {}
+        self.root = RootElement(name)
 
+    def create_tmp_dir(self):
+        tmp_dir = '/tmp/junit_generator-%d' % random.randint(0, 100000)
+        os.mkdir(tmp_dir, 0755)
+        return tmp_dir
 
-class TestcaseParser(BaseParser):
-    # Read and parse testcase log file
-    # Status/time info are omitted because they're already in test_results file
-    def __init__(self, path, extracted, line_count=50, logger=None):
-        super(self.__class__, self).__init__(path, logger)
-        self.extracted = extracted
-        self.line_count = line_count
-        self.data = {'name'         : os.path.basename(path),   # [str] testcase name
-                    'time'          : extracted['time'],        # [int] time used(in seconds)
-                    'status'        : extracted['status'],      # [str] success/failure/error/skipped
-                    'skipped'       : None,                     # [str] Skip message
-                    'failure'       : None,                     # [dict] Example: {'type': 'failure',
-                                                                #                   'message': '3/5 failure', 'text': '...'}
-                    'error'         : None,                     # [dict] Example: {'type': 'error',
-                                                                #                   'message': '2/5 error', 'text': '...'}
-                    'system-out'    : None}                     # [str] log(50 lines by default)
-
-    def parse_log(self):
-        self.data['system-out'] = read_last_lines(self.path, count=self.line_count)
-
-    def parse_skipped(self):
-        if self.extracted['status'] == 'skipped':
-            self.data['skipped'] = '%s/%s skipped' % (self.extracted['skipped'], self.extracted['count'])
-
-    def parse_failure_error(self):
-        for status in ['failure', 'error']:
-            if self.extracted[status] > 0:
-                self.data[status] = {'type'     : status,
-                                    'message'   : '%s/%s %s' % (self.extracted[status],
-                                                                self.extracted['count'],
-                                                                status)}
-                self.data[status]['text'] = self.data[status]['message']
-
-    def parse(self):
-        self.parse_log()
-        self.parse_skipped()
-        self.parse_failure_error()
-
-
-class TestsuiteParser(BaseParser):
-    '''
-    Parse one test_results file and return a dict
-
-    Test result file format:
-        <testcase_name>                                         # testcase name line
-        <failure> <success> <count> <time> <error> <skipped>    # test result line
-
-    '''
-    RESULT_ITEMS    = ['failure', 'success', 'count', 'time', 'error', 'skipped']
-    TEST_RESULTS    = 'test_results'
-    ID              = 0
-
-    # path: Path to the log dir. Example: /usr/share/qa/ctcs2/qa_bzip2-2015-12-18-11-37-53
-    def __init__(self, path, logger=None):
-        super(self.__class__, self).__init__(path, logger)
-        self.data = {'name'     : None,                 # [str] Testsuite name
-                    'tests'     : 0,                    # [int] The amount of tests
-                    'failures'  : 0,                    # [int] The amount of failed tests
-                    'errors'    : 0,                    # [int] The amount of tests with internal errors
-                    'time'      : 0,                    # [int] Time consumed by all its testcases(in seconds)
-                    'skipped'   : 0,                    # [int] The amount of skipped tests
-                    'timestamp' : None,                 # [str] Testsuite start time
-                    'hostname'  : socket.gethostname(), # [str] Hostname
-                    'id'        : TestsuiteParser.ID,   # [int] Sequence number
-                    'package'   : None,                 # [str] Same as testsuite name
-                    'testcases' : []}                   # [list] List of testcases
-        TestsuiteParser.ID += 1
-        self.test_results_file = os.path.join(self.path, TestsuiteParser.TEST_RESULTS)
-
-    # Parse dir name to get testsuite name
-    def parse_testsuite_name_timestamp(self):
-        basename = os.path.basename(self.path)
+    def extract_testsuite_dir_name(self, basename):
         m = re.search(r'(.*)-(\d+(?:-\d+){5})', basename)
-        assert m is not None, "Invalid directory name: %s" % (basename)
-        # Name & Package
-        self.data['name'] = m.group(1).strip()
-        self.data['name'] = re.sub(r'^qa[_\-]', '', self.data['name']) # Remove prefix: qa_
-        self.data['name'] = self.data['name'].replace('-', '_')         # Replace - with _
-        self.data['package'] = self.data['name']
+        if not m:
+            return basename, current_timestamp()
+        # Name
+        name = m.group(1).strip()
+        name = re.sub(r'^qa[_\-]', '', name) # Remove prefix: qa_
+        name = re.sub(r'_testsuite$', '', name) # Remove postfix: _testsuite
+        name = name.replace('-', '_')
         # Timestamp
         lst = m.group(2).split('-')
         date = '-'.join(lst[:3])
         time = ':'.join(lst[-3:])
-        self.data['timestamp'] = "%sT%s" % (date, time)
+        timestamp = "%sT%s" % (date, time)
+        return name, timestamp
 
-    # Parse test result line and return a dict.
-    # A test result line contains 6 numbers:
-    #   <failure> <succeed> <count> <time> <error> <skipped>
-    # 
-    # Return: {'status': <status>, }
-    def extract_result_line(self, line):
-        nums = line.split()
-        nums = map(int, nums)
-        if nums[2] <= 0:
-            nums[2] = 1
-        status = TestsuiteParser.RESULT_ITEMS[1]
-        for i in [0, 4, 1, 5]:
-            if nums[i] > 0:
-                status = TestsuiteParser.RESULT_ITEMS[i]
-        extracted_data = {'status': status}
-        for i in range(len(TestsuiteParser.RESULT_ITEMS)):
-            extracted_data[TestsuiteParser.RESULT_ITEMS[i]] = nums[i]
-        return extracted_data
-
-    # Parse the test_results file
-    # and save the result to self.data['testcases']
-    #               [{'name'    : <testcase name>,
-    #               'failed'    : 0,
-    #               'succeeded' : 2,
-    #               'count'     : 2,
-    #               'time'      : 10,
-    #               'error'     : 0,
-    #               'skipped'   : 0},
-    #               'log'       : <100 lines of the log>}]
-    def parse_testcases(self):
-        self.data['testcases'] = []
-        line_num = 0
-        self.logger.debug("Parsing file %s" % (self.test_results_file))
-        with file(self.test_results_file, 'r') as f:
-            while True:
-                testcase_name = f.readline().strip()
-                testcase_result = f.readline().strip()
-                line_num += 2
-                if len(testcase_name) == 0 or \
-                    (not re.search(r'\d+(\s+\d+){5}', testcase_result)):
-                    self.logger.error("[%s:%s]Invalid format" % (self.data['name'], line_num))
-                    return
-                self.logger.debug("Parsing testcase %s.%s" % (self.data['name'], testcase_name))
-                extracted = self.extract_result_line(testcase_result)
-                try:
-                    tp = TestcaseParser(os.path.join(self.path, testcase_name), extracted, logger=self.logger)
-                    tp.parse()
-                except Exception, e:
-                    self.logger.error("Failed to parse testcase %s.%s" % (self.data['name'],
-                                                                        testcase_name))
-                    self.logger.debug(traceback.format_exc())
-                testcase_data = tp.get_result()
-                testcase_data['classname'] = "%s.%s" % (self.data['name'], testcase_data['name'])
-                self.data['testcases'].append(testcase_data)
-                # Statistics for testsuite
-                self.data['time'] += testcase_data['time']
-                self.data['tests'] += 1
-                tmp = {'failure'    : 'failures',
-                        'error'     : 'errors',
-                        'skipped'   : 'skipped'}
-                for k, v in tmp.items():
-                    if testcase_data['status'] == k:
-                        self.data[v] += 1
-
-    # Parse all the data.
-    def parse(self):
-        self.parse_testsuite_name_timestamp()
-        self.parse_testcases()
-
-
-class TestsuiteTarballParser(BaseParser):
-    '''
-    Extract and parse the logs inside a tarball.
-    A tarball may contain multiple testsuite log dirs'''
-
-    TMP_DIR = '/tmp'
-
-    # path: Path to the tarball containing logs. Example:
-    #       /usr/share/qaset/log/gzip-ACAP2-20151216-20151216T110220.tar.bz2
-    def __init__(self, path, logger=None):
-        super(self.__class__, self).__init__(path, logger)
-        self.extraction_dir = None
-        self.data = []              # A list of testsuites
-
-    # Create extraction dir for extracting tarballs
-    def create_extraction_dir(self):
-        unique_id = uuid.uuid4()
-        dirname = "extracted_logs_%s" % (unique_id)
-        extraction_dir = os.path.join(self.TMP_DIR, dirname)
-        self.logger.debug("Creating %s" % (extraction_dir))
-        os.mkdir(extraction_dir, 0755)
-        self.extraction_dir = extraction_dir
-
-    # Remove the extraction dir
-    def remove_extraction_dir(self):
-        try:
-            shutil.rmtree(self.extraction_dir)
-        except OSError, e:
-            self.logger.warning("Unable to remove extraction dir %s.\nMaybe it's already removed?" % (self.extraction_dir))
-            self.logger.debug(traceback.format_exc())
-        self.extraction_dir = None
-
-    # Extract a tarball to self.extraction_dir
-    # tarball: The path to the log tarball
-    def extract(self):
-        cmd = "tar xf '%s' -C '%s'" % (self.path, self.extraction_dir)
-        ret = subprocess.call(cmd, shell=True)
-        assert ret == 0, "Extraction failed: %s" % (cmd)
-
-    # Extract the tarball and parse the files inside it
-    def parse(self):
-        self.create_extraction_dir()
-        self.extract()
-        for entry in glob.glob(os.path.join(self.extraction_dir, '*')):
-            p = TestsuiteParser(entry, self.logger)
-            try:
-                p.parse()
-                self.data.append(p.get_result())
-            except Exception, e:
-                self.logger.error("Failed to parse %s: %s" % (entry, e))
-                self.logger.debug(traceback.format_exc())
-        self.remove_extraction_dir()
-        # Check if there's any data
-        if len(self.data) == 0:
-            self.logger.warning("No log data in %s" % (self.path))
-
-
-class SubmissionParser(BaseParser):
-    '''
-    Parse all submission logs to get submission ids and links.
-    '''
-
-    def __init__(self, path, logger=None):
-        super(self.__class__, self).__init__(path, logger)
-        self.data = {}  # A list containing all the submission links and ids
-
-    def get_testsuite_name(self, submission_file_name):
-        m = re.search(r'^submission-(.*)\.log$', submission_file_name)
-        assert m is not None, "Can't detect testsuite name: %s" % (submission_file_name)
-        name = m.group(1).strip().replace('-', '_')
-        return m.group(1)
-
-    def parse_submission(self, submission_file_path):
-        file_name = os.path.basename(submission_file_path)
-        testsuite_name = self.get_testsuite_name(file_name)
-        s = read_last_lines(submission_file_path, 10)
-        m = re.search(r'ID (\d+): (.*)$', s, re.MULTILINE | re.IGNORECASE)
-        assert m is not None, "No submission id/link found: %s" % (file_name)
-        self.data[testsuite_name] = {'id': m.group(1), 'link': m.group(2)}
-
-    def parse(self):
-        self.data = {}
-        for entry in glob.glob(os.path.join(self.path, 'submission-*.log')):
-            if os.path.isfile(entry):
-                try:
-                    self.parse_submission(entry)
-                except AssertionError, e:
-                    self.logger.warning("%s" % e)
-
-
-class TestsuitesParser(BaseParser):
-    '''
-    Parse all the logs under a directory.
-
-    Example:
-        /var/log/qaset/log/
-    '''
-
-    RESULT_FILE_NAME    = 'test_results'
-    TARBALL_PATTERN     = '*.tar.*'
-    TMP_DIR             = '/tmp'
-
-    # path: The directory containing log tarballs or log dirs.
-    #   Example: /var/log/qaset/log/
-    def __init__(self, name, path, logger=None):
-        super(self.__class__, self).__init__(path, logger)
-        self.data = {'name'     : name,     # [str] Test name(e.g.Kernel, Userspace regression)
-                    'time'      : 0,        # [int] time used(in seconds)
-                    'tests'     : 0,        # [int] Amount of testsuites
-                    'failures'  : 0,        # [int] Amount of failed testsuites
-                    'errors'    : 0,        # [int] Amount of testsuites with internal errors
-                    'skipped'   : 0,        # [int] Amount of skipped testsuites
-                    'testsuites': []}       # [list] List of testsuites
-
-    # Parse all the tarballs or dirs in self.path
-    def parse(self):
-        for entry in glob.glob(os.path.join(self.path, '*')):
-            if fnmatch.fnmatch(os.path.basename(entry), '*.tar.*'):
-                p = TestsuiteTarballParser(entry, self.logger)
-            elif os.path.isdir(entry):
-                p = TestsuiteParser(entry, self.logger)
+    def collect_submission(self):
+        for sub_log in glob.glob(os.path.join(self.sub_dir, "*.log")):
+            basename = os.path.basename(sub_log)
+            m = re.search(r'(?<=submission-).*(?=.log)', basename)
+            if not m:
+                self.logger.warning("Not a submission log: %s" % (sub_log))
+            ts_name = m.group(0)
+            # Submission ID & link
+            data = {'id': None, 'link': None, 'dir': None}
+            with file(sub_log, 'r') as f:
+                content = f.read()
+            m = re.search(r'ID (\d+): (.*)$', content, re.IGNORECASE | re.MULTILINE)
+            if m:
+                data['id'] = m.group(1)
+                data['link'] = m.group(2).strip()
             else:
-                self.logger.warning("Unknown entry '%s'" % (entry))
+                self.logger.warning("No submission info for testsuite %s" % (ts_name))
+            m = re.search(r'Processing:\s+([^\s]+)$', content, re.IGNORECASE | re.MULTILINE)
+            if m:
+                data['dir'] = m.group(1).strip()
+            else:
+                self.logger.warning("No log dir inside submission log of testsuite %s" % (ts_name))
+            self.submission[ts_name] = data
+
+    def collect_log(self):
+        root = RootElement(self.name)
+        # Extract tarballs
+        tmp_dir = self.create_tmp_dir()
+        for tarball in glob.glob(os.path.join(self.log_dir, '*.tar.*')):
+            cmd = "tar xf '%s' -C '%s'" % (tarball, tmp_dir)
+            ret = subprocess.call(cmd, shell=True)
+            if ret != 0:
+                self.logger.warning("Extraction failed: %s" % (os.path.basename(tarball)))
+        # Create testsuite elements from submission data
+        testsuites = {}
+        for ts_name, d in self.submission.items():
+            ts_elem = TestsuiteElement(ts_name)
+            if d.get('dir'):
+                ts_dir = os.path.join(tmp_dir, d['dir'])
+                self.logger.debug("Parsing testsuite %s: %s" % (ts_name, d['dir']))
+                self.parse_testsuite(ts_dir, ts_elem)
+                shutil.rmtree(ts_dir)
+            testsuites[ts_name] = ts_elem
+        # Remaining testsuite dirs
+        for ts_dir in glob.glob(os.path.join(tmp_dir, '*')):
+            basename = os.path.basename(ts_dir)
+            ts_name, timestamp = self.extract_testsuite_dir_name(basename)
+            if testsuites.has_key(ts_name):
+                ts_elem = testsuites[ts_name]
+            else:
+                ts_elem = TestsuiteElement(ts_name)
+            self.logger.debug("Parsing testsuite %s: %s" % (ts_name, basename))
+            self.parse_testsuite(ts_dir, ts_elem)
+            shutil.rmtree(ts_dir)
+        # Create fake testcase for testsuites with no results
+        # and add all testsuites to self.root
+        for ts_name, ts_elem in testsuites.items():
+            if len(ts_elem.sub) == 0:
+                msg = "Testsuite %s didn't run at all. Installation failure?" % (ts_elem.get('name'))
+                ts_elem.add_fake_testcase('fake_testcase', msg)
+            self.root.add_testsuite(ts_elem)
+        shutil.rmtree(tmp_dir)
+
+    # path: path of the extracted testsuite log dir
+    def parse_testsuite(self, path, ts_elem):
+        basename = os.path.basename(path)
+        ts_name, timestamp = self.extract_testsuite_dir_name(basename)
+        ts_name = ts_elem.data['attrs']['name']
+        ts_elem.set('timestamp', timestamp)
+        # Read test_results
+        try:
+            with file(os.path.join(path, 'test_results')) as f:
+                lines = f.read().splitlines()
+        except IOError, e:
+            lines = []
+        for i in range(0, len(lines), 2):
+            tc_name = lines[i]
+            states = lines[i+1]
+            if not(tc_name and states):
+                break
+            states = states.split()
+            states = map(int, states)
+            tc_elem = TestcaseElement(ts_name, tc_name, states)
+            tc_elem.add_status_tag()
+            # Read log file
+            if self.submission[ts_name]['id'] and self.submission[ts_name]['link']:
+                system_err = "Submission ID %s: %s" % (self.submission[ts_name]['id'],
+                                                    self.submission[ts_name]['link'])
+            else:
+                system_err = "No submission info"
+            tc_elem.add_system_tag('system-err', system_err)
             try:
-                p.parse()
-            except Exception, e:
-                self.logger.error("Failed to parse %s: %s" % (entry, e))
-                self.logger.debug(traceback.format_exc())
-            testsuites_data = p.get_result()
-            if not isinstance(testsuites_data, list):
-                testsuites_data = [testsuites_data]
-            # Statistics for testsuites
-            for testsuite in testsuites_data:
-                self.data['time'] += testsuite['time']
-                self.data['tests'] += testsuite['tests']
-                self.data['failures'] += testsuite['failures']
-                self.data['errors'] += testsuite['errors']
-                self.data['skipped'] += testsuite['skipped']
-            self.data['testsuites'].extend(testsuites_data)
-        return self.data
-
-class BaseElement(object):
-    ATTR_BLACKLIST = ['system-out', 'system-err',
-                        'submission_id', 'submission_link']
-
-    def __init__(self, data, tag, parent=None):
-        self.data = data
-        self.elem = ET.Element(tag)
-        if parent is not None:
-            parent.append(self)
-
-    def append(self, elem):
-        if not isinstance(elem, BaseElement):
-            raise TypeError("Cannot append %s as sub element. Type be BaseElement" % (elem.__class__.__name__))
-        self.elem.append(elem.elem)
-
-    def set_attrs(self):
-        for k, v in self.data.items():
-            if not(isinstance(v, list) or
-                    isinstance(v, dict) or
-                    v is None or
-                    k in BaseElement.ATTR_BLACKLIST):
-                if not isinstance(v, basestring):
-                    v = str(v)
-                self.elem.set(k, v)
-
-    def to_pretty_xml(self, encoding='UTF-8'):
-        return ET.tostring(self.elem, encoding=encoding, method='xml')
-
-
-class TestcaseElement(BaseElement):
-    def __init__(self, testcase_data, parent=None):
-        super(self.__class__, self).__init__(testcase_data,
-                                            'testcase',
-                                            parent)
-        self.convert()
-
-    def convert_submission_data(self):
-        if not(self.data.get('submission_id', None) and
-                self.data.get('submission_link', None)):
-            return
-        text = "Submission ID %s: %s" % (self.data['submission_id'],
-                                        self.data['submission_link'])
-        # Write submission data into "system-err"
-        err_elem = ET.SubElement(self.elem, 'system-err')
-        cdata_elem = CDATA(text)
-        err_elem.append(cdata_elem)
-
-    def convert(self):
-        self.set_attrs()
-        self.convert_submission_data()
-        # skipped
-        if self.data['skipped'] is not None:
-            skip_elem = ET.SubElement(self.elem, 'skipped')
-            skip_elem.text = self.data['skipped']
-        # failure & error
-        for key in ['failure', 'error']:
-            if self.data[key] is not None:
-                elem = ET.SubElement(self.elem, key)
-                for attr in ['type', 'message']:
-                    elem.set(attr, self.data[key][attr])
-                elem.text = self.data[key]['text']
-        # system-out
-        out_elem = ET.SubElement(self.elem, 'system-out')
-        cdata_elem = CDATA(self.data['system-out'])
-        out_elem.append(cdata_elem)
-
-
-class TestsuiteElement(BaseElement):
-    def __init__(self, testsuite_data, parent=None):
-        super(self.__class__, self).__init__(testsuite_data,
-                                            'testsuite',
-                                            parent)
-        self.convert()
-
-    def convert(self):
-        self.set_attrs()
-        for testcase_data in self.data['testcases']:
-            TestcaseElement(testcase_data, parent=self)
-
-
-class TestsuitesElement(BaseElement):
-    def __init__(self, testsuite_data, parent=None):
-        super(self.__class__, self).__init__(testsuite_data,
-                                            'testsuites',
-                                            parent)
-        self.convert()
-
-    def convert(self):
-        self.set_attrs()
-        for testsuite_data in self.data['testsuites']:
-            TestsuiteElement(testsuite_data, parent=self)
-
-
-class JunitConverter(object):
-    '''
-    Convert testsuites data to junit format
-    '''
-    def __init__(self, name, log_dir, submission_dir=None, encoding='UTF-8', logger=None):
-        self.name = name
-        self.log_dir = expand_path(log_dir)
-        if submission_dir is not None:
-            submission_dir = expand_path(submission_dir)
-        self.submission_dir = submission_dir
-        self.root = None
-        self.encoding = encoding
-        self.logger = logger
-
-    def __str__(self):
-        return self.root.to_pretty_xml(self.encoding)
-
-    def set_encoding(self, encoding):
-        self.encoding = encoding
-
-    def run(self):
-        # Parse log files
-        log_parser = TestsuitesParser(self.name, self.log_dir, self.logger)
-        log_parser.parse()
-        log_data = log_parser.get_result()
-        # Parse submission files
-        if self.submission_dir is not None:
-            submission_parser = SubmissionParser(self.submission_dir, self.logger)
-            submission_parser.parse()
-            submission_data = submission_parser.get_result()
-            # Add submission id and link to log_data
-            for testsuite in log_data['testsuites']:
-                d = {}
-                for k, v in submission_data.items():
-                    if k == testsuite['name']:
-                        d = v
-                if len(d) == 0:
-                    self.logger.warning("No submission data for testsuite %s" % (testsuite['name']))
-                    continue
-                submission_id = d.get('id', None)
-                submission_link = d.get('link', None)
-                if submission_id and submission_link:
-                    for testcase in testsuite['testcases']:
-                        testcase['submission_id'] = submission_id
-                        testcase['submission_link'] = submission_link
-        # Create xml tree 
-        self.root = TestsuitesElement(log_data)
-
-    def dump(self, file_like_or_io):
-        file_like_or_io.write(str(self))
+                system_out = read_last_lines(os.path.join(path, tc_name))
+            except IOError, e:
+                system_out = "No test result found: %s" % (e)
+            tc_elem.add_system_tag('system-out', system_out)
+            # Add to testsuite
+            ts_elem.add_testcase(tc_elem)
+        if len(ts_elem.sub) == 0:
+            # Add a fake testcase to indicate error
+            msg = 'No testcases or no test_results file found for testsuite %s' % (ts_elem.get('name'))
+            ts_elem.add_fake_testcase('fake_testcase', msg)
 
 
 if __name__ == '__main__':
-    # Parse cmd line options
-    usage = '''Usage: %prog [options] log_dir
+    usage = '''Usage: %prog [options] qaset_dir
 
-  Arguments:
-    log_dir             QA log dir. Default: /var/log/qaset/log
+Arguments:
+    qaset_dir       qaset directory. e.g. /var/log/qaset
 
-  Options:
-    -n|--name           (Required)Name of this test(e.g.Kernel Regression, Userspace, Acceptance)
-    -s|--submission     Log submission dir. Default: /var/log/qaset/submission
-    -o|--output         Write xml to file instead of STDOUT
-    -d|--debug          Enable debug mode
-    -e|--encoding       (TBD)Set xml encoding. Default: UTF-8
+Options:
+    -n|--name       (Required) Test run name, e.g. kernel_regression
+    -o|--outfile    Write xml to file instead of stdout
+    -d|--debug      Enable debug mode
 '''
     op = OptionParser(usage=usage)
     op.add_option('-n', '--name', dest='name', type='string',
-                help='Name of this test')
-    op.add_option('-s', '--submission', dest='submission', type='string',
-                default="/var/log/qaset/submission",
-                help='Log submission dir. Default: /var/log/qaset/submission')
-    op.add_option('-o', '--output', dest='file', type='string',
-                help='Save xml to file')
+                help='Test run name')
+    op.add_option('-o', '--outfile', dest='file', type='string',
+                help='Write xml to file')
     op.add_option('-d', '--debug', action="store_true", dest="debug",
                 help='Enable debug mode')
-    op.add_option('-e', '--encoding', dest="encoding", default='UTF-8',
-                help='(TBD)Set xml encoding')
     (options, args) = op.parse_args()
     # Logger
     logging.basicConfig(format='[%(name)s]%(levelname)s: %(message)s')
     logger = logging.getLogger(__file__)
     level = logging.DEBUG if options.debug else logging.INFO
     logger.setLevel(level)
-    # Check options & args
+    # Check options
     try:
-        assert len(args) == 1
-        assert options.name
+        assert len(args) == 1, "qaset_dir must be specified!"
+        assert options.name, "Test run name must be specified!"
     except AssertionError, e:
+        print e
         op.print_usage()
         exit(255)
-    # Log dir & Submission dir
-    log_dir = expand_path(args[0])
-    assert os.path.isdir(log_dir), "Not a directory: %s" % (log_dir)
-    submission_dir = expand_path(options.submission)
-    if not os.path.isdir(submission_dir):
-        logger.warning("No submission data. Not a directory: %s." % (submission_dir))
-        submission_dir = None
-    # Output file
-    if options.file:
-        try:
-            outfile = file(options.file, 'w')
-        except Exception, e:
-            logger.error("Failed to create output file %s: %s" % (options.file, e))
-            self.logger.debug(traceback.format_exc())
-            exit(1)
-    else:
-        outfile = sys.stdout
-    # Convert to xml
-    converter = JunitConverter( options.name,
-                                log_dir,
-                                submission_dir=submission_dir,
-                                encoding=options.encoding,
-                                logger=logger)
-    converter.run()
-    converter.dump(outfile)
+    options.file = expand_path(options.file)
+    dc = DataCollector(options.name, expand_path(args[0]), logger=logger)
+    dc.collect_submission()
+    dc.collect_log()
+    with file(options.file, 'w') as f:
+        dc.root.to_xml(f)
+    exit(0)
