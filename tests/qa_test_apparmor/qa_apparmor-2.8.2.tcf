@@ -58,9 +58,9 @@ timer 1800
 fg 1 rename /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/rename.sh"
 wait
 
-#timer 1800
-#fg 1 syscall /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall.sh"
-#wait
+timer 1800
+fg 1 syscall /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall.sh"
+wait
 
 timer 1800
 fg 1 exec /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/exec.sh"
@@ -187,30 +187,13 @@ timer 1800
 fg 1 onexec /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/onexec.sh"
 wait
 
-#timer 1800
-#fg 1 syscall_sysctl /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall_sysctl.sh"
-#wait
+timer 1800
+fg 1 syscall_sysctl /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/syscall_sysctl.sh"
+wait
 
 timer 1800
 fg 1 stress /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/parser/stress.sh"
 wait
-
-# Subdomain tests need fixing
-#timer 1800
-#fg 1 subdomain-stress /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/subdomain/stress.sh"
-#wait
-
-#timer 1800
-#fg 1 subdomain-s-2.4.20 /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/subdomain/s-2.4.20.sh"
-#wait
-
-#timer 1800
-#fg 1 subdomain-s /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/subdomain/s.sh"
-#wait
-
-#timer 1800
-#fg 1 subdomain-kill /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/stress/subdomain/kill.sh"
-#wait
 
 #### Parser tests ####
 timer 1800
