@@ -31,7 +31,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source:         %{name}-%{version}.tar.bz2
 Source1:        qa_apparmor_profiles.tcf
 Source2:        qa_test_apparmor-profiles.8
-Source3:        test_apparmor-profiles-run
+Source3:        test_apparmor_profiles-run
 
 
 %description
@@ -79,7 +79,7 @@ rm -rvf $RPM_BUILD_ROOT
 %dir /%{qa_dir}/tcf
 /%{qa_dir}/tcf/qa_apparmor_profiles.tcf
 %dir /%{qa_dir}/tools
-/%{qa_dir}/tools/test_apparmor-profiles-run
+/%{qa_dir}/tools/test_apparmor_profiles-run
 %dir /%{man_dir}/man8
 /%{man_dir}/man8/%{name}.8.gz
 
