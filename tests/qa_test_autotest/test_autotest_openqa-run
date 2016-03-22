@@ -1,7 +1,7 @@
 #!/bin/bash
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
-DISABLED="autotest-uptime autotest-fsstress"
+DISABLED="autotest-aborttest autotest-uptime autotest-fsstress autotest-xfstests"
 
 cmd="sed -e '/^#/d' "
 for testcase in $DISABLED; do
