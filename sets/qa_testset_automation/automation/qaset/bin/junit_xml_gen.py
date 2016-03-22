@@ -255,7 +255,7 @@ class TestsuiteElement(BaseElement):
             'name'      : name,
             'hostname'  : HOSTNAME,
             'id'        : TestsuiteElement.NEXT_ID,
-            'package'   : 'qa_test_%s' % (name),
+            'package'   : name,
             'tests'     : 0,
             'failures'  : 0,
             'errors'    : 0,
