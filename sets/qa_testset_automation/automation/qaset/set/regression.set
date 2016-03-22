@@ -8,7 +8,7 @@ function def_simple_run {
 
 def_simple_run apache '/usr/share/qa/tools/test_apache_testsuite-run' qa_test_apache_testsuite
 def_simple_run apparmor '/usr/share/qa/tools/test_apparmor-run' qa_test_apparmor
-def_simple_run apparmor_profiles '/usr/share/qa/tools/test_apparmor-profiles-run' qa_test_apparmor-profiles
+def_simple_run apparmor_profiles '/usr/share/qa/tools/test_apparmor_profiles-run' qa_test_apparmor-profiles
 def_simple_run bind '/usr/share/qa/tools/test_bind-run' qa_test_bind
 def_simple_run bzip2 '/usr/share/qa/tools/test_bzip2-run' qa_test_bzip2
 def_simple_run cabextract '/usr/share/qa/tools/test_cabextract-run' qa_test_cabextract
