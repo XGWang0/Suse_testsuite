@@ -325,15 +325,20 @@ class DataCollector(object):
         os.mkdir(tmp_dir, 0755)
         return tmp_dir
 
+    def testsuite_name_fixup(self, name):
+        name = name.replace('-', '_')
+        name = re.sub(r'^qa_', '', name)    # Remove prefix: qa_
+        name = re.sub(r'^ltp_', '', name)    # Remove prefix: qa_
+        name = re.sub(r'_testsuite$', '', name) # Remove postfix: _testsuite
+        return name
+
     def extract_testsuite_dir_name(self, basename):
         m = re.search(r'(.*)-(\d+(?:-\d+){5})', basename)
         if not m:
             return basename, current_timestamp()
         # Name
         name = m.group(1).strip()
-        name = re.sub(r'^qa[_\-]', '', name) # Remove prefix: qa_
-        name = re.sub(r'_testsuite$', '', name) # Remove postfix: _testsuite
-        name = name.replace('-', '_')
+        name = self.testsuite_name_fixup(name)
         # Timestamp
         lst = m.group(2).split('-')
         date = '-'.join(lst[:3])
@@ -347,7 +352,9 @@ class DataCollector(object):
             m = re.search(r'(?<=submission-).*(?=.log)', basename)
             if not m:
                 self.logger.warning("Not a submission log: %s" % (sub_log))
+                break
             ts_name = m.group(0)
+            ts_name = self.testsuite_name_fixup(ts_name)
             # Submission ID & link
             data = {'id': None, 'link': None, 'dir': None}
             with file(sub_log, 'r') as f:
