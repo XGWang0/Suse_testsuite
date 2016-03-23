@@ -402,7 +402,7 @@ function get_repo_url_with_correct_dvd {
     [[ "$url" != */ ]] && url="${url}/"
     local dvd_list=$(curl -s "$url" | grep -ioP 'dvd\d+' | sort -h | uniq)
     local dvd_seq=$(echo "$dvd_list" | grep -ioP '(?<=dvd)\d+' | sort -h | uniq | head -n1)
-    local dvd=$(echo "$dvd_list" | grep -ioP "^dvd${dvd_seq}$")
+    local dvd=$(echo "$dvd_list" | grep -ioP "^dvd${dvd_seq}$" | head -n 1)
     if [[ $? -ne 0 ]] || [[ -z "$dvd" ]]; then
         echo "Failed to get repo url from: $url" >&2
         exit 255
