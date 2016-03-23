@@ -2,7 +2,7 @@
 
 import logging
 
-TableFields = ('release', 'build', 'arch', 'hostname', 'suitename', 'date')
+TableFields = ('release', 'build', 'arch', 'hostname', 'suitename', 'date', 'comment')
 
 class logRecord(dict):
     @classmethod
@@ -127,7 +127,7 @@ class perfDB():
     def __init__(self):
         self.shadow_db = qaDB()
 
-    def _get_logs(self, release, build, arch, host = None, suite = None, date = None):
+    def _get_logs(self, release, build, arch, host = None, suite = None,comment = None, date = None):
         sql = "SELECT `product`,`release`,`arch`,`host`,`testsuite`,`test_date`,`log_url`" \
               " FROM `tcf_view` WHERE `product` = '%s'" \
               " AND `release` = '%s'" \
@@ -140,6 +140,8 @@ class perfDB():
             sql += " AND `testsuite` = '%s'" % suite
         if date != None:
             sql += " AND `test_date` = '%s'" % date
+        if comment != None:
+            sql += " AND `comment` = '%s'" % comment
         try:
             records = self.shadow_db.get_log_records(sql)
         except Exception as e:
@@ -150,13 +152,13 @@ class perfDB():
             logging.warn("got nothing with %s" % sql)
         return records
 
-    def get_log_by_build(self, release, build, arch):
-        return self._get_logs(release, build, arch)
+    def get_log_by_build(self, release, build, arch,comment):
+        return self._get_logs(release, build, arch,comment)
 
-    def get_logdir_by_run(self, release, build, arch, host, suite, date = None):
-        records = self._get_logs(release, build, arch, host, suite, date)
+    def get_logdir_by_run(self, release, build, arch, host, suite,comment, date = None):
+        records = self._get_logs(release, build, arch, host, suite,comment, date)
         rl = list()
-        for (release, build, arch, host, suite, date, log_url) in records:
+        for (release, build, arch, host, suite, date,log_url) in records:
             logging.debug("logdir %s %s" % (suite, log_url))
             
             rl.append(log_url)
