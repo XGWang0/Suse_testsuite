@@ -1,6 +1,7 @@
 import logging
 import dod
 import urllib
+import urllib.request
 import io
 
 __all__ = []
