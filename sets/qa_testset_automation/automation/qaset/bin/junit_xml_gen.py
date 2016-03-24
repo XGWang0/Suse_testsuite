@@ -16,6 +16,18 @@ import xml.etree.ElementTree as ET
 HOSTNAME = socket.gethostname()
 
 ### Utils functions ###
+def similarity(x, y): 
+    m = [[0 for i in range(len(y)+1)] for i in range(len(x)+1)]
+    for i in range(1, len(x) + 1): 
+        for j in range(1, len(y) + 1): 
+            if x[i-1] == y[j-1]:
+                m[i][j] = m[i-1][j-1] + 1 
+            elif m[i-1][j] > m[i][j-1]:
+                m[i][j] = m[i-1][j]
+            else:
+                m[i][j] = m[i][j-1]
+    return m[len(x)][len(y)] / ((len(x) + len(y)) / 2.0)
+
 def get_logger(level=logging.INFO):
     logging.basicConfig(format='[%(name)s]%(levelname)s: %(message)s')
     logger = logging.getLogger(os.path.basename(__file__))
@@ -328,7 +340,6 @@ class DataCollector(object):
     def testsuite_name_fixup(self, name):
         name = name.replace('-', '_')
         name = re.sub(r'^qa_', '', name)    # Remove prefix: qa_
-        name = re.sub(r'^ltp_', '', name)    # Remove prefix: qa_
         name = re.sub(r'_testsuite$', '', name) # Remove postfix: _testsuite
         return name
 
@@ -354,7 +365,6 @@ class DataCollector(object):
                 self.logger.warning("Not a submission log: %s" % (sub_log))
                 break
             ts_name = m.group(0)
-            ts_name = self.testsuite_name_fixup(ts_name)
             # Submission ID & link
             data = {'id': None, 'link': None, 'dir': None}
             with file(sub_log, 'r') as f:
@@ -395,10 +405,14 @@ class DataCollector(object):
         for ts_dir in glob.glob(os.path.join(tmp_dir, '*')):
             basename = os.path.basename(ts_dir)
             ts_name, timestamp = self.extract_testsuite_dir_name(basename)
-            if testsuites.has_key(ts_name):
-                ts_elem = testsuites[ts_name]
-            else:
-                ts_elem = TestsuiteElement(ts_name)
+            # Find the most similar ts_elem
+            rate = 0
+            ts_elem = None
+            for k, v in testsuites.items():
+                tmp = similarity(ts_name, k)
+                if tmp > rate:
+                    rate = tmp
+                    ts_elem = v
             self.logger.debug("Parsing testsuite %s: %s" % (ts_name, basename))
             self.parse_testsuite(ts_dir, ts_elem)
             shutil.rmtree(ts_dir)
