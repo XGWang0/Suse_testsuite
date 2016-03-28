@@ -33,6 +33,8 @@ TCF_FILE="$TCF_DIR/qa_virtualization-standalone.tcf"
 
 TCF_TRUE="/tmp/qa_virtualization-vm_install.tcf"
 
+remote="off"
+
 #detect the ENV and filter the install test cases
 
 mkdir -m 0751 -p /.virtinst
@@ -62,14 +64,16 @@ print_usage()
 	echo "Usage: $0 -h  print this help"
 	echo "-n <thread_number>"
 	echo "-f <filter string>  : eg. 'nw-65-sp8\|oes-11-sp2' "
+	echo "-r submit result to remote QADB "
 
 }
 
-while getopts "hf:n:" OPTIONS
+while getopts "hf:n:r" OPTIONS
 do
 	case $OPTIONS in
 		f) filter=$OPTARG;;
 		n) thread=$OPTARG;;
+		r) remote="on";;
 		h) print_usage;;
 	esac
 done
@@ -109,11 +113,15 @@ sed -i '2s/^bg/fg/' $TCF_TRUE
 $CTCS2_DIR/tools/run $TCF_TRUE
 returncode=0
 
+
 for file in `find /var/log/qa/ctcs2/ -name test_results`; do
 	[ -z "$(cat $file)" ] && ((returncode+=1))
 done
 
 ((returncode+=`find /var/log/qa/ctcs2/ -name test_results -exec grep "^[0-9] 0" {} \; | wc -l`))
+
+[ "$remote" == "off" ] && exit $returncode
+
 hn=`cat /etc/HOSTNAME`
 ARCH=`arch`
 
