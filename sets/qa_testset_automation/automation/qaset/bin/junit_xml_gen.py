@@ -397,9 +397,12 @@ class DataCollector(object):
             ts_elem = TestsuiteElement(ts_name)
             if d.get('dir'):
                 ts_dir = os.path.join(tmp_dir, d['dir'])
-                self.logger.debug("Parsing testsuite %s: %s" % (ts_name, d['dir']))
-                self.parse_testsuite(ts_dir, ts_elem)
-                shutil.rmtree(ts_dir)
+                if os.path.isdir(ts_dir):
+                    self.logger.debug("Parsing testsuite %s: %s" % (ts_name, d['dir']))
+                    self.parse_testsuite(ts_dir, ts_elem)
+                    shutil.rmtree(ts_dir)
+                else:
+                    self.logger.debug("%s not found" % (d['dir']))
             testsuites[ts_name] = ts_elem
         # Remaining testsuite dirs
         for ts_dir in glob.glob(os.path.join(tmp_dir, '*')):
