@@ -1,6 +1,6 @@
 #!/bin/bash
 
-QASET_ROOT=
+QASET_ROOT=/usr/share/qa/qaset
 __IMPORT_ROOT=${QASET_ROOT}
 
 SQ_TEST_INVOKE_DIR=$(pwd)
@@ -44,11 +44,26 @@ function usage {
 
 sq_os_get_sysinfo
 
-# read user configuration
-if test -f ${SQ_USER_CONFIG_FILE};then
-    source ${SQ_USER_CONFIG_FILE}
-    for v in `declare | grep "^_QASET" | awk -F '=' '{print $1}'`; do export $v; done
-fi
+function sq_tenv_collection {
+	#collect system info that these info might be overwrite by user configure file
+	export _QASET_SWAP_SIZE=$(free -m | grep "^Swap"| awk -F " " '{print $2}')
+	export _QASET_ARCH=$(uname -m)
+	if [ -f /usr/share/qa/tools/product.pl ]; then
+	    build_release=$(/usr/share/qa/tools/product.pl 2>/dev/null)
+	    export _QASET_RELEASE=$(echo ${build_release} | awk -F '-' '{print $1"-"$2"-"$3}')
+	    export _QASET_BUILD=$(echo ${build_release} |awk -F '-' '{print $4}')
+	fi
+	export _QASET_ROOTFS_SIZE=$(df / -m | tail -n 1 | awk '{print $2}')
+	export _QASET_ROOTFS_TYPE=$(cat /proc/mounts | awk '{if ($2 == "/" && $1 != "rootfs") print $3}')
+	export _QASET_KERNEL=$(uname -r)
+	export _QASET_HOSTNAME=$(hostname)
+
+	# read user configuration
+	if test -f ${SQ_USER_CONFIG_FILE};then
+	    source ${SQ_USER_CONFIG_FILE}
+	    for v in `declare | grep "^_QASET" | awk -F '=' '{print $1}'`; do export $v; done
+	fi
+}
 
 function sq_set_cmd_run_parse {
     local _opt
@@ -163,6 +178,9 @@ case $1 in
             sq_error "[CMDLINE] SLE_RELEASE is not set"
             usage
         fi
+	
+	sq_tenv_collection	
+
         sq_set_cmd_run_parse "$@"
         sq_set_cmd_run_list
         ;;
