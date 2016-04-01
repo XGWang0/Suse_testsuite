@@ -83,7 +83,10 @@ function sq_qadb_update_system_infomation {
         cat /proc/meminfo > /var/log/qa/ctcs2/${name}/meminfo.txt
         cat /proc/zoneinfo > /var/log/qa/ctcs2/${name}/zoneinfo.txt
         systemctl list-units > /var/log/qa/ctcs2/${name}/systemctl-list-units.txt
-        env | grep "^_QASET" > /var/log/qa/ctcs2/${name}/tenv.txt
+	#tenv.txt introduce by New compare framework
+        env | grep "^_QASET" > /var/log/qa/ctcs2/${name}/tenv.tmp
+	sort /var/log/qa/ctcs2/${name}/tenv.tmp > /var/log/qa/ctcs2/${name}/tenv.txt
+	rm /var/log/qa/ctcs2/${name}/tenv.tmp
     done
 }
 
