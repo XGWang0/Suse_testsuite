@@ -39,7 +39,7 @@ esac
 TCF_FILE=${TCF_DIR}/pgbench_small_rw_${ABUILD_FS}.tcf
 
 cat <<EOF > ${TCF_FILE}
-timer 5h
+timer 10h
 fg 1 pgbench-small-rw /usr/share/qa/qa_test_pgbench/pgbench-run.sh -s small
 wait
 EOF
