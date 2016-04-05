@@ -149,11 +149,13 @@ v_updir=`find /var/log/qa/ctcs2 -type d -name "qa_virtualization-virt_install*"|
 if [ -d $v_updir ]; then
 	cp /tmp/virt_screenshot.tar.bz2 $v_updir/
 	cp /var/log/message $v_updir/
+	cp $TCF_TRUE $v_updir/
 	tar -jcf $v_updir/virtd_log.tar.bz2 /var/log/libvirt
 	[ -d /var/log/xen ] && tar -jcf $v_updir/xend_log.tar.bz2 /var/log/xen
 	which xl && xl dmsg >$v_updir/xldmsg
 	which xm && xm dmsg >$v_updir/xmdmsg
 	dmsg >$v_updir/kvmdmsg
+
 
 fi
 /usr/share/qa/tools/remote_qa_db_report.pl -b -c "Virtualization test results on $hn-$ARCH"
