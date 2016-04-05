@@ -140,8 +140,18 @@ done
 hn=`cat /etc/HOSTNAME`
 ARCH=`arch`
 
+#begin to archive screenshot
+
 rm /tmp/virt_screenshot.tar.bz2
+
+#save the virt-install log 
 cp -ar /root/.cache /tmp/virt-install_screenshot/
+
+#remove the duplicate screenshot , only keep first and last one.
+#awk '{md5[$1]++;file[$1]=file[$1]"@"$2}END{for(i in file) {num=split(file[i],aa,"@");if(num>3){ for(f=3;f<=(num-1);f++){  "rm "aa[f] |getline } }; } }'
+
+md5sum /tmp/virt-install_screenshot/*|awk '{md5[$1]++;file[$1]=file[$1]"@"$2}END{for(i in file) {num=split(file[i],aa,"@");if(num>3){ for(f=3;f<=(num-1);f++){  "rm "aa[f] |getline } }; } }'
+
 tar jcf /tmp/virt_screenshot.tar.bz2 /tmp/virt-install_screenshot/
 
 v_updir=`find /var/log/qa/ctcs2 -type d -name "qa_virtualization-virt_install*"|tail -1`
