@@ -65,7 +65,7 @@ v_updir=`find /var/log/qa/ctcs2 -type d -name "test-VH-Upgrade*"|tail -1`
 
 #upload virtualization debug log
 tar cvf $v_updir/libvirt.tar /var/log/libvirt
-cp /var/log/messages $v_updir/var-log-messages
+tar cvf $v_updir/var-log-messages.tar /var/log/messages
 if uname -r | grep -iq xen  || [ -e /proc/xen/privcmd ];then
 	xl dmesg > $v_updir/xl-dmesg.log
 	xm dmesg > $v_updir/xm-dmesg.log
