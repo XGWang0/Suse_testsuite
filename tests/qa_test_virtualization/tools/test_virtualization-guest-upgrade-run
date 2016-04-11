@@ -27,45 +27,44 @@
 export LANG=C
 
 function usage() {
-    echo "Usage: $0 -d migrateDstIP -v hypervisorType [-u migrateDstUser] [-p migrateDstPass] [-i vmProducts] [-t testTime]"
-    echo "-i: vmProducts, it is what kind of product vm should be installed, support regular expression, comma separeted,"
-    echo "                format: \"sles-11-sp[34]-64,sles-12\""
-    echo "                when not configured, all vm types in config file will be installed."
+    echo
+    echo "Usage: $0 -p PRODUCT_UPGRADE -r PRODUCT_UPGRADE_REPO [-g GUEST_LIST] [-t testTime]"
+    echo "       -p, the product to upgrade to for guests"
+    echo "       -r, the product upgrade repo for guest upgrade"
+    echo "       -g, the guest list to be tested, regular expression supported, separeted with comma, for example \"sles-11-sp[34]-64,sles-12-sp1\""
+	echo "       -t, the test time"
     exit 1
 }
 
-while getopts "d:u:p:v:i:t:" OPTIONS
+#get params
+while getopts "p:r:g:t:" OPTION
 do
-    case $OPTIONS in
-        d)migrateDstIP="$OPTARG";;
-        u)migrateDstUser="$OPTARG";;
-        p)migrateDstPass="$OPTARG";;
-        v)hostHypervisor="$OPTARG";;
-        i)vmProducts="$OPTARG";;
+    case $OPTION in
+        p)PRODUCT_UPGRADE="$OPTARG";;
+        r)PRODUCT_UPGRADE_REPO="$OPTARG";;
+        g)GUEST_LIST="$OPTARG";;
 		t)testTime="$OPTARG";;
         \?)usage;;
-        *) usage;;
+        *)usage;;
     esac
 done
 
-tcfContent="/usr/share/qa/virtautolib/lib/guest_migrate.sh"
-[ -n "$migrateDstIP" ] && tcfContent="${tcfContent} -d $migrateDstIP"
-[ -n "$hostHypervisor" ] && tcfContent="${tcfContent} -v $hostHypervisor"
-[ -n "$migrateDstUser" ] && tcfContent="${tcfContent} -u $migrateDstUser"
-[ -n "$migrateDstPass" ] && tcfContent="${tcfContent} -p $migrateDstPass"
-[ -n "$vmProducts" ] && tcfContent="${tcfContent} -i \"$vmProducts\""
+tcfContent="/usr/share/qa/virtautolib/lib/test_full_guest_upgrade.sh"
+[ -n "$PRODUCT_UPGRADE" ] && tcfContent="${tcfContent} -p $PRODUCT_UPGRADE"
+[ -n "$PRODUCT_UPGRADE_REPO" ] && tcfContent="${tcfContent} -r $PRODUCT_UPGRADE_REPO"
+[ -n "$GUEST_LIST" ] && tcfContent="${tcfContent} -g \"$GUEST_LIST\""
 
 [ -z "$testTime" ] && testTime=36000
 
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
-TCF_NAME="test_virtualization-guest-migrate-${hostHypervisor}.tcf"
+TCF_NAME="test_virtualization-guest-upgrade.tcf"
 TCF_FILE="$TCF_DIR/$TCF_NAME"
 
 #generate tcf file
 cat > $TCF_FILE <<EOF
 timer $testTime
-fg 1 guest_migrate_${hostHypervisor}_test $tcfContent
+fg 1 guest_upgrade_test $tcfContent
 wait
 EOF
 
@@ -86,7 +85,7 @@ done
 
 ((returncode+=`find /var/log/qa/ctcs2/ -name test_results -exec grep "^[0-9] 0" {} \; | wc -l`))
 
-v_updir=`find /var/log/qa/ctcs2 -type d -name "test_virtualization-guest-migrate*"|tail -1`
+v_updir=`find /var/log/qa/ctcs2 -type d -name "test_virtualization-guest-upgrade*"|tail -1`
 [ -d $v_updir -a -e /tmp/virt_screenshot.tar.bz2 ] && cp /tmp/virt_screenshot.tar.bz2 $v_updir/
 
 #upload virtualization debug log
@@ -103,10 +102,10 @@ dmesg > $v_updir/dmesg.log
 tar cvf $v_updir/var-lib-xen-dump.tar /var/lib/xen/dump/
 
 #upload tcf and guest xml config files
-tar cvf $v_updir/guest-xmls.tar /tmp/prj3_guest_migration/vm_backup/vm-config-xmls
+tar cvf $v_updir/guest-xmls.tar /tmp/prj4_guest_upgrade/vm_backup/vm-config-xmls
 tar cvf $v_updir/tcf.tar $TCF_FILE
 
 #send to qadb
-/usr/share/qa/tools/remote_qa_db_report.pl -b -c "Test result for virtualization guest migrate test: $TCF_FILE."
+/usr/share/qa/tools/remote_qa_db_report.pl -b -c "Test result for virtualization guest upgrade test: $TCF_FILE."
 
 exit $returncode
