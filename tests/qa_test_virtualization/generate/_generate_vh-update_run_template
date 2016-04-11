@@ -76,6 +76,10 @@ fi
 dmesg > $v_updir/dmesg.log
 tar cvf $v_updir/var-lib-xen-dump.tar /var/lib/xen/dump/
 
+#upload tcf and guest xml config files
+tar cvf $v_updir/guest-xmls.tar /tmp/vm_backup/vm-config-xmls
+tar cvf $v_updir/tcf.tar /usr/share/qa/qa_test_virtualization/tcf/test-VH-Upgrade*
+
 #send to qadb
 /usr/share/qa/tools/remote_qa_db_report.pl -b -c "Test result for virtualization host upgrade step $step test: $TCF_FILE."
 
