@@ -85,6 +85,7 @@ cp tools/test_virtualization-virt_install* $RPM_BUILD_ROOT/usr/share/qa/tools
 cp generate/_generate_vh-update* $RPM_BUILD_ROOT/usr/share/qa/tools
 cp tools/test_virtualization-standalone-run $RPM_BUILD_ROOT/usr/share/qa/tools
 cp tools/test_virtualization-guest-migrate-run $RPM_BUILD_ROOT/usr/share/qa/tools
+cp tools/test_virtualization-guest-upgrade-run $RPM_BUILD_ROOT/usr/share/qa/tools
 
 rm -fr tools generate _install.template
 
@@ -92,6 +93,7 @@ chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/test_virtualization*-run
 chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/test_virtualization-standalone-run
 chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/_generate_vh-update_tests.sh
 chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/test_virtualization-guest-migrate-run
+chmod +x $RPM_BUILD_ROOT/usr/share/qa/tools/test_virtualization-guest-upgrade-run
 
 cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
 
