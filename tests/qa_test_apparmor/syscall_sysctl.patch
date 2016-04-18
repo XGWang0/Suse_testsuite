@@ -1,0 +1,12 @@
+diff -ru apparmor-2.8.2.orig/tests/regression/apparmor/syscall_sysctl.c apparmor-2.8.2/tests/regression/apparmor/syscall_sysctl.c
+--- apparmor-2.8.2.orig/tests/regression/apparmor/syscall_sysctl.c	2010-12-21 04:29:10.000000000 +0800
++++ apparmor-2.8.2/tests/regression/apparmor/syscall_sysctl.c	2016-04-18 11:26:21.828293143 +0800
+@@ -39,7 +39,7 @@
+ 		return 0;
+ 	}
+ 
+-	new_max_threads = save_max_threads + 1024;
++	new_max_threads = save_max_threads - 1024;
+ 
+ 	if (sysctl(name, sizeof(name), NULL, 0, &new_max_threads, save_sz) == -1){
+ 		fprintf(stderr, "FAIL: sysctl write failed - %s\n",

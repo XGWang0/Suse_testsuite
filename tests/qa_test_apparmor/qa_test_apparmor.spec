@@ -37,6 +37,7 @@ Patch0:         bin_include-path-%{version}.patch
 %if "%{version}" == "2.8.2"
 Patch1:         mount-2.8.2.patch
 Patch2:         exec_ptrace_regex-2.8.2.patch
+Patch3:         syscall_sysctl.patch
 %else %if "%{version}" == "2.5.1"
 Patch1:         backport-2.5.1.patch
 Patch2:         subdomain_clone-2.5.1.patch
@@ -63,6 +64,7 @@ This package contains different types of tests:
 %if "%{version}" == "2.8.2"
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 %else %if "%{version}" == "2.5.1"
 %patch1 -p1
 %patch2 -p1
