@@ -123,6 +123,12 @@ function sq_control_get_next_run {
         exit -1
     fi
 
+    export SQ_CURRENT_FINISHED_RATIO=$(echo "(${SQ_THIS_RUN_INDEX}+1) / ${#SQ_TEST_RUN_LIST[*]} * 100" | bc -l)
+    text_current_finished=$(printf "The current ration is %3.2f %%" ${SQ_CURRENT_FINISHED_RATIO})
+
+    sq_debug "[CONTROL] THIS RUN CURRENT FINISHED RATIO: ${SQ_CURRENT_FINISHED_RATIO}"
+    (screen -d -m -S "${text_current_finished}" bash)
+
     SQ_THIS_RUN="${SQ_TEST_RUN_LIST[$SQ_THIS_RUN_INDEX]}"
     sq_debug "[CONTROL] THIS RUN: ${SQ_THIS_RUN}"
     sq_debug "[CONTROL] THIS RUN INDEX ${SQ_THIS_RUN_INDEX}"
