@@ -1,0 +1,103 @@
+diff -uNr qa_test_coreutils/orig_test_suite/fmt/basic new/orig_test_suite/fmt/basic 
+--- qa_test_coreutils/orig_test_suite/fmt/basic	2016-04-20 18:07:23.903210533 +0800
++++ new/orig_test_suite/fmt/basic	2016-04-20 18:00:26.852180763 +0800
+@@ -29,9 +29,9 @@
+       {IN=> "ça\nçb\n"},
+       {OUT=>"ça b\n"}],
+      ['wide-1', '-w 32768',
+-      {ERR => "fmt: invalid width: `32768'\n"}, {EXIT => 1}],
++      {ERR => "fmt: invalid width: `32768': Numerical result out of range\n"}, {EXIT => 1}],
+      ['wide-2', '-w 2147483647',
+-      {ERR => "fmt: invalid width: `2147483647'\n"}, {EXIT => 1}],
++      {ERR => "fmt: invalid width: `2147483647': Value too large for defined data type\n"}, {EXIT => 1}],
+      ['bad-suffix', '-72x',	{IN=> ''},
+       {ERR => "fmt: invalid width: `72x'\n"}, {EXIT => 1}],
+      ['no-file', 'no-such-file',
+diff -uNr qa_test_coreutils/orig_test_suite/ls-2/tests new/orig_test_suite/ls-2/tests 
+--- qa_test_coreutils/orig_test_suite/ls-2/tests	2016-04-20 18:07:48.963212322 +0800
++++ new/orig_test_suite/ls-2/tests	2016-04-20 18:02:42.400190439 +0800
+@@ -225,7 +225,7 @@
+      # From Stéphane Chazelas.
+      ['no-a-isdir-b', 'no-dir d',
+ 	 {OUT => "d:\n"},
+-	 {ERR => "ls: cannot access no-dir: No such file or directory\n"},
++	 {ERR => "ls: cannot access 'no-dir': No such file or directory\n"},
+ 	 $mkdir, $rmdir, {EXIT => 2}],
+ 
+      ['recursive-2', '-R d', {OUT => "d:\ne\n\nd/e:\n"}, $mkdir2, $rmdir2],
+diff -uNr qa_test_coreutils/orig_test_suite/misc/date new/orig_test_suite/misc/date 
+--- qa_test_coreutils/orig_test_suite/misc/date	2016-04-20 18:08:11.650213941 +0800
++++ new/orig_test_suite/misc/date	2016-04-20 18:01:17.793184399 +0800
+@@ -186,17 +186,17 @@
+      ['moname-d-y-r', '--rfc-3339=date -d May-23-2003', {OUT=>"2003-05-23"}],
+ 
+      ['epoch', '--iso=sec -d @31536000',
+-      {OUT=>"1971-01-01T00:00:00+0000"}],
++      {OUT=>"1971-01-01T00:00:00+00:00"}],
+      ['epoch-r', '--rfc-3339=sec -d @31536000',
+       {OUT=>"1971-01-01 00:00:00+00:00"}],
+ 
+      ['ns-10', '--iso=ns', '-d "1969-12-31 13:00:00.00000001-1100"',
+-      {OUT=>"1970-01-01T00:00:00,000000010+0000"}],
++      {OUT=>"1970-01-01T00:00:00,000000010+00:00"}],
+      ['ns-10-r', '--rfc-3339=ns', '-d "1969-12-31 13:00:00.00000001-1100"',
+       {OUT=>"1970-01-01 00:00:00.000000010+00:00"}],
+ 
+      ['ns-max32', '--iso=ns', '-d "2038-01-19 03:14:07.999999999"',
+-      {OUT=>"2038-01-19T03:14:07,999999999+0000"}],
++      {OUT=>"2038-01-19T03:14:07,999999999+00:00"}],
+      ['ns-max32-r', '--rfc-3339=ns', '-d "2038-01-19 03:14:07.999999999"',
+       {OUT=>"2038-01-19 03:14:07.999999999+00:00"}],
+ 
+@@ -217,7 +217,7 @@
+ 
+      ['ns-relative',
+       '--iso=ns', "-d'1970-01-01 00:00:00.1234567 UTC +961062237.987654321 sec'",
+-      {OUT=>"2000-06-15T09:43:58,111111021+0000"}],
++      {OUT=>"2000-06-15T09:43:58,111111021+00:00"}],
+      ['ns-relativer', '--rfc-3339=ns',
+       "-d'1970-01-01 00:00:00.1234567 UTC +961062237.987654321 sec'",
+       {OUT=>"2000-06-15 09:43:58.111111021+00:00"}],
+diff -uNr qa_test_coreutils/orig_test_suite/misc/stat-printf new/orig_test_suite/misc/stat-printf 
+--- qa_test_coreutils/orig_test_suite/misc/stat-printf	2016-04-20 18:08:37.359215777 +0800
++++ new/orig_test_suite/misc/stat-printf	2016-04-20 18:01:38.225185858 +0800
+@@ -47,9 +47,9 @@
+ 	 {ERR=>"$prog: warning: backslash at end of format\n"}],
+ 
+      ['err-1', "--printf=%9% .",       {EXIT => 1},
+-	 {ERR=>"$prog: %9%: invalid directive\n"}],
++	 {ERR=>"$prog: '%9%': invalid directive\n"}],
+      ['err-2', "--printf=%9 .",        {EXIT => 1},
+-	 {ERR=>"$prog: %9: invalid directive\n"}],
++	 {ERR=>"$prog: '%9': invalid directive\n"}],
+     );
+ 
+ my $save_temps = $ENV{DEBUG};
+diff -uNr qa_test_coreutils/orig_test_suite/rm/r-1 new/orig_test_suite/rm/r-1 
+--- qa_test_coreutils/orig_test_suite/rm/r-1	2016-04-20 18:09:02.057217540 +0800
++++ new/orig_test_suite/rm/r-1	2016-04-20 18:00:54.881182764 +0800
+@@ -24,8 +24,8 @@
+ > b || framework_failure=1
+ 
+ cat <<\EOF > $test.E || framework_failure=1
+-removed directory: `a/a'
+-removed directory: `a'
++removed directory `a/a'
++removed directory `a'
+ removed `b'
+ EOF
+diff -uNr qa_test_coreutils/orig_test_suite/rm/r-2 new/orig_test_suite/rm/r-2
+--- qa_test_coreutils/orig_test_suite/rm/r-2	2016-04-20 18:09:08.911218029 +0800
++++ new/orig_test_suite/rm/r-2	2016-04-20 18:00:59.417183088 +0800
+@@ -24,8 +24,8 @@
+ 
+ # FIXME: if this fails, it's a framework failure
+ cat <<\EOF | sort > t/E || framework_failure=1
+-removed directory: `t/a'
+-removed directory: `t/a/b'
++removed directory `t/a'
++removed directory `t/a/b'
+ removed `t/a/b/g'
+ removed `t/a/f'
+ EOF
+

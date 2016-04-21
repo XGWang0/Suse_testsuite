@@ -48,6 +48,7 @@ Source2:        test_coreutils-run
 Source3:	qa_test_coreutils.8
 Patch0:		run_orig_test.diff
 Patch1:		sle12_symbol.patch
+Patch2:         sle12sp2_log.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 
@@ -62,6 +63,9 @@ sort, touch, tr, tty, uniq, wc
 %patch0 -p0
 %if 0%{?suse_version} >= 1310
 %patch1 -p1
+%endif
+%if 0%{?suse_version} >= 1310
+%patch2 -p1
 %endif
 
 %build

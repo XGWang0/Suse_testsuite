@@ -24,8 +24,8 @@ mkdir a a/a || framework_failure=1
 > b || framework_failure=1
 
 cat <<\EOF > $test.E || framework_failure=1
-removed directory `a/a'
-removed directory `a'
+removed directory: `a/a'
+removed directory: `a'
 removed `b'
 EOF
 
