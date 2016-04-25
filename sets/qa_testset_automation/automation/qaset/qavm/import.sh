@@ -4,7 +4,7 @@ function __import {
     local _lock
     local lib
     if test "X${__IMPORT_ROOT}" == "X";then
-        echo "[IMPORT] ERROR __IMPORT_ROOT is NULL"
+        echo "[IMPORT] ERROR __IMPORT_ROOT is NULL" >&2
         exit 1
     fi
     if echo $1 | egrep -q '^/'; then
@@ -15,14 +15,14 @@ function __import {
     _lock=$(echo $1 | tr '[a-z./\-]' '[A-Z___]')
     if eval "test X\$${_lock}_IMPORTED != XYES";then
         if test -f ${lib}; then
-            echo "[IMPORT] [debug] source ${lib}"
+            echo "[IMPORT] [debug] source ${lib}" >&2
             source ${lib}
             eval "readonly ${_lock}_IMPORTED=YES"
         else
-            echo [import] "lib dose NOT exist ${lib}"
+            echo "[IMPORT] lib dose NOT exist ${lib}" >&2
             return 2
         fi
     else
-        : echo "[IMPORT] $1 has already been imported!"
+        : echo "[IMPORT] $1 has already been imported!" >&2
     fi
 }
