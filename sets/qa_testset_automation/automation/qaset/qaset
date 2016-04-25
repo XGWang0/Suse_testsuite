@@ -173,6 +173,11 @@ done
 unset _opt
 
 case $1 in
+    tenv)
+        sq_tenv_collection
+        env | grep "^_QASET"
+        exit 0
+        ;;
     run*) shift
         if test "X${SLE_RELEASE}" == "X";then
             sq_error "[CMDLINE] SLE_RELEASE is not set"
