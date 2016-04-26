@@ -75,6 +75,7 @@ if uname -r | grep -iq xen  || [ -e /proc/xen/privcmd ];then
 fi
 dmesg > $v_updir/dmesg.log
 tar cvf $v_updir/var-lib-xen-dump.tar /var/lib/xen/dump/
+tar cvf $v_updir/var-lib-systemd-coredump.tar /var/lib/systemd/coredump/
 
 #upload tcf and guest xml config files
 tar cvf $v_updir/guest-xmls.tar /tmp/vm_backup/vm-config-xmls
