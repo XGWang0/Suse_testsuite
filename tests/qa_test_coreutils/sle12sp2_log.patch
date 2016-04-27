@@ -86,6 +86,7 @@ diff -uNr qa_test_coreutils/orig_test_suite/rm/r-1 new/orig_test_suite/rm/r-1
 +removed directory 'a'
  removed 'b'
  EOF
+
 diff -uNr qa_test_coreutils/orig_test_suite/rm/r-2 new/orig_test_suite/rm/r-2
 --- qa_test_coreutils/orig_test_suite/rm/r-2	2016-04-20 18:09:08.911218029 +0800
 +++ new/orig_test_suite/rm/r-2	2016-04-20 18:00:59.417183088 +0800
@@ -100,4 +101,3 @@ diff -uNr qa_test_coreutils/orig_test_suite/rm/r-2 new/orig_test_suite/rm/r-2
  removed 't/a/b/g'
  removed 't/a/f'
  EOF
-
