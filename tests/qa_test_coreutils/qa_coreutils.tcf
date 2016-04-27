@@ -611,9 +611,9 @@ timer 1200
 fg 1 orig_mv_dup-source /tmp/qa_test_coreutils/run_orig_test.sh mv dup-source
 wait
 
-timer 1200
-fg 1 orig_mv_force /tmp/qa_test_coreutils/run_orig_test.sh mv force
-wait
+#timer 1200
+#fg 1 orig_mv_force /tmp/qa_test_coreutils/run_orig_test.sh mv force
+#wait
 
 timer 1200
 fg 1 orig_mv_hard-2 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-2
@@ -623,9 +623,9 @@ timer 1200
 fg 1 orig_mv_hard-3 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-3
 wait
 
-timer 1200
-fg 1 orig_mv_hard-4 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-4
-wait
+#timer 1200
+#fg 1 orig_mv_hard-4 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-4
+#wait
 
 timer 1200
 fg 1 orig_mv_hard-link-1 /tmp/qa_test_coreutils/run_orig_test.sh mv hard-link-1
@@ -639,9 +639,9 @@ timer 1200
 fg 1 orig_mv_i-2 /tmp/qa_test_coreutils/run_orig_test.sh mv i-2
 wait
 
-timer 1200
-fg 1 orig_mv_i-4 /tmp/qa_test_coreutils/run_orig_test.sh mv i-4
-wait
+#timer 1200
+#fg 1 orig_mv_i-4 /tmp/qa_test_coreutils/run_orig_test.sh mv i-4
+#wait
 
 timer 1200
 fg 1 orig_mv_i-link-no /tmp/qa_test_coreutils/run_orig_test.sh mv i-link-no
