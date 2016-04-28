@@ -5,6 +5,16 @@
 
 #@ SQ_MSG_FILE
 
+function _get_hostname {
+    ipaddr=$(ip addr show  | grep "inet .* global [a-z]* *eth[0-9].*" | head -n 1| awk '{print $2}' | awk -F "/" '{print $1}')
+    hostname_string=$(host ${ipaddr} | awk '{print $5}' | sed 's/.$//g')
+    if [ "${hostname_string}x" == "3(NXDOMAINx" ]; then
+        hostname
+    else
+        echo ${hostname_string}
+    fi
+}
+
 if test "X${SQ_MSG_FILE}" != "X" && test -f ${SQ_MSG_FILE};then
     _LOG_FILE_P=YES
 else

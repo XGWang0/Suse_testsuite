@@ -157,7 +157,7 @@ function sq_qadb_submit_result_for_run {
     # use the command instead of the variable. Because
     # hostname could be change by dhcp but HOSTNAME is inherited from the screen
     # which starts at the begining of the running host.
-    SQ_HOSTNAME=$(hostname)
+    SQ_HOSTNAME=$(_get_hostname)
     sq_info "[QADB] TODO submit result!!!"
 
     if test "X${SQ_DEBUG_ON}" == "XYES";then
