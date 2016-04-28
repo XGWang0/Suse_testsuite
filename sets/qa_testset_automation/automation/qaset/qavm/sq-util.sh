@@ -6,7 +6,11 @@
 #@ SQ_MSG_FILE
 
 function _get_hostname {
-    ipaddr=$(ip addr show  | grep "inet .* global [a-z]* *eth[0-9].*" | head -n 1| awk '{print $2}' | awk -F "/" '{print $1}')
+    ipaddr=$(ifconfig | grep "inet addr:.*Bcast" | head -n 1| awk '{print $2}' | awk -F ':' '{print $2}')
+    if [ "x${ipaddr}" == "x" ]; then
+        hostname
+        return
+    fi
     hostname_string=$(host ${ipaddr} | awk '{print $5}' | sed 's/.$//g')
     if [ "${hostname_string}x" == "3(NXDOMAINx" ]; then
         hostname
