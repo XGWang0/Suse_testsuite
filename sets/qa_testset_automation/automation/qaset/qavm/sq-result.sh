@@ -154,15 +154,10 @@ function sq_qadb_submit_result_for_run {
     local _run_id
 
     _sq_run=$1
-    #if grep bej\.suse\.com /etc/HOSTNAME > /dev/null
     # use the command instead of the variable. Because
     # hostname could be change by dhcp but HOSTNAME is inherited from the screen
     # which starts at the begining of the running host.
-    if ip -4 addr | grep "inet 147\.2\." > /dev/null;then
-        SQ_HOSTNAME=$(hostname).apac.novell.com
-    else
-        SQ_HOSTNAME=$(hostname)
-    fi
+    SQ_HOSTNAME=$(_get_hostname)
     sq_info "[QADB] TODO submit result!!!"
 
     if test "X${SQ_DEBUG_ON}" == "XYES";then
