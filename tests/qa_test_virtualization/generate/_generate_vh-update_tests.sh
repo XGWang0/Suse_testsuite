@@ -105,7 +105,7 @@ testNamePrefix="test-VH-Upgrade-$mode-$hypervisor-$shortBase-$shortUpgrade"
 step=1
 for phase in $testPhases;do
 	if [ "$phase" = "vhUpdateVirt" ];then
-		timer=3600
+		timer=5400
 	elif [ "$phase" = "vhPrepAndUpdate" ];then
 		timer=28800
 	elif [ "$phase" = "vhUpdatePostVerification" ];then
