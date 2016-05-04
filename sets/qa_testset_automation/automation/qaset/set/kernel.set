@@ -39,6 +39,10 @@ def_simple_run ltp_quickhit '/usr/lib/ctcs2/tools/test_ltp_quickhit-run' qa_test
 def_simple_run ltp_sched '/usr/lib/ctcs2/tools/test_ltp_sched-run' qa_test_ltp
 def_simple_run ltp_syscalls '/usr/lib/ctcs2/tools/test_ltp_syscalls-run' qa_test_ltp
 def_simple_run ltp_timers '/usr/lib/ctcs2/tools/test_ltp_timers-run' qa_test_ltp
+def_simple_run ltp_connectors '/usr/lib/ctcs2/tools/test_ltp_connectors-run' qa_test_ltp
+def_simple_run ltp_fcntl_locktests '/usr/lib/ctcs2/tools/test_ltp_fcntl_locktests-run' qa_test_ltp
+def_simple_run ltp_filecaps '/usr/lib/ctcs2/tools/test_ltp_filecaps-run' qa_test_ltp
+def_simple_run ltp_hugetlb '/usr/lib/ctcs2/tools/test_ltp_hugetlb-run' qa_test_ltp
 def_simple_run autotest '/usr/share/qa/tools/test_autotest-run' qa_test_autotest
 def_simple_run autotest_openqa '/usr/share/qa/tools/test_autotest_openqa-run' qa_test_autotest
 def_simple_run newburn '/usr/lib/ctcs2/tools/test_newburn-run' qa_test_newburn
