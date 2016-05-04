@@ -2,7 +2,7 @@
   "name": "qa_test_unixbench",
   "summary": "A byte Unix benchmarks",
   "description": "\nThe design flaw was that the benchmarks timed a fixed number of loops;\nif there were too few loops, the times were too small to be reliable.\nPerhaps we could have increased the number of loops and been safe for\nanother few years (months?).\nfor test`\nAuthors:\n--------\nDavid C Niemi",
-  "status": "deprecate",
+  "status": "deprecated",
   "maintainer": "None",
   "rpm": "qa_test_unixbench-4.0.1-9.noarch.rpm",
   "arch": "noarch",
