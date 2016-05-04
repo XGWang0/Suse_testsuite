@@ -8,7 +8,7 @@ default_list_sle11 += regression-SLE11SP3.list regression-SLE11SP4.list
 default_list_sle11 += kernel-all-default.list kernel-all-SLE11SP3.list kernel-all-SLE11SP4.list
 
 default_list_sle12 += acceptance-SLE12.list kernel-SLE12.list regression-SLE12.list performance-SLE12.list
-default_list_sle12 += kernel-all-default-SLE12.list kernel-all-SLE12SP1.list
+default_list_sle12 += kernel-all-default-SLE12.list kernel-all-SLE12SP1.list kernel-all-SLE12SP2.list
 default_list_sle12 += performance-SLE12SP1.list
 default_list_sle12 += acceptance-SLE12SP1.list kernel-SLE12SP1.list regression-SLE12SP1.list
 default_list_sle12 += acceptance-SLE12SP2.list kernel-SLE12SP2.list regression-SLE12SP2.list
