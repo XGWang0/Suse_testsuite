@@ -43,14 +43,14 @@ mkdir -m 0751 -p ~/.virtinst
 sed '/-/!d' $TCF_FILE >$TCF_TRUE
 
 #remove all para-virtualization test on KVM host
-if ! uname -r|grep -iq xen ;then
+if [ -e /proc/xen/privcmd ]; then
+	#The host is XEN
+	#disable the autoballoon, this job is done by reboot job
+	#sed -i '/autoballoon=1/s/.*/autoballoon=0/;/autoballoon="/s/.*/autoballoon="off"/' /etc/xen/xl.conf
+	:
+else
 	#The host is KVM
 	sed -i '/-pv-/d' $TCF_TRUE
-else
-
-	#The host is XEN
-	sed -i '/autoballoon=1/s/.*/autoballoon=0/;/autoballoon="/s/.*/autoballoon="off"/' /etc/xen/xl.conf
-
 fi
 
 #remove the iso cases
