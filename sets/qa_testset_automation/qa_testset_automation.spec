@@ -20,8 +20,6 @@ Summary:        A test Framework for QA ACAPII
 Source0:        automation-%{version}.tar.bz2
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Requires:       qa_lib_ctcs2, qa_lib_keys, qa_lib_perl, qa_lib_config, qa_tools, qa_db_report, qa_lib_internalapi
-
 
 %description
 qa_testset_automation is a collection of tools.
