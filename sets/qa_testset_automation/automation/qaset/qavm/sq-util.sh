@@ -145,20 +145,6 @@ function sq_prep_repos {
     return 0
 }
 
-function sq_prep_install_packages_qa_libs {
-    if test ${#SQ_LIBS[*]} -le 0;then
-        sq_error "The SQ_LIBS has no packages!" \
-            "Please check the conf file"
-        return 1
-    fi
-    ${SQ_DEBUG_ECHO} zypper -n in -l ${SQ_LIBS[*]}
-    if [ $? != 0 ];then
-        sq_error "install packages for qa_LIBS failed!"
-        #ignore missed packages
-        #return 2
-    fi
-    return 0
-}
 
 function sq_prep_install_package_nocheck {
     local try
@@ -203,11 +189,6 @@ function sq_prep_repos_and_packages {
         rm -f ${_autorun_lock}
     fi
 
-    sq_prep_install_packages_qa_libs
-    if test $? -ne 0;then
-        exit 5
-        rm -f ${_autorun_lock}
-    fi
 }
 
 #

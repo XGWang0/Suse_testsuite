@@ -48,11 +48,10 @@ function sq_tenv_collection {
 	#collect system info that these info might be overwrite by user configure file
 	export _QASET_SWAP_SIZE=$(free -m | grep "^Swap"| awk -F " " '{print $2}')
 	export _QASET_ARCH=$(uname -m)
-	if [ -f /usr/share/qa/tools/product.pl ]; then
-	    build_release=$(/usr/share/qa/tools/product.pl 2>/dev/null)
-	    export _QASET_RELEASE=$(echo ${build_release} | awk -F '-' '{print $1"-"$2"-"$3}')
-	    export _QASET_BUILD=$(echo ${build_release} |awk -F '-' '{print $4}')
-	fi
+    #product.pl is prvoide by qa_lib_perl package
+	build_release=$(/usr/share/qa/tools/product.pl 2>/dev/null)
+	export _QASET_RELEASE=$(echo ${build_release} | awk -F '-' '{print $1"-"$2"-"$3}')
+	export _QASET_BUILD=$(echo ${build_release} |awk -F '-' '{print $4}')
 	export _QASET_ROOTFS_SIZE=$(df / -m | tail -n 1 | awk '{print $2}')
 	export _QASET_ROOTFS_TYPE=$(cat /proc/mounts | awk '{if ($2 == "/" && $1 != "rootfs") print $3}')
 	export _QASET_KERNEL=$(uname -r)
