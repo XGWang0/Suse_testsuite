@@ -183,7 +183,7 @@ case $1 in
             usage
         fi
 	
-	    sq_tenv_collection	
+	sq_tenv_collection	
 
         sq_set_cmd_run_parse "$@"
         sq_set_cmd_run_list
