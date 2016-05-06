@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_php",
+  "summary": "PHP test suite",
+  "description": "\nThis package contains wide range of PHP tests. These tests include\nbasic language constructs (operators, control flow, etc), object\noriented language constructs (classes, etc), basic functions tests\n(strlen, \"function\" construct, etc), php extensions (java, mbstring,\netc).\nAuthors:\n--------\nAndrei Zmievski <andrei@ispi.net>\nDanny Heijl <Danny.Heijl@cevi.be>\nFrank M. Kromann <fmk@swwwing.com>\nRasmus Lerdorf <rasmus@php.net>\nSam Ruby <rubys@us.ibm.com>\nSascha Schumann <sascha@schumann.cx>\nStefan Roehrich <sr@linux.de>\nThies C. Arntzen <thies@digicol.de>\nUwe Steinmann <steinm@php.net>",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_php-%{ver}-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "php",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-05-06 03:24:10 UTC",
+  "tags": [
+
+  ]
+}
