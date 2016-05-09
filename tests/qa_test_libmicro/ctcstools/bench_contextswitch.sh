@@ -149,17 +149,17 @@ cascade_cond    $OPTS -N "c_cond_1"     -I 100
 cascade_cond    $OPTS -N "c_cond_10"    -T 10   -I 3000
 cascade_cond    $OPTS -N "c_cond_200"   -T 200  -I 2000000
 
-cascade_lockf   $OPTS -N "c_lockf_1"    -I 1000 
-cascade_lockf   $OPTS -N "c_lockf_10"   -P 10 -I 50000
-cascade_lockf   $OPTS -N "c_lockf_200"  -P 200 -I 5000000
+cascade_lockf   $OPTS -d /dev/shm -N "c_lockf_1"    -I 1000 
+cascade_lockf   $OPTS -d /dev/shm -N "c_lockf_10"   -P 10 -I 50000
+cascade_lockf   $OPTS -d /dev/shm -N "c_lockf_200"  -P 200 -I 5000000
 
-cascade_flock   $OPTS -N "c_flock"      -I 1000 
-cascade_flock   $OPTS -N "c_flock_10"   -P 10   -I 50000
-cascade_flock   $OPTS -N "c_flock_200"  -P 200  -I 5000000
+cascade_flock   $OPTS -d /dev/shm -N "c_flock"      -I 1000 
+cascade_flock   $OPTS -d /dev/shm -N "c_flock_10"   -P 10   -I 50000
+cascade_flock   $OPTS -d /dev/shm -N "c_flock_200"  -P 200  -I 5000000
 
-cascade_fcntl   $OPTS -N "c_fcntl_1"    -I 2000         
-cascade_fcntl   $OPTS -N "c_fcntl_10"   -P 10 -I 20000
-cascade_fcntl   $OPTS -N "c_fcntl_200"  -P 200  -I 5000000
+cascade_fcntl   $OPTS -d /dev/shm -N "c_fcntl_1"    -I 2000         
+cascade_fcntl   $OPTS -d /dev/shm -N "c_fcntl_10"   -P 10 -I 20000
+cascade_fcntl   $OPTS -d /dev/shm -N "c_fcntl_200"  -P 200  -I 5000000
 
 file_lock       $OPTS -N "file_lock"   -I 1000         
 
