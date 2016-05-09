@@ -6,16 +6,10 @@
 #@ SQ_MSG_FILE
 
 function _get_hostname {
-    ipaddr=$(ifconfig | grep "inet addr:.*Bcast" | head -n 1| awk '{print $2}' | awk -F ':' '{print $2}')
-    if [ "x${ipaddr}" == "x" ]; then
-        hostname
-        return
-    fi
-    hostname_string=$(host ${ipaddr} | awk '{print $5}' | sed 's/.$//g')
-    if [ "${hostname_string}x" == "3(NXDOMAINx" ]; then
-        hostname
+    if ip -4 addr | grep "inet 147\.2\." > /dev/null;then
+        echo "$(hostname).bej.suse.com"
     else
-        echo ${hostname_string}
+        echo "$(hostname).qa.suse.de"
     fi
 }
 

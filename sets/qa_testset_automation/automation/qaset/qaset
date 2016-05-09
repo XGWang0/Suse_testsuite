@@ -55,7 +55,7 @@ function sq_tenv_collection {
 	export _QASET_ROOTFS_SIZE=$(df / -m | tail -n 1 | awk '{print $2}')
 	export _QASET_ROOTFS_TYPE=$(cat /proc/mounts | awk '{if ($2 == "/" && $1 != "rootfs") print $3}')
 	export _QASET_KERNEL=$(uname -r)
-	export _QASET_HOSTNAME=$(hostname)
+	export _QASET_HOSTNAME=$(_get_hostname)
 
 	# read user configuration
 	if test -f ${SQ_USER_CONFIG_FILE};then
