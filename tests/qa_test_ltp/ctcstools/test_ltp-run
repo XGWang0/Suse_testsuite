@@ -6,7 +6,7 @@ tcfdir="/usr/share/qa/qa_test_ltp"
 TESTS="quickhit.tcf syscalls.tcf fs.tcf fs_perms_simple.tcf fsx.tcf dio.tcf
        mm.tcf ipc.tcf sched.tcf math.tcf pty.tcf commands.tcf pipes.tcf
        timers.tcf kernel_misc.tcf input.tcf controllers.tcf containers.tcf
-       numa.tcf leapsec.tcf"
+       numa.tcf leapsec.tcf connectors.tcf fcntl-locktests.tcf filecaps.tcf hugetlb.tcf nptl.tcf"
 
 AIO_TESTS="ltp-aiodio.part1.tcf ltp-aiodio.part2.tcf ltp-aiodio.part3.tcf
           ltp-aio-stress.part1.tcf ltp-aio-stress.part2.tcf"
