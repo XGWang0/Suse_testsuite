@@ -87,7 +87,7 @@ Requires:	rpmbuild
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20160126
+Version:        20160510
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
@@ -102,7 +102,6 @@ Patch101:	disable-min_free_kbytes.patch
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes (from internal)
 # Patches 5xx Workarounds
-Patch501:	change_ltp_prog_install_dir.patch
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 # Patches 8xx CTCS2 related changes
@@ -113,7 +112,6 @@ Patch903:       aiodio-runtest-modification-ctcs2.diff
 Patch904:	disable_aio_system_crushers.patch
 #Patch1001:      bnc458987_utimensat_tests.sh.diff
 # For runltp to be usable on installed system
-Patch1002:      allow-symlink-to-runltp.patch
 Patch1004:      fix-cpuctl-tests-output-dir.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
@@ -141,7 +139,6 @@ Authors:
 # Patches 3xx RPMLinit Warning Fixes
 # Patches 4xx Real Bug Fixes
 # Patches 5xx Workarounds
-%patch501 -p1
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 # Patches 8xx CTCS2 related changes
@@ -151,7 +148,6 @@ Authors:
 %patch903 -p1
 %patch904 -p1
 # runltp script fixes
-%patch1002 -p1
 %patch1004 -p1
 
 %build
@@ -217,9 +213,6 @@ done
 /opt/ltp/
 %{_mandir}/man1/*
 %{_mandir}/man3/*
-%{_bindir}/ltp-bump
-%{_bindir}/ltp-pan
-%{_bindir}/ltp-scanner
 %{_bindir}/execltp
 %{_bindir}/ffsb
 
