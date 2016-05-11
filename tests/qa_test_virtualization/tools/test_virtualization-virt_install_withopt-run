@@ -53,9 +53,6 @@ else
 	sed -i '/-pv-/d' $TCF_TRUE
 fi
 
-#remove the iso cases
-sed -i "/-iso/d" $TCF_TRUE
-
 
 #Start to process options
 
