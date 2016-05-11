@@ -107,7 +107,7 @@ for phase in $testPhases;do
 	if [ "$phase" = "vhUpdateVirt" ];then
 		timer=5400
 	elif [ "$phase" = "vhPrepAndUpdate" ];then
-		timer=28800
+		timer=43200
 	elif [ "$phase" = "vhUpdatePostVerification" ];then
 		timer=12600
 	fi
