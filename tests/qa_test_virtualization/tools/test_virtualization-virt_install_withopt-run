@@ -42,6 +42,22 @@ mkdir -m 0751 -p ~/.virtinst
 
 sed '/-/!d' $TCF_FILE >$TCF_TRUE
 
+
+#remove the iso test if there is no local mount dir
+getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
+NFSDIR=`$getSettings iso_nfs.mount`
+
+if echo "$NFSDIR"|grep -q ":" ;then
+
+        mount |grep -q "/mnt" && umount /mnt
+        mount -t nfs $NFSDIR /mnt
+else
+sed -i '/-iso/d' $TCF_TRUE
+fi
+
+
+
+
 #remove all para-virtualization test on KVM host
 if [ -e /proc/xen/privcmd ]; then
 	#The host is XEN
