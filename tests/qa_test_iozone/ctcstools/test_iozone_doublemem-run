@@ -36,6 +36,17 @@ MEM_SIZE_DOUBLE_MOD=$((${MEM_SIZE_DOUBLE} % ${MEM_1GiB}))
 if test ${MEM_SIZE_DOUBLE_MOD} -ne 0;then
     MEM_SIZE_DOUBLE_GiB=$((${MEM_SIZE_DOUBLE} / ${MEM_1GiB}))
     let MEM_SIZE_DOUBLE_GiB++
+    if [ ${MEM_SIZE_DOUBLE_GiB} -gt 16 ] && [ ${MEM_SIZE_DOUBLE_GiB} -le 32 ]; then
+        MEM_SIZE_DOUBLE_GiB=32
+    elif [ ${MEM_SIZE_DOUBLE_GiB} -gt 8 ] && [ ${MEM_SIZE_DOUBLE_GiB} -le 16 ]; then
+        MEM_SIZE_DOUBLE_GiB=16
+    elif [ ${MEM_SIZE_DOUBLE_GiB} -gt 4 ] && [ ${MEM_SIZE_DOUBLE_GiB} -le 8 ]; then
+        MEM_SIZE_DOUBLE_GiB=8
+    elif [ ${MEM_SIZE_DOUBLE_GiB} -gt 2 ] && [ ${MEM_SIZE_DOUBLE_GiB} -le 4 ]; then
+        MEM_SIZE_DOUBLE_GiB=4
+    elif [ ${MEM_SIZE_DOUBLE_GiB} -gt 1 ] && [ ${MEM_SIZE_DOUBLE_GiB} -le 2 ]; then
+        MEM_SIZE_DOUBLE_GiB=2
+    fi
     MEM_SIZE_DOUBLE=$((${MEM_SIZE_DOUBLE_GiB} * ${MEM_1GiB}))
 fi
 
