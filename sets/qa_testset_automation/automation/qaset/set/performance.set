@@ -52,6 +52,21 @@ function def_network_run {
     eval "${code}"
 }
 
+function def_misc_run {
+    local name=$1
+    local run=$2
+    shift 2
+    eval "${name}_run=${run}"
+    eval "${name}_packages=($@)"
+    code="
+        function ${name}_open {
+            export _QASET_CATEGORY_TYPE=misc
+            export _QASET_CATEGORY_VALUE=""
+        }
+    "
+    eval "${code}"
+}
+
 function def_simple_run {
     local name=$1
     local run=$2
@@ -60,7 +75,7 @@ function def_simple_run {
     eval "${name}_packages=($@)"
 }
 
-def_simple_run siege "/usr/share/qa/tools/test_siege-run" qa_test_siege
+def_misc_run siege "/usr/share/qa/tools/test_siege-run" qa_test_siege
 function siege_get_args {
     echo performance
 }
@@ -113,6 +128,8 @@ function kernbench_open {
         sq_debug "[kernbench] Get the ${_kernel_package} from ${_kernel_package_URL}"
         mv ${_kernel_source} linux
     fi
+    export _QASET_CATEGORY_TYPE=misc
+    export _QASET_CATEGORY_VALUE=""
 
     if test $? -ne 0;then
         return 1
