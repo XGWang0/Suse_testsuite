@@ -8,7 +8,7 @@ sed -i '/printf.*%.*%.*%.*%/s/ %/|%/g' /usr/share/qa/qa_test_lmbench/scripts/get
 
 TCF_FILE="${basedir}/lmbench-bcopy.tcf"
 cat <<EOF > ${TCF_FILE}
-timer 24h 
+timer 2h 
 fg 1 lmbench-bcopy /usr/bin/do_lmbench bcopy
 wait
 EOF

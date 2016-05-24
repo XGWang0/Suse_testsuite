@@ -8,7 +8,7 @@ sed -i '/printf.*%.*%.*%.*%/s/ %/|%/g' /usr/share/qa/qa_test_lmbench/scripts/get
 
 TCF_FILE="${basedir}/lmbench-syscall.tcf"
 cat <<EOF > ${TCF_FILE}
-timer 24h 
+timer 1h 
 fg 1 lmbench-syscall /usr/bin/do_lmbench syscall
 wait
 EOF
