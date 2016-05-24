@@ -6,11 +6,19 @@
 #@ SQ_MSG_FILE
 
 function _get_hostname {
-    if ip -4 addr | grep "inet 147\.2\." > /dev/null;then
-        echo "$(hostname).bej.suse.com"
-    else
-        echo "$(hostname).qa.suse.de"
-    fi
+    name=`hostname`
+    case $name in
+        apac2*)
+            name=${name/.*/".bej.suse.com"}
+            ;;
+        ix64ph10*)
+            name=${name/.*/".qa.suse.de"}
+            ;;
+        *)
+            :
+            ;;
+    esac
+    echo ${name}
 }
 
 if test "X${SQ_MSG_FILE}" != "X" && test -f ${SQ_MSG_FILE};then
