@@ -26,6 +26,7 @@ esac
 TCF_FILE="${TCF_DIR}/reaim_disk_${ABUILD_FS}.tcf"
 
 echo > ${TCF_FILE}
+echo "timer 1h" >>${TCF_FILE}
 echo "fg 1 reaim-ioperf /usr/lib/reaim/reaim -s ${REAIM_STARTUSERS} -e ${REAIM_ENDUSERS} -i ${REAIM_INCREMENT} -t -r1 -f /usr/lib/reaim/data/${REAIM_WORKFILE}" >> ${TCF_FILE}
 echo "wait" >> ${TCF_FILE}
 
