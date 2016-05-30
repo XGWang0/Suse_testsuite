@@ -43,7 +43,7 @@ SLE_RELEASE=SLE12
 %endif
 pushd qaset
 make TARGET_RELEASE=${SLE_RELEASE} DEST=$RPM_BUILD_ROOT install
-popd qaset
+popd
 #tar xf stat.tar.xz
 
 %clean
