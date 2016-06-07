@@ -9,9 +9,11 @@ function _get_hostname {
     name=`hostname`
     case $name in
         apac2*)
+            name="${name}."
             name=${name/.*/".bej.suse.com"}
             ;;
         ix64ph10*)
+            name="${name}."
             name=${name/.*/".qa.suse.de"}
             ;;
         *)
