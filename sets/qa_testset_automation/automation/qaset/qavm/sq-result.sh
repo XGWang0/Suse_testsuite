@@ -222,8 +222,65 @@ function sq_qadb_submit_result_for_run {
     rm -rf /var/log/qa/ctcs2/*
 }
 
+function _perf_submit {
+    local _sq_run=$1
+    local _qadb_server=$2
+    local _db_echo
+    local _tmp_log="/tmp/submission-${_sq_run}.log"
+    local _submission_log="${SQ_TEST_SUBMISSION_DIR}/submission-${_qadb_server}-${_sq_run}.log"
+    local uuid=$(uuidgen)
+    local ret
+
+    [ "X${SQ_DEBUG_ON}" == "XYES" ] && _db_echo=echo
+    sq_info "[result] submit uuid ${uuid}"
+    sq_qadb_server_switch ${_qadb_server}
+    ${_db_echo} /usr/share/qa/perfcom/perfcmd.py submit-log 2>&1 | tee ${_tmp_log} | tail -n 3
+    #if submitlog py fails report.pl replaces
+    [ $? -eq 0 ] || {
+        sq_info "[result] submit with remote_qa_db_report.pl instead"
+        ${_db_echo} /usr/share/qa/tools/remote_qa_db_report.pl -L -b 2>&1 | tee ${_tmp_log} | tail -n 3
+    }
+    sq_qadb_server_resotre
+    ( echo "######${_sq_run}######"; echo "submit uuid ${uuid}";
+      cat ${_tmp_log} ) >> ${_submission_log}
+    if ! grep -iq "submission.php?submission_id=" "${_tmp_log}";then
+        echo "${_sq_run}-${_qadb_server}" >>${SQ_USER_CONFIG_SUBMIT_FAILURE}
+        ret=1
+        sq_warn "[result] Fail to submit ${_sq_run} to qadb[${_qadb_server}]"
+    else
+        sq_info "[result] Succeed to submit ${_sq_run} to qadb[${_qadb_server}]"
+        ret=0
+    fi
+    rm ${_tmp_log}
+    return $ret
+}
+
+function sq_performance_submit_result_for_run {
+    local _sq_run=$1
+    local _db_echo
+    local _tmp_submission_log="/tmp/submission-${_sq_run}.log"
+    local _submission_log="${SQ_TEST_SUBMISSION_DIR}/submission-${_sq_run}.log"
+
+    [ "X${SQ_DEBUG_ON}" == "XYES" ] && _db_echo=echo
+    sq_info "[result] starting submit result"
+    sq_qadb_update_system_infomation
+    sq_qadb_update_system_shortinfo
+    sq_result_save_locally "${_sq_run}"
+    _perf_submit ${_sq_run} Nuremberg
+    if [ "${SQ_UPLOAD_TO_BEIJING}x" == "Enabledx" ]; then
+        #more fined control to when to do comparison
+        _perf_submit ${_sq_run} Beijing
+        ${_db_echo} /usr/share/qa/perfcom/perfcmd.py compare-log
+    fi
+    rm -rf /var/log/qa/ctcs2/*
+}
+
 function sq_result_one_run {
     local _run=$1
     local _status
-    sq_qadb_submit_result_for_run ${_run}
+    if [ "X${SQ_TEST_RUN_SET}" == "Xperformance" ] && [ "X${SQ_TEST_USER_APAC2}" == "XYES" ];then
+        sq_performance_submit_result_for_run ${_run}
+    else
+        sq_qadb_submit_result_for_run ${_run}
+    fi
 }

@@ -82,5 +82,8 @@ if egrep -q '^SQ_UPLOAD_TO_BEIJING=' ${SQ_USER_CONFIG_FILE};then
 else
     echo "SQ_UPLOAD_TO_BEIJING=Enabled" >> ${SQ_USER_CONFIG_FILE}
 fi
+
+echo "SQ_TEST_USER_APAC2=YES" >> ${SQ_USER_CONFIG_FILE}
+
 export SQ_SET_CALL_BY_WRAP=YES
 ${SQ_SET_BIN} -t ${TARGET_RELEASE} run
