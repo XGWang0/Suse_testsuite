@@ -44,7 +44,7 @@ SLE_RELEASE=SLE12
 pushd qaset
 make TARGET_RELEASE=${SLE_RELEASE} DEST=$RPM_BUILD_ROOT install
 popd
-#tar xf stat.tar.xz
+cp -a perfcom ${RPM_BUILD_ROOT}/usr/share/qa
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -59,6 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 /usr/share/qa
 /usr/share/qa/qaset
+/usr/share/qa/perfcom
 
 %changelog
 * Thu Jan 21 2016 jtzhao@suse.com
