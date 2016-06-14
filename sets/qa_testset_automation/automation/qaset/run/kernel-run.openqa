@@ -82,4 +82,5 @@ else
 fi
 export SQ_SET_CALL_BY_WRAP=YES
 export SQ_CI_ENV="openqa"
+export SQ_LOG_SUBMISSION_DISABLE=YES
 ${SQ_SET_BIN} -t ${TARGET_RELEASE} run

@@ -57,6 +57,7 @@ SQ_MAIL_TITLE_ACCEPTANCE="acceptance test results"
 SQ_CTCS2_OLDLOG_DIR="/var/log/qa/oldlogs"
 SQ_CTCS2_TEST_RESULTS_FILENAME="test_results"
 SQ_CTCS2_TEST_DONE_FILENAME="done"
+SQ_LOG_SUBMISSION_DISABLE=${SQ_LOG_SUBMISSION_DISABLE:-NO}
 
 function sq_global_init {
     if test ! -d ${SQ_TEST_DIR};then
