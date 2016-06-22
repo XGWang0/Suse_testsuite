@@ -81,6 +81,7 @@ function sq_qadb_update_system_infomation {
         mount | grep ^/dev > /var/log/qa/ctcs2/${name}/partition-mount.txt
         cat /proc/cmdline > /var/log/qa/ctcs2/${name}/cmdline.txt
         cat /proc/meminfo > /var/log/qa/ctcs2/${name}/meminfo.txt
+        cat /proc/mtrr  > /var/log/qa/ctcs2/${name}/mtrr.txt
         cat /proc/zoneinfo > /var/log/qa/ctcs2/${name}/zoneinfo.txt
         systemctl list-units > /var/log/qa/ctcs2/${name}/systemctl-list-units.txt
 	#tenv.txt introduce by New compare framework
