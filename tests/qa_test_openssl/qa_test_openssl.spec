@@ -58,7 +58,7 @@ Requires:       perl
 Provides:       qa_openssl
 Obsoletes:      qa_openssl
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArch:      noarch
+#BuildArch:      noarch
 
 %description
 Test cases for openssl package.
