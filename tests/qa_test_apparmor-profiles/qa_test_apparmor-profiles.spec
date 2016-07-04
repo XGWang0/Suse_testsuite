@@ -25,7 +25,7 @@ License:        GPL v2
 Provides:	qa_apparmor-profiles
 Obsoletes:	qa_apparmor-profiles
 Group:          System/Packages
-Requires:       apparmor-parser apparmor-profiles qa_lib_ctcs2 qa_test_ltp
+Requires:       apparmor-parser apparmor-profiles qa_lib_ctcs2 qa_test_ltp apache2
 BuildRequires:  apparmor-parser bzip2 gcc libapparmor-devel swig flex bison automake autoconf libtool
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source:         %{name}-%{version}.tar.bz2
@@ -85,5 +85,7 @@ rm -rvf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 04 2016 - jtzhao@suse.com
+- Add apache2 to dependencies
 * Tue Dec 29 2015 - jtzhao@suse.com
 - Separate qa_test_apparmor-profiles from qa_test_apparmor
