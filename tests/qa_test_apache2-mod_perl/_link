@@ -1,0 +1,4 @@
+<link project='SUSE:Factory:Head' package='apache2-mod_perl'>
+    <patches>
+    </patches>
+</link>
