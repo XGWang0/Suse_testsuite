@@ -1,8 +1,8 @@
 # vim: ft=apache
 #
-# spec file for package apache2-mod_perl
+# spec file for package qa_test_apache2-mod_perl
 #
-# Copyright (c) 2015 SUSE LINUX GmbH, Nuernberg, Germany.
+# Copyright (c) 2016 SUSE LINUX GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -47,7 +47,7 @@ License:        Apache-2.0
 Requires:       %{apache_mmn}
 Requires:       %{apache_suse_maintenance_mmn}
 Requires:       apache2
-Requires:	apache2-mod_perl
+Requires:       apache2-mod_perl
 Requires:       perl = %{perl_version}
 Requires:       perl-HTML-Parser
 Requires:       perl-Tie-IxHash
@@ -82,7 +82,6 @@ find -name ".svn" -type d | xargs rm -rfv
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor MP_APXS=`which %{apxs}` MP_APR_CONFIG=/usr/bin/apr-1-config MP_CCOPTS="$(%{apxs} -q CFLAGS)"
-ln -s Apache-mod_perl_guide-1.29/bin bin
 make %{?_smp_mflags}
 # XXX mod_include/SSI does not include files when they are not named .shtml
 mv t/htdocs/includes-registry/test.pl t/htdocs/includes-registry/test.shtml
@@ -129,7 +128,6 @@ cp -Pr --preserve=mode,timestamps * $RPM_BUILD_ROOT%{qa_dir}/%{name}
 find $RPM_BUILD_ROOT%{qa_dir}/%{name} -type d -exec chmod o+rwx {} \;
 find $RPM_BUILD_ROOT%{qa_dir}/%{name} -type f -exec chmod o+rw {} \;
 
-
 %pre
 id %{test_user} &> /dev/null
 [[ $? -eq 0 ]] || useradd -d /home/%{test_user} -m -g users -G www -k /etc/skel/ -s /bin/bash %{test_user}
@@ -137,12 +135,9 @@ id %{test_user} &> /dev/null
 %postun
 userdel -fr %{test_user}
 
-
 %files
 %defattr(-,root,root)
 %dir %{qa_dir}
 %{qa_dir}/%{name}
 
 %changelog
-* Tue Jul 19 2016 jtzhao@suse.com
-- Initial commit
