@@ -1,4 +1,4 @@
-<link project='SUSE:SLE-12-SP2:GA' package='apache2-mod_perl'>
+<link project='SUSE:SLE-12-SP1:GA' package='apache2-mod_perl'>
     <patches>
     </patches>
 </link>
