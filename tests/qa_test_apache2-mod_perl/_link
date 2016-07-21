@@ -1,4 +1,4 @@
-<link project="SUSE:SLE-12-SP2:GA" package="apache2-mod_perl" baserev="a4f282b51f0631dc0b32cba3d653fb5f">
+<link project="SUSE:SLE-12-SP2:GA" package="apache2-mod_perl">
   <patches>
     <apply name="project.diff" />
     <delete name="apache2-mod_perl.spec" />
