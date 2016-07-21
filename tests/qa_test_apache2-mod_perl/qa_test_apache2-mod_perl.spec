@@ -41,7 +41,7 @@ BuildRequires:  openldap2-devel
 %define apache_serverroot %(%{apxs} -q PREFIX)
 %define apache_mmn        %(MMN=$(%{apxs} -q LIBEXECDIR)_MMN; test -x $MMN && $MMN)
 %define qa_dir		  /usr/share/qa
-%define test_user         qa-test-mod-perl
+%define tcf_file          apache2-mod_perl.tcf
 Summary:        apache2-mod_perl testsuites
 License:        Apache-2.0
 Requires:       %{apache_mmn}
@@ -60,6 +60,7 @@ Conflicts:      mod_perl
 Version:        2.0.8
 Release:        11.43
 Source0:        http://ftp.de.debian.org/debian/pool/main/liba/libapache2-mod-perl2/libapache2-mod-perl2_2.0.8+httpd24-r1449661.orig.tar.gz
+Source1:        test_apache2-mod_perl-run
 Patch:          apache2-mod_perl-2.0.4-tests.diff
 # PATCH-NEEDS-REBASE
 Patch1:         lfs-perl-5.14.patch 
@@ -120,24 +121,42 @@ chmod 2770 t/htdocs/hooks
 mkdir t/run
 %endif
 sed -i -e 's#^.*httpd24#    %{qa_dir}/%{name}#g' t/TEST
+# Generate tcf file
+test_list=`find t -name '*.t' | sed -e 's#^t/##g'`
+echo "$test_list" | while read line; do
+    test_name=`echo "$line" | sed -e 's/\.t$//g' | tr '/' '-'`
+    cat >> %{tcf_file} <<END
+timer 300
+fg 1 $test_name %{qa_dir}/%{name}/t/TEST $line
+wait
+
+END
+done
+
 
 %install
+# tcf file
+install -m 755 -d $RPM_BUILD_ROOT%{qa_dir}/tcf
+install -m 644 %{tcf_file} $RPM_BUILD_ROOT%{qa_dir}/tcf/%{tcf_file}
+rm %{tcf_file}
+# run script
+install -m 755 -d $RPM_BUILD_ROOT%{qa_dir}/tools
+install -m 755 %{S:1} $RPM_BUILD_ROOT%{qa_dir}/tools
+
 install -m 755 -d $RPM_BUILD_ROOT%{qa_dir}/%{name}
 rm -rf src docs todo
 cp -Pr --preserve=mode,timestamps * $RPM_BUILD_ROOT%{qa_dir}/%{name}
 find $RPM_BUILD_ROOT%{qa_dir}/%{name} -type d -exec chmod o+rwx {} \;
 find $RPM_BUILD_ROOT%{qa_dir}/%{name} -type f -exec chmod o+rw {} \;
 
-%pre
-id %{test_user} &> /dev/null
-[[ $? -eq 0 ]] || useradd -d /home/%{test_user} -m -g users -G www -k /etc/skel/ -s /bin/bash %{test_user}
-
-%postun
-userdel -fr %{test_user}
 
 %files
 %defattr(-,root,root)
 %dir %{qa_dir}
+%dir %{qa_dir}/tcf
+%{qa_dir}/tcf/%{tcf_file}
+%dir %{qa_dir}/tools
+%{qa_dir}/tools/test_apache2-mod_perl-run
 %{qa_dir}/%{name}
 
 %changelog
