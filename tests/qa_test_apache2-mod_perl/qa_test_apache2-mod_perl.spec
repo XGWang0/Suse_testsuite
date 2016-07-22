@@ -18,6 +18,7 @@
 
 
 Name:           qa_test_apache2-mod_perl
+Group:          SuSE internal
 BuildRequires:  apache-rpm-macros
 BuildRequires:  apache2-devel
 BuildRequires:  db-devel
