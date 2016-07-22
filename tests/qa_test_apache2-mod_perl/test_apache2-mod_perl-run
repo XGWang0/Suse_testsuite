@@ -2,4 +2,5 @@
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
-su -m nobody -c "$CTCS2_DIR/tools/run $TCF_DIR/apache2-mod_perl.tcf"
+cd $CTCS2_DIR
+su -m nobody -c "env TESTS_LOGDIR=/var/log/qa $CTCS2_DIR/tools/run $TCF_DIR/apache2-mod_perl.tcf"

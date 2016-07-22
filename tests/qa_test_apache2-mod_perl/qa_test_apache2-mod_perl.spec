@@ -122,7 +122,7 @@ mkdir t/run
 %endif
 sed -i -e 's#^.*httpd24#    %{qa_dir}/%{name}#g' t/TEST
 # Generate tcf file
-test_list=`find t -name '*.t' | sed -e 's#^t/##g'`
+test_list=`find t -name '*.t' | sed -e 's#^t/##g' | sort -h`
 echo "$test_list" | while read line; do
     test_name=`echo "$line" | sed -e 's/\.t$//g' | tr '/' '-'`
     cat >> %{tcf_file} <<END
@@ -146,8 +146,15 @@ install -m 755 %{S:1} $RPM_BUILD_ROOT%{qa_dir}/tools
 install -m 755 -d $RPM_BUILD_ROOT%{qa_dir}/%{name}
 rm -rf src docs todo
 cp -Pr --preserve=mode,timestamps * $RPM_BUILD_ROOT%{qa_dir}/%{name}
-find $RPM_BUILD_ROOT%{qa_dir}/%{name} -type d -exec chmod o+rwx {} \;
-find $RPM_BUILD_ROOT%{qa_dir}/%{name} -type f -exec chmod o+rw {} \;
+chmod -R a+rwx $RPM_BUILD_ROOT%{qa_dir}/%{name}/*
+
+
+%post
+chown -R nobody.nobody %{qa_dir}/%{name}/*
+
+
+%postun
+rm -rf %{qa_dir}/%{name}
 
 
 %files
