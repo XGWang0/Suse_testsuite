@@ -1,7 +1,0 @@
-<link project="SUSE:SLE-12-SP2:GA" package="apache2-mod_perl">
-  <patches>
-    <apply name="project.diff" />
-    <delete name="apache2-mod_perl.spec" />
-    <delete name="apache2-mod_perl.changes" />
-  </patches>
-</link>
