@@ -18,7 +18,6 @@
 
 
 Name:           qa_test_apache2-mod_perl
-Group:          SuSE internal
 BuildRequires:  apache-rpm-macros
 BuildRequires:  apache2-devel
 BuildRequires:  db-devel
@@ -42,13 +41,14 @@ BuildRequires:  openldap2-devel
 %define apache_serverroot %(%{apxs} -q PREFIX)
 %define apache_mmn        %(MMN=$(%{apxs} -q LIBEXECDIR)_MMN; test -x $MMN && $MMN)
 %define qa_dir		  /usr/share/qa
+%define test_user	  nobody
 %define tcf_file          apache2-mod_perl.tcf
-Summary:        apache2-mod_perl testsuites
+Summary:        Apache mod perl testsuites
 License:        Apache-2.0
+Group:          SuSE internal
 Requires:       %{apache_mmn}
 Requires:       %{apache_suse_maintenance_mmn}
 Requires:       apache2
-Requires:       apache2-mod_perl
 Requires:       perl = %{perl_version}
 Requires:       perl-HTML-Parser
 Requires:       perl-Tie-IxHash
@@ -56,10 +56,9 @@ Requires:       perl-URI
 Requires:       perl-libwww-perl
 Requires:       perl(Linux::Pid)
 Url:            http://perl.apache.org/
-Obsoletes:      mod_perl_2
-Conflicts:      mod_perl
+Obsoletes:      qa_test_apache_testsuite
 Version:        2.0.8
-Release:        11.43
+Release:        0
 Source0:        http://ftp.de.debian.org/debian/pool/main/liba/libapache2-mod-perl2/libapache2-mod-perl2_2.0.8+httpd24-r1449661.orig.tar.gz
 Source1:        test_apache2-mod_perl-run
 Patch:          apache2-mod_perl-2.0.4-tests.diff
@@ -67,12 +66,11 @@ Patch:          apache2-mod_perl-2.0.4-tests.diff
 Patch1:         lfs-perl-5.14.patch 
 Patch2:         avoid-broken-provides.diff
 Patch3:         apache24-mod_authz_host.patch
-Icon:           mod_perl.xpm
+Icon:         mod_perl.xpm
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
-apache2-mod_perl testsuites
-
+apache2 mod_perl testsuites
 
 %prep
 #%setup -q -n modperl-2.0 -a 1
@@ -84,6 +82,7 @@ find -name ".svn" -type d | xargs rm -rfv
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor MP_APXS=`which %{apxs}` MP_APR_CONFIG=/usr/bin/apr-1-config MP_CCOPTS="$(%{apxs} -q CFLAGS)"
+#ln -s Apache-mod_perl_guide-1.29/bin bin
 make %{?_smp_mflags}
 # XXX mod_include/SSI does not include files when they are not named .shtml
 mv t/htdocs/includes-registry/test.pl t/htdocs/includes-registry/test.shtml
@@ -120,14 +119,16 @@ EOF
 mkdir -p t/htdocs/hooks
 chmod 2770 t/htdocs/hooks
 mkdir t/run
+
 %endif
-sed -i -e 's#^.*httpd24#    %{qa_dir}/%{name}#g' t/TEST
+sed -ie 's#.*/httpd24#    %{qa_dir}/%{name}#g' t/TEST
 # Generate tcf file
-test_list=`find t -name '*.t' | sed -e 's#^t/##g' | sort -h`
+mkdir tcf
+test_list=`find t -name '*.t' | sed -e 's#^t/##g' | sort -h` 
 echo "$test_list" | while read line; do
     test_name=`echo "$line" | sed -e 's/\.t$//g' | tr '/' '-'`
-    cat >> %{tcf_file} <<END
-timer 300
+    cat >> tcf/%{tcf_file} <<END
+timer 300 
 fg 1 $test_name %{qa_dir}/%{name}/t/TEST $line
 wait
 
@@ -136,35 +137,27 @@ done
 
 
 %install
-# tcf file
-install -m 755 -d $RPM_BUILD_ROOT%{qa_dir}/tcf
-install -m 644 %{tcf_file} $RPM_BUILD_ROOT%{qa_dir}/tcf/%{tcf_file}
-rm %{tcf_file}
-# run script
-install -m 755 -d $RPM_BUILD_ROOT%{qa_dir}/tools
-install -m 755 %{S:1} $RPM_BUILD_ROOT%{qa_dir}/tools
-
-install -m 755 -d $RPM_BUILD_ROOT%{qa_dir}/%{name}
-rm -rf src docs todo
-cp -Pr --preserve=mode,timestamps * $RPM_BUILD_ROOT%{qa_dir}/%{name}
-chmod -R a+rwx $RPM_BUILD_ROOT%{qa_dir}/%{name}/*
+install -m 755 -d %{buildroot}%{qa_dir}
+install -m 755 -d %{buildroot}%{qa_dir}/tools
+install -m 755 %{S:1} %{buildroot}%{qa_dir}/tools
+install -m 755 -d %{buildroot}%{qa_dir}/%{name}
+mv * %{buildroot}%{qa_dir}/%{name}
+install -m 755 -d %{buildroot}%{qa_dir}/tcf
+ln -s ../%{name}/tcf/%{tcf_file} %{buildroot}%{qa_dir}/tcf/
 
 
 %post
-chown -R nobody.nobody %{qa_dir}/%{name}/*
-
-
-%postun
-rm -rf %{qa_dir}/%{name}
+chown -R %{test_user}.%{test_user} %{qa_dir}/%{name}/*
 
 
 %files
 %defattr(-,root,root)
 %dir %{qa_dir}
-%dir %{qa_dir}/tcf
-%{qa_dir}/tcf/%{tcf_file}
+%{qa_dir}/%{name}
 %dir %{qa_dir}/tools
 %{qa_dir}/tools/test_apache2-mod_perl-run
-%{qa_dir}/%{name}
+%dir %{qa_dir}/tcf
+%{qa_dir}/tcf/%{tcf_file}
+
 
 %changelog
