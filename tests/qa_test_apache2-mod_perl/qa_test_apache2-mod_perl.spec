@@ -150,6 +150,10 @@ ln -s ../%{name}/tcf/%{tcf_file} %{buildroot}%{qa_dir}/tcf/
 chown -R %{test_user}.%{test_user} %{qa_dir}/%{name}/*
 
 
+%postun
+rm -rf %{qa_dir}/%{name}/
+
+
 %files
 %defattr(-,root,root)
 %dir %{qa_dir}
