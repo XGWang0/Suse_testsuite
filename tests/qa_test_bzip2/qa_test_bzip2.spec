@@ -46,6 +46,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Provides:	qa_bzip2
 Obsoletes:	qa_bzip2
 Requires:       bzip2 gcc ctcs2 libbz2-devel
+BuildArch:      noarch
 
 %description
 this is the first rd-qa internal package following the new rd-qa
