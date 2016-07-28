@@ -6,7 +6,7 @@ function def_simple_run {
     eval "${name}_packages=($@)"
 }
 
-def_simple_run apache2-mod_perl '/usr/share/qa/tools/test_apache2-mod_perl-run' qa_test_apache2-mod_perl
+def_simple_run apache2_mod_perl '/usr/share/qa/tools/test_apache2-mod_perl-run' qa_test_apache2-mod_perl
 def_simple_run libhugetlbfs '/usr/share/qa/tools/test_libhugetlbfs-run' qa_test_libhugetlbfs
 def_simple_run ftpload '/usr/share/qa/tools/test_ftpload-run' qa_test_ftpload
 def_simple_run lmbench '/usr/share/qa/tools/test_lmbench-run' qa_test_lmbench
