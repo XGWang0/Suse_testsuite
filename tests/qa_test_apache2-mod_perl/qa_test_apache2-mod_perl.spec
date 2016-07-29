@@ -135,7 +135,6 @@ wait
 END
 done
 
-
 %install
 install -m 755 -d %{buildroot}%{qa_dir}
 install -m 755 -d %{buildroot}%{qa_dir}/tools
@@ -145,14 +144,11 @@ mv * %{buildroot}%{qa_dir}/%{name}
 install -m 755 -d %{buildroot}%{qa_dir}/tcf
 ln -s ../%{name}/tcf/%{tcf_file} %{buildroot}%{qa_dir}/tcf/
 
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %post
 chown -R %{test_user}.%{test_user} %{qa_dir}/%{name}/*
-
-
-%postun
-rm -rf %{qa_dir}/%{name}/
-
 
 %files
 %defattr(-,root,root)
@@ -162,6 +158,5 @@ rm -rf %{qa_dir}/%{name}/
 %{qa_dir}/tools/test_apache2-mod_perl-run
 %dir %{qa_dir}/tcf
 %{qa_dir}/tcf/%{tcf_file}
-
 
 %changelog
