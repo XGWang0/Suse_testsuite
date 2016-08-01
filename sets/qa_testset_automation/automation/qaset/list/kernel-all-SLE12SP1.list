@@ -5,7 +5,7 @@ SQ_TEST_RUN_LIST=(
     fs_stress
     sched_stress
 
-    apache
+    apache2_mod_perl
     apparmor
     apparmor_profiles
     bind

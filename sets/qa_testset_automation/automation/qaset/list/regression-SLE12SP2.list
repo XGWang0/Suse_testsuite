@@ -1,6 +1,6 @@
 SQ_TEST_RUN_LIST=(
     _reboot_off
-    apache2-mod_perl
+    apache2_mod_perl
     apparmor
     apparmor_profiles
     bind
