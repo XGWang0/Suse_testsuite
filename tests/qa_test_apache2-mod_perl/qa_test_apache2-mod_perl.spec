@@ -60,7 +60,7 @@ Obsoletes:      qa_test_apache_testsuite
 Version:        2.0.8
 Release:        0
 Source0:        http://ftp.de.debian.org/debian/pool/main/liba/libapache2-mod-perl2/libapache2-mod-perl2_2.0.8+httpd24-r1449661.orig.tar.gz
-Source1:        test_apache2-mod_perl-run
+Source1:        test_apache2_mod_perl-run
 Patch:          apache2-mod_perl-2.0.4-tests.diff
 # PATCH-NEEDS-REBASE
 Patch1:         lfs-perl-5.14.patch 
@@ -155,7 +155,7 @@ chown -R %{test_user}.%{test_user} %{qa_dir}/%{name}/*
 %dir %{qa_dir}
 %{qa_dir}/%{name}
 %dir %{qa_dir}/tools
-%{qa_dir}/tools/test_apache2-mod_perl-run
+%{qa_dir}/tools/test_apache2_mod_perl-run
 %dir %{qa_dir}/tcf
 %{qa_dir}/tcf/%{tcf_file}
 
