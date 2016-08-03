@@ -77,7 +77,7 @@ function sq_qadb_update_system_infomation {
         lspci -k > /var/log/qa/ctcs2/${name}/lspci-k.txt
         lsmod > /var/log/qa/ctcs2/${name}/lsmod.txt
         lscpu > /var/log/qa/ctcs2/${name}/lscpu.txt
-        cpupower frequency-info > /var/log/qa/ctcs2/${name}/cpu-frequency-info.txt
+        cpupower -c all frequency-info > /var/log/qa/ctcs2/${name}/cpu-frequency-info.txt
         mount | grep ^/dev > /var/log/qa/ctcs2/${name}/partition-mount.txt
         cat /proc/cmdline > /var/log/qa/ctcs2/${name}/cmdline.txt
         cat /proc/meminfo > /var/log/qa/ctcs2/${name}/meminfo.txt
