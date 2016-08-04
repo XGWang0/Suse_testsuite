@@ -1,0 +1,18 @@
+{
+  "name": "qa_test_apache2-mod_perl",
+  "summary": "Apache mod perl testsuites",
+  "description": "\napache2 mod_perl testsuites",
+  "status": "ready",
+  "maintainer": "None",
+  "rpm": "qa_test_apache2-mod_perl-2.0.8-0.noarch.rpm",
+  "arch": "noarch",
+  "product": "perl",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-08-04 09:00:11 UTC",
+  "nodes": null,
+  "incompatible": null,
+  "tags": [
+
+  ]
+}
