@@ -84,6 +84,8 @@ function sq_qadb_update_system_infomation {
         cat /proc/mtrr  > /var/log/qa/ctcs2/${name}/mtrr.txt
         cat /proc/zoneinfo > /var/log/qa/ctcs2/${name}/zoneinfo.txt
         systemctl list-units > /var/log/qa/ctcs2/${name}/systemctl-list-units.txt
+        head /proc/sys/vm/dirty* > /var/log/qa/ctcs2/${name}/vm-dirty-parameter.txt
+        head /sys/block/sdb/queue/iosched/* > /var/log/qa/ctcs2/${name}/iosched-parameter-sdb.txt
 	#tenv.txt introduce by New compare framework
         env | grep "^_QASET" > /var/log/qa/ctcs2/${name}/tenv.tmp
 	sort /var/log/qa/ctcs2/${name}/tenv.tmp > /var/log/qa/ctcs2/${name}/tenv.txt
