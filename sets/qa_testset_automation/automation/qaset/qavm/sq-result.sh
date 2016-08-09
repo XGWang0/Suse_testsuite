@@ -87,6 +87,7 @@ function sq_qadb_update_system_infomation {
         head /proc/sys/vm/dirty* > /var/log/qa/ctcs2/${name}/vm-dirty-parameter.txt
         head /sys/block/sdb/sdb1/queue/iosched/* > /var/log/qa/ctcs2/${name}/iosched-parameter-sdb.txt
         head /sys/block/sdb/sdb1/stat > /var/log/qa/ctcs2/${name}/disk-stat-sdb.txt
+        find /sys/block/sdb/queue/ -type f -exec head -v {} \; > /var/log/qa/ctcs2/${name}/io-queue-parameter-sdb.txt
 	#tenv.txt introduce by New compare framework
         env | grep "^_QASET" > /var/log/qa/ctcs2/${name}/tenv.tmp
 	sort /var/log/qa/ctcs2/${name}/tenv.tmp > /var/log/qa/ctcs2/${name}/tenv.txt
