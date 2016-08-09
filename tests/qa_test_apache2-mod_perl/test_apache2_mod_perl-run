@@ -5,3 +5,4 @@ TCF_DIR=/usr/share/qa/tcf
 cd $CTCS2_DIR
 chmod a+w /var/log/qa/ctcs2
 su -m nobody -c "env TESTS_LOGDIR=/var/log/qa $CTCS2_DIR/tools/run $TCF_DIR/apache2-mod_perl.tcf"
+su -m nobody -c "/usr/share/qa/qa_test_apache2-mod_perl/t/TEST -clean"
