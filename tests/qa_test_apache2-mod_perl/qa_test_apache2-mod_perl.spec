@@ -49,6 +49,7 @@ Group:          SuSE internal
 Requires:       %{apache_mmn}
 Requires:       %{apache_suse_maintenance_mmn}
 Requires:       apache2
+Requires:       apache2-devel
 Requires:       perl = %{perl_version}
 Requires:       perl-HTML-Parser
 Requires:       perl-Tie-IxHash
