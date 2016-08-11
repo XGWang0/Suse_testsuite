@@ -83,6 +83,7 @@ function sq_qadb_update_system_infomation {
         cat /proc/meminfo > /var/log/qa/ctcs2/${name}/meminfo.txt
         cat /proc/mtrr  > /var/log/qa/ctcs2/${name}/mtrr.txt
         cat /proc/zoneinfo > /var/log/qa/ctcs2/${name}/zoneinfo.txt
+        cat /proc/interrupts > /var/log/qa/ctcs2/${name}/interrupts.txt
         systemctl list-units > /var/log/qa/ctcs2/${name}/systemctl-list-units.txt
         head /proc/sys/vm/dirty* > /var/log/qa/ctcs2/${name}/vm-dirty-parameter.txt
         find  /sys/block/sd*/ -type f -readable -exec head -v {} \; 2>/dev/null > /var/log/qa/ctcs2/${name}/block-sysfs-parameter.txt
