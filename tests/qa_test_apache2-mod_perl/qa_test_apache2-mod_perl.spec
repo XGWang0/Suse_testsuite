@@ -79,6 +79,8 @@ mkdir tcf
 test_list=`find t -name '*.t' | sed -e 's#^t/##g' | sort -h` 
 echo "$test_list" | while read line; do
     test_name=`echo "$line" | sed -e 's/\.t$//g' | tr '/' '-'`
+    # Skip filter-in_bbs_inject_header test
+    [[ "$test_name" == "filter-in_bbs_inject_header" ]] && continue
     cat >> tcf/%{tcf_file} <<END
 timer 300 
 fg 1 $test_name %{qa_dir}/%{name}/t/TEST -apxs \`which apxs\` -httpd \`which httpd\` -verbose $line
