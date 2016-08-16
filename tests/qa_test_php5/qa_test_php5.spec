@@ -39,6 +39,7 @@ Source3:	apache2-php5-prepare.sh
 Source4:	test_php5-server-run
 Patch0:		server-test-config-%{ver}.patch
 Patch1:		syntax_fix.patch
+Patch2:		php-5.2.14_bug33414-1.phpt.patch
 BuildArch:      noarch
 Provides:	qa_php5
 Obsoletes:	qa_php5
@@ -104,8 +105,10 @@ Authors:
 %prep
 %setup -n php-%{version} -q
 
+
 %if %suse_version <= 1130
 %patch1 -p1
+%patch2 -p1
 %endif
 cd ..
 
