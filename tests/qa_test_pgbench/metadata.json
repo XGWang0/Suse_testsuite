@@ -3,14 +3,16 @@
   "summary": "Using pgbench to test the IO performance",
   "description": "\na test script using pgbench to test the IO performance.\nAuthors:\n--------\nLance Wang (lzwang@suse.com)\nYong Sun (yosun@suse.com)",
   "status": "ready",
-  "maintainer": "LZWang@suse.com",
+  "maintainer": "jnwang@suse.com",
   "rpm": "qa_test_pgbench-1.0.0-5.1.noarch.rpm",
   "arch": "noarch",
   "product": "pgbench",
   "fate": null,
   "bnc": null,
-  "updated_at": "2016-02-04 07:29:44 UTC",
+  "updated_at": "2016-08-16 07:49:29 UTC",
+  "nodes": null,
+  "incompatible": null,
   "tags": [
-
+    "benchmark"
   ]
 }

@@ -3,14 +3,16 @@
   "summary": "Portable, robust, fully-threaded I/O benchmark program",
   "description": "\nA threaded I/O benchmark for Linux (or any *nix system with POSIX\nthreads support library).",
   "status": "ready",
-  "maintainer": "LZWang@suse.com",
+  "maintainer": "jnwang@suse.com",
   "rpm": "qa_test_tiobench-0.3.3-165.noarch.rpm",
   "arch": "noarch",
   "product": "tiobench",
   "fate": null,
   "bnc": null,
-  "updated_at": "2016-02-04 07:30:59 UTC",
+  "updated_at": "2016-08-16 07:52:55 UTC",
+  "nodes": null,
+  "incompatible": null,
   "tags": [
-
+    "benchmark"
   ]
 }
