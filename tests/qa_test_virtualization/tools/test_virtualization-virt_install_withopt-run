@@ -58,14 +58,17 @@ fi
 
 
 
-#remove all para-virtualization test on KVM host
+#hypervisor-specific changes
 if [ -e /proc/xen/privcmd ]; then
 	#The host is XEN
+        #remove para-virt ISO installations (not supported by virt-install)
+        sed -i '/pv-*-iso/d' $TCF_TRUE
 	#disable the autoballoon, this job is done by reboot job
 	#sed -i '/autoballoon=1/s/.*/autoballoon=0/;/autoballoon="/s/.*/autoballoon="off"/' /etc/xen/xl.conf
 	:
 else
 	#The host is KVM
+	#remove all para-virt tests (not valid under KVM)
 	sed -i '/-pv-/d' $TCF_TRUE
 fi
 
