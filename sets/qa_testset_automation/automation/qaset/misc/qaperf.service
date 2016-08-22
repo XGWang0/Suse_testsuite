@@ -7,7 +7,7 @@ Type=idle
 ExecStart=/usr/share/qa/qaset/qaset-service
 TimeoutSec=0
 RemainAfterExit=yes
-TasksMax=1024
+TasksMax=8192
 
 [Install]
 Alias=sqperf
