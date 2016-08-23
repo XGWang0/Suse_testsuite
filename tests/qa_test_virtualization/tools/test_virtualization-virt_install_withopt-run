@@ -58,14 +58,17 @@ fi
 
 
 
-#remove all para-virtualization test on KVM host
+#hypervisor-specific changes
 if [ -e /proc/xen/privcmd ]; then
 	#The host is XEN
+        #remove para-virt ISO installations (not supported by virt-install)
+        sed -i '/pv-*-iso/d' $TCF_TRUE
 	#disable the autoballoon, this job is done by reboot job
 	#sed -i '/autoballoon=1/s/.*/autoballoon=0/;/autoballoon="/s/.*/autoballoon="off"/' /etc/xen/xl.conf
 	:
 else
 	#The host is KVM
+	#remove all para-virt tests (not valid under KVM)
 	sed -i '/-pv-/d' $TCF_TRUE
 fi
 
@@ -78,13 +81,15 @@ print_usage()
 	echo "-n <thread_number>"
 	echo "-t [std,dev] :Unit test,Milestone test"
 	echo "-r submit result to remote QADB"
+        echo "-d enable debug level logging"
 	echo "-f <filter string>  : eg. 'nw-65-sp8\|oes-11-sp2' "
-
+	exit -1
 }
 
-while getopts "hf:n:t:r" OPTIONS
+while getopts "hdf:n:t:r" OPTIONS
 do
 	case $OPTIONS in
+		d) debug_log="on";;
 		f) filter=$OPTARG;;
 		n) thread=$OPTARG;;
 		t) gen_type=$OPTARG;;
@@ -130,10 +135,12 @@ sed -i '2s/^bg/fg/' $TCF_TRUE
 
 rm -rf /tmp/virt_screenshot.tar.bz2 /tmp/virt-install_screenshot
 
-#switch on the log
-. /usr/share/qa/virtautolib/lib/virtlib
-virt_log_switch
-rclibvirtd restart
+if [ "$debug_log" == "on" ]; then
+	#switch on debug logs (Xen, KVM and libvirt)
+	. /usr/share/qa/virtautolib/lib/virtlib
+	virt_log_switch
+	rclibvirtd restart
+fi
 
 
 $CTCS2_DIR/tools/run $TCF_TRUE
