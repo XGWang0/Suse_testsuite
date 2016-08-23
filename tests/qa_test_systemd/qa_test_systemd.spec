@@ -33,7 +33,11 @@ We designed 2 test points for systemd service as first step, the automation is i
 %setup
 
 %build
+blacklist="|numad|openct|"
 while read -r line; do
+    %ifnarch x86_64
+        [[ -n `echo "$blacklist" | grep "|$line|"` ]] && continue
+    %endif
     cat <<END >> tcf/qa_systemd.tcf
 
 timer 1800
