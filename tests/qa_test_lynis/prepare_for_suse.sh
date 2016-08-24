@@ -43,5 +43,7 @@ echo "1. lookup file permission level"
 fileperms
 echo "2. lookup dbus system serices in /etc/dbus-1/system.d/"
 dbussystem
+echo "3. Skip binary_rpath testing on s390x due to timeout problem"
+[[ `uname -m` == "s390x" ]] && sed -i -e 's/binary_rpath //g' lynis
 
 rm -rf $TMPDIR
