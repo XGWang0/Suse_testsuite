@@ -1,6 +1,6 @@
 [Unit]
 Description=qaset-service
-After=getty.target
+After=getty.target time-sync.target
 
 [Service]
 Type=idle
