@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Fri Aug 26 13:46:48 UTC 2016 - mpluskal@suse.com
+
+- Cleanup spec file with spec-cleaner
+- Use macro for configure
+- Use optflags when building
+
+-------------------------------------------------------------------
 Wed Jun 18 11:54:58 CST 2014 - lzwang@suse.com
 
 - Added abuildinfo.
