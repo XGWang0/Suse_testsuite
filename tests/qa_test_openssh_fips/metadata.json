@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_openssh_fips",
+  "summary": "(rd-)qa internal package for openssh testing",
+  "description": "\nOpenssh testsuite. Many functional tests are included.\nAuthors:\n--------\nCyril Hrubis chrubis@suse.cz",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_openssh_fips-0.2-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "openssh",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-02-04 07:29:35 UTC",
+  "tags": [
+    "userspace"
+  ]
+}

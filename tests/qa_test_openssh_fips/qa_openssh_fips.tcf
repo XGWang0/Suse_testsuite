@@ -1,0 +1,182 @@
+timer 100 
+fg 1 agent_getpeereid /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/agent-getpeereid.sh 
+wait 
+
+
+timer 100 
+fg 1 agent_ptrace /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/agent-ptrace.sh 
+wait 
+
+
+timer 100 
+fg 1 agent /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/agent.sh 
+wait 
+
+
+timer 100 
+fg 1 agent_timeout /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/agent-timeout.sh 
+wait 
+
+
+timer 100 
+fg 1 banner /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/banner.sh 
+wait 
+
+
+timer 100 
+fg 1 brokenkeys /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/brokenkeys.sh 
+wait 
+
+
+timer 100 
+fg 1 broken_pipe /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/broken-pipe.sh 
+wait 
+
+
+timer 100 
+fg 1 cfgmatch /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/cfgmatch.sh 
+wait 
+
+
+timer 100 
+fg 1 cipher_speed /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/cipher-speed.sh 
+wait 
+
+
+timer 100 
+fg 1 connect_privsep /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/connect-privsep.sh 
+wait 
+
+
+timer 100 
+fg 1 connect /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/connect.sh 
+wait 
+
+
+timer 100 
+fg 1 dynamic_forward /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/dynamic-forward.sh 
+wait 
+
+
+timer 100 
+fg 1 envpass /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/envpass.sh 
+wait 
+
+
+timer 100 
+fg 1 exit_status /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/exit-status.sh 
+wait 
+
+
+timer 100 
+fg 1 forcecommand /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/forcecommand.sh 
+wait 
+
+
+timer 100 
+fg 1 forwarding /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/forwarding.sh 
+wait 
+
+
+timer 100 
+fg 1 keygen_change /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/keygen-change.sh 
+wait 
+
+
+timer 100 
+fg 1 keyscan /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/keyscan.sh 
+wait 
+
+
+timer 100 
+fg 1 login_timeout /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/login-timeout.sh 
+wait 
+
+
+timer 100 
+fg 1 multiplex /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/multiplex.sh 
+wait 
+
+
+timer 100 
+fg 1 proto_mismatch /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/proto-mismatch.sh 
+wait 
+
+
+timer 100 
+fg 1 proto_version /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/proto-version.sh 
+wait 
+
+
+timer 100 
+fg 1 proxy_connect /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/proxy-connect.sh 
+wait 
+
+
+timer 100 
+fg 1 reconfigure /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/reconfigure.sh 
+wait 
+
+
+timer 100 
+fg 1 reexec /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/reexec.sh 
+wait 
+
+
+timer 100 
+fg 1 rekey /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/rekey.sh 
+wait 
+
+
+timer 100 
+fg 1 scp /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/scp.sh 
+wait 
+
+timer 100 
+fg 1 scp_ssh_wrapper /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/scp-ssh-wrapper.sh 
+wait 
+
+timer 100 
+fg 1 sftp_badcmds /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/sftp-badcmds.sh 
+wait 
+
+
+timer 100 
+fg 1 sftp_batch /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/sftp-batch.sh 
+wait 
+
+
+timer 100 
+fg 1 sftp_cmds /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/sftp-cmds.sh 
+wait 
+
+
+timer 100 
+fg 1 sftp_glob /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/sftp-glob.sh 
+wait 
+
+
+timer 100 
+fg 1 sftp /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/sftp.sh 
+wait 
+
+timer 100 
+fg 1 stderr_after_eof /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/stderr-after-eof.sh 
+wait 
+
+
+timer 100 
+fg 1 stderr_data /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/stderr-data.sh 
+wait 
+
+timer 100 
+fg 1 transfer /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/transfer.sh 
+wait 
+
+timer 100 
+fg 1 try_ciphers /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/try-ciphers.sh 
+wait 
+
+timer 100 
+fg 1 yes_head /usr/share/qa/qa_test_openssh_fips/prepare.sh /usr/share/qa/qa_test_openssh_fips/yes-head.sh 
+wait 
