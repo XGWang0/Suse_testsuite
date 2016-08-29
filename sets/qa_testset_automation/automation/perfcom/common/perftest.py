@@ -1,16 +1,18 @@
 #!/usr/bin/python3
 
+import logging
+logger = logging.getLogger()
 from . import tenv
-from . import plan
 from . import apicall
+from .error import *
 
 class PerfTest:
-    def __init__(self, suite, cases, tenv):
+    def __init__(self, suite, cases, tenv, plan):
         self.suite = suite
         self.tenv = tenv
         self.cases = cases
         self.distro = tenv.distro
-        self.plan = plan.Run(self.distro)
+        self.plan = plan
         self.trpairs = []
 
     def compare1(self, dynapi, case, trpair):
@@ -34,19 +36,23 @@ class PerfTest:
         pargs["q_run_id"] = self.plan.run_id
         pargs["r_run_id"] = trpair["run_id"]
         pargs["status"] = conclusion
-        return dynapi.post(endpoint, pargs, None, None).json()
+        return dynapi.post_no_body(endpoint, pargs, [], [])
 
     def complete(self, dynapi):
         if self.trpairs : return
-        self.plan.complete(dynapi)
         self.run_id = self.plan.run_id
+        self.plan.references(dynapi)
         for drpair in self.plan.drpairs:
             distro = drpair["distro"]
             run_id = drpair["run_id"]
-            r_tenv = tenv.Tenv(distro, self.tenv.component,
-                               self.tenv.inst, self.tenv.machine,
-                               self.tenv.extra)
-            r_tenv_id = r_tenv.get_id(dynapi)
+            try:
+                r_tenv = tenv.Tenv(distro, self.tenv.component,
+                                   self.tenv.inst, self.tenv.machine,
+                                   self.tenv.extra)
+                r_tenv_id = r_tenv.get_id(dynapi)
+            except HTTPError as e:
+                logger.error(str(e))
+                continue
             trpair = {"tenv_id":r_tenv_id, "run_id":run_id}
             self.trpairs.append(trpair)
 
@@ -54,5 +60,8 @@ class PerfTest:
         self.complete(dynapi)
         for case in self.cases:
             for trpair in self.trpairs:
-                conclusion = self.compare1(dynapi, case, trpair)
-                self.update_conclusion(dynapi, case, trpair, conclusion)
+                try:
+                    conclusion = self.compare1(dynapi, case, trpair)
+                    self.update_conclusion(dynapi, case, trpair, conclusion)
+                except HTTPError as e:
+                    logger.error(str(e))

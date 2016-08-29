@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import sys
-from client import app
+import error
+import app
 
-app.run(sys.argv[1:])
+app.APP.run(sys.argv[1:])

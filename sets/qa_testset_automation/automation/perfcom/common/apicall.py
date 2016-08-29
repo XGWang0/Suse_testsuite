@@ -31,7 +31,7 @@ API_GET = {
             {"n":"suite"},
             {"n":"case"},
             {"n":"q_tenv_id"},
-            {"n":"r_tenv_id"}
+            {"n":"r_tenv_ids"}
         ]
     },
     "/api/report/v1/comparison/plan/id":{
@@ -39,7 +39,7 @@ API_GET = {
             {"n":"suite"},
             {"n":"case"},
             {"n":"q_tenv_id"},
-            {"n":"r_tenv_id"}
+            {"n":"r_tenv_ids"}
         ]
     },
     "/api/report/v1/env":{
@@ -59,19 +59,9 @@ API_GET = {
             {"n":"extra", "o":True}
         ]
     },
-    "/api/report/v1/plan/distropair/references_incomplete":{
+    "/api/report/v1/env_id":{
         "pargs":[
-            {"n":"arch"},
-            {"n":"release"},
-            {"n":"build"}
-        ]
-    },
-    "/api/report/v1/plan/distropair/run-id":{
-        "pargs":[
-            {"n":"arch"},
-            {"n":"release"},
-            {"n":"build"},
-            {"n":"kernel"}
+            {"n":"id"},
         ]
     },
     "/api/log/v1/host":{
@@ -87,6 +77,17 @@ API_GET = {
             {"n":"suite"},
             {"n":"case", "o":True}
         ]
+    },
+    "/api/report/v1/plan/distropair/references":{
+        "pargs":[
+            {"n":"arch"},
+            {"n":"release"},
+            {"n":"build"},
+            {"n":"kernel"},
+            {"n":"run_id"},
+        ],
+        "qargs":[]
+        #jargs
     },
     "/api/log/v1/case":{
         "pargs":[
@@ -129,12 +130,22 @@ API_POST = {
         ],
         "qargs":[]
     },
-    "/api/report/v1/plan/distropair":{
+    "/api/report/v1/plan/distropair/new":{
         "pargs":[
-            {"n":"arch"}
+            {"n":"question-id"},
+            {"n":"reference-id"}
         ],
         "qargs":[]
         #jargs
+    },
+    "/api/report/v1/plan/run/new":{
+        "pargs":[],
+        "qargs":[]
+        #jargs
+    },
+    "/api/report/v1/plan/distropair/default/set":{
+        "pargs":[{"n":"distro_run_id"}],
+        "qargs":[]
     },
     "/api/report/hidden/proxy/reportdb":{
         "pargs":[],
@@ -171,6 +182,11 @@ class dynLinkFunc:
             except KeyError as e:
                 raise ProgrammingError(str(e))
         elif self.method == "POST":
+            try:
+                self.api = API_POST[endpoint]
+            except KeyError as e:
+                raise ProgrammingError(str(e))
+        elif self.method == "POSTNB":
             try:
                 self.api = API_POST[endpoint]
             except KeyError as e:
@@ -288,6 +304,27 @@ class apiClient:
         else:
             raise HTTPError(rsp.status)
 
+    def http_post_no_body(self, url, body):
+        #This is a workaround!!!
+        #post should not return with body
+        devlogR("api_post: {0}".format(url))
+        #TODO body type
+        body = json.dumps(body)
+        headers = {}
+        headers['CONTENT-TYPE'] = 'application/vnd.api+json'
+        self.con.request('POST', url, body, headers)
+        rsp = self.con.getresponse()
+        if rsp.status == 200:
+            return True
+        elif rsp.status == 404:
+            content = rsp.read()
+            content_type = rsp.getheader("Content-Type", "")
+            if re.match(".*json.*", content_type):
+                content = json.loads(content.decode("utf-8"))
+            raise HTTPError(rsp.status, content)
+        else:
+            raise HTTPError(rsp.status)
+
     @staticmethod
     def _quote_args(args):
         nargs = {}
@@ -301,6 +338,9 @@ class apiClient:
         elif dynLink.method == "POST":
             body = dynLink.get_body(body)
             return self.http_post(url, body)
+        elif dynLink.method == "POSTNB":
+            body = dynLink.get_body(body)
+            return self.http_post_no_body(url, body)
         else:
             raise ErrorNotSupport(dynLink.method)
 
@@ -313,4 +353,7 @@ class dynAPI:
 
     def post(self, endpoint, pargs, qargs, body):
         return self.client.call(dynLinkFunc(endpoint, "POST"), pargs, qargs, body)
+
+    def post_no_body(self, endpoint, pargs, qargs, body):
+        return self.client.call(dynLinkFunc(endpoint, "POSTNB"), pargs, qargs, body)
 

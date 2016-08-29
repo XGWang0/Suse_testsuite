@@ -105,8 +105,14 @@ class ctcs2suite:
         logger.debug("parsing {}".format(tenv_txt))
         stream = open(tenv_txt)
         self.tenv_plain = tenv.TenvPlain(stream, name=tenv_txt)
-        self.plan = plan.Run(self.distro)
+        self.plan = plan.Run(self.distro, self.run_id)
         self.tenv = tenv.Tenv(self.distro, self.component, self.inst, self.machine)
+
+    @property
+    def run_id(self):
+        ''' return arch, release, build, kernel'''
+        ''' return an OSDistro'''
+        return self.tenv_plain.run_id
 
     @property
     def distro(self):
@@ -134,7 +140,7 @@ class ctcs2suite:
 
     def submit_report(self, dynapi):
         tenv_id = self.tenv.new_id(dynapi)
-        run_id = self.plan.get_run_id(dynapi)
+        run_id = self.run_id
         #the outer "'" or '"' is removed by remote_qa_db_report.pl
         #So add a extra ' aroud the key to make there is " in qadb
         comment = json.dumps({'"tenv"':tenv_id,'"run"':run_id})

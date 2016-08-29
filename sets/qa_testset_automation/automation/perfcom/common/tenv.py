@@ -15,6 +15,9 @@ class OSDistro:
     def __str__(self):
         return "{arch} {release} {build} {kernel}".format(**self.__dict__)
 
+    def todict(self):
+        return self.__dict__.copy()
+
 class OSComponent:
     def __init__(self, category, category_value = None):
         self.category = category
@@ -26,17 +29,26 @@ class OSComponent:
     def has_category_value(self):
         return self.category in ("io",)
 
+    def todict(self):
+        return self.__dict__.copy()
+
 class OSInst:
     def __init__(self, swap_size, rootfs_type, rootfs_size):
         self.swap_size = swap_size
         self.rootfs_type = rootfs_type
         self.rootfs_size = rootfs_size
 
+    def todict(self):
+        return self.__dict__.copy()
+
 class Machine:
     def __init__(self, host):
         self.host = host
     def __str__(self):
         return "{}".format(self.host)
+
+    def todict(self):
+        return self.__dict__.copy()
 
 class Tenv:
     def __init__(self, distro, component, inst, machine, extra = None):
@@ -94,6 +106,7 @@ class TenvPlain:
         cf.read_file(itertools.chain(("[global]",), self.stream))
         try:
             section = cf["global"]
+            run_id = section["_QASET_RUNID"]
             arch = section["_QASET_ARCH"]
             release = section["_QASET_RELEASE"]
             build = section["_QASET_BUILD"]
@@ -105,6 +118,7 @@ class TenvPlain:
         except KeyError as e:
             raise InvalidLogError("Fail to parse {0}: No Key {1}".format(self.name, e.args[0]))
         else:
+            self.run_id = run_id
             self.distro = OSDistro(arch, release, build, kernel)
             self.machine = Machine(host)
             #TODO this is a trade off. It will be remove in future.
@@ -126,3 +140,15 @@ class TenvPlain:
         if self.no_category:
             raise InvalidLogError("No category to parser")
         return self._component
+
+def get_tenv_by_id(dynapi, id):
+    pargs = {"id":id}
+    endpoint = "/api/report/v1/env_id"
+    ret = dynapi.get(endpoint, pargs, {}).json()
+    distro = OSDistro(tenv["arch"], tenv["release"], tenv["build"], tenv["kernel"])
+    component =OSComponent(tenv["category"], tenv["category_value"])
+    inst = OSInst(tenv["swap_size"], tenv["rootfs_type"], tenv["rootfs_size"])
+    machine = Machine(tenv["host"])
+    tenv = Tenv(distro, component, inst, machine, tenv["extra"])
+    self._id = id
+

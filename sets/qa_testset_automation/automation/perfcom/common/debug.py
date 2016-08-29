@@ -2,6 +2,8 @@
 import sys
 import pprint
 
+DEBUG = False
+
 __all__ = ["devlog", "devlog_obj"]
 ns = locals()
 
@@ -12,10 +14,14 @@ LIGHT_PURPLE = '\033[94m'
 PURPLE = '\033[95m'
 END = '\033[0m'
 
+def print_noop(*args, **kargs):
+    pass
+
 devlog = print
 
 def define_color_logger(color):
     def f(s):
+        if not DEBUG:return
         print(color, end="")
         print(s)
         print(END, end="")
@@ -31,12 +37,14 @@ for k, v in fname.items():
 def define_obj_logger():
     printer = pprint.PrettyPrinter()
     def f(object):
+        if not DEBUG:return
         printer.pprint(object)
     return f
 devlog_obj = define_obj_logger()
 
 def define_color_obj_logger(color):
     def f(object):
+        if not DEBUG:return
         print(color, end="")
         devlog_obj(object)
         print(END, end="")
@@ -48,3 +56,5 @@ fname = {"devlogR_obj": RED, "devlogG_obj": GREEN, "devlogY_obj": YELLOW,
 for k, v in fname.items():
     ns[k] = define_color_obj_logger(v)
     __all__.append(k)
+
+del ns
