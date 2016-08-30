@@ -285,6 +285,8 @@ function sq_result_one_run {
     local _status
     if [ "X${SQ_TEST_RUN_SET}" == "Xperformance" ] && [ "X${SQ_TEST_USER_APAC2}" == "XYES" ];then
         sq_performance_submit_result_for_run ${_run}
+    elif [ "X${SQ_LOG_SUBMISSION_DISABLE}" != "XNO" ];then
+        sq_info "[result] log submission is disable"
     else
         sq_qadb_submit_result_for_run ${_run}
     fi
