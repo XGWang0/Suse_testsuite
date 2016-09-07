@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 HOSTNAME = socket.gethostname()
 
 ### Utils functions ###
+# Use LCS algorithm to calculate the similarity of 2 strings
 def similarity(x, y): 
     m = [[0 for i in range(len(y)+1)] for i in range(len(x)+1)]
     for i in range(1, len(x) + 1): 
@@ -199,11 +200,10 @@ class BaseElement(object):
             elem.append(sub_elem)
         return elem
 
-    def to_xml(self, file_like=None, encoding='UTF-8'):
+    def to_xml(self, file_like=sys.stdout, encoding='UTF-8'):
         root = self.to_xml_element(self.data)
         s = ET.tostring(root, encoding=encoding, method='xml')
-        if file_like is not None:
-            file_like.write(s)
+        file_like.write(s)
         return s
 
 class TestcaseElement(BaseElement):
@@ -293,9 +293,9 @@ class TestsuiteElement(BaseElement):
                 self.data['attrs'][v] += 1
                 break
     
-    def add_fake_testcase(self, name, msg):
+    def add_dummy_testcase(self, name, msg):
         tc_elem = TestcaseElement(self.data['attrs']['name'],
-                                'fake_testcase',
+                                name,
                                 [1, 0, 1, 1, 0, 0])
         tc_elem.add_status_tag(msg)
         self.add_testcase(tc_elem)
@@ -316,6 +316,11 @@ class RootElement(BaseElement):
         self.add_sub_element(ts_elem)
         for item in ['tests', 'failures', 'errors', 'skipped', 'time']:
             self.data['attrs'][item] += ts_elem.get(item)
+
+    def add_dummy_testsuite(self, name, msg):
+        ts_elem = TestsuiteElement(name)
+        ts_elem.add_dummy_testcase('dummy', msg)
+        self.add_testsuite(ts_elem)
 
 
 class DataCollector(object):
@@ -424,7 +429,7 @@ class DataCollector(object):
         for ts_name, ts_elem in testsuites.items():
             if len(ts_elem.sub) == 0:
                 msg = "Testsuite %s didn't run at all. Installation failure?" % (ts_elem.get('name'))
-                ts_elem.add_fake_testcase('fake_testcase', msg)
+                ts_elem.add_dummy_testcase('dummy', msg)
             self.root.add_testsuite(ts_elem)
         shutil.rmtree(tmp_dir)
 
@@ -432,7 +437,8 @@ class DataCollector(object):
     def parse_testsuite(self, path, ts_elem):
         basename = os.path.basename(path)
         ts_name, timestamp = self.extract_testsuite_dir_name(basename)
-        ts_name = ts_elem.data['attrs']['name']
+        if ts_elem.data['attrs'].has_key('name'):
+            ts_name = ts_elem.data['attrs']['name']
         ts_elem.set('timestamp', timestamp)
         # Read test_results
         try:
@@ -466,7 +472,7 @@ class DataCollector(object):
         if len(ts_elem.sub) == 0:
             # Add a fake testcase to indicate error
             msg = 'No testcases or no test_results file found for testsuite %s' % (ts_elem.get('name'))
-            ts_elem.add_fake_testcase('fake_testcase', msg)
+            ts_elem.add_dummy_testcase('dummy', msg)
 
 
 if __name__ == '__main__':
@@ -501,10 +507,19 @@ Options:
         print e
         op.print_usage()
         exit(255)
-    options.file = expand_path(options.file)
     dc = DataCollector(options.name, expand_path(args[0]), logger=logger)
     dc.collect_submission()
     dc.collect_log()
-    with file(options.file, 'w') as f:
-        dc.root.to_xml(f)
+    # If no testsuites found, add a fake testsuite to indicate error
+    if len(dc.root.sub) == 0:
+        dc.root.add_dummy_testsuite('dummy',
+                                    'No testsuite found.')
+    # Write to stdout or file
+    if options.file:
+        options.file = expand_path(options.file)
+        with file(options.file, 'w') as outfile:
+            dc.root.to_xml(outfile)
+    else:
+        outfile = sys.stdout
+        dc.root.to_xml(outfile)
     exit(0)
