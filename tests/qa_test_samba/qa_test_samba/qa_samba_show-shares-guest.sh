@@ -96,6 +96,7 @@ $TEST_SHARE3
 	logon path = \\%N\profiles\%U
 	logon drive = H:
 	logon home = \\%N\%U\.9xprofile
+	client ipc signing = auto
 [netlogon]
 	path = /var/lib/samba/netlogon
 	read only = yes
