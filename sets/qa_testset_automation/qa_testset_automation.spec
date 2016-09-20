@@ -1,68 +1,68 @@
 #
-# spec file for package qa_testset_performance (Version 1.0)
+# spec file for package qa_testset_automation
 #
-# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
-# This file and all modifications and additions to the pristine
-# package are under the same license as the package itself.
+# Copyright (c) 2016 SUSE LINUX GmbH, Nuernberg, Germany.
 #
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
-# norootforbuild
 
 Name:           qa_testset_automation
-License:        GPL v2 or later
-Group:          testset
-AutoReqProv:    on
 Version:        1.0
 Release:        0
-Summary:        A test Framework for QA ACAPII
+Summary:        A test Framework for QA APACII
+License:        GPL-2.0+
+Group:          testset
 Source0:        automation-%{version}.tar.bz2
-BuildArch:      noarch
+Requires:       qa_db_report
+Requires:       qa_lib_config
+Requires:       qa_lib_ctcs2
+Requires:       qa_lib_internalapi
+Requires:       qa_lib_keys
+Requires:       qa_lib_perl
+Requires:       qa_tools
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Requires:       qa_lib_ctcs2, qa_lib_keys, qa_lib_perl, qa_lib_config, qa_tools, qa_db_report, qa_lib_internalapi
-
+BuildArch:      noarch
 
 %description
 qa_testset_automation is a collection of tools.
 
-Authors:
---------
-    Lance Wang <lzwang@suse.com>
-
 %prep
-%setup -n automation
+%setup -q -n automation
 
 %build
 
 %install
-%if %suse_version == 1110
-SLE_RELEASE=SLE11
-%else if %suse_version == 1315
-SLE_RELEASE=SLE12
+%if 0%{?suse_version} == 1110
+%define sle_release SLE11
+%else if 0%{?suse_version} == 1315
+%define sle_release SLE12
 %endif
-pushd qaset
-make TARGET_RELEASE=${SLE_RELEASE} DEST=$RPM_BUILD_ROOT install
-popd
-cp -a perfcom ${RPM_BUILD_ROOT}/usr/share/qa
 
-%clean
-rm -rf $RPM_BUILD_ROOT
+pushd qaset
+make TARGET_RELEASE=%{sle_release} DEST=%{buildroot} install
+popd
+cp -a perfcom %{buildroot}%{_datadir}/qa
 
 %files
 %defattr(-, root, root)
-%if %suse_version == 1110
-/etc/init.d/qaset
-%else if %suse_version == 1315
-/usr/lib/systemd/system/multi-user.target.wants
-/usr/lib/systemd/system/qaperf.service
+%if 0%{?suse_version} == 1110
+%{_initddir}/qaset
+%else if 0%{?suse_version} == 1315
+%{_prefix}/lib/systemd/system/multi-user.target.wants
+%{_prefix}/lib/systemd/system/qaperf.service
 %endif
-/usr/share/qa
-/usr/share/qa/qaset
-/usr/share/qa/perfcom
+%{_datadir}/qa
+%{_datadir}/qa/qaset
+%{_datadir}/qa/perfcom
 
 %changelog
-* Thu Jan 21 2016 jtzhao@suse.com
-- Add openqa_runner.py for openQA environment
-* Fri Jan 17 2014 cachen@suse.de
-- initial package
