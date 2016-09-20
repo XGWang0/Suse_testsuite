@@ -87,7 +87,7 @@ Requires:	rpmbuild
 AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
-Version:        20160510
+Version:        20160920
 Release:        1
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue

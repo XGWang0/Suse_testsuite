@@ -67,16 +67,16 @@ while ($all[$count]) {
 	}
 
 	print "Generating single scripts for $group\n";
-	open(TESTCASES, $file);              		# open and read actual ltp testgroup file
-	@lines = <TESTCASES>;                
-	close(TESTCASES);                    
+	open(TESTCASES, $file);				# open and read actual ltp testgroup file
+	@lines = <TESTCASES>;
+	close(TESTCASES);
 	open(TCF, ">$tcfdir$group.tcf");		# open .tcf file for actual group
- 
+
 	while ($lines[$incount]) {
 		$actual = $lines[$incount];
 		if ($actual =~ m/^\#.*/) {		# line is a comment
 		} elsif ($actual =~ m/^\s+$/){		# line contains only spaces
-		} else {				# line is testcase, extract and write to tcf 
+		} else {				# line is testcase, extract and write to tcf
 			$actual =~ m/^(\w+).*$/;
 			$tcname = $1;
 			$actual =~ s/^(\S+)\s//;
@@ -89,7 +89,7 @@ while ($all[$count]) {
 			}
 		}
 		$incount++;
-	}	
+	}
 	close(TCF);
 	$count++;
 }
