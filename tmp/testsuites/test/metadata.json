@@ -1,0 +1,18 @@
+{
+  "arch": "[\"aarch64\"]",
+  "name": "test",
+  "description": "test test",
+  "summary": "test",
+  "maintainer": "tfeng@suse.com",
+  "status": "development",
+  "rpm": "test",
+  "product": "test",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-09-21 07:37:34 UTC",
+  "nodes": null,
+  "incompatible": null,
+  "tags": [
+
+  ]
+}
