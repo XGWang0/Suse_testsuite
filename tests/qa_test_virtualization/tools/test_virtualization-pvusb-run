@@ -1,0 +1,101 @@
+#!/bin/bash
+# ****************************************************************************
+# Copyright (c) 2013 Unpublished Work of SUSE. All Rights Reserved.
+# 
+# THIS IS AN UNPUBLISHED WORK OF SUSE.  IT CONTAINS SUSE'S
+# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
+# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
+# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
+# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
+# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
+# LIABILITY.
+# 
+# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
+# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
+# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+# ****************************************************************************
+#
+
+
+export LANG=C
+
+function usage() {
+    echo
+    echo "Usage: $0 [-w which_usb]"
+    echo "       -w, the keyword of the usb device that to passthrough to guest, by default, it is \"Optical Wheel Mouse\""
+    exit 1
+}
+
+#get params
+while getopts "w:" OPTION
+do
+    case $OPTION in
+        w)WHICH_USB="$OPTARG";;
+        \?)usage;;
+        *)usage;;
+    esac
+done
+
+tcfContent="/usr/share/qa/virtautolib/lib/pvusb-test-run.sh \"$WHICH_USB\""
+testTime="5400"
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+TCF_NAME="test_virtualization-pvusb.tcf"
+TCF_FILE="$TCF_DIR/$TCF_NAME"
+
+#generate tcf file
+cat > $TCF_FILE <<EOF
+timer $testTime
+fg 1 pvusb_test $tcfContent
+wait
+EOF
+
+#clean log files
+rm -rf /tmp/virt_screenshot.tar.bz2 /tmp/virt-install_screenshot
+
+#start test
+$CTCS2_DIR/tools/run $TCF_FILE
+
+rm /tmp/virt_screenshot.tar.bz2
+[ -d /tmp/virt-install_screenshot/ ] && tar jcf /tmp/virt_screenshot.tar.bz2 /tmp/virt-install_screenshot/
+
+returncode=0
+
+for file in `find /var/log/qa/ctcs2/ -name test_results`; do
+	[ -z "$(cat $file)" ] && ((returncode+=1))
+done
+
+((returncode+=`find /var/log/qa/ctcs2/ -name test_results -exec grep "^[0-9] 0" {} \; | wc -l`))
+
+v_updir=`find /var/log/qa/ctcs2 -type d -name "test_virtualization-pvusb*"|tail -1`
+[ -d $v_updir -a -e /tmp/virt_screenshot.tar.bz2 ] && cp /tmp/virt_screenshot.tar.bz2 $v_updir/
+
+#upload virtualization debug log
+tar cvf $v_updir/libvirt.tar /var/log/libvirt
+tar cvf $v_updir/var-log-messages.tar /var/log/messages
+if uname -r | grep -iq xen  || [ -e /proc/xen/privcmd ];then
+	xl dmesg > $v_updir/xl-dmesg.log
+	xm dmesg > $v_updir/xm-dmesg.log
+	if [ -d /var/log/xen ];then
+		tar cvf $v_updir/var-log-xen.tar /var/log/xen
+	fi
+fi
+dmesg > $v_updir/dmesg.log
+tar cvf $v_updir/var-lib-xen-dump.tar /var/lib/xen/dump/
+
+#upload tcf and guest xml config files
+tar cvf $v_updir/guest-xmls.tar /tmp/pvusb/vm_backup/vm-config-xmls
+tar cvf $v_updir/tcf.tar $TCF_FILE
+
+#send to qadb
+/usr/share/qa/tools/remote_qa_db_report.pl -b -c "Test result for virtualization pvusb test: $TCF_FILE."
+
+exit $returncode
