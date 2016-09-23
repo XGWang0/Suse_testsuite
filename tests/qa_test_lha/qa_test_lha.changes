@@ -1,0 +1,12 @@
+-------------------------------------------------------------------
+Mon Aug 29 14:00:20 CET 2016 - zkubala@suse.cz
+
+- specfile cleanup
+-------------------------------------------------------------------
+Thu Jul 29 14:00:20 CET 2016 - zkubala@suse.cz
+- specfile fix for sles11sp4
+- fix of test_lha-run
+
+-------------------------------------------------------------------
+Wed Jul 28 14:00:20 CET 2016 - zkubala@suse.cz
+- Initial package release
