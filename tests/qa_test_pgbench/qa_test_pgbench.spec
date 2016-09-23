@@ -85,3 +85,5 @@ fi
 /usr/share/man/man8/qa_test_pgbench.8.gz
 /usr/share/qa/%{name}
 /usr/share/qa/tools
+/usr/share/qa/tcf
+/usr/share/qa
