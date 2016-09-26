@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Sep 26 13:28:53 UTC 2016 - osukup@suse.com
+
+- update 1.0.1i tarball
+- add 1.0.2h for sle12sp2
+
+-------------------------------------------------------------------
 Fri Jan 22 14:55:56 UTC 2016 - osukup@suse.com
 
 - cleanup, 'downgrade' 0.9.8r to suse's 0.9.8j 
