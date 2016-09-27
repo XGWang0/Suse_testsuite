@@ -17,23 +17,28 @@
 
 Name: qa_test_lha
 Version: 0.8
-Release: 3
+Release: 0
 Summary: Testsuite for lha package containing CLI tests.
-License: GNU/Gpl 2+
+License: GPL-2.0+
 Group: System/Benchmark
-Source: %{name}.tar.gz
+Source: %{name}-%{version}.tar.bz2
+#Source1: GNUmakefile
+#Source2: make-tcf
+#Source3: %{name}.8
+#Source4: %{name}.changes
+#Source5: test_%{name}-run
 BuildRequires: make
 Requires: cram
 Requires: qa_lib_ctcs2
 Requires: qa_tools
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
-
+BuildArch: noarch
 
 %description
-Testsuite containing set of files used for testing a %name packaged into CTCS2.
+Testsuite containing set of files used for testing %{name} packaged into CTCS2.
 
 %prep
-%setup -n %name
+%setup -q -n %{name}
 
 %build
 make
@@ -50,3 +55,4 @@ make install DESTDIR=%{buildroot}
 /usr/share/qa/tcf
 /usr/share/qa/tools
 
+%changelog

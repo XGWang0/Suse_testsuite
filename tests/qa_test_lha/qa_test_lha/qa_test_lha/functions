@@ -1,0 +1,5 @@
+mydd()
+{
+  dd status=noxfer if=/dev/urandom bs=512 $@
+}
+
