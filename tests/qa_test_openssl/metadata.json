@@ -9,7 +9,9 @@
   "product": "openssl",
   "fate": null,
   "bnc": null,
-  "updated_at": "2016-02-04 07:29:38 UTC",
+  "updated_at": "2016-09-27 08:00:25 UTC",
+  "nodes": null,
+  "incompatible": null,
   "tags": [
     "userspace"
   ]
