@@ -4,7 +4,7 @@
   "description": "\nTest cases for openssl package.",
   "status": "ready",
   "maintainer": "osukup@suse.com",
-  "rpm": "qa_test_openssl-%{Ver}-0.noarch.rpm",
+  "rpm": "qa_test_openssl-%{Ver}-%{Release}.noarch.rpm",
   "arch": "noarch",
   "product": "openssl",
   "fate": null,

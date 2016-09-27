@@ -17,10 +17,16 @@
 
 
 %define qa_location %{_datadir}/qa/qa_test_openssl
+
 %if 0%{?suse_version} < 1120
 %define Ver 0.9.8j
 %else
+%if 0%{?sle_version} == 120100 
 %define Ver 1.0.1i
+%endif
+%if 0%{?sle_version} == 120200
+%define Ver 1.0.2h
+%endif
 %endif
 
 Name:           qa_test_openssl
@@ -58,7 +64,8 @@ Requires:       perl
 Provides:       qa_openssl
 Obsoletes:      qa_openssl
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-#BuildArch:      noarch
+#everytime is noarch
+BuildArch:      noarch
 
 %description
 Test cases for openssl package.
@@ -69,7 +76,7 @@ echo -en "#!/bin/bash\napp=\"/usr/share/qa/qa_test_openssl/apps/openssl\"\nif [ 
 chmod +x ./ctcs2_run_test.sh
 
 # fix the perl invocations
-sed -i -e 's:%{_prefix}/local/bin/perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
+sed -i -e 's:/usr/local/bin/perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 
 %patch0 -p1
@@ -78,22 +85,23 @@ sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 %patch1 -p1
 %endif
 
+%if 0%{?sle_version} == 120200
+%patch5 -p1
+%endif
+
 cat test/Makefile | grep ^test_ | awk -F ':' '{print $1}' | awk -F ' ' '{print $1}' | sort > ./ctcs2_test_list
 
 # Fix missing define
 sed -i -e 's:#include <openssl/sha.h>:#include <openssl/sha.h>\n#define OPENSSL_PIC:' test/rc4test.c
+
 # TODO -- is for openssl-1.0.1q
 #sed -i -e 's:#include <openssl/ssl.h>:#include <openssl/ssl.h>\n# define SSL3_HM_HEADER_LENGTH                   4:' ssl/clienthellotest.c
 
 %build
 cd test
 make %{?_smp_mflags}
-
-%check
-cd test
 make tests -j1
 make clean -j1
-
 
 %install
 install -m 755 -d %{buildroot}%{_mandir}/man8
