@@ -1,0 +1,10 @@
+#!/bin/sh
+
+CTCS2_DIR=/usr/lib/ctcs2
+TCF_DIR=/usr/share/qa/tcf
+
+name=${0##*/}
+name=${name#test_}
+name=${name%-run}
+
+$CTCS2_DIR/tools/run $TCF_DIR/qa_$name.tcf
