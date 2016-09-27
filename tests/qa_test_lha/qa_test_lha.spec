@@ -17,7 +17,7 @@
 
 Name: qa_test_lha
 Version: 0.8
-Release: 4
+Release: 0
 Summary: Testsuite for lha package containing CLI tests.
 License: GPL-2.0+
 Group: System/Benchmark
