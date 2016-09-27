@@ -21,7 +21,7 @@
 %if 0%{?suse_version} < 1120
 %define Ver 0.9.8j
 %else
-%if 0%{?sle_version} == 120100 
+%if 0%{?sle_version} <= 120100 
 %define Ver 1.0.1i
 %endif
 %if 0%{?sle_version} == 120200
