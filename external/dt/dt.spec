@@ -1,20 +1,32 @@
 #
-# spec file for package dt (Version 0.21)
+# spec file for package dt
 #
+# Copyright (c) 2016 SUSE LINUX GmbH, Nuernberg, Germany.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
 
 Name:           dt
-Version:        17.25
-Release:        1
-License:        BSD-2-Clause
+Version:        18.32
+Release:        0
 Summary:        Generic data test program
-Url:            http://home.comcast.net/~SCSIguy/SCSI_FAQ/RMiller_Tools/dt.html
-Group:          Hardware/Other
-Source:         dt-source.tar.bz2
-Source1:        dt.man
-Source2:        dt.8
+License:        BSD-3-Clause
+Group:          System/Filesystems
+Url:            http://www.scsifaq.org/RMiller_Tools/dt.html
+Source:         http://dl.dropboxusercontent.com/u/32363629/Datatest/dt-source-v%{version}.tar.gz
+Patch0:         dt-manpage.patch
+Patch1:         dt-wformat-security.patch
+Patch2:         dt-default-source-define.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -25,44 +37,31 @@ and then verifys its default data pattern, then displays performance
 statisics and other test parameters before exiting.  Since verification
 of data is performed, dt can be thought of as a generic diagnostic tool.
 
-%package doc
-License:        BSD-2-Clause
-Summary:        Documentation for dt
-Group:          Documentation
-Requires:       dt = %{version}
-
-%description doc
-This package provide user documentation for dt.
-
 %prep
-%setup -n dt-%{version}
+%setup -q -n dt.v%{version}
+%patch0
+%patch1
+%patch2
 
 %build
-make PORG="%{optflags}" -f Makefile.linux
+export CFLAGS="%{optflags} -I.. -DAIO -DFIFO -DMMAP -D__linux__ -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -DTHREADS -DSCSI"
+export LDFLAGS="-Wl,--no-undefined -Wl,-z,now"
+mkdir build
+cd build
+make %{?_smp_mflags} CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" -f ../Makefile.linux VPATH=.. OS=linux
 
 %install
-install -m 755 -d %{buildroot}%{_mandir}/man8
-install -m 644 %{SOURCE2} %{buildroot}%{_mandir}/man8
-gzip %{buildroot}%{_mandir}/man8/%{name}.8
-install -d %{buildroot}/%{_bindir}
-install -m 755 dt %{buildroot}/%{_bindir}
-install -d %{buildroot}/%{_mandir}/man1
-install -m 644 %{SOURCE1} %{buildroot}/%{_mandir}/man1/dt.1
-install -d %{buildroot}/%{_docdir}/%{name}/examples
-install -m 755 Scripts/DiskTests.ksh %{buildroot}%{_docdir}/%{name}/examples
-install -m 644 Documentation/{dt-UsersGuide.htm,dt-UsersGuide.pdf,dt-UseCases.pdf} %{buildroot}%{_docdir}/%{name}
+install -d -m 0755 %{buildroot}%{_datadir}/%{name}
+install -D -p -m 0755 build/dt %{buildroot}/%{_bindir}/dt
+install -D -p -m 0644 Documentation/dt.man  %{buildroot}/%{_mandir}/man1/dt.1
+install -p -m 0755 Scripts/dt? %{buildroot}%{_datadir}/%{name}
+install -p -m 0644 data/pattern_* %{buildroot}%{_datadir}/%{name}
 
 %files
-%defattr(-, root, root)
-%{_mandir}/man8/dt.8.gz
-%attr(755,root,root) %{_bindir}/dt
-%doc %{_mandir}/man1/dt.1.gz
+%defattr(-,root,root,-)
+%doc LICENSE
+%{_bindir}/dt
+%{_datadir}/%{name}
+%{_mandir}/man1/dt.1%{ext_man}
 
-%files doc
-%defattr(-, root, root)
-%dir %{_docdir}/%{name}
-%dir %{_docdir}/%{name}/examples
-%doc %{_docdir}/%{name}/dt-UsersGuide.htm
-%doc %{_docdir}/%{name}/dt-UsersGuide.pdf
-%doc %{_docdir}/%{name}/dt-UseCases.pdf
-%doc %{_docdir}/%{name}/examples/DiskTests.ksh
+%changelog
