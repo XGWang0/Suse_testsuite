@@ -1,0 +1,31 @@
+From ebfb34503c7928368043182a2ac7750e805c4911 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis@suse.cz>
+Date: Wed, 5 Oct 2016 12:17:40 +0200
+Subject: [PATCH] du01.sh: Fix failures on Btrfs on ppc32le
+
+The ppc32le has 64k pagesize and due to Btrfs internal implementation
+details the size of a symlink is reported to be a pagesize large. Hence
+the test assertions 5 and 6 fails because the reported size is sligtly
+larger.
+
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ testcases/commands/du/du01.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/testcases/commands/du/du01.sh b/testcases/commands/du/du01.sh
+index df0fea9..a0e3017 100755
+--- a/testcases/commands/du/du01.sh
++++ b/testcases/commands/du/du01.sh
+@@ -89,7 +89,7 @@ block_size=512
+ check1="10[2-3][0-9][0-9][[:space:]]\."
+ check2="10[2-3][0-9][0-9][[:space:]]testfile"
+ check3="[0-4][[:space:]]\.\/testdir\/testsymlink"
+-check5="20[4-5][0-9][0-9][[:space:]]\."
++check5="20[4-6][0-9][0-9][[:space:]]\."
+ check7="10[4-5][0-9][0-9]\{4\}[[:space:]]\."
+ check9="10[2-3][0-9][0-9][[:space:]]total"
+ check11="10[2-3][0-9][0-9][[:space:]]testdir\/testsymlink"
+-- 
+2.7.3
+

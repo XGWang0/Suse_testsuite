@@ -104,6 +104,7 @@ Patch101:	disable-min_free_kbytes.patch
 # Patches 5xx Workarounds
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+Patch700:	0001-du01.sh-Fix-failures-on-Btrfs-on-ppc32le.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -141,6 +142,7 @@ Authors:
 # Patches 5xx Workarounds
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
+%patch700 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
