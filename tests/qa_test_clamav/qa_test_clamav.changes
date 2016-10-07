@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Oct  7 10:52:14 UTC 2016 - mpluskal@suse.com
+
+- Cleanup spec file with spec-cleaner
+
+-------------------------------------------------------------------
 Mon Nov 30 13:31:52 CEST 2015 - asemen@suse.com
 - fixed not build by removing error in changelog
 
