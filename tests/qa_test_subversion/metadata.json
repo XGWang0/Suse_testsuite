@@ -3,7 +3,7 @@
   "summary": "Simple subversion tests for ctcs framework",
   "description": "\nTest cases for subversion\nAuthors:\n--------\nQAM team <qa-maintenance@suse.de>",
   "status": "ready",
-  "maintainer": "jmatejka@suse.cz",
+  "maintainer": "mpluskal@suse.cz",
   "rpm": "qa_test_subversion-0.1.2-1.noarch.rpm",
   "arch": "noarch",
   "product": "subversion",
