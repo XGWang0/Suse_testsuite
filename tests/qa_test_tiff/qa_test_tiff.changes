@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Oct  7 10:34:56 UTC 2016 - mpluskal@suse.com
+
+- Cleanup spec file with spec-cleaner
+- Correctly spell SUSE
+
+-------------------------------------------------------------------
 Tue May  7 16:53:55 UTC 2013 - tchvatal@suse.com
 
 - Add ctcs to requires so it gets installed on machines where

@@ -1,7 +1,8 @@
-diff -urN -burN qa_test_tiff-4.0.0beta7/common.sh qa_test_tiff-4.0.0beta7.new/common.sh
---- qa_test_tiff-4.0.0beta7/common.sh	2011-11-09 11:56:34.000000000 +0100
-+++ qa_test_tiff-4.0.0beta7.new/common.sh	2011-11-10 11:31:58.837740863 +0100
-@@ -65,6 +65,12 @@
+Index: common.sh
+===================================================================
+--- common.sh.orig
++++ common.sh
+@@ -65,6 +65,12 @@ f_test_convert ()
    command=$1
    infile=$2
    outfile=$3
