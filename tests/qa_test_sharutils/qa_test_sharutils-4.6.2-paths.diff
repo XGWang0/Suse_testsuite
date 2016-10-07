@@ -1,7 +1,8 @@
-diff -Naur upstream_tests/tests/shar-1 upstream_tests.new/tests/shar-1
---- upstream_tests/tests/shar-1	2005-11-06 21:26:05.000000000 +0100
-+++ upstream_tests.new/tests/shar-1	2006-07-25 15:13:35.000000000 +0200
-@@ -12,9 +12,9 @@
+Index: upstream_tests/tests/shar-1
+===================================================================
+--- upstream_tests/tests/shar-1.orig
++++ upstream_tests/tests/shar-1
+@@ -12,9 +12,9 @@ outf=${tmpfile}.outf
  
  trap "rm -fr shar-1.in ${tmpfile}.*" 1 2 3 15
  
@@ -13,7 +14,7 @@ diff -Naur upstream_tests/tests/shar-1 upstream_tests.new/tests/shar-1
  
  ${SHAR} -f $current_dir/${inf} > ${sharf} 2> /dev/null || exit 1
  
-@@ -30,11 +30,11 @@
+@@ -30,11 +30,11 @@ sed -e 's/^# Made on.*/# Made on .../' \
  ${sharf} > ${outf} 2> /dev/null
  
  : ${DIFF=diff}
@@ -27,10 +28,11 @@ diff -Naur upstream_tests/tests/shar-1 upstream_tests.new/tests/shar-1
  mv -f ${inf} ${outf}
  
  res=`${UNSHAR} ${sharf} 2>&1` || {
-diff -Naur upstream_tests/tests/shar-2 upstream_tests.new/tests/shar-2
---- upstream_tests/tests/shar-2	2005-11-05 18:21:35.000000000 +0100
-+++ upstream_tests.new/tests/shar-2	2006-07-24 22:15:10.000000000 +0200
-@@ -20,8 +20,8 @@
+Index: upstream_tests/tests/shar-2
+===================================================================
+--- upstream_tests/tests/shar-2.orig
++++ upstream_tests/tests/shar-2
+@@ -20,8 +20,8 @@ do
    exec 3>&-
  done
  
@@ -41,10 +43,11 @@ diff -Naur upstream_tests/tests/shar-2 upstream_tests.new/tests/shar-2
  (cd ${tmppfx}.d ; ${SHAR} -m . 2>/dev/null) > ${tmppfx}.shar
  
  : ${DIFF=diff}
-diff -Naur upstream_tests/tests/shar-3 upstream_tests.new/tests/shar-3
---- upstream_tests/tests/shar-3	2005-11-11 02:04:58.000000000 +0100
-+++ upstream_tests.new/tests/shar-3	2006-07-24 22:16:49.000000000 +0200
-@@ -10,8 +10,8 @@
+Index: upstream_tests/tests/shar-3
+===================================================================
+--- upstream_tests/tests/shar-3.orig
++++ upstream_tests/tests/shar-3
+@@ -10,8 +10,8 @@ rm -rf ${testdir}
  opts="-S -o ${testdir}/${testname}-%04d.shar"
  opts="${opts} -L32 -n ${testname}-test -s ${testname} -z"
  
