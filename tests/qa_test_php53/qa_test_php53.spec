@@ -15,7 +15,7 @@ Name:           qa_test_php53
 %define qa_location /usr/share/qa/qa_test_php53
 %define qa_server_location /srv/www/htdocs/php53-tests
 Version:        5.3.26
-Release:        1
+Release:        2
 License:        PHP
 Group:          System/Packages
 AutoReqProv:    on
@@ -30,6 +30,7 @@ Source4:	test_php53-server-run
 Source5:	expected_fail.list
 Source6:	source_skipped.list
 Patch0:		server-test-config.patch
+Patch1:		bug60227.patch
 BuildArch:      noarch
 Provides:	qa_test_php5
 Obsoletes:	qa_test_php5
@@ -124,6 +125,7 @@ find . -name *win32* | xargs rm
 find . -name *.phpt|grep -vf %{S:5}|grep -vf %{S:6}|sort > ./ctcs2_test_order
 
 %patch0 -p1
+%patch1 -p0
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
@@ -199,6 +201,8 @@ done > %{qa_location}/tcf/qa_php53-server.tcf
 %{qa_location}/server-tests.php
 
 %changelog
+* Fri Oct 07 2016 - vcuadradojuan@suse.de
+  Add patch1 for bug60227 testcase
 * Tue Nov 22 2011 - jtang@suse.com
 - Rename 
 * Tue Nov 08 2011 - jtang@suse.com
