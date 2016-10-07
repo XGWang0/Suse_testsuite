@@ -19,7 +19,7 @@
 %define qa_location %{_datadir}/qa/qa_test_php53
 %define qa_server_location /srv/www/htdocs/php53-tests
 Name:           qa_test_php53
-Version:        5.3.26
+Version:        5.3.29
 Release:        0
 Summary:        PHP5 test suite
 License:        PHP
@@ -33,7 +33,6 @@ Source4:        test_php53-server-run
 Source5:        expected_fail.list
 Source6:        source_skipped.list
 Patch0:         server-test-config.patch
-Patch1:         bug60227.patch
 Requires:       ctcs2
 Requires:       mysql
 Requires:       php53 >= 5.3.0
@@ -126,7 +125,6 @@ find . -name *win32* | xargs rm
 find . -name *.phpt|grep -vf %{SOURCE5}|grep -vf %{SOURCE6}|sort > ./ctcs2_test_order
 
 %patch0 -p1
-%patch1
 
 %install
 install -m 755 -d %{buildroot}%{_mandir}/man8
