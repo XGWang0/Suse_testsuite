@@ -9,7 +9,9 @@
   "product": "subversion",
   "fate": null,
   "bnc": null,
-  "updated_at": "2016-02-04 07:30:41 UTC",
+  "updated_at": "2016-10-07 13:00:29 UTC",
+  "nodes": null,
+  "incompatible": null,
   "tags": [
 
   ]
