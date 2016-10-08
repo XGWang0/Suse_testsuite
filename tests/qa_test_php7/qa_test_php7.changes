@@ -1,0 +1,6 @@
+-------------------------------------------------------------------
+Sat Oct  8 08:44:53 UTC 2016 - mpluskal@suse.com
+
+- Initial package for version 7.0.11
+  * patches:
+    + server-test-config.patch
