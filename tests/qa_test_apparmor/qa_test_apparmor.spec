@@ -102,6 +102,16 @@ install -d -m 0755 $RPM_BUILD_ROOT/%{qa_dir}/tcf
 install -d -m 0755 $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf
 mv $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf/qa_apparmor-%{version}.tcf $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf/qa_apparmor.tcf
+
+%ifarch x86_64
+cat <<END >> $RPM_BUILD_ROOT/%{qa_dir}/%{name}/tcf/qa_apparmor.tcf
+
+timer 1800
+fg 1 ptrace /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/ptrace.sh"
+wait
+END
+%endif
+
 ln -s ../%{name}/tcf/qa_apparmor.tcf $RPM_BUILD_ROOT/%{qa_dir}/tcf/qa_apparmor.tcf
 
 

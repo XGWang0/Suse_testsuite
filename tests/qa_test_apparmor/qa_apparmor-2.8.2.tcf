@@ -2,10 +2,6 @@ timer 1800
 fg 1 xattrs /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/xattrs.sh"
 wait
 
-timer 1800
-fg 1 ptrace /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/ptrace.sh"
-wait
-
 #timer 1800
 #fg 1 swap /usr/share/qa/qa_test_apparmor/wrapper.sh "tests/regression/apparmor/swap.sh"
 #wait
