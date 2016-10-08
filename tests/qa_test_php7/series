@@ -1,0 +1,6 @@
+# Patch series file for quilt, created by quilt setup
+# Source: php-5.3.26.tar.bz2
+# Patchdir: .
+#
+server-test-config.patch
+bug60227.patch -p0
