@@ -88,7 +88,7 @@ AutoReqProv:    on
 Summary:        The Linux Test Project
 Packager:	Cyril Hrubis chrubis@suse.cz
 Version:        20160920
-Release:        1
+Release:        2
 Source:         ltp-full-%{version}.tar.bz2
 # CTCS2 Glue
 Source1:        ctcstools-%{version}.tar.bz2
@@ -105,6 +105,8 @@ Patch101:	disable-min_free_kbytes.patch
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 Patch700:	0001-du01.sh-Fix-failures-on-Btrfs-on-ppc32le.patch
+Patch701:	0001-rtc-Display-errno-where-applicable.patch
+Patch702:	0001-device-drivers-rtc-handle-EINVAL-on-RTC_ALM_READ.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -143,6 +145,8 @@ Authors:
 # Patches 6xx Realtime related changes
 # Patches 7xx Real Bug Fixes from Upstream (e.g. backported patches)
 %patch700 -p1
+%patch701 -p1
+%patch702 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1

@@ -1,0 +1,43 @@
+From b73f5281664ff5b2ac623a9dd5958397de1c71ee Mon Sep 17 00:00:00 2001
+From: Richard Palethorpe <rpalethorpe@suse.com>
+Date: Fri, 30 Sep 2016 16:42:06 +0200
+Subject: [PATCH] device-drivers/rtc: handle EINVAL on RTC_ALM_READ
+
+Report TCONF result after RTC_ALM_READ fails with EINVAL and skip
+displaying the alarm time when this happens.
+
+Signed-off-by: Richard Palethorpe <rpalethorpe@suse.com>
+Acked-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ testcases/kernel/device-drivers/rtc/rtc01.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/testcases/kernel/device-drivers/rtc/rtc01.c b/testcases/kernel/device-drivers/rtc/rtc01.c
+index 7f9bc07..b3c7e1d 100644
+--- a/testcases/kernel/device-drivers/rtc/rtc01.c
++++ b/testcases/kernel/device-drivers/rtc/rtc01.c
+@@ -108,12 +108,17 @@ void read_alarm_test(void)
+ 	/*Read current alarm time */
+ 	ret = ioctl(rtc_fd, RTC_ALM_READ, &rtc_tm);
+ 	if (ret == -1) {
+-		tst_resm(TFAIL | TERRNO, "RTC_ALM_READ ioctl failed");
+-		return;
++		if (errno == EINVAL) {
++			tst_resm(TCONF | TERRNO, "RTC_ALM_READ not suported");
++		} else {
++			tst_resm(TFAIL | TERRNO, "RTC_ALM_READ ioctl failed");
++			return;
++		}
++	} else {
++		tst_resm(TINFO, "Alarm time set to %02d:%02d:%02d.",
++			 rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
+ 	}
+ 
+-	tst_resm(TINFO, "Alarm time set to %02d:%02d:%02d.",
+-		 rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
+ 	/* Enable alarm interrupts */
+ 	ret = ioctl(rtc_fd, RTC_AIE_ON, 0);
+ 	if (ret == -1) {
+-- 
+2.10.0
+
