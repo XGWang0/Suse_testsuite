@@ -23,6 +23,14 @@ Release:        1
 Source:         qa_test_systemd-1.tar.bz2
 Source1:        test_systemd-run
 Source2:        qa_test_systemd.8
+
+# Patches 1xx Compiler warnings and workarounds
+# Patches 2xx Build Environment Patches
+# Patches 3xx RPMLinit Warning Fixes
+# Patches 4xx Real Bug Fixes (from internal)
+Patch401:	bsc#997867_remove_nfs-config_in_service_list.patch
+# Patches 5xx Workarounds
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -31,6 +39,12 @@ We designed 2 test points for systemd service as first step, the automation is i
 
 %prep
 %setup
+# Patches 1xx Compiler warnings and workarounds
+# Patches 2xx Build Environment Patches
+# Patches 3xx RPMLinit Warning Fixes
+# Patches 4xx Real Bug Fixes (from internal)
+%patch401 -p1
+# Patches 5xx Workarounds
 
 %build
 blacklist="|numad|openct|"

@@ -1,0 +1,10 @@
+--- a/services	2016-04-12 05:21:18.000000000 +0200
++++ b/services	2016-10-10 15:54:00.244650294 +0200
+@@ -28,7 +28,6 @@
+ mysql
+ nfs
+ nfs-blkmap
+-nfs-config
+ nfs-idmapd
+ nfs-mountd
+ nfsserver
