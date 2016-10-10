@@ -3,7 +3,7 @@
   "summary": "libcgroup automated testsuite",
   "description": "\nlibcgroup automated testsuite\nIncludes:\nlibcgroup upstream tests",
   "status": "ready",
-  "maintainer": "None",
+  "maintainer": "mpluskal@suse.cz",
   "rpm": "qa_test_libcgroup-1.0-1.noarch.rpm",
   "arch": "noarch",
   "product": "libcgroup",
