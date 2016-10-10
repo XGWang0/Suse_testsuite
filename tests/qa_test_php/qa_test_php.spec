@@ -24,7 +24,7 @@
 %define php php5
 %define ver 5.2.14
 %endif
-%if 0%{?suse_version} == 1320
+%if 0%{?suse_version} == 1315
 %define php php
 %define ver 7.0.3
 %endif
@@ -47,7 +47,7 @@ Requires:       ctcs2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 #Obsoletes:	qa_php5
-%if 0%{?suse_version} == 1320
+%if 0%{?suse_version} == 1315
 Requires:       mysql
 Requires:       php7 >= 7.0.3
 Requires:       php7-bcmath
@@ -72,7 +72,7 @@ Requires:       php7-wddx
 Requires:       php7-xsl
 Requires:       php7-zip
 %endif
-%if 0%{?suse_version} < 1320
+%if 0%{?suse_version} < 1315
 Requires:       mysql
 Requires:       php5 >= 5.0.0
 Requires:       php5-bcmath
@@ -116,8 +116,7 @@ etc).
 %package server
 Summary:        PHP test suite
 License:        Other uncritical OpenSource License
-# FIXME: use correct group, see "https://en.opensuse.org/openSUSE:Package_group_guidelines"
-Group:          System/Paearch_for_tests $php_dirsearch_for_tests $php_dirkages
+Group:          System/Packages
 Requires:       %{name} = %{version}
 Requires:       apache2-mod_php7
 
@@ -236,5 +235,4 @@ done > %{qa_location}/tcf/qa_php-server.tcf
 %{qa_location}/server-tests-config.php
 %{qa_location}/server-tests.php
 
-%changelog
 %changelog
