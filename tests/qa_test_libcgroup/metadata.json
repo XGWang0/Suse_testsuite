@@ -9,7 +9,9 @@
   "product": "libcgroup",
   "fate": null,
   "bnc": null,
-  "updated_at": "2016-02-04 07:28:13 UTC",
+  "updated_at": "2016-10-11 06:00:21 UTC",
+  "nodes": null,
+  "incompatible": null,
   "tags": [
 
   ]
