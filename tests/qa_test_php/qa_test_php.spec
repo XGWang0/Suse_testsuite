@@ -1,73 +1,108 @@
 #
-# spec file for package qa_php5 (Version 5.2.6)
+# spec file for package qa_test_php
 #
-# Copyright (c) 2013 SUSE LINUX Products GmbH, Nuernberg, Germany.
-# This file and all modifications and additions to the pristine
-# package are under the same license as the package itself.
+# Copyright (c) 2016 SUSE LINUX GmbH, Nuernberg, Germany.
 #
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
-# norootforbuild
-
-
-Name:           qa_test_php
 
 %define php php5
 %define ver 5.5.9
-
+%define qa_location %{_datadir}/qa/qa_test_php
+%define qa_server_location /srv/www/htdocs/php-tests
 %if 0%{?suse_version} < 1130
 %define php php5
 %define ver 5.2.14
 %endif
-
-%if 0%{?suse_version} == 1320
+%if 0%{?suse_version} == 1315
 %define php php
 %define ver 7.0.3
 %endif
-
-%define qa_location /usr/share/qa/qa_test_php
-%define qa_server_location /srv/www/htdocs/php-tests
-
+Name:           qa_test_php
 Version:        %{ver}
-Release:        1
+Release:        0
+Summary:        PHP test suite
 License:        PHP
 Group:          System/Packages
-AutoReqProv:    on
 Url:            http://www.php.net
-BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Summary:        PHP test suite
 Source0:        php-%{version}.tar.bz2
 Source1:        test_php-run
-Source2:	qa_test_php.8
-Source3:	apache2-php-prepare.sh
-Source4:	test_php-server-run
-Patch0:		server-test-config-%{ver}.patch
-Patch1:		syntax_fix.patch
-BuildArch:      noarch
-
-
+Source2:        qa_test_php.8
+Source3:        apache2-php-prepare.sh
+Source4:        test_php-server-run
+Patch0:         server-test-config-%{ver}.patch
+Patch1:         syntax_fix.patch
 #Provides:	qa_php5
 Requires:       ctcs2
-
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+BuildArch:      noarch
 #Obsoletes:	qa_php5
-
-%if 0%{?suse_version} == 1320
-
-Requires: php7 >= 7.0.3 php7-wddx php7-ctype php7-mbstring php7-bz2 php7-bcmath php7-exif php7-gd php7-gettext php7-gmp php7-mcrypt php7-shmop php7-sysvshm php7-sysvsem php7-zip php7-iconv php7-tokenizer php7-dom php7-soap php7-sysvmsg php7-xsl php7-mysql mysql
-
+%if 0%{?suse_version} == 1315
+Requires:       mysql
+Requires:       php7 >= 7.0.3
+Requires:       php7-bcmath
+Requires:       php7-bz2
+Requires:       php7-ctype
+Requires:       php7-dom
+Requires:       php7-exif
+Requires:       php7-gd
+Requires:       php7-gettext
+Requires:       php7-gmp
+Requires:       php7-iconv
+Requires:       php7-mbstring
+Requires:       php7-mcrypt
+Requires:       php7-mysql
+Requires:       php7-shmop
+Requires:       php7-soap
+Requires:       php7-sysvmsg
+Requires:       php7-sysvsem
+Requires:       php7-sysvshm
+Requires:       php7-tokenizer
+Requires:       php7-wddx
+Requires:       php7-xsl
+Requires:       php7-zip
 %endif
-
-
-%if 0%{?suse_version} < 1320
-Requires:       php5 >= 5.0.0 php5-wddx php5-ctype php5-mbstring php5-bz2 php5-bcmath php5-ctype php5-exif php5-gd php5-gettext php5-gmp php5-mcrypt php5-shmop php5-sysvshm php5-sysvsem php5-zlib php5-calendar php5-iconv php5-tokenizer php5-dom php5-soap mysql php5-sysvmsg php5-xsl php5-mysql 
+%if 0%{?suse_version} < 1315
+Requires:       mysql
+Requires:       php5 >= 5.0.0
+Requires:       php5-bcmath
+Requires:       php5-bz2
+Requires:       php5-calendar
+Requires:       php5-ctype
+Requires:       php5-dom
+Requires:       php5-exif
+Requires:       php5-gd
+Requires:       php5-gettext
+Requires:       php5-gmp
+Requires:       php5-iconv
+Requires:       php5-mbstring
+Requires:       php5-mcrypt
+Requires:       php5-mysql
+Requires:       php5-shmop
+Requires:       php5-soap
+Requires:       php5-sysvmsg
+Requires:       php5-sysvsem
+Requires:       php5-sysvshm
+Requires:       php5-tokenizer
+Requires:       php5-wddx
+Requires:       php5-xsl
+Requires:       php5-zlib
 %endif
-
-%if %suse_version <= 1030
-Requires:       php5-mhash php5-dbase
+%if 0%{?suse_version} <= 1030
+Requires:       php5-dbase
+Requires:       php5-mhash
 %endif
-
-%if %suse_version <= 1130
+%if 0%{?suse_version} <= 1130
 Requires:       php5-sqlite
 %endif
 
@@ -78,25 +113,12 @@ oriented language constructs (classes, etc), basic functions tests
 (strlen, "function" construct, etc), php extensions (java, mbstring,
 etc).
 
-
-
-Authors:
---------
-    Andrei Zmievski <andrei@ispi.net>
-    Danny Heijl <Danny.Heijl@cevi.be>
-    Frank M. Kromann <fmk@swwwing.com>
-    Rasmus Lerdorf <rasmus@php.net>
-    Sam Ruby <rubys@us.ibm.com>
-    Sascha Schumann <sascha@schumann.cx>
-    Stefan Roehrich <sr@linux.de>
-    Thies C. Arntzen <thies@digicol.de>
-    Uwe Steinmann <steinm@php.net>
-
 %package server
-License:        Other uncritical OpenSource License
 Summary:        PHP test suite
-Group:          System/Paearch_for_tests $php_dirsearch_for_tests $php_dirkages
-Requires:       %{name} = %{version} apache2-mod_php7
+License:        Other uncritical OpenSource License
+Group:          System/Packages
+Requires:       %{name} = %{version}
+Requires:       apache2-mod_%{php}
 
 %description server
 This package contains wide range of PHP5 tests. These tests include
@@ -105,24 +127,10 @@ oriented language constructs (classes, etc), basic functions tests
 (strlen, "function" construct, etc), php extensions (java, mbstring,
 etc).
 
-
-
-Authors:
---------
-    Andrei Zmievski <andrei@ispi.net>
-    Danny Heijl <Danny.Heijl@cevi.be>
-    Frank M. Kromann <fmk@swwwing.com>
-    Rasmus Lerdorf <rasmus@php.net>
-    Sam Ruby <rubys@us.ibm.com>
-    Sascha Schumann <sascha@schumann.cx>
-    Stefan Roehrich <sr@linux.de>
-    Thies C. Arntzen <thies@digicol.de>
-    Uwe Steinmann <steinm@php.net>
-
 %prep
-%setup -n php-%{version} -q
+%setup -q -n php-%{version}
 
-%if %suse_version <= 1130
+%if 0%{?suse_version} <= 1130
 %patch1 -p1
 %endif
 cd ..
@@ -160,34 +168,31 @@ find . -name *.phpt |sort > ./ctcs2_test_order
 %patch0 -p1
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 %{S:2} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
+install -m 755 -d %{buildroot}%{_mandir}/man8
+install -m 644 %{SOURCE2} %{buildroot}%{_mandir}/man8
+gzip %{buildroot}%{_mandir}/man8/%{name}.8
 cd ..
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}
-install -m 755 %{S:3} $RPM_BUILD_ROOT%{qa_location}
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_server_location}
+install -d -m 0755 %{buildroot}%{qa_location}
+install -m 755 %{SOURCE3} %{buildroot}%{qa_location}
+install -d -m 0755 %{buildroot}%{qa_server_location}
 
-cp php.gif $RPM_BUILD_ROOT/%{qa_location}
-cp run-tests.php $RPM_BUILD_ROOT/%{qa_location}
-cp ctcs2_test_order $RPM_BUILD_ROOT/%{qa_location}
-cp server-tests.php $RPM_BUILD_ROOT/%{qa_location}
-cp server-tests-config.php $RPM_BUILD_ROOT/%{qa_location}
-cp -r ext sapi tests Zend $RPM_BUILD_ROOT/%{qa_location}
-cp -r ext sapi tests Zend $RPM_BUILD_ROOT/%{qa_server_location}
+cp php.gif %{buildroot}/%{qa_location}
+cp run-tests.php %{buildroot}/%{qa_location}
+cp ctcs2_test_order %{buildroot}/%{qa_location}
+cp server-tests.php %{buildroot}/%{qa_location}
+cp server-tests-config.php %{buildroot}/%{qa_location}
+cp -r ext sapi tests Zend %{buildroot}/%{qa_location}
+cp -r ext sapi tests Zend %{buildroot}/%{qa_server_location}
 
-install -d -m 0755 $RPM_BUILD_ROOT%{qa_location}/tcf
-install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tcf
-install -d -m 0755 $RPM_BUILD_ROOT/usr/share/qa/tools
-touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php.tcf
-touch $RPM_BUILD_ROOT%{qa_location}/tcf/qa_php-server.tcf
-ln -s ../qa_test_php/tcf/qa_php.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-ln -s ../qa_test_php/tcf/qa_php-server.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-install -m 755 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 %{S:4} $RPM_BUILD_ROOT/usr/share/qa/tools
-
-%clean
-rm -rvf $RPM_BUILD_ROOT
+install -d -m 0755 %{buildroot}%{qa_location}/tcf
+install -d -m 0755 %{buildroot}%{_datadir}/qa/tcf
+install -d -m 0755 %{buildroot}%{_datadir}/qa/tools
+touch %{buildroot}%{qa_location}/tcf/qa_php.tcf
+touch %{buildroot}%{qa_location}/tcf/qa_php-server.tcf
+ln -s ../qa_test_php/tcf/qa_php.tcf %{buildroot}%{_datadir}/qa/tcf/
+ln -s ../qa_test_php/tcf/qa_php-server.tcf %{buildroot}%{_datadir}/qa/tcf/
+install -m 755 %{SOURCE1} %{buildroot}%{_datadir}/qa/tools
+install -m 755 %{SOURCE4} %{buildroot}%{_datadir}/qa/tools
 
 %post
 TEST_ENV="TEST_PHP_EXECUTABLE=%{_bindir}/%{php} REPORT_EXIT_STATUS=1 TEST_PHP_SRCDIR=%{qa_location} TEST_PHP_DETAILED=1 NO_INTERACTION=1"
@@ -195,7 +200,7 @@ TEST_ENV="TEST_PHP_EXECUTABLE=%{_bindir}/%{php} REPORT_EXIT_STATUS=1 TEST_PHP_SR
 cat -n %{qa_location}/ctcs2_test_order | grep -v '[0-9]*[ ]*#' | while read test_num line; do
     echo "timer 300"
     echo -en "fg 1 "
-    printf PHPTEST%%0.4d $test_num 
+    printf PHPTEST%%0.4d $test_num
     echo -en " env $TEST_ENV %{_bindir}/%{php} -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/run-tests.php %{qa_location}/$line \n"
     echo -en "wait\n\n"
 done > %{qa_location}/tcf/qa_php.tcf
@@ -204,19 +209,19 @@ done > %{qa_location}/tcf/qa_php.tcf
 cat -n %{qa_location}/ctcs2_test_order | grep -v '[0-9]*[ ]*#' | while read test_num line; do
     echo "timer 300"
     echo -en "fg 1 "
-    printf PHPSERVER%%0.4d $test_num 
+    printf PHPSERVER%%0.4d $test_num
     echo -en " %{_bindir}/%{php} -d 'open_basedir=' -d 'output_buffering=0' -d 'memory_limit=-1' %{qa_location}/server-tests.php -c %{qa_location}/server-tests-config.php -d %{qa_location}/$line \n"
     echo -en "wait\n\n"
 done > %{qa_location}/tcf/qa_php-server.tcf
 
 %files
 %defattr(-, root, root)
-/usr/share/man/man8/qa_test_php.8.gz
-/usr/share/qa/
-/usr/share/qa/tcf/qa_php.tcf
-/usr/share/qa/tools
-%exclude /usr/share/qa/tools/test_php-server-run
-%exclude /usr/share/qa/tcf/qa_php-server.tcf
+%{_mandir}/man8/qa_test_php.8%{ext_man}
+%{_datadir}/qa/
+%{_datadir}/qa/tcf/qa_php.tcf
+%{_datadir}/qa/tools
+%exclude %{_datadir}/qa/tools/test_php-server-run
+%exclude %{_datadir}/qa/tcf/qa_php-server.tcf
 %exclude %{qa_location}/tcf/qa_php-server.tcf
 %exclude %{qa_location}/server-tests-config.php
 %exclude %{qa_location}/server-tests.php
@@ -224,37 +229,10 @@ done > %{qa_location}/tcf/qa_php-server.tcf
 %files server
 %defattr(-, root, root)
 %{qa_server_location}
-/usr/share/qa/tools/test_php-server-run
-/usr/share/qa/tcf/qa_php-server.tcf
+%{_datadir}/qa/tools/test_php-server-run
+%{_datadir}/qa/tcf/qa_php-server.tcf
 %{qa_location}/tcf/qa_php-server.tcf
 %{qa_location}/server-tests-config.php
 %{qa_location}/server-tests.php
 
 %changelog
-* Wed Aug 17 2011 - llipavsky@suse.cz
-- Remove qa_dummy dependency
-* Wed Aug 10 2011 - llipavsky@suse.cz
-- Package rename: qa_php5 -> qa_test_php5
-* Mon Aug 04 2008 ro@suse.de
-- drop mhash requires for >= 11.0
-* Thu Jan 10 2008 mmrazik@suse.cz
-- start apache2 automaticaly before running the tests
-* Wed Nov 08 2006 mmrazik@suse.cz
-- build failures fixed (removed executable permission for some txt files)
-* Thu Oct 19 2006 ro@suse.de
-- drop php5-mysqli from requires (does not exist)
-* Thu Jun 22 2006 ro@suse.de
-- remove selfprovides
-* Wed Feb 01 2006 mmrazik@suse.cz
-- php 5.1.2 upgrade
-- php5 CLI test support
-* Wed Jan 25 2006 mls@suse.de
-- converted neededforbuild to BuildRequires
-* Wed Jan 18 2006 mmrazik@suse.cz
-- fixed tcf location (updated QA Packaging Guidelines)
-- created run-script (/usr/share/qa/tools/test_php5-run)
-* Mon Jan 09 2006 mmrazik@suse.cz
-- fixed dependencies
- - fixed environment for some tests (moving some files to /srv/www/htdocs/...)
-* Thu Jan 05 2006 mmrazik@suse.cz
-- initial release
