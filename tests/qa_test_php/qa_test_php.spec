@@ -118,7 +118,7 @@ Summary:        PHP test suite
 License:        Other uncritical OpenSource License
 Group:          System/Packages
 Requires:       %{name} = %{version}
-Requires:       apache2-mod_php7
+Requires:       apache2-mod_%{php}
 
 %description server
 This package contains wide range of PHP5 tests. These tests include
