@@ -12,7 +12,7 @@ echo "Provided macs by sshd binary: $macs"
 
 # List of basic ciphers and macs provided by Marcus Meissner in bsc#1001917
 # The list should be compatible with SLE11 (but not GCM ciphers) and SLE12
-ciphers_list="aes128-cbc aes192-cbc aes256-cbc rijndael-cbc@lysator.liu.se aes128-ctr aes192-ctr aes256-ctr aes128-gcm@openssh.com aes256-gcm@openssh.com" 
+ciphers_list="aes128-ctr aes192-ctr aes256-ctr aes128-gcm@openssh.com aes256-gcm@openssh.com" 
 macs_list="hmac-sha1 hmac-sha2-256 hmac-sha2-512 hmac-sha1-etm@openssh.com hmac-sha2-256-etm@openssh.com hmac-sha2-512-etm@openssh.com"
 
 for c in $ciphers_list; do
