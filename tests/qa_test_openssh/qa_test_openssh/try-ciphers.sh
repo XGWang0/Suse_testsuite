@@ -3,11 +3,31 @@
 
 tid="try ciphers"
 
-ciphers="aes128-cbc 3des-cbc blowfish-cbc cast128-cbc 
-	arcfour128 arcfour256 arcfour 
-	aes192-cbc aes256-cbc rijndael-cbc@lysator.liu.se
-	aes128-ctr aes192-ctr aes256-ctr"
-macs="hmac-sha1 hmac-md5 hmac-sha1-96 hmac-md5-96"
+# Asking sshd binary for supported ciphers and macs
+ciphers=$(sudo /usr/sbin/sshd -T | sed -n 's/^ciphers[[:blank:]]*\(.*\)/\1/p' | sed 's/,/ /g')
+macs=$(sudo /usr/sbin/sshd -T | sed -n 's/^macs[[:blank:]]*\(.*\)/\1/p' | sed 's/,/ /g')
+
+echo "Provided ciphers by sshd binary: $ciphers"
+echo "Provided macs by sshd binary: $macs"
+
+# List of basic ciphers and macs provided by Marcus Meissner in bsc#1001917
+# The list should be compatible with SLE11 (but not GCM ciphers) and SLE12
+ciphers_list="aes128-ctr aes192-ctr aes256-ctr aes128-gcm@openssh.com aes256-gcm@openssh.com" 
+macs_list="hmac-sha1 hmac-sha2-256 hmac-sha2-512 hmac-sha1-etm@openssh.com hmac-sha2-256-etm@openssh.com hmac-sha2-512-etm@openssh.com"
+
+for c in $ciphers_list; do
+  echo $ciphers | grep -q $c
+  if [ $? -ne 0 ]; then
+    fail "FAILURE: Cipher $c not supported by sshd binary"
+  fi
+done
+
+for m in $macs_list; do
+  echo $macs | grep -q $m
+  if [ $? -ne 0 ]; then
+    fail "FAILURE: Mac $m not supported by sshd binary"
+  fi
+done
 
 for c in $ciphers; do
 	for m in $macs; do
