@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Oct  7 14:26:20 UTC 2016 - mpluskal@suse.com
+
+- Cleanup spec file with spec-cleaner
+
+-------------------------------------------------------------------
 Wed Jan 22 10:37:15 UTC 2014 - jli@suse.com
 
 -Add version of the judgment in uude-1 test
