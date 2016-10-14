@@ -16,6 +16,9 @@
 #
 
 %define qa_location %{_datadir}/qa/%{name}
+# This is ugly hack, to make build satisfied 
+# It complains about missing libc, since there are some binary data in test directory
+Autoreqprov:    off
 Name:           qa_test_sharutils
 Version:        4.6.2
 Release:        0
