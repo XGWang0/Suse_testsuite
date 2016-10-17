@@ -4,5 +4,16 @@
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 
+fips_enabled=$(sysctl -n crypto.fips_enabled)
+cd /usr/share/qa
+if [[ $fips_enabled -eq 1 ]] && [[ ! -d qa_test_openssh-orig ]]; then
+    cp --preserve=all -r qa_test_openssh qa_test_openssh-orig
+    cd qa_test_openssh
+    patch -p4 < fips-patchset.patch
+elif [[ $fips_enabled -ne 1 ]] && [[ -d qa_test_openssh-orig ]]; then
+    rm -rf qa_test_openssh
+    mv qa_test_openssh-orig qa_test_openssh
+fi
+
 cd $CTCS2_DIR
 tools/run $TCF_DIR/qa_openssh.tcf

@@ -17,12 +17,13 @@ Provides:	qa_openssh
 Obsoletes:	qa_openssh
 Requires:       mktemp ctcs2 
 Version:        0.2
-Release:        1
+Release:        0
 Summary:        (rd-)qa internal package for openssh testing
 Source0:        %{name}-%{version}.tar.bz2
 Source1:        qa_openssh.tcf
 Source2:        test_openssh-run
-Source3:	qa_test_openssh.8
+Source3:        qa_test_openssh.8
+Source4:        fips-patchset.patch
 BuildRoot:      %{_tmppath}/%{name}-build
 BuildArch:      noarch
 
@@ -50,6 +51,7 @@ install -m 755 -d -v $RPM_BUILD_ROOT/usr/share/qa/tools
 install -m 755 -d -v $RPM_BUILD_ROOT/usr/share/qa/tcf
 install -m 644 %{S:1} -v $RPM_BUILD_ROOT/usr/share/qa/%{name}/tcf
 install -m 755 %{S:2} -v $RPM_BUILD_ROOT/usr/share/qa/tools
+install -m 644 %{S:4} -v $RPM_BUILD_ROOT/usr/share/qa/%{name}
 cp -v * $RPM_BUILD_ROOT/usr/share/qa/%{name}/
 ln -s ../%{name}/tcf/qa_openssh.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
 
