@@ -1,0 +1,62 @@
+--- qa_test_systemd-1/check-service.sh.bak	2016-10-21 14:13:46.744557851 +0800
++++ qa_test_systemd-1/check-service.sh	2016-10-21 14:38:16.847541328 +0800
+@@ -18,6 +18,21 @@
+ }
+ 
+ 
++# Get the load status of a service, especially to check "masked" status
++# Params:
++#   $1 - Service name
++# Output: masked/loaded
++# Return: Return 0 on success;
++function get_load_status()
++{
++    local service="$1"
++    local load_line=$(systemctl status ${service} | egrep '^\s*Loaded:')
++    local load_words=($load_line)
++    echo "${load_words[1]}"
++    return 0
++}
++
++
+ # start/restart/stop a service and check its status
+ # Params:
+ #   $1 - Service name
+@@ -65,14 +80,25 @@
+ function check_service
+ {
+     local service=$1
++    local pre_action=""
+     local action=""
+     local post_action=""
++    local last_action=""
+     local expected=""
+     local status=$(get_status "$service")
+     if [[ $? -ne 0 ]]; then
+         echo "[FAIL] Failed to get service status" >&2
+         exit 1
+     fi
++    local load_status=$(get_load_status "$service")
++
++    #check if service is masked, unmask it before test it; mask it back after test
++    case "$load_status" in
++        'masked')
++            pre_action="unmask"
++            last_action="mask"
++            ;;
++    esac
+ 
+     case "$status" in
+         'active')
+@@ -93,9 +119,11 @@
+             ;;
+     esac
+     echo "service $service: $status"
++    [[ -n "$pre_action" ]] && control_service "$service" "$pre_action"
+     [[ -n "$action" ]] && control_service "$service" "$action"
+     assert_status "$service" "$expected"
+     [[ -n "$post_action" ]] && control_service "$service" "$post_action"
++    [[ -n "$last_action" ]] && control_service "$service" "$last_action"
+ }
+ 
+ 

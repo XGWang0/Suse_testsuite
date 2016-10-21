@@ -30,6 +30,7 @@ Source2:        qa_test_systemd.8
 # Patches 4xx Real Bug Fixes (from internal)
 Patch401:	bsc#997867_remove_nfs-config_in_service_list.patch
 # Patches 5xx Workarounds
+Patch501:       bsc#1003843_adapt_systemd_to_test_masked_service.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
@@ -45,6 +46,7 @@ We designed 2 test points for systemd service as first step, the automation is i
 # Patches 4xx Real Bug Fixes (from internal)
 %patch401 -p1
 # Patches 5xx Workarounds
+%patch501 -p1
 
 %build
 blacklist="|numad|openct|"
