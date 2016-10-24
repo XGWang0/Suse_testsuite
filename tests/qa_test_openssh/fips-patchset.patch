@@ -1,0 +1,356 @@
+diff -Naur a/qa_test_openssh-0.2s/sut/src/agent.sh b/qa_test_openssh-0.2s/agent.sh
+--- a/qa_test_openssh-0.2s/sut/src/agent.sh	2015-11-25 15:41:48.000000000 +0100
++++ b/qa_test_openssh-0.2s/sut/src/agent.sh	2015-11-26 10:46:48.874232552 +0100
+@@ -20,7 +20,7 @@
+ 	fi
+ 	trace "overwrite authorized keys"
+ 	echon > $OBJ/authorized_keys_$USER
+-	for t in rsa rsa1; do
++	for t in rsa ecdsa; do
+ 		# generate user key for agent
+ 		rm -f $OBJ/$t-agent
+ 		${SSHKEYGEN} -q -N '' -t $t -f $OBJ/$t-agent ||\
+@@ -44,7 +44,7 @@
+ 	fi
+ 
+ 	trace "simple connect via agent"
+-	for p in 1 2; do
++	for p in 2; do
+ 		${SSH} -$p -F $OBJ/ssh_proxy somehost exit 5$p
+ 		if [ $? -ne 5$p ]; then
+ 			fail "ssh connect with protocol $p failed (exit code $?)"
+@@ -52,7 +52,7 @@
+ 	done
+ 
+ 	trace "agent forwarding"
+-	for p in 1 2; do
++	for p in 2; do
+ 		${SSH} -A -$p -F $OBJ/ssh_proxy somehost ${SSHADD} -l > /dev/null 2>&1
+ 		if [ $? -ne 0 ]; then
+ 			fail "ssh-add -l via agent fwd proto $p failed (exit code $?)"
+diff -Naur a/qa_test_openssh-0.2s/sut/src/agent-timeout.sh b/qa_test_openssh-0.2s/agent-timeout.sh
+--- a/qa_test_openssh-0.2s/sut/src/agent-timeout.sh	2015-11-25 15:41:48.000000000 +0100
++++ b/qa_test_openssh-0.2s/sut/src/agent-timeout.sh	2015-11-26 10:49:03.966232552 +0100
+@@ -12,7 +12,7 @@
+ 	fail "could not start ssh-agent: exit code $r"
+ else
+ 	trace "add keys with timeout"
+-	for t in rsa rsa1; do
++	for t in rsa ecdsa; do
+ 		${SSHADD} -t ${SSHAGENT_TIMEOUT} $OBJ/$t > /dev/null 2>&1
+ 		if [ $? -ne 0 ]; then
+ 			fail "ssh-add did succeed exit code 0"
+diff -Naur a/qa_test_openssh-0.2s/sut/src/cfgmatch.sh b/qa_test_openssh-0.2s/cfgmatch.sh
+--- a/qa_test_openssh-0.2s/sut/src/cfgmatch.sh	2015-11-25 15:41:48.000000000 +0100
++++ b/qa_test_openssh-0.2s/sut/src/cfgmatch.sh	2015-11-26 11:21:59.702232552 +0100
+@@ -31,7 +31,7 @@
+ #set -x
+ 
+ # Test Match + PermitOpen in sshd_config.  This should be permitted
+-for p in 1 2; do
++for p in 2; do
+ 	rm -f $pidfile
+ 	trace "match permitopen localhost proto $p"
+ 	${SSH} -$p $fwd -F $OBJ/ssh_config -f somehost \
+@@ -44,7 +44,7 @@
+ done
+ 
+ # Same but from different source.  This should not be permitted
+-for p in 1 2; do
++for p in 2; do
+ 	rm -f $pidfile
+ 	trace "match permitopen proxy proto $p"
+ 	${SSH} -q -$p $fwd -F $OBJ/ssh_proxy -f somehost \
+@@ -59,9 +59,7 @@
+ # Retry previous with key option, should also be denied.
+ echo -n 'permitopen="127.0.0.1:'$PORT'" ' >$OBJ/authorized_keys_$USER
+ cat $OBJ/rsa.pub >> $OBJ/authorized_keys_$USER
+-echo -n 'permitopen="127.0.0.1:'$PORT'" ' >>$OBJ/authorized_keys_$USER
+-cat $OBJ/rsa1.pub >> $OBJ/authorized_keys_$USER
+-for p in 1 2; do
++for p in 2; do
+ 	rm -f $pidfile
+ 	trace "match permitopen proxy w/key opts proto $p"
+ 	${SSH} -q -$p $fwd -F $OBJ/ssh_proxy -f somehost \
+@@ -75,7 +73,7 @@
+ 
+ # Test both sshd_config and key options permitting the same dst/port pair.
+ # Should be permitted.
+-for p in 1 2; do
++for p in 2; do
+ 	rm -f $pidfile
+ 	trace "match permitopen localhost proto $p"
+ 	${SSH} -$p $fwd -F $OBJ/ssh_config -f somehost \
+@@ -93,7 +91,7 @@
+ echo "PermitOpen 127.0.0.1:1 127.0.0.1:2" >>$OBJ/sshd_proxy
+ 
+ # Test that a Match overrides a PermitOpen in the global section
+-for p in 1 2; do
++for p in 2; do
+ 	rm -f $pidfile
+ 	trace "match permitopen proxy w/key opts proto $p"
+ 	${SSH} -q -$p $fwd -F $OBJ/ssh_proxy -f somehost \
+diff -Naur a/qa_test_openssh-0.2s/sut/src/connect-privsep.sh b/qa_test_openssh-0.2s/connect-privsep.sh
+--- a/qa_test_openssh-0.2s/sut/src/connect-privsep.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/connect-privsep.sh	2015-11-26 10:53:45.318232552 +0100
+@@ -5,7 +5,7 @@
+ 
+ echo 'UsePrivilegeSeparation yes' >> $OBJ/sshd_proxy
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	${SSH} -$p -F $OBJ/ssh_proxy 999.999.999.999 true
+ 	if [ $? -ne 0 ]; then
+ 		fail "ssh privsep+proxyconnect protocol $p failed"
+diff -Naur a/qa_test_openssh-0.2s/sut/src/connect.sh b/qa_test_openssh-0.2s/connect.sh
+--- a/qa_test_openssh-0.2s/sut/src/connect.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/connect.sh	2015-11-26 10:54:02.170232552 +0100
+@@ -5,7 +5,7 @@
+ 
+ start_sshd
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	${SSH} -o "Protocol=$p" -F $OBJ/ssh_config somehost true
+ 	if [ $? -ne 0 ]; then
+ 		fail "ssh connect with protocol $p failed"
+diff -Naur a/qa_test_openssh-0.2s/sut/src/dynamic-forward.sh b/qa_test_openssh-0.2s/dynamic-forward.sh
+--- a/qa_test_openssh-0.2s/sut/src/dynamic-forward.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/dynamic-forward.sh	2015-11-26 10:54:29.082232552 +0100
+@@ -19,7 +19,7 @@
+ 
+ start_sshd
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	trace "start dynamic forwarding, fork to background"
+ 	${SSH} -$p -F $OBJ/ssh_config -f -D $FWDPORT -q somehost \
+ 		exec sh -c \'"echo \$\$ > $OBJ/remote_pid; exec sleep 444"\'
+diff -Naur a/qa_test_openssh-0.2s/sut/src/exit-status.sh b/qa_test_openssh-0.2s/exit-status.sh
+--- a/qa_test_openssh-0.2s/sut/src/exit-status.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/exit-status.sh	2015-11-26 10:54:46.734232552 +0100
+@@ -3,7 +3,7 @@
+ 
+ tid="remote exit status"
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	for s in 0 1 4 5 44; do
+ 		trace "proto $p status $s"
+ 		verbose "test $tid: proto $p status $s"
+diff -Naur a/qa_test_openssh-0.2s/sut/src/forcecommand.sh b/qa_test_openssh-0.2s/forcecommand.sh
+--- a/qa_test_openssh-0.2s/sut/src/forcecommand.sh	2015-11-25 15:41:48.000000000 +0100
++++ b/qa_test_openssh-0.2s/sut/src/forcecommand.sh	2015-11-26 11:21:11.010232552 +0100
+@@ -7,10 +7,8 @@
+ 
+ echon 'command="true" ' >$OBJ/authorized_keys_$USER
+ cat $OBJ/rsa.pub >> $OBJ/authorized_keys_$USER
+-echon 'command="true" ' >>$OBJ/authorized_keys_$USER
+-cat $OBJ/rsa1.pub >> $OBJ/authorized_keys_$USER
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	trace "forced command in key option proto $p"
+ 	${SSH} -$p -F $OBJ/ssh_proxy somehost false \ ||
+ 	    fail "forced command in key proto $p"
+@@ -18,13 +16,11 @@
+ 
+ echon 'command="false" ' >$OBJ/authorized_keys_$USER
+ cat $OBJ/rsa.pub >> $OBJ/authorized_keys_$USER
+-echon 'command="false" ' >>$OBJ/authorized_keys_$USER
+-cat $OBJ/rsa1.pub >> $OBJ/authorized_keys_$USER
+ 
+ cp $OBJ/sshd_proxy_bak $OBJ/sshd_proxy
+ echo "ForceCommand true" >> $OBJ/sshd_proxy
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	trace "forced command in sshd_config overrides key option proto $p"
+ 	${SSH} -$p -F $OBJ/ssh_proxy somehost false \ ||
+ 	    fail "forced command in key proto $p"
+@@ -35,7 +31,7 @@
+ echo "Match User $USER" >> $OBJ/sshd_proxy
+ echo "    ForceCommand true" >> $OBJ/sshd_proxy
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	trace "forced command with match proto $p"
+ 	${SSH} -$p -F $OBJ/ssh_proxy somehost false \ ||
+ 	    fail "forced command in key proto $p"
+diff -Naur a/qa_test_openssh-0.2s/sut/src/forwarding.sh b/qa_test_openssh-0.2s/forwarding.sh
+--- a/qa_test_openssh-0.2s/sut/src/forwarding.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/forwarding.sh	2015-11-26 11:13:53.638232552 +0100
+@@ -19,13 +19,12 @@
+ 		last=$a
+ 	done
+ done
+-for p in 1 2; do
+-	q=`expr 3 - $p`
++for p in 2; do
+ 	trace "start forwarding, fork to background"
+ 	${SSH} -$p -F $OBJ/ssh_config -f $fwd somehost sleep 10
+ 
+ 	trace "transfer over forwarded channels and check result"
+-	${SSH} -$q -F $OBJ/ssh_config -p$last -o 'ConnectionAttempts=4' \
++	${SSH} -$p -F $OBJ/ssh_config -p$last -o 'ConnectionAttempts=4' \
+ 		somehost cat $DATA > $OBJ/ls.copy
+ 	test -f $OBJ/ls.copy			|| fail "failed copy $DATA"
+ 	cmp $DATA $OBJ/ls.copy			|| fail "corrupted copy of $DATA"
+@@ -33,7 +32,7 @@
+ 	sleep 10
+ done
+ 
+-for p in 1 2; do
++for p in 2; do
+ for d in L R; do
+ 	trace "exit on -$d forward failure, proto $p"
+ 
+@@ -63,7 +62,7 @@
+ done
+ done
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	trace "simple clear forwarding proto $p"
+ 	${SSH} -$p -F $OBJ/ssh_config -oClearAllForwardings=yes somehost true
+ 
+diff -Naur a/qa_test_openssh-0.2s/sut/src/keygen-change.sh b/qa_test_openssh-0.2s/keygen-change.sh
+--- a/qa_test_openssh-0.2s/sut/src/keygen-change.sh	2015-11-25 15:41:48.000000000 +0100
++++ b/qa_test_openssh-0.2s/sut/src/keygen-change.sh	2015-11-26 10:57:42.046232552 +0100
+@@ -6,7 +6,7 @@
+ S1="secret1"
+ S2="2secret"
+ 
+-for t in rsa dsa rsa1; do
++for t in rsa ecdsa; do
+ 	# generate user key for agent
+ 	trace "generating $t key"
+ 	rm -f $OBJ/$t-key
+diff -Naur a/qa_test_openssh-0.2s/sut/src/keyscan.sh b/qa_test_openssh-0.2s/keyscan.sh
+--- a/qa_test_openssh-0.2s/sut/src/keyscan.sh	2015-11-25 15:41:48.000000000 +0100
++++ b/qa_test_openssh-0.2s/sut/src/keyscan.sh	2015-11-26 11:22:22.042232552 +0100
+@@ -8,7 +8,7 @@
+ 
+ start_sshd
+ 
+-for t in rsa1 rsa dsa; do
++for t in rsa dsa; do
+ 	trace "keyscan type $t"
+ 	${SSHKEYSCAN} -t $t -p $PORT 127.0.0.1 127.0.0.1 127.0.0.1 \
+ 		> /dev/null 2>&1
+diff -Naur a/qa_test_openssh-0.2s/sut/src/proxy-connect.sh b/qa_test_openssh-0.2s/proxy-connect.sh
+--- a/qa_test_openssh-0.2s/sut/src/proxy-connect.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/proxy-connect.sh	2015-11-26 11:00:24.398232552 +0100
+@@ -3,7 +3,7 @@
+ 
+ tid="proxy connect"
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	${SSH} -$p -F $OBJ/ssh_proxy 999.999.999.999 true
+ 	if [ $? -ne 0 ]; then
+ 		fail "ssh proxyconnect protocol $p failed"
+diff -Naur a/qa_test_openssh-0.2s/sut/src/reconfigure.sh b/qa_test_openssh-0.2s/reconfigure.sh
+--- a/qa_test_openssh-0.2s/sut/src/reconfigure.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/reconfigure.sh	2015-11-26 11:00:36.662232552 +0100
+@@ -28,7 +28,7 @@
+ 
+ test -f $PIDFILE || fatal "sshd did not restart"
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	${SSH} -o "Protocol=$p" -F $OBJ/ssh_config somehost true
+ 	if [ $? -ne 0 ]; then
+ 		fail "ssh connect with protocol $p failed after reconfigure"
+diff -Naur a/qa_test_openssh-0.2s/sut/src/reexec.sh b/qa_test_openssh-0.2s/reexec.sh
+--- a/qa_test_openssh-0.2s/sut/src/reexec.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/reexec.sh	2015-11-26 16:03:02.676769971 +0100
+@@ -21,14 +21,14 @@
+ copy_tests ()
+ {
+ 	rm -f ${COPY}
+-	for p in 1 2; do
++	for p in 2; do
+ 		verbose "$tid: proto $p"
+ 		${SSH} -nqo "Protocol=$p" -F $OBJ/ssh_config somehost \
+ 		    cat ${DATA} > ${COPY}
+ 		if [ $? -ne 0 ]; then
+ 			fail "ssh cat $DATA failed"
+ 		fi
+-		cmp ${DATA} ${COPY}		|| fail "corrupted copy"
++		cmp ${DATA} ${COPY} || fail "corrupted copy"
+ 		rm -f ${COPY}
+ 	done
+ }
+diff -Naur a/qa_test_openssh-0.2s/sut/src/stderr-data.sh b/qa_test_openssh-0.2s/stderr-data.sh
+--- a/qa_test_openssh-0.2s/sut/src/stderr-data.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/stderr-data.sh	2015-11-26 11:01:23.130232552 +0100
+@@ -8,7 +8,7 @@
+ rm -f ${COPY}
+ 
+ for n in '' -n; do
+-for p in 1 2; do
++for p in 2; do
+ 	verbose "test $tid: proto $p ($n)"
+ 	${SSH} $n -$p -F $OBJ/ssh_proxy otherhost \
+ 		exec sh -c \'"exec > /dev/null; sleep 3; cat ${DATA} 1>&2 $s"\' \
+diff -Naur a/qa_test_openssh-0.2s/sut/src/test-exec.sh b/qa_test_openssh-0.2s/test-exec.sh
+--- a/qa_test_openssh-0.2s/sut/src/test-exec.sh	2015-11-25 15:41:48.000000000 +0100
++++ b/qa_test_openssh-0.2s/sut/src/test-exec.sh	2015-11-26 10:41:40.914232552 +0100
+@@ -247,10 +247,10 @@
+ rm -f $OBJ/known_hosts $OBJ/authorized_keys_$USER
+ 
+ trace "generate keys"
+-for t in rsa rsa1; do
++for t in rsa ecdsa; do
+ 	# generate user key
+ 	rm -f $OBJ/$t
+-	${SSHKEYGEN} -b 1024 -q -N '' -t $t  -f $OBJ/$t ||\
++	${SSHKEYGEN} -q -N '' -t $t  -f $OBJ/$t ||\
+ 		fail "ssh-keygen for $t failed"
+ 
+ 	# known hosts file for client
+diff -Naur a/qa_test_openssh-0.2s/sut/src/transfer.sh b/qa_test_openssh-0.2s/transfer.sh
+--- a/qa_test_openssh-0.2s/sut/src/transfer.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/transfer.sh	2015-11-26 11:01:39.550232552 +0100
+@@ -6,7 +6,7 @@
+ DATA=/bin/ls${EXEEXT}
+ COPY=${OBJ}/copy
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	verbose "$tid: proto $p"
+ 	rm -f ${COPY}
+ 	${SSH} -n -q -$p -F $OBJ/ssh_proxy somehost cat ${DATA} > ${COPY}
+diff -Naur a/qa_test_openssh-0.2s/sut/src/try-ciphers.sh b/qa_test_openssh-0.2s/try-ciphers.sh
+--- a/qa_test_openssh-0.2s/sut/src/try-ciphers.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/try-ciphers.sh	2015-11-26 16:04:09.227126975 +0100
+@@ -40,16 +40,6 @@
+ 	done
+ done
+ 
+-ciphers="3des blowfish"
+-for c in $ciphers; do
+-	trace "proto 1 cipher $c"
+-	verbose "test $tid: proto 1 cipher $c"
+-	${SSH} -F $OBJ/ssh_proxy -1 -c $c somehost true
+-	if [ $? -ne 0 ]; then
+-		fail "ssh -1 failed with cipher $c"
+-	fi
+-done
+-
+ if ${SSH} -oCiphers=acss@openssh.org 2>&1 | grep "Bad SSH2 cipher" >/dev/null
+ then
+ 	:
+diff -Naur a/qa_test_openssh-0.2s/sut/src/yes-head.sh b/qa_test_openssh-0.2s/yes-head.sh
+--- a/qa_test_openssh-0.2s/sut/src/yes-head.sh	2015-06-29 14:55:47.000000000 +0200
++++ b/qa_test_openssh-0.2s/sut/src/yes-head.sh	2015-11-26 11:08:11.794232552 +0100
+@@ -3,7 +3,7 @@
+ 
+ tid="yes pipe head"
+ 
+-for p in 1 2; do
++for p in 2; do
+ 	lines=`${SSH} -$p -F $OBJ/ssh_proxy thishost 'sh -c "while true;do echo yes;done | _POSIX2_VERSION=199209 head -2000"' | (sleep 3 ; wc -l)`
+ 	if [ $? -ne 0 ]; then
+ 		fail "yes|head test failed"
