@@ -325,21 +325,7 @@ diff -Naur a/qa_test_openssh-0.2s/sut/src/transfer.sh b/qa_test_openssh-0.2s/tra
 diff -Naur a/qa_test_openssh-0.2s/sut/src/try-ciphers.sh b/qa_test_openssh-0.2s/try-ciphers.sh
 --- a/qa_test_openssh-0.2s/sut/src/try-ciphers.sh	2015-06-29 14:55:47.000000000 +0200
 +++ b/qa_test_openssh-0.2s/sut/src/try-ciphers.sh	2015-11-26 16:04:09.227126975 +0100
-@@ -3,11 +3,10 @@
- 
- tid="try ciphers"
- 
--ciphers="aes128-cbc 3des-cbc blowfish-cbc cast128-cbc 
--	arcfour128 arcfour256 arcfour 
-+ciphers="aes128-cbc 3des-cbc 
- 	aes192-cbc aes256-cbc rijndael-cbc@lysator.liu.se
- 	aes128-ctr aes192-ctr aes256-ctr"
--macs="hmac-sha1 hmac-md5 hmac-sha1-96 hmac-md5-96"
-+macs="hmac-sha1"
- 
- for c in $ciphers; do
- 	for m in $macs; do
-@@ -20,16 +19,6 @@
+@@ -40,16 +40,6 @@
  	done
  done
  
