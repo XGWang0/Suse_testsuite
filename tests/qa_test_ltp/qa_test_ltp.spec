@@ -107,6 +107,7 @@ Patch101:	disable-min_free_kbytes.patch
 Patch700:	0001-du01.sh-Fix-failures-on-Btrfs-on-ppc32le.patch
 Patch701:	0001-rtc-Display-errno-where-applicable.patch
 Patch702:	0001-device-drivers-rtc-handle-EINVAL-on-RTC_ALM_READ.patch
+Patch703:	0001-readahead02-estimate-max-readahead-size.patch
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 Patch900:       add-fsstress.patch
@@ -147,6 +148,7 @@ Authors:
 %patch700 -p1
 %patch701 -p1
 %patch702 -p1
+%patch703 -p1
 # Patches 8xx CTCS2 related changes
 # Patches 9xx LTP runtest control file modifications
 %patch900 -p1
