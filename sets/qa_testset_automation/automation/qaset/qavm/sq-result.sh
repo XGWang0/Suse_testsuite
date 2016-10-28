@@ -87,6 +87,8 @@ function sq_qadb_update_system_infomation {
         systemctl list-units > /var/log/qa/ctcs2/${name}/systemctl-list-units.txt
         head /proc/sys/vm/dirty* > /var/log/qa/ctcs2/${name}/vm-dirty-parameter.txt
         find  /sys/block/sd*/ -type f -readable -exec head -v {} \; 2>/dev/null > /var/log/qa/ctcs2/${name}/block-sysfs-parameter.txt
+        find  /sys/block/sd*/device/*  -maxdepth 0 -type f -readable -exec head -v {} \; 2>/dev/null >> /var/log/qa/ctcs2/${name}/block-sysfs-parameter.txt
+
 
 	#tenv.txt introduce by New compare framework
         env | grep "^_QASET" > /var/log/qa/ctcs2/${name}/tenv.tmp
