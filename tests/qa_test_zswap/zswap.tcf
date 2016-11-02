@@ -1,0 +1,7 @@
+timer 1200
+fg 1 zbud /usr/share/qa/qa_test_zswap/zbud.py
+wait
+
+timer 1200
+fg 1 zsmalloc /usr/share/qa/qa_test_zswap/zsmalloc.py
+wait
