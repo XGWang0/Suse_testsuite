@@ -1,0 +1,18 @@
+{
+  "name": "qa_test_zswap",
+  "summary": "zswap testsuite",
+  "description": "\nTestsuite for zswap. Zswap is a Linux kernel feature providing a compressed write-back cache for swapped pages. Instead of moving memory pages to a swap device when they are to be swapped out, zswap performs their compression and then stores them into a memory pool dynamically allocated inside system's RAM.",
+  "status": "ready",
+  "maintainer": "jtzhao@suse.com",
+  "rpm": "qa_test_zswap-1.0-0.noarch.rpm",
+  "arch": "noarch",
+  "product": "zswap",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-11-02 10:00:17 UTC",
+  "nodes": null,
+  "incompatible": null,
+  "tags": [
+
+  ]
+}
