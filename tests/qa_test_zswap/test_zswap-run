@@ -1,4 +1,6 @@
 #!/bin/bash
+easy_install-2.7 pexpect
+
 CTCS2_DIR=/usr/lib/ctcs2
 TCF_DIR=/usr/share/qa/tcf
 

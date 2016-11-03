@@ -24,7 +24,7 @@ Group:          SuSE internal
 Source:         %{name}-%{version}.tar.xz
 Source1:        zswap.tcf
 Source2:        test_zswap-run
-BuildRequires:  gcc
+BuildRequires:  gcc python-setuptools
 Requires:       python-setuptools
 Provides:       qa_zswap
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -46,9 +46,6 @@ install -m 755 -d $RPM_BUILD_ROOT%{_datadir}/qa/tcf
 ln -s ../%{name}/tcf/zswap.tcf $RPM_BUILD_ROOT%{_datadir}/qa/tcf/
 install -m 755 -d $RPM_BUILD_ROOT%{_datadir}/qa/tools
 install -m 755 %{S:2} $RPM_BUILD_ROOT%{_datadir}/qa/tools
-
-%post
-easy_install-2.7 pexpect
 
 %preun
 rm -f %{_datadir}/qa/%{name}/*.pyc %{_datadir}/qa/%{name}/*.pyo
