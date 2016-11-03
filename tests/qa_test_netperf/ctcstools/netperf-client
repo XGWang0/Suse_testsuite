@@ -77,6 +77,6 @@ if test $? -ne 0; then
     exit 3
 fi
 
-echo "netperf -l 60 -H ${PEER_IP} -t ${STREAM_TYPE} -i 20,2 -I 99,3"
-netperf -l 60 -H ${PEER_IP} -t ${STREAM_TYPE} -i 20,2 -I 99,3
+echo "netperf -l 60 -H ${PEER_IP} -t ${STREAM_TYPE} -i 20,5 -I 99,3"
+netperf -l 60 -H ${PEER_IP} -t ${STREAM_TYPE} -i 20,5 -I 99,3
 exit $?
