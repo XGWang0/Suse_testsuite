@@ -3,6 +3,7 @@ SQ_TEST_RUN_LIST=(
     libhugetlbfs
     ftpload
     lmbench
+    zswap
     memeat
     memtester
     lvm2_2_02_120

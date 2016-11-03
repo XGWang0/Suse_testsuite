@@ -31,6 +31,7 @@ SQ_TEST_RUN_LIST=(
     libhugetlbfs
     ftpload
     lmbench
+    zswap
     memeat
     memtester
     ltp
