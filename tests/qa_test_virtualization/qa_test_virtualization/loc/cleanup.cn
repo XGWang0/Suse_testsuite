@@ -24,15 +24,11 @@
 #
 
 
-MOUNT_DIR1="/MOUNT-VIRT"
-MOUNT_DIR2="/VIRT-ISO"
-MOUNT_DIR3="/VIRT-ISO2"
+MOUNT_DIR="/VIRT-ISO"
 
 # Temporal disable - can break the connection
 #echo "Killing processes that still access $MOUNT_DIR (if any)..." >&2
 #fuser -km $MOUNT_DIR
 
-umount $MOUNT_DIR1 
-umount $MOUNT_DIR2
-umount $MOUNT_DIR3
+umount $MOUNT_DIR
 
