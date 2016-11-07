@@ -25,10 +25,12 @@
 
 
 #MOUNT_DIR="/MOUNT-VIRT"
+MOUNT_DIR="/mnt"
+
 #
 #echo "Killing processes that still access $MOUNT_DIR (if any)..." >&2
 #fuser -km $MOUNT_DIR
 #
-#umount $MOUNT_DIR
+umount $MOUNT_DIR
 
 
