@@ -25,12 +25,16 @@
 
 
 #MOUNT_DIR="/MOUNT-VIRT"
-#
-#if [ -e $MOUNT_DIR -a "`ls $MOUNT_DIR | wc -l`" -gt 0 ] ; then
-#	echo "Error: Directory $MOUNT_DIR already exist and is nonempty. Terminating..."
-#	exit 11
-#fi
-#
+MOUNT_DIR="/mnt"
+
+if [ -e $MOUNT_DIR -a "`ls $MOUNT_DIR | wc -l`" -gt 0 ] ; then
+	echo "Error: Directory $MOUNT_DIR already exist and is nonempty. Terminating..."
+	exit 11
+fi
+
+getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
+MOUNT=`$getSettings iso_nfs.mount`
 #mkdir -p $MOUNT_DIR && mount -t nfs -oro fallback.suse.cz:/dist $MOUNT_DIR
+mkdir -p $MOUNT_DIR && mount -t nfs -oro $MOUNT $MOUNT_DIR
 
 
