@@ -22,19 +22,20 @@
 # WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
 # ****************************************************************************
 #
+#
+#
+MOUNT_DIR="/VIRT-ISO"
 
-
-MOUNT_DIR="/MOUNT-VIRT"
-MOUNT_DIR2="/MOUNT-VIRT2"
-
-if [ -d "$MOUNT_DIR" -a -n "`ls -A $MOUNT_DIR`" ] ||  [ -d "$MOUNT_DIR2" -a -n "`ls -A $MOUNT_DIR2`" ] ; then
-	echo "Error: Directory $MOUNT_DIR or $MOUNT_DIR2 already exist and is nonempty. Terminating..."
-	exit 11
-fi
+for dir in $MOUNT_DIR
+do
+    if [ -d "$dir" -a -n "`ls -A $dir`" ] ; then
+        echo "Error: Directory $dir already exist and is nonempty. Terminating..."
+        exit 11
+    fi
+done
 
 getSettings="/usr/share/qa/virtautolib/lib/get-settings.sh"
-MOUNT1=`$getSettings MOUNT1.addr`
-MOUNT2=`$getSettings MOUNT2.addr`
+MOUNT=`$getSettings MOUNT.addr`
 
 test -r /etc/os-release && . /etc/os-release
 if [[ $NAME =~ SLE[SD] && $VERSION -gt 11 ]]; then
@@ -44,9 +45,5 @@ if [[ $NAME =~ SLE[SD] && $VERSION -gt 11 ]]; then
     fi
 fi
 
-mkdir -p $MOUNT_DIR && mount -t nfs -oro $MOUNT1:/schnell $MOUNT_DIR
-
-#temporal server until we mirror it to de
-mkdir -p $MOUNT_DIR2 && mount -t nfs -oro $MOUNT2:/storage $MOUNT_DIR2
-
+mkdir -p $MOUNT_DIR && mount -t nfs -oro $MOUNT:/srv/ftp/dist/install $MOUNT_DIR
 
