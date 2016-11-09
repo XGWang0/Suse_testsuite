@@ -57,7 +57,7 @@ VDIR1=$VARROOT/0/1/2/3/4/5/6/7/8/9
 VDIR2=$VARROOT/1/2/3/4/5/6/7/8/9/0
 
 
-OPTS="-E -C 2000 -L -S -W"
+OPTS="-E -C 0 -D 30000 -B 10000 -L -S -W"
 
 dd if=/dev/zero of=$TFILE bs=1024k count=10 2>/dev/null
 dd if=/dev/zero of=$VFILE bs=1024k count=10 2>/dev/null
@@ -155,9 +155,9 @@ memset		$OPTS -N "memset_4k"    -s 4k    -I 250
 memset		$OPTS -N "memset_4k_uc" -s 4k    -u -I 400
 
 memset		$OPTS -N "memset_10k"	-s 10k	-I 600	 
-memset		$OPTS -N "memset_1m"	-s 1m	-I 200000
-memset		$OPTS -N "memset_10m"	-s 10m -I 2000000 
-memset		$OPTS -N "memsetP2_10m"	-s 10m -P 2 -I 2000000 
+#memset		$OPTS -N "memset_1m"	-s 1m	-I 200000
+#memset		$OPTS -N "memset_10m"	-s 10m -I 2000000 
+#memset		$OPTS -N "memsetP2_10m"	-s 10m -P 2 -I 2000000 
 
 memrand		$OPTS -N "memrand"	-s 128m -B 10000
 cachetocache	$OPTS -N "cachetocache" -s 100k -T 2 -I 200
@@ -172,13 +172,13 @@ malloc		$OPTS -N "mallocT2_10"    -s 10   -g 10 -T 2 -I 200
 malloc		$OPTS -N "mallocT2_100"   -s 100  -g 10 -T 2 -I 200
 malloc		$OPTS -N "mallocT2_1k"    -s 1k   -g 10 -T 2 -I 200
 malloc		$OPTS -N "mallocT2_10k"   -s 10k  -g 10 -T 2 -I 200
-malloc		$OPTS -N "mallocT2_100k"  -s 100k -g 10 -T 2 -I 10000
+#malloc		$OPTS -N "mallocT2_100k"  -s 100k -g 10 -T 2 -I 10000
 
 memcpy		$OPTS -N "memcpy_10"	-s 10	-I 10 
 memcpy		$OPTS -N "memcpy_1k"	-s 1k	-I 50
 memcpy		$OPTS -N "memcpy_10k"	-s 10k	-I 800
-memcpy		$OPTS -N "memcpy_1m"	-s 1m   -I 500000
-memcpy		$OPTS -N "memcpy_10m"	-s 10m  -I 5000000
+#memcpy		$OPTS -N "memcpy_1m"	-s 1m   -I 500000
+#memcpy		$OPTS -N "memcpy_10m"	-s 10m  -I 5000000
 
 strcpy		$OPTS -N "strcpy_10"	-s 10   -I 5 
 strcpy		$OPTS -N "strcpy_1k"	-s 1k   -I 100
@@ -244,13 +244,13 @@ mmap		$OPTS -N "mmap_ra8k"	-l 8k	-I 2000 -r	-f MAP_ANON
 mmap		$OPTS -N "mmap_ra128k"	-l 128k	-I 20000 -r	-f MAP_ANON
 
 mmap		$OPTS -N "mmap_wz8k"	-l 8k	-I 5000 -w	-f /dev/zero
-mmap		$OPTS -N "mmap_wz128k"	-l 128k	-I 50000 -w	-f /dev/zero
+#mmap		$OPTS -N "mmap_wz128k"	-l 128k	-I 50000 -w	-f /dev/zero
 mmap		$OPTS -N "mmap_wt8k"	-l 8k	-I 5000 -w	-f $TFILE
-mmap		$OPTS -N "mmap_wt128k"	-l 128k	-I 50000 -w	-f $TFILE
+#mmap		$OPTS -N "mmap_wt128k"	-l 128k	-I 50000 -w	-f $TFILE
 mmap		$OPTS -N "mmap_wu8k"	-l 8k	-I 5000 -w	-f $VFILE
 mmap		$OPTS -N "mmap_wu128k"	-l 128k	-I 500000 -w	-f $VFILE
 mmap		$OPTS -N "mmap_wa8k"	-l 8k	-I 3000 -w	-f MAP_ANON
-mmap		$OPTS -N "mmap_wa128k"	-l 128k	-I 50000 -w	-f MAP_ANON
+#mmap		$OPTS -N "mmap_wa128k"	-l 128k	-I 50000 -w	-f MAP_ANON
 
 munmap		$OPTS -N "unmap_z8k"	-l 8k   -I 500		-f /dev/zero
 munmap		$OPTS -N "unmap_z128k"	-l 128k	-I 500		-f /dev/zero
@@ -273,13 +273,13 @@ munmap		$OPTS -N "unmap_ra128k"	-l 128k	-I 2000	-r	-f MAP_ANON
 connection	$OPTS -N "conn_connect"		-B 256 	-c
 
 munmap		$OPTS -N "unmap_wz8k"	-l 8k	-I 1000	-w	-f /dev/zero
-munmap		$OPTS -N "unmap_wz128k"	-l 128k	-I 8000	-w	-f /dev/zero
+#munmap		$OPTS -N "unmap_wz128k"	-l 128k	-I 8000	-w	-f /dev/zero
 munmap		$OPTS -N "unmap_wt8k"	-l 8k	-I 1000	-w	-f $TFILE
-munmap		$OPTS -N "unmap_wt128k"	-l 128k	-I 10000	-w	-f $TFILE
+#munmap		$OPTS -N "unmap_wt128k"	-l 128k	-I 10000	-w	-f $TFILE
 munmap		$OPTS -N "unmap_wu8k"	-l 8k	-I 1000	-w	-f $VFILE
 munmap		$OPTS -N "unmap_wu128k"	-l 128k	-I 50000	-w	-f $VFILE
 munmap		$OPTS -N "unmap_wa8k"	-l 8k	-I 1000	-w	-f MAP_ANON
-munmap		$OPTS -N "unmap_wa128k"	-l 128k	-I 10000	-w	-f MAP_ANON
+#munmap		$OPTS -N "unmap_wa128k"	-l 128k	-I 10000	-w	-f MAP_ANON
 
 
 mprotect	$OPTS -N "mprot_z8k"	-l 8k  -I 300			-f /dev/zero
@@ -288,7 +288,7 @@ mprotect	$OPTS -N "mprot_wz8k"	-l 8k	-I 500	-w	-f /dev/zero
 mprotect	$OPTS -N "mprot_wz128k"	-l 128k	-I 1000	-w	-f /dev/zero
 mprotect	$OPTS -N "mprot_twz8k"  -l 8k   -I 1000 -w -t   -f /dev/zero
 mprotect	$OPTS -N "mprot_tw128k" -l 128k -I 2000 -w -t   -f /dev/zero
-mprotect	$OPTS -N "mprot_tw4m"   -l 4m   -w -t -B 1  -f /dev/zero
+#mprotect	$OPTS -N "mprot_tw4m"   -l 4m   -w -t -B 1  -f /dev/zero
 
 pipe		$OPTS -N "pipe_pst1"	-s 1	-I 1000	-x pipe -m st
 pipe		$OPTS -N "pipe_pmt1"	-s 1	-I 8000	-x pipe -m mt
