@@ -24,7 +24,7 @@
 %if 0%{?sle_version} <= 120100 
 %define Ver 1.0.1i
 %endif
-%if 0%{?sle_version} == 120200
+%if 0%{?sle_version} >= 120200
 %define Ver 1.0.2h
 %endif
 %endif
@@ -85,7 +85,7 @@ sed -i -e 's:/bin/env perl:%{_bindir}/perl:g' util/*.{pl,sh} util/pl/*.pl
 %patch1 -p1
 %endif
 
-%if 0%{?sle_version} == 120200
+%if 0%{?sle_version} >= 120200
 %patch5 -p1
 %endif
 
