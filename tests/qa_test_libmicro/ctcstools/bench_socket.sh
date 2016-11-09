@@ -57,7 +57,7 @@ VDIR1=$VARROOT/0/1/2/3/4/5/6/7/8/9
 VDIR2=$VARROOT/1/2/3/4/5/6/7/8/9/0
 
 
-OPTS="-E -C 2000 -L -S -W"
+OPTS="-E -C 0 -D 30000 -B 10000 -L -S -W"
 
 dd if=/dev/zero of=$TFILE bs=1024k count=10 2>/dev/null
 dd if=/dev/zero of=$VFILE bs=1024k count=10 2>/dev/null
@@ -152,21 +152,21 @@ connection	$OPTS -N "connection"		-B 256
 
 poll		$OPTS -N "poll_10"	-n 10	-I 500
 poll		$OPTS -N "poll_100"	-n 100	-I 1000
-poll		$OPTS -N "poll_1000"	-n 1000	-I 5000
+#poll		$OPTS -N "poll_1000"	-n 1000	-I 5000
 
 poll		$OPTS -N "poll_w10"	-n 10	-I 500		-w 1
 poll		$OPTS -N "poll_w100"	-n 100	-I 2000		-w 10
-poll		$OPTS -N "poll_w1000"	-n 1000	-I 40000	-w 100
+#poll		$OPTS -N "poll_w1000"	-n 1000	-I 40000	-w 100
 
 select		$OPTS -N "select_10"	-n 10	-I 500
 select		$OPTS -N "select_100"	-n 100	-I 1000
-select		$OPTS -N "select_1000"	-n 1000	-I 5000
+#select		$OPTS -N "select_1000"	-n 1000	-I 5000
 
 select		$OPTS -N "select_w10"	-n 10	-I 500		-w 1
 select		$OPTS -N "select_w100"	-n 100	-I 2000		-w 10
-select		$OPTS -N "select_w1000"	-n 1000	-I 40000        -w 100
+#select		$OPTS -N "select_w1000"	-n 1000	-I 40000        -w 100
 
-connection	$OPTS -N "conn_accept"		-B 256      -a
+#connection	$OPTS -N "conn_accept"		-B 256      -a
 
-close_tcp	$OPTS -N "close_tcp"		-B 32  
+#close_tcp	$OPTS -N "close_tcp"		-B 32  
 .

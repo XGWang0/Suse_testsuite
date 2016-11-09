@@ -57,7 +57,7 @@ VDIR1=$VARROOT/0/1/2/3/4/5/6/7/8/9
 VDIR2=$VARROOT/1/2/3/4/5/6/7/8/9/0
 
 
-OPTS="-E -C 2000 -L -S -W"
+OPTS="-E -C 0 -D 30000 -B 10000 -L -S -W"
 
 dd if=/dev/zero of=$TFILE bs=1024k count=10 2>/dev/null
 dd if=/dev/zero of=$VFILE bs=1024k count=10 2>/dev/null
@@ -174,7 +174,7 @@ read		$OPTS -N "read_zw100k"	-s 100k	         -w	-f /dev/zero
 
 write		$OPTS -N "write_t1k"	-s 1k			-f $TFILE
 write		$OPTS -N "write_t10k"	-s 10k			-f $TFILE
-write		$OPTS -N "write_t100k"	-s 100k			-f $TFILE
+#write		$OPTS -N "write_t100k"	-s 100k			-f $TFILE
 
 write		$OPTS -N "write_u1k"	-s 1k			-f $VFILE
 write		$OPTS -N "write_u10k"	-s 10k			-f $VFILE
@@ -185,8 +185,8 @@ write		$OPTS -N "write_n10k"	-s 10k	-I 100 -B 0	-f /dev/null
 write		$OPTS -N "write_n100k"	-s 100k	-I 100 -B 0	-f /dev/null 
 
 writev		$OPTS -N "writev_t1k"	-s 1k			-f $TFILE
-writev		$OPTS -N "writev_t10k"	-s 10k		        -f $TFILE
-writev		$OPTS -N "writev_t100k"	-s 100k			-f $TFILE
+#writev		$OPTS -N "writev_t10k"	-s 10k		        -f $TFILE
+#writev		$OPTS -N "writev_t100k"	-s 100k			-f $TFILE
 
 writev		$OPTS -N "writev_u1k"	-s 1k			-f $VFILE
 writev		$OPTS -N "writev_u10k"	-s 10k			-f $VFILE

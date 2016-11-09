@@ -57,7 +57,7 @@ VDIR1=$VARROOT/0/1/2/3/4/5/6/7/8/9
 VDIR2=$VARROOT/1/2/3/4/5/6/7/8/9/0
 
 
-OPTS="-E -C 2000 -L -S -W"
+OPTS="-E -C 0 -D 30000 -B 10000 -L -S -W"
 
 dd if=/dev/zero of=$TFILE bs=1024k count=10 2>/dev/null
 dd if=/dev/zero of=$VFILE bs=1024k count=10 2>/dev/null
