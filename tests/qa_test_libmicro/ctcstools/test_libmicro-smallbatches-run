@@ -1,0 +1,12 @@
+#!/bin/sh
+TCF_FILE=/usr/share/qa/tcf/libmicro-smallbatches.tcf
+CTCS2_DIR=/usr/lib/ctcs2
+
+cat <<EOF >> ${TCF_FILE}
+timer 36000
+fg 1 libmicro-smallbatches /usr/lib/libMicro/bin/bench_smallbatches.sh
+wait
+EOF
+
+$CTCS2_DIR/tools/run ${TCF_FILE}
+
