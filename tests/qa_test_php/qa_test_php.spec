@@ -15,6 +15,7 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
+#!BuildIgnore: post-build-checks-malwarescan
 
 %define php php5
 %define ver 5.5.9

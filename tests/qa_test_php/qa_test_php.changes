@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Sat Nov 12 10:19:16 UTC 2016 - mpluskal@suse.com
+
+- Ignore malware scan during build (fixes bsc#1009248)
+
+-------------------------------------------------------------------
 Mon Oct 10 11:28:35 UTC 2016 - mpluskal@suse.com
 
 - Cleanup spec file with spec-clener
