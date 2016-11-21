@@ -1,0 +1,16 @@
+{
+  "name": "qa_test_dd",
+  "summary": "Performance test that use dd command",
+  "description": "\nThis is performance test\n Low-level I/O stream storage test.\nAuthors:\n--------\nJerry Tang <jtang@suse.com>",
+  "status": "deprecated",
+  "maintainer": "jtang@suse.com",
+  "rpm": "qa_test_dd-0.1-1.noarch.rpm",
+  "arch": "noarch",
+  "product": "sample",
+  "fate": null,
+  "bnc": null,
+  "updated_at": "2016-11-21 07:30:19 UTC",
+  "tags": [
+
+  ]
+}
