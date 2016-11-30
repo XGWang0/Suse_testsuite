@@ -6,11 +6,11 @@
   "maintainer": "jtang@suse.com",
   "rpm": "qa_test_dd-0.1-1.noarch.rpm",
   "arch": "noarch",
-  "product": "sample",
+  "product": "dd",
   "fate": null,
   "bnc": null,
   "updated_at": "2016-11-21 07:30:19 UTC",
   "tags": [
-
+    "benchmark"
   ]
 }

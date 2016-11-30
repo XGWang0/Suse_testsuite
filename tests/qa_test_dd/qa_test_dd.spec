@@ -1,89 +1,63 @@
-# ****************************************************************************
-# Copyright © 2013 Unpublished Work of SUSE, Inc. All Rights Reserved.
-# 
-# THIS IS AN UNPUBLISHED WORK OF SUSE, INC.  IT CONTAINS SUSE'S
-# CONFIDENTIAL, PROPRIETARY, AND TRADE SECRET INFORMATION.  SUSE
-# RESTRICTS THIS WORK TO SUSE EMPLOYEES WHO NEED THE WORK TO PERFORM
-# THEIR ASSIGNMENTS AND TO THIRD PARTIES AUTHORIZED BY SUSE IN WRITING.
-# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
-# TREATIES. IT MAY NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED,
-# PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT SUSE'S
-# PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
-# AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND  CIVIL
-# LIABILITY.
-# 
-# SUSE PROVIDES THE WORK 'AS IS,' WITHOUT ANY EXPRESS OR IMPLIED
-# WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. SUSE, THE
-# AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT
-# LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
-# OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
-# WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
-# ****************************************************************************
+#
+# spec file for package qa_test_dd
+#
+# Copyright (c) 2016 SUSE LINUX GmbH, Nuernberg, Germany.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
 
-#
-# spec file for package qa_test_dd 
-#
-# Please submit bugfixes or comments via http://bugzilla.novell.com/
+# Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
-# norootforbuild
 
 Name:           qa_test_dd
-License:        SUSE Proprietary
-Group:          SuSE internal
-AutoReqProv:    on
-Version:        0.1 
-Release:        1
+Version:        0.1
+Release:        0
 Summary:        dd performance test
+License:        GPL-2.0+
+Group:          System/Benchmark
 Url:            http://qa.suse.de/
-Source0:        %name-%version.tar.bz2
+Source0:        %{name}-%{version}.tar.bz2
 Source1:        qa_dd.tcf
 Source2:        test_dd-run
 Source3:        qa_test_dd.8
-BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Provides:	qa_dd
-Obsoletes:	qa_dd
 Requires:       ctcs2
+Provides:       qa_dd
+Obsoletes:      qa_dd
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
-This is a performance test package.
-low-level i/o stream storage test
-
-
-Authors:
---------
-    Jerry Tang <jtang@suse.com>
+This is a I/O performance test package.
 
 %prep
 %setup -q -n %{name}
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tcf
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name
-install -m 755 -d $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-install -m 644 %{S:1} $RPM_BUILD_ROOT/usr/share/qa/%name/tcf
-install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/share/qa/tools
-install -m 644 %{S:3} $RPM_BUILD_ROOT/usr/share/man/man8
-gzip $RPM_BUILD_ROOT/usr/share/man/man8/%{name}.8
-cp -a * $RPM_BUILD_ROOT/usr/share/qa/%name
-ln -s ../%name/tcf/qa_dd.tcf $RPM_BUILD_ROOT/usr/share/qa/tcf/
-find  $RPM_BUILD_ROOT/usr/share/qa/%name -type f ! -name "COPYING" | xargs chmod +x
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+install -m 755 -d %{buildroot}%{_mandir}/man8
+install -m 755 -d %{buildroot}%{_datadir}/qa/tcf
+install -m 755 -d %{buildroot}%{_datadir}/qa/tools
+install -m 755 -d %{buildroot}%{_datadir}/qa/%{name}
+install -m 755 -d %{buildroot}%{_datadir}/qa/%{name}/tcf
+install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/qa/%{name}/tcf
+install -m 755 %{SOURCE2} %{buildroot}%{_datadir}/qa/tools
+install -m 644 %{SOURCE3} %{buildroot}%{_mandir}/man8
+gzip %{buildroot}%{_mandir}/man8/%{name}.8
+cp -a * %{buildroot}%{_datadir}/qa/%{name}
+ln -s ../%{name}/tcf/qa_dd.tcf %{buildroot}%{_datadir}/qa/tcf/
+find  %{buildroot}%{_datadir}/qa/%{name} -type f ! -name "COPYING" | xargs chmod +x
 
 %files
-%defattr(-,root,root)   
-/usr/share/qa
-/usr/share/qa/%name
-/usr/share/qa/tcf/qa_dd.tcf
-/usr/share/qa/tools/test_dd-run
-/usr/share/man/man8/*
-%doc COPYING
+%defattr(-,root,root)
+%{_datadir}/qa
+%{_datadir}/qa/%{name}
+%{_datadir}/qa/tcf/qa_dd.tcf
+%{_datadir}/qa/tools/test_dd-run
+%{_mandir}/man8/*
 
 %changelog
-* Wed Aug 25 2016 - jtang@suse.com
-- Init package for dd

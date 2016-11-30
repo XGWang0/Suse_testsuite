@@ -22,5 +22,5 @@
 # ****************************************************************************
 
 timer 300
-fg 1 qa_dd_init /usr/share/qa/qa_test_dd/qa_dd_init.sh
+fg 1 qa_dd_sample /usr/share/qa/qa_test_dd/dd_wrapper.py sample
 wait
